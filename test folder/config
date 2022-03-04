@@ -1,0 +1,16 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://gitlab.com/setel/automation/setel-automated-test.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "develop"]
+	remote = origin
+	merge = refs/heads/develop
+[branch "app/dee/wallets/fix-reg-191"]
+	remote = origin
+	merge = refs/heads/app/dee/wallets/fix-reg-191
