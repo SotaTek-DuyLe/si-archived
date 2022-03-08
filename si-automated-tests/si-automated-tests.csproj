@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>si_automated_tests</RootNamespace>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="WebDriverManager" Version="2.12.3" />
+    <PackageReference Include="DotNetSeleniumExtras.PageObjects" Version="3.11.0" />
+    <PackageReference Include="DotNetSeleniumExtras.PageObjects.Core" Version="4.0.1" />
+    <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="NUnit.Console" Version="3.15.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="99.0.4844.5100" />
+    <PackageReference Include="Lombok.NET" Version="1.0.1" />
+    <PackageReference Include="Selenium.Support" Version="4.0.1" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Source\" />
+    <None Remove="Source\Core\" />
+    <None Remove="Source\Main\" />
+    <None Remove="Source\Test\" />
+    <None Remove="WebDriverManager" />
+    <None Remove="Source\Main\Pages\" />
+    <None Remove="Source\Main\Constants\" />
+    <None Remove="Newtonsoft.Json" />
+    <None Remove="Source\Main\Models\" />
+    <None Remove="Source\Main\Data\" />
+    <None Remove="NUnit.Console" />
+    <None Remove="NUnit.Engine" />
+    <None Remove="NUnit.Engine.Api" />
+    <None Remove="System.Xml.ReaderWriter" />
+    <None Remove="Microsoft.IdentityModel.Xml" />
+    <None Remove="NUnit.ConsoleRunner" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Source\Main\Constants\" />
+    <Folder Include="Source\Main\Models\" />
+    <Folder Include="Source\Main\Data\" />
+    <Folder Include="Source\Main\Pages\Paties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

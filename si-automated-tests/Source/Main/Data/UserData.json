@@ -1,0 +1,122 @@
+﻿{
+  "auto_user_1": {
+    "username": "auto1",
+    "password": "#5Q=Aeg6e",
+    "data": "NS/NSC",
+    "role": "sysadmin",
+    "home contract": "NS",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_2": {
+    "username": "auto2",
+    "password": "9J%?H8rM3",
+    "data": "NS/NSC",
+    "role": "sysadmin",
+    "home contract": "NSC",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_3": {
+    "username": "auto3",
+    "password": "C5#WECfsf",
+    "data": "TF",
+    "role": "sysadmin",
+    "home contract": "NS",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_4": {
+    "username": "auto4",
+    "password": "6zU&5Qetx",
+    "data": "TF",
+    "role": "sysadmin",
+    "home contract": "NSC",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_5": {
+    "username": "auto5",
+    "password": "=vhKfyE6-",
+    "data": "TF",
+    "role": "sysadmin",
+    "home contract": "none",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_6": {
+    "username": "auto6",
+    "password": "kxH86^_wT",
+    "data": "NS/NSC",
+    "role": "sysadmin",
+    "home contract": "NS",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_7": {
+    "username": "auto7",
+    "password": "%g?+K@2KC",
+    "data": "NS/NSC",
+    "role": "sysadmin",
+    "home contract": "NSC",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_8": {
+    "username": "auto8",
+    "password": "$7_=bG8wG",
+    "data": "TF",
+    "role": "sysadmin",
+    "home contract": "NS",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_9": {
+    "username": "auto9",
+    "password": "v??D2SVq%",
+    "data": "TF",
+    "role": "sysadmin",
+    "home contract": "NSC",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_10": {
+    "username": "auto10",
+    "password": "e2+K$Qx22",
+    "data": "TF",
+    "role": "sysadmin",
+    "home contract": "none",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_11": {
+    "username": "auto11",
+    "password": "4?m4txXer",
+    "data": "NS/NSC",
+    "role": "sysadmin",
+    "home contract": "NS",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_12": {
+    "username": "auto12",
+    "password": "#s-VYnR6G",
+    "data": "NS/NSC",
+    "role": "sysadmin",
+    "home contract": "NSC",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_13": {
+    "username": "auto13",
+    "password": "=4J@L?wHf",
+    "data": "TF",
+    "role": "sysadmin",
+    "home contract": "NS",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_14": {
+    "username": "auto14",
+    "password": "zJ@PW6U8X",
+    "data": "TF",
+    "role": "sysadmin",
+    "home contract": "NSC",
+    "email": "manhnguyen@sotatek.com"
+  },
+  "auto_user_15": {
+    "username": "auto15",
+    "password": "2My2D&3pp",
+    "data": "TF",
+    "role": "sysadmin",
+    "home contract": "none",
+    "email": "manhnguyen@sotatek.com"
+  }
+}
