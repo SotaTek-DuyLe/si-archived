@@ -1,30 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/Users/dee/Projects/si-automated-tests/si-automated-tests/si-automated-tests.csproj": {}
+    "G:\\si-main-project\\sotatek\\si-automated-tests\\si-automated-tests.csproj": {}
   },
   "projects": {
-    "/Users/dee/Projects/si-automated-tests/si-automated-tests/si-automated-tests.csproj": {
+    "G:\\si-main-project\\sotatek\\si-automated-tests\\si-automated-tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/dee/Projects/si-automated-tests/si-automated-tests/si-automated-tests.csproj",
+        "projectUniqueName": "G:\\si-main-project\\sotatek\\si-automated-tests\\si-automated-tests.csproj",
         "projectName": "si-automated-tests",
-        "projectPath": "/Users/dee/Projects/si-automated-tests/si-automated-tests/si-automated-tests.csproj",
-        "packagesPath": "/Users/dee/.nuget/packages/",
-        "outputPath": "/Users/dee/Projects/si-automated-tests/si-automated-tests/obj/",
+        "projectPath": "G:\\si-main-project\\sotatek\\si-automated-tests\\si-automated-tests.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "G:\\si-main-project\\sotatek\\si-automated-tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/dee/.config/NuGet/NuGet.Config"
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -36,7 +37,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "DotNetSeleniumExtras.PageObjects": {
               "target": "Package",
@@ -110,7 +110,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.416/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

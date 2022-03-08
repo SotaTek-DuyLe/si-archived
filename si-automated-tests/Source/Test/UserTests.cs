@@ -13,7 +13,7 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test
 {
-    public class CreateUserTests
+    public class UserTests
     {
         [SetUp]
         public void Setup()
@@ -28,7 +28,7 @@ namespace si_automated_tests.Source.Test
             IWebDriverManager.GetDriver().Quit();
         }
         [Test]
-        public void TC_002([Random(1, 999999, 1)] int random)
+        public void TC_002_Create_User_Test([Random(1, 999999, 1)] int random)
         {
             string newUserName = "userName" + random;
             string displayName = "displayname" + random;
@@ -102,6 +102,63 @@ namespace si_automated_tests.Source.Test
                 .SendKeyToPassword(newPassword + Keys.Enter);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(displayName);
+        }
+
+        [Test]
+        public void TC_003_Reset_Password_Test([Random(1, 999999, 1)] int random)
+        {
+            string newPassword = "newPassword" + random + "@#_";
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(Url.MainPageUrlIE);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .SendKeyToUsername(AutoUser3.UserName)
+                .SendKeyToPassword(AutoUser3.Password + Keys.Enter);
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser3.UserName)
+                .ClickSystemTool()
+                .ClickUserAndRole()
+                .ClickUser()
+                .ExpandGroup()
+                .ClickUserName("Tomek")
+                .SwitchToRightFrame()
+                .IsOnUserDetailPage()
+                .ClickResetPassword()
+                .VerifyAlertText("The password reset email has been sent to the user")
+                .AcceptAlert();
+
+
+            PageFactoryManager.Get<UserDetailPage>()
+                .IsOnUserDetailPage()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<HomePage>()
+                .ClickSysMonitoring()
+                .ClickEmail()
+                .IsOnEmailPage()
+                .ClickMoveLast()
+                .ClickLastRow();
+
+            string emailResetLink = PageFactoryManager.Get<EmailDetailPage>()
+                .IsOnEmailDetailPage()
+                .ClickBodyView()
+                .GetPasswordResetLink();
+
+            IWebDriverManager.GetDriver().Quit();
+            IWebDriverManager.SetDriver("chrome");
+
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(emailResetLink);
+            PageFactoryManager.Get<ResetPasswordPage>()
+                .IsOnResetPasswordPage()
+                .ResetPassword(newPassword)
+                .VerifyResetSuccessfully()
+                .ClickGoToLogin()
+                .IsOnLoginPage()
+                .SendKeyToUsername("Tomek")
+                .SendKeyToPassword(newPassword + Keys.Enter);
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage("Tomek");
         }
     }
 }
