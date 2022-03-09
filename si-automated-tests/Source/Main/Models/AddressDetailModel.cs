@@ -9,6 +9,7 @@ namespace si_automated_tests.Source.Main.Models
         private string town;
         private string postCode;
         private string country;
+        private string address;
 
         public AddressDetailModel(string siteName, string postCode)
         {
@@ -18,6 +19,7 @@ namespace si_automated_tests.Source.Main.Models
             this.Town = "London";
             this.PostCode = postCode;
             this.Country = "UK";
+            this.Address = "101 Unknown Street";
         }
 
         public int Property { get => property; set => property = value; }
@@ -26,5 +28,6 @@ namespace si_automated_tests.Source.Main.Models
         public string PostCode { get => postCode; set => postCode = value; }
         public string Country { get => country; set => country = value; }
         public string SiteName { get => siteName; set => siteName = value; }
+        public string Address { get => address; set => address = value; }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
 using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
 
 namespace si_automated_tests.Source.Core
@@ -19,13 +16,13 @@ namespace si_automated_tests.Source.Core
         public static IWebElement WaitForElementVisible(string locator)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
-            return (WebElement)driverWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath(locator)));
+            return (WebElement)driverWait.Until(ExpectedConditions.ElementIsVisible(By.XPath(locator)));
         }
 
         public static IWebElement WaitForElementVisible(By by)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
-            return driverWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(by));
+            return driverWait.Until(ExpectedConditions.ElementIsVisible(by));
         }
         public static IWebElement WaitForElementVisible(string locator, string value)
         {
@@ -48,12 +45,12 @@ namespace si_automated_tests.Source.Core
         public static IWebElement WaitForElementClickable(By by)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
-            return driverWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(by));
+            return driverWait.Until(ExpectedConditions.ElementToBeClickable(by));
         }
         public static IWebElement WaitForElementClickable(IWebElement webElement)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
-            return driverWait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(webElement));
+            return driverWait.Until(ExpectedConditions.ElementToBeClickable(webElement));
         }
 
         public static void WaitForAlert()

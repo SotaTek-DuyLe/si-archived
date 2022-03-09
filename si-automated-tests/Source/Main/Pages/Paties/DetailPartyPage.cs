@@ -37,6 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string CorresspondenceValue = "//label[text()='Correspondence Address']/following-sibling::div//select/option[text()='{0}']";
 
         //SITE TAB LOCATOR
+        private const string AddNewItemBtn = "//button[text()='Add New Item']";
         private const string TotalSiteRow = "//div[@class='grid-canvas']/div";
         private const string IdColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='ID']/parent::div/preceding-sibling::div) + 1]";
         private const string NameColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Name']/parent::div/preceding-sibling::div) + 1]";
@@ -138,8 +139,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         public DetailPartyPage VerifyCreatedSiteAddressAppearAtAddress(AddressDetailModel addressDetail)
         {
-            Console.WriteLine(addressDetail.Property.ToString() + " " + addressDetail.Street + ", " + addressDetail.Town + ", " + addressDetail.PostCode);
             Assert.AreEqual(GetFirstSelectedItemInDropdown(InvoiceAddress), addressDetail.Property.ToString() + " " + addressDetail.Street + ", " + addressDetail.Town + ", " + addressDetail.PostCode);
+            return this;
+        }
+
+        public DetailPartyPage VerifyValueDefaultInCorresspondenAddress()
+        {
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(CorresspondenceAddressDd), "Select...");
+            return this;
+        }
+
+        public DetailPartyPage VerifyValueDefaultInInvoiceAddress()
+        {
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(InvoiceAddress), "Select...");
             return this;
         }
 
@@ -149,9 +161,35 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
 
-        public DetailPartyPage VerifyDisplayNewSiteAddress(AddressDetailModel addressDetail)
+        public DetailPartyPage ClickInvoiceAddressDd()
         {
-            Assert.IsTrue(IsControlDisplayed(CorresspondenceValue, addressDetail.Property.ToString() + " " + addressDetail.Street + ", " + addressDetail.Town + ", " + addressDetail.PostCode));
+            ClickOnElement(InvoiceAddress);
+            return this;
+        }
+
+        public DetailPartyPage VerifyDisplayNewSiteAddressInCorresspondence(AddressDetailModel addressDetail, bool isAddress)
+        {
+            if(isAddress)
+            {
+                Assert.IsTrue(IsControlDisplayed(InvoiceAddressValue, addressDetail.Address + ", " + addressDetail.Town + ", " + addressDetail.PostCode));
+            }
+            else
+            {
+                Assert.IsTrue(IsControlDisplayed(CorresspondenceValue, addressDetail.Property.ToString() + " " + addressDetail.Street + ", " + addressDetail.Town + ", " + addressDetail.PostCode));
+            }
+            return this;
+        }
+
+        public DetailPartyPage VerifyDisplayNewSiteAddressInInvoiceAddress(AddressDetailModel addressDetail,bool isAddress)
+        {
+            if(isAddress)
+            {
+                Assert.IsTrue(IsControlDisplayed(InvoiceAddressValue, addressDetail.Address + ", " + addressDetail.Town + ", " + addressDetail.PostCode));
+            }
+            else
+            {
+                Assert.IsTrue(IsControlDisplayed(InvoiceAddressValue, addressDetail.Property.ToString() + " " + addressDetail.Street + ", " + addressDetail.Town + ", " + addressDetail.PostCode));
+            }
             return this;
         }
 
@@ -170,6 +208,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage WaitForLoadingIconInvisiable()
         {
             WaitUtil.WaitForElementInvisible(LoadingData);
+            Thread.Sleep(3000);
             return this;
         }
 
@@ -202,10 +241,16 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return siteModels;
         }
 
-        public DetailPartyPage VerifySiteManualCreated(AddressDetailModel addressDetail, SiteModel siteModel, string serviceSite)
+        public DetailPartyPage VerifySiteManualCreated(AddressDetailModel addressDetail, SiteModel siteModel, string serviceSite, bool isAddress)
         {
             Assert.AreEqual(siteModel.Name, addressDetail.SiteName);
-            Assert.AreEqual(siteModel.Address, addressDetail.Property.ToString() + " " + addressDetail.Street + ", " + addressDetail.Town + ", " + addressDetail.PostCode);
+            if(isAddress)
+            {
+                Assert.AreEqual(siteModel.Address, addressDetail.Address + ", " + addressDetail.Town + ", " + addressDetail.PostCode);
+            } else
+            {
+                Assert.AreEqual(siteModel.Address, addressDetail.Property.ToString() + " " + addressDetail.Street + ", " + addressDetail.Town + ", " + addressDetail.PostCode);
+            }
             Assert.AreEqual(siteModel.SiteType, serviceSite);
             return this;
         }
@@ -221,5 +266,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             ClickOnElement(DetailsTab);
             return this;
         }
+
+        public DetailPartyPage ClickOnAddNewItemInSiteTabBtn()
+        {
+            ClickOnElement(AddNewItemBtn);
+            return this;
+        }
     }
+
 }

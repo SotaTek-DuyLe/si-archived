@@ -26,12 +26,12 @@ namespace si_automated_tests.Source.Test
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser6.UserName)
+                .IsOnHomePage(AutoUser6.DisplayName)
                 .GoToThePatiesSubSubMenu();
             //create new party 
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
-                .SwitchToChildWindow();
+                .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
                 .IsCreatePartiesPopup("North Star Commercial")
                 .VerifyContractDropdownVlues()
@@ -62,10 +62,10 @@ namespace si_automated_tests.Source.Test
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser6.UserName)
+                .IsOnHomePage(AutoUser6.DisplayName)
                 .ClickCreateEventDropdownAndVerify()
                 .GoToThePatiesByCreateEvenDropdown()
-                .SwitchToChildWindow();
+                .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
                 .IsCreatePartiesPopup("North Star")
                 .VerifyContractDropdownVlues()
@@ -90,7 +90,7 @@ namespace si_automated_tests.Source.Test
         {
             string errorMessage = "Start Date cannot be in the future";
             LoginPage login = new LoginPage();
-            
+
             //login
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(Url.MainPageUrl);
@@ -99,12 +99,12 @@ namespace si_automated_tests.Source.Test
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser6.UserName)
+                .IsOnHomePage(AutoUser6.DisplayName)
                 .GoToThePatiesSubSubMenu();
             //create new party 
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
-                .SwitchToChildWindow();
+                .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
                 .IsCreatePartiesPopup("North Star Commercial")
                 .SendKeyToThePartyInput("Auto" + CommonUtil.GetRandomString(2))
@@ -118,23 +118,23 @@ namespace si_automated_tests.Source.Test
         public void TC_010()
         {
             LoginPage login = new LoginPage();
-            
+
             string PartyName = "AutoParty " + CommonUtil.GetRandomNumber(4);
             PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             //login
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(Url.MainPageUrl);
             login
-                .SendKeyToUsername(AutoUser15.UserName)
-                .SendKeyToPassword(AutoUser15.Password)
+                .SendKeyToUsername(AutoUser6.UserName)
+                .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
-                //.IsOnHomePage(AutoUser15.UserName)
+                .IsOnHomePage(AutoUser6.DisplayName)
                 .GoToThePatiesSubSubMenu();
             //create new party 
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
-                .SwitchToChildWindow();
+                .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
                 .IsCreatePartiesPopup("North Star Commercial")
                 .VerifyContractDropdownVlues()
@@ -147,34 +147,97 @@ namespace si_automated_tests.Source.Test
                 .VerifyDisplaySuccessfullyMessage()
             //Test path for TC 010
                 .ClickOnAddInvoiceAddressBtn()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(3);
             string siteName = "SiteAuto" + CommonUtil.GetRandomNumber(3);
             string postCode = CommonUtil.GetRandomString(2) + CommonUtil.GetRandomNumber(3);
             AddressDetailModel addressDetailModel = new AddressDetailModel(siteName, postCode);
             PageFactoryManager.Get<PartySiteAddressPage>()
                 .IsOnPartySiteAddressPage()
                 .ClickOnCreateManuallyBtn()
-                //.IsCheckAddressDetailScreen()
+                .IsCheckAddressDetailScreen(false)
                 .SendKeyInSiteNameInput(siteName)
                 .VerifyCreateBtnDisabled()
-                .InputAllDataInCheckAddressDetailScreen(addressDetailModel)
+                .InputAllMandatoryFieldInCheckAddressDetailScreen(addressDetailModel)
                 .ClickCreateBtn()
                 .WaitForLoadingIconInvisiable()
-                .SwitchToChildWindow();
+                .SwitchToChildWindow(2);
             PageFactoryManager.Get<DetailPartyPage>()
                 .VerifyCreatedSiteAddressAppearAtAddress(addressDetailModel)
                 .ClickCorresspondenAddress()
-                .VerifyDisplayNewSiteAddress(addressDetailModel)
+                .VerifyDisplayNewSiteAddressInCorresspondence(addressDetailModel, false)
                 .SelectCorresspondenAddress(addressDetailModel)
                 .ClickOnSitesTab()
                 .WaitForLoadingIconInvisiable();
             List<SiteModel> allSiteModel = PageFactoryManager.Get<DetailPartyPage>()
                 .GetAllSiteInList();
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifySiteManualCreated(addressDetailModel, allSiteModel[0], "Serviced Site")
+                .VerifySiteManualCreated(addressDetailModel, allSiteModel[0], "Serviced Site", false)
                 .ClickOnDetailsTab()
                 .ClickSaveBtn()
                 .VerifyDisplaySuccessfullyMessage();
+        }
+
+        [Test]
+        public void TC_011()
+        {
+            LoginPage login = new LoginPage();
+            string siteName = "SiteAuto" + CommonUtil.GetRandomNumber(3);
+            string postCode = CommonUtil.GetRandomString(2) + CommonUtil.GetRandomNumber(3);
+            AddressDetailModel addressDetailModel = new AddressDetailModel(siteName, postCode);
+
+            string PartyName = "AutoParty " + CommonUtil.GetRandomNumber(4);
+            PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
+            //login
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(Url.MainPageUrl);
+            login
+                .SendKeyToUsername(AutoUser6.UserName)
+                .SendKeyToPassword(AutoUser6.Password)
+                .ClickOnSignIn();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser6.DisplayName)
+                .GoToThePatiesSubSubMenu();
+            //create new party 
+            PageFactoryManager.Get<PartyCommonPage>()
+                .ClickAddNewItem()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<CreatePartyPage>()
+                .IsCreatePartiesPopup("North Star Commercial")
+                .VerifyContractDropdownVlues()
+                .VerifyAllPartyTypes()
+                .SendKeyToThePartyInput(partyModel.PartyName)
+                .SelectStartDate(-1)
+                .SelectPartyType(1)
+                .ClickSaveBtn();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifyDisplaySuccessfullyMessage()
+            //Test path for TC 011
+                 .ClickOnSitesTab()
+                 .WaitForLoadingIconInvisiable()
+                 .ClickOnAddNewItemInSiteTabBtn()
+                 .SwitchToChildWindow(3);
+            PageFactoryManager.Get<PartySiteAddressPage>()
+                .IsOnPartySiteAddressPage()
+                .ClickOnNonGeoGraphicalAddressBtn()
+                .IsCheckAddressDetailScreen(true)
+                .SendKeyInSiteNameInput(siteName)
+                .InputSomeMandatoryFieldInCheckAddressDetailScreen(addressDetailModel)
+                .VerifyCreateBtnDisabled()
+                .InputValueInCountry(addressDetailModel.Country)
+                .ClickCreateBtn()
+                .SwitchToChildWindow(2);
+            List<SiteModel> allSiteModel = PageFactoryManager.Get<DetailPartyPage>()
+                .GetAllSiteInList();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifySiteManualCreated(addressDetailModel, allSiteModel[0], "Serviced Site", true)
+                .ClickOnDetailsTab()
+                .VerifyValueDefaultInCorresspondenAddress()
+                .ClickCorresspondenAddress()
+                .VerifyDisplayNewSiteAddressInCorresspondence(addressDetailModel, true)
+                //Invoice Address
+                .VerifyValueDefaultInInvoiceAddress()
+                .ClickInvoiceAddressDd()
+                .VerifyDisplayNewSiteAddressInInvoiceAddress(addressDetailModel, true);
         }
     }
 }

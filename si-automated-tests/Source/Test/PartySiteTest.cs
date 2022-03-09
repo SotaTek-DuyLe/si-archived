@@ -40,7 +40,7 @@ namespace si_automated_tests.Source.Test
             //create new party 
             partyCommonPage
                 .ClickAddNewItem()
-                .SwitchToChildWindow();
+                .SwitchToChildWindow(2);
             createPartyPage
                 .IsCreatePartiesPopup("North Star Commercial")
                 .VerifyContractDropdownVlues()
@@ -67,7 +67,7 @@ namespace si_automated_tests.Source.Test
             createEditSiteAddressPage.SelectAddressClickNextBtn()
                 .InsertSiteName(addressSite1)
                 .ClickCreateBtn()
-                .SwitchToChildWindow();
+                .SwitchToChildWindow(2);
             partyPage.VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
                 .ClickOnInvoiceAddressButton()
                 .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded)

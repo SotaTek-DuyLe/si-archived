@@ -193,13 +193,13 @@ namespace si_automated_tests.Source.Core
         {
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
         }
-        public void SwitchToChildWindow()
+        public void SwitchToChildWindow(int numberOfWindow)
         {
-            WaitUntilNewWindowIsOpened(2);
+            WaitUntilNewWindowIsOpened(numberOfWindow);
             driver.SwitchTo().Window(driver.WindowHandles.Last());
             MaximumWindow();
         }
-        public void WaitUntilNewWindowIsOpened(int expectedNumberOfWindows, int maxRetryCount = 10)
+        public void WaitUntilNewWindowIsOpened(int expectedNumberOfWindows, int maxRetryCount = 50)
         {
             int returnValue;
             bool boolReturnValue;
@@ -290,6 +290,12 @@ namespace si_automated_tests.Source.Core
         public string GetFirstSelectedItemInDropdown(string xpath)
         {
             IWebElement comboBox = driver.FindElement(By.XPath(xpath));
+            SelectElement selectedValue = new SelectElement(comboBox);
+            return selectedValue.SelectedOption.Text;
+        }
+        public string GetFirstSelectedItemInDropdown(By by)
+        {
+            IWebElement comboBox = driver.FindElement(by);
             SelectElement selectedValue = new SelectElement(comboBox);
             return selectedValue.SelectedOption.Text;
         }
