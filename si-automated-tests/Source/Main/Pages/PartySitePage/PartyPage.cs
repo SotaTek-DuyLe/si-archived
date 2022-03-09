@@ -16,10 +16,14 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By InvoiceAddressButton = By.Id("party-invoice-address");
         private readonly By SaveBtn = By.XPath("//button[@title='Save']");
 
-        private string SiteAddressValue = "//label[text()='Correspondence Address']/following-sibling::div//option[text()='{0}']";
-        private string InvoiceAddressValue = "//select[@id='party-invoice-address']/option[text()='{0}']";
-        private string InvoiceAddressOnPage = "//div[contains(@data-bind,'invoiceAddress')]/p[text()='{0}']";
-        private string AddressTitle = "//div[text()='{0}']"; 
+        private const string InvoiceAddressOnPage = "//div[contains(@data-bind,'invoiceAddress')]/p[text()='{0}']";
+        private const string SiteAddressValue = "//label[text()='Correspondence Address']/following-sibling::div//option[text()='{0}']";
+        private const string AddressTitle = "//div[text()='{0}']";
+
+        
+        private const string InvoiceAddressValue = "//select[@id='party-invoice-address']/option[text()='{0}']";
+
+
         public PartyPage ClickAddCorrespondenceAddress()
         {
             WaitUtil.WaitForElementVisible(CorrespondenceAddressAddBtn);
@@ -91,6 +95,8 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.IsTrue(IsControlDisplayed(InvoiceAddressOnPage, address));
             return this;
         }
+
+        
 
     }
 }

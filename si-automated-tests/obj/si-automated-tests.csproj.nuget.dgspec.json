@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/dee/Projects/si-automated-tests/si-automated-tests/si-automated-tests.csproj": {}
+    "/Users/nguyentrang/Desktop/Selected-Intervention/sotatek/si-automated-tests/si-automated-tests.csproj": {}
   },
   "projects": {
-    "/Users/dee/Projects/si-automated-tests/si-automated-tests/si-automated-tests.csproj": {
+    "/Users/nguyentrang/Desktop/Selected-Intervention/sotatek/si-automated-tests/si-automated-tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/dee/Projects/si-automated-tests/si-automated-tests/si-automated-tests.csproj",
+        "projectUniqueName": "/Users/nguyentrang/Desktop/Selected-Intervention/sotatek/si-automated-tests/si-automated-tests.csproj",
         "projectName": "si-automated-tests",
-        "projectPath": "/Users/dee/Projects/si-automated-tests/si-automated-tests/si-automated-tests.csproj",
-        "packagesPath": "/Users/dee/.nuget/packages/",
-        "outputPath": "/Users/dee/Projects/si-automated-tests/si-automated-tests/obj/",
+        "projectPath": "/Users/nguyentrang/Desktop/Selected-Intervention/sotatek/si-automated-tests/si-automated-tests.csproj",
+        "packagesPath": "/Users/nguyentrang/.nuget/packages/",
+        "outputPath": "/Users/nguyentrang/Desktop/Selected-Intervention/sotatek/si-automated-tests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/dee/.config/NuGet/NuGet.Config"
+          "/Users/nguyentrang/.config/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"

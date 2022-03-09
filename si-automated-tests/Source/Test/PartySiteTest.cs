@@ -16,7 +16,6 @@ namespace si_automated_tests.Source.Test
         [Test]
         public void TC007()
         {
-            BasePage basePage = new BasePage();
             LoginPage login = new LoginPage();
             HomePage homePage = new HomePage();
             PartyPage partyPage = new PartyPage();

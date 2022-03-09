@@ -300,6 +300,11 @@ namespace si_automated_tests.Source.Core
             IWebElement element = WaitUtil.WaitForElementVisible(xpath);
             return element.GetAttribute(attributeName);
         }
+        public string GetAttributeValue(By by, string attributeName)
+        {
+            IWebElement element = WaitUtil.WaitForElementVisible(by);
+            return element.GetAttribute(attributeName);
+        }
 
         //MAXIMUM WINDOW
         public void MaximumWindow()
