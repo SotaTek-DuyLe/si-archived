@@ -12,10 +12,10 @@ namespace si_automated_tests.Source.Core
             IWebDriverManager.SetDriver();
             new UserRegistry();
         }
+
         [TearDown]
         public void TearDown()
         {
-            IWebDriverManager.GetDriver().Close();
             IWebDriverManager.GetDriver().Quit();
         }
     }

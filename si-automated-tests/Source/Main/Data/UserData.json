@@ -42,6 +42,7 @@
   "auto_user_6": {
     "username": "auto6",
     "password": "kxH86^_wT",
+    "displayname": "auto6 display",
     "data": "NS/NSC",
     "role": "sysadmin",
     "home contract": "NS",
@@ -113,6 +114,7 @@
   },
   "auto_user_15": {
     "username": "auto15",
+    "displayname": "auto15 display",
     "password": "2My2D&3pp",
     "data": "TF",
     "role": "sysadmin",
