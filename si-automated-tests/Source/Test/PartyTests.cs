@@ -20,13 +20,13 @@ namespace si_automated_tests.Source.Test
 
             //login
             PageFactoryManager.Get<LoginPage>()
-                .GoToURL(Url.MainPageUrl);
+                .GoToURL(WebUrl.MainPageUrl);
             login
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser6.DisplayName)
+                .IsOnHomePage(AutoUser6)
                 .GoToThePatiesSubSubMenu();
             //create new party 
             PageFactoryManager.Get<PartyCommonPage>()
@@ -56,13 +56,13 @@ namespace si_automated_tests.Source.Test
 
             //login
             PageFactoryManager.Get<LoginPage>()
-                .GoToURL(Url.MainPageUrl);
+                .GoToURL(WebUrl.MainPageUrl);
             login
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser6.DisplayName)
+                .IsOnHomePage(AutoUser6)
                 .ClickCreateEventDropdownAndVerify()
                 .GoToThePatiesByCreateEvenDropdown()
                 .SwitchToChildWindow(2);
@@ -93,13 +93,13 @@ namespace si_automated_tests.Source.Test
 
             //login
             PageFactoryManager.Get<LoginPage>()
-                .GoToURL(Url.MainPageUrl);
+                .GoToURL(WebUrl.MainPageUrl);
             login
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser6.DisplayName)
+                .IsOnHomePage(AutoUser6)
                 .GoToThePatiesSubSubMenu();
             //create new party 
             PageFactoryManager.Get<PartyCommonPage>()
@@ -123,13 +123,13 @@ namespace si_automated_tests.Source.Test
             PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             //login
             PageFactoryManager.Get<LoginPage>()
-                .GoToURL(Url.MainPageUrl);
+                .GoToURL(WebUrl.MainPageUrl);
             login
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser6.DisplayName)
+                .IsOnHomePage(AutoUser6)
                 .GoToThePatiesSubSubMenu();
             //create new party 
             PageFactoryManager.Get<PartyCommonPage>()
@@ -189,13 +189,13 @@ namespace si_automated_tests.Source.Test
             PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             //login
             PageFactoryManager.Get<LoginPage>()
-                .GoToURL(Url.MainPageUrl);
+                .GoToURL(WebUrl.MainPageUrl);
             login
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser6.DisplayName)
+                .IsOnHomePage(AutoUser6)
                 .GoToThePatiesSubSubMenu();
             //create new party 
             PageFactoryManager.Get<PartyCommonPage>()
