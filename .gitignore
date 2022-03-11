@@ -51,6 +51,8 @@ Thumbs.db
 #Added
 .vs/si-automated-tests/xs/project-cache/si-automated-tests-Release.json
 .vs/si-automated-tests/xs/UserPrefs.xml
+.vs/**
+.vs/si-automated-tests/v16/
 si-automated-tests/bin/Release/netcoreapp3.1/nunit_random_seed.tmp
 *.cache
 si-automated-tests/obj/project.assets.json
@@ -58,3 +60,5 @@ si-automated-tests/obj/project.assets.json
 *.csproj.nuget.g.props
 si-automated-tests/bin/Release/netcoreapp3.1/
 si-automated-tests/obj/Release/netcoreapp3.1/
+si-automated-tests/obj/**
+si-automated-tests/bin/**

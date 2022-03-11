@@ -10,6 +10,9 @@ namespace si_automated_tests.Source.Main.Models
 
         [JsonProperty(PropertyName = "password")]
         public string Password;
+        
+        [JsonProperty(PropertyName = "displayname")]
+        public string DisplayName;
 
         [JsonProperty(PropertyName = "displayname")]
         public string DisplayName;

@@ -64,5 +64,25 @@ namespace si_automated_tests.Source.Core
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(20));
             driverWait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath(xpath)));
         }
+        public static void WaitForElementToBeSelected(string xpath)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(20));
+            driverWait.Until(ExpectedConditions.ElementToBeSelected(By.XPath(xpath)));
+        }
+        public static void WaitForElementToBeSelected(By by)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(20));
+            driverWait.Until(ExpectedConditions.ElementToBeSelected(by));
+        }
+        public static IList<IWebElement> WaitForAllElementsVisible(By by)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(20));
+            return driverWait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));
+        }
+        public static void WaitForTextVisibleInElement(By by,string text)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(20));
+            driverWait.Until(ExpectedConditions.TextToBePresentInElementLocated(by,text));
+        }
     }
 }

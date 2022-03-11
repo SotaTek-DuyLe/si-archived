@@ -7,6 +7,8 @@ using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages.SystemTools.SystemMonitoring;
 using si_automated_tests.Source.Main.Pages.UserAndRole;
+using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Pages.PartyAgreement;
 
 namespace si_automated_tests.Source.Main.Pages
 {
@@ -36,6 +38,7 @@ namespace si_automated_tests.Source.Main.Pages
 
         //SUB SUB MENU
         private const string PartiesSubSubMenu = "//span[text()='Parties']/parent::a";
+        private const string AgreementSubSubMenu = "//span[text()='Agreements']/parent::a";
         private readonly string userNameBtn = ConfigManager.GetCurrentPlatform().Equals(WebPlatform.IE)
             ? "//a[@id='DisplayName']"
             : "//li[contains(@class, 'dropdown')]/button";
@@ -55,7 +58,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly string groupExpand = "//table[@groupkey='t']/descendant::img";
         private readonly string userNameValue = "//span[contains(text(),'{0}')]";
 
-        public HomePage IsOnHomePage(String UserName)
+        public HomePage IsOnHomePage(User user)
         {
             Thread.Sleep(500);
             SwitchToDefaultContent();
@@ -64,7 +67,7 @@ namespace si_automated_tests.Source.Main.Pages
             {
                 WaitUtil.WaitForElementVisible(searchBtn);
             }
-            Assert.AreEqual(GetElementText(userNameBtn).Trim(), UserName);
+            Assert.AreEqual(GetElementText(userNameBtn).Trim(), user.DisplayName);
             return this;
         }
         public HomePage ClickUserNameDd()
@@ -99,6 +102,15 @@ namespace si_automated_tests.Source.Main.Pages
             ClickOnElement(PartiesSubSubMenu);
             ClickOnElement(PageTitle);
             return new PartyCommonPage();
+        }
+        public PartyAgreementCommonPage GotoAgreementPage()
+        {
+            ClickOnElement(PatiesMenu);
+            ClickOnElement(NorthStartCommercialMenu);
+            ClickOnElement(NorthStartCommercialMenu);
+            ClickOnElement(AgreementSubSubMenu);
+            SwitchNewIFrame();
+            return PageFactoryManager.Get<PartyAgreementCommonPage>();
         }
         public HomePage ClickCreateEventDropdownAndVerify()
         {

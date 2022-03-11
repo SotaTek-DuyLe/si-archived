@@ -29,13 +29,13 @@ namespace si_automated_tests.Source.Test
             string address = "Twickenham";
             string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
             //login
-            login.GoToURL(Url.MainPageUrl);
+            login.GoToURL(WebUrl.MainPageUrl);
             login
                 .SendKeyToUsername(AutoUser15.UserName)
                 .SendKeyToPassword(AutoUser15.Password)
                 .ClickOnSignIn();
             homePage
-                .IsOnHomePage(AutoUser15.UserName)
+                .IsOnHomePage(AutoUser15)
                 .GoToThePatiesSubSubMenu();
             //create new party 
             partyCommonPage

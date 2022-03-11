@@ -6,6 +6,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.Pages.PartyAgreement;
 using si_automated_tests.Source.Main.Models;
 
 namespace si_automated_tests.Source.Main.Pages.Paties
@@ -49,12 +50,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string AccountingReferenceColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Accounting Reference']/parent::div/preceding-sibling::div) + 1]";
         private const string AbvColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Abv']/parent::div/preceding-sibling::div) + 1]";
 
+        //Agreement tab
+        private readonly By agreementTab = By.XPath("//a[text()='Agreements']");
+
+        private readonly By partyStartDate = By.XPath("//span[@title='Start Date']");
+        private readonly By closeBtn = By.XPath("//button[@title='Close Without Saving']");
+
+
         //TAB
         public List<string> GetAllTabDisplayed()
         {
             List<string> allTabs = new List<string>();
             List<IWebElement> allElements = GetAllElements(AllTabDisplayed);
-            for(int i = 0; i < allElements.Count; i++)
+            for (int i = 0; i < allElements.Count; i++)
             {
                 allTabs.Add(GetElementText(allElements[i]));
             }
@@ -62,7 +70,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
         public List<string> GetAllTabInDropdown()
         {
-            
+
             List<string> allTabs = new List<string>();
             if (!IsControlDisplayedNotThrowEx(DropdownBtn))
             {
@@ -127,6 +135,22 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnParty(string name)
         {
             ClickOnElement(PartyName, name);
+            return this;
+        }
+        //Agreement tab
+        public AgreementTab OpenAgreementTab()
+        {
+            ClickOnElement(agreementTab);
+            return PageFactoryManager.Get<AgreementTab>();
+        }
+
+        public string GetPartyStartDate()
+        {
+            return WaitUtil.WaitForElementVisible(partyStartDate).Text;
+        }
+        public DetailPartyPage ClickCloseBtn()
+        {
+            ClickOnElement(closeBtn);
             return this;
         }
 
