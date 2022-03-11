@@ -39,10 +39,18 @@
     <None Remove="System.Xml.ReaderWriter" />
     <None Remove="Microsoft.IdentityModel.Xml" />
     <None Remove="NUnit.ConsoleRunner" />
+    <None Remove="Source\Main\Pages\Paties\Parties\" />
+    <None Remove="Source\Main\Pages\Paties\PartyAgreement\" />
+    <None Remove="Source\Main\Pages\Paties\SiteServices\" />
+    <None Remove="Source\Main\Pages\Paties\Sites\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Models\" />
     <Folder Include="Source\Main\Data\" />
+    <Folder Include="Source\Main\Pages\Paties\Parties\" />
+    <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
+    <Folder Include="Source\Main\Pages\Paties\SiteServices\" />
+    <Folder Include="Source\Main\Pages\Paties\Sites\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources.resx">

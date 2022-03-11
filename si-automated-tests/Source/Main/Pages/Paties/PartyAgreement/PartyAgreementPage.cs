@@ -9,6 +9,9 @@ using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.PartyAgreement
 {
+    //Party Agreement Detail Page
+    //Can be opened through Party Detail Page -> Agreement Tab
+    //Or Agreements Main Page -> Double click one agreement
     public class PartyAgreementPage : BasePage
     {
         private readonly By saveBtn = By.XPath("//button[@title='Save']");

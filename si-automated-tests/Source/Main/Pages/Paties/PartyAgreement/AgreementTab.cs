@@ -8,6 +8,7 @@ using System.Text;
 
 namespace si_automated_tests.Source.Main.Pages.Paties
 {
+    //Agreement tab inside Party Detail Page
     public class AgreementTab : BasePage
     {
         private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
