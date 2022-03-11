@@ -103,14 +103,14 @@ namespace si_automated_tests.Source.Main.Pages
             ClickOnElement(PageTitle);
             return new PartyCommonPage();
         }
-        public PartyAgreementCommonPage GotoAgreementPage()
+        public CommonBrowsePage GotoAgreementPage()
         {
             ClickOnElement(PatiesMenu);
             ClickOnElement(NorthStartCommercialMenu);
             ClickOnElement(NorthStartCommercialMenu);
             ClickOnElement(AgreementSubSubMenu);
             SwitchNewIFrame();
-            return PageFactoryManager.Get<PartyAgreementCommonPage>();
+            return PageFactoryManager.Get<CommonBrowsePage>();
         }
         public HomePage ClickCreateEventDropdownAndVerify()
         {
