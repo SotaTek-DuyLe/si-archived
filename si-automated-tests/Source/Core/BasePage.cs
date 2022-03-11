@@ -17,6 +17,7 @@ namespace si_automated_tests.Source.Core
     {
         protected IWebDriver driver;
         private IJavaScriptExecutor javascriptExecutor;
+
         public BasePage()
         {
             Thread.Sleep(750);
@@ -191,6 +192,7 @@ namespace si_automated_tests.Source.Core
         }
         public void SwitchToLastWindow()
         {
+            Thread.Sleep(250);
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
         }
         public void SwitchToChildWindow()
@@ -293,6 +295,12 @@ namespace si_automated_tests.Source.Core
             SelectElement selectedValue = new SelectElement(comboBox);
             return selectedValue.SelectedOption.Text;
         }
+        public string GetFirstSelectedItemInDropdown(By by)
+        {
+            IWebElement comboBox = driver.FindElement(by);
+            SelectElement selectedValue = new SelectElement(comboBox);
+            return selectedValue.SelectedOption.Text;
+        }
 
         //GET ATTRIBUTE VALUE
         public string GetAttributeValue(string xpath, string attributeName)
@@ -305,6 +313,44 @@ namespace si_automated_tests.Source.Core
         public void MaximumWindow()
         {
             this.driver.Manage().Window.Maximize();
+        }
+
+        //SELECT VALUE FROM SELECT ELEMENT
+        public BasePage SelectValueFromDropDown(By by, string _value)
+        {
+            IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
+            SelectElement selectedValue = new SelectElement(comboBox);
+            selectedValue.SelectByText(_value);
+            return this;
+        }
+        public BasePage SelectIndexFromDropDown(By by, int index)
+        {
+            IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
+            SelectElement selectedValue = new SelectElement(comboBox);
+            selectedValue.SelectByIndex(index);
+            return this;
+        }
+        //GET WARNING TEXT
+        public string GetToastMessage()
+        {
+            string text = WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']").Text;
+            WaitUtil.WaitForElementInvisible("//div[@data-notify-html='title']");
+            return text;
+        }
+        public BasePage VerifyToastMessage(string message)
+        {
+            Assert.AreEqual(message, GetToastMessage());
+            return this;
+        }
+        public bool IsElementSelected(By by)
+        {
+            return WaitUtil.WaitForElementVisible(by).Selected;
+        }
+        public BasePage WaitForLoadingIconToDisappear()
+        {
+            Thread.Sleep(5000);
+            WaitUtil.WaitForElementInvisible("//*[contains(@data-bind,'shield: isLoading')]");
+            return this;
         }
 
     }

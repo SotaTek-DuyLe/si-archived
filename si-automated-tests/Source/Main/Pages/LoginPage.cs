@@ -41,5 +41,12 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.IsTrue(IsControlDisplayed(ErrorMessage));
             return this;
         }
+        public HomePage Login(string username, string password)
+        {
+            SendKeyToUsername(username);
+            SendKeyToPassword(password);
+            ClickOnSignIn();
+            return PageFactoryManager.Get<HomePage>();
+        }
     }
 }

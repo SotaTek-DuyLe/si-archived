@@ -30,19 +30,21 @@ namespace si_automated_tests.Source.Test
         [Test]
         public void TC_002_Create_User_Test([Random(1, 999999, 1)] int random)
         {
-            string newUserName = "userName" + random;
-            string displayName = "displayname" + random;
-            string email = "userEmail" + random + "@gmail.com";
-            string newPassword = "newPassword" + random + "@#_";
+            User user = new User();
+            user.UserName = "userName" + random;
+            user.DisplayName = "displayname" + random;
+            user.Email = "userEmail" + random + "@gmail.com";
+            user.Password = "newPassword" + random + "@#_";
+            string oldPassword = "oldPassword" + random + "@#_";
 
             PageFactoryManager.Get<LoginPage>()
-                .GoToURL(Url.MainPageUrlIE);
+                .GoToURL(WebUrl.MainPageUrlIE);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .SendKeyToUsername(AutoUser3.UserName)
                 .SendKeyToPassword(AutoUser3.Password + Keys.Enter);
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser3.UserName)
+                .IsOnHomePage(AutoUser3)
                 .ClickSystemTool()
                 .ClickUserAndRole()
                 .ClickUser()
@@ -66,7 +68,7 @@ namespace si_automated_tests.Source.Test
                 .SwitchToLastWindow();
             PageFactoryManager.Get<UserDetailPage>()
                 .IsOnUserDetailPage()
-                .EnterUserDetails(newUserName, displayName, email)
+                .EnterUserDetails(user.UserName, user.DisplayName, user.Email)
                 .ClickDataAccessRoles()
                 .ChooseAccessRole("")
                 .ClickAdminRoles()
@@ -75,7 +77,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnUserScreen();
 
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser3.UserName)
+                .IsOnHomePage(AutoUser3)
                 .ClickSysMonitoring()
                 .ClickEmail()
                 .IsOnEmailPage()
@@ -94,14 +96,14 @@ namespace si_automated_tests.Source.Test
                 .GoToURL(emailResetLink);
             PageFactoryManager.Get<ResetPasswordPage>()
                 .IsOnResetPasswordPage()
-                .ResetPassword(newPassword)
+                .ResetPassword(user.Password)
                 .VerifyResetSuccessfully()
                 .ClickGoToLogin()
                 .IsOnLoginPage()
-                .SendKeyToUsername(newUserName)
-                .SendKeyToPassword(newPassword + Keys.Enter);
+                .SendKeyToUsername(user.UserName)
+                .SendKeyToPassword(user.Password + Keys.Enter);
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(displayName);
+                .IsOnHomePage(user);
         }
 
         [Test]
@@ -110,18 +112,18 @@ namespace si_automated_tests.Source.Test
             string newPassword = "newPassword" + random + "@#_";
 
             PageFactoryManager.Get<LoginPage>()
-                .GoToURL(Url.MainPageUrlIE);
+                .GoToURL(WebUrl.MainPageUrlIE);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .SendKeyToUsername(AutoUser3.UserName)
                 .SendKeyToPassword(AutoUser3.Password + Keys.Enter);
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser3.UserName)
+                .IsOnHomePage(AutoUser3)
                 .ClickSystemTool()
                 .ClickUserAndRole()
                 .ClickUser()
                 .ExpandGroup()
-                .ClickUserName("Tomek")
+                .ClickUserName(TestAutoUser.UserName)
                 .SwitchToRightFrame()
                 .IsOnUserDetailPage()
                 .ClickResetPassword()
@@ -155,10 +157,10 @@ namespace si_automated_tests.Source.Test
                 .VerifyResetSuccessfully()
                 .ClickGoToLogin()
                 .IsOnLoginPage()
-                .SendKeyToUsername("Tomek")
+                .SendKeyToUsername("testauto")
                 .SendKeyToPassword(newPassword + Keys.Enter);
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage("Tomek");
+                .IsOnHomePage(TestAutoUser);
         }
     }
 }

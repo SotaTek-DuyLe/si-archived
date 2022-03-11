@@ -14,7 +14,7 @@ namespace si_automated_tests.Source.Test
         {
             LoginPage login = new LoginPage();
             HomePage homePage = new HomePage();
-            login.GoToURL(Url.MainPageUrl);
+            login.GoToURL(WebUrl.MainPageUrl);
             //Non-success case
             login
                 .IsOnLoginPage()
@@ -28,7 +28,7 @@ namespace si_automated_tests.Source.Test
                 .SendKeyToPassword(AutoUser1.Password)
                 .ClickOnSignIn();
             homePage
-                .IsOnHomePage(AutoUser1.UserName)
+                .IsOnHomePage(AutoUser1)
                 .ClickUserNameDd()
                 .ClickLogoutBtn();
             //Logout

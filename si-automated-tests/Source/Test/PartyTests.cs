@@ -22,13 +22,13 @@ namespace si_automated_tests.Source.Test
             PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
 
             //login
-            login.GoToURL(Url.MainPageUrl);
+            login.GoToURL(WebUrl.MainPageUrl);
             login
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             homePage
-                .IsOnHomePage(AutoUser6.UserName)
+                .IsOnHomePage(AutoUser6)
                 .GoToThePatiesSubSubMenu();
             //create new party 
             partyPage
@@ -60,13 +60,13 @@ namespace si_automated_tests.Source.Test
             PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(5), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
 
             //login
-            login.GoToURL(Url.MainPageUrl);
+            login.GoToURL(WebUrl.MainPageUrl);
             login
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             homePage
-                .IsOnHomePage(AutoUser6.UserName)
+                .IsOnHomePage(AutoUser6)
                 .ClickCreateEventDropdownAndVerify()
                 .GoToThePatiesByCreateEvenDropdown()
                 .SwitchToChildWindow();
@@ -98,13 +98,13 @@ namespace si_automated_tests.Source.Test
             PartyCommonPage partyPage = new PartyCommonPage();
             CreatePartyPage createPartyPage = new CreatePartyPage();
             //login
-            login.GoToURL(Url.MainPageUrl);
+            login.GoToURL(WebUrl.MainPageUrl);
             login
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             homePage
-                .IsOnHomePage(AutoUser6.UserName)
+                .IsOnHomePage(AutoUser6)
                 .GoToThePatiesSubSubMenu();
             //create new party 
             partyPage

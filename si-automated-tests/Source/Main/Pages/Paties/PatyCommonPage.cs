@@ -7,12 +7,17 @@ using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Pages.Paties;
 
 namespace si_automated_tests.Source.Main.Pages
 {
     public class PartyCommonPage : BasePage
     {
         private const string AddNewItem = "//button[text()='Add New Item']";
+
+        private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
+        private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
+        private readonly By firstResult = By.XPath("//div[@class='ui-widget-content slick-row even']");
 
 
         public PartyCommonPage ClickAddNewItem()
@@ -49,6 +54,17 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.AreEqual(partyModelActual.PartyType, partyModelInput.PartyType);
             Assert.AreEqual(partyModelActual.StartDate, partyModelInput.StartDate);
             return this;
+        }
+        public PartyCommonPage FilterPartyById(int id)
+        {
+            SendKeys(filterInputById, id.ToString());
+            ClickOnElement(applyBtn);
+            return this;
+        }
+        public DetailPartyPage OpenFirstResult()
+        {
+            DoubleClickOnElement(firstResult);
+            return PageFactoryManager.Get<DetailPartyPage>();
         }
     }
 }
