@@ -195,13 +195,13 @@ namespace si_automated_tests.Source.Core
             Thread.Sleep(250);
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
         }
-        public void SwitchToChildWindow()
+        public void SwitchToChildWindow(int numberOfWindow)
         {
-            WaitUntilNewWindowIsOpened(2);
+            WaitUntilNewWindowIsOpened(numberOfWindow);
             driver.SwitchTo().Window(driver.WindowHandles.Last());
             MaximumWindow();
         }
-        public void WaitUntilNewWindowIsOpened(int expectedNumberOfWindows, int maxRetryCount = 10)
+        public void WaitUntilNewWindowIsOpened(int expectedNumberOfWindows, int maxRetryCount = 50)
         {
             int returnValue;
             bool boolReturnValue;
@@ -306,6 +306,11 @@ namespace si_automated_tests.Source.Core
         public string GetAttributeValue(string xpath, string attributeName)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(xpath);
+            return element.GetAttribute(attributeName);
+        }
+        public string GetAttributeValue(By by, string attributeName)
+        {
+            IWebElement element = WaitUtil.WaitForElementVisible(by);
             return element.GetAttribute(attributeName);
         }
 

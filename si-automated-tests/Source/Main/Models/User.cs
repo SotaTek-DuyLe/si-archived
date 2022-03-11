@@ -14,6 +14,9 @@ namespace si_automated_tests.Source.Main.Models
         [JsonProperty(PropertyName = "displayname")]
         public string DisplayName;
 
+        [JsonProperty(PropertyName = "displayname")]
+        public string DisplayName;
+
         [JsonProperty(PropertyName = "data")]
         public string Data;
 

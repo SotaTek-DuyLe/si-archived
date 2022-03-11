@@ -4,6 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Models;
 
 namespace si_automated_tests.Source.Main.Pages
 {
@@ -16,10 +17,37 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By ResultField = By.XPath("//div[contains(@data-bind,'geocodedAddresses')]");
         private readonly By MapContainer = By.Id("map-container");
         private readonly By CreateManuallyBtn = By.XPath("//button[text()='Create Manually ']");
+        private readonly By CreateNonGeographicalAddressBtn = By.XPath("//button[text()='Create Non Geographical Address']");
         private readonly By CreateNonGeographicalAddress = By.XPath("//button[text()='Create Non Geographical Address']");
+        private readonly By CreateBtn = By.XPath("//button[text()='Create']");
+
+        //CHECK ADDRESS DETAIL
+        private readonly By SiteNameInput = By.Id("site-name");
+        private readonly By SiteNameLabel = By.XPath("//label[text()='Site Name']");
+        private readonly By SiteAbvInput = By.Id("site-abv");
+        private readonly By SiteTypeDropdown = By.Id("site-type");
+        private readonly By PropertyInput = By.Id("property");
+        private readonly By PropertyLabel = By.XPath("//label[text()='Property']");
+        private readonly By SubPropertyInput = By.Id("sub-property");
+        private readonly By StreetInput = By.Id("street");
+        private readonly By StreetLabel = By.XPath("//label[text()='Street']");
+        private readonly By TownInput = By.Id("town");
+        private readonly By TownLabel = By.XPath("//label[text()='Town']");
+        private readonly By PostcodeInput = By.Id("postcode");
+        private readonly By PostcodeLabel = By.XPath("//label[text()='Postcode']");
+        private readonly By CountryInput = By.Id("country");
+        private readonly By CountryLabel = By.XPath("//label[text()='Country']");
+        private readonly By BackScreen3Btn = By.XPath("//div[@id='screen3']//button[text()='Back']");
+        private readonly By CreateScreen3Btn = By.XPath("//div[@id='screen3']//button[text()='Create']");
+        private readonly By CancelScreen3Btn = By.XPath("//div[@id='screen3']//button[text()='Cancel']");
+        private const string LoadingData = "//div[@class='loading-data']";
+        private readonly By AddressInput = By.Id("address");
+        private readonly By AddressLabel = By.XPath("//label[text()='Address']");
+
 
         //DYNAMIC LOCATOR
         private const string AddressSite = "//div[contains(text(),'{0}')]";
+        private const string SiteTypeOption = "//label[text()='Site Type']/following-sibling::select/option[text()='{0}']";
 
         public PartySiteAddressPage IsOnPartySiteAddressPage()
         {
@@ -33,6 +61,7 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.IsTrue(IsControlDisplayed(CreateNonGeographicalAddress));
             return this;
         }
+
         public PartySiteAddressPage InputTextToSearchBar(String value)
         {
             WaitUtil.WaitForElementVisible(SearchInput);
@@ -75,5 +104,116 @@ namespace si_automated_tests.Source.Main.Pages
             ClickOnElement(NextBtn);
             return this;
         }
+
+        public PartySiteAddressPage ClickOnCreateManuallyBtn()
+        {
+            ClickOnElement(CreateManuallyBtn);
+            return this;
+        }
+
+        public PartySiteAddressPage IsCheckAddressDetailScreen(bool isAddress)
+        {
+            WaitUtil.WaitForElementVisible(SiteNameLabel);
+            Assert.IsTrue(IsControlDisplayed(SiteNameInput));
+            Assert.IsTrue(IsControlDisplayed(SiteAbvInput));
+            Assert.IsTrue(IsControlDisplayed(SiteTypeDropdown));
+            if(isAddress)
+            {
+                Assert.IsTrue(IsControlDisplayed(AddressInput));
+                Assert.AreEqual(GetAttributeValue(AddressLabel, "class"), "control-label");
+                Assert.AreEqual(GetAttributeValue(AddressInput, "class"), "form-control");
+            }
+            else
+            {
+                Assert.IsTrue(IsControlDisplayed(StreetInput));
+                Assert.IsTrue(IsControlDisplayed(PropertyInput));
+                Assert.IsTrue(IsControlDisplayed(SubPropertyInput));
+                Assert.AreEqual(GetAttributeValue(StreetLabel, "class"), "control-label");
+                Assert.AreEqual(GetAttributeValue(StreetInput, "class"), "form-control");
+                Assert.AreEqual(GetAttributeValue(PropertyLabel, "class"), "control-label");
+                Assert.AreEqual(GetAttributeValue(PropertyInput, "class"), "form-control");
+            }
+            Assert.IsTrue(IsControlDisplayed(TownInput));
+            ScrollDownToElement(CountryInput);
+            WaitUtil.WaitForElementVisible(CountryInput);
+            Assert.IsTrue(IsControlDisplayed(PostcodeInput));
+            Assert.IsTrue(IsControlDisplayed(CountryInput));
+            Assert.IsTrue(IsControlDisplayed(BackScreen3Btn));
+            Assert.IsTrue(IsControlDisplayed(CreateScreen3Btn));
+            //Verify madatory field
+            Assert.AreEqual(GetAttributeValue(SiteNameLabel, "class"), "control-label");
+            Assert.AreEqual(GetAttributeValue(SiteNameInput, "class"), "form-control");
+            Assert.AreEqual(GetAttributeValue(TownLabel, "class"), "control-label");
+            Assert.AreEqual(GetAttributeValue(TownInput, "class"), "form-control");
+            Assert.AreEqual(GetAttributeValue(PostcodeLabel, "class"), "control-label");
+            Assert.AreEqual(GetAttributeValue(PostcodeInput, "class"), "form-control");
+            Assert.AreEqual(GetAttributeValue(CountryLabel, "class"), "control-label");
+            Assert.AreEqual(GetAttributeValue(CountryInput, "class"), "form-control");
+            return this;
+        }
+
+        public PartySiteAddressPage SendKeyInSiteNameInput(string siteName)
+        {
+            SendKeys(SiteNameInput, siteName);
+            return this;
+        }
+
+        public PartySiteAddressPage VerifyCreateBtnDisabled()
+        {
+            Assert.AreEqual(GetAttributeValue(CreateBtn, "disabled"), "true");
+            return this;
+        }
+
+        public PartySiteAddressPage InputAllMandatoryFieldInCheckAddressDetailScreen(AddressDetailModel addressDetail)
+        {
+            SendKeys(PropertyInput, addressDetail.Property.ToString());
+            SendKeys(StreetInput, addressDetail.Street);
+            SendKeys(TownInput, addressDetail.Town);
+            SendKeys(PostcodeInput, addressDetail.PostCode);
+            SendKeys(CountryInput, addressDetail.Country);
+            return this;
+        }
+
+        public PartySiteAddressPage InputSomeMandatoryFieldInCheckAddressDetailScreen(AddressDetailModel addressDetail)
+        {
+            SendKeys(AddressInput, addressDetail.Address);
+            SendKeys(TownInput, addressDetail.Town);
+            SendKeys(PostcodeInput, addressDetail.PostCode);
+            return this;
+        }
+
+        public PartySiteAddressPage InputValueInCountry(string country)
+        {
+            SendKeys(CountryInput, country);
+            return this;
+        }
+
+        public PartySiteAddressPage ClickCreateBtn()
+        {
+            ClickOnElement(CreateBtn);
+            return this;
+        }
+
+        public PartySiteAddressPage ClickCreateScreen3Btn()
+        {
+            ClickOnElement(CreateScreen3Btn);
+            return this;
+        }
+
+        public PartySiteAddressPage WaitForLoadingIconInvisiable()
+        {
+            WaitUtil.WaitForElementInvisible(LoadingData);
+            return this;
+        }
+
+        public PartySiteAddressPage ClickOnNonGeoGraphicalAddressBtn()
+        {
+            ClickOnElement(CreateNonGeographicalAddressBtn);
+            return this;
+        }
+
+        
     }
+
+
 }
