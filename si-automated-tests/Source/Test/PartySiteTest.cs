@@ -36,7 +36,10 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSignIn();
             homePage
                 .IsOnHomePage(AutoUser15)
-                .GoToThePatiesSubSubMenu();
+                .ClickParties()
+                .ClickNSC()
+                .ClickPartySubMenu()
+                .SwitchNewIFrame();
             //create new party 
             partyCommonPage
                 .ClickAddNewItem()

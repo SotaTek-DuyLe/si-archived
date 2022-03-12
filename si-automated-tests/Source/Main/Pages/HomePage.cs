@@ -33,12 +33,6 @@ namespace si_automated_tests.Source.Main.Pages
         //MENU
         private const string PatiesMenu = "//span[text()='Parties']/parent::h4/parent::div";
 
-        //SUB MENU
-        private const string NorthStartCommercialMenu = "//span[text()='North Star Commercial']/parent::a/preceding-sibling::span[2]";
-
-        //SUB SUB MENU
-        private const string PartiesSubSubMenu = "//span[text()='Parties']/parent::a";
-        private const string AgreementSubSubMenu = "//span[text()='Agreements']/parent::a";
         private readonly string userNameBtn = ConfigManager.GetCurrentPlatform().Equals(WebPlatform.IE)
             ? "//a[@id='DisplayName']"
             : "//li[contains(@class, 'dropdown')]/button";
@@ -95,22 +89,10 @@ namespace si_automated_tests.Source.Main.Pages
             ClickOnElement(user);
             return this;
         }
-        public PartyCommonPage GoToThePatiesSubSubMenu()
+        public PartyNavigation ClickParties()
         {
             ClickOnElement(PatiesMenu);
-            ClickOnElement(NorthStartCommercialMenu);
-            ClickOnElement(PartiesSubSubMenu);
-            ClickOnElement(PageTitle);
-            return new PartyCommonPage();
-        }
-        public CommonBrowsePage GotoAgreementPage()
-        {
-            ClickOnElement(PatiesMenu);
-            ClickOnElement(NorthStartCommercialMenu);
-            ClickOnElement(NorthStartCommercialMenu);
-            ClickOnElement(AgreementSubSubMenu);
-            SwitchNewIFrame();
-            return PageFactoryManager.Get<CommonBrowsePage>();
+            return PageFactoryManager.Get<PartyNavigation>();
         }
         public HomePage ClickCreateEventDropdownAndVerify()
         {
