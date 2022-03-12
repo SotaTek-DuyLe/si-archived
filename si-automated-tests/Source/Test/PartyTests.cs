@@ -27,7 +27,10 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser6)
-                .GoToThePatiesSubSubMenu();
+                .ClickParties()
+                .ClickNSC()
+                .ClickPartySubMenu()
+                .SwitchNewIFrame();
             //create new party 
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
@@ -100,7 +103,10 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser6)
-                .GoToThePatiesSubSubMenu();
+                .ClickParties()
+                .ClickNSC()
+                .ClickPartySubMenu()
+                .SwitchNewIFrame();
             //create new party 
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
@@ -130,7 +136,10 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser6)
-                .GoToThePatiesSubSubMenu();
+                .ClickParties()
+                .ClickNSC()
+                .ClickPartySubMenu()
+                .SwitchNewIFrame();
             //create new party 
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
@@ -196,7 +205,10 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser6)
-                .GoToThePatiesSubSubMenu();
+                .ClickParties()
+                .ClickNSC()
+                .ClickPartySubMenu()
+                .SwitchNewIFrame();
             //create new party 
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()

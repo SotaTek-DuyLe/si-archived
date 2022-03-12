@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Pages.Paties;
+using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement.Tabs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,7 @@ using System.Threading;
 namespace si_automated_tests.Source.Main.Pages.PartyAgreement
 {
     //Party Agreement Detail Page
-    //Can be opened through Party Detail Page -> Agreement Tab
+    //Can be opened through Party Detail Page -> Agreement Tab -> Double click one agreement
     //Or Agreements Main Page -> Double click one agreement
     public class PartyAgreementPage : BasePage
     {
@@ -46,6 +47,9 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         //Summary title
         private readonly By startDate = By.XPath("//span[@title='Start Date']");
         private readonly By endDate = By.XPath("//span[@title='End Date']");
+
+        //Tabs
+        private readonly By taskTab = By.XPath("//a[text()='Tasks']");
 
 
         public PartyAgreementPage IsOnPartyAgreementPage()
@@ -168,6 +172,11 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         {
             ClickOnElement(expandBtn);
             return this;
+        }
+        public TaskTab OpenTaskTab()
+        {
+            ClickOnElement(taskTab);
+            return PageFactoryManager.Get<TaskTab>();
         }
 
 

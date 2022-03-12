@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -26,6 +27,10 @@ namespace si_automated_tests.Source.Core
         public static string GetLocalTimeMinusDay(string format, int day)
         {
             return DateTime.Now.AddDays(day).ToString(format);
+        }
+        public static string GetLocalTimeFromDate(string now, string format, int day)
+        {
+            return DateTime.ParseExact(now, format, CultureInfo.InvariantCulture).AddDays(day).ToString(format);
         }
         public static string GetLocalDayMinusDay(int day)
         {
