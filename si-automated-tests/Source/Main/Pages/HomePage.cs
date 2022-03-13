@@ -9,6 +9,7 @@ using si_automated_tests.Source.Main.Pages.SystemTools.SystemMonitoring;
 using si_automated_tests.Source.Main.Pages.UserAndRole;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.PartyAgreement;
+using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 
 namespace si_automated_tests.Source.Main.Pages
 {
@@ -33,6 +34,13 @@ namespace si_automated_tests.Source.Main.Pages
         //MENU
         private const string PatiesMenu = "//span[text()='Parties']/parent::h4/parent::div";
 
+        //SUB MENU
+        private const string NorthStartCommercialMenu = "//span[text()='North Star Commercial']/parent::a/preceding-sibling::span[2]";
+
+        //SUB SUB MENU
+        private const string PartiesSubSubMenu = "//span[text()='Parties']/parent::a";
+        private const string AgreementSubSubMenu = "//span[text()='Agreements']/parent::a";
+        private const string SiteServicesSubSubMenu = "//span[text()='Site Services']/parent::a";
         private readonly string userNameBtn = ConfigManager.GetCurrentPlatform().Equals(WebPlatform.IE)
             ? "//a[@id='DisplayName']"
             : "//li[contains(@class, 'dropdown')]/button";

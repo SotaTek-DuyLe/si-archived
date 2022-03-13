@@ -19,6 +19,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         public AddServicePage IsOnAddServicePage()
         {
             WaitUtil.WaitForAllElementsVisible(serviceTabs);
+            Assert.IsTrue(IsControlDisplayed(serviceTabs));
             return this;
         }
         
@@ -29,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         }
         public AddServicePage ClickNext()
         {
+            ScrollDownToElement(nextBtn);
             ClickOnElement(nextBtn);
             return this;
         }

@@ -55,6 +55,19 @@ namespace si_automated_tests.Source.Core
             element.SendKeys(value);
         }
 
+        public void EditSendKeys(By by, string value)
+        {
+            IWebElement element = WaitUtil.WaitForElementClickable(by);
+            element.SendKeys(OpenQA.Selenium.Keys.LeftShift + OpenQA.Selenium.Keys.Home);
+            element.SendKeys(value);
+        }
+        public void EditSendKeys(string xpath, string value)
+        {
+            IWebElement element = WaitUtil.WaitForElementClickable(xpath);
+            element.SendKeys(OpenQA.Selenium.Keys.LeftShift + OpenQA.Selenium.Keys.Home);
+            element.SendKeys(value);
+        }
+
         //CLICK ON ELEMENT
         public void ClickOnElement(By by)
         {
@@ -145,6 +158,35 @@ namespace si_automated_tests.Source.Core
         public bool IsControlDisplayed(By by)
         {
             return this.driver.FindElement(by).Displayed;
+        }
+
+        public bool IsControlUnDisplayed(string xpath)
+        {
+            int num = this.driver.FindElements(By.XPath(xpath)).Count;
+            if (num == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+
+        public bool IsControlUnDisplayed(string xpath, string value)
+        {
+            xpath = String.Format(xpath, value);
+            int num = this.driver.FindElements(By.XPath(xpath)).Count;
+            if (num == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
         public bool IsControlEnabled(By by)

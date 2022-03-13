@@ -18,7 +18,7 @@ namespace si_automated_tests.Source.Test
         {
             LoginPage login = new LoginPage();
             HomePage homePage = new HomePage();
-            PartyPage partyPage = new PartyPage();
+            DetailPartyPage partyPage = new DetailPartyPage();
             PartySiteAddressPage partySiteAddressPage = new PartySiteAddressPage();
             CreateEditSiteAddressPage createEditSiteAddressPage = new CreateEditSiteAddressPage();
             PartyCommonPage partyCommonPage = new PartyCommonPage();

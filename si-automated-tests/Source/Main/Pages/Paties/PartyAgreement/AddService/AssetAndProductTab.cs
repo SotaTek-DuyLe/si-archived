@@ -13,6 +13,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
         private readonly By addBtn = By.XPath("//button[@class='btn btn-success']");
         private readonly By assetType = By.Id("asset-type");
         private readonly By assetQuantity = By.Id("asset-quantity");
+        private readonly By assertQuantiryText = By.XPath("//label[text()='Asset Quantity']");
         private readonly By tenure = By.Id("tenure");
         private readonly By product = By.XPath("//select[@id='product' and contains(@data-bind,'availableProducts')]");
         private readonly By ewc = By.XPath("//select[@id='product' and contains(@data-bind,'productCodes')]");
@@ -21,6 +22,11 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
         private readonly By doneBtn = By.XPath("//button[text()='Done']");
         private readonly By summaryText = By.XPath("//span[@data-bind='text: description']");
 
+        //Edit Asset
+        private readonly By editAssetBtn = By.XPath("//button[text()='Edit Asset']");
+        private readonly string editAssertDoneBtn = "//button[text()='Done' and contains(@data-bind,'finishAssetProduct')]";
+        private readonly By tenureText = By.XPath("//label[text()='Tenure']");
+        private string textXpath = "//*[contains(text(),'{0}')]";
         public AssetAndProducTab IsOnAssetTab()
         {
             WaitUtil.WaitForElementVisible(addBtn);
@@ -56,6 +62,17 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
             SendKeys(assetQuantity, value.ToString());
             return this;
         }
+        public AssetAndProducTab EditAssetQuantity(int value)
+        { 
+            EditSendKeys(assetQuantity, value.ToString());
+            Thread.Sleep(1000);
+            return this;
+        }
+        public AssetAndProducTab ClickAssetQuantityText()
+        {
+            ClickOnElement(assertQuantiryText);
+            return this;
+        }
         public AssetAndProducTab InputProductQuantity(int value)
         {
             SendKeys(productQuantity, value.ToString() + Keys.Enter);
@@ -72,6 +89,12 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
             ClickOnElement(doneBtn);
             return this;
         }
+        public AssetAndProducTab VerifySummaryOfStep(string value)
+        {
+            WaitUtil.WaitForElementVisible(textXpath, value);
+            Assert.IsTrue(IsControlDisplayed(textXpath, value));
+            return this;
+        }
         public AssetAndProducTab VerifyAssetSummary(int quantity, string type, string tenure, int productQuantity, string product)
         {
             var text1 = String.Format("{0} x {1}({2}), {3}", quantity.ToString(), type, tenure, productQuantity.ToString());
@@ -79,5 +102,25 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
             Assert.IsTrue(GetElementText(summaryText).Contains(product));
             return this;
         }
+
+        //Edit Asset 
+        public AssetAndProducTab ClickOnEditAsset()
+        {
+            ClickOnElement(editAssetBtn);
+            return this;
+        }
+        public AssetAndProducTab ClickOnTenureText()
+        {
+            ClickOnElement(tenureText);
+            return this;
+        }
+        public AssetAndProducTab EditAssertClickDoneBtn()
+        {
+            Thread.Sleep(1000);
+            WaitUtil.WaitForElementClickable(editAssertDoneBtn);
+            ClickToElementByJavascript(editAssertDoneBtn);
+            return this;
+        }
+
     }
 }

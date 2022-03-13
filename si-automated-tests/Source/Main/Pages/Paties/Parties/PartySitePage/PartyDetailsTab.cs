@@ -7,7 +7,7 @@ using si_automated_tests.Source.Core;
 
 namespace si_automated_tests.Source.Main.Pages
 {
-    public class PartyPage : BasePage
+    public class PartyDetailsTab : BasePage
     {
         private const string DetailsTab = "//a[text()='Details']";
         private const string SitesTab = "//a[text()='Sites']";
@@ -24,64 +24,64 @@ namespace si_automated_tests.Source.Main.Pages
         private const string InvoiceAddressValue = "//select[@id='party-invoice-address']/option[text()='{0}']";
 
 
-        public PartyPage ClickAddCorrespondenceAddress()
+        public PartyDetailsTab ClickAddCorrespondenceAddress()
         {
             WaitUtil.WaitForElementVisible(CorrespondenceAddressAddBtn);
             ClickOnElement(CorrespondenceAddressAddBtn);
             return this;
         }
 
-        public PartyPage ClickOnDetailsTab()
+        public PartyDetailsTab ClickOnDetailsTab()
         {
             ClickOnElement(DetailsTab);
             return this;
         }
 
-        public PartyPage ClickOnSitesTab()
+        public PartyDetailsTab ClickOnSitesTab()
         {
             ClickOnElement(SitesTab);
             return this;
         }
 
-        public PartyPage VerifyAddressAppearAtSitesTab(string title)
+        public PartyDetailsTab VerifyAddressAppearAtSitesTab(string title)
         {
             WaitUtil.WaitForElementVisible(AddressTitle, title);
             Assert.IsTrue(IsControlDisplayed(AddressTitle, title));
             return this;
         }
-        public PartyPage VerifyCreatedSiteAddressAppearAtAddress(string address)
+        public PartyDetailsTab VerifyCreatedSiteAddressAppearAtAddress(string address)
         {
             WaitUtil.WaitForElementVisible(SiteAddressValue, address);
             Assert.IsTrue(IsControlDisplayed(SiteAddressValue, address));
             return this;
         }
 
-        public PartyPage ClickOnInvoiceAddressButton()
+        public PartyDetailsTab ClickOnInvoiceAddressButton()
         {
             ClickOnElement(InvoiceAddressButton);
             return this;
         }
 
-        public PartyPage VerifyCreatedAddressAppearAtInvoiceAddress(string address)
+        public PartyDetailsTab VerifyCreatedAddressAppearAtInvoiceAddress(string address)
         {
             WaitUtil.WaitForElementVisible(InvoiceAddressValue, address);
             Assert.IsTrue(IsControlDisplayed(InvoiceAddressValue, address));
             return this;
         }
 
-        public PartyPage SelectCreatedAddress(string address)
+        public PartyDetailsTab SelectCreatedAddress(string address)
         {
             ClickOnElement(InvoiceAddressValue, address);
             return this;
         }
 
-        public PartyPage ClickSaveBtn()
+        public PartyDetailsTab ClickSaveBtn()
         {
             ClickOnElement(SaveBtn);
             return this;
         }
 
-        public PartyPage VerifyDisplaySuccessfullyMessage()
+        public PartyDetailsTab VerifyDisplaySuccessfullyMessage()
         {
 
             Assert.IsTrue(IsControlDisplayed(SuccessfullyToastMessage));
@@ -89,7 +89,7 @@ namespace si_automated_tests.Source.Main.Pages
             return this;
         }
 
-        public PartyPage VerifySelectedAddressOnInvoicePage(String address)
+        public PartyDetailsTab VerifySelectedAddressOnInvoicePage(String address)
         {
             WaitUtil.WaitForElementVisible(InvoiceAddressOnPage, address);
             Assert.IsTrue(IsControlDisplayed(InvoiceAddressOnPage, address));

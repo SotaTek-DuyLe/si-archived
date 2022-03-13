@@ -11,6 +11,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
     {
         private readonly By addAssetScheduleBtn = By.XPath("//button[contains(@data-bind,'addAssetSchedule')]");
         private readonly By doneAssetScheduleBtn = By.XPath("//button[contains(@data-bind,'finishAssetSchedule')]");
+        private readonly By doneCurrentAssetScheduleBtn = By.XPath("//div[@id='asset-selection']//button[contains(@data-bind,'finishAssetSchedule')]");
         private readonly By doneScheduleReqBtn = By.XPath("//button[contains(@data-bind,'finishScheduleRequirement')]");
         //private readonly By doneAssetScheduleBtn = By.XPath("//button[text()='Done']");
         private readonly By summaryText = By.XPath("//div[@data-bind='text: description']");
@@ -19,6 +20,10 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
         private readonly By anyDayOption = By.Id("any-day");
         private readonly string dayOption = "//span[@data-bind='text: shortDayName' and text()='{0}']/parent::button";
         private readonly string scheduleSummaryText = "//a[contains(@data-bind,'getScheduleRequirementDescription')]";
+
+        //Regular Service locator
+        private readonly By notSetLink = By.XPath("//a[contains(text(),'Not set')]");
+        private readonly By weeklyBtn = By.XPath("//span[text()='Weekly']");
 
 
 
@@ -37,8 +42,15 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
             ClickOnElement(doneAssetScheduleBtn);
             return this;
         }
+        public ScheduleServiceTab ClickDoneCurrentScheduleBtn()
+        {
+            ScrollDownToElement(doneCurrentAssetScheduleBtn);
+            ClickOnElement(doneCurrentAssetScheduleBtn);
+            return this;
+        }
         public ScheduleServiceTab ClickDoneRequirementBtn()
         {
+            ScrollDownToElement(doneScheduleReqBtn);
             ClickOnElement(doneScheduleReqBtn);
             return this;
         }
@@ -72,6 +84,18 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
         public ScheduleServiceTab VerifyScheduleSummary(string expected)
         {
             Assert.AreEqual(expected, GetElementText(scheduleSummaryText));
+            return this;
+        }
+        public ScheduleServiceTab ClickOnNotSetLink()
+        {
+            ScrollDownToElement(notSetLink);
+            ClickOnElement(notSetLink);
+            return this;
+        }
+
+        public ScheduleServiceTab ClickOnWeeklyBtn()
+        {
+            ClickOnElement(weeklyBtn);
             return this;
         }
     }

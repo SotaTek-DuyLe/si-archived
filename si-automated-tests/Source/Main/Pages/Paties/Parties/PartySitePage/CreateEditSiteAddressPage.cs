@@ -16,6 +16,8 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
         private readonly By SiteNameInput = By.XPath("//label[text()='Site Name']/following-sibling::input");
         private readonly By SelectAddressNextBtn = By.XPath("//button[text()='Next' and contains(@data-bind,'selectedExistingAddress')]");
         private readonly By CreateBtn = By.XPath("//button[text()='Create']");
+
+        private readonly By ErrorMessageDublicateSite = By.XPath("//*[contains(.,'An active Site already exists at this address for this Party! You cannot create a duplicate.')]");
         public CreateEditSiteAddressPage IsOnCreateEditSiteAddressPage()
         {
             WaitUtil.WaitForElementVisible(CreateSiteAddressTitle);
@@ -31,7 +33,8 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
             return this;
         }
 
-        public string SelectRandomSiteAddress() {
+        public string SelectRandomSiteAddress()
+        {
             WaitUtil.WaitForElementVisible("//div[contains(@data-bind, 'existingAddresses')]/div[1]");
             List<IWebElement> AllSiteAddressRows = GetAllElements("//div[contains(@data-bind, 'existingAddresses')]/div");
             Random rnd = new Random();
@@ -39,6 +42,21 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
             IWebElement site = AllSiteAddressRows[num];
             ClickOnElement(site);
             return GetElementText(site);
+        }
+
+        public CreateEditSiteAddressPage SelectSiteAddress(string address)
+        {
+            WaitUtil.WaitForElementVisible("//div[contains(@data-bind, 'existingAddresses')]/div[1]");
+            List<IWebElement> AllSiteAddressRows = GetAllElements("//div[contains(@data-bind, 'existingAddresses')]/div");
+            for (int i = 0; i < AllSiteAddressRows.Count; i++)
+            {
+                if (GetElementText(AllSiteAddressRows[i]) == address)
+                {
+                    ClickOnElement(AllSiteAddressRows[i]);
+                    break;
+                }
+            }
+            return this;
         }
 
         public CreateEditSiteAddressPage ClickNextBtn()
@@ -61,11 +79,24 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
             return this;
         }
 
+        public CreateEditSiteAddressPage VerifySiteNameValue(string name)
+        {
+            WaitUtil.WaitForElementVisible(SiteNameInput);
+            Assert.AreEqual(GetElementText(SiteNameInput), name);
+            return this;
+        }
+
         public CreateEditSiteAddressPage ClickCreateBtn()
         {
             ClickOnElement(CreateBtn);
             return this;
         }
 
+        public CreateEditSiteAddressPage VerifyDuplicateErrorMessage()
+        {
+            WaitUtil.WaitForElementVisible(ErrorMessageDublicateSite);
+            Assert.IsTrue(IsControlDisplayed(ErrorMessageDublicateSite));
+            return this;
+        }
     }
-}
+ }
