@@ -63,5 +63,4 @@ si-automated-tests/bin/Release/netcoreapp3.1/
 si-automated-tests/obj/Release/netcoreapp3.1/
 si-automated-tests/obj/**
 si-automated-tests/bin/**
-si-automated-tests/si-automated-tests.csproj
 si-automated-tests/obj/Debug/netcoreapp3.1/
