@@ -28,7 +28,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnLoginPage()
                 .Login(AutoUser14.UserName, AutoUser14.Password)
                 .IsOnHomePage(AutoUser14)
-                .GotoAgreementPage();
+                .ClickParties()
+                .ClickNSC()
+                .ClickAgreementSubMenu()
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(27)
                 .OpenFirstResult()
@@ -143,7 +146,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .CloseWithoutSaving()
                 .SwitchToChildWindow(1);
             PageFactoryManager.Get<HomePage>()
-                .GotoSiteServicePage();
+                .ClickParties()
+                .ClickSiteServiceSubMenu()
+                .ClickNSC();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SiteServicesCommonPage>()

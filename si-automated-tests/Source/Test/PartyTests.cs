@@ -143,7 +143,10 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSignIn();
             homePage
                 .IsOnHomePage(AutoUser6)
-                .GoToThePatiesSubSubMenu();
+                .ClickParties()
+                .ClickNSC()
+                .ClickPartySubMenu()
+                .SwitchNewIFrame();
             //create new party 
             partyCommonPage
                 .ClickAddNewItem()
@@ -209,7 +212,11 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSignIn();
             homePage
                 .IsOnHomePage(AutoUser6)
-                .GoToThePatiesSubSubMenu();
+                .IsOnHomePage(AutoUser6)
+                .ClickParties()
+                .ClickNSC()
+                .ClickPartySubMenu()
+                .SwitchNewIFrame();
             //create new party 
             partyCommonPage
                 .ClickAddNewItem()
@@ -273,7 +280,11 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSignIn();
             homePage
                 .IsOnHomePage(AutoUser6)
-                .GoToThePatiesSubSubMenu();
+                .IsOnHomePage(AutoUser6)
+                .ClickParties()
+                .ClickNSC()
+                .ClickPartySubMenu()
+                .SwitchNewIFrame();
             //create new party
             partyCommonPage
                 .ClickAddNewItem()

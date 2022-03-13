@@ -101,28 +101,6 @@ namespace si_automated_tests.Source.Main.Pages
         {
             ClickOnElement(PatiesMenu);
             return PageFactoryManager.Get<PartyNavigation>();
-            ClickOnElement(NorthStartCommercialMenu);
-            ClickOnElement(PartiesSubSubMenu);
-            ClickOnElement(PageTitle);
-            return new PartyCommonPage();
-        }
-        public CommonBrowsePage GotoAgreementPage()
-        {
-            ClickOnElement(PatiesMenu);
-            //ClickOnElement(NorthStartCommercialMenu);
-            ClickOnElement(NorthStartCommercialMenu);
-            ClickOnElement(AgreementSubSubMenu);
-            SwitchNewIFrame();
-            return PageFactoryManager.Get<CommonBrowsePage>();
-        }
-        public SiteServicesCommonPage GotoSiteServicePage()
-        {
-            ClickOnElement(PatiesMenu);
-            ClickOnElement(NorthStartCommercialMenu);
-            ClickOnElement(NorthStartCommercialMenu);
-            ClickOnElement(SiteServicesSubSubMenu);
-            SwitchNewIFrame();
-            return PageFactoryManager.Get<SiteServicesCommonPage>();
         }
         public HomePage ClickCreateEventDropdownAndVerify()
         {
