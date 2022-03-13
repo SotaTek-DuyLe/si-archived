@@ -234,7 +234,7 @@ namespace si_automated_tests.Source.Core
         }
         public void SwitchToLastWindow()
         {
-            Thread.Sleep(250);
+            Thread.Sleep(500);
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
         }
         public void SwitchToChildWindow(int numberOfWindow)

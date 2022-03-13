@@ -10,6 +10,17 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
 {
     public class PriceTab : AddServicePage
     {
+        private readonly By closeBtns = By.XPath("//tr[contains(@data-bind,'placeholderText') and not(@style='display: none;')]/descendant::button[@title='Retire/Remove']");
+
+        public PriceTab ClosePriceRecords()
+        {
+            IList<IWebElement> priceRecords = WaitUtil.WaitForAllElementsVisible(closeBtns);
+            for(int i = 0; i < 2; i++)
+            {
+                ClickOnElement(priceRecords[i]);
+            }
+            return this;
+        }
         private readonly By Page4PricesText = By.XPath("//span[text()='4']/following-sibling::p[text()='Prices']");
 
         //fix locator for arrgrement 27 

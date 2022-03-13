@@ -25,7 +25,9 @@ namespace si_automated_tests.Source.Test
                 .IsOnLoginPage()
                 .Login(AutoUser5.UserName, AutoUser5.Password)
                 .IsOnHomePage(AutoUser5)
-                .GoToThePatiesSubSubMenu()
+                .ClickParties()
+                .ClickNSC()
+                .ClickPartySubMenu()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -66,7 +68,9 @@ namespace si_automated_tests.Source.Test
                 .SwitchToLastWindow();
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser5)
-                .GotoAgreementPage();
+                .ClickParties()
+                .ClickAgreementSubMenu()
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(newAgreementId)
                 .OpenFirstResult()
@@ -114,8 +118,8 @@ namespace si_automated_tests.Source.Test
                 .ClickDoneRequirementBtn()
                 .VerifyScheduleSummary("Once Every week on any Thursday")
                 .ClickNext();
-            //Error? Skip for now
             PageFactoryManager.Get<PriceTab>()
+                //.ClosePriceRecords()
                 .ClickNext();
             PageFactoryManager.Get<InvoiceDetailTab>()
                 .VerifyInvoiceOptions("Use Agreement")
@@ -133,12 +137,34 @@ namespace si_automated_tests.Source.Test
                 .VerifyAllStartDate(partyStartDate)
                 .ClickApproveAgreement()
                 .ConfirmApproveBtn()
-                .VerifyAgreementStatus("Active");
-
-
-            Thread.Sleep(5555);
+                .VerifyAgreementStatus("Active")
+                .ClosePartyAgreementPage()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser5)
+                .ClickParties()
+                .ClickPartySubMenu()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(73)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .OpenAgreementTab()
+                .VerifyFirstAgreementInfo("Greggs", partyStartDate, "01/01/2050", "Commercial Collections", "Active")
+                .OpenFirstAgreement()
+                .SwitchToLastWindow();
+                
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .VerifyAgreementStatus("Active")
+                .OpenTaskTab()
+                .VerifyFirstTaskType("Deliver Commercial Bin")
+                .VerifyFirstTaskDueDate(CommonUtil.GetLocalTimeFromDate(partyStartDate, "dd/MM/yyyy", 7))
+                .OpenFirstTask()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<TaskDetailTab>()
+                .OpenTaskLineTab()
+                .VerifyFirstTaskInfo("Deliver", "660L", "General Recycling", "Kilograms","Unallocated");
         }
-
-
     }
 }

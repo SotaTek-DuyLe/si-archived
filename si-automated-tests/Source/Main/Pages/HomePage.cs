@@ -97,9 +97,10 @@ namespace si_automated_tests.Source.Main.Pages
             ClickOnElement(user);
             return this;
         }
-        public PartyCommonPage GoToThePatiesSubSubMenu()
+        public PartyNavigation ClickParties()
         {
             ClickOnElement(PatiesMenu);
+            return PageFactoryManager.Get<PartyNavigation>();
             ClickOnElement(NorthStartCommercialMenu);
             ClickOnElement(PartiesSubSubMenu);
             ClickOnElement(PageTitle);

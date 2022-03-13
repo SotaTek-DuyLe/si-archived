@@ -34,6 +34,11 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(status, GetElementText(firstAgreementStatus));
             return this;
         }
+        public PartyAgreementPage OpenFirstAgreement()
+        {
+            DoubleClickOnElement(firstAgreementId);
+            return PageFactoryManager.Get<PartyAgreementPage>();
+        }
         public int GetAgreementId()
         {
             return Int32.Parse(WaitUtil.WaitForElementVisible(firstAgreementId).Text);
