@@ -32,10 +32,11 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.IsTrue(IsControlDisplayed(CloseWithoutSaveingBtn));
             //Verify defaul value
             Assert.AreEqual(GetFirstSelectedItemInDropdown(ContractDropdown), contractDefault);
-            string dateNow = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
+            string dateNow = CommonUtil.GetLocalTimeNow("dd/MM/yyyy").Replace('-','/');
             Assert.AreEqual(GetAttributeValue(StartDateInput, "value"), dateNow);
             return this;
         }
+
         public CreatePartyPage ClickContractDropdown()
         {
             ClickOnElement(ContractDropdown);

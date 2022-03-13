@@ -9,6 +9,7 @@ using si_automated_tests.Source.Main.Pages.SystemTools.SystemMonitoring;
 using si_automated_tests.Source.Main.Pages.UserAndRole;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.PartyAgreement;
+using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 
 namespace si_automated_tests.Source.Main.Pages
 {
@@ -39,6 +40,7 @@ namespace si_automated_tests.Source.Main.Pages
         //SUB SUB MENU
         private const string PartiesSubSubMenu = "//span[text()='Parties']/parent::a";
         private const string AgreementSubSubMenu = "//span[text()='Agreements']/parent::a";
+        private const string SiteServicesSubSubMenu = "//span[text()='Site Services']/parent::a";
         private readonly string userNameBtn = ConfigManager.GetCurrentPlatform().Equals(WebPlatform.IE)
             ? "//a[@id='DisplayName']"
             : "//li[contains(@class, 'dropdown')]/button";
@@ -106,11 +108,20 @@ namespace si_automated_tests.Source.Main.Pages
         public CommonBrowsePage GotoAgreementPage()
         {
             ClickOnElement(PatiesMenu);
-            ClickOnElement(NorthStartCommercialMenu);
+            //ClickOnElement(NorthStartCommercialMenu);
             ClickOnElement(NorthStartCommercialMenu);
             ClickOnElement(AgreementSubSubMenu);
             SwitchNewIFrame();
             return PageFactoryManager.Get<CommonBrowsePage>();
+        }
+        public SiteServicesCommonPage GotoSiteServicePage()
+        {
+            ClickOnElement(PatiesMenu);
+            ClickOnElement(NorthStartCommercialMenu);
+            ClickOnElement(NorthStartCommercialMenu);
+            ClickOnElement(SiteServicesSubSubMenu);
+            SwitchNewIFrame();
+            return PageFactoryManager.Get<SiteServicesCommonPage>();
         }
         public HomePage ClickCreateEventDropdownAndVerify()
         {

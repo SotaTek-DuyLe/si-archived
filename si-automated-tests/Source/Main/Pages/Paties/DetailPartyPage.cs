@@ -27,10 +27,16 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string PartyNameInput = "//label[text()='Party Name']/following-sibling::div/input";
         private const string ContractInput = "//label[text()='Contract']/following-sibling::div/input";
         private readonly By CorresspondenceAddressDd = By.Id("party-correspondence-address");
+        private const string CorrespondenceAddressAddBtn = "//label[text()='Correspondence Address']/following-sibling::div//span[text()='Add']";
         private const string SitesTab = "//a[text()='Sites']";
         private const string SaveBtn = "//button[@title='Save']";
         private const string InvoiceAddress = "//label[text()='Invoice Address']/following-sibling::div//select";
         private const string DetailsTab = "//a[text()='Details']";
+        private readonly By InvoiceAddressButton = By.Id("party-invoice-address");
+        private const string InvoiceAddressOnPage = "//div[contains(@data-bind,'invoiceAddress')]/p[text()='{0}']";
+        private const string SiteAddressValue = "//label[text()='Correspondence Address']/following-sibling::div//option[text()='{0}']";
+        private const string AddressTitle = "//div[text()='{0}']";
+        private const string InvoiceAddressValueDetails = "//select[@id='party-invoice-address']/option[text()='{0}']";
 
         //DETAIL TAB DYNAMIC LOCATOR
         private const string PrimaryContact = "//label[text()='Primary Contact']/following-sibling::div//select/option[text()={0}]";
@@ -49,6 +55,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string ClientReferenceColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Client Reference']/parent::div/preceding-sibling::div) + 1]";
         private const string AccountingReferenceColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Accounting Reference']/parent::div/preceding-sibling::div) + 1]";
         private const string AbvColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Abv']/parent::div/preceding-sibling::div) + 1]";
+        private readonly By SiteList = By.XPath("//button[contains(.,'Add New Item')]/ancestor::nav/following-sibling::div/div/div[@class='slick-viewport']");
+        private readonly By TotalRow = By.XPath("//span[contains(text(),'Total rows')]");
 
         //Agreement tab
         private readonly By agreementTab = By.XPath("//a[text()='Agreements']");
@@ -158,6 +166,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnAddInvoiceAddressBtn()
         {
             ClickOnElement(InvoiceAddressAddBtn);
+            return this;
+        }
+
+        public DetailPartyPage ClickAddCorrespondenceAddress()
+        {
+            WaitUtil.WaitForElementVisible(CorrespondenceAddressAddBtn);
+            ClickOnElement(CorrespondenceAddressAddBtn);
             return this;
         }
 
@@ -291,6 +306,52 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
 
+        public DetailPartyPage VerifyAddressAppearAtSitesTab(string title)
+        {
+            WaitUtil.WaitForElementVisible(AddressTitle, title);
+            Assert.IsTrue(IsControlDisplayed(AddressTitle, title));
+            return this;
+        }
+        public DetailPartyPage VerifyCreatedSiteAddressAppearAtAddress(string address)
+        {
+            WaitUtil.WaitForElementVisible(SiteAddressValue, address);
+            Assert.IsTrue(IsControlDisplayed(SiteAddressValue, address));
+            return this;
+        }
+
+        public DetailPartyPage ClickOnInvoiceAddressButton()
+        {
+            ClickOnElement(InvoiceAddressButton);
+            return this;
+        }
+
+        public DetailPartyPage VerifyCreatedAddressAppearAtInvoiceAddress(string address)
+        {
+            WaitUtil.WaitForElementVisible(InvoiceAddressValueDetails, address);
+            Assert.IsTrue(IsControlDisplayed(InvoiceAddressValueDetails, address));
+            return this;
+        }
+
+        public DetailPartyPage SelectCreatedAddress(string address)
+        {
+            ClickOnElement(InvoiceAddressValue, address);
+            return this;
+        }
+
+        public DetailPartyPage VerifySelectedAddressOnInvoicePage(String address)
+        {
+            WaitUtil.WaitForElementVisible(InvoiceAddressOnPage, address);
+            Assert.IsTrue(IsControlDisplayed(InvoiceAddressOnPage, address));
+            return this;
+        }
+        //Site Tab
+        public DetailPartyPage IsOnSitesTab()
+        {
+            WaitUtil.WaitForElementClickable(AddNewItemBtn);
+            Assert.IsTrue(IsControlDisplayed(AddNewItemBtn));
+            Assert.IsTrue(IsControlDisplayed(SiteList));
+            return this;
+        }
         public DetailPartyPage ClickOnAddNewItemInSiteTabBtn()
         {
             ClickOnElement(AddNewItemBtn);

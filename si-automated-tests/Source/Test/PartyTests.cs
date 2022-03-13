@@ -4,6 +4,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
@@ -112,6 +113,217 @@ namespace si_automated_tests.Source.Test
                 .SelectPartyType(1)
                 .ClickSaveBtn()
                 .VerifyDisplayErrorMessage(errorMessage);
+        }
+
+        [Test]
+        public void TC007()
+        {
+            LoginPage login = new LoginPage();
+            HomePage homePage = new HomePage();
+            PartySiteAddressPage partySiteAddressPage = new PartySiteAddressPage();
+            CreateEditSiteAddressPage createEditSiteAddressPage = new CreateEditSiteAddressPage();
+            PartyCommonPage partyCommonPage = new PartyCommonPage();
+            CreatePartyPage createPartyPage = new CreatePartyPage();
+            DetailPartyPage detailPartyPage = new DetailPartyPage();
+            string PartyName = "AutoPartyy " + CommonUtil.GetRandomNumber(4);
+            PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
+            string address = "Twickenham";
+            string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
+            //login
+            login.GoToURL(WebUrl.MainPageUrl);
+            login
+                .SendKeyToUsername(AutoUser6.UserName)
+                .SendKeyToPassword(AutoUser6.Password)
+                .ClickOnSignIn();
+            homePage
+                .IsOnHomePage(AutoUser6)
+                .GoToThePatiesSubSubMenu();
+            //create new party 
+            partyCommonPage
+                .ClickAddNewItem()
+                .SwitchToChildWindow(2);
+            createPartyPage
+                .IsCreatePartiesPopup("North Star Commercial")
+                .VerifyContractDropdownVlues()
+                .VerifyAllPartyTypes()
+                .SendKeyToThePartyInput(partyModel.PartyName)
+                .SelectStartDate(-1)
+                .SelectPartyType(1)
+                .ClickSaveBtn();
+            detailPartyPage
+                .VerifyDisplaySuccessfullyMessage();
+            //Test path for TC 007
+            detailPartyPage.ClickOnDetailsTab()
+                .ClickAddCorrespondenceAddress()
+                .SwitchToLastWindow();
+            partySiteAddressPage.IsOnPartySiteAddressPage()
+                .InputTextToSearchBar(address)
+                .ClickSearchBtn()
+                .VerifySearchedAddressAppear(address)
+                .ClickOnSearchedAddress(address)
+                .ClickOnNextButton()
+                .SwitchToLastWindow();
+            createEditSiteAddressPage.IsOnCreateEditSiteAddressPage();
+            string addressAdded = createEditSiteAddressPage.SelectRandomSiteAddress();
+            createEditSiteAddressPage.SelectAddressClickNextBtn()
+                .InsertSiteName(addressSite1)
+                .ClickCreateBtn()
+                .SwitchToChildWindow(2);
+            detailPartyPage.VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
+                .ClickOnInvoiceAddressButton()
+                .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded)
+                .SelectCreatedAddress(addressAdded)
+                .VerifySelectedAddressOnInvoicePage(address)
+                .ClickOnSitesTab()
+                .VerifyAddressAppearAtSitesTab(addressSite1)
+                .ClickOnDetailsTab()
+                .ClickSaveBtn()
+                .VerifyDisplaySuccessfullyMessage();
+        }
+        [Test]
+        public void TC008()
+        {
+            BasePage basePage = new BasePage();
+            LoginPage login = new LoginPage();
+            HomePage homePage = new HomePage();
+            PartySiteAddressPage partySiteAddressPage = new PartySiteAddressPage();
+            CreateEditSiteAddressPage createEditSiteAddressPage = new CreateEditSiteAddressPage();
+            PartyCommonPage partyCommonPage = new PartyCommonPage();
+            CreatePartyPage createPartyPage = new CreatePartyPage();
+            DetailPartyPage detailPartyPage = new DetailPartyPage();
+            string PartyName = "AutoPartyy " + CommonUtil.GetRandomNumber(4);
+            PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
+            string address = "Twickenham";
+            string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
+            //login
+            login.GoToURL(WebUrl.MainPageUrl);
+            login
+                .SendKeyToUsername(AutoUser6.UserName)
+                .SendKeyToPassword(AutoUser6.Password)
+                .ClickOnSignIn();
+            homePage
+                .IsOnHomePage(AutoUser6)
+                .GoToThePatiesSubSubMenu();
+            //create new party 
+            partyCommonPage
+                .ClickAddNewItem()
+                .SwitchToChildWindow(2);
+            createPartyPage
+                .IsCreatePartiesPopup("North Star Commercial")
+                .VerifyContractDropdownVlues()
+                .VerifyAllPartyTypes()
+                .SendKeyToThePartyInput(partyModel.PartyName)
+                .SelectStartDate(-1)
+                .SelectPartyType(1)
+                .ClickSaveBtn();
+            detailPartyPage
+                .VerifyDisplaySuccessfullyMessage();
+            //Test path for TC 008
+            detailPartyPage.ClickOnSitesTab()
+                .IsOnSitesTab()
+                .ClickOnAddNewItemInSiteTabBtn()
+                .SwitchToLastWindow();
+            partySiteAddressPage.IsOnPartySiteAddressPage()
+                .InputTextToSearchBar(address)
+                .ClickSearchBtn()
+                .VerifySearchedAddressAppear(address)
+                .ClickOnSearchedAddress(address)
+                .ClickOnNextButton()
+                .SwitchToLastWindow();
+            createEditSiteAddressPage.IsOnCreateEditSiteAddressPage();
+            string addressAdded = createEditSiteAddressPage.SelectRandomSiteAddress();
+            createEditSiteAddressPage.SelectAddressClickNextBtn()
+                .InsertSiteName(addressSite1)
+                .ClickCreateBtn()
+                .SwitchToChildWindow(2);
+            detailPartyPage.IsOnSitesTab()
+                .VerifyAddressAppearAtSitesTab(addressSite1);
+            detailPartyPage.ClickOnDetailsTab()
+                .ClickOnInvoiceAddressButton()
+                .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded);
+        }
+
+        [Test]
+        public void TC009()
+        {
+            BasePage basePage = new BasePage();
+            LoginPage login = new LoginPage();
+            HomePage homePage = new HomePage();
+            PartySiteAddressPage partySiteAddressPage = new PartySiteAddressPage();
+            CreateEditSiteAddressPage createEditSiteAddressPage = new CreateEditSiteAddressPage();
+            PartyCommonPage partyCommonPage = new PartyCommonPage();
+            CreatePartyPage createPartyPage = new CreatePartyPage();
+            DetailPartyPage detailPartyPage = new DetailPartyPage();
+            string PartyName = "AutoPartyy " + CommonUtil.GetRandomNumber(4);
+            PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
+            string address = "Twickenham";
+            string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
+            string addressSite2 = "Site Twickenham 2" + CommonUtil.GetRandomNumber(4);
+            //login
+            login.GoToURL(WebUrl.MainPageUrl);
+            login
+                .SendKeyToUsername(AutoUser6.UserName)
+                .SendKeyToPassword(AutoUser6.Password)
+                .ClickOnSignIn();
+            homePage
+                .IsOnHomePage(AutoUser6)
+                .GoToThePatiesSubSubMenu();
+            //create new party
+            partyCommonPage
+                .ClickAddNewItem()
+                .SwitchToChildWindow(2);
+            createPartyPage
+                .IsCreatePartiesPopup("North Star Commercial")
+                .VerifyContractDropdownVlues()
+                .VerifyAllPartyTypes()
+                .SendKeyToThePartyInput(partyModel.PartyName)
+                .SelectStartDate(-1)
+                .SelectPartyType(1)
+                .ClickSaveBtn();
+            detailPartyPage
+                .VerifyDisplaySuccessfullyMessage();
+            //Test path for TC 009
+            //create site 1
+            detailPartyPage.ClickOnSitesTab()
+                .IsOnSitesTab()
+                .ClickOnAddNewItemInSiteTabBtn()
+                .SwitchToLastWindow();
+            partySiteAddressPage.IsOnPartySiteAddressPage()
+                .InputTextToSearchBar(address)
+                .ClickSearchBtn()
+                .VerifySearchedAddressAppear(address)
+                .ClickOnSearchedAddress(address)
+                .ClickOnNextButton()
+                .SwitchToLastWindow();
+            createEditSiteAddressPage.IsOnCreateEditSiteAddressPage();
+            string addressAdded = createEditSiteAddressPage.SelectRandomSiteAddress();
+            createEditSiteAddressPage.SelectAddressClickNextBtn()
+                .InsertSiteName(addressSite1)
+                .ClickCreateBtn()
+                .SwitchToChildWindow(2);
+            detailPartyPage.IsOnSitesTab()
+                .VerifyAddressAppearAtSitesTab(addressSite1);
+            //create duplicate site
+            detailPartyPage.IsOnSitesTab()
+               .ClickOnAddNewItemInSiteTabBtn()
+               .SwitchToLastWindow();
+            partySiteAddressPage.IsOnPartySiteAddressPage()
+                .InputTextToSearchBar(address)
+                .ClickSearchBtn()
+                .VerifySearchedAddressAppear(address)
+                .ClickOnSearchedAddress(address)
+                .ClickOnNextButton()
+                .SwitchToLastWindow();
+            createEditSiteAddressPage.IsOnCreateEditSiteAddressPage()
+                .SelectSiteAddress(addressAdded)
+                .SelectAddressClickNextBtn()
+                .ClickCreateBtn()
+                .VerifyDuplicateErrorMessage() //verify error message when create duplicate site address
+                .InsertSiteName(addressSite2)
+                .ClickCreateBtn()
+                .SwitchToChildWindow(2);
+            detailPartyPage.IsOnSitesTab()
+                .VerifyAddressAppearAtSitesTab(addressSite2); //successful save site address with other name 
         }
 
         [Test]

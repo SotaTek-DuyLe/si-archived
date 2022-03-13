@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Pages.Agrrements;
 using si_automated_tests.Source.Main.Pages.Paties;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,10 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
     //Or Agreements Main Page -> Double click one agreement
     public class PartyAgreementPage : BasePage
     {
+        private readonly By detailsTabBtn = By.XPath("//a[@aria-controls='details-tab']");
         private readonly By saveBtn = By.XPath("//button[@title='Save']");
         private readonly By saveAndCloseBtn = By.XPath("//button[@title='Save and Close']");
+        private readonly By closeWithoutSavingBtn = By.XPath("//a[@aria-controls='details-tab']/ancestor::body//button[@title='Close Without Saving']");
         private readonly By closeBtn = By.XPath("//button[@title='Close Without Saving']");
         private readonly By status = By.XPath("//div[@title='Agreement Status']");
 
@@ -42,12 +45,36 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private readonly By panelSiteAddress = By.XPath("//p[contains(@data-bind,'siteAddress')]");
         private readonly By expandBtn = By.XPath("//button[@title='Expand/close agreement line']");
         private readonly By subExpandBtns = By.XPath("//div[contains(@class,'panel-heading clickable')]");
+        private readonly By editBtn = By.XPath("//button[text()='Edit']");
+        private readonly By assetAndProductAssetTypeStartDate = By.XPath("//tbody[contains(@data-bind,'assetProducts')]//span[@title='Start Date']");
+        private readonly By regularAssertTypeStartDate = By.XPath("//span[text()='Regular']/ancestor::div[1]/following-sibling::div//span[contains(@data-bind,'displayStartDate')]");
+        private readonly By serviceTaskLineTypeStartDates = By.XPath("//th[text()='Task Line Type']/ancestor::thead[1]/following-sibling::tbody//span[@title='Start Date']");
 
         //Summary title
         private readonly By startDate = By.XPath("//span[@title='Start Date']");
         private readonly By endDate = By.XPath("//span[@title='End Date']");
 
+        //Task Tab locator 
+        private readonly By taskTabBtn = By.XPath("//a[@aria-controls='tasks-tab']");
+        private readonly By refreshBtn = By.XPath("//button[@title='Refresh']");
+        private string firstTask = "//div[@class='grid-canvas']/div[1]";
+        private string secondTask = "//div[@class='grid-canvas']/div[2]";
+        private string createdDateColumn = "//div[contains(@class,'r3')]";
+        private string dueDateColumn = "//div[contains(@class,'r13')]";
+        private string taskTypeColumn = "//div[contains(@class,'r11')]";
 
+        public PartyAgreementPage ClickOnDetailsTab()
+        {
+            WaitUtil.WaitForElementClickable(detailsTabBtn);
+            ClickOnElement(detailsTabBtn);
+            return this;
+        }
+        public PartyAgreementPage CloseWithoutSaving()
+        {
+            WaitUtil.WaitForElementClickable(closeWithoutSavingBtn);
+            ClickOnElement(closeWithoutSavingBtn);
+            return this;
+        }
         public PartyAgreementPage IsOnPartyAgreementPage()
         {
             WaitUtil.WaitForElementVisible(agreementTypeInput);
@@ -154,6 +181,28 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             Assert.AreEqual(startDate, GetElementText(serviceStartDate));
             return this;
         }
+        public PartyAgreementPage VerifyTaskLineTypeStartDates(string startDate)
+        {
+            Assert.AreEqual(startDate, GetElementText(serviceTaskLineTypeStartDates));
+            IList<IWebElement> elements = WaitUtil.WaitForAllElementsVisible(serviceTaskLineTypeStartDates);
+            foreach (IWebElement element in elements)
+            {
+                Assert.AreEqual(startDate, GetElementText(element));
+            }
+            return this;
+        }
+        public PartyAgreementPage VerifyRegularAssetTypeStartDate(string startDate)
+        {
+            ScrollDownToElement(regularAssertTypeStartDate);
+            Assert.AreEqual(startDate, GetElementText(regularAssertTypeStartDate));
+            return this;
+        }
+        public PartyAgreementPage VerifyAssetAndProductAssetTypeStartDate(string startDate)
+        {
+            
+            Assert.AreEqual(startDate, GetElementText(assetAndProductAssetTypeStartDate));
+            return this;
+        }
         public PartyAgreementPage ExpandAllAgreementFields()
         {
             IList<IWebElement> fields = WaitUtil.WaitForAllElementsVisible(subExpandBtns);
@@ -170,6 +219,61 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             return this;
         }
 
+        public PartyAgreementPage ClickEditAgreementBtn()
+        {
+            ScrollDownToElement(editBtn);
+            ClickOnElement(editBtn);
+            return this;
+        }
+
+        //Task tab
+        public PartyAgreementPage ClickTaskTabBtn()
+        {
+            ClickOnElement(taskTabBtn);
+            return this;
+        }
+        public PartyAgreementPage VerifyTwoNewTaskAppear()
+        {
+            this.WaitForLoadingIconToDisappear();
+            int i = 10;
+            while (i > 0)
+            {
+                if(GetElementText(firstTask + taskTypeColumn).Equals("Deliver Commercial Bin") && GetElementText(secondTask + taskTypeColumn).Equals("Deliver Commercial Bin"))
+                {
+                    Assert.AreEqual(GetElementText(firstTask + taskTypeColumn), "Deliver Commercial Bin");
+                    Assert.AreEqual(GetElementText(secondTask + taskTypeColumn), "Deliver Commercial Bin");
+                    String tomorrowDate = CommonUtil.GetUtcTimeMinusDay("dd/MM/yyyy", 1).Replace('-', '/');
+                    Console.WriteLine("date tmr : " + tomorrowDate);
+                    String firstDueDate = GetElementText(firstTask + dueDateColumn).Substring(0,10);
+                    String secondDueDate = GetElementText(secondTask + dueDateColumn).Substring(0,10);
+                    //verify created date is tommorrow
+                    Assert.AreEqual(tomorrowDate, firstDueDate);
+                    Assert.AreEqual(tomorrowDate, secondDueDate);
+                    break;
+                }
+                else
+                {
+                    ClickOnElement(refreshBtn);
+                    this.WaitForLoadingIconToDisappear();
+                    Thread.Sleep(20000);
+                    i--;
+                }
+            }
+            
+            return this;
+        }
+
+        public PartyAgreementPage GoToFirstTask()
+        {
+            DoubleClickOnElement(firstTask);
+            return this;
+        }
+
+        public PartyAgreementPage GoToSecondTask()
+        {
+            DoubleClickOnElement(secondTask);
+            return this;
+        }
 
     }
 }
