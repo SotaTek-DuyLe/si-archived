@@ -35,26 +35,32 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
         public AssetAndProducTab ClickAddAsset()
         {
             ClickOnElement(addBtn);
+            Thread.Sleep(3000);
             return this;
         }
         public AssetAndProducTab ChooseAssetType(string value)
         {
-            SelectValueFromDropDown(assetType, value);
+            SelectTextFromDropDown(assetType, value);
+            /*if (value == "1100L")
+            {
+                SelectIndexFromDropDown(assetType, 2);
+            }
+            else SelectIndexFromDropDown(assetType, 1);*/
             return this;
         }
         public AssetAndProducTab ChooseTenure(string value)
         {
-            SelectValueFromDropDown(tenure, value);
+            SelectTextFromDropDown(tenure, value);
             return this;
         }
         public AssetAndProducTab ChooseProduct(string value)
         {
-            SelectValueFromDropDown(product, value);
+            SelectTextFromDropDown(product, value);
             return this;
         }
         public AssetAndProducTab ChooseEwcCode(string value)
         {
-            SelectValueFromDropDown(ewc, value);
+            SelectTextFromDropDown(ewc, value);
             return this;
         }
         public AssetAndProducTab InputAssetQuantity(int value)

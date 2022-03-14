@@ -14,10 +14,13 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
 
         public PriceTab ClosePriceRecords()
         {
-            IList<IWebElement> priceRecords = WaitUtil.WaitForAllElementsVisible(closeBtns);
-            for(int i = 0; i < 2; i++)
+            int count = 0;
+            while (count < 3)
             {
-                ClickOnElement(priceRecords[i]);
+                IList<IWebElement> priceRecords = WaitUtil.WaitForAllElementsVisible(closeBtns);
+                ClickOnElement(priceRecords[0]);
+                Thread.Sleep(500);
+                count++;
             }
             return this;
         }
@@ -34,7 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
         public PriceTab RemoveAllRedundantPrice()
         {
             int i = 3;
-            while(i > 0)
+            while (i > 0)
             {
                 if (!IsControlUnDisplayed(removePriceBtn))
                 {
@@ -47,7 +50,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
                     break;
                 }
             }
-            
+
             return this;
         }
 
