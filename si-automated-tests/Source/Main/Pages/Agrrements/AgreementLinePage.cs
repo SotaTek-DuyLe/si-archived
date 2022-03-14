@@ -14,7 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
         private readonly By closeWithoutSavingBtn = By.XPath("//a[@aria-controls='details-tab']/ancestor::body//button[@title='Close Without Saving']");
 
         private const string frameMessage = "//div[@class='notifyjs-corner']/div";
-        public AgreementLinePage GoToAllTabAndConFirmNoError()
+        public AgreementLinePage GoToAllTabAndConfirmNoError()
         {
             IList<IWebElement> elements = WaitUtil.WaitForAllElementsVisible(allTabs);
             foreach (IWebElement element in elements)

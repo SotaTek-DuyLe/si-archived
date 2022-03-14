@@ -25,7 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.SiteServices
         {
             WaitUtil.WaitForAllElementsVisible(firstRowResultId);
             Assert.AreEqual(GetElementText(firstRowResultId), id.ToString());
-            Assert.AreEqual(agreementId, GetElementText(firstRowAgreementId).ToString());
+            Assert.AreEqual(GetElementText(firstRowAgreementId), agreementId.ToString());
             return this;
         }
         public AgreementLinePage OpenFirstResult()
