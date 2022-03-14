@@ -61,10 +61,9 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         //Task Tab locator 
         private readonly By taskTabBtn = By.XPath("//a[@aria-controls='tasks-tab']");
         private readonly By refreshBtn = By.XPath("//button[@title='Refresh']");
-        private string firstTask = "//div[@class='grid-canvas']/div[1]";
-        private string secondTask = "//div[@class='grid-canvas']/div[2]";
-        private string createdDateColumn = "//div[contains(@class,'r3')]";
-        private string dueDateColumn = "//div[contains(@class,'r13')]";
+        private string firstTask = "(//div[text()='Deliver Commercial Bin'])[2]";
+        private string secondTask = "(//div[text()='Deliver Commercial Bin'])[1]";
+        private string dueDateColumn = "/following-sibling::div[2]";
         private string taskTypeColumn = "//div[contains(@class,'r11')]";
 
         private readonly By createAdhocBtn = By.XPath("//button[text()='Create Ad-Hoc Task']");
@@ -244,12 +243,11 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             int i = 10;
             while (i > 0)
             {
-                if(GetElementText(firstTask + taskTypeColumn).Equals("Deliver Commercial Bin") && GetElementText(secondTask + taskTypeColumn).Equals("Deliver Commercial Bin"))
+                if(GetElementText(firstTask).Equals("Deliver Commercial Bin") && GetElementText(secondTask).Equals("Deliver Commercial Bin"))
                 {
-                    Assert.AreEqual(GetElementText(firstTask + taskTypeColumn), "Deliver Commercial Bin");
-                    Assert.AreEqual(GetElementText(secondTask + taskTypeColumn), "Deliver Commercial Bin");
-                    String tomorrowDate = CommonUtil.GetUtcTimeMinusDay("dd/MM/yyyy", 1).Replace('-', '/');
-                    Console.WriteLine("date tmr : " + tomorrowDate);
+                    Assert.AreEqual(GetElementText(firstTask), "Deliver Commercial Bin");
+                    Assert.AreEqual(GetElementText(secondTask), "Deliver Commercial Bin");
+                    String tomorrowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1).Replace('-', '/');
                     String firstDueDate = GetElementText(firstTask + dueDateColumn).Substring(0,10);
                     String secondDueDate = GetElementText(secondTask + dueDateColumn).Substring(0,10);
                     //verify created date is tommorrow
