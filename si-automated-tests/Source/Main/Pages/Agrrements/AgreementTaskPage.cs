@@ -84,8 +84,11 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
         }
         public AgreementTaskPage SelectCompletedState()
         {
+            Thread.Sleep(500);
             ClickOnElement(stateColumn);
+            Thread.Sleep(1000);
             ClickOnElement(stateCompleted);
+            Thread.Sleep(1000);
             return this;
         }
 

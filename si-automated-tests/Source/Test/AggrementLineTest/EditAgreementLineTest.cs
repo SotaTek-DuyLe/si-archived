@@ -76,14 +76,14 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved agreement")
                 .WaitForLoadingIconToDisappear();
-            
+
             //Step 18 Go to task tab to verify editition
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickTaskTabBtn()
                 .VerifyTwoNewTaskAppear();
-            
+
             //Verity 1 Task Line on the Task 1 created
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
@@ -132,7 +132,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickCloseWithoutSaving()
                 .SwitchToChildWindow(2);
 
-            //Verify date in expand is tomorrow 
+            ////Verify date in expand is tomorrow 
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1).Replace('-', '/');
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
@@ -145,20 +145,23 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .VerifyTaskLineTypeStartDates(tommorowDate)
                 .CloseWithoutSaving()
                 .SwitchToChildWindow(1);
+
             PageFactoryManager.Get<HomePage>()
                 .ClickParties()
+                .ClickNSC()
                 .ClickSiteServiceSubMenu()
-                .ClickNSC();
+                .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .FilterAgreementId(27)
+                .VerifyFirstLineAgreementResult(54, 27)
                 .OpenFirstResult()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<AgreementLinePage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AgreementLinePage>()
-                .GoToAllTabAndConFirmNoError();
+                .GoToAllTabAndConfirmNoError();
         }
     }
 }
