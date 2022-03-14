@@ -58,6 +58,7 @@ namespace si_automated_tests.Source.Main.Pages
         public PartyCommonPage FilterPartyById(int id)
         {
             SendKeys(filterInputById, id.ToString());
+            WaitForLoadingIconToDisappear();
             ClickOnElement(applyBtn);
             return this;
         }

@@ -149,17 +149,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public AgreementTab OpenAgreementTab()
         {
             ClickOnElement(agreementTab);
+            WaitForLoadingIconToDisappear();
             return PageFactoryManager.Get<AgreementTab>();
         }
 
         public string GetPartyStartDate()
         {
             return WaitUtil.WaitForElementVisible(partyStartDate).Text;
-        }
-        public DetailPartyPage ClickCloseBtn()
-        {
-            ClickOnElement(closeBtn);
-            return this;
         }
 
         //DETAIL TAB

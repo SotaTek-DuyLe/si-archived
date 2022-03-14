@@ -18,6 +18,12 @@ namespace si_automated_tests.Source.Core
         protected IWebDriver driver;
         private IJavaScriptExecutor javascriptExecutor;
 
+        private readonly By closeBtn = By.XPath("//button[@title='Close Without Saving']");
+        private readonly By refreshBtn = By.XPath("//button[@title='Refresh']");
+        private readonly By saveBtn = By.XPath("//button[@title='Save']");
+        private readonly By saveAndCloseBtn = By.XPath("//button[@title='Save and Close']");
+
+
         public BasePage()
         {
             Thread.Sleep(750);
@@ -138,6 +144,11 @@ namespace si_automated_tests.Source.Core
             IWebElement element = WaitUtil.WaitForElementVisible(xpath);
             act.DoubleClick(element).Perform();
         }
+        public void DoubleClickOnElement(IWebElement element)
+        {
+            Actions act = new Actions(IWebDriverManager.GetDriver());
+            act.DoubleClick(element).Perform();
+        }
         public bool IsControlDisplayed(string xpath)
         {
             WaitUtil.WaitForElementVisible(xpath);
@@ -228,20 +239,23 @@ namespace si_automated_tests.Source.Core
         }
 
         //SWITCH WINDOW
-        public void SwitchToFirstWindow()
+        public BasePage SwitchToFirstWindow()
         {
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.First());
+            return this;
         }
-        public void SwitchToLastWindow()
+        public BasePage SwitchToLastWindow()
         {
             Thread.Sleep(500);
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
+            return this;
         }
-        public void SwitchToChildWindow(int numberOfWindow)
+        public BasePage SwitchToChildWindow(int numberOfWindow)
         {
             WaitUntilNewWindowIsOpened(numberOfWindow);
             driver.SwitchTo().Window(driver.WindowHandles.Last());
             MaximumWindow();
+            return this;
         }
         public void WaitUntilNewWindowIsOpened(int expectedNumberOfWindows, int maxRetryCount = 50)
         {
@@ -363,11 +377,18 @@ namespace si_automated_tests.Source.Core
         }
 
         //SELECT VALUE FROM SELECT ELEMENT
+        public BasePage SelectTextFromDropDown(By by, string _text)
+        {
+            IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
+            SelectElement selectedValue = new SelectElement(comboBox);
+            selectedValue.SelectByText(_text);
+            return this;
+        }
         public BasePage SelectValueFromDropDown(By by, string _value)
         {
             IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
             SelectElement selectedValue = new SelectElement(comboBox);
-            selectedValue.SelectByText(_value);
+            selectedValue.SelectByValue(_value);
             return this;
         }
         public BasePage SelectIndexFromDropDown(By by, int index)
@@ -395,8 +416,35 @@ namespace si_automated_tests.Source.Core
         }
         public BasePage WaitForLoadingIconToDisappear()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(750);
             WaitUtil.WaitForElementInvisible("//*[contains(@data-bind,'shield: isLoading')]");
+            WaitUtil.WaitForElementInvisible("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
+            return this;
+        }
+        public BasePage VerifyToastMessageNotAppear(string message)
+        {
+            string xpath = "//div[@data-notify-html='title' and text()='{0}']";
+            Assert.IsTrue(IsControlUnDisplayed(String.Format(xpath, message)));
+            return this;
+        }
+        public BasePage ClickCloseBtn()
+        {
+            ClickOnElement(closeBtn);
+            return this;
+        }
+        public BasePage ClickSaveBtn()
+        {
+            ClickOnElement(saveBtn);
+            return this;
+        }
+        public BasePage ClickRefreshBtn()
+        {
+            ClickOnElement(refreshBtn);
+            return this;
+        }
+        public BasePage ClickSaveAndCloseBtn()
+        {
+            ClickOnElement(saveAndCloseBtn);
             return this;
         }
 

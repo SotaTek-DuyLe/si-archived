@@ -25,6 +25,8 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
         private readonly By notSetLink = By.XPath("//a[contains(text(),'Not set')]");
         private readonly By weeklyBtn = By.XPath("//span[text()='Weekly']");
 
+        private readonly By startDateInput = By.XPath("//div[@data-bind='visible: recurrenceType() == 1']//label[text()='Starting on']/following-sibling::div/span/span");
+
 
 
         public ScheduleServiceTab IsOnScheduleTab()
@@ -96,6 +98,12 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
         public ScheduleServiceTab ClickOnWeeklyBtn()
         {
             ClickOnElement(weeklyBtn);
+            return this;
+        }
+        public ScheduleServiceTab InputStartDate(string date)
+        {
+            EditSendKeys(startDateInput, date);
+            //SendKeys(startDateInput, date);
             return this;
         }
     }
