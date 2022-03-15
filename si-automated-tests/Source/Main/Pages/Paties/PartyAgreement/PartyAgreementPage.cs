@@ -65,6 +65,10 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private string secondTask = "(//div[text()='Deliver Commercial Bin'])[1]";
         private string dueDateColumn = "/following-sibling::div[2]";
         private string taskTypeColumn = "//div[contains(@class,'r11')]";
+        private readonly By allColumnTitle = By.XPath("//div[contains(@class, 'slick-header-columns')]/div/span[1]");
+        private string eachColumn = "//div[@class='grid-canvas']/div/div[{0}]";
+        private string deliverCommercialBinWithDateRows = "//div[@class='grid-canvas']/div[contains(.,'Deliver Commercial Bin') and contains(.,'{0}')]";
+        private string retiredTasks = "//div[@class='grid-canvas']/div[contains(@class,'retired')]";
 
         private readonly By createAdhocBtn = By.XPath("//button[text()='Create Ad-Hoc Task']");
 
@@ -237,6 +241,32 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             ClickOnElement(taskTabBtn);
             return this;
         }
+        public PartyAgreementPage VerifyRetiredTask(int num)
+        {
+            this.WaitForLoadingIconToDisappear();
+            int i = 5;
+     
+            List<IWebElement> taskList = new List<IWebElement>();
+            taskList = GetAllElements(retiredTasks);
+            while (i > 0)
+            {
+                if (taskList.Count == num)
+                {
+                    Assert.AreEqual(taskList.Count, num);
+                    break;
+                }
+                else
+                {
+                    ClickOnElement(refreshBtn);
+                    this.WaitForLoadingIconToDisappear();
+                    Thread.Sleep(5000);
+                    taskList.Clear();
+                    taskList = GetAllElements(retiredTasks);
+                    i--;
+                }
+            }
+            return this;
+        }
         public PartyAgreementPage VerifyTwoNewTaskAppear()
         {
             this.WaitForLoadingIconToDisappear();
@@ -267,6 +297,37 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             return this;
         }
 
+        public List<IWebElement> VerifyNewDeliverCommercialBin(String dueDate, int num) 
+        {
+            this.WaitForLoadingIconToDisappear();
+            int i = 10;
+            deliverCommercialBinWithDateRows = String.Format(deliverCommercialBinWithDateRows, dueDate);
+            List<IWebElement> taskList = new List<IWebElement>();
+            taskList = GetAllElements(deliverCommercialBinWithDateRows);
+            while (i > 0)
+            {
+                if (taskList.Count == num)
+                {
+                    Assert.AreEqual(taskList.Count, num);
+                    break;
+                }
+                else
+                {
+                    ClickOnElement(refreshBtn);
+                    this.WaitForLoadingIconToDisappear();
+                    Thread.Sleep(5000);
+                    taskList.Clear();
+                    taskList = GetAllElements(deliverCommercialBinWithDateRows);
+                    i--;
+                }
+            }
+            return taskList;
+        }
+        public AgreementTaskPage GoToATask(IWebElement e)
+        {
+            DoubleClickOnElement(e);
+            return new AgreementTaskPage();
+        }
         public PartyAgreementPage GoToFirstTask()
         {
             DoubleClickOnElement(firstTask);

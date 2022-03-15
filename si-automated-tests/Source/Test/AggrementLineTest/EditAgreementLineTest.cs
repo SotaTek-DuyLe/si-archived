@@ -14,6 +14,7 @@ using System.Text;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
+using si_automated_tests.Source.Main.Pages.Services;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
 {
@@ -132,7 +133,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickCloseWithoutSaving()
                 .SwitchToChildWindow(2);
 
-            ////Verify date in expand is tomorrow 
+            //Verify date in expand is tomorrow 
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1).Replace('-', '/');
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
@@ -165,7 +166,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Test]
-        public void TC_016()
+        public void TC_017()
         {
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -175,14 +176,188 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser14)
                 .ClickParties()
                 .ClickNSC()
-                .ClickAgreementSubMenu()
+                .ClickPartySubMenu()
                 .SwitchNewIFrame();
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .FilterItem(27)
-                .OpenFirstResult()
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(64)
+                .OpenFirstResult();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToLastWindow();
+            string partyStartDate = PageFactoryManager.Get<DetailPartyPage>()
+                .GetPartyStartDate();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .OpenAgreementTab()
+                .ClickAddNewItem()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .IsOnPartyAgreementPage()
+               .SelectAgreementType("Commercial Collections")
+               .ClickSaveBtn();
+            PageFactoryManager.Get<BasePage>()
+                .VerifyToastMessage("Successfully saved agreement");
+
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .VerifyAgreementStatus("New")
+                .VerifyNewOptionsAvailable()
+                .ClickAddService()
+                .IsOnAddServicePage();
+            PageFactoryManager.Get<SiteAndServiceTab>()
+                 .IsOnSiteServiceTab()
+                 .ChooseService("Commercial")
+                 .ClickNext();
+            PageFactoryManager.Get<AssetAndProducTab>()
+                .IsOnAssetTab()
+                .ClickAddAsset()
+                .ChooseAssetType("660L")
+                .InputAssetQuantity(3)
+                .ChooseTenure("Rental")
+                .ChooseProduct("General Recycling")
+                .ChooseEwcCode("150106")
+                .InputProductQuantity(600)
+                .ClickDoneBtn()
+                .ClickNext();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+               .IsOnScheduleTab()
+               .ClickAddService()
+               .ClickDoneScheduleBtn()
+               .ClickOnNotSetLink()
+               .ClickDoneRequirementBtn()
+               .VerifyScheduleOnceEveryDay()
+               .ClickNext()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+               .IsOnPriceTab()
+               .RemoveAllRedundantPrice17()
+               .ClickNext()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+               .IsOnInvoiceDetailsTab()
+               .ClickFinish()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickSaveBtn()
+               .VerifyToastMessage("Successfully saved agreement")
+               .WaitForLoadingIconToDisappear();
+
+            // Finish step 15 
+            string date = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 7);
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .VerifyAgreementStatus("New")
+                .ClickApproveAgreement()
+                .ConfirmApproveBtn();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .VerifyAgreementStatus("Active")
+                .ClickTaskTabBtn()
+                .WaitForLoadingIconToDisappear();
+            List<IWebElement> allTasks = PageFactoryManager.Get<PartyAgreementPage>()
+                .VerifyNewDeliverCommercialBin(date, 3);
+            for (int i = 0; i < allTasks.Count; i++)
+            {
+                PageFactoryManager.Get<PartyAgreementPage>()
+                    .GoToATask(allTasks[i])
+                    .SwitchToLastWindow();
+                PageFactoryManager.Get<AgreementTaskPage>()
+                .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskPage>()
+                    .ClickToTaskLinesTab()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskPage>()
+                    .InputActuaAssetQuantity(1)
+                    .ClickOnAcualAssetQuantityText()
+                    .SelectCompletedState()
+                    .ClickOnAcualAssetQuantityText()
+                    .CLickOnSaveBtn()
+                    .VerifyToastMessage("Success")
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskPage>()
+                    .ClickToDetailsTab()
+                    .ClickStateDetais()
+                    .ChooseTaskState("Completed")
+                    .CLickOnSaveBtn()
+                    .VerifyToastMessage("Success");
+                PageFactoryManager.Get<AgreementTaskPage>()
+                    .ClickCloseWithoutSaving()
+                    .SwitchToChildWindow(2); 
+            }
+            //finish step 19
+            PageFactoryManager.Get<BasePage>()
+                .ClickRefreshBtn();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .VerifyRetiredTask(3);//3x Mobilization tasks display in Italics and grey font
+            string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
+            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+            //Go to Services
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .SwitchToChildWindow(1);
+            PageFactoryManager.Get<HomePage>()
+                .ClickServices()
+                .GoToActiveServiceTask()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .OpenTribleYarnsWithDate(todayDate)
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab()
+                .ClickOnScheduleTask()
+                .CloseWithoutSaving()
+                .SwitchToChildWindow(2);
+
+            //step 27 
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickOnDetailsTab()
+                .IsOnPartyAgreementPage()
+                .ClickEditAgreementBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<EditAgreementServicePage>()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AssetAndProducTab>()
+                .ClickOnEditAsset()
+                .EditAssetQuantity(1)
+                .ClickOnTenureText()
+                .EditAssertClickDoneBtn()
+                .ClickNext()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+                .IsOnScheduleTab()
+                .ClickAddService()
+                .ClickDoneScheduleBtn()
+                .ClickOnNotSetLink()
+                .ClickDoneRequirementBtn()
+                .ClickNext()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+                .IsOnPriceTab()
+                .RemoveAllRedundantPrice()
+                .ClickNext()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+                .IsOnInvoiceDetailsTab()
+                .ClickFinish()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved agreement")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickOnDetailsTab()
+               .ExpandAgreementLine()
+               .ExpandAllAgreementFields()
+               .VerifyAssetAndProductAssetTypeStartDate(tommorowDate)
+               .VerifyRegularAssetTypeStartDate(tommorowDate)
+               .VerifyTaskLineTypeStartDates(tommorowDate)
+               .ClickOnDetailsTab()
+               .VerifyTwoNewTaskAppear();
         }
-        }
+    }
 }

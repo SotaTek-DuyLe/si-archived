@@ -16,6 +16,10 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
         private readonly By saveBtn = By.XPath("//button[@title='Save']");
         private readonly By closeWithoutSavingBtn = By.XPath("//button[@title='Close Without Saving']");
 
+        //Details Tab Locator 
+        private readonly By detailTaskState = By.Id("taskState.id");
+        private string detailsTaskStateOption = "//select[@name='taskState']//option[text()='{0}']";
+
         //Task Lines Locator 
         private static string typeColumn = "//th[text()='Type']/ancestor::thead/following-sibling::tbody/tr[1]/td[count(//th[text()='Type']/preceding-sibling::th) + boolean(//th[text()='Type'])]";
         private static string typeSelected = typeColumn + "//option[@value='2']";
@@ -54,6 +58,28 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
             return this;
         }
 
+        //Details Tab
+        public AgreementTaskPage ClickToDetailsTab() {
+            ClickOnElement(detailsTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+
+        }
+
+        public AgreementTaskPage ClickStateDetais()
+        {
+            ClickOnElement(detailTaskState);
+            Thread.Sleep(1000);
+            return this;
+        }
+        public AgreementTaskPage ChooseTaskState(string status)
+        {
+            
+            ClickOnElement(detailsTaskStateOption, status);
+            Thread.Sleep(1000);
+            return this;
+        }
+        //Task Line tab
         public AgreementTaskPage ClickToTaskLinesTab()
         {
             ClickOnElement(taskLinesTab);

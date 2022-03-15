@@ -80,6 +80,20 @@ namespace si_automated_tests.Source.Core
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(20));
             return driverWait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));
         }
+        public static IList<IWebElement> WaitForAllElementsVisible(string xpath)
+        {
+            By by = By.XPath(xpath);
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(20));
+            return driverWait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));
+        }
+        public static IList<IWebElement> WaitForAllElementsVisible(string xpath, string value)
+        {
+            xpath = String.Format(xpath, value);
+            Console.WriteLine(xpath);
+            By by = By.XPath(xpath);
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(20));
+            return driverWait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));
+        }
         public static void WaitForTextVisibleInElement(By by,string text)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(20));

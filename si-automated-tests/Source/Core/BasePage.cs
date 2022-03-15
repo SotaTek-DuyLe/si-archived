@@ -138,6 +138,13 @@ namespace si_automated_tests.Source.Core
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             act.DoubleClick(element).Perform();
         }
+        public void DoubleClickOnElement(string xpath, string value)
+        {
+            xpath = String.Format(xpath, value);
+            Actions act = new Actions(IWebDriverManager.GetDriver());
+            IWebElement element = WaitUtil.WaitForElementVisible(xpath);
+            act.DoubleClick(element).Perform();
+        }
         public void DoubleClickOnElement(string xpath)
         {
             Actions act = new Actions(IWebDriverManager.GetDriver());

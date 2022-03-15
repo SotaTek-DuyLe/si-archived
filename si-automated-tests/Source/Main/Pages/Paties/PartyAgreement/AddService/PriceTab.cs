@@ -11,6 +11,11 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
     public class PriceTab : AddServicePage
     {
         private readonly By closeBtns = By.XPath("//tr[contains(@data-bind,'placeholderText') and not(@style='display: none;')]/descendant::button[@title='Retire/Remove']");
+        private readonly By Page4PricesText = By.XPath("//span[text()='4']/following-sibling::p[text()='Prices']");
+
+        //fix locator for tc 016 017 
+        private string removePriceBtn = "(//div[contains(@data-bind,'priceEditor')]//button[@title='Retire/Remove'])[3]";
+        private string allPrices17 = "(//tr[@class='heading']/following-sibling::tr[1])[1]//button[@title='Retire/Remove']";
 
         public PriceTab ClosePriceRecords()
         {
@@ -24,10 +29,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
             }
             return this;
         }
-        private readonly By Page4PricesText = By.XPath("//span[text()='4']/following-sibling::p[text()='Prices']");
-
-        //fix locator for arrgrement 27 
-        private string removePriceBtn = "(//div[contains(@data-bind,'priceEditor')]//button[@title='Retire/Remove'])[3]";
+        
         public PriceTab IsOnPriceTab()
         {
             WaitUtil.WaitForAllElementsVisible(Page4PricesText);
@@ -42,6 +44,26 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
                 if (!IsControlUnDisplayed(removePriceBtn))
                 {
                     ClickOnElement(removePriceBtn);
+                    Thread.Sleep(1000);
+                    i--;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return this;
+        }
+
+        public PriceTab RemoveAllRedundantPrice17()
+        {
+            int i = 3;
+            while (i > 0)
+            {
+                if (!IsControlUnDisplayed(allPrices17))
+                {
+                    ClickOnElement(allPrices17);
                     Thread.Sleep(1000);
                     i--;
                 }
