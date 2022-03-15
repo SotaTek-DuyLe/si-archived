@@ -1,0 +1,84 @@
+﻿using OpenQA.Selenium;
+using si_automated_tests.Source.Core;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
+{
+    public class ResourceDetailTab : BasePage
+    {
+        private readonly By resourceName = By.Id("resource");
+        private readonly By resourceBtn = By.XPath("//button[@data-id='resource-type']");
+        private readonly By resourceType = By.Id("resource-type"); 
+        private readonly By clientReference = By.Id("clientReference");
+        private readonly By contract = By.Id("contract");
+        private readonly By service = By.Id("service");
+        private readonly By businessUnit = By.Id("businessUnit");
+        private readonly By contractUnit = By.Id("contract-unit");
+        private readonly By site = By.Id("site");
+        private readonly By contractRoam = By.Id("contract-roam");
+        private readonly By serviceRoam = By.Id("service-roam");
+        private readonly By siteRoam = By.Id("site-roam");
+        private readonly By thirdParty = By.Id("third-party");
+        private readonly By generic = By.Id("generic");
+        private readonly By startDate = By.Id("startDate");
+        private readonly By endDate = By.Id("endDate");
+        private readonly By associatedAccount = By.Id("user");
+        private readonly By workingTime = By.Id("record-working-time");
+        private readonly By contactNum = By.Id("contactNumber");
+        private readonly By personalContactNum = By.Id("personalNumber");
+
+        //Resource type options
+        private readonly string resourceOptions = "//span[text()='{0}']";
+
+        public ResourceDetailTab IsOnDetailTab()
+        {
+            WaitUtil.WaitForElementVisible(resourceName);
+            WaitUtil.WaitForElementVisible(resourceBtn);
+            //WaitUtil.WaitForElementVisible(resourceType);
+            WaitUtil.WaitForElementVisible(clientReference);
+            WaitUtil.WaitForElementVisible(contract);
+            WaitUtil.WaitForElementVisible(service);
+            WaitUtil.WaitForElementVisible(businessUnit);
+            WaitUtil.WaitForElementVisible(contractUnit);
+            WaitUtil.WaitForElementVisible(site);
+            WaitUtil.WaitForElementVisible(contractRoam);
+            WaitUtil.WaitForElementVisible(serviceRoam);
+            WaitUtil.WaitForElementVisible(siteRoam);
+            WaitUtil.WaitForElementVisible(thirdParty);
+            WaitUtil.WaitForElementVisible(generic);
+            WaitUtil.WaitForElementVisible(startDate);
+            WaitUtil.WaitForElementVisible(endDate);
+            WaitUtil.WaitForElementVisible(associatedAccount);
+            WaitUtil.WaitForElementVisible(workingTime);
+            WaitUtil.WaitForElementVisible(contactNum);
+            WaitUtil.WaitForElementVisible(personalContactNum);
+            return this;
+        }
+        public ResourceDetailTab InputResourceName(string name)
+        {
+            SendKeys(resourceName, name);
+            return this;
+        }
+        public ResourceDetailTab SelectResourceType(string type)
+        {
+            ClickOnElement(resourceBtn);
+            ClickOnElement(String.Format(resourceOptions, type));
+
+            //Unable to interact with this select 
+            //SelectTextFromDropDown(resourceType, type);
+            return this;
+        }
+        public ResourceDetailTab SelectService(string _service)
+        {
+            SelectTextFromDropDown(service, _service);
+            return this;
+        }
+        public ResourceDetailTab TickSiteRoam()
+        {
+            if (!IsElementSelected(siteRoam)) ClickOnElement(siteRoam);
+            return this;
+        }
+    }
+}

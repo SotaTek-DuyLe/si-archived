@@ -447,6 +447,13 @@ namespace si_automated_tests.Source.Core
             ClickOnElement(saveAndCloseBtn);
             return this;
         }
+        public BasePage SetElementAttribute(string id, string _attribute, string _value)
+        {
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            string script = String.Format("document.getElementById('{0}').setAttribute('{1}', '{2}')", id, _attribute, _value);
+            js.ExecuteScript(script);
+            return this;
+        }
 
     }
 }

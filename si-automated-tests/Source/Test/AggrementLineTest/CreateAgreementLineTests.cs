@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.PartyAgreement.AddService;
 using si_automated_tests.Source.Main.Pages.Paties;
@@ -26,9 +27,11 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser5.UserName, AutoUser5.Password)
-                .IsOnHomePage(AutoUser5)
+                .IsOnHomePage(AutoUser5);
+            PageFactoryManager.Get<NavigationBase>()
                 .ClickParties()
-                .ClickNSC()
+                .ExpandNSC();
+            PageFactoryManager.Get<PartyNavigation>()
                 .ClickPartySubMenu()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -179,9 +182,11 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser5.UserName, AutoUser5.Password)
-                .IsOnHomePage(AutoUser5)
+                .IsOnHomePage(AutoUser5);
+            PageFactoryManager.Get<NavigationBase>()
                 .ClickParties()
-                .ClickNSC()
+                .ExpandNSC();
+            PageFactoryManager.Get<PartyNavigation>()
                 .ClickPartySubMenu()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -346,9 +351,11 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser5.UserName, AutoUser5.Password)
-                .IsOnHomePage(AutoUser5)
+                .IsOnHomePage(AutoUser5);
+            PageFactoryManager.Get<NavigationBase>()
                 .ClickParties()
-                .ClickNSC()
+                .ExpandNSC();
+            PageFactoryManager.Get<PartyNavigation>()
                 .ClickPartySubMenu()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
