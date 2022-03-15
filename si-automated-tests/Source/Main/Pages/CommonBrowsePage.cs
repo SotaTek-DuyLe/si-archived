@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,13 @@ namespace si_automated_tests.Source.Main.Pages
 {
     public class CommonBrowsePage : BasePage
     {
+        private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
         private readonly By firstResult = By.XPath("//div[@class='ui-widget-content slick-row even']");
+        private readonly By firstResultStartDate = By.XPath("//div[@class='slick-cell l12 r12']");
+        private readonly By headers = By.XPath("//div[@class='ui-state-default slick-header-column slick-header-sortable ui-sortable-handle']/span[1]");
+        private readonly By firstResultFields = By.XPath("//div[@class='ui-widget-content slick-row even'][1]/div");
         public CommonBrowsePage FilterItem(int id)
         {
             SendKeys(filterInputById, id.ToString());
@@ -21,6 +26,25 @@ namespace si_automated_tests.Source.Main.Pages
         {
             DoubleClickOnElement(firstResult);
             return PageFactoryManager.Get<CommonBrowsePage>();
+        }
+        public CommonBrowsePage ClickAddNewItem()
+        {
+            ClickOnElement(addNewItemBtn);
+            return this;
+        }
+        public CommonBrowsePage VerifyFirstResultValue(string field, string expected)
+        {
+            IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
+            for (int i = 0; i < hds.Count; i++)
+            {
+                if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
+                {
+                    IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
+                    Console.WriteLine(_firstResultFields[i+1].Text);
+                    Assert.AreEqual(expected, _firstResultFields[i + 1].Text);
+                }
+            }
+            return this;
         }
     }
 }
