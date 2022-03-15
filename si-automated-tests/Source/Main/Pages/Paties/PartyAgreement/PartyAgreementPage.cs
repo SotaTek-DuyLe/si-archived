@@ -66,6 +66,8 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private string dueDateColumn = "/following-sibling::div[2]";
         private string taskTypeColumn = "//div[contains(@class,'r11')]";
 
+        private readonly By createAdhocBtn = By.XPath("//button[text()='Create Ad-Hoc Task']");
+
         public PartyAgreementPage ClickOnDetailsTab()
         {
             WaitUtil.WaitForElementClickable(detailsTabBtn);
@@ -95,7 +97,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         }
         public PartyAgreementPage SelectAgreementType(string text)
         {
-            SelectValueFromDropDown(agreementTypeInput, text);
+            SelectTextFromDropDown(agreementTypeInput, text);
             return this;
         }
         public PartyAgreementPage VerifyStartDateIsCurrentDate()
@@ -126,11 +128,6 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         public PartyAgreementPage EnterStartDate(string startDate)
         {
             SendKeys(startDateInput, startDate);
-            return this;
-        }
-        public PartyAgreementPage ClickSaveBtn()
-        {
-            ClickOnElement(saveBtn);
             return this;
         }
         public string GetAgreementStatus()
@@ -279,6 +276,15 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         public PartyAgreementPage GoToSecondTask()
         {
             DoubleClickOnElement(secondTask);
+            return this;
+        }
+        public PartyAgreementPage VerifyCreateAdhocButtonsAreDisabled()
+        {
+            IList<IWebElement> createAdhocBtns = WaitUtil.WaitForAllElementsVisible(createAdhocBtn);
+            foreach(var btn in createAdhocBtns)
+            {
+                Assert.AreEqual(false, btn.Enabled);
+            }
             return this;
         }
 

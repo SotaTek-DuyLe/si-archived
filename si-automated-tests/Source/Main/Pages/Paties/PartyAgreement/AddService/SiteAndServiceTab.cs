@@ -24,7 +24,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
         }
         public SiteAndServiceTab ChooseService(string value)
         {
-            SelectValueFromDropDown(serviceDropDown, value);
+            SelectTextFromDropDown(serviceDropDown, value);
             return this;
         }
         public string GetSiteAddress()
