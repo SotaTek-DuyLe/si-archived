@@ -12,6 +12,10 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
         //Main options
         private const string patiesMenu = "//span[text()='Parties']/parent::h4/parent::div";
         private const string resourceMenu = "//span[text()='Resources']/parent::h4/parent::div";
+        private const string serviceMenu = "//span[text()='Services']/parent::h4/parent::div";
+        private readonly string mainOption = "//span[text()='{0}']/parent::h4/parent::div";
+        private readonly string dropdownOption = "//span[text()='{0}']/parent::a/preceding-sibling::span[2]";
+        private readonly string option = "//span[text()='{0}']/parent::a";
 
 
         //Sub options
@@ -30,6 +34,11 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
             ClickOnElement(resourceMenu);
             return PageFactoryManager.Get<ResourceNavigation>();
         }
+        public ServiceNavigation ClickServices()
+        {
+            ClickOnElement(serviceMenu);
+            return PageFactoryManager.Get<ServiceNavigation>();
+        }
 
         public NavigationBase ExpandNSC()
         {
@@ -46,6 +55,22 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
         }public NavigationBase OpenNS()
         {
             ClickOnElement(northStar);
+            return this;
+        }
+
+        public NavigationBase ClickMainOption(string optionName)
+        {
+            ClickOnElement(String.Format(mainOption, optionName));
+            return this;
+        }
+        public NavigationBase ExpandOption(string optionName)
+        {
+            ClickOnElement(String.Format(dropdownOption, optionName));
+            return this;
+        }
+        public NavigationBase OpenOption(string optionName)
+        {
+            ClickOnElement(String.Format(option, optionName));
             return this;
         }
     }

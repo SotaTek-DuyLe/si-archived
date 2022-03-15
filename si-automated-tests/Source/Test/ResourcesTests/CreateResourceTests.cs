@@ -4,6 +4,7 @@ using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
+using si_automated_tests.Source.Main.Pages.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -53,12 +54,27 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Name", resourceName)
                 .VerifyFirstResultValue("Resource Type", resourceType)
                 .VerifyFirstResultValue("Start Date", startDate)
-                .VerifyFirstResultValue("End Date", defaultEndDate);
-        }
-        [Test]
-        public void TEST_31_Allocate_Human_Resource_To_A_Round()
-        {
+                .VerifyFirstResultValue("End Date", defaultEndDate)
+                .SwitchToDefaultContent();
             
+            //TC-31
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickServices()
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star")
+                .ExpandOption("Ancillary")
+                .ExpandOption("Clinical Waste")
+                .ExpandOption("Round Groups")
+                .ExpandOption("CLINICAL1")
+                .OpenOption("Monday")
+                .SwitchNewIFrame()
+                .SwitchToTab("Default Resources");
+            PageFactoryManager.Get<ServiceDefaultResourceTab>()
+                .IsOnServiceDefaultTab()
+                .ExpandDriverType()
+                .ClickAddResource()
+                .VerifyInputIsAvailable(resourceName);
         }
     }
 }
