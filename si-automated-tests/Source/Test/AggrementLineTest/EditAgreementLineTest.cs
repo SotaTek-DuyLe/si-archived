@@ -163,5 +163,26 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<AgreementLinePage>()
                 .GoToAllTabAndConfirmNoError();
         }
-    }
+
+        [Test]
+        public void TC_016()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser14.UserName, AutoUser14.Password)
+                .IsOnHomePage(AutoUser14)
+                .ClickParties()
+                .ClickNSC()
+                .ClickAgreementSubMenu()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItem(27)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+        }
+        }
 }
