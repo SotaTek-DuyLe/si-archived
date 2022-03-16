@@ -47,6 +47,11 @@ namespace si_automated_tests.Source.Core
             Thread.Sleep(5000);
             return driver.FindElements(By.XPath(locator)).ToList();
         }
+        public List<IWebElement> GetAllElements(By by)
+        {
+            Thread.Sleep(5000);
+            return driver.FindElements(by).ToList();
+        }
 
         //SEND KEYS
         public void SendKeys(string locator, string value)
@@ -461,6 +466,10 @@ namespace si_automated_tests.Source.Core
         {
             ClickOnElement(String.Format(tab, tabName));
             return this;
+        }
+        public int GetNumberOfWindowHandle()
+        {
+            return driver.WindowHandles.Count;
         }
 
     }
