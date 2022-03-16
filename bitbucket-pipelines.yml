@@ -9,21 +9,15 @@ pipelines:
   custom:
     sonar:
       - step:
-            name: Build
             caches:
               - dotnetcore
             script:
               - dotnet restore
               - dotnet build --no-restore
-        - step:
-            name: Test
-            trigger: manual
-            caches:
-              - dotnetcore
-            script:
               - echo $browser
               - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
-              - dotnet test --no-build --test-adapter-path:. --
+              - dotnet test --no-build --test-adapter-path:. --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml"
+              
   default:
     - parallel:
         - step:
