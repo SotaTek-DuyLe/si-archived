@@ -7,15 +7,15 @@ image: mcr.microsoft.com/dotnet/core/sdk:3.1
 
 pipelines:
   custom:
-    sonar:
+    manual run:
       - step:
             caches:
               - dotnetcore
             script:
               - dotnet restore
               - dotnet build --no-restore
-              - echo $browser
               - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
+              - cd si-automated-tests
               - dotnet test --no-build --test-adapter-path:. --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml" -s test.runsettings
               
   default:
@@ -33,8 +33,8 @@ pipelines:
             caches:
               - dotnetcore
             script:
-              - echo $browser
               - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
+              - cd si-automated-tests
               - dotnet test --no-build --test-adapter-path:. --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml" -s test.runsettings
         - step:
             name: Lint the code
