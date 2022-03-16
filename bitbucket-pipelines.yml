@@ -23,7 +23,7 @@ pipelines:
             script:
               - echo $browser
               - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
-              - dotnet test --no-build --configuration Release --test-adapter-path:. --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml"  --TestRunParameters.Parameter\(name=\"browser\", value=\"$browser\"\) 
+              - dotnet test --no-build --configuration Release --test-adapter-path:. --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml"  -- TestRunParameters.Parameter\(name=\"browser\", value=\"$browser\"\) 
         - step:
             name: Lint the code
             caches:
