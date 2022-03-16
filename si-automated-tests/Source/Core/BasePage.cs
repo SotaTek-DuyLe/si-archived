@@ -236,7 +236,7 @@ namespace si_automated_tests.Source.Core
         {
             IWebElement iframe = WaitUtil.WaitForElementVisible(By.TagName("iframe"));
             driver.SwitchTo().Frame(iframe);
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
             return this;
         }
 
