@@ -9,16 +9,21 @@ pipelines:
   default:
     - parallel:
         - step:
-            name: Build and Test
-            #trigger: manual
+            name: Build
+            caches:
+              - dotnetcore
+            script:
+              - dotnet restore
+              - dotnet build --no-restore --configuration Release
+        - step:
+            name: Test
+            trigger: manual
             caches:
               - dotnetcore
             script:
               - echo $browser
               - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
-              - dotnet restore
-              - dotnet build --no-restore --configuration Release
-              - dotnet test --no-build --configuration Release --test-adapter-path:. -- TestRunParameters.Parameter\(name=\"browser\", value=\"$browser\"\) --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml"
+              - dotnet test --no-build --configuration Release --test-adapter-path:. --TestRunParameters.Parameter\(name=\"browser\", value=\"$browser\"\) --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml"
         - step:
             name: Lint the code
             caches:
