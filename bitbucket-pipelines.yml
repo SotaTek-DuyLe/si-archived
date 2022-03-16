@@ -18,7 +18,7 @@ pipelines:
               - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
               - dotnet restore
               - dotnet build --no-restore --configuration Release
-              - dotnet test --no-build --configuration Release --test-adapter-path:. -- TestRunParameters.Parameter\(name="browser", value=$browser\) --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml"
+              - dotnet test --no-build --configuration Release --test-adapter-path:. -- TestRunParameters.Parameter\(name=\"browser\", value=\"$browser\"\) --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml"
         - step:
             name: Lint the code
             caches:
