@@ -16,7 +16,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
     public class CreateResourceTests : BaseTest
     {
         [Test]
-        public void TEST_30_Create_Human_Resource()
+        public void TEST_30_31_32_33_34_Create_Human_Resource()
         {
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string startDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
@@ -31,8 +31,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .Login(AutoUser4.UserName, AutoUser4.Password)
                 .IsOnHomePage(AutoUser4);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickResources()
-                .OpenNS();
+                .ClickMainOption("Resources")
+                .OpenOption("North Star");
             PageFactoryManager.Get<HomePage>()
                 .ClickTitle()
                 .SwitchNewIFrame();
@@ -59,7 +59,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             
             //TC-31
             PageFactoryManager.Get<NavigationBase>()
-                .ClickServices()
+                .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
                 .ExpandOption("North Star")
@@ -74,7 +74,72 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnServiceDefaultTab()
                 .ExpandDriverType()
                 .ClickAddResource()
-                .VerifyInputIsAvailable(resourceName);
+                .VerifyInputIsAvailable(resourceName)
+                .SwitchToDefaultContent();
+
+            //TC-32-33
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Resources")
+                .OpenOption("North Star")
+                .AcceptAlert()
+                .AcceptAlert()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .SelectService("Select...")
+                .UntickSiteRoam()
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved resource.")
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchToDefaultContent();
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Bulky Collections")
+                .ExpandOption("Round Groups")
+                .ExpandOption("BULKY1")
+                .OpenOption("Monday")
+                .SwitchNewIFrame()
+                .SwitchToTab("Default Resources");
+
+            PageFactoryManager.Get<ServiceDefaultResourceTab>()
+                .IsOnServiceDefaultTab()
+                .ExpandDriverType()
+                .ClickAddResource()
+                .VerifyInputIsAvailable(resourceName)
+                .SwitchToDefaultContent();
+
+            //TC-34
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Resources")
+                .OpenOption("North Star")
+                .AcceptAlert()
+                .AcceptAlert()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .SwitchToTab("Calendar");
+            PageFactoryManager.Get<ResourceCalendarTab>()
+                .VerifyWorkPatternNotSet()
+                .SwitchToTab("Resource Terms");
+            PageFactoryManager.Get<ResourceTermTab>()
+                .IsOnTermTab()
+                .SelectTerm("40H Mon-Fri")
+                .IsOnTermTab()
+                .VerifyExtraTabsArePresent()
+                .ClickSaveBtn()
+                .SwitchToTab("Calendar")
+                .ClickRefreshBtn();
+            PageFactoryManager.Get<ResourceCalendarTab>()
+                .VerifyWorkPatternIsSet("AM 05.00 - 14.00");
         }
     }
 }
