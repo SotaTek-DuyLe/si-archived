@@ -7,6 +7,14 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\OutputDebug</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\OutputRelease</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
@@ -45,6 +53,7 @@
     <None Remove="Source\Main\Pages\Paties\Sites\" />
     <None Remove="Source\Main\Pages\Paties\PartyAgreement\Tabs\" />
     <None Remove="Source\Main\Pages\Task\" />
+    <None Remove="Source\Main\Data\UserData.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Models\" />
@@ -55,6 +64,11 @@
     <Folder Include="Source\Main\Pages\Paties\Sites\" />
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\Tabs\" />
     <Folder Include="Source\Main\Pages\Task\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Source\Main\Data\UserData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources.resx">

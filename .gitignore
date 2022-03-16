@@ -26,6 +26,9 @@ _UpgradeReport_Files/
 bin/
 obj/
 TestResults/
+# Output Folder
+OutputDebug/
+OutputRelease/
 ###################
 # Web publish log #
 ###################
