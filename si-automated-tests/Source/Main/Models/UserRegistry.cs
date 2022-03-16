@@ -28,7 +28,7 @@ namespace si_automated_tests.Source.Main.Models
 
         public UserRegistry()
         {
-            var iconPath = Path.Combine(Environment.CurrentDirectory, "../../../Source/Main/Data/UserData.json");
+            var iconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Source/Main/Data/UserData.json");
             var newPath = new Uri(iconPath).LocalPath;
             JObject jsonObject = JObject.Parse(File.ReadAllText(newPath));
 

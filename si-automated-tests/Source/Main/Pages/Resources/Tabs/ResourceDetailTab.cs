@@ -80,5 +80,20 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             if (!IsElementSelected(siteRoam)) ClickOnElement(siteRoam);
             return this;
         }
+        public ResourceDetailTab UntickSiteRoam()
+        {
+            if (IsElementSelected(siteRoam)) ClickOnElement(siteRoam);
+            return this;
+        }
+        public ResourceDetailTab TickContractRoam()
+        {
+            if (!IsElementSelected(contractRoam)) ClickOnElement(contractRoam);
+            return this;
+        }
+        public ResourceDetailTab UntickContractRoam()
+        {
+            if (IsElementSelected(contractRoam)) ClickOnElement(contractRoam);
+            return this;
+        }
     }
 }

@@ -64,6 +64,11 @@ namespace si_automated_tests.Source.Core
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(20));
             driverWait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath(xpath)));
+        } 
+        public static void WaitForElementInvisible(By by)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(20));
+            driverWait.Until(ExpectedConditions.InvisibilityOfElementLocated(by));
         }
         public static void WaitForElementToBeSelected(string xpath)
         {
