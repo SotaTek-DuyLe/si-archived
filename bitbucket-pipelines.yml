@@ -16,7 +16,7 @@ pipelines:
               - dotnet build --no-restore
               - echo $browser
               - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
-              - dotnet test --no-build --test-adapter-path:. --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml"
+              - dotnet test --no-build --test-adapter-path:. --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml" -- TestRunParameters.Parameter\(name=\"browser\", value=\"hchrome\"\)
               
   default:
     - parallel:
