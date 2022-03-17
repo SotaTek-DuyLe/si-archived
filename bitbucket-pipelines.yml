@@ -11,12 +11,15 @@ pipelines:
       - step:
             caches:
               - dotnetcore
+            runs-on:
+              - windows
             script:
               - dotnet restore
-              - dotnet build --no-restore --configuration Debug
-              - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
+              - dotnet build --no-restore
+              - REPORTS_PATH=./TestResults/build_${BITBUCKET_BUILD_NUMBER}
+              - echo $REPORTS_PATH
               - cd si-automated-tests
-              - dotnet test --no-build --configuration Debug --test-adapter-path:. --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml" -s test.runsettings
+              - dotnet test --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml" -s test.runsettings
               
   default:
     - parallel:
