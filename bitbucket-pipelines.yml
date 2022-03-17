@@ -16,7 +16,7 @@ pipelines:
             script:
               - dotnet restore
               - dotnet build --no-restore
-              - REPORTS_PATH=TestResults/build_${BITBUCKET_BUILD_NUMBER}
+              - REPORTS_PATH="TestResults/build_${BITBUCKET_BUILD_NUMBER}"
               - echo $REPORTS_PATH
               - cd si-automated-tests
               - dotnet test --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml" -s test.runsettings
