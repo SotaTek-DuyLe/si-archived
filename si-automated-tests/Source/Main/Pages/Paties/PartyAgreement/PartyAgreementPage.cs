@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Models.Agreement;
 using si_automated_tests.Source.Main.Pages.Agrrements;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement.Tabs;
@@ -22,6 +23,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private readonly By closeWithoutSavingBtn = By.XPath("//a[@aria-controls='details-tab']/ancestor::body//button[@title='Close Without Saving']");
         private readonly By closeBtn = By.XPath("//button[@title='Close Without Saving']");
         private readonly By status = By.XPath("//div[@title='Agreement Status']");
+        private string agreementStatus = "//div[@title='Agreement Status']//span[text()='{0}']";
 
         private readonly By agreementTypeInput = By.Id("agreement-type");
         private readonly By startDateInput = By.Id("start-date");
@@ -65,17 +67,27 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private string secondTask = "(//div[text()='Deliver Commercial Bin'])[1]";
         private string dueDateColumn = "/following-sibling::div[2]";
         private string taskTypeColumn = "//div[contains(@class,'r11')]";
-        private readonly By allColumnTitle = By.XPath("//div[contains(@class, 'slick-header-columns')]/div/span[1]");
+        private string allColumnTitle = "//div[contains(@class, 'slick-header-columns')]/div/span[1]";
         private string eachColumn = "//div[@class='grid-canvas']/div/div[{0}]";
+        private string allRows = "//div[@class='grid-canvas']/div";
         private string deliverCommercialBinWithDateRows = "//div[@class='grid-canvas']/div[contains(.,'Deliver Commercial Bin') and contains(.,'{0}')]";
         private string retiredTasks = "//div[@class='grid-canvas']/div[contains(@class,'retired')]";
 
         private readonly By createAdhocBtn = By.XPath("//button[text()='Create Ad-Hoc Task']");
 
+        //Agreement Tab locator
+        private readonly By agreementTabBtn = By.XPath("//a[@aria-controls='agreements-tab']");
+        private string agreementWithDate = "//div[text()='{0}']";
+
         public PartyAgreementPage ClickOnDetailsTab()
         {
             WaitUtil.WaitForElementClickable(detailsTabBtn);
             ClickOnElement(detailsTabBtn);
+            return this;
+        }
+        public PartyAgreementPage SleepForLongTime()
+        {
+            Thread.Sleep(10000);
             return this;
         }
         public PartyAgreementPage CloseWithoutSaving()
@@ -143,6 +155,13 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             WaitUtil.WaitForTextVisibleInElement(status, _status);
             return this;
         }
+        public PartyAgreementPage VerifyAgreementStatusWithText(string _status)
+        {
+            Thread.Sleep(10000);
+            WaitUtil.WaitForElementInvisible(agreementStatus, _status);
+            Assert.IsTrue(IsControlDisplayed(agreementStatus, _status));
+            return this;
+        }
         public PartyAgreementPage VerifyNewOptionsAvailable()
         {
             WaitUtil.WaitForElementVisible(addServiceBtn);
@@ -157,12 +176,15 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         }
         public PartyAgreementPage ClickApproveAgreement()
         {
+            ScrollDownToElement(approveBtn);
             ClickOnElement(approveBtn);
             return this;
         }
         public PartyAgreementPage ConfirmApproveBtn()
         {
+            WaitUtil.WaitForElementClickable(confirmApproveBtn);
             ClickOnElement(confirmApproveBtn);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         public AddServicePage ClickAddService()
@@ -238,6 +260,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         //Task tab
         public PartyAgreementPage ClickTaskTabBtn()
         {
+            WaitUtil.WaitForElementClickable(taskTabBtn);
             ClickOnElement(taskTabBtn);
             return this;
         }
@@ -297,6 +320,12 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             return this;
         }
 
+        public PartyAgreementPage VerifyTwoNewTaskAppearRemove()
+        {
+            
+            return this;
+        }
+
         public List<IWebElement> VerifyNewDeliverCommercialBin(String dueDate, int num) 
         {
             this.WaitForLoadingIconToDisappear();
@@ -323,10 +352,10 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             }
             return taskList;
         }
-        public AgreementTaskPage GoToATask(IWebElement e)
+        public AgreementTaskDetailsPage GoToATask(IWebElement e)
         {
             DoubleClickOnElement(e);
-            return new AgreementTaskPage();
+            return new AgreementTaskDetailsPage();
         }
         public PartyAgreementPage GoToFirstTask()
         {
@@ -349,5 +378,162 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             return this;
         }
 
+        public int GetColumnIndexByColumnName(string name)
+        {
+            List <IWebElement> allTitles = GetAllElements(allColumnTitle);
+            for(int i = 0 ; i< allTitles.Count; i++)
+            {
+                if(GetElementText(allTitles[i]) == name)
+                {
+                    return i + 1;
+                }
+            }
+            return 0;
+        }
+
+        public List<AgreementTaskModel> GetAllTaskInList()
+        {
+            List<AgreementTaskModel> list = new List<AgreementTaskModel>();
+
+            List<IWebElement> allRow = GetAllElements(allRows);
+            int taskStateIndex = this.GetColumnIndexByColumnName("Task State");
+            List<IWebElement> taskStates = GetAllElements(String.Format(eachColumn, taskStateIndex));
+            
+            int taskTypeIndex = this.GetColumnIndexByColumnName("Task Type");
+            List<IWebElement> taskTypes = GetAllElements(String.Format(eachColumn, taskTypeIndex));
+            
+            int descriptionIndex = this.GetColumnIndexByColumnName("Description");
+            List<IWebElement> descriptions = GetAllElements(String.Format(eachColumn, descriptionIndex));
+            
+            int dueDateIndex = this.GetColumnIndexByColumnName("Due Date");
+            List<IWebElement> dueDates = GetAllElements(String.Format(eachColumn, dueDateIndex));
+            
+            int completedDateIndex = this.GetColumnIndexByColumnName("Completed Date");
+            List<IWebElement> completedDates = GetAllElements(String.Format(eachColumn, completedDateIndex));
+            
+            for (int i = 0; i < allRow.Count; i++)
+            {
+                string taskState = GetElementText(taskStates[i]);
+                string taskType = GetElementText(taskTypes[i]);
+                string description = GetElementText(descriptions[i]);
+                string dueDate;
+                if(GetElementText(dueDates[i]).Length > 10)
+                {
+                    dueDate = GetElementText(dueDates[i]).Substring(0,10);
+                }
+                else { dueDate = GetElementText(dueDates[i]); }
+                string completedDate;
+                if (GetElementText(completedDates[i]).Length > 10)
+                {
+                    completedDate = GetElementText(completedDates[i]).Substring(0, 10);
+                }
+                else { completedDate = GetElementText(completedDates[i]); }
+                AgreementTaskModel task = new AgreementTaskModel(taskState, taskType, description, dueDate, completedDate);
+                list.Add(task);
+            }
+            return list;
+        }
+
+        public List<IWebElement> GetTasksAppear(string taskType, string dueDate)
+        {
+            List<AgreementTaskModel> list = this.GetAllTaskInList();
+            List<IWebElement> allRow = GetAllElements(allRows);
+            List<IWebElement> availableRow = new List<IWebElement>();
+
+            int num = 0;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].TaskType == taskType && list[i].DueDate == dueDate)
+                {
+                    num++;
+                    availableRow.Add(allRow[i]);
+                }
+            }
+            return availableRow;
+        }
+        public List<IWebElement> GetTasksAppear(string taskState, string taskType, string dueDate, string completedDate)
+        {
+            List<AgreementTaskModel> list = this.GetAllTaskInList();
+
+            List<IWebElement> allRow = GetAllElements(allRows);
+            List<IWebElement> availableRow = new List<IWebElement>();
+            int num = 0;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].TaskType == taskType && list[i].DueDate == dueDate
+                    && list[i].TaskState == taskState && list[i].CompletedDate == completedDate)
+                {
+                    num++;
+                    availableRow.Add(allRow[i]);
+                }
+            }
+            return availableRow;
+        }
+        //public List<IWebElement> VerifyNewTaskAppearWithNum(string taskType, string dueDate, int num)
+        //{
+        //    ClickOnElement(refreshBtn);
+        //    WaitForLoadingIconToDisappear();
+        //    int i = 5;
+        //    int n;
+        //    while(i > 0)
+        //    {
+        //        n = GetTasksAppear(taskType, dueDate);
+        //        if (n == num)
+        //        {
+        //            Assert.AreEqual(n, num);
+        //            break;
+        //        }
+        //        else
+        //        {
+        //            ClickOnElement(refreshBtn);
+        //            WaitForLoadingIconToDisappear();
+        //            Thread.Sleep(5000);
+        //        }
+        //    }
+        //    return this;
+        //}
+        public List<IWebElement> VerifyNewTaskAppearWithNum(int num, string taskState, string taskType, string dueDate, string completedDate)
+        {
+            ClickOnElement(refreshBtn);
+            WaitForLoadingIconToDisappear();
+            List<IWebElement> availableRow = GetTasksAppear(taskState, taskType, dueDate, completedDate);
+            int i = 5;
+            while (i > 0)
+            {
+                if (availableRow.Count == num)
+                {
+                    Assert.AreEqual(availableRow.Count, num);
+                    break;
+                }
+                else
+                {
+                    availableRow.Clear();
+                    ClickOnElement(refreshBtn);
+                    WaitForLoadingIconToDisappear();
+                    Thread.Sleep(5000);
+                    availableRow = GetTasksAppear(taskState, taskType, dueDate, completedDate);
+                    i--;
+                }
+            }
+            return availableRow;
+        }
+        public List<IWebElement> GetNewTasklRowList()
+        {
+            List<IWebElement> newTasks = new List<IWebElement>();
+            return newTasks;
+        }
+        //Agreement Tab
+        public PartyAgreementPage ClickToAgreementTab()
+        {
+            ClickOnElement(agreementTabBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public PartyAgreementPage OpenAnAgreementWithDate(string date)
+        {
+            DoubleClickOnElement(agreementWithDate, date);
+            return this;
+        }
     }
 }

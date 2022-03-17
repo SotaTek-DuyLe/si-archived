@@ -22,6 +22,8 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
         private readonly By doneBtn = By.XPath("//button[text()='Done']");
         private readonly By summaryText = By.XPath("//span[@data-bind='text: description']");
 
+        private string assetTypeOptions = "//select[@id='asset-type']/option[text()='{0}']";
+
         //Edit Asset
         private readonly By editAssetBtn = By.XPath("//button[text()='Edit Asset']");
         private readonly string editAssertDoneBtn = "//button[text()='Done' and contains(@data-bind,'finishAssetProduct')]";
@@ -46,6 +48,17 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
                 SelectIndexFromDropDown(assetType, 2);
             }
             else SelectIndexFromDropDown(assetType, 1);*/
+            return this;
+        }
+        public AssetAndProducTab ClickAssetType()
+        {
+            ClickOnElement(assetType);
+            return this;
+        }
+        public AssetAndProducTab SelectAssetType(string value)
+        {
+            WaitUtil.WaitForElementClickable(assetTypeOptions, value);
+            ClickOnElement(assetTypeOptions, value);
             return this;
         }
         public AssetAndProducTab ChooseTenure(string value)

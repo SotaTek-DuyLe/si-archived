@@ -9,7 +9,8 @@ using si_automated_tests.Source.Main.Models;
 
 namespace si_automated_tests.Source.Main.Pages.Agrrements
 {
-    public class AgreementTaskPage : BasePage
+    //Details page for a task inside Agreement
+    public class AgreementTaskDetailsPage : BasePage
     {
         private readonly By detailsTab = By.XPath("//a[@aria-controls='details-tab']");
         private readonly By taskLinesTab = By.XPath("//a[@aria-controls='taskLines-tab']");
@@ -38,7 +39,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
         private static string actualAssetQuantityText = "//th[text()='Actual Asset Quantity']";
         private static string actualAssetQuantityInput = "//th[text()='Actual Asset Quantity']/ancestor::thead/following-sibling::tbody/tr[1]/td[count(//th[text()='Actual Asset Quantity']/preceding-sibling::th) + boolean(//th[text()='Actual Asset Quantity'])]//input";
 
-        public AgreementTaskPage IsOnAgreementTaskPage()
+        public AgreementTaskDetailsPage IsOnAgreementTaskPage()
         {
             WaitUtil.WaitForElementVisible(detailsTab);
             Assert.IsTrue(IsControlDisplayed(detailsTab));
@@ -46,33 +47,35 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
             return this;
         }
 
-        public AgreementTaskPage CLickOnSaveBtn()
+        public AgreementTaskDetailsPage CLickOnSaveBtn()
         {
             ClickOnElement(saveBtn);
             return this;
         }
 
-        public AgreementTaskPage ClickCloseWithoutSaving()
+        public AgreementTaskDetailsPage ClickCloseWithoutSaving()
         {
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementClickable(closeWithoutSavingBtn);
             ClickOnElement(closeWithoutSavingBtn);
             return this;
         }
 
         //Details Tab
-        public AgreementTaskPage ClickToDetailsTab() {
+        public AgreementTaskDetailsPage ClickToDetailsTab() {
             ClickOnElement(detailsTab);
             WaitForLoadingIconToDisappear();
             return this;
 
         }
 
-        public AgreementTaskPage ClickStateDetais()
+        public AgreementTaskDetailsPage ClickStateDetais()
         {
             ClickOnElement(detailTaskState);
             Thread.Sleep(1000);
             return this;
         }
-        public AgreementTaskPage ChooseTaskState(string status)
+        public AgreementTaskDetailsPage ChooseTaskState(string status)
         {
             
             ClickOnElement(detailsTaskStateOption, status);
@@ -80,13 +83,13 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
             return this;
         }
         //Task Line tab
-        public AgreementTaskPage ClickToTaskLinesTab()
+        public AgreementTaskDetailsPage ClickToTaskLinesTab()
         {
             ClickOnElement(taskLinesTab);
             return this;
         }
 
-        public AgreementTaskPage VerifyTaskLine(string type, string assetType, string scheduleAssetQty, string product, string productAssetQty, string unit, string state)
+        public AgreementTaskDetailsPage VerifyTaskLine(string type, string assetType, string scheduleAssetQty, string product, string productAssetQty, string unit, string state)
         {
             WaitUtil.WaitForElementVisible(typeSelected);
             Assert.AreEqual(GetElementText(typeSelected), type);
@@ -97,18 +100,18 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
             return this;
         }
 
-        public AgreementTaskPage InputActuaAssetQuantity(int i)
+        public AgreementTaskDetailsPage InputActuaAssetQuantity(int i)
         {
             WaitUtil.WaitForElementVisible(actualAssetQuantityInput);
             EditSendKeys(actualAssetQuantityInput, i.ToString());
             return this;
         }
-        public AgreementTaskPage ClickOnAcualAssetQuantityText()
+        public AgreementTaskDetailsPage ClickOnAcualAssetQuantityText()
         {
             ClickOnElement(actualAssetQuantityText);
             return this;
         }
-        public AgreementTaskPage SelectCompletedState()
+        public AgreementTaskDetailsPage SelectCompletedState()
         {
             Thread.Sleep(500);
             ClickOnElement(stateColumn);

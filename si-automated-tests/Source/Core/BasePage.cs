@@ -386,7 +386,8 @@ namespace si_automated_tests.Source.Core
         //SELECT VALUE FROM SELECT ELEMENT
         public BasePage SelectTextFromDropDown(By by, string _text)
         {
-            IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
+            Thread.Sleep(3000);
+            IWebElement comboBox = WaitUtil.WaitForElementClickable(by);
             SelectElement selectedValue = new SelectElement(comboBox);
             selectedValue.SelectByText(_text);
             return this;
@@ -415,6 +416,7 @@ namespace si_automated_tests.Source.Core
         public BasePage VerifyToastMessage(string message)
         {
             Assert.AreEqual(message, GetToastMessage());
+            WaitUtil.WaitForElementInvisible("//div[@data-notify-html='title']");
             return this;
         }
         public bool IsElementSelected(By by)

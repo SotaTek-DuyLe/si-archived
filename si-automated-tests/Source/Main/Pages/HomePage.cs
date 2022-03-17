@@ -33,7 +33,7 @@ namespace si_automated_tests.Source.Main.Pages
 
         //MENU
         private const string PatiesMenu = "//span[text()='Parties']/parent::h4/parent::div";
-        private const string ServicesMenu = "//img[contains(@src,'services-selected')]";
+        private const string ServicesMenu = "//span[text()='Services']/parent::h4/parent::div";
 
         //SUB MENU
         private const string NorthStartCommercialMenu = "//span[text()='North Star Commercial']/parent::a/preceding-sibling::span[2]";
@@ -155,11 +155,11 @@ namespace si_automated_tests.Source.Main.Pages
 
 
 
-        private readonly string regions = "//span[text()='Regions']";
-        private readonly string london = "//span[text()='London']";
-        private readonly string northStarComercial = "//span[text()='North Star Commercial']";
-        private readonly string collections = "//span[text()='Collections']";
-        private readonly string comercialCollection = "//span[text()='Commercial Collections']";
+        private readonly string regions = "//span[text()='Regions']/parent::a/preceding-sibling::span[2]";
+        private readonly string london = "//span[text()='London']/parent::a/preceding-sibling::span[2]";
+        private readonly string northStarComercial = "//span[text()='North Star Commercial']/parent::a/preceding-sibling::span[2]";
+        private readonly string collections = "//span[text()='Collections']/parent::a/preceding-sibling::span[2]";
+        private readonly string comercialCollection = "//span[text()='Commercial Collections']/parent::a/preceding-sibling::span[2]";
         private readonly string activeServiceTask = "//span[text()='Active Service Tasks']";
 
         public HomePage GoToActiveServiceTask()

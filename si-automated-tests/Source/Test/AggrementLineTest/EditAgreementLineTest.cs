@@ -91,12 +91,12 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .GoToFirstTask()
                 .SwitchToLastWindow();
-            PageFactoryManager.Get<AgreementTaskPage>()
+            PageFactoryManager.Get<AgreementTaskDetailsPage>()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<AgreementTaskPage>()
+            PageFactoryManager.Get<AgreementTaskDetailsPage>()
                 .ClickToTaskLinesTab()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<AgreementTaskPage>()
+            PageFactoryManager.Get<AgreementTaskDetailsPage>()
                 .VerifyTaskLine("Deliver", "1100L", "1", "Paper & Cardboard", "100", "Kilograms", "Unallocated")
                 .InputActuaAssetQuantity(1)
                 .ClickOnAcualAssetQuantityText()
@@ -105,7 +105,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .CLickOnSaveBtn()
                 .VerifyToastMessage("Success")
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<AgreementTaskPage>()
+            PageFactoryManager.Get<AgreementTaskDetailsPage>()
                 .ClickCloseWithoutSaving()
                 .SwitchToChildWindow(2);
 
@@ -115,12 +115,12 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .GoToSecondTask()
                 .SwitchToLastWindow();
-            PageFactoryManager.Get<AgreementTaskPage>()
+            PageFactoryManager.Get<AgreementTaskDetailsPage>()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<AgreementTaskPage>()
+            PageFactoryManager.Get<AgreementTaskDetailsPage>()
                 .ClickToTaskLinesTab()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<AgreementTaskPage>()
+            PageFactoryManager.Get<AgreementTaskDetailsPage>()
                 .VerifyTaskLine("Deliver", "1100L", "1", "Paper & Cardboard", "100", "Kilograms", "Unallocated")
                 .InputActuaAssetQuantity(1)
                 .ClickOnAcualAssetQuantityText()
@@ -129,7 +129,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .CLickOnSaveBtn()
                 .VerifyToastMessage("Success")
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<AgreementTaskPage>()
+            PageFactoryManager.Get<AgreementTaskDetailsPage>()
                 .ClickCloseWithoutSaving()
                 .SwitchToChildWindow(2);
 
@@ -168,6 +168,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Test]
         public void TC_017()
         {
+            string date = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 7);
+            string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
+            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -183,8 +187,6 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .OpenFirstResult();
             PageFactoryManager.Get<BasePage>()
                 .SwitchToLastWindow();
-            string partyStartDate = PageFactoryManager.Get<DetailPartyPage>()
-                .GetPartyStartDate();
             PageFactoryManager.Get<DetailPartyPage>()
                 .OpenAgreementTab()
                 .ClickAddNewItem()
@@ -212,7 +214,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<AssetAndProducTab>()
                 .IsOnAssetTab()
                 .ClickAddAsset()
-                .ChooseAssetType("660L")
+                .ClickAssetType()
+                .SelectAssetType("660L")
                 .InputAssetQuantity(3)
                 .ChooseTenure("Rental")
                 .ChooseProduct("General Recycling")
@@ -242,32 +245,37 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .ClickSaveBtn()
                .VerifyToastMessage("Successfully saved agreement")
                .WaitForLoadingIconToDisappear();
-
             // Finish step 15 
-            string date = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 7);
             PageFactoryManager.Get<PartyAgreementPage>()
-                .VerifyAgreementStatus("New")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .SleepForLongTime()
+                .ClickOnDetailsTab()
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<PartyAgreementPage>()
+                //.VerifyAgreementStatusWithText("New")
                 .ClickApproveAgreement()
                 .ConfirmApproveBtn();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
-                .VerifyAgreementStatus("Active")
+                //.VerifyAgreementStatusWithText("Active")
                 .ClickTaskTabBtn()
                 .WaitForLoadingIconToDisappear();
             List<IWebElement> allTasks = PageFactoryManager.Get<PartyAgreementPage>()
-                .VerifyNewDeliverCommercialBin(date, 3);
+               .VerifyNewTaskAppearWithNum(3, "Unallocated", "Deliver Commercial Bin", date, "");
             for (int i = 0; i < allTasks.Count; i++)
             {
                 PageFactoryManager.Get<PartyAgreementPage>()
                     .GoToATask(allTasks[i])
                     .SwitchToLastWindow();
-                PageFactoryManager.Get<AgreementTaskPage>()
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
                 .WaitForLoadingIconToDisappear();
-                PageFactoryManager.Get<AgreementTaskPage>()
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickToTaskLinesTab()
                     .WaitForLoadingIconToDisappear();
-                PageFactoryManager.Get<AgreementTaskPage>()
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .InputActuaAssetQuantity(1)
                     .ClickOnAcualAssetQuantityText()
                     .SelectCompletedState()
@@ -275,29 +283,32 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .CLickOnSaveBtn()
                     .VerifyToastMessage("Success")
                     .WaitForLoadingIconToDisappear();
-                PageFactoryManager.Get<AgreementTaskPage>()
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickToDetailsTab()
                     .ClickStateDetais()
                     .ChooseTaskState("Completed")
                     .CLickOnSaveBtn()
                     .VerifyToastMessage("Success");
-                PageFactoryManager.Get<AgreementTaskPage>()
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickCloseWithoutSaving()
-                    .SwitchToChildWindow(2); 
+                    .SwitchToChildWindow(3);
             }
             //finish step 19
-            PageFactoryManager.Get<BasePage>()
-                .ClickRefreshBtn();
             PageFactoryManager.Get<PartyAgreementPage>()
-                .VerifyRetiredTask(3);//3x Mobilization tasks display in Italics and grey font
-            string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
-            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .VerifyRetiredTask(3)//3x Mobilization tasks display in Italics and grey font
+                .VerifyNewTaskAppearWithNum(3, "Completed", "Deliver Commercial Bin", date, todayDate);
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .SwitchToFirstWindow();
+            
             //Go to Services
-            PageFactoryManager.Get<PartyAgreementPage>()
-                .SwitchToChildWindow(1);
             PageFactoryManager.Get<HomePage>()
                 .ClickServices()
                 .GoToActiveServiceTask()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonActiveServicesTaskPage>()
                 .OpenTribleYarnsWithDate(todayDate)
@@ -308,14 +319,15 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickOnTaskLineTab()
                 .ClickOnScheduleTask()
                 .CloseWithoutSaving()
-                .SwitchToChildWindow(2);
+                .SwitchToChildWindow(3);
 
             //step 27 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
-                .IsOnPartyAgreementPage()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickEditAgreementBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EditAgreementServicePage>()
@@ -338,7 +350,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
                 .IsOnPriceTab()
-                .RemoveAllRedundantPrice()
+                .RemoveAllRedundantPrice17()
                 .ClickNext()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
@@ -350,14 +362,49 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .VerifyToastMessage("Successfully saved agreement")
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
+                .SleepForLongTime()
                .ClickOnDetailsTab()
                .ExpandAgreementLine()
                .ExpandAllAgreementFields()
                .VerifyAssetAndProductAssetTypeStartDate(tommorowDate)
-               .VerifyRegularAssetTypeStartDate(tommorowDate)
                .VerifyTaskLineTypeStartDates(tommorowDate)
-               .ClickOnDetailsTab()
-               .VerifyTwoNewTaskAppear();
+               .ClickTaskTabBtn()
+               .WaitForLoadingIconToDisappear();
+            List<IWebElement> availableRow = PageFactoryManager.Get<PartyAgreementPage>()
+               .VerifyNewTaskAppearWithNum(2, "Unallocated", "Remove Commercial Bin", date, "");
+            for (int i = 0; i < availableRow.Count; i++)
+            {
+                PageFactoryManager.Get<PartyAgreementPage>()
+                    .GoToATask(availableRow[i])
+                    .SwitchToLastWindow();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .ClickToTaskLinesTab()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .ClickCloseWithoutSaving()
+                    .SwitchToChildWindow(3);
+            }
+
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .SwitchToFirstWindow();
+
+            //Go to Services again to verify 
+            PageFactoryManager.Get<HomePage>()
+                .ClickServices()
+                .GoToActiveServiceTask()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .OpenTribleYarnsWithDate(todayDate)
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab()
+                .ClickOnScheduleTask();
         }
     }
 }

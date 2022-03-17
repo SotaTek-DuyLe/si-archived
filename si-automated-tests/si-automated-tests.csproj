@@ -47,7 +47,6 @@
     <None Remove="Source\Main\Pages\Task\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Source\Main\Models\" />
     <Folder Include="Source\Main\Data\" />
     <Folder Include="Source\Main\Pages\Paties\Parties\" />
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
