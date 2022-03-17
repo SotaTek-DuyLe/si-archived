@@ -15,6 +15,7 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 using si_automated_tests.Source.Main.Pages.Services;
+using si_automated_tests.Source.Main.Pages.NavigationPanel;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
 {
@@ -28,10 +29,12 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser14.UserName, AutoUser14.Password)
-                .IsOnHomePage(AutoUser14)
+                .IsOnHomePage(AutoUser14);
+            PageFactoryManager.Get<NavigationBase>()
                 .ClickParties()
-                .ClickNSC()
-                .ClickAgreementSubMenu()
+                .ExpandNSC();
+            PageFactoryManager.Get<PartyNavigation>()
+                .ClickPartySubMenu()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(27)
@@ -147,10 +150,11 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .CloseWithoutSaving()
                 .SwitchToChildWindow(1);
 
-            PageFactoryManager.Get<HomePage>()
+            PageFactoryManager.Get<NavigationBase>()
                 .ClickParties()
-                .ClickNSC()
-                .ClickSiteServiceSubMenu()
+                .ExpandNSC();
+            PageFactoryManager.Get<PartyNavigation>()
+                .ClickPartySubMenu()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -177,9 +181,11 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser14.UserName, AutoUser14.Password)
-                .IsOnHomePage(AutoUser14)
+                .IsOnHomePage(AutoUser14);
+                PageFactoryManager.Get<NavigationBase>()
                 .ClickParties()
-                .ClickNSC()
+                .ExpandNSC();
+            PageFactoryManager.Get<PartyNavigation>()
                 .ClickPartySubMenu()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()

@@ -22,6 +22,7 @@ namespace si_automated_tests.Source.Core
         private readonly By refreshBtn = By.XPath("//button[@title='Refresh']");
         private readonly By saveBtn = By.XPath("//button[@title='Save']");
         private readonly By saveAndCloseBtn = By.XPath("//button[@title='Save and Close']");
+        private readonly string tab = "//a[@data-toggle='tab' and contains(text(),'{0}')]";
 
 
         public BasePage()
@@ -45,6 +46,11 @@ namespace si_automated_tests.Source.Core
         {
             Thread.Sleep(5000);
             return driver.FindElements(By.XPath(locator)).ToList();
+        }
+        public List<IWebElement> GetAllElements(By by)
+        {
+            Thread.Sleep(5000);
+            return driver.FindElements(by).ToList();
         }
 
         //SEND KEYS
@@ -238,11 +244,12 @@ namespace si_automated_tests.Source.Core
             IWebDriverManager.GetDriver().SwitchTo().DefaultContent();
 
         }
-        public void SwitchNewIFrame()
+        public BasePage SwitchNewIFrame()
         {
             IWebElement iframe = WaitUtil.WaitForElementVisible(By.TagName("iframe"));
             driver.SwitchTo().Frame(iframe);
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
+            return this;
         }
 
         //SWITCH WINDOW
@@ -455,6 +462,23 @@ namespace si_automated_tests.Source.Core
         {
             ClickOnElement(saveAndCloseBtn);
             return this;
+        }
+        public BasePage SetElementAttribute(string id, string _attribute, string _value)
+        {
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            string script = String.Format("document.getElementById('{0}').setAttribute('{1}', '{2}')", id, _attribute, _value);
+            js.ExecuteScript(script);
+            return this;
+        }
+        //SWITCH TAB
+        public BasePage SwitchToTab(string tabName)
+        {
+            ClickOnElement(String.Format(tab, tabName));
+            return this;
+        }
+        public int GetNumberOfWindowHandle()
+        {
+            return driver.WindowHandles.Count;
         }
 
     }

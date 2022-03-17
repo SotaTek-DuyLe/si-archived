@@ -149,6 +149,11 @@ namespace si_automated_tests.Source.Main.Pages
             ClickOnElement(String.Format(userNameValue, userName));
             return PageFactoryManager.Get<UserDetailPage>();
         }
+        public HomePage ClickTitle()
+        {
+            ClickOnElement(pageTitle);
+            return this;
+        }
 
 
 

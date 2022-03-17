@@ -4,6 +4,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
@@ -27,9 +28,11 @@ namespace si_automated_tests.Source.Test
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser6)
+                .IsOnHomePage(AutoUser6);
+            PageFactoryManager.Get<NavigationBase>()
                 .ClickParties()
-                .ClickNSC()
+                .ExpandNSC();
+            PageFactoryManager.Get<PartyNavigation>()
                 .ClickPartySubMenu()
                 .SwitchNewIFrame();
             //create new party 
@@ -103,9 +106,11 @@ namespace si_automated_tests.Source.Test
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser6)
+                .IsOnHomePage(AutoUser6);
+            PageFactoryManager.Get<NavigationBase>()
                 .ClickParties()
-                .ClickNSC()
+                .ExpandNSC();
+            PageFactoryManager.Get<PartyNavigation>()
                 .ClickPartySubMenu()
                 .SwitchNewIFrame();
             //create new party 
@@ -142,9 +147,11 @@ namespace si_automated_tests.Source.Test
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             homePage
-                .IsOnHomePage(AutoUser6)
+                .IsOnHomePage(AutoUser6);
+            PageFactoryManager.Get<NavigationBase>()
                 .ClickParties()
-                .ClickNSC()
+                .ExpandNSC();
+            PageFactoryManager.Get<PartyNavigation>()
                 .ClickPartySubMenu()
                 .SwitchNewIFrame();
             //create new party 
@@ -212,9 +219,11 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSignIn();
             homePage
                 .IsOnHomePage(AutoUser6)
-                .IsOnHomePage(AutoUser6)
+                .IsOnHomePage(AutoUser6);
+            PageFactoryManager.Get<NavigationBase>()
                 .ClickParties()
-                .ClickNSC()
+                .ExpandNSC();
+            PageFactoryManager.Get<PartyNavigation>()
                 .ClickPartySubMenu()
                 .SwitchNewIFrame();
             //create new party 
@@ -280,9 +289,11 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSignIn();
             homePage
                 .IsOnHomePage(AutoUser6)
-                .IsOnHomePage(AutoUser6)
+                .IsOnHomePage(AutoUser6);
+            PageFactoryManager.Get<NavigationBase>()
                 .ClickParties()
-                .ClickNSC()
+                .ExpandNSC();
+            PageFactoryManager.Get<PartyNavigation>()
                 .ClickPartySubMenu()
                 .SwitchNewIFrame();
             //create new party
@@ -358,9 +369,11 @@ namespace si_automated_tests.Source.Test
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser6)
+                .IsOnHomePage(AutoUser6);
+            PageFactoryManager.Get<NavigationBase>()
                 .ClickParties()
-                .ClickNSC()
+                .ExpandNSC();
+            PageFactoryManager.Get<PartyNavigation>()
                 .ClickPartySubMenu()
                 .SwitchNewIFrame();
             //create new party 
@@ -427,9 +440,11 @@ namespace si_automated_tests.Source.Test
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser6)
+                .IsOnHomePage(AutoUser6);
+            PageFactoryManager.Get<NavigationBase>()
                 .ClickParties()
-                .ClickNSC()
+                .ExpandNSC();
+            PageFactoryManager.Get<PartyNavigation>()
                 .ClickPartySubMenu()
                 .SwitchNewIFrame();
             //create new party 

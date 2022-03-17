@@ -22,7 +22,6 @@ namespace si_automated_tests.Source.Main.Pages
 
         public PartyCommonPage ClickAddNewItem()
         {
-            SwitchNewIFrame();
             ClickOnElement(AddNewItem);
             return this;
         }

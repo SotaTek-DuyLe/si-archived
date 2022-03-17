@@ -58,10 +58,10 @@ namespace si_automated_tests.Source.Core
             }
             catch (NullReferenceException)
             {
+                System.Console.WriteLine("Browser not specified, setting up for Chrome");
                 new DriverManager().SetUpDriver(new ChromeConfig());
                 Drivers.Value = new ChromeDriver();
                 Browser = "chrome";
-                System.Console.WriteLine("Browser not specified, setting up for Chrome");
             }
             Drivers.Value.Manage().Window.Maximize();
         }
