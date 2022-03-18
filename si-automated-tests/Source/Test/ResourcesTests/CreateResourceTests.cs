@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 {
     public class CreateResourceTests : BaseTest
     {
+        [Category("Resources")]
         [Test]
         public void TEST_30_31_32_33_34_Create_Human_Resource()
         {
@@ -143,6 +144,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceCalendarTab>()
                 .VerifyWorkPatternIsSet("AM 05.00 - 14.00");
         }
+
+        [Category("Resources")]
         [Test]
         public void TEST_35_36_Create_Vehicle_Resource_Test()
         {
