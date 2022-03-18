@@ -54,6 +54,11 @@ namespace si_automated_tests.Source.Core
         }
 
         //SEND KEYS
+        public void SendKeys(IWebElement element, string value)
+        {
+            element.Clear();
+            element.SendKeys(value);
+        }
         public void SendKeys(string locator, string value)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(locator);
@@ -188,7 +193,7 @@ namespace si_automated_tests.Source.Core
             {
                 return false;
             }
-            
+
         }
 
         public bool IsControlUnDisplayed(string xpath, string value)
@@ -471,6 +476,12 @@ namespace si_automated_tests.Source.Core
         {
             return driver.WindowHandles.Count;
         }
-
+        public BasePage DragAndDrop(IWebElement sourceElement, IWebElement targetElement)
+        {
+            var builder = new Actions(IWebDriverManager.GetDriver());
+            var dragAndDrop = builder.ClickAndHold(sourceElement).MoveToElement(targetElement).Release(targetElement).Build();
+            dragAndDrop.Perform();
+            return this;
+        }
     }
 }
