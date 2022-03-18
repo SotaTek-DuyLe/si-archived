@@ -38,7 +38,6 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 SelectElement select = new SelectElement(_typeSelects[i]);
                 if (select.SelectedOption.Text.Equals(option))
                 {
-                    Console.WriteLine(i);
                     ClickOnElement(String.Format(expandOption, i + 1));
                     return this;
                 }
