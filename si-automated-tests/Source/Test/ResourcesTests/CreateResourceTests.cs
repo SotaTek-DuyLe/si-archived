@@ -56,7 +56,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Start Date", startDate)
                 .VerifyFirstResultValue("End Date", defaultEndDate)
                 .SwitchToDefaultContent();
-            
+
             //TC-31
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
@@ -72,7 +72,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<ServiceDefaultResourceTab>()
                 .IsOnServiceDefaultTab()
-                .ExpandDriverType()
+                .ExpandOption("Driver")
                 .ClickAddResource()
                 .VerifyInputIsAvailable(resourceName)
                 .SwitchToDefaultContent();
@@ -103,13 +103,15 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ExpandOption("Bulky Collections")
                 .ExpandOption("Round Groups")
                 .ExpandOption("BULKY1")
-                .OpenOption("Monday")
+                .OpenOption("Monday");
+            PageFactoryManager.Get<HomePage>()
+                .ClickTitle()
                 .SwitchNewIFrame()
                 .SwitchToTab("Default Resources");
 
             PageFactoryManager.Get<ServiceDefaultResourceTab>()
                 .IsOnServiceDefaultTab()
-                .ExpandDriverType()
+                .ExpandOption("Driver")
                 .ClickAddResource()
                 .VerifyInputIsAvailable(resourceName)
                 .SwitchToDefaultContent();
@@ -140,6 +142,66 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRefreshBtn();
             PageFactoryManager.Get<ResourceCalendarTab>()
                 .VerifyWorkPatternIsSet("AM 05.00 - 14.00");
+        }
+        [Test]
+        public void TEST_35_36_Create_Vehicle_Resource_Test()
+        {
+            string resourceName = "Cage " + CommonUtil.GetRandomNumber(5);
+            string startDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
+            string defaultEndDate = "01/01/2050";
+            string resourceType = "Cage";
+
+            //TC-35
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser4.UserName, AutoUser4.Password)
+                .IsOnHomePage(AutoUser4);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Resources")
+                .OpenOption("North Star");
+            PageFactoryManager.Get<HomePage>()
+                .ClickTitle()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved resource.")
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValue("Name", resourceName)
+                .VerifyFirstResultValue("Resource Type", resourceType)
+                .VerifyFirstResultValue("Start Date", startDate)
+                .VerifyFirstResultValue("End Date", defaultEndDate)
+                .SwitchToDefaultContent();
+            //TC-36
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star")
+                .ExpandOption("Ancillary")
+                .ExpandOption("Clinical Waste")
+                .ExpandOption("Round Groups")
+                .ExpandOption("CLINICAL1")
+                .OpenOption("Monday")
+                .SwitchNewIFrame()
+                .SwitchToTab("Default Resources");
+            PageFactoryManager.Get<ServiceDefaultResourceTab>()
+                .IsOnServiceDefaultTab()
+                .ExpandOption("Cage")
+                .ClickAddResource()
+                .VerifyInputIsAvailable(resourceName)
+                .SwitchToDefaultContent();
         }
     }
 }
