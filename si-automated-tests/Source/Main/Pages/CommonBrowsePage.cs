@@ -40,7 +40,6 @@ namespace si_automated_tests.Source.Main.Pages
                 if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
                 {
                     IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
-                    Console.WriteLine(_firstResultFields[i+1].Text);
                     Assert.AreEqual(expected, _firstResultFields[i + 1].Text);
                 }
             }

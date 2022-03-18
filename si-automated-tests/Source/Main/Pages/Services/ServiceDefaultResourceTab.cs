@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using si_automated_tests.Source.Core;
 using System;
 using System.Collections.Generic;
@@ -9,10 +10,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
 {
     public class ServiceDefaultResourceTab : BasePage
     {
-        //Temporary hard coded for tc31, need an upgrade if other tests use
-        private readonly By expandOption = By.XPath("(//div[@id='toggle-actions'])[2]");
+        private readonly string expandOption = "(//div[@id='toggle-actions'])[{0}]";
         private readonly By addResourceBtn = By.XPath("//tr[contains(@id,'child-target') and @aria-expanded='true']/descendant::button");
         private readonly By resourceInput = By.XPath("//tr[contains(@id,'child-target') and @aria-expanded='true']/descendant::tbody/tr[2]/td/select");
+
+        //select elements
+        private readonly By typeSelects = By.XPath("//select[@id='type.id']");
 
         private readonly By tableHeader1 = By.XPath("//div[@id='default-resources']/descendant::th[text()='Type']");
         private readonly By tableHeader2 = By.XPath("//div[@id='default-resources']/descendant::th[text()='Quantity']");
@@ -27,9 +30,19 @@ namespace si_automated_tests.Source.Main.Pages.Services
             WaitUtil.WaitForElementVisible(tableHeader4);
             return this;
         }
-        public ServiceDefaultResourceTab ExpandDriverType()
+        public ServiceDefaultResourceTab ExpandOption(string option)
         {
-            ClickOnElement(expandOption);
+            IList<IWebElement> _typeSelects = WaitUtil.WaitForAllElementsVisible(typeSelects);
+            for (int i = 0; i < _typeSelects.Count; i++)
+            {
+                SelectElement select = new SelectElement(_typeSelects[i]);
+                if (select.SelectedOption.Text.Equals(option))
+                {
+                    Console.WriteLine(i);
+                    ClickOnElement(String.Format(expandOption, i + 1));
+                    return this;
+                }
+            }
             return this;
         }
         public ServiceDefaultResourceTab ClickAddResource()
