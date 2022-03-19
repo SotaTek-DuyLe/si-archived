@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
@@ -17,11 +18,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
     {
         [Category("Resources")]
         [Test]
-        public void TEST_41()
+        public void TEST_41_42_Create_Resource_And_Daily_Allocation()
         {
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
-            string startDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
-            string defaultEndDate = "01/01/2050";
+            string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy",1);
             string resourceType = "Driver";
 
             PageFactoryManager.Get<LoginPage>()
@@ -41,7 +41,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear();
-            Thread.Sleep(5555);
+            Thread.Sleep(1000);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
                 .SwitchToLastWindow();
@@ -56,13 +56,52 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow()
                 .SwitchNewIFrame()
                 .SwitchToTab("All Resources");
+            //ALLOCATE FOR CURRENT DATE
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Resource", resourceName);
-            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName)
                 .VerifyFirstResultValue("Resource", resourceName)
-                .DragAndDropFirstResourceToFirstRound();
-
-            Thread.Sleep(5555);
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName)
+                .ClickAllocatedResource(resourceName)
+                .VerifyPresenceOption("IN/OUT")
+                .ClickPresenceOption();
+            Thread.Sleep(500);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyBackgroundColor(resourceName, "green")
+                .ClickAllocatedResource(resourceName)
+                .VerifyPresenceOption("IN/OUT")
+                .ClickPresenceOption();
+            Thread.Sleep(500);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyBackgroundColor(resourceName, "white")
+                .InsertDate(dateInFutre + Keys.Enter)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear();
+            Thread.Sleep(1000);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SwitchToTab("All Resources");
+            //ALLOCATE FOR FUTURE DATE
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName)
+                .VerifyFirstResultValue("Resource", resourceName)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName)
+                .ClickAllocatedResource(resourceName)
+                .VerifyPresenceOption("PRE-CONFIRM/UN-CONFIRM")
+                .ClickPresenceOption();
+            Thread.Sleep(500);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyBackgroundColor(resourceName, "purple")
+                .ClickAllocatedResource(resourceName)
+                .VerifyPresenceOption("PRE-CONFIRM/UN-CONFIRM")
+                .ClickPresenceOption();
+            Thread.Sleep(500);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyBackgroundColor(resourceName, "white");
         }
     }
 }
