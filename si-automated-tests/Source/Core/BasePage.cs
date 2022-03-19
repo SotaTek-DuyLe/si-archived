@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using NUnit.Framework.Internal;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.PageObjects;
-using SeleniumExtras.WaitHelpers;
 
 namespace si_automated_tests.Source.Core
 {
@@ -399,7 +395,7 @@ namespace si_automated_tests.Source.Core
         //SELECT VALUE FROM SELECT ELEMENT
         public BasePage SelectTextFromDropDown(By by, string _text)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             IWebElement comboBox = WaitUtil.WaitForElementClickable(by);
             SelectElement selectedValue = new SelectElement(comboBox);
             selectedValue.SelectByText(_text);
