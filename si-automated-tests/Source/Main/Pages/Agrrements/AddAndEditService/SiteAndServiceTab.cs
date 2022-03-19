@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
+namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
 {
     public class SiteAndServiceTab : AddServicePage
     {

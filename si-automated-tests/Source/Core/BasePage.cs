@@ -149,6 +149,13 @@ namespace si_automated_tests.Source.Core
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             act.DoubleClick(element).Perform();
         }
+        public void DoubleClickOnElement(string xpath, string value)
+        {
+            xpath = String.Format(xpath, value);
+            Actions act = new Actions(IWebDriverManager.GetDriver());
+            IWebElement element = WaitUtil.WaitForElementVisible(xpath);
+            act.DoubleClick(element).Perform();
+        }
         public void DoubleClickOnElement(string xpath)
         {
             Actions act = new Actions(IWebDriverManager.GetDriver());
@@ -158,6 +165,7 @@ namespace si_automated_tests.Source.Core
         public void DoubleClickOnElement(IWebElement element)
         {
             Actions act = new Actions(IWebDriverManager.GetDriver());
+            WaitUtil.WaitForElementClickable(element);
             act.DoubleClick(element).Perform();
         }
         public bool IsControlDisplayed(string xpath)
@@ -391,7 +399,8 @@ namespace si_automated_tests.Source.Core
         //SELECT VALUE FROM SELECT ELEMENT
         public BasePage SelectTextFromDropDown(By by, string _text)
         {
-            IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
+            Thread.Sleep(3000);
+            IWebElement comboBox = WaitUtil.WaitForElementClickable(by);
             SelectElement selectedValue = new SelectElement(comboBox);
             selectedValue.SelectByText(_text);
             return this;
@@ -420,6 +429,7 @@ namespace si_automated_tests.Source.Core
         public BasePage VerifyToastMessage(string message)
         {
             Assert.AreEqual(message, GetToastMessage());
+            WaitUtil.WaitForElementInvisible("//div[@data-notify-html='title']");
             return this;
         }
         public bool IsElementSelected(By by)
@@ -476,6 +486,14 @@ namespace si_automated_tests.Source.Core
         {
             return driver.WindowHandles.Count;
         }
+
+        //SLEEP TIME IN MILISECONDS
+        public BasePage SleepTimeInMiliseconds(int num)
+        {
+            Thread.Sleep(num);
+            return this;
+        }
+
         public BasePage DragAndDrop(IWebElement sourceElement, IWebElement targetElement)
         {
             var builder = new Actions(IWebDriverManager.GetDriver());

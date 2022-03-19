@@ -1,9 +1,13 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
-using si_automated_tests.Source.Main.Pages.Agrrements;
+using si_automated_tests.Source.Main.Models.Agreement;
+
 using si_automated_tests.Source.Main.Pages.Paties;
-using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement.Tabs;
+using si_automated_tests.Source.Main.Pages.Agrrements;
+using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
+using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
+using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,7 +15,7 @@ using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.PartyAgreement
 {
-    //Party Agreement Detail Page
+    //Agreement Detail Page
     //Can be opened through Party Detail Page -> Agreement Tab -> Double click one agreement
     //Or Agreements Main Page -> Double click one agreement
     public class PartyAgreementPage : BasePage
@@ -22,6 +26,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private readonly By closeWithoutSavingBtn = By.XPath("//a[@aria-controls='details-tab']/ancestor::body//button[@title='Close Without Saving']");
         private readonly By closeBtn = By.XPath("//button[@title='Close Without Saving']");
         private readonly By status = By.XPath("//div[@title='Agreement Status']");
+        private string agreementStatus = "//div[@title='Agreement Status']//span[text()='{0}']";
 
         private readonly By agreementTypeInput = By.Id("agreement-type");
         private readonly By startDateInput = By.Id("start-date");
@@ -50,7 +55,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private readonly By assetAndProductAssetTypeStartDate = By.XPath("//tbody[contains(@data-bind,'assetProducts')]//span[@title='Start Date']");
         private readonly By regularAssertTypeStartDate = By.XPath("//span[text()='Regular']/ancestor::div[1]/following-sibling::div//span[contains(@data-bind,'displayStartDate')]");
         private readonly By serviceTaskLineTypeStartDates = By.XPath("//th[text()='Task Line Type']/ancestor::thead[1]/following-sibling::tbody//span[@title='Start Date']");
-
+        private readonly By createAdhocBtn = By.XPath("//button[text()='Create Ad-Hoc Task']");
         //Summary title
         private readonly By startDate = By.XPath("//span[@title='Start Date']");
         private readonly By endDate = By.XPath("//span[@title='End Date']");
@@ -60,23 +65,18 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
 
         //Task Tab locator 
         private readonly By taskTabBtn = By.XPath("//a[@aria-controls='tasks-tab']");
-        private readonly By refreshBtn = By.XPath("//button[@title='Refresh']");
-        private string firstTask = "(//div[text()='Deliver Commercial Bin'])[2]";
-        private string secondTask = "(//div[text()='Deliver Commercial Bin'])[1]";
-        private string dueDateColumn = "/following-sibling::div[2]";
-        private string taskTypeColumn = "//div[contains(@class,'r11')]";
 
-        private readonly By createAdhocBtn = By.XPath("//button[text()='Create Ad-Hoc Task']");
+        //Agreement Tab locator
+        private readonly By agreementTabBtn = By.XPath("//a[@aria-controls='agreements-tab']");
+        private string agreementWithDate = "//div[text()='{0}']";
 
         public PartyAgreementPage ClickOnDetailsTab()
         {
-            WaitUtil.WaitForElementClickable(detailsTabBtn);
             ClickOnElement(detailsTabBtn);
             return this;
         }
         public PartyAgreementPage CloseWithoutSaving()
         {
-            WaitUtil.WaitForElementClickable(closeWithoutSavingBtn);
             ClickOnElement(closeWithoutSavingBtn);
             return this;
         }
@@ -139,6 +139,13 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             WaitUtil.WaitForTextVisibleInElement(status, _status);
             return this;
         }
+        public PartyAgreementPage VerifyAgreementStatusWithText(string _status)
+        {
+            Thread.Sleep(10000);
+            WaitUtil.WaitForElementInvisible(agreementStatus, _status);
+            Assert.IsTrue(IsControlDisplayed(agreementStatus, _status));
+            return this;
+        }
         public PartyAgreementPage VerifyNewOptionsAvailable()
         {
             WaitUtil.WaitForElementVisible(addServiceBtn);
@@ -153,12 +160,15 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         }
         public PartyAgreementPage ClickApproveAgreement()
         {
+            ScrollDownToElement(approveBtn);
             ClickOnElement(approveBtn);
             return this;
         }
         public PartyAgreementPage ConfirmApproveBtn()
         {
+            WaitUtil.WaitForElementClickable(confirmApproveBtn);
             ClickOnElement(confirmApproveBtn);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         public AddServicePage ClickAddService()
@@ -231,62 +241,36 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             return this;
         }
 
-        //Task tab
-        public PartyAgreementPage ClickTaskTabBtn()
-        {
-            ClickOnElement(taskTabBtn);
-            return this;
-        }
-        public PartyAgreementPage VerifyTwoNewTaskAppear()
-        {
-            this.WaitForLoadingIconToDisappear();
-            int i = 10;
-            while (i > 0)
-            {
-                if(GetElementText(firstTask).Equals("Deliver Commercial Bin") && GetElementText(secondTask).Equals("Deliver Commercial Bin"))
-                {
-                    Assert.AreEqual(GetElementText(firstTask), "Deliver Commercial Bin");
-                    Assert.AreEqual(GetElementText(secondTask), "Deliver Commercial Bin");
-                    String tomorrowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1).Replace('-', '/');
-                    String firstDueDate = GetElementText(firstTask + dueDateColumn).Substring(0,10);
-                    String secondDueDate = GetElementText(secondTask + dueDateColumn).Substring(0,10);
-                    //verify created date is tommorrow
-                    Assert.AreEqual(tomorrowDate, firstDueDate);
-                    Assert.AreEqual(tomorrowDate, secondDueDate);
-                    break;
-                }
-                else
-                {
-                    ClickOnElement(refreshBtn);
-                    this.WaitForLoadingIconToDisappear();
-                    Thread.Sleep(20000);
-                    i--;
-                }
-            }
-            
-            return this;
-        }
-
-        public PartyAgreementPage GoToFirstTask()
-        {
-            DoubleClickOnElement(firstTask);
-            return this;
-        }
-
-        public PartyAgreementPage GoToSecondTask()
-        {
-            DoubleClickOnElement(secondTask);
-            return this;
-        }
         public PartyAgreementPage VerifyCreateAdhocButtonsAreDisabled()
         {
             IList<IWebElement> createAdhocBtns = WaitUtil.WaitForAllElementsVisible(createAdhocBtn);
-            foreach(var btn in createAdhocBtns)
+            foreach (var btn in createAdhocBtns)
             {
                 Assert.AreEqual(false, btn.Enabled);
             }
             return this;
         }
 
+        //Task tab
+        public PartyAgreementPage ClickTaskTabBtn()
+        {
+            WaitUtil.WaitForElementClickable(taskTabBtn);
+            ClickOnElement(taskTabBtn);
+            return this;
+        }
+        
+        //Agreement Tab
+        public PartyAgreementPage ClickToAgreementTab()
+        {
+            ClickOnElement(agreementTabBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public PartyAgreementPage OpenAnAgreementWithDate(string date)
+        {
+            DoubleClickOnElement(agreementWithDate, date);
+            return this;
+        }
     }
 }

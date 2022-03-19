@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace si_automated_tests.Source.Main.Pages.PartyAgreement
+namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
 {
     public class AddServicePage : BasePage
     {

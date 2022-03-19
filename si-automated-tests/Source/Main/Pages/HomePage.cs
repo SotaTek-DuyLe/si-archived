@@ -29,6 +29,7 @@ namespace si_automated_tests.Source.Main.Pages
 
         //MENU
         private const string PatiesMenu = "//span[text()='Parties']/parent::h4/parent::div";
+        private const string ServicesMenu = "//span[text()='Services']/parent::h4/parent::div";
 
         //SUB SUB MENU
         private readonly string userNameBtn = ConfigManager.GetCurrentPlatform().Equals(WebPlatform.IE)
@@ -92,6 +93,11 @@ namespace si_automated_tests.Source.Main.Pages
             ClickOnElement(PatiesMenu);
             return PageFactoryManager.Get<PartyNavigation>();
         }
+        public HomePage ClickServices()
+        {
+            ClickOnElement(ServicesMenu);
+            return this;
+        }
         public HomePage ClickCreateEventDropdownAndVerify()
         {
             ClickOnElement(CreateEvenDropdownBtn);
@@ -140,5 +146,32 @@ namespace si_automated_tests.Source.Main.Pages
         }
 
 
+
+
+
+
+        private readonly string regions = "//span[text()='Regions']/parent::a/preceding-sibling::span[2]";
+        private readonly string london = "//span[text()='London']/parent::a/preceding-sibling::span[2]";
+        private readonly string northStarComercial = "//span[text()='North Star Commercial']/parent::a/preceding-sibling::span[2]";
+        private readonly string collections = "//span[text()='Collections']/parent::a/preceding-sibling::span[2]";
+        private readonly string comercialCollection = "//span[text()='Commercial Collections']/parent::a/preceding-sibling::span[2]";
+        private readonly string activeServiceTask = "//span[text()='Active Service Tasks']";
+
+        public HomePage GoToActiveServiceTask()
+        {
+            WaitUtil.WaitForElementVisible(regions);
+            ClickOnElement(regions);
+            WaitUtil.WaitForElementVisible(london);
+            ClickOnElement(london);
+            WaitUtil.WaitForElementVisible(northStarComercial);
+            ClickOnElement(northStarComercial);
+            WaitUtil.WaitForElementVisible(collections);
+            ClickOnElement(collections);
+            WaitUtil.WaitForElementVisible(comercialCollection);
+            ClickOnElement(comercialCollection);
+            WaitUtil.WaitForElementVisible(activeServiceTask);
+            ClickOnElement(activeServiceTask);
+            return this;
+        }
     }
 }
