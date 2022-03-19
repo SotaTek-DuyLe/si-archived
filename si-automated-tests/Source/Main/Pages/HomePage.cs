@@ -15,11 +15,7 @@ namespace si_automated_tests.Source.Main.Pages
 {
     public class HomePage : BasePage
     {
-        //HEADER
-        private const string UserNameBtn = "//li[contains(@class, 'dropdown')]/button";
-        private const string PageTitle = "//p[text()='Northstar Environmental Services – Demo 8.6.0-dev01']";
-        private const string SearchBtn = "//span[text()='Search']/parent::button";
-        private const string LogoutBtn = "//a[text()='Log out']";
+        
         private const string CreateEvenDropdownBtn = "//button[contains(text(), 'Create')]/following-sibling::button";
 
         //CREATE EVEN SUB MENU
@@ -35,13 +31,7 @@ namespace si_automated_tests.Source.Main.Pages
         private const string PatiesMenu = "//span[text()='Parties']/parent::h4/parent::div";
         private const string ServicesMenu = "//span[text()='Services']/parent::h4/parent::div";
 
-        //SUB MENU
-        private const string NorthStartCommercialMenu = "//span[text()='North Star Commercial']/parent::a/preceding-sibling::span[2]";
-
         //SUB SUB MENU
-        private const string PartiesSubSubMenu = "//span[text()='Parties']/parent::a";
-        private const string AgreementSubSubMenu = "//span[text()='Agreements']/parent::a";
-        private const string SiteServicesSubSubMenu = "//span[text()='Site Services']/parent::a";
         private readonly string userNameBtn = ConfigManager.GetCurrentPlatform().Equals(WebPlatform.IE)
             ? "//a[@id='DisplayName']"
             : "//li[contains(@class, 'dropdown')]/button";

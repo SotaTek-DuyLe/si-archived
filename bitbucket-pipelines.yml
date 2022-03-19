@@ -7,16 +7,76 @@ image: mcr.microsoft.com/dotnet/core/sdk:3.1
 
 pipelines:
   custom:
-    manual run:
+    Run junit report:
       - step:
-            caches:
-              - dotnetcore
+            runs-on:
+              - self.hosted
+              - windows
             script:
+              - dotnet clean
               - dotnet restore
-              - dotnet build --no-restore --configuration Debug
-              - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
               - cd si-automated-tests
-              - dotnet test --no-build --configuration Debug --test-adapter-path:. --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml" -s test.runsettings
+              - dotnet add package JUnitTestLogger --version 1.1.0
+              - dotnet test --logger:"junit" -s test.runsettings
+
+    Run trx report:
+      - step:
+            runs-on:
+              - self.hosted
+              - windows
+            script:
+              - dotnet clean
+              - dotnet restore
+              - cd si-automated-tests
+              - dotnet test --logger:"trx;LogFileName=../../TestResults/TestOutput.trx" -s test.runsettings
+            after-script:
+              - set PATH="{$env:PATH}:/root/.dotnet/tools"
+              - trx2junit ./TestResults/*.trx
+
+    Run custom test:
+      - variables:
+            - name: TestName
+      - step:
+            runs-on:
+              - self.hosted
+              - windows
+            script:
+              - echo "Running test named " $env:TestName
+              - dotnet clean
+              - dotnet restore
+              - cd si-automated-tests
+              - dotnet add package JUnitTestLogger --version 1.1.0
+              - dotnet test --filter Name~$env:TestName --logger:"junit" -s test.runsettings
+
+    Run custom test class:
+      - variables:
+            - name: TestClass
+      - step:
+            runs-on:
+              - self.hosted
+              - windows
+            script:
+              - echo "Running class named " $env:TestClass
+              - dotnet clean
+              - dotnet restore
+              - cd si-automated-tests
+              - dotnet add package JUnitTestLogger --version 1.1.0
+              - dotnet test --filter FullyQualifiedName~si_automated_tests.Source.Test.$env:TestClass --logger:"junit" -s test.runsettings
+
+    Run custom test category:
+      - variables:
+            - name: TestCategory
+      - step:
+            runs-on:
+              - self.hosted
+              - windows
+            script:
+              - echo "Running Category named " $env:TestCategory
+              - dotnet clean
+              - dotnet restore
+              - cd si-automated-tests
+              - dotnet add package JUnitTestLogger --version 1.1.0
+              - dotnet test --filter TestCategory=$env:TestCategory --logger:"junit" -s test.runsettings
               
   default:
     - parallel:
@@ -27,15 +87,6 @@ pipelines:
             script:
               - dotnet restore
               - dotnet build --no-restore
-        - step:
-            name: Test
-            trigger: manual
-            caches:
-              - dotnetcore
-            script:
-              - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
-              - cd si-automated-tests
-              - dotnet test --no-build --test-adapter-path:. --logger:"trx;LogFilePath=$REPORTS_PATH/TestOutput.xml" -s test.runsettings
         - step:
             name: Lint the code
             caches:
