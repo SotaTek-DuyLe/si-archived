@@ -9,7 +9,6 @@ namespace si_automated_tests.Source.Main.Pages.Services
     {
         private string taskLineTab = "//a[@aria-controls='tasklines-tab']";
         private string scheduleTab = "//a[@aria-controls='schedules-tab']";
-        private string closeWithoutSavingBtn = "//button[@title='Close Without Saving']";
 
         public ServicesTaskPage ClickOnTaskLineTab()
         {
@@ -23,10 +22,5 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
-        public ServicesTaskPage CloseWithoutSaving()
-        {
-            ClickOnElement(closeWithoutSavingBtn);
-            return this;
-        }
     }
 }

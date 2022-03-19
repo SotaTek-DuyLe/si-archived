@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
+namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
 {
     public class AssetAndProducTab : AddServicePage
     {
@@ -29,6 +29,9 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
         private readonly string editAssertDoneBtn = "//button[text()='Done' and contains(@data-bind,'finishAssetProduct')]";
         private readonly By tenureText = By.XPath("//label[text()='Tenure']");
         private string textXpath = "//*[contains(text(),'{0}')]";
+
+        //Remove Asset
+        private readonly By removeAsset = By.XPath("//button[contains(@data-bind, 'removeAssetProduct')]");
         public AssetAndProducTab IsOnAssetTab()
         {
             WaitUtil.WaitForElementVisible(addBtn);
@@ -43,15 +46,11 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
         public AssetAndProducTab ChooseAssetType(string value)
         {
             SelectTextFromDropDown(assetType, value);
-            /*if (value == "1100L")
-            {
-                SelectIndexFromDropDown(assetType, 2);
-            }
-            else SelectIndexFromDropDown(assetType, 1);*/
             return this;
         }
         public AssetAndProducTab ClickAssetType()
         {
+            Thread.Sleep(1000);
             ClickOnElement(assetType);
             return this;
         }
@@ -138,6 +137,13 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
             Thread.Sleep(1000);
             WaitUtil.WaitForElementClickable(editAssertDoneBtn);
             ClickToElementByJavascript(editAssertDoneBtn);
+            return this;
+        }
+
+        //Remove Asset 
+        public AssetAndProducTab ClickRemoveAsset()
+        {
+            ClickOnElement(removeAsset);
             return this;
         }
 

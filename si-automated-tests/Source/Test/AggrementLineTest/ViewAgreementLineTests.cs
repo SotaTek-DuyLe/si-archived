@@ -4,11 +4,14 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
-using si_automated_tests.Source.Main.Pages.Agrrements;
 using si_automated_tests.Source.Main.Pages.Paties;
-using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement.Tabs;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+
+using si_automated_tests.Source.Main.Pages.Agrrements;
+using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
+using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
+using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
 {

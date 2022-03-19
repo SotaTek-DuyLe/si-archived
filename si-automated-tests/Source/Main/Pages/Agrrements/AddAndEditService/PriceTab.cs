@@ -6,7 +6,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
-namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
+namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
 {
     public class PriceTab : AddServicePage
     {
@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
         //fix locator for tc 016 017 
         private string removePriceBtn = "(//div[contains(@data-bind,'priceEditor')]//button[@title='Retire/Remove'])[3]";
         private string allPrices17 = "(//tr[@class='heading']/following-sibling::tr[1])[1]//button[@title='Retire/Remove']";
+        private string redundantPrice = "(//div[@id='step-4']//input[@placeholder='Price £' and contains(@class, 'has-error')])[1]/parent::td/following-sibling::td//button[@title='Retire/Remove']";
 
         public PriceTab ClosePriceRecords()
         {
@@ -64,6 +65,26 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement.AddService
                 if (!IsControlUnDisplayed(allPrices17))
                 {
                     ClickOnElement(allPrices17);
+                    Thread.Sleep(1000);
+                    i--;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return this;
+        }
+
+        public PriceTab RemoveAllRedundantPrices(int num)
+        {
+            int i = num;
+            while (i > 0)
+            {
+                if (!IsControlUnDisplayed(redundantPrice))
+                {
+                    ClickOnElement(redundantPrice);
                     Thread.Sleep(1000);
                     i--;
                 }

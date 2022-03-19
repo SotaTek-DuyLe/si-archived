@@ -61,7 +61,6 @@
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
     <Folder Include="Source\Main\Pages\Paties\SiteServices\" />
     <Folder Include="Source\Main\Pages\Paties\Sites\" />
-    <Folder Include="Source\Main\Pages\Paties\PartyAgreement\Tabs\" />
     <Folder Include="Source\Main\Pages\Task\" />
   </ItemGroup>
   <ItemGroup>

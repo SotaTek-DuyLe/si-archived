@@ -160,6 +160,7 @@ namespace si_automated_tests.Source.Core
         public void DoubleClickOnElement(IWebElement element)
         {
             Actions act = new Actions(IWebDriverManager.GetDriver());
+            WaitUtil.WaitForElementClickable(element);
             act.DoubleClick(element).Perform();
         }
         public bool IsControlDisplayed(string xpath)
@@ -481,5 +482,11 @@ namespace si_automated_tests.Source.Core
             return driver.WindowHandles.Count;
         }
 
+        //SLEEP TIME IN MILISECONDS
+        public BasePage SleepTimeInMiliseconds(int num)
+        {
+            Thread.Sleep(num);
+            return this;
+        }
     }
 }

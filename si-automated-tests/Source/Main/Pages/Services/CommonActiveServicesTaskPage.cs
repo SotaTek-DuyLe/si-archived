@@ -11,7 +11,6 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         public CommonActiveServicesTaskPage OpenTribleYarnsWithDate(string date)
         {
-            WaitUtil.WaitForElementVisible(tribeYarnsWithDate, date);
             DoubleClickOnElement(tribeYarnsWithDate, date);
             return this;
         }
