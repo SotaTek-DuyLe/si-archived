@@ -21,6 +21,5 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(scheduleTab);
             return this;
         }
-
     }
 }

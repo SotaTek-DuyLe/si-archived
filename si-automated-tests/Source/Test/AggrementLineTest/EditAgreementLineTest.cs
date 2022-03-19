@@ -328,9 +328,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServicesTaskPage>()
                 .ClickOnTaskLineTab()
-                .ClickOnScheduleTask()
-                .CloseWithoutSaving()
-                .SwitchToChildWindow(3);
+                .ClickOnScheduleTask();
+           PageFactoryManager.Get<BasePage>()
+               .ClickCloseBtn()
+               .SwitchToChildWindow(3);
 
             //step 27 
             PageFactoryManager.Get<PartyAgreementPage>()
