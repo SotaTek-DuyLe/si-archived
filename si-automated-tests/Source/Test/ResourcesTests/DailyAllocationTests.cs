@@ -33,7 +33,6 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
                 .OpenOption("Daily Allocation")
-                .ExitNavigation()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .SelectContract("North Star")

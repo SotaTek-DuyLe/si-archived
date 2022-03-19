@@ -16,27 +16,10 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
            : "//p[text()='Northstar Environmental Services – Demo 8.6.0-dev01']";
 
         //Main options
-        private readonly string patiesMenu = "//span[text()='Parties']/parent::h4/parent::div";
         private readonly string mainOption = "//span[text()='{0}']/parent::h4/parent::div";
         private readonly string dropdownOption = "//span[text()='{0}']/parent::a/preceding-sibling::span[2]";
         private readonly string option = "//span[text()='{0}']/parent::a";
-
-
-        //Sub options
-        private readonly string northStarCommercialDropdownBtn = "//span[text()='North Star Commercial']/parent::a/preceding-sibling::span[2]";
-
-        public PartyNavigation ClickParties()
-        {
-            ClickOnElement(patiesMenu);
-            return PageFactoryManager.Get<PartyNavigation>();
-        }
-
-        public NavigationBase ExpandNSC()
-        {
-            ClickOnElement(northStarCommercialDropdownBtn);
-            return this;
-        }
-
+      
         public NavigationBase ClickMainOption(string optionName)
         {
             Thread.Sleep(250);
@@ -53,6 +36,7 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
         {
             Thread.Sleep(250);
             ClickOnElement(String.Format(option, optionName));
+            ExitNavigation();
             return this;
         }
         //Exit Navigation

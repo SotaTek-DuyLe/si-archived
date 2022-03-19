@@ -24,13 +24,10 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
         //Task Lines Locator 
         private static string typeColumn = "//th[text()='Type']/ancestor::thead/following-sibling::tbody/tr[1]/td[count(//th[text()='Type']/preceding-sibling::th) + boolean(//th[text()='Type'])]";
         private static string typeSelected = typeColumn + "//option[@value='2']";
-        private static string typeSelected1 = typeColumn + "//option[@value='1']";
         private static string assetTypeColumn = "//th[text()='Asset Type']/ancestor::thead/following-sibling::tbody/tr[1]/td[count(//th[text()='Asset Type']/preceding-sibling::th) + boolean(//th[text()='Asset Type'])]";
         private static string assetTypeSelected = assetTypeColumn + "//option[@selected='true']";
-        private static string scheduleAssertQuantityInput = "//th[text()='Scheduled Asset Qty']/ancestor::thead/following-sibling::tbody/tr[1]/td[count(//th[text()='Scheduled Asset Qty']/preceding-sibling::th) + boolean(//th[text()='Scheduled Asset Qty'])]//input";
         private static string productColumn = "//th[text()='Product']/ancestor::thead/following-sibling::tbody/tr[1]/td[count(//th[text()='Product']/preceding-sibling::th) + boolean(//th[text()='Product'])]";
         private static string productSelected = productColumn + "//option[@selected='true']";
-        private static string scheduleProductQuantityColumn = "//th[text()='Scheduled Product Quantity']/ancestor::thead/following-sibling::tbody/tr[1]/td[count(//th[text()='Scheduled Product Quantity']/preceding-sibling::th) + boolean(//th[text()='Scheduled Product Quantity'])]";
         private static string unitColumn = "//th[text()='Unit']/ancestor::thead/following-sibling::tbody/tr[1]/td[count(//th[text()='Unit']/preceding-sibling::th) + boolean(//th[text()='Unit'])]";
         private static string unitSelected = unitColumn + "//option[@selected='true']";
         private static string stateColumn = "//th[text()='State']/ancestor::thead/following-sibling::tbody/tr[1]/td[count(//th[text()='State']/preceding-sibling::th) + boolean(//th[text()='State'])]";

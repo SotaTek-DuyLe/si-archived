@@ -31,10 +31,9 @@ namespace si_automated_tests.Source.Test
                 .Login(AutoUser5.UserName, AutoUser5.Password)
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickParties()
-                .ExpandNSC();
-            PageFactoryManager.Get<PartyNavigation>()
-                .ClickPartySubMenu()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -74,9 +73,10 @@ namespace si_automated_tests.Source.Test
                 .ClickCloseBtn()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser5)
-                .ClickParties()
-                .ClickAgreementSubMenu()
+                .IsOnHomePage(AutoUser5);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(newAgreementId)
@@ -150,9 +150,10 @@ namespace si_automated_tests.Source.Test
                 .ClosePartyAgreementPage()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser5)
-                .ClickParties()
-                .ClickPartySubMenu()
+                .IsOnHomePage(AutoUser5);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -186,10 +187,9 @@ namespace si_automated_tests.Source.Test
                 .Login(AutoUser5.UserName, AutoUser5.Password)
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickParties()
-                .ExpandNSC();
-            PageFactoryManager.Get<PartyNavigation>()
-                .ClickPartySubMenu()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -225,9 +225,10 @@ namespace si_automated_tests.Source.Test
                 .ClickCloseBtn()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser5)
-                .ClickParties()
-                .ClickAgreementSubMenu()
+                .IsOnHomePage(AutoUser5);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(newAgreementId)
@@ -303,9 +304,10 @@ namespace si_automated_tests.Source.Test
                 .ClosePartyAgreementPage()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser5)
-                .ClickParties()
-                .ClickPartySubMenu()
+                .IsOnHomePage(AutoUser5);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -355,10 +357,9 @@ namespace si_automated_tests.Source.Test
                 .Login(AutoUser5.UserName, AutoUser5.Password)
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickParties()
-                .ExpandNSC();
-            PageFactoryManager.Get<PartyNavigation>()
-                .ClickPartySubMenu()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -394,9 +395,10 @@ namespace si_automated_tests.Source.Test
                 .ClickCloseBtn()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser5)
-                .ClickParties()
-                .ClickAgreementSubMenu()
+                .IsOnHomePage(AutoUser5);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(newAgreementId)
@@ -472,9 +474,10 @@ namespace si_automated_tests.Source.Test
                 .ClosePartyAgreementPage()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser5)
-                .ClickParties()
-                .ClickPartySubMenu()
+                .IsOnHomePage(AutoUser5);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)

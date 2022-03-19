@@ -93,11 +93,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return allTabs;
         }
-        public DetailPartyPage ClickSaveBtn()
-        {
-            ClickOnElement(SaveBtn);
-            return this;
-        }
         public DetailPartyPage MergeAllTabInDetailPartyAndVerify()
         {
             WaitUtil.WaitForElementVisible(AllTabDisplayed);

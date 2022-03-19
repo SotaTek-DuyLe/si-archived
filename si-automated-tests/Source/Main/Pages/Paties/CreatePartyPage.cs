@@ -56,16 +56,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(GetElementText(String.Format(PartyTypeValue, 3)), "Supplier");
             return this;
         }
-        public CreatePartyPage ClickSaveBtn()
-        {
-            ClickOnElement(SaveBtn);
-            return this;
-        }
-        public CreatePartyPage ClickSaveAndCloseBtn()
-        {
-            ClickOnElement(SaveAndCloseBtn);
-            return this;
-        }
         public CreatePartyPage SendKeyToThePartyInput(string partyName)
         {
             SendKeys(PartyNameInput, partyName);

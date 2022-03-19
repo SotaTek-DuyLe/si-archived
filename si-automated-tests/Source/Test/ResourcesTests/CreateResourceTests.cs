@@ -33,9 +33,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnHomePage(AutoUser4);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .OpenOption("North Star");
-            PageFactoryManager.Get<HomePage>()
-                .ClickTitle()
+                .OpenOption("North Star")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
@@ -104,9 +102,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ExpandOption("Bulky Collections")
                 .ExpandOption("Round Groups")
                 .ExpandOption("BULKY1")
-                .OpenOption("Monday");
-            PageFactoryManager.Get<HomePage>()
-                .ClickTitle()
+                .OpenOption("Monday")
                 .SwitchNewIFrame()
                 .SwitchToTab("Default Resources");
 
@@ -163,9 +159,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnHomePage(AutoUser4);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .OpenOption("North Star");
-            PageFactoryManager.Get<HomePage>()
-                .ClickTitle()
+                .OpenOption("North Star")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
