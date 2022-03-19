@@ -107,7 +107,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
-                .OpenOption("Parties")
+                .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")
                 .OpenOption("Parties")
                 .SwitchNewIFrame();

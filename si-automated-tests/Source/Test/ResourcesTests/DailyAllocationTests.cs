@@ -18,7 +18,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
     {
         [Category("Resources")]
         [Test]
-        public void TEST_41_42_Create_Resource_And_Daily_Allocation()
+        public void TC_41_42_Create_Resource_And_Daily_Allocation()
         {
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy",1);

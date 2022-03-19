@@ -399,7 +399,7 @@ namespace si_automated_tests.Source.Core
         //SELECT VALUE FROM SELECT ELEMENT
         public BasePage SelectTextFromDropDown(By by, string _text)
         {
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
             IWebElement comboBox = WaitUtil.WaitForElementClickable(by);
             SelectElement selectedValue = new SelectElement(comboBox);
             selectedValue.SelectByText(_text);

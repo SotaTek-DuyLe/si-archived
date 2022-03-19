@@ -17,7 +17,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
     {
         [Category("Resources")]
         [Test]
-        public void TEST_30_31_32_33_34_Create_Human_Resource()
+        public void TC_30_31_32_33_34_Create_Human_Resource()
         {
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string startDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
@@ -143,7 +143,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
         [Category("Resources")]
         [Test]
-        public void TEST_35_36_Create_Vehicle_Resource_Test()
+        public void TC_35_36_Create_Vehicle_Resource_Test()
         {
             string resourceName = "Cage " + CommonUtil.GetRandomNumber(5);
             string startDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
