@@ -47,6 +47,17 @@ namespace si_automated_tests.Source.Main.Models
             this.startDateCover = startDateCoverR;
             this.endDateCover = endDateCoverR;
         }
+   
+        public RegularModel(string taskLineTypeR, string assetTypeR, string assetQtyR,  string productR, string amountOfProductR, string unitR, string startDateCoverR)
+        {
+            this.taskLineType = taskLineTypeR;
+            this.assetType = assetTypeR;
+            this.assetQuantity = assetQtyR;
+            this.product = productR;
+            this.amountOfProduct = amountOfProductR;
+            this.unit = unitR;
+            this.startDateCover = startDateCoverR;
+        }
 
         public string Index { get => index; set => index = value; }
         public string TaskType { get => taskType; set => taskType = value; }

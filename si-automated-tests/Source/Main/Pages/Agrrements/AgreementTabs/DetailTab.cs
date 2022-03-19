@@ -6,7 +6,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 
-namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement.Tabs
+namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 {
     public class DetailTab : BasePage
     {
@@ -172,6 +172,18 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement.Tabs
             return this;
         }
 
+        public DetailTab VerifyAssertAndProductInfo(AsserAndProductModel productModel, AsserAndProductModel input)
+        {
+            Assert.AreEqual(productModel.AssetType, input.AssetType);
+            Assert.AreEqual(productModel.Quantity1, input.Quantity1);
+            Assert.AreEqual(productModel.Product, input.Product);
+            Assert.AreEqual(productModel.ProductQuantity, input.ProductQuantity);
+            Assert.AreEqual(productModel.Unit, input.Unit);
+            Assert.AreEqual(productModel.Tenure, input.Tenure);
+            Assert.AreEqual(productModel.StartDate, input.StartDate);
+            return this;
+        }
+
         //mobilization
         public DetailTab ClickMobilizationAndVerify(string expectValue)
         {
@@ -241,9 +253,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement.Tabs
             Assert.AreEqual(GetAttributeValue(invoiceScheduleMobi, "disabled"), "true");
             return this;
         }
+        public DetailTab VerifyMobilizationInfo(MobilizationModel mobilizationModel, MobilizationModel input)
+        {
+            Assert.AreEqual(mobilizationModel.TaskLineType, input.TaskLineType);
+            Assert.AreEqual(mobilizationModel.AssetType, input.AssetType);
+            Assert.AreEqual(mobilizationModel.AssetQuantity, input.AssetQuantity);
+            Assert.AreEqual(mobilizationModel.Product, input.Product);
+            Assert.AreEqual(mobilizationModel.AmountOfProduct, input.AmountOfProduct);
+            Assert.AreEqual(mobilizationModel.Unit, input.Unit);
+            Assert.AreEqual(mobilizationModel.StartDateCover, input.StartDateCover);
+            return this;
+        }
 
-        //regular
-        public DetailTab ClickRegularAndVerify(string expectValue)
+            //regular
+            public DetailTab ClickRegularAndVerify(string expectValue)
         {
             ScrollDownToElement(regular);
             ClickOnElement(regular);
@@ -315,6 +338,17 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement.Tabs
             Assert.AreEqual(GetFirstSelectedItemInDropdown(invoiceAddressRe), CommonConstants.InvoiceAddressMobilization[0]);
             //Verify disabled
             Assert.AreEqual(GetAttributeValue(invoiceScheduleRe, "disabled"), "true");
+            return this;
+        }
+        public DetailTab VerifyRegularInfo(RegularModel regularModel, RegularModel input)
+        {
+            Assert.AreEqual(regularModel.TaskLineType, input.TaskLineType);
+            Assert.AreEqual(regularModel.AssetType, input.AssetType);
+            Assert.AreEqual(regularModel.AssetQuantity, input.AssetQuantity);
+            Assert.AreEqual(regularModel.Product, input.Product);
+            Assert.AreEqual(regularModel.AmountOfProduct, input.AmountOfProduct);
+            Assert.AreEqual(regularModel.Unit, input.Unit);
+            Assert.AreEqual(regularModel.StartDateCover, input.StartDateCover);
             return this;
         }
 
@@ -495,6 +529,21 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement.Tabs
                 Assert.AreEqual(mobilizationModelList[i].StartDateCover, CommonConstants.StartDateAgreement);
                 Assert.AreEqual(mobilizationModelList[i].EndDateCover, CommonConstants.EndDateAgreement);
                 
+            }
+            return this;
+        }
+        public DetailTab VerifyAdhocInfo(List<MobilizationModel> mobilizationModelList, List<MobilizationModel> input)
+        {
+            for (int i = 0; i < mobilizationModelList.Count; i++)
+            {
+                Assert.AreEqual(mobilizationModelList[i].TaskLineType, input[i].TaskLineType);
+                Assert.AreEqual(mobilizationModelList[i].AssetType, input[i].AssetType);
+                Assert.AreEqual(mobilizationModelList[i].AssetQuantity, input[i].AssetQuantity);
+                Assert.AreEqual(mobilizationModelList[i].Product, input[i].Product);
+                Assert.AreEqual(mobilizationModelList[i].AmountOfProduct, input[i].AmountOfProduct);
+                Assert.AreEqual(mobilizationModelList[i].Unit, input[i].Unit);
+                Assert.AreEqual(mobilizationModelList[i].StartDateCover, input[i].StartDateCover);
+
             }
             return this;
         }

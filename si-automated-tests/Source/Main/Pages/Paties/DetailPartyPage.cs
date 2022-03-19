@@ -19,6 +19,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string SuccessfullyToastMessage = "//div[@class='notifyjs-corner']//div[text()='Successfully saved party.']";
         private const string FrameMessage = "//div[@class='notifyjs-corner']/div";
         private const string LoadingData = "//div[@class='loading-data']";
+        private const string SaveWithDetailsBtn = "//a[@aria-controls='details-tab']/ancestor::body//button[@title='Save']";
+        private readonly By closeWithoutSavingBtn = By.XPath("//a[@aria-controls='details-tab']/ancestor::body//button[@title='Close Without Saving']");
 
         private const string PartyName = "//div[text()='{0}']";
 
@@ -90,6 +92,11 @@ namespace si_automated_tests.Source.Main.Pages.Paties
                 allTabs.Add(GetElementText(allElements[i]));
             }
             return allTabs;
+        }
+        public DetailPartyPage ClickSaveBtn()
+        {
+            ClickOnElement(SaveBtn);
+            return this;
         }
         public DetailPartyPage MergeAllTabInDetailPartyAndVerify()
         {
@@ -290,9 +297,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
 
-        public DetailPartyPage ClickSaveBtn()
+        public DetailPartyPage ClickSaveWithDetailsBtn()
         {
-            ClickOnElement(SaveBtn);
+            ClickOnElement(SaveWithDetailsBtn);
             return this;
         }
 
@@ -301,7 +308,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             ClickOnElement(DetailsTab);
             return this;
         }
-
+        public DetailPartyPage CloseWithoutSaving()
+        {
+            WaitUtil.WaitForElementClickable(closeWithoutSavingBtn);
+            ClickOnElement(closeWithoutSavingBtn);
+            return this;
+        }
         public DetailPartyPage VerifyAddressAppearAtSitesTab(string title)
         {
             WaitUtil.WaitForElementVisible(AddressTitle, title);

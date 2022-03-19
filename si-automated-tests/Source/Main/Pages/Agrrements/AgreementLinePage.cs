@@ -34,7 +34,6 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
         }
         public AgreementLinePage CloseWithoutSaving()
         {
-            WaitUtil.WaitForElementClickable(closeWithoutSavingBtn);
             ClickOnElement(closeWithoutSavingBtn);
             return this;
         }

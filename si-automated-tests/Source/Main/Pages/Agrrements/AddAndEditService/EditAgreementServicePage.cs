@@ -4,10 +4,10 @@ using System.Text;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
-using si_automated_tests.Source.Main.Pages.PartyAgreement.AddService;
+using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
 
-namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
-{
+namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
+{ 
     public class EditAgreementServicePage : BasePage
     {
         private readonly By editServiceTitle = By.XPath("//h4[text()='Edit Service']");
