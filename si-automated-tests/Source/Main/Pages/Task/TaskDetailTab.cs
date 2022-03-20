@@ -6,7 +6,7 @@ using si_automated_tests.Source.Main.Pages.Task;
 
 namespace si_automated_tests.Source.Main.Pages
 {
-    public class TaskDetailTab : TaskTabNavigation
+    public class TaskDetailTab : BasePage
     {
         private readonly By dueDate = By.Id("dueDate.id");
 

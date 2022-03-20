@@ -1,10 +1,11 @@
 ﻿using System;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using si_automated_tests.Source.Core;
 
 namespace si_automated_tests.Source.Main.Pages.Task
 {
-    public class TaskLineTab : TaskTabNavigation
+    public class TaskLineTab : BasePage
     {
         private readonly By firstTaskType = By.Id("taskLineType.id");
         private readonly By firstTaskAssetType = By.XPath("//*[contains(@params,'assetType')]/select");

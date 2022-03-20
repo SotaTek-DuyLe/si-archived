@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+using si_automated_tests.Source.Main.Pages.Task;
 
 namespace si_automated_tests.Source.Test
 {
@@ -171,9 +172,9 @@ namespace si_automated_tests.Source.Test
                 .VerifyFirstTaskType("Deliver Commercial Bin")
                 .VerifyFirstTaskDueDate(CommonUtil.GetLocalTimeFromDate(agreementStartDate, "dd/MM/yyyy", 7))
                 .OpenFirstTask()
-                .SwitchToLastWindow();
-            PageFactoryManager.Get<TaskDetailTab>()
-                .OpenTaskLineTab()
+                .SwitchToLastWindow()
+                .SwitchToTab("Task Lines");
+            PageFactoryManager.Get<TaskLineTab>()
                 .VerifyFirstTaskInfo("Deliver", "660L", "General Recycling", "Kilograms", "Unallocated");
         }
         [Test]
@@ -326,9 +327,9 @@ namespace si_automated_tests.Source.Test
                 .VerifyFirstTaskDueDate(CommonUtil.GetLocalTimeFromDate(agreementStartDate, "dd/MM/yyyy", 7))
                 .OpenFirstTask()
                 .SwitchToLastWindow()
-                .VerifyToastMessageNotAppear("Invalid Required Delivery Date");
-            PageFactoryManager.Get<TaskDetailTab>()
-                .OpenTaskLineTab()
+                .VerifyToastMessageNotAppear("Invalid Required Delivery Date")
+                .SwitchToTab("Task Lines");
+            PageFactoryManager.Get<TaskLineTab>()
                 .VerifyFirstTaskInfo("Deliver", "660L", "General Recycling", "Kilograms", "Unallocated")
                 .ClickCloseBtn()
                 .SwitchToLastWindow();
@@ -341,9 +342,9 @@ namespace si_automated_tests.Source.Test
                 .VerifySecondTaskDueDate(CommonUtil.GetLocalTimeFromDate(agreementStartDate, "dd/MM/yyyy", 7))
                 .OpenSecondTask()
                 .SwitchToLastWindow()
-                .VerifyToastMessageNotAppear("Invalid Required Delivery Date");
-            PageFactoryManager.Get<TaskDetailTab>()
-                .OpenTaskLineTab()
+                .VerifyToastMessageNotAppear("Invalid Required Delivery Date")
+                .SwitchToTab("Task Lines");
+            PageFactoryManager.Get<TaskLineTab>()
                 .VerifyFirstTaskInfo("Deliver", "660L", "General Recycling", "Kilograms", "Unallocated");
         }
         [Test]
@@ -496,9 +497,9 @@ namespace si_automated_tests.Source.Test
                 .VerifyFirstTaskDueDate(CommonUtil.GetLocalTimeFromDate(agreementStartDate, "dd/MM/yyyy", 7))
                 .OpenFirstTask()
                 .SwitchToLastWindow()
-                .VerifyToastMessageNotAppear("Invalid Required Delivery Date");
-            PageFactoryManager.Get<TaskDetailTab>()
-                .OpenTaskLineTab()
+                .VerifyToastMessageNotAppear("Invalid Required Delivery Date")
+                .SwitchToTab("Task Lines");
+            PageFactoryManager.Get<TaskLineTab>()
                 .VerifyFirstTaskInfo("Deliver", "1100L", "Plastic", "Kilograms", "Unallocated")
                 .ClickCloseBtn()
                 .SwitchToLastWindow();
@@ -511,9 +512,9 @@ namespace si_automated_tests.Source.Test
                 .VerifySecondTaskDueDate(CommonUtil.GetLocalTimeFromDate(agreementStartDate, "dd/MM/yyyy", 7))
                 .OpenSecondTask()
                 .SwitchToLastWindow()
-                .VerifyToastMessageNotAppear("Invalid Required Delivery Date");
-            PageFactoryManager.Get<TaskDetailTab>()
-                .OpenTaskLineTab()
+                .VerifyToastMessageNotAppear("Invalid Required Delivery Date")
+                .SwitchToTab("Task Lines");
+            PageFactoryManager.Get<TaskLineTab>()
                 .VerifyFirstTaskInfo("Deliver", "1100L", "Plastic", "Kilograms", "Unallocated");
         }
 
