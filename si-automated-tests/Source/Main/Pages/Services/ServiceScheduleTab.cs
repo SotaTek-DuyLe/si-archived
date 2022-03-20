@@ -19,8 +19,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
         public ServiceScheduleTab verifyScheduleEndDate(string date)
         {
-            string startdate = GetElementText(endDate);
-            Assert.AreEqual(endDate, date);
+            string enddate = GetElementText(endDate);
+            Assert.AreEqual(enddate, date);
             return this;
         }
     }

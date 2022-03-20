@@ -25,7 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
             IList<IWebElement> elements = WaitUtil.WaitForAllElementsVisible(allTabs);
             foreach (IWebElement element in elements)
             {
-                Thread.Sleep(1500);
+                Thread.Sleep(1000);
                 element.Click();
                 WaitForLoadingIconToDisappear();
                 Assert.IsFalse(IsControlDisplayedNotThrowEx(frameMessage));

@@ -22,19 +22,19 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
       
         public NavigationBase ClickMainOption(string optionName)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             ClickOnElement(String.Format(mainOption, optionName));
             return this;
         }
         public NavigationBase ExpandOption(string optionName)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             ClickOnElement(String.Format(dropdownOption, optionName));
             return this;
         }
         public NavigationBase OpenOption(string optionName)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             ClickOnElement(String.Format(option, optionName));
             ExitNavigation();
             return this;
