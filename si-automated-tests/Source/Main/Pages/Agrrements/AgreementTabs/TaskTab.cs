@@ -22,7 +22,10 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         private string allColumnTitle = "//div[contains(@class, 'slick-header-columns')]/div/span[1]";
         private string eachColumn = "//div[@class='grid-canvas']/div/div[{0}]";
         private string allRows = "//div[@class='grid-canvas']/div";
+
         private string deliverCommercialBinWithDateRows = "//div[@class='grid-canvas']/div[contains(.,'Deliver Commercial Bin') and contains(.,'{0}')]";
+        private string removeCommercialBinWithDateRows = "//div[text()='Remove Commercial Bin']/following-sibling::div[contains(@class, 'r13') and contains(.,'{0}')]";
+
         private string retiredTasks = "//div[@class='grid-canvas']/div[contains(@class,'retired')]";
 
 
@@ -133,7 +136,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         public List<IWebElement> VerifyNewDeliverCommercialBin(String dueDate, int num)
         {
             this.WaitForLoadingIconToDisappear();
-            int i = 10;
+            int i = 5;
             deliverCommercialBinWithDateRows = String.Format(deliverCommercialBinWithDateRows, dueDate);
             List<IWebElement> taskList = new List<IWebElement>();
             taskList = GetAllElements(deliverCommercialBinWithDateRows);
@@ -156,8 +159,35 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return taskList;
         }
+        public List<IWebElement> VerifyNewRemovedCommercialBin(String dueDate, int num)
+        {
+            this.WaitForLoadingIconToDisappear();
+            int i = 5;
+            removeCommercialBinWithDateRows = String.Format(removeCommercialBinWithDateRows, dueDate);
+            List<IWebElement> taskList = new List<IWebElement>();
+            taskList = GetAllElements(removeCommercialBinWithDateRows);
+            while (i > 0)
+            {
+                if (taskList.Count == num)
+                {
+                    Assert.AreEqual(taskList.Count, num);
+                    break;
+                }
+                else
+                {
+                    ClickOnElement(refreshBtn);
+                    this.WaitForLoadingIconToDisappear();
+                    Thread.Sleep(5000);
+                    taskList.Clear();
+                    taskList = GetAllElements(deliverCommercialBinWithDateRows);
+                    i--;
+                }
+            }
+            return taskList;
+        }
         public AgreementTaskDetailsPage GoToATask(IWebElement e)
         {
+            SleepTimeInMiliseconds(1000);
             DoubleClickOnElement(e);
             return new AgreementTaskDetailsPage();
         }

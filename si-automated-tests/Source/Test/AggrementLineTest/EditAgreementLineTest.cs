@@ -24,6 +24,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 {
     public class EditAgreementLineTest : BaseTest
     {
+        [Category("EditAgreement")]
         [Test]
         public void TC_016()
         {
@@ -157,7 +158,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .OpenOption("Site Services")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -172,12 +173,20 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .GoToAllTabAndConfirmNoError();
         }
 
+        [Category("EditAgreement")]
         [Test]
         public void TC_017()
         {
             string date = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 7);
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+
+            AsserAndProductModel assetAndProductInput = new AsserAndProductModel("660L", "1", "General Recycling", "", "600", "Kilograms", "Rental", new string[1], new string[1], tommorowDate, "");
+            MobilizationModel mobilizationInput = new MobilizationModel("Deliver", "660L", "1", "General Recycling", "600", "Kilograms", tommorowDate);
+            RegularModel regularInput = new RegularModel("Service", "660L", "1", "General Recycling", "600", "Kilograms", tommorowDate);
+            MobilizationModel deMobilizationInput = new MobilizationModel("Remove", "660L", "1", "General Recycling", "600", "Kilograms", tommorowDate);
+            MobilizationModel adhoc = new MobilizationModel("Service", "660L", "1", "General Recycling", "600", "Kilograms", tommorowDate);
+            List<MobilizationModel> adhocListInput = new List<MobilizationModel> { adhoc, adhoc };
 
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -190,6 +199,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ExpandOption("North Star Commercial")
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(64)
                 .OpenFirstResult();
@@ -220,6 +231,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                  .ChooseService("Commercial")
                  .ClickNext();
             PageFactoryManager.Get<AssetAndProducTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AssetAndProducTab>()
                 .IsOnAssetTab()
                 .ClickAddAsset()
                 .ClickAssetType()
@@ -232,6 +245,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickDoneBtn()
                 .ClickNext();
             PageFactoryManager.Get<ScheduleServiceTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ScheduleServiceTab>()
                .IsOnScheduleTab()
                .ClickAddService()
                .ClickDoneScheduleBtn()
@@ -241,14 +256,20 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab()
                .RemoveAllRedundantPrice17()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
                .IsOnInvoiceDetailsTab()
                .ClickFinish()
                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
                .VerifyToastMessage("Successfully saved agreement")
@@ -310,8 +331,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .VerifyNewTaskAppearWithNum(3, "Completed", "Deliver Commercial Bin", date, todayDate);
             PageFactoryManager.Get<PartyAgreementPage>()
                 .SwitchToFirstWindow();
-            
-            //Go to Services
+
+            //Go to Services and verify 
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
@@ -328,14 +349,26 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
+
             PageFactoryManager.Get<ServicesTaskPage>()
-                .ClickOnTaskLineTab()
+                .ClickOnTaskLineTab();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .verifyTaskLineStartDate(todayDate);
+            PageFactoryManager.Get<ServicesTaskPage>()
                 .ClickOnScheduleTask();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .verifyScheduleStartDate(todayDate)
+                .verifyScheduleEndDate("01/01/2050");
+
            PageFactoryManager.Get<BasePage>()
                .ClickCloseBtn()
                .SwitchToChildWindow(3);
 
-            //step 27 
+            //step 25
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
@@ -381,10 +414,39 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .ClickOnDetailsTab()
                .ExpandAgreementLine()
                .ExpandAllAgreementFields()
-               .VerifyAssetAndProductAssetTypeStartDate(tommorowDate)
-               .VerifyTaskLineTypeStartDates(tommorowDate)
+               .WaitForLoadingIconToDisappear();
+            //step 34 Verify that changes reflect on the existing Agreement and its objects
+            //Assert and Product
+            AsserAndProductModel asserAndProductModel = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoAssetAndProduct();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyAssertAndProductInfo(asserAndProductModel, assetAndProductInput);
+            //Mobilization
+            MobilizationModel mobilizationModel = PageFactoryManager.Get<DetailTab>()
+               .GetAllInfoMobilization();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyMobilizationInfo(mobilizationModel, mobilizationInput);
+            //Regular
+            RegularModel regularModel = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoRegular();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyRegularInfo(regularModel, regularInput);
+            //De-Mobilization
+            MobilizationModel deMobilizationModel = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoDeMobilization();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyMobilizationInfo(deMobilizationModel, deMobilizationInput);
+            //Ad-hoc
+            List<MobilizationModel> allAdhoc = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoAdhoc();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyAdhocInfo(allAdhoc, adhocListInput);
+
+            //Go to task tab and verify 
+            PageFactoryManager.Get<PartyAgreementPage>()
                .ClickTaskTabBtn()
                .WaitForLoadingIconToDisappear();
+
             List<IWebElement> availableRow = PageFactoryManager.Get<TaskTab>()
                .VerifyNewTaskAppearWithNum(2, "Unallocated", "Remove Commercial Bin", date, "");
             for (int i = 0; i < availableRow.Count; i++)
@@ -398,13 +460,15 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .ClickToTaskLinesTab()
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .VerifyTaskLine1("Remove", "660L", "1", "General Recycling", "600", "Kilograms", "Unallocated")
                     .ClickCloseWithoutSaving()
                     .SwitchToChildWindow(3);
             }
 
             PageFactoryManager.Get<PartyAgreementPage>()
                .SwitchToFirstWindow();
-
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
             //Go to Services again to verify 
             PageFactoryManager.Get<CommonActiveServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -413,11 +477,17 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
+
             PageFactoryManager.Get<ServicesTaskPage>()
-                .ClickOnTaskLineTab()
-                .ClickOnScheduleTask();
+                .ClickOnTaskLineTab();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .verifyTaskLineStartDate(todayDate)
+                .verifyTaskLineEndDate("01/01/2050");
         }
 
+        [Category("EditAgreement")]
         [Test]
         public void TC_018()
         {
@@ -425,13 +495,13 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string tmrDatePlus7day = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
-  
-            AsserAndProductModel assetAndProductInput = new AsserAndProductModel("1100L", "2", "Paper & Cardboard", "", "100", "Kilograms", "Rental", new string [1], new string[1], tommorowDate, "");
-            MobilizationModel mobilizationInput = new MobilizationModel ("Deliver", "1100L", "2", "Paper & Cardboard", "100", "Kilograms", tommorowDate);
+
+            AsserAndProductModel assetAndProductInput = new AsserAndProductModel("1100L", "2", "Paper & Cardboard", "", "100", "Kilograms", "Rental", new string[1], new string[1], tommorowDate, "");
+            MobilizationModel mobilizationInput = new MobilizationModel("Deliver", "1100L", "2", "Paper & Cardboard", "100", "Kilograms", tommorowDate);
             RegularModel regularInput = new RegularModel("Service", "1100L", "2", "Paper & Cardboard", "100", "Kilograms", tommorowDate);
             MobilizationModel deMobilizationInput = new MobilizationModel("Remove", "1100L", "2", "Paper & Cardboard", "100", "Kilograms", tommorowDate);
             MobilizationModel adhoc = new MobilizationModel("Service", "1100L", "2", "Paper & Cardboard", "100", "Kilograms", tommorowDate);
-            List<MobilizationModel> adhocListInput = new List<MobilizationModel> {adhoc, adhoc};
+            List<MobilizationModel> adhocListInput = new List<MobilizationModel> { adhoc, adhoc };
 
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -444,6 +514,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ExpandOption("North Star Commercial")
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(7)
                 .OpenFirstResult()
@@ -493,7 +565,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .VerifyToastMessage("Successfully saved agreement")
                .WaitForLoadingIconToDisappear();
             //Finish step 15
-            PageFactoryManager.Get < BasePage>()
+            PageFactoryManager.Get<BasePage>()
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(10000);
 
@@ -535,12 +607,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .WaitForLoadingIconToDisappear();
             List<IWebElement> demobilizationRows = new List<IWebElement>();
             demobilizationRows = PageFactoryManager.Get<TaskTab>()
-               .VerifyNewTaskAppearWithNum(1, "Unallocated", "Remove Commercial Bin", tommorowDate, "");
-            List<IWebElement> mobilizationRows = PageFactoryManager.Get<TaskTab>()
-               .VerifyNewTaskAppearWithNum(2, "Unallocated", "Deliver Commercial Bin", tmrDatePlus7day, "");
-            PageFactoryManager.Get<PartyAgreementPage>()
-               .ClickTaskTabBtn()
-               .WaitForLoadingIconToDisappear();
+               .VerifyNewRemovedCommercialBin(tommorowDate, 1);
             for (int i = 0; i < demobilizationRows.Count; i++)
             {
                 PageFactoryManager.Get<TaskTab>()
@@ -556,6 +623,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .ClickCloseWithoutSaving()
                     .SwitchToChildWindow(2);
             }
+            List<IWebElement> mobilizationRows = PageFactoryManager.Get<TaskTab>()
+               .VerifyNewDeliverCommercialBin(tmrDatePlus7day, 2);
             for (int j = 0; j < mobilizationRows.Count; j++)
             {
                 PageFactoryManager.Get<TaskTab>()
@@ -585,7 +654,79 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .ClickCloseWithoutSaving()
                     .SwitchToChildWindow(2);
             }
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .SwitchToFirstWindow();
+            PageFactoryManager.Get<NavigationBase>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .OpenOption("Site Services")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+                .FilterAgreementId(7)
+                .VerifyFirstLineAgreementResult(10, 7)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<AgreementLinePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AgreementLinePage>()
+                .WaitForWindowLoadedSuccess("7")
+                .GoToAllTabAndConfirmNoError()
+                .SwitchToFirstWindow();
 
+            PageFactoryManager.Get<NavigationBase>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption("Services")
+               .ExpandOption("Regions")
+               .ExpandOption("London")
+               .ExpandOption("North Star Commercial")
+               .ExpandOption("Collections")
+               .ExpandOption("Commercial Collections")
+               .OpenOption("Active Service Tasks")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .OpenSidraTeddingtonStartDate(tommorowDate)
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<ServicesTaskPage>()
+            //    .ClickOnTaskLineTab();
+            //PageFactoryManager.Get<ServiceTaskLineTab>()
+            //    .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<ServiceTaskLineTab>()
+            //    .verifyTaskLineStartDate(tommorowDate);
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnScheduleTask();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .verifyScheduleStartDate(tommorowDate)
+                .SwitchToFirstWindow();
+            //verify last step
+            //PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+            //    .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+            //    .OpenSidraTeddingtonEndDate(tommorowDate)
+            //    .SwitchToLastWindow();
+            //PageFactoryManager.Get<ServicesTaskPage>()
+            //    .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<ServicesTaskPage>()
+            //    .ClickOnTaskLineTab();
+            //PageFactoryManager.Get<ServiceTaskLineTab>()
+            //    .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<ServiceTaskLineTab>()
+            //    .verifyTaskLineEndDate(tommorowDate);
+            //PageFactoryManager.Get<ServicesTaskPage>()
+            //    .ClickOnScheduleTask();
+            //PageFactoryManager.Get<ServiceScheduleTab>()
+            //    .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<ServiceScheduleTab>()
+            //    .verifyScheduleEndDate(tommorowDate);
         }
     }
 }
