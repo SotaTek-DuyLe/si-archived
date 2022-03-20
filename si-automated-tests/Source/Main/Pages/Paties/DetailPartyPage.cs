@@ -6,8 +6,10 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
-using si_automated_tests.Source.Main.Pages.PartyAgreement;
 using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContact;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 
 namespace si_automated_tests.Source.Main.Pages.Paties
 {
@@ -21,6 +23,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string LoadingData = "//div[@class='loading-data']";
 
         private const string PartyName = "//div[text()='{0}']";
+        private readonly By title = By.XPath("//h4[text()='Party']");
+
+        //COMMON DYNAMIC LOCATOR
+        private const string partyName = "//p[text()='{0}']";
 
         //DETAIL TAB LOCATOR
         private const string InvoiceAddressAddBtn = "//label[text()='Invoice Address']/following-sibling::div//span[text()='Add']";
@@ -37,14 +43,22 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string SiteAddressValue = "//label[text()='Correspondence Address']/following-sibling::div//option[text()='{0}']";
         private const string AddressTitle = "//div[text()='{0}']";
         private const string InvoiceAddressValueDetails = "//select[@id='party-invoice-address']/option[text()='{0}']";
+        private readonly By PrimaryContactDd = By.CssSelector("select#primary-contact");
+        private readonly By InvoiceContactDd = By.CssSelector("select#invoice-contact");
+        private readonly By primaryContactAddBtn = By.XPath("//select[@id='primary-contact']/following-sibling::span[text()='Add']");
 
         //DETAIL TAB DYNAMIC LOCATOR
         private const string PrimaryContact = "//label[text()='Primary Contact']/following-sibling::div//select/option[text()={0}]";
         private const string InvoiceAddressValue = "//label[text()='Invoice Address']/following-sibling::div//option[text()='{0}']";
         private const string CorresspondenceValue = "//label[text()='Correspondence Address']/following-sibling::div//select/option[text()='{0}']";
+        private const string PrimaryContactValue = "//select[@id='primary-contact']/option[text()='{0}']";
+        private const string PrimaryContactDisplayed = "//div[@data-bind='with:primaryContact']/p[text()='{0}']";
+        private const string InvoiceContactValue = "//select[@id='invoice-contact']/option[text()='{0}']";
+        private const string InvoiceContactDisplayed = "//div[@data-bind='with:invoiceContact']/p[text()='{0}']";
 
         //SITE TAB LOCATOR
         private const string AddNewItemBtn = "//button[text()='Add New Item']";
+        private readonly By firstSiteRow = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']/div[1]");
         private const string TotalSiteRow = "//div[@class='grid-canvas']/div";
         private const string IdColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='ID']/parent::div/preceding-sibling::div) + 1]";
         private const string NameColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Name']/parent::div/preceding-sibling::div) + 1]";
@@ -60,10 +74,21 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         //Agreement tab
         private readonly By agreementTab = By.XPath("//a[text()='Agreements']");
-
         private readonly By partyStartDate = By.XPath("//span[@title='Start Date']");
-        private readonly By closeBtn = By.XPath("//button[@title='Close Without Saving']");
 
+        //Contact tab
+        private readonly By contactTab = By.XPath("//a[text()='Contacts']");
+        private readonly By addNewItemAtContactTabBtn = By.XPath("//button[text()='Add New Item']");
+        private readonly By totalContactRow = By.XPath("//div[@id='contacts-tab']//div[@class='grid-canvas']/div");
+        private const string ColumnOfRowContact = "//div[@id='contacts-tab']//div[@class='grid-canvas']/div/div[count(//div[@id='contacts-tab']//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
+        private const string firstContactRow = "//div[@id='contacts-tab']//div[@class='grid-canvas']/div[1]";
+
+        public DetailPartyPage WaitForDetailPartyPageLoadedSuccessfully(string name)
+        {
+            WaitUtil.WaitForElementVisible(title);
+            WaitUtil.WaitForElementVisible(string.Format(partyName, name));
+            return this;
+        }
 
         //TAB
         public List<string> GetAllTabDisplayed()
@@ -158,11 +183,57 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return WaitUtil.WaitForElementVisible(partyStartDate).Text;
         }
 
+        public SiteDetailPage OpenFirstSiteRow()
+        {
+            DoubleClickOnElement(firstSiteRow);
+            return new SiteDetailPage();
+        }
+
         //DETAIL TAB
         public DetailPartyPage ClickOnAddInvoiceAddressBtn()
         {
             ClickOnElement(InvoiceAddressAddBtn);
             return this;
+        }
+
+        public DetailPartyPage ClickOnPrimaryContactDd()
+        {
+            ClickOnElement(PrimaryContactDd);
+            return this;
+        }
+
+        public DetailPartyPage VerifyValueInPrimaryContactDd(string[] expectedOption)
+        {
+            foreach(string option in expectedOption)
+            {
+                Assert.IsTrue(IsControlDisplayed(string.Format(PrimaryContactValue, option)));
+            }
+            return this;
+        }
+
+        public DetailPartyPage VerifyFirstValueInPrimaryContactDd(ContactModel contactModel)
+        {
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(PrimaryContactDd), contactModel.FirstName + " " + contactModel.LastName);
+            return this;
+        }
+
+        public DetailPartyPage SelectAnyPrimaryContactAndVerify(ContactModel contactModel)
+        {
+            ClickOnElement(string.Format(PrimaryContactValue, contactModel.FirstName + " " + contactModel.LastName));
+            //Verify
+            Assert.IsTrue(IsControlDisplayed(PrimaryContactDisplayed, contactModel.Title));
+            Assert.IsTrue(IsControlDisplayed(PrimaryContactDisplayed, contactModel.Telephone));
+            Assert.IsTrue(IsControlDisplayed(PrimaryContactDisplayed, contactModel.Mobile));
+            Assert.IsTrue(IsControlDisplayed(PrimaryContactDisplayed, contactModel.Email));
+            //Verify contact saved in primary contact dd
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(PrimaryContactDd), contactModel.FirstName + " " + contactModel.LastName);
+            return this;
+        }
+
+        public AddPrimaryContactPage ClickAddPrimaryContactBtn()
+        {
+            ClickOnElement(primaryContactAddBtn);
+            return new AddPrimaryContactPage();
         }
 
         public DetailPartyPage ClickAddCorrespondenceAddress()
@@ -340,6 +411,35 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.IsTrue(IsControlDisplayed(InvoiceAddressOnPage, address));
             return this;
         }
+
+        public DetailPartyPage ClickInvoiceContactDd()
+        {
+            ClickOnElement(InvoiceContactDd);
+            return this;
+        }
+
+        public DetailPartyPage VerifyValueInInvoiceContactDd(string[] expectedOption)
+        {
+            foreach (String option in expectedOption)
+            {
+                Assert.IsTrue(IsControlDisplayed(string.Format(InvoiceContactValue, option)));
+            }
+            return this;
+        }
+
+        public DetailPartyPage SelectAnyInvoiceContactAndVerify(ContactModel contactModel)
+        {
+            ClickOnElement(string.Format(InvoiceContactValue, contactModel.FirstName + " " + contactModel.LastName));
+            //Verify
+            Assert.IsTrue(IsControlDisplayed(InvoiceContactDisplayed, contactModel.Title));
+            Assert.IsTrue(IsControlDisplayed(InvoiceContactDisplayed, contactModel.Telephone));
+            Assert.IsTrue(IsControlDisplayed(InvoiceContactDisplayed, contactModel.Mobile));
+            Assert.IsTrue(IsControlDisplayed(InvoiceContactDisplayed, contactModel.Email));
+            //Verify contact saved in invoice contact Dd
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(InvoiceContactDd), contactModel.FirstName + " " + contactModel.LastName);
+            return this;
+        }
+
         //Site Tab
         public DetailPartyPage IsOnSitesTab()
         {
@@ -352,6 +452,92 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             ClickOnElement(AddNewItemBtn);
             return this;
+        }
+
+        //CONTACT TAB
+        public DetailPartyPage ClickOnContactTab()
+        {
+            WaitUtil.WaitForElementVisible(contactTab);
+            ClickOnElement(contactTab);
+            return this;
+        }
+
+        public DetailPartyPage ClickAddNewItemAtContactTab()
+        {
+            ClickOnElement(addNewItemAtContactTabBtn);
+            return this;
+        }
+
+        public List<ContactModel> GetAllContact()
+        {
+            List<ContactModel> contactModels = new List<ContactModel>();
+            List<IWebElement> totalRow = GetAllElements(totalContactRow);
+            List<IWebElement> allIdRow = GetAllElements(string.Format(ColumnOfRowContact, CommonConstants.ContactTable[0]));
+            List<IWebElement> titleRow = GetAllElements(string.Format(ColumnOfRowContact, CommonConstants.ContactTable[1]));
+            List<IWebElement> firstNameRow = GetAllElements(string.Format(ColumnOfRowContact, CommonConstants.ContactTable[2]));
+            List<IWebElement> lastNameRow = GetAllElements(string.Format(ColumnOfRowContact, CommonConstants.ContactTable[3]));
+            List<IWebElement> positionRow = GetAllElements(string.Format(ColumnOfRowContact, CommonConstants.ContactTable[4]));
+            List<IWebElement> telephoneRow = GetAllElements(string.Format(ColumnOfRowContact, CommonConstants.ContactTable[5]));
+            List<IWebElement> mobileRow = GetAllElements(string.Format(ColumnOfRowContact, CommonConstants.ContactTable[6]));
+            List<IWebElement> emailRow = GetAllElements(string.Format(ColumnOfRowContact, CommonConstants.ContactTable[7]));
+            List<IWebElement> receiveEmailRow = GetAllElements(string.Format(ColumnOfRowContact, CommonConstants.ContactTable[8]));
+            List<IWebElement> contactGroupsRow = GetAllElements(string.Format(ColumnOfRowContact, CommonConstants.ContactTable[9]));
+            List<IWebElement> startDateRow = GetAllElements(string.Format(ColumnOfRowContact, CommonConstants.ContactTable[10]));
+            List<IWebElement> endDateRow = GetAllElements(string.Format(ColumnOfRowContact, CommonConstants.ContactTable[11]));
+
+            for(int i = 0; i < totalRow.Count; i++)
+            {
+                string id = GetElementText(allIdRow[i]);
+                string title = GetElementText(titleRow[i]);
+                string firstName = GetElementText(firstNameRow[i]);
+                string lastName = GetElementText(lastNameRow[i]);
+                string position = GetElementText(positionRow[i]);
+                string telephone = GetElementText(telephoneRow[i]);
+                string mobile = GetElementText(mobileRow[i]);
+                string email = GetElementText(emailRow[i]);
+                bool receiveEmail = false;
+                if (GetElementText(receiveEmailRow[i]).Equals("✓"))
+                {
+                    receiveEmail = true;
+                } 
+                string contactGroup = GetElementText(contactGroupsRow[i]);
+                string startDate = GetElementText(startDateRow[i]);
+                string endDate = GetElementText(endDateRow[i]);
+                contactModels.Add(new ContactModel(id, title, firstName, lastName, position, telephone, mobile, email, receiveEmail, contactGroup, startDate, endDate));
+            }
+            return contactModels;
+        }
+
+        public DetailPartyPage VerifyContactCreated(ContactModel contactModelExpected, ContactModel contacModelActual)
+        {
+            Assert.AreEqual(contactModelExpected.Title, contacModelActual.Title);
+            Assert.AreEqual(contactModelExpected.FirstName, contacModelActual.FirstName);
+            Assert.AreEqual(contactModelExpected.LastName, contacModelActual.LastName);
+            Assert.AreEqual(contactModelExpected.Position, contacModelActual.Position);
+            Assert.AreEqual(contactModelExpected.Telephone, contacModelActual.Telephone);
+            //Assert.AreEqual(contactModelExpected.Mobile, contacModelActual.Mobile);
+            Assert.AreEqual(contactModelExpected.Email, contacModelActual.Email);
+            Assert.AreEqual(contactModelExpected.ReceiveEmail, contacModelActual.ReceiveEmail);
+            Assert.AreEqual(contactModelExpected.ContactGroups, contacModelActual.ContactGroups);
+            Assert.AreEqual(contactModelExpected.StartDate + " 00:00", contacModelActual.StartDate);
+            Assert.AreEqual(contactModelExpected.EndDate + " 00:00", contacModelActual.EndDate);
+            return this;
+        }
+
+        public DetailPartyPage VerifyContactCreatedWithSomeFields(ContactModel contactModelExpected, ContactModel contacModelActual)
+        {
+            Assert.AreEqual(contactModelExpected.FirstName, contacModelActual.FirstName);
+            Assert.AreEqual(contactModelExpected.LastName, contacModelActual.LastName);
+            Assert.AreEqual(contactModelExpected.Mobile, contacModelActual.Mobile);
+            Assert.AreEqual(contactModelExpected.StartDate + " 00:00", contacModelActual.StartDate);
+            Assert.AreEqual(contactModelExpected.EndDate + " 00:00", contacModelActual.EndDate);
+            return this;
+        }
+
+        public EditPartyContactPage ClickFirstContact()
+        {
+            DoubleClickOnElement(firstContactRow);
+            return PageFactoryManager.Get<EditPartyContactPage>();
         }
     }
 
