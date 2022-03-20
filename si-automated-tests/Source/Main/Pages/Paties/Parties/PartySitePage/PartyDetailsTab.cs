@@ -75,12 +75,6 @@ namespace si_automated_tests.Source.Main.Pages
             return this;
         }
 
-        public PartyDetailsTab ClickSaveBtn()
-        {
-            ClickOnElement(SaveBtn);
-            return this;
-        }
-
         public PartyDetailsTab VerifyDisplaySuccessfullyMessage()
         {
 

@@ -4,11 +4,15 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
-using si_automated_tests.Source.Main.Pages.Agrrements;
 using si_automated_tests.Source.Main.Pages.Paties;
-using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement.Tabs;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+
+using si_automated_tests.Source.Main.Pages.Agrrements;
+using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
+using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
+using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
+using si_automated_tests.Source.Main.Pages.NavigationPanel;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
 {
@@ -23,12 +27,12 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser6.UserName, AutoUser6.Password)
-                .IsOnHomePage(AutoUser6)
+                .IsOnHomePage(AutoUser6);
                 //Filter id
-                .ClickParties()
-                .ExpandNSC();
-            PageFactoryManager.Get<PartyNavigation>()
-                .ClickSiteServiceSubMenu()
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Site Services")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();

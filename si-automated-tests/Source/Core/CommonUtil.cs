@@ -22,20 +22,20 @@ namespace si_automated_tests.Source.Core
         }
         public static string GetLocalTimeNow(string format)
         {
-            return DateTime.Now.ToString(format);
+            return DateTime.Now.ToString(format).Replace('-', '/');
         }
         public static string GetLocalTimeMinusDay(string format, int day)
         {
-            return DateTime.Now.AddDays(day).ToString(format);
+            return DateTime.Now.AddDays(day).ToString(format).Replace('-', '/');
         }
         public static string GetLocalTimeFromDate(string now, string format, int day)
         {
-            return DateTime.ParseExact(now, format, CultureInfo.InvariantCulture).AddDays(day).ToString(format);
+            return DateTime.ParseExact(now, format, CultureInfo.InvariantCulture).AddDays(day).ToString(format).Replace('-', '/');
         }
 
         public static string GetUtcTimeMinusDay(string format, int day)
         {
-            return DateTime.UtcNow.AddDays(day).ToString(format);
+            return DateTime.UtcNow.AddDays(day).ToString(format).Replace('-', '/');
         }
 
         public static string GetUtcTimeNow(string format)

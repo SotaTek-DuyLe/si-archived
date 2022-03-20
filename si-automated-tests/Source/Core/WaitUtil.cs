@@ -56,7 +56,7 @@ namespace si_automated_tests.Source.Core
 
         public static void WaitForAlert()
         {
-            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(20));
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
             driverWait.Until(ExpectedConditions.AlertIsPresent());
         }
 
@@ -70,6 +70,12 @@ namespace si_automated_tests.Source.Core
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
             driverWait.Until(ExpectedConditions.InvisibilityOfElementLocated(by));
         }
+        public static void WaitForElementInvisible(string xpath, string value)
+        {
+            xpath = String.Format(xpath, value);
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
+            driverWait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath(xpath)));
+        }
         public static void WaitForElementToBeSelected(string xpath)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
@@ -82,6 +88,20 @@ namespace si_automated_tests.Source.Core
         }
         public static IList<IWebElement> WaitForAllElementsVisible(By by)
         {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
+            return driverWait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));
+        }
+        public static IList<IWebElement> WaitForAllElementsVisible(string xpath)
+        {
+            By by = By.XPath(xpath);
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
+            return driverWait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));
+        }
+        public static IList<IWebElement> WaitForAllElementsVisible(string xpath, string value)
+        {
+            xpath = String.Format(xpath, value);
+            Console.WriteLine(xpath);
+            By by = By.XPath(xpath);
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
             return driverWait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));
         }

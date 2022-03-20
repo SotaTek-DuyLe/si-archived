@@ -16,6 +16,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="JUnitTestLogger" Version="1.1.0" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
@@ -58,13 +59,11 @@
     <None Remove="Source\Main\Pages\Paties\Parties\PartyContact\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Source\Main\Models\" />
     <Folder Include="Source\Main\Data\" />
     <Folder Include="Source\Main\Pages\Paties\Parties\" />
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
     <Folder Include="Source\Main\Pages\Paties\SiteServices\" />
     <Folder Include="Source\Main\Pages\Paties\Sites\" />
-    <Folder Include="Source\Main\Pages\Paties\PartyAgreement\Tabs\" />
     <Folder Include="Source\Main\Pages\Task\" />
     <Folder Include="Source\Test\ContactTests\" />
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyContactPage\" />

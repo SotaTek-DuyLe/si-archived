@@ -41,6 +41,16 @@ namespace si_automated_tests.Source.Main.Models
             this.startDateCover = startDateM;
             this.endDateCover = endDateM;
         }
+        public MobilizationModel(string taskLineTypeM, string assetTypeM, string assetQtyM, string productM, string amountOfProductM, string unitM, string startDateM)
+        {
+            this.taskLineType = taskLineTypeM;
+            this.assetType = assetTypeM;
+            this.assetQuantity = assetQtyM;
+            this.product = productM;
+            this.amountOfProduct = amountOfProductM;
+            this.unit = unitM;
+            this.startDateCover = startDateM;
+        }
 
         public string TaskType { get => taskType; set => taskType = value; }
         public string[] InvoiceSchedule { get => invoiceSchedule; set => invoiceSchedule = value; }

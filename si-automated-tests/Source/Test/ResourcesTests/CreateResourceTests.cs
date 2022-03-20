@@ -15,8 +15,9 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 {
     public class CreateResourceTests : BaseTest
     {
+        [Category("Resources")]
         [Test]
-        public void TEST_30_31_32_33_34_Create_Human_Resource()
+        public void TC_30_31_32_33_34_Create_Human_Resource()
         {
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string startDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
@@ -32,9 +33,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnHomePage(AutoUser4);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .OpenOption("North Star");
-            PageFactoryManager.Get<HomePage>()
-                .ClickTitle()
+                .OpenOption("North Star")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
@@ -56,7 +55,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Start Date", startDate)
                 .VerifyFirstResultValue("End Date", defaultEndDate)
                 .SwitchToDefaultContent();
-            
+
             //TC-31
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
@@ -72,7 +71,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<ServiceDefaultResourceTab>()
                 .IsOnServiceDefaultTab()
-                .ExpandDriverType()
+                .ExpandOption("Driver")
                 .ClickAddResource()
                 .VerifyInputIsAvailable(resourceName)
                 .SwitchToDefaultContent();
@@ -109,7 +108,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
             PageFactoryManager.Get<ServiceDefaultResourceTab>()
                 .IsOnServiceDefaultTab()
-                .ExpandDriverType()
+                .ExpandOption("Driver")
                 .ClickAddResource()
                 .VerifyInputIsAvailable(resourceName)
                 .SwitchToDefaultContent();
@@ -140,6 +139,66 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRefreshBtn();
             PageFactoryManager.Get<ResourceCalendarTab>()
                 .VerifyWorkPatternIsSet("AM 05.00 - 14.00");
+        }
+
+        [Category("Resources")]
+        [Test]
+        public void TC_35_36_Create_Vehicle_Resource_Test()
+        {
+            string resourceName = "Cage " + CommonUtil.GetRandomNumber(5);
+            string startDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
+            string defaultEndDate = "01/01/2050";
+            string resourceType = "Cage";
+
+            //TC-35
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser4.UserName, AutoUser4.Password)
+                .IsOnHomePage(AutoUser4);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Resources")
+                .OpenOption("North Star")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved resource.")
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValue("Name", resourceName)
+                .VerifyFirstResultValue("Resource Type", resourceType)
+                .VerifyFirstResultValue("Start Date", startDate)
+                .VerifyFirstResultValue("End Date", defaultEndDate)
+                .SwitchToDefaultContent();
+            //TC-36
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star")
+                .ExpandOption("Ancillary")
+                .ExpandOption("Clinical Waste")
+                .ExpandOption("Round Groups")
+                .ExpandOption("CLINICAL1")
+                .OpenOption("Monday")
+                .SwitchNewIFrame()
+                .SwitchToTab("Default Resources");
+            PageFactoryManager.Get<ServiceDefaultResourceTab>()
+                .IsOnServiceDefaultTab()
+                .ExpandOption("Cage")
+                .ClickAddResource()
+                .VerifyInputIsAvailable(resourceName)
+                .SwitchToDefaultContent();
         }
     }
 }
