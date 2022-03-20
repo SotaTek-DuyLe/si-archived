@@ -24,6 +24,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 {
     public class EditAgreementLineTest : BaseTest
     {
+        [Category("EditAgreement")]
         [Test]
         public void TC_016()
         {
@@ -172,6 +173,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .GoToAllTabAndConfirmNoError();
         }
 
+        [Category("EditAgreement")]
         [Test]
         public void TC_017()
         {
