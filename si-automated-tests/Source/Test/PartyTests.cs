@@ -125,8 +125,9 @@ namespace si_automated_tests.Source.Test
                 .VerifyDisplayErrorMessage(errorMessage);
         }
 
+        [Category("SiteAddress")]
         [Test]
-        public void TC007()
+        public void TC_007_CreateASiteFromPartyDetailsTab()
         {
             LoginPage login = new LoginPage();
             HomePage homePage = new HomePage();
@@ -153,9 +154,11 @@ namespace si_automated_tests.Source.Test
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             //create new party 
+            partyCommonPage.WaitForLoadingIconToDisappear();
             partyCommonPage
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
+            createPartyPage.WaitForLoadingIconToDisappear();
             createPartyPage
                 .IsCreatePartiesPopup("North Star Commercial")
                 .VerifyContractDropdownVlues()
@@ -167,9 +170,12 @@ namespace si_automated_tests.Source.Test
             detailPartyPage
                 .VerifyDisplaySuccessfullyMessage();
             //Test path for TC 007
+            detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.ClickOnDetailsTab()
                 .ClickAddCorrespondenceAddress()
                 .SwitchToLastWindow();
+                
+            partySiteAddressPage.WaitForLoadingIconToDisappear();
             partySiteAddressPage.IsOnPartySiteAddressPage()
                 .InputTextToSearchBar(address)
                 .ClickSearchBtn()
@@ -177,12 +183,13 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSearchedAddress(address)
                 .ClickOnNextButton()
                 .SwitchToLastWindow();
-            createEditSiteAddressPage.IsOnCreateEditSiteAddressPage();
+            createEditSiteAddressPage.WaitForLoadingIconToDisappear();
             string addressAdded = createEditSiteAddressPage.SelectRandomSiteAddress();
             createEditSiteAddressPage.SelectAddressClickNextBtn()
                 .InsertSiteName(addressSite1)
                 .ClickCreateBtn()
                 .SwitchToChildWindow(2);
+            detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
                 .ClickOnInvoiceAddressButton()
                 .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded)
@@ -195,8 +202,10 @@ namespace si_automated_tests.Source.Test
             detailPartyPage
                 .VerifyDisplaySuccessfullyMessage();
         }
+
+        [Category("SiteAddress")]
         [Test]
-        public void TC008()
+        public void TC_008_CreateASiteFromPartySideTab()
         {
             BasePage basePage = new BasePage();
             LoginPage login = new LoginPage();
@@ -225,6 +234,7 @@ namespace si_automated_tests.Source.Test
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             //create new party 
+            partyCommonPage.WaitForLoadingIconToDisappear();
             partyCommonPage
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
@@ -239,10 +249,12 @@ namespace si_automated_tests.Source.Test
             detailPartyPage
                 .VerifyDisplaySuccessfullyMessage();
             //Test path for TC 008
+            detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.ClickOnSitesTab()
                 .IsOnSitesTab()
                 .ClickOnAddNewItemInSiteTabBtn()
                 .SwitchToLastWindow();
+            partySiteAddressPage.WaitForLoadingIconToDisappear();
             partySiteAddressPage.IsOnPartySiteAddressPage()
                 .InputTextToSearchBar(address)
                 .ClickSearchBtn()
@@ -250,21 +262,25 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSearchedAddress(address)
                 .ClickOnNextButton()
                 .SwitchToLastWindow();
-            createEditSiteAddressPage.IsOnCreateEditSiteAddressPage();
+            createEditSiteAddressPage.WaitForLoadingIconToDisappear();
             string addressAdded = createEditSiteAddressPage.SelectRandomSiteAddress();
             createEditSiteAddressPage.SelectAddressClickNextBtn()
                 .InsertSiteName(addressSite1)
                 .ClickCreateBtn()
                 .SwitchToChildWindow(2);
+            detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.IsOnSitesTab()
                 .VerifyAddressAppearAtSitesTab(addressSite1);
             detailPartyPage.ClickOnDetailsTab()
                 .ClickOnInvoiceAddressButton()
-                .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded);
+                .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded)
+                .ClickOnSitesTab()
+                .VerifyAddressAppearAtSitesTab(addressSite1);
         }
 
+        [Category("SiteAddress")]
         [Test]
-        public void TC009()
+        public void TC_009_CreateASiteNegaTive()
         {
             BasePage basePage = new BasePage();
             LoginPage login = new LoginPage();
@@ -294,6 +310,7 @@ namespace si_automated_tests.Source.Test
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             //create new party
+            partyCommonPage.WaitForLoadingIconToDisappear();
             partyCommonPage
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
@@ -309,10 +326,12 @@ namespace si_automated_tests.Source.Test
                 .VerifyDisplaySuccessfullyMessage();
             //Test path for TC 009
             //create site 1
+            detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.ClickOnSitesTab()
                 .IsOnSitesTab()
                 .ClickOnAddNewItemInSiteTabBtn()
                 .SwitchToLastWindow();
+            partySiteAddressPage.WaitForLoadingIconToDisappear();
             partySiteAddressPage.IsOnPartySiteAddressPage()
                 .InputTextToSearchBar(address)
                 .ClickSearchBtn()
@@ -320,18 +339,20 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSearchedAddress(address)
                 .ClickOnNextButton()
                 .SwitchToLastWindow();
-            createEditSiteAddressPage.IsOnCreateEditSiteAddressPage();
+            createEditSiteAddressPage.WaitForLoadingIconToDisappear();
             string addressAdded = createEditSiteAddressPage.SelectRandomSiteAddress();
             createEditSiteAddressPage.SelectAddressClickNextBtn()
                 .InsertSiteName(addressSite1)
                 .ClickCreateBtn()
                 .SwitchToChildWindow(2);
+            detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.IsOnSitesTab()
                 .VerifyAddressAppearAtSitesTab(addressSite1);
             //create duplicate site
             detailPartyPage.IsOnSitesTab()
                .ClickOnAddNewItemInSiteTabBtn()
                .SwitchToLastWindow();
+            partySiteAddressPage.WaitForLoadingIconToDisappear();
             partySiteAddressPage.IsOnPartySiteAddressPage()
                 .InputTextToSearchBar(address)
                 .ClickSearchBtn()
@@ -339,7 +360,8 @@ namespace si_automated_tests.Source.Test
                 .ClickOnSearchedAddress(address)
                 .ClickOnNextButton()
                 .SwitchToLastWindow();
-            createEditSiteAddressPage.IsOnCreateEditSiteAddressPage()
+            createEditSiteAddressPage.WaitForLoadingIconToDisappear();
+            createEditSiteAddressPage
                 .SelectSiteAddress(addressAdded)
                 .SelectAddressClickNextBtn()
                 .ClickCreateBtn()
@@ -347,6 +369,7 @@ namespace si_automated_tests.Source.Test
                 .InsertSiteName(addressSite2)
                 .ClickCreateBtn()
                 .SwitchToChildWindow(2);
+            detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.IsOnSitesTab()
                 .VerifyAddressAppearAtSitesTab(addressSite2); //successful save site address with other name 
         }
