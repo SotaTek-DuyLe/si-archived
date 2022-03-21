@@ -3,6 +3,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
 
 namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
 {
@@ -67,9 +68,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             return this;
         }
 
-        public SiteDetailPage ClickPrimaryContactAddBtn()
+        public AddPrimaryContactPage ClickPrimaryContactAddBtn()
         {
             ClickOnElement(primaryContactAddBtn);
+            return PageFactoryManager.Get<AddPrimaryContactPage>();
+        }
+
+        public SiteDetailPage VerifyFirstValueInPrimaryContactDd(ContactModel contactModel)
+        {
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(primaryContactDd), contactModel.FirstName + " " + contactModel.LastName);
             return this;
         }
     }

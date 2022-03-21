@@ -292,6 +292,29 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .WaitForSiteDetailPageLoaded()
                 .ClickPrimaryContactAddBtn()
                 .SwitchToLastWindow();
+            AddPrimaryContactAtServicePage addPrimaryContactAtServicePage = PageFactoryManager.Get<AddPrimaryContactAtServicePage>();
+            ContactModel contactModelNew = new ContactModel("Chang", "Joe", "+447785434324");
+            addPrimaryContactAtServicePage
+                .IsCreatePrimaryContactAtServiceTabPage()
+                .EnterFirstName(contactModelNew.FirstName)
+                .EnterLastName(contactModelNew.LastName)
+                .EnterMobileValue(contactModelNew.Mobile)
+                .ClickSaveAndCloseBtn()
+                .SwitchToChildWindow(3);
+            siteDetailPage
+                .ClickPrimaryContactDd()
+                .VerifyFirstValueInPrimaryContactDd(contactModelNew)
+                .ClickSaveAndCloseBtn()
+                .SwitchToChildWindow(2, 200);
+            detailPartyPage
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .ClickOnContactTab();
+            List<ContactModel> getAllContact = detailPartyPage
+                .GetAllContact();
+            detailPartyPage
+                .VerifyContactCreatedWithSomeFields(contactModelNew, getAllContact[0]);
         }
 
     }

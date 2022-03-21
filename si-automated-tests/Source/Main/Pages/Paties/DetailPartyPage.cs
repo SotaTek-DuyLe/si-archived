@@ -7,7 +7,6 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
-using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContact;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 
