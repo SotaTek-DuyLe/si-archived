@@ -63,6 +63,7 @@
     <Folder Include="Source\Main\Pages\Paties\SiteServices\" />
     <Folder Include="Source\Main\Pages\Paties\Sites\" />
     <Folder Include="Source\Main\Pages\Task\" />
+    <Folder Include="TestResults\Screenshots\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
