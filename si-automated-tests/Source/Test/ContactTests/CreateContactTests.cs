@@ -7,7 +7,6 @@ using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties;
-using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContact;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement;
@@ -27,10 +26,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser14.UserName, AutoUser14.Password)
                 .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickParties()
-                .ExpandNSC();
-            PageFactoryManager.Get<PartyNavigation>()
-                .ClickPartySubMenu()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
@@ -159,10 +157,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser14.UserName, AutoUser14.Password)
                 .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickParties()
-                .ExpandNSC();
-            PageFactoryManager.Get<PartyNavigation>()
-                .ClickPartySubMenu()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
@@ -210,10 +207,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser14.UserName, AutoUser14.Password)
                 .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickParties()
-                .ExpandNSC();
-            PageFactoryManager.Get<PartyNavigation>()
-                .ClickPartySubMenu()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
@@ -247,8 +243,6 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .EnterMobileValue(contactModelNewInvoice.Mobile)
                 .ClickSaveAndCloseBtn()
                 .SwitchToChildWindow(3);
-            //agreementDetailPage
-            //   .VerifyWindowClosed(3);
             agreementDetailPage
                 .ClickInvoiceContactDd()
                 .VerifyFirstValueInInvoiceContactDd(contactModelNewInvoice)
@@ -275,10 +269,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser14.UserName, AutoUser14.Password)
                 .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickParties()
-                .ExpandNSC();
-            PageFactoryManager.Get<PartyNavigation>()
-                .ClickPartySubMenu()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
