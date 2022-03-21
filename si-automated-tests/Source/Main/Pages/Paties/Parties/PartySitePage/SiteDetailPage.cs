@@ -43,8 +43,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
 
         public SiteDetailPage WaitForSiteDetailsLoaded(string titleA, string siteNameDisplayed)
         {
-            WaitUtil.WaitForElementVisible(string.Format(titleDetail, titleA));
-            WaitUtil.WaitForElementVisible(string.Format(siteNameDynamic, siteNameDisplayed));
+            WaitUtil.WaitForElementVisible(string.Format(siteNameDynamic, titleA));
+            WaitUtil.WaitForElementVisible(string.Format(titleDetail, siteNameDisplayed));
             return this;
         }
 
@@ -117,7 +117,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         public SiteDetailPage ClickMapTabAndVerifyMessage(string message)
         {
             ClickOnElement(allTabInSite, CommonConstants.AllSiteTab[3]);
-            Assert.IsTrue(IsControlDisplayed(string.Format(messageAtMapTab, message));
+            Assert.IsTrue(IsControlDisplayed(string.Format(messageAtMapTab, message)));
             return this;
         }
 

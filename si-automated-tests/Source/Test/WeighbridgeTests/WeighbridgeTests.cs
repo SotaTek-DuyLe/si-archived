@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
@@ -12,6 +13,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 {
     public class WeighbridgeTests : BaseTest
     {
+        [Test]
         public void TC_045_WB_Create_party_customer()
         {
             string address = "Twickenham";
@@ -29,7 +31,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")
-                .OpenOption("Site Services")
+                .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
