@@ -55,6 +55,8 @@
     <None Remove="Source\Main\Pages\Paties\PartyAgreement\Tabs\" />
     <None Remove="Source\Main\Pages\Task\" />
     <None Remove="Source\Main\Data\UserData.json" />
+    <None Remove="Source\Test\ContactTest\" />
+    <None Remove="Source\Main\Pages\Paties\Parties\PartyContact\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -63,6 +65,8 @@
     <Folder Include="Source\Main\Pages\Paties\SiteServices\" />
     <Folder Include="Source\Main\Pages\Paties\Sites\" />
     <Folder Include="Source\Main\Pages\Task\" />
+    <Folder Include="Source\Test\ContactTests\" />
+    <Folder Include="Source\Main\Pages\Paties\Parties\PartyContactPage\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">

@@ -266,9 +266,9 @@ namespace si_automated_tests.Source.Core
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
             return this;
         }
-        public BasePage SwitchToChildWindow(int numberOfWindow)
+        public BasePage SwitchToChildWindow(int numberOfWindow, int maxRetryCount = 50)
         {
-            WaitUntilNewWindowIsOpened(numberOfWindow);
+            WaitUntilNewWindowIsOpened(numberOfWindow, maxRetryCount);
             driver.SwitchTo().Window(driver.WindowHandles.Last());
             MaximumWindow();
             return this;
@@ -481,6 +481,18 @@ namespace si_automated_tests.Source.Core
         public int GetNumberOfWindowHandle()
         {
             return driver.WindowHandles.Count;
+        }
+        //GET CSS VALUE
+        public string GetCssValue(By by, string propertyName)
+        {
+            IWebElement e = WaitUtil.WaitForElementVisible(by);
+            return e.GetCssValue(propertyName);
+        }
+
+        public BasePage VerifyWindowClosed(int numberCurrentWindow)
+        {
+            Assert.AreEqual(GetNumberOfWindowHandle(), numberCurrentWindow);
+            return this;
         }
 
         //SLEEP TIME IN MILISECONDS

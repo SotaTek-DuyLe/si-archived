@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Pages.PartyAgreement;
+using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,12 +20,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By firstAgreementEndDate = By.XPath("//div[@class='slick-cell l10 r10']");
         private readonly By firstAgreementType = By.XPath("//div[@class='slick-cell l13 r13']");
         private readonly By firstAgreementStatus = By.XPath("//div[@class='slick-cell l14 r14']");
+        private readonly By firstAgreementRow = By.XPath("//div[@id='agreements-tab']//div[@class='grid-canvas']/div[1]");
 
         public PartyAgreementPage ClickAddNewItem()
         {
             ClickOnElement(addNewItemBtn);
             return PageFactoryManager.Get<PartyAgreementPage>();
         }
+
         public AgreementTab VerifyFirstAgreementInfo(string name, string startDate, string endDate, string type, string status)
         {
             Assert.AreEqual(name, GetElementText(firstAgreementName));
@@ -34,14 +37,23 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(status, GetElementText(firstAgreementStatus));
             return this;
         }
+
         public PartyAgreementPage OpenFirstAgreement()
         {
             DoubleClickOnElement(firstAgreementId);
             return PageFactoryManager.Get<PartyAgreementPage>();
         }
+
         public int GetAgreementId()
         {
             return Int32.Parse(WaitUtil.WaitForElementVisible(firstAgreementId).Text);
+        }
+
+
+        public AgreementDetailPage OpenFirstAgreementRow()
+        {
+            DoubleClickOnElement(firstAgreementRow);
+            return PageFactoryManager.Get<AgreementDetailPage>();
         }
     }
 }
