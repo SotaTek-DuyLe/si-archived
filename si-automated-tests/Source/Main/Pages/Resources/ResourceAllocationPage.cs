@@ -14,6 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By shiftSelect = By.Id("shift-group");
         private readonly By goBtn = By.XPath("//button[text()='Go']");
         private readonly By createResourceBtn = By.Id("t-create");
+        private readonly By refreshBtn = By.Id("t-refresh");
         private readonly By date = By.Id("date");
 
         //Left panel
@@ -21,6 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string allocatedResource = "//span[@class='main-description resource-name' and contains(text(),'{0}')]";
         private readonly string allocatedResourceContainer = "//span[@class='main-description resource-name' and contains(text(),'{0}')]/parent::td";
         private readonly By resourcePresence = By.Id("resource-presence");
+        private readonly By viewShiftDetailBtn = By.XPath("//button[text()='VIEW SHIFT DETAILS']");
         private readonly string whiteBackground = "background-color: rgb(255, 255, 255);";
         private readonly string greenBackground = "background-color: rgb(137, 203, 137);";
         private readonly string purpleBackground = "background-color: rgb(177, 156, 217);";
@@ -77,11 +79,12 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage VerifyFirstResultValue(string field, string expected)
         {
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
+            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
             for (int i = 0; i < hds.Count; i++)
             {
+                Console.WriteLine("header text: " + hds[i].Text + " and first result text: " + _firstResultFields[i].Text);
                 if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
                 {
-                    IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
                     Assert.AreEqual(expected, _firstResultFields[i].Text);
                 }
             }
@@ -95,9 +98,22 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(_firstResultFields[0], target);
             return this;
         }
+         public ResourceAllocationPage DeallocateResourceByDragAndDrop(string _resourceName)
+        {
+            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
+            IWebElement source = WaitUtil.WaitForElementVisible(allocatedResource, _resourceName);
+            DragAndDrop(source, _firstResultFields[0]);
+            return this;
+        }
+
         public ResourceAllocationPage VerifyAllocatedResourceName(string _name)
         {
             WaitUtil.WaitForElementVisible(allocatedResource, _name);
+            return this;
+        }
+        public ResourceAllocationPage VerifyResourceDeallocated(string _name)
+        {
+            WaitUtil.WaitForElementInvisible(allocatedResource, _name);
             return this;
         }
         public ResourceAllocationPage ClickAllocatedResource(string _name)
@@ -115,6 +131,12 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ClickOnElement(resourcePresence);
             return this;
         }
+        public ResourceAllocationPage ClickViewShiftDetail()
+        {
+            ClickOnElement(viewShiftDetailBtn);
+            return this;
+        }
+
         public ResourceAllocationPage VerifyBackgroundColor(string _name, string _color)
         {
             string style = WaitUtil.WaitForElementVisible(allocatedResourceContainer, _name).GetAttribute("style");
@@ -139,6 +161,12 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage InsertDate(string _date)
         {
             SendKeys(date, _date);
+            return this;
+        }
+        public ResourceAllocationPage RefreshGrid()
+        {
+            ClickOnElement(refreshBtn);
+            WaitForLoadingIconToDisappear();
             return this;
         }
     }
