@@ -44,12 +44,12 @@ namespace si_automated_tests.Source.Core
         }
         public List<IWebElement> GetAllElements(string locator)
         {
-            Thread.Sleep(5000);
+            WaitUtil.WaitForAllElementsVisible(locator);
             return driver.FindElements(By.XPath(locator)).ToList();
         }
         public List<IWebElement> GetAllElements(By by)
         {
-            Thread.Sleep(5000);
+            WaitUtil.WaitForAllElementsVisible(by);
             return driver.FindElements(by).ToList();
         }
 
