@@ -25,6 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         private const string PartyName = "//div[text()='{0}']";
         private readonly By title = By.XPath("//h4[text()='Party']");
+        private readonly By wBtab = By.XPath("//a[text()='Weighbridge Settings']");
 
         //COMMON DYNAMIC LOCATOR
         private const string partyName = "//p[text()='{0}']";
@@ -47,6 +48,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By PrimaryContactDd = By.CssSelector("select#primary-contact");
         private readonly By InvoiceContactDd = By.CssSelector("select#invoice-contact");
         private readonly By primaryContactAddBtn = By.XPath("//select[@id='primary-contact']/following-sibling::span[text()='Add']");
+        private readonly By internalInputCheckbox = By.CssSelector("input#is-internal");
 
         //DETAIL TAB DYNAMIC LOCATOR
         private const string PrimaryContact = "//label[text()='Primary Contact']/following-sibling::div//select/option[text()={0}]";
@@ -84,6 +86,29 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string ColumnOfRowContact = "//div[@id='contacts-tab']//div[@class='grid-canvas']/div/div[count(//div[@id='contacts-tab']//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private const string firstContactRow = "//div[@id='contacts-tab']//div[@class='grid-canvas']/div[1]";
 
+        //WB Setting tab
+        private readonly By autoPrintTicketCheckbox = By.CssSelector("input#auto-print-ticket");
+        private readonly By driverNameRequiredCheckbox = By.XPath("//label[text()='Driver Name Required']/following-sibling::div/input");
+        private readonly By purcharseOrderNumberRequiredCheckbox = By.CssSelector("input#po-number-required");
+        private readonly By userStorePoNumberCheckbox = By.CssSelector("input#use-stored-po-number");
+        private readonly By allowManualPoNumberCheckbox = By.CssSelector("input#allow-manual-po-number");
+        private readonly By externalRoundCodeCheckbox = By.CssSelector("input#external-round-code-required");
+        private readonly By userStoredExternalCheckbox = By.CssSelector("input#use-stored-external-round-code");
+        private readonly By allowManualExternalCheckbox = By.CssSelector("input#allow-manual-external-round-code");
+        private readonly By allowManualNameEntryCheckbox = By.CssSelector("input#allow-manual-name-entry");
+        private readonly By restricProductCheckbox = By.CssSelector("input#restrictProducts");
+        private readonly By restrictedSiteDd = By.CssSelector("button[data-id='weighbridge-sites']");
+        private readonly By licenceNumberInput = By.CssSelector("input#party-licence-number");
+        private readonly By licenceNumberExpriedInput = By.CssSelector("input#party-licence-number-expiry");
+        private readonly By calenderLicenceNumberEx = By.XPath("//input[@id='party-licence-number-expiry']/following-sibling::span");
+        private readonly By dormantDateInput = By.CssSelector("input#dormant-date");
+        private readonly By calenderDormantDate = By.XPath("//input[@id='dormant-date']/following-sibling::span");
+        private readonly By warningLimitInput = By.CssSelector("input#warning-limit");
+
+        private const string authoriseTypingOption = "//label[text()='Authorise Tipping']/following-sibling::div//label[text()='{0}']/input";
+
+
+        //STEP
         public DetailPartyPage WaitForDetailPartyPageLoadedSuccessfully(string name)
         {
             WaitUtil.WaitForElementVisible(title);
@@ -446,6 +471,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
 
+        public DetailPartyPage ClickInternalCheckbox()
+        {
+            ClickOnElement(internalInputCheckbox);
+            return this;
+        }
+
         //Site Tab
         public DetailPartyPage IsOnSitesTab()
         {
@@ -544,6 +575,42 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             DoubleClickOnElement(firstContactRow);
             return PageFactoryManager.Get<EditPartyContactPage>();
+        }
+
+        //WB tab
+        public DetailPartyPage ClickWBSettingTab()
+        {
+            ClickOnElement(wBtab);
+            return this;
+        }
+
+        public DetailPartyPage VerifyWBSettingTab()
+        {
+            Assert.IsTrue(GetElement(autoPrintTicketCheckbox).Selected);
+            Assert.IsFalse(GetElement(driverNameRequiredCheckbox).Selected);
+            Assert.IsFalse(GetElement(purcharseOrderNumberRequiredCheckbox).Selected);
+            Assert.IsFalse(GetElement(userStorePoNumberCheckbox).Selected);
+            Assert.IsTrue(GetElement(allowManualPoNumberCheckbox).Selected);
+            Assert.IsFalse(GetElement(externalRoundCodeCheckbox).Selected);
+            Assert.IsFalse(GetElement(userStoredExternalCheckbox).Selected);
+            Assert.IsTrue(GetElement(allowManualExternalCheckbox).Selected);
+            Assert.IsFalse(GetElement(allowManualNameEntryCheckbox).Selected);
+            Assert.IsFalse(GetElement(restricProductCheckbox).Selected);
+            ScrollToBottomOfPage();
+            Assert.IsTrue(IsControlDisplayed(authoriseTypingOption, "Never Allow Tipping"));
+            Assert.IsTrue(IsControlDisplayed(authoriseTypingOption, "Do Not Override On Stop"));
+            Assert.IsTrue(IsControlDisplayed(authoriseTypingOption, "Always Allow Tipping"));
+            Assert.IsTrue(IsControlDisplayed(restrictedSiteDd));
+            Assert.IsTrue(IsControlDisplayed(licenceNumberInput));
+            Assert.IsTrue(IsControlDisplayed(licenceNumberExpriedInput));
+            Assert.IsTrue(IsControlDisplayed(calenderLicenceNumberEx));
+            Assert.IsTrue(IsControlDisplayed(dormantDateInput));
+            Assert.IsTrue(IsControlDisplayed(calenderDormantDate));
+            Assert.IsTrue(IsControlDisplayed(warningLimitInput));
+            //Default value
+            Assert.AreEqual(GetAttributeValue(warningLimitInput, "value"), "0");
+            Assert.IsTrue(GetElement(string.Format(authoriseTypingOption, "Do Not Override On Stop")).Selected);
+            return this;
         }
     }
 

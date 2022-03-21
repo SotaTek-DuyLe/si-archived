@@ -38,6 +38,10 @@ namespace si_automated_tests.Source.Core
         {
             return WaitUtil.WaitForElementVisible(by);
         }
+        public IWebElement GetElement(string locator)
+        {
+            return WaitUtil.WaitForElementVisible(locator);
+        }
         public List<IWebElement> GetAllElements(string locator)
         {
             Thread.Sleep(5000);
