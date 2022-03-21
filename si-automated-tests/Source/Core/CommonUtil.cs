@@ -37,6 +37,12 @@ namespace si_automated_tests.Source.Core
         {
             return DateTime.UtcNow.AddDays(day).ToString(format).Replace('-', '/');
         }
+
+        public static string GetUtcTimeNow(string format)
+        {
+            return DateTime.UtcNow.ToString(format);
+        }
+
         public static string GetLocalDayMinusDay(int day)
         {
             return DateTime.Now.AddDays(day).Day.ToString();

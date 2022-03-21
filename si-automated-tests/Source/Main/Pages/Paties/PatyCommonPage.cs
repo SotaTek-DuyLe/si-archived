@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.PageObjects;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Paties;
@@ -56,8 +54,9 @@ namespace si_automated_tests.Source.Main.Pages
         }
         public PartyCommonPage FilterPartyById(int id)
         {
-            SendKeys(filterInputById, id.ToString());
             WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(AddNewItem);
+            SendKeys(filterInputById, id.ToString());
             ClickOnElement(applyBtn);
             return this;
         }
