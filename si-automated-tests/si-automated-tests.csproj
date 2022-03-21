@@ -67,6 +67,7 @@
     <Folder Include="Source\Main\Pages\Task\" />
     <Folder Include="Source\Test\ContactTests\" />
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyContactPage\" />
+    <Folder Include="TestResults\Screenshots\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
