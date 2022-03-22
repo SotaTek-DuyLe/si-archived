@@ -151,6 +151,19 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             return new AsserAndProductModel(assertTypeM, quantity1M, productM, ewcCodeM, productQuantityM, unitM, tenureM, invoiceScheduleM, invoiceAddressM, startDateM, endDateM);
         }
 
+        public AsserAndProductModel GetAllInfoAssetAndProductAgreement()
+        {
+            string assertTypeM = GetElementText(assertType);
+            string quantity1M = GetElementText(quantity1);
+            string productM = GetElementText(productName);
+            string productQuantityM = GetElementText(productQuantity);
+            string unitM = GetElementText(unitName);
+            string tenureM = GetElementText(tenureName);
+            string startDateM = GetElementText(startDateAssetAndProduct);
+            string endDateM = GetElementText(endDateAssetAndProduct);
+            return new AsserAndProductModel(assertTypeM, quantity1M, productM, "", productQuantityM, unitM, tenureM, new string[1], new string[1], startDateM, endDateM);
+        }
+
         public DetailTab VerifyAssertAndProductInfo(AsserAndProductModel productModel)
         {
             Assert.AreEqual(productModel.AssetType, "1100L");

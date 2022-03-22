@@ -70,6 +70,9 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private readonly By agreementTabBtn = By.XPath("//a[@aria-controls='agreements-tab']");
         private string agreementWithDate = "//div[text()='{0}']";
 
+        //Dynamic Locator
+        private string expandAgreementLineByServicesName = "//span[text()='{0}' and contains(@data-bind, 'serviceName')]/ancestor::div[@class='panel-heading']//button[@title='Expand/close agreement line']";
+        
         public PartyAgreementPage ClickOnDetailsTab()
         {
             ClickOnElement(detailsTabBtn);
@@ -226,6 +229,11 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         public PartyAgreementPage ExpandAgreementLine()
         {
             ClickOnElement(expandBtn);
+            return this;
+        }
+        public PartyAgreementPage ExpandAgreementLineByService(string service)
+        {
+            ClickOnElement(expandAgreementLineByServicesName, service);
             return this;
         }
         public TaskTab OpenTaskTab()

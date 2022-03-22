@@ -17,6 +17,8 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By firstResultFields = By.XPath("//div[@class='ui-widget-content slick-row even'][1]/div");
         public CommonBrowsePage FilterItem(int id)
         {
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(addNewItemBtn);
             SendKeys(filterInputById, id.ToString());
             ClickOnElement(applyBtn);
             return this;

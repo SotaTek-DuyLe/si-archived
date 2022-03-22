@@ -17,6 +17,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties.SiteServices
         private readonly By firstRowResultId = By.XPath("//div[@class='ui-widget-content slick-row even']//div[2]");
         private readonly By firstRowAgreementId = By.XPath("//div[@class='ui-widget-content slick-row even']//div[count(//span[text()='Agreement ID']/parent::div/preceding-sibling::div) + boolean(count(//span[text()='Agreement ID']))]");
 
+        private readonly By allAgrementResult = By.XPath("//div[@class='grid-canvas']/div");
+        private string aggrementByDate = "//div[text()='{0}']";
+
         public SiteServicesCommonPage FilterId(int id)
         {
             SendKeys(idInput, id.ToString());
@@ -46,6 +49,18 @@ namespace si_automated_tests.Source.Main.Pages.Paties.SiteServices
         public SiteServicesCommonPage VerifyAgreementWindowClosed()
         {
             Assert.AreEqual(GetNumberOfWindowHandle(), 1);
+            return this;
+        }
+        public SiteServicesCommonPage VerifyAgreementResultNum(int num)
+        {
+            IList < IWebElement > results = WaitUtil.WaitForAllElementsVisible(allAgrementResult);
+            Assert.AreEqual(num, results.Count);
+            return this;
+        }
+
+        public SiteServicesCommonPage OpenAgreementWithDate(string date)
+        {
+            DoubleClickOnElement(aggrementByDate, date);
             return this;
         }
     }

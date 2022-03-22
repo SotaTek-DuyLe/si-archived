@@ -364,9 +364,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .verifyScheduleStartDate(todayDate)
                 .verifyScheduleEndDate("01/01/2050");
 
-           PageFactoryManager.Get<BasePage>()
-               .ClickCloseBtn()
-               .SwitchToChildWindow(3);
+            PageFactoryManager.Get<BasePage>()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
 
             //step 25
             PageFactoryManager.Get<PartyAgreementPage>()
@@ -727,6 +727,122 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //    .WaitForLoadingIconToDisappear();
             //PageFactoryManager.Get<ServiceScheduleTab>()
             //    .verifyScheduleEndDate(tommorowDate);
+        }
+
+        [Category("EditAgreement")]
+        [Test]
+        public void TC_019()
+        {
+            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+            AsserAndProductModel assetAndProductInput = new AsserAndProductModel("Mini (1.53m3)", "1", "Wood", "", "3", "Kilograms", "Owned", new string[1], new string[1], tommorowDate, "");
+           
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser14.UserName, AutoUser14.Password)
+                .IsOnHomePage(AutoUser14);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Agreements")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItem(28)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .OpenTaskTab();
+            PageFactoryManager.Get<TaskTab>()
+                .WaitForLoadingIconToDisappear();
+            int taskNumBefore = PageFactoryManager.Get<TaskTab>()
+                .GetAllTaskNum();
+
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickOnDetailsTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickAddService();
+            PageFactoryManager.Get<AddServicePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AddServicePage>()
+                .IsOnAddServicePage();
+            PageFactoryManager.Get<SiteAndServiceTab>()
+                 .IsOnSiteServiceTab()
+                 .SelectService("Skips")
+                 .ClickNext();
+            PageFactoryManager.Get<AssetAndProducTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AssetAndProducTab>()
+                .IsOnAssetTab()
+                .ClickAddAsset()
+                .SelectAssetType("Mini (1.53m3)")
+                .InputAssetQuantity(1)
+                .ChooseTenure("Owned")
+                .ChooseProduct("Wood")
+                .InputProductQuantity(3)
+                .ClickDoneBtn()
+                .VerifySummaryOfStep("1 x Mini (1.53m3)(Owned), 3kg Wood")
+                .ClickNext();
+            PageFactoryManager.Get<PriceTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+               .IsOnPriceTab()
+               .ClickNext()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+               .IsOnInvoiceDetailsTab()
+               .ClickFinish()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickSaveBtn()
+               .VerifyToastMessage("Successfully saved agreement")
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .SleepTimeInMiliseconds(10000);
+            //Verify for Asset and product 
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ExpandAgreementLineByService("Skips")
+                .ExpandAllAgreementFields();
+            //Assert and Product
+            AsserAndProductModel asserAndProductModel = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoAssetAndProductAgreement();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyAssertAndProductInfo(asserAndProductModel, assetAndProductInput);
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .OpenTaskTab();
+            PageFactoryManager.Get<TaskTab>()
+                .WaitForLoadingIconToDisappear();
+            int taskNumAfter = PageFactoryManager.Get<TaskTab>()
+                .GetAllTaskNum();
+            PageFactoryManager.Get<TaskTab>()
+                .VerifyTaskNumUnchange(taskNumBefore, taskNumAfter)
+                .SwitchToFirstWindow();
+            //Go to site service and verify
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .OpenOption("Site Services")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+                .FilterAgreementId(28)
+                .VerifyAgreementResultNum(2)
+                .OpenAgreementWithDate(tommorowDate)
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<AgreementLinePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AgreementLinePage>()
+                .WaitForWindowLoadedSuccess("28")
+                .GoToAllTabAndConfirmNoError();
         }
     }
 }

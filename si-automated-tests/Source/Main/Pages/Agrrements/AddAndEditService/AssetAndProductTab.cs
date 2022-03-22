@@ -56,7 +56,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         }
         public AssetAndProducTab SelectAssetType(string value)
         {
-            WaitUtil.WaitForElementClickable(assetTypeOptions, value);
+            WaitUtil.WaitForElementVisible(assetTypeOptions, value);
+            ClickAssetType();
             ClickOnElement(assetTypeOptions, value);
             return this;
         }

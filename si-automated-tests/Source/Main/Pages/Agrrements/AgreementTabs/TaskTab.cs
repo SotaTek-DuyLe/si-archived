@@ -321,6 +321,15 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             return availableRow;
         }
         
-
+        public int GetAllTaskNum()
+        {
+            IList<IWebElement> all = WaitUtil.WaitForAllElementsVisible(allRows);
+            return all.Count;
+        }
+        public TaskTab VerifyTaskNumUnchange(int before, int after)
+        {
+            Assert.AreEqual(before, after);
+            return this;
+        }
     }
 }
