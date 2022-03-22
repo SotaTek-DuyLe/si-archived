@@ -7,6 +7,8 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test
 {
+    [Parallelizable(scope: ParallelScope.Fixtures)]
+    [TestFixture]
     public class LoginTests : BaseTest
     {
         [Test]

@@ -22,6 +22,8 @@ using si_automated_tests.Source.Main.Models;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
 {
+    [Parallelizable(scope: ParallelScope.Fixtures)]
+    [TestFixture]
     public class EditAgreementLineTest : BaseTest
     {
         [Category("EditAgreement")]

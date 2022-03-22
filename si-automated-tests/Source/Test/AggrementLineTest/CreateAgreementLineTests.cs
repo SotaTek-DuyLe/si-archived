@@ -20,6 +20,8 @@ using si_automated_tests.Source.Main.Pages.Task;
 
 namespace si_automated_tests.Source.Test
 {
+    [Parallelizable(scope: ParallelScope.Fixtures)]
+    [TestFixture]
     public class CreateAgreementLineTests : BaseTest
     {
         [Test]
@@ -98,6 +100,8 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<AssetAndProducTab>()
                 .IsOnAssetTab()
                 .ClickAddAsset()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AssetAndProducTab>()
                 .ChooseAssetType("660L")
                 .InputAssetQuantity(2)
                 .ChooseTenure("Rental")

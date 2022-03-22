@@ -9,6 +9,7 @@ namespace si_automated_tests.Source.Core
         [SetUp]
         public void Setup()
         {
+            CustomTestListener.OnTestStarted();
             IWebDriverManager.SetDriver();
             new UserRegistry();
         }
@@ -16,6 +17,7 @@ namespace si_automated_tests.Source.Core
         [TearDown]
         public void TearDown()
         {
+            CustomTestListener.OnTestFinished();
             IWebDriverManager.GetDriver().Quit();
         }
     }

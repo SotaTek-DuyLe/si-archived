@@ -25,7 +25,7 @@ _UpgradeReport_Files/
 ###############
 bin/
 obj/
-TestResults/
+TestResults/*
 # Output Folder
 OutputDebug/
 OutputRelease/
@@ -88,12 +88,13 @@ bld/
 .vs/
 
 # MSTest test Results
-[Tt]est[Rr]esult*/
+# [Tt]est[Rr]esult*/
+*.png
 [Bb]uild[Ll]og.*
 
 # NUNIT
 *.VisualState.xml
-TestResult.xml
+TestResults.xml
 
 # Build Results of an ATL Project
 [Dd]ebugPS/
