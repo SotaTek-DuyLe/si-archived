@@ -25,8 +25,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser6.UserName, AutoUser6.Password)
-                .IsOnHomePage(AutoUser6);
+                .Login(AutoUser10.UserName, AutoUser10.Password)
+                .IsOnHomePage(AutoUser10);
             //Create new party
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")

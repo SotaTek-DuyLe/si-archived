@@ -23,8 +23,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser6.UserName, AutoUser6.Password)
-                .IsOnHomePage(AutoUser6);
+                .Login(AutoUser7.UserName, AutoUser7.Password)
+                .IsOnHomePage(AutoUser7);
                 //Filter id
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")

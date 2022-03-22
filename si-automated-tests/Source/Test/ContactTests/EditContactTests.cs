@@ -23,7 +23,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser14.UserName, AutoUser14.Password)
+                .Login(AutoUser9.UserName, AutoUser9.Password)
                 .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
@@ -82,7 +82,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser14.UserName, AutoUser14.Password)
+                .Login(AutoUser9.UserName, AutoUser9.Password)
                 .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
