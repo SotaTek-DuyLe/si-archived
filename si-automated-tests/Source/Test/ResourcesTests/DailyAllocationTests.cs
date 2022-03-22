@@ -122,7 +122,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ShiftDetailPage>()
                 .IsOnShiftDetailPage()
                 .RemoveAllocation()
-                .SaveDetail();
+                .SaveDetail()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RefreshGrid()
                 .FilterResource("Resource", resourceName)
