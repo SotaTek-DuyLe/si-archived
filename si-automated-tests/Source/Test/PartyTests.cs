@@ -207,7 +207,6 @@ namespace si_automated_tests.Source.Test
         [Test]
         public void TC_008_CreateASiteFromPartySideTab()
         {
-            BasePage basePage = new BasePage();
             LoginPage login = new LoginPage();
             HomePage homePage = new HomePage();
             PartySiteAddressPage partySiteAddressPage = new PartySiteAddressPage();
@@ -282,7 +281,6 @@ namespace si_automated_tests.Source.Test
         [Test]
         public void TC_009_CreateASiteNegaTive()
         {
-            BasePage basePage = new BasePage();
             LoginPage login = new LoginPage();
             HomePage homePage = new HomePage();
             PartySiteAddressPage partySiteAddressPage = new PartySiteAddressPage();

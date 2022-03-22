@@ -23,8 +23,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser14.UserName, AutoUser14.Password)
-                .IsOnHomePage(AutoUser14);
+                .Login(AutoUser8.UserName, AutoUser8.Password)
+                .IsOnHomePage(AutoUser8);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")
@@ -154,8 +154,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser14.UserName, AutoUser14.Password)
-                .IsOnHomePage(AutoUser14);
+                .Login(AutoUser8.UserName, AutoUser8.Password)
+                .IsOnHomePage(AutoUser8);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")
@@ -204,8 +204,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser14.UserName, AutoUser14.Password)
-                .IsOnHomePage(AutoUser14);
+                .Login(AutoUser8.UserName, AutoUser8.Password)
+                .IsOnHomePage(AutoUser8);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")
@@ -266,8 +266,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser14.UserName, AutoUser14.Password)
-                .IsOnHomePage(AutoUser14);
+                .Login(AutoUser8.UserName, AutoUser8.Password)
+                .IsOnHomePage(AutoUser8);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")

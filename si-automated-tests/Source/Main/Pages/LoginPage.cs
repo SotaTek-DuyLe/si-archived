@@ -11,6 +11,7 @@ namespace si_automated_tests.Source.Main.Pages
         private const string SignInBtn = "//button[text()='Sign In']";
         private const string ForgotPasswordLink = "//a[text()='Forgot Password']";
         private const string HelpLink = "//a[text()='Help']";
+
         private const string ErrorMessage = "//p[text()='Incorrect user name or password']";
 
         public LoginPage IsOnLoginPage()

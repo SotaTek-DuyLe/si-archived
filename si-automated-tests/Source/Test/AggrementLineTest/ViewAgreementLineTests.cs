@@ -4,14 +4,11 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
-using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 using si_automated_tests.Source.Main.Pages.Agrrements;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
-using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
-using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
@@ -26,8 +23,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser6.UserName, AutoUser6.Password)
-                .IsOnHomePage(AutoUser6);
+                .Login(AutoUser7.UserName, AutoUser7.Password)
+                .IsOnHomePage(AutoUser7);
                 //Filter id
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")

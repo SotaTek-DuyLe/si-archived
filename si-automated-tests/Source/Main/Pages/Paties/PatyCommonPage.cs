@@ -20,6 +20,7 @@ namespace si_automated_tests.Source.Main.Pages
 
         public PartyCommonPage ClickAddNewItem()
         {
+            WaitForLoadingIconToDisappear();
             ClickOnElement(AddNewItem);
             return this;
         }
