@@ -194,6 +194,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ExpandOption("CLINICAL1")
                 .OpenOption("Monday")
                 .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<ServiceDefaultResourceTab>()
                 .IsOnServiceDefaultTab()

@@ -100,6 +100,8 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<AssetAndProducTab>()
                 .IsOnAssetTab()
                 .ClickAddAsset()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AssetAndProducTab>()
                 .ChooseAssetType("660L")
                 .InputAssetQuantity(2)
                 .ChooseTenure("Rental")
