@@ -26,15 +26,15 @@ namespace si_automated_tests.Source.Core
         {
             var test = TestContext.CurrentContext;
             var testOutCome = TestContext.CurrentContext.Result.Outcome;
-            if (testOutCome.Equals(ResultState.Failure))
-            {
-                Console.WriteLine("TEST FAILED: " + test.Test.MethodName);
-                Console.WriteLine("TEST FAILED MESSAGE: " + test.Result.Message);
-                GetScreenShot(test.Test.MethodName);
-            }
-            else if (testOutCome.Equals(ResultState.Success))
+            if (testOutCome.Equals(ResultState.Success))
             {
                 Console.WriteLine("TEST PASSED: " + test.Test.MethodName);
+            }
+            else
+            {
+                Console.WriteLine("TEST STATUS: " + testOutCome.ToString() + " " + test.Test.MethodName);
+                Console.WriteLine("TEST MESSAGE: " + test.Result.Message);
+                GetScreenShot(test.Test.MethodName);
             }
             Console.WriteLine("------END OF TEST------");
         }
