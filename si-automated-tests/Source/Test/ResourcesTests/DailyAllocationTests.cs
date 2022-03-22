@@ -18,9 +18,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
     {
         [Category("Resources")]
         [Test]
-        public void TC_41_42_Create_Resource_And_Daily_Allocation()
+        public void TC_41_42_43_Create_Resource_And_Daily_Allocation()
         {
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string currentDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy",1);
             string resourceType = "Driver";
 
@@ -100,7 +101,31 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickPresenceOption();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyBackgroundColor(resourceName, "white");
+                .VerifyBackgroundColor(resourceName, "white")
+            //TC-43
+            //Deallocate future resource
+                .DeallocateResourceByDragAndDrop(resourceName)
+                .RefreshGrid()
+                .FilterResource("Resource", resourceName)
+                .VerifyResourceDeallocated(resourceName)
+                .VerifyFirstResultValue("Status","Available")
+            //Deallocate current-date resource
+                .InsertDate(currentDate + Keys.Enter)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear();
+            Thread.Sleep(1000);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickAllocatedResource(resourceName)
+                .ClickViewShiftDetail();
+            PageFactoryManager.Get<ShiftDetailPage>()
+                .IsOnShiftDetailPage()
+                .RemoveAllocation()
+                .SaveDetail();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .RefreshGrid()
+                .FilterResource("Resource", resourceName)
+                .VerifyResourceDeallocated(resourceName)
+                .VerifyFirstResultValue("Status", "Available");
         }
     }
 }

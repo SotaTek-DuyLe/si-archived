@@ -77,7 +77,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectCreatedAddress(addressAdded)
                 .ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved party.");
-                //Internal flag checked
+            //Internal flag checked
             detailPartyPage
                 .ClickInternalCheckbox()
                 .ClickSaveBtn()

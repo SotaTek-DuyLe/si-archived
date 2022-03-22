@@ -29,7 +29,11 @@ namespace si_automated_tests.Source.Core
                 if (browser.Equals("chrome", StringComparison.OrdinalIgnoreCase))
                 {
                     new DriverManager().SetUpDriver(new ChromeConfig());
-                    Drivers.Value = new ChromeDriver();
+                    ChromeOptions options = new ChromeOptions();
+                    options.AddArgument("--incognito");
+                    options.AddArgument("--disable-extensions");
+                    options.AddArgument("--disable-infobars");
+                    Drivers.Value = new ChromeDriver(options);
                 }
                 else if (browser.Equals("firefox", StringComparison.OrdinalIgnoreCase))
                 {
@@ -41,6 +45,10 @@ namespace si_automated_tests.Source.Core
                     new DriverManager().SetUpDriver(new ChromeConfig());
                     ChromeOptions options = new ChromeOptions();
                     options.AddArgument("--headless");
+                    options.AddArgument("--incognito");
+                    options.AddArgument("--disable-extensions");
+                    options.AddArgument("--disable-infobars");
+                    options.AddArgument("window-size=1920,1080");
                     Drivers.Value = new ChromeDriver(options);
                 }
                 else if (browser.Equals("ie", StringComparison.OrdinalIgnoreCase))
