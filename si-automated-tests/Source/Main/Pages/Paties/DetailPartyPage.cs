@@ -104,6 +104,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By dormantDateInput = By.CssSelector("input#dormant-date");
         private readonly By calenderDormantDate = By.XPath("//input[@id='dormant-date']/following-sibling::span");
         private readonly By warningLimitInput = By.CssSelector("input#warning-limit");
+        private readonly By licenceNumberExpriryIsRequiredMessage = By.XPath("//div[text()='Licence Number Expiry is required']/parent::div");
+        private readonly By licenceNumberRequiredMessage = By.XPath("//div[text()='Licence Number is required']/parent::div");
+        private readonly By invoiceAddressRequiredMessage = By.XPath("//div[text()='Invoice Address is required']/parent::div");
 
         private const string authoriseTypingOption = "//label[text()='Authorise Tipping']/following-sibling::div//label[text()='{0}']/input";
 
@@ -610,6 +613,40 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             //Default value
             Assert.AreEqual(GetAttributeValue(warningLimitInput, "value"), "0");
             Assert.IsTrue(GetElement(string.Format(authoriseTypingOption, "Do Not Override On Stop")).Selected);
+            return this;
+        }
+
+        public DetailPartyPage VerifyDisplayYellowMesInLicenceNumberExField()
+        {
+            Assert.IsTrue(IsControlDisplayed(licenceNumberExpriryIsRequiredMessage));
+            //Verify color
+            Assert.AreEqual("rgba(159, 139, 64, 1)", GetCssValue(licenceNumberExpriryIsRequiredMessage, "color"));
+            return this;
+        }
+
+        public DetailPartyPage InputLienceNumberExField(string date)
+        {
+            SendKeys(licenceNumberExpriedInput, date);
+            return this;
+        }
+
+        public DetailPartyPage VerifyDisplayYellowMesInLicenceNumberField()
+        {
+            Assert.IsTrue(IsControlDisplayed(licenceNumberRequiredMessage));
+            //Verify color
+            Assert.AreEqual("rgba(159, 139, 64, 1)", GetCssValue(licenceNumberRequiredMessage, "color"));
+            return this;
+        }
+
+        public DetailPartyPage InputLicenceNumber(string value)
+        {
+            SendKeys(licenceNumberInput, value);
+            return this;
+        }
+
+        public DetailPartyPage VerifyDisplayMesInInvoiceAddressField()
+        {
+            Assert.IsTrue(IsControlDisplayed(invoiceAddressRequiredMessage));
             return this;
         }
     }

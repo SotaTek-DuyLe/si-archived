@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartySitePage;
@@ -106,5 +107,69 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             detailPartyPage
                 .VerifyWBSettingTab();
         }
+
+        [Test]
+        public void TC_046_WB_Create_party_customer_and_haulier()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser14.UserName, AutoUser14.Password)
+                .IsOnHomePage(AutoUser14);
+            //Create new party
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .ClickAddNewItem()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<CreatePartyPage>()
+                .IsCreatePartiesPopup("North Star Commercial")
+                .SendKeyToThePartyInput("Auto" + CommonUtil.GetRandomString(2))
+                .SelectPartyType(1)
+                .SelectPartyType(2)
+                .ClickSaveBtn();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .VerifyDisplaySuccessfullyMessage()
+                .WaitForLoadingIconToDisappear()
+                .ClickSaveBtn();
+            detailPartyPage
+                .VerifyDisplayYellowMesInLicenceNumberExField()
+                .InputLienceNumberExField(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .ClickSaveBtn();
+            detailPartyPage
+                .VerifyDisplayYellowMesInLicenceNumberField()
+                .InputLicenceNumber(CommonUtil.GetRandomNumber(5))
+                .ClickSaveBtn();
+            detailPartyPage
+                .VerifyDisplayMesInInvoiceAddressField()
+                .ClickOnAddInvoiceAddressBtn()
+                .SwitchToChildWindow(3);
+            string siteName = "SiteAuto" + CommonUtil.GetRandomNumber(3);
+            string postCode = CommonUtil.GetRandomString(2) + CommonUtil.GetRandomNumber(3);
+            AddressDetailModel addressDetailModel = new AddressDetailModel(siteName, postCode);
+            PageFactoryManager.Get<PartySiteAddressPage>()
+                .IsOnPartySiteAddressPage()
+                .ClickOnCreateManuallyBtn()
+                .IsCheckAddressDetailScreen(false)
+                .SendKeyInSiteNameInput(siteName)
+                .VerifyCreateBtnDisabled()
+                .InputAllMandatoryFieldInCheckAddressDetailScreen(addressDetailModel)
+                .ClickCreateBtn()
+                .WaitForLoadingIconInvisiable()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifyCreatedSiteAddressAppearAtAddress(addressDetailModel)
+                .ClickCorresspondenAddress()
+                .VerifyDisplayNewSiteAddressInCorresspondence(addressDetailModel, false)
+                .SelectCorresspondenAddress(addressDetailModel)
+                .ClickSaveBtn();
+        }
+
     }
 }
