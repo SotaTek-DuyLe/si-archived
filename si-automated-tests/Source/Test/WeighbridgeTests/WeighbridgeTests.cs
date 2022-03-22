@@ -95,7 +95,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             siteDetailPage
                 .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, addressSite1 + " / " + addressAdded)
                 .VerifyDisplayAllTab(CommonConstants.AllSiteTab)
-                .ClickSomeTabAndVerifyNoErrorMessage(CommonConstants.SomeSiteTabNoMessage)
+                .ClickDetailTab()
+                .ClickSomeTabAndVerifyNoErrorMessage()
                 .ClickMapTabAndVerifyMessage("No Service Unit(s) associated to this Site ")
                 .ClickSaveAndCloseBtn()
                 .SwitchToChildWindow(2);

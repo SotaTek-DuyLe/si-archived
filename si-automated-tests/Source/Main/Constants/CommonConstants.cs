@@ -20,5 +20,6 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string WBSiteName = "Weighbridge";
         public static readonly string[] AllSiteTab = { "Details", "Data", "Assets", "Map", "Indicators", "Stations", "Locations", "Products", "Weighbridge", "Notes", "Time Restrictions", "Calendar" };
         public static readonly string[] SomeSiteTabNoMessage = { "Details", "Data", "Assets", "Indicators", "Stations", "Locations", "Products", "Weighbridge", "Notes", "Time Restrictions", "Calendar" };
+        public static readonly string MapTab = "Map";
     }
 }

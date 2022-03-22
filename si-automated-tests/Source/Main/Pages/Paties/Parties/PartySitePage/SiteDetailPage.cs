@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -16,6 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private readonly By primaryContactAddBtn = By.XPath("//select[@id='primary-contact']/following-sibling::span");
         private const string loadingData = "//div[@class='loading-data']";
         private const string frameMessage = "//div[@class='notifyjs-corner']/div";
+        private const string allTabDisplayedNotContainsMapTab = "//li[@role='presentation']/a[not(contains(text(), 'Map'))]";
 
         //DYNAMIC LOCATOR
         private const string allPrimaryContactValue = "//select[@id='primary-contact']/option";
@@ -103,23 +106,33 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             return this;
         }
 
-        public SiteDetailPage ClickSomeTabAndVerifyNoErrorMessage(string[] expectedAllTab)
+        public SiteDetailPage ClickDetailTab()
         {
-            foreach(string tab in expectedAllTab)
+            ClickOnElement(allTabInSite, "Details");
+            WaitUtil.WaitForElementInvisible(frameMessage);
+            return this;
+        }
+
+        public SiteDetailPage ClickSomeTabAndVerifyNoErrorMessage()
+        {
+            List<IWebElement> allElements = GetAllElements(allTabDisplayedNotContainsMapTab);
+            int clickButtonIdx = 0;
+            while (clickButtonIdx < allElements.Count)
             {
-                ClickOnElement(allTabInSite, tab);
+                ClickOnElement(allElements[clickButtonIdx]);
+                clickButtonIdx++;
                 WaitUtil.WaitForElementInvisible(loadingData);
                 Assert.IsFalse(IsControlDisplayedNotThrowEx(frameMessage));
+                allElements = GetAllElements(allTabDisplayedNotContainsMapTab);
             }
             return this;
         }
 
         public SiteDetailPage ClickMapTabAndVerifyMessage(string message)
         {
-            ClickOnElement(allTabInSite, CommonConstants.AllSiteTab[3]);
+            ClickOnElement(allTabInSite, CommonConstants.MapTab);
             Assert.IsTrue(IsControlDisplayed(string.Format(messageAtMapTab, message)));
             return this;
         }
-
     }
 }
