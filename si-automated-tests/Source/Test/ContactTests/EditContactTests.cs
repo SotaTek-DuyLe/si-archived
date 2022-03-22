@@ -26,7 +26,7 @@ namespace si_automated_tests.Source.Test.ContactTests
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser9.UserName, AutoUser9.Password)
-                .IsOnHomePage(AutoUser14);
+                .IsOnHomePage(AutoUser9);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")
@@ -85,7 +85,7 @@ namespace si_automated_tests.Source.Test.ContactTests
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser9.UserName, AutoUser9.Password)
-                .IsOnHomePage(AutoUser14);
+                .IsOnHomePage(AutoUser9);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")
