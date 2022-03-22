@@ -20,6 +20,8 @@ using si_automated_tests.Source.Main.Pages.Task;
 
 namespace si_automated_tests.Source.Test
 {
+    [Parallelizable(scope: ParallelScope.Fixtures)]
+    [TestFixture]
     public class CreateAgreementLineTests : BaseTest
     {
         [Test]

@@ -14,6 +14,8 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.ContactTests
 {
+    [Parallelizable(scope: ParallelScope.Fixtures)]
+    [TestFixture]
     public class CreateContactTests : BaseTest
     {
         [Test]

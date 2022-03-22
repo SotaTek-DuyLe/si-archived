@@ -13,6 +13,8 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.ResourcesTests
 {
+    [Parallelizable(scope:ParallelScope.Fixtures)]
+    [TestFixture]
     public class CreateResourceTests : BaseTest
     {
         [Category("Resources")]
