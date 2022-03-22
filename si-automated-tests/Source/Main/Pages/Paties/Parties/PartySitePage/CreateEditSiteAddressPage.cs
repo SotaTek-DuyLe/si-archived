@@ -16,8 +16,13 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
         private readonly By SiteNameInput = By.XPath("//label[text()='Site Name']/following-sibling::input");
         private readonly By SelectAddressNextBtn = By.XPath("//button[text()='Next' and contains(@data-bind,'selectedExistingAddress')]");
         private readonly By CreateBtn = By.XPath("//button[text()='Create']");
+        private readonly By siteDd = By.CssSelector("select#site-type");
 
         private readonly By ErrorMessageDublicateSite = By.XPath("//*[contains(.,'An active Site already exists at this address for this Party! You cannot create a duplicate.')]");
+
+        //DYNAMIC LOCATOR
+        private const string AnySite = "//select[@id = 'site-type']/option[text()='{0}']";
+
         public CreateEditSiteAddressPage IsOnCreateEditSiteAddressPage()
         {
             WaitUtil.WaitForElementVisible(CreateSiteAddressTitle);
@@ -96,6 +101,15 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
         {
             WaitUtil.WaitForElementVisible(ErrorMessageDublicateSite);
             Assert.IsTrue(IsControlDisplayed(ErrorMessageDublicateSite));
+            return this;
+        }
+
+        public CreateEditSiteAddressPage ClickAnySiteInDd(string site)
+        {
+            ClickOnElement(siteDd);
+            ClickOnElement(string.Format(AnySite, site));
+            //verify after selected
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(siteDd), site);
             return this;
         }
     }
