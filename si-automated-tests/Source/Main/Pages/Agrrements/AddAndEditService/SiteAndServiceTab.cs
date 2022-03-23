@@ -10,6 +10,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
     {
         private readonly By siteDropDown = By.Id("collection-site");
         private readonly By serviceDropDown = By.Id("contract");
+        private string serviceOptions = "//select[@id='contract']/option[text()='{0}']";
         public SiteAndServiceTab IsOnSiteServiceTab()
         {
             WaitUtil.WaitForElementVisible(siteDropDown);
@@ -25,6 +26,13 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         public SiteAndServiceTab ChooseService(string value)
         {
             SelectTextFromDropDown(serviceDropDown, value);
+            return this;
+        }
+        public SiteAndServiceTab SelectService(string value)
+        {
+            WaitUtil.WaitForElementVisible(serviceOptions, value);
+            ClickOnElement(serviceDropDown);
+            ClickOnElement(serviceOptions, value);
             return this;
         }
         public string GetSiteAddress()
