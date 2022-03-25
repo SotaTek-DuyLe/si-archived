@@ -516,5 +516,27 @@ namespace si_automated_tests.Source.Core
             dragAndDrop.Perform();
             return this;
         }
+
+        public BasePage VerifyFocusElement(By by)
+        {
+            Assert.AreEqual(GetElement(by), driver.SwitchTo().ActiveElement());
+            return this;
+        }
+
+        public string GetCurrentUrl()
+        {
+            return driver.Url;
+        }
+
+        public BasePage CloseCurrentWindow()
+        {
+            driver.Close();
+            return this;
+        }
+
+        public string GetCurrentTitle()
+        {
+            return driver.Title;
+        }
     }
 }
