@@ -17,7 +17,7 @@ pipelines:
               - dotnet restore
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
-              - dotnet test --logger:"junit" -s test.runsettings
+              - dotnet test --logger:"junit" --settings test.runsettings
             artifacts:
               - '*/TestResults/Screenshots/*.png'
 
@@ -34,7 +34,7 @@ pipelines:
               - dotnet restore
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
-              - dotnet test --filter Name~$env:TestName --logger:"junit" -s test.runsettings
+              - dotnet test --filter Name~$env:TestName --logger:"junit" --settings test.runsettings
             artifacts:
               - '*/TestResults/Screenshots/*.png'
 
@@ -51,7 +51,7 @@ pipelines:
               - dotnet restore
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
-              - dotnet test --filter FullyQualifiedName~si_automated_tests.Source.Test.$env:TestClass --logger:"junit" -s test.runsettings
+              - dotnet test --filter FullyQualifiedName~si_automated_tests.Source.Test.$env:TestClass --logger:"junit" --settings test.runsettings
             artifacts:
               - '*/TestResults/Screenshots/*.png'
 
@@ -68,7 +68,23 @@ pipelines:
               - dotnet restore
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
-              - dotnet test --filter TestCategory=$env:TestCategory --logger:"junit" -s test.runsettings
+              - dotnet test --filter TestCategory=$env:TestCategory --logger:"junit" --settings test.runsettings
+            artifacts:
+              - '*/TestResults/Screenshots/*.png'
+    Run test on custom environment:
+      - variables:
+            - name: TestEnv
+      - step:
+            runs-on:
+              - self.hosted
+              - windows
+            script:
+              - echo "Running on environment " $env:TestEnv
+              - dotnet clean
+              - dotnet restore
+              - cd si-automated-tests
+              - dotnet add package JUnitTestLogger --version 1.1.0
+              - dotnet test --filter TestCategory=$env:TestCategory --logger:"junit" --settings test.runsettings -- TestRunParameters.Parameter\(name=\\\"env\\\", value=\\\"$env:TestEnv\\\"\
             artifacts:
               - '*/TestResults/Screenshots/*.png'
               
