@@ -104,6 +104,11 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By dormantDateInput = By.CssSelector("input#dormant-date");
         private readonly By calenderDormantDate = By.XPath("//input[@id='dormant-date']/following-sibling::span");
         private readonly By warningLimitInput = By.CssSelector("input#warning-limit");
+        private readonly By licenceNumberExpriryIsRequiredMessage = By.XPath("//div[text()='Licence Number Expiry is required']/parent::div");
+        private readonly By licenceNumberRequiredMessage = By.XPath("//div[text()='Licence Number is required']/parent::div");
+        private readonly By invoiceAddressRequiredMessage = By.XPath("//div[text()='Invoice Address is required']/parent::div");
+        private readonly By corresspondenRequiredMessage = By.XPath("//div[text()='Correspondence Address is required']/parent::div");
+        private readonly By downloadBtn = By.CssSelector("input#party-licence-number + span");
 
         private const string authoriseTypingOption = "//label[text()='Authorise Tipping']/following-sibling::div//label[text()='{0}']/input";
 
@@ -612,6 +617,85 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.IsTrue(GetElement(string.Format(authoriseTypingOption, "Do Not Override On Stop")).Selected);
             return this;
         }
+
+        public DetailPartyPage VerifyDisplayYellowMesInLicenceNumberExField()
+        {
+            Assert.IsTrue(IsControlDisplayed(licenceNumberExpriryIsRequiredMessage));
+            //Verify color
+            Assert.AreEqual("rgba(159, 139, 64, 1)", GetCssValue(licenceNumberExpriryIsRequiredMessage, "color"));
+            return this;
+        }
+
+        public DetailPartyPage VerifyForcusOnLicenceNumberExField()
+        {
+            VerifyFocusElement(licenceNumberExpriedInput);
+            return this;
+        }
+
+        public DetailPartyPage VerifyForcusOnLicenceNumberField()
+        {
+            VerifyFocusElement(licenceNumberInput);
+            return this;
+        }
+
+        public DetailPartyPage InputLienceNumberExField(string date)
+        {
+            SendKeys(licenceNumberExpriedInput, date);
+            return this;
+        }
+
+        public DetailPartyPage VerifyDisplayYellowMesInLicenceNumberField()
+        {
+            Assert.IsTrue(IsControlDisplayed(licenceNumberRequiredMessage));
+            //Verify color
+            Assert.AreEqual("rgba(159, 139, 64, 1)", GetCssValue(licenceNumberRequiredMessage, "color"));
+            return this;
+        }
+
+        public DetailPartyPage VerifyDisplayGreenBoderInLicenceNumberField()
+        {
+            Assert.AreEqual("rgb(102, 175, 233)", GetCssValue(licenceNumberInput, "border-color"));
+            return this;
+        }
+
+        public DetailPartyPage VerifyDisplayGreenBoderInLicenceNumberExField()
+        {
+            Assert.AreEqual("rgb(102, 175, 233)", GetCssValue(licenceNumberExpriedInput, "border-color"));
+            return this;
+        }
+
+        public DetailPartyPage InputLicenceNumber(string value)
+        {
+            SendKeys(licenceNumberInput, value);
+            return this;
+        }
+
+        public DetailPartyPage VerifyDisplayMesInInvoiceAddressField()
+        {
+            Assert.IsTrue(IsControlDisplayed(invoiceAddressRequiredMessage));
+            return this;
+        }
+
+        public DetailPartyPage VerifyDisplayMesInCorresspondenAddressField()
+        {
+            Assert.IsTrue(IsControlDisplayed(corresspondenRequiredMessage));
+            //Verify color
+            Assert.AreEqual("rgba(159, 139, 64, 1)", GetCssValue(licenceNumberRequiredMessage, "color"));
+            return this;
+        }
+
+        public DetailPartyPage ClickDownloadBtnAndVerify()
+        {
+            ClickOnElement(downloadBtn);
+            SwitchToLastWindow();
+            WaitUtil.WaitForElementVisible("//h2[text()='Tell us whether you accept cookies']");
+            Assert.AreEqual("https://environment.data.gov.uk/public-register/view/search-all", GetCurrentUrl());
+            Assert.AreEqual("Search all public registers", GetCurrentTitle());
+            CloseCurrentWindow();
+            SwitchToChildWindow(2);
+            return this;
+        }
+
     }
 
 }

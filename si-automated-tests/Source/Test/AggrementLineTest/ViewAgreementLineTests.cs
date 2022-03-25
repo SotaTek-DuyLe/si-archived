@@ -13,6 +13,8 @@ using si_automated_tests.Source.Main.Pages.NavigationPanel;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
 {
+    [Parallelizable(scope: ParallelScope.Fixtures)]
+    [TestFixture]
     public class ViewAgreementLineTests : BaseTest
     {
         [Test]

@@ -14,6 +14,8 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.ResourcesTests
 {
+    [Parallelizable(scope: ParallelScope.Fixtures)]
+    [TestFixture]
     public class DailyAllocationTests : BaseTest
     {
         [Category("Resources")]
@@ -120,7 +122,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ShiftDetailPage>()
                 .IsOnShiftDetailPage()
                 .RemoveAllocation()
-                .SaveDetail();
+                .SaveDetail()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RefreshGrid()
                 .FilterResource("Resource", resourceName)

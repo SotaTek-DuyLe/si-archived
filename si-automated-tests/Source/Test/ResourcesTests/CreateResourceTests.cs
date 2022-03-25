@@ -13,6 +13,8 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.ResourcesTests
 {
+    [Parallelizable(scope:ParallelScope.Fixtures)]
+    [TestFixture]
     public class CreateResourceTests : BaseTest
     {
         [Category("Resources")]
@@ -192,6 +194,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ExpandOption("CLINICAL1")
                 .OpenOption("Monday")
                 .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<ServiceDefaultResourceTab>()
                 .IsOnServiceDefaultTab()
