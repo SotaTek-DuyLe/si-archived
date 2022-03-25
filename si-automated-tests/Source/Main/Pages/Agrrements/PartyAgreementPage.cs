@@ -56,6 +56,8 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private readonly By regularAssertTypeStartDate = By.XPath("//span[text()='Regular']/ancestor::div[1]/following-sibling::div//span[contains(@data-bind,'displayStartDate')]");
         private readonly By serviceTaskLineTypeStartDates = By.XPath("//th[text()='Task Line Type']/ancestor::thead[1]/following-sibling::tbody//span[@title='Start Date']");
         private readonly By createAdhocBtn = By.XPath("//button[text()='Create Ad-Hoc Task']");
+        private readonly By blueBorder = By.XPath("//div[contains(@data-bind,'#0886AD')]");
+
         //Summary title
         private readonly By startDate = By.XPath("//span[@title='Start Date']");
         private readonly By endDate = By.XPath("//span[@title='End Date']");
@@ -72,7 +74,8 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
 
         //Dynamic Locator
         private string expandAgreementLineByServicesName = "//span[text()='{0}' and contains(@data-bind, 'serviceName')]/ancestor::div[@class='panel-heading']//button[@title='Expand/close agreement line']";
-        
+        private string regularFrequency = "//td[text()='Commercial Collection']/following-sibling::td/p[text()='{0}']";
+        private string editAgreementByAddress = "//p[text()='{0}']//ancestor::div[@class='panel-heading']//button[text()='Edit']";
         public PartyAgreementPage ClickOnDetailsTab()
         {
             ClickOnElement(detailsTabBtn);
@@ -248,6 +251,11 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             ClickOnElement(editBtn);
             return this;
         }
+        public PartyAgreementPage ClickEditAgreementByAddressBtn(string address)
+        {
+            ClickOnElement(editAgreementByAddress, address);
+            return this;
+        }
 
         public PartyAgreementPage VerifyCreateAdhocButtonsAreDisabled()
         {
@@ -256,6 +264,12 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             {
                 Assert.AreEqual(false, btn.Enabled);
             }
+            return this;
+        }
+
+        public PartyAgreementPage VerifySchedule(string schedule)
+        {
+            Assert.IsTrue(IsControlDisplayed(regularFrequency, schedule));
             return this;
         }
 
@@ -278,6 +292,13 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         public PartyAgreementPage OpenAnAgreementWithDate(string date)
         {
             DoubleClickOnElement(agreementWithDate, date);
+            return this;
+        }
+
+        //Verify Blue border after edit Agreement 
+        public PartyAgreementPage VerifyBlueBorder()
+        {
+            Assert.IsTrue(IsControlDisplayed(blueBorder));
             return this;
         }
     }

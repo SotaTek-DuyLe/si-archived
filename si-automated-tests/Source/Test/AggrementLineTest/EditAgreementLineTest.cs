@@ -737,7 +737,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             AsserAndProductModel assetAndProductInput = new AsserAndProductModel("Mini (1.53m3)", "1", "Wood", "", "3", "Kilograms", "Owned", new string[1], new string[1], tommorowDate, "");
-           
+
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -845,6 +845,177 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<AgreementLinePage>()
                 .WaitForWindowLoadedSuccess("28")
                 .GoToAllTabAndConfirmNoError();
+        }
+
+        [Category("EditAgreement")]
+        [Test]
+        public void TC_020_A()
+        {
+            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser14.UserName, AutoUser14.Password)
+                .IsOnHomePage(AutoUser14);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Agreements")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItem(28)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            //Edit Agreement 
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickOnDetailsTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ExpandAgreementLine()
+                .ExpandAllAgreementFields()
+                .VerifySchedule("Once per week on any weekday");
+            //Assert and Product
+            AsserAndProductModel asserAndProductModelBefore = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoAssetAndProduct();
+            //Mobilization
+            MobilizationModel mobilizationModelBefore = PageFactoryManager.Get<DetailTab>()
+               .GetAllInfoMobilization();
+            //Regular
+            RegularModel regularModelBefore = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoRegular();
+            //De-Mobilization
+            MobilizationModel deMobilizationModelBefore = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoDeMobilization();
+            //Ad-hoc
+            List<MobilizationModel> allAdhocBefore = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoAdhoc();
+
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickEditAgreementByAddressBtn("109 SHEEN LANE, EAST SHEEN, LONDON, SW14 8AE")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<EditAgreementServicePage>()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AssetAndProducTab>()
+                .ClickNext();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+               .IsOnScheduleTab()
+               .ClickOnSchedule("Once per week on any weekday")
+               .TickAnyDayOption()
+               .UntickAnyDayOption()
+               .SelectDayOfWeek("Wed")
+               .ClickDoneRequirementBtn()
+               .VerifyScheduleSummary("Once Every week on any Wednesday")
+               .ClickNext()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+               .IsOnPriceTab()
+               .ClickNext()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+               .IsOnInvoiceDetailsTab()
+               .ClickFinish()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .VerifyBlueBorder()
+               .ClickSaveBtn()
+               .VerifyToastMessage("Successfully saved agreement")
+               .WaitForLoadingIconToDisappear();
+
+            //waiting for save 
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .SleepTimeInMiliseconds(10000);
+            //Verify after editing
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ExpandAgreementLine()
+                .ExpandAllAgreementFields()
+                .VerifySchedule("Once per week on any Wednesday");
+            //Assert and Product
+            AsserAndProductModel asserAndProductModelAfter = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoAssetAndProduct();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyAssertAndProductInfo(asserAndProductModelBefore, asserAndProductModelAfter);
+            //Mobilization
+            MobilizationModel mobilizationModelAfter = PageFactoryManager.Get<DetailTab>()
+               .GetAllInfoMobilization();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyMobilizationInfo(mobilizationModelBefore, mobilizationModelAfter);
+            //Regular
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyRegularTaskTypeDate(tommorowDate + " - 01/01/2050")
+                .VerifyRegularTaskLineTypeStartDate(tommorowDate);
+            //De-Mobilization
+            MobilizationModel deMobilizationModelAfter = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoDeMobilization();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyMobilizationInfo(deMobilizationModelBefore, deMobilizationModelAfter);
+            //Ad-hoc
+            List<MobilizationModel> allAdhocAfter = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoAdhoc();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyAdhocInfo(allAdhocBefore, allAdhocAfter)
+                .SwitchToFirstWindow();
+
+            //Go to service and verify 
+            PageFactoryManager.Get<NavigationBase>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption("Services")
+               .ExpandOption("Regions")
+               .ExpandOption("London")
+               .ExpandOption("North Star Commercial")
+               .ExpandOption("Collections")
+               .ExpandOption("Commercial Collections")
+               .OpenOption("Active Service Tasks")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .InputPartyNameToFilter("La Plata Steakhouse")
+                .ClickApplyBtn()
+                .OpenTaskWithPartyNameAndDate("La Plata Steakhouse", tommorowDate, "STARTDATE")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .verifyTaskInfo("1100L", "1", "Plastic", "Kilograms", tommorowDate, "01/01/2050");
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnScheduleTask();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .verifyScheduleStartDate(tommorowDate)
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+
+            //open task with enddate is tommorow and verify 
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .OpenTaskWithPartyNameAndDate("La Plata Steakhouse", tommorowDate, "ENDDATE")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .verifyTaskInfo("1100L", "1", "Plastic", "Kilograms", "15/02/2022", tommorowDate);
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnScheduleTask();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .verifyScheduleEndDate(tommorowDate);
         }
     }
 }
