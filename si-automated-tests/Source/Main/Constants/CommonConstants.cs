@@ -18,7 +18,8 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] ContactGroupsOptions = { "Invoicing", "Operational" };
         public static readonly string[] ContactTable = { "ID", "Title", "First Name", "Last Name", "Position", "Telephone", "Mobile", "Email", "Receive Emails", "Contact Groups", "Start Date", "End Date" };
         public static readonly string WBSiteName = "Weighbridge";
-        public static readonly string[] AllSiteTab = { "Details", "Data", "Assets", "Map", "Indicators", "Stations", "Locations", "Products", "Weighbridge", "Notes", "Time Restrictions", "Calendar" };
+        public static readonly string[] AllSiteTabCase46 = { "Details", "Data", "Assets", "Map", "Indicators", "Stations", "Locations", "Products", "Weighbridge", "Notes", "Time Restrictions", "Calendar" };
+        public static readonly string[] AllSiteTabCase47 = { "Details", "Data", "Assets", "Map", "Indicators", "Notes", "Time Restrictions", "Calendar" };
         public static readonly string[] SomeSiteTabNoMessage = { "Details", "Data", "Assets", "Indicators", "Stations", "Locations", "Products", "Weighbridge", "Notes", "Time Restrictions", "Calendar" };
         public static readonly string MapTab = "Map";
     }
