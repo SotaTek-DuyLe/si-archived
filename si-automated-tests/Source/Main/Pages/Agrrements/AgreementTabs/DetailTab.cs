@@ -353,6 +353,17 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             Assert.AreEqual(GetAttributeValue(invoiceScheduleRe, "disabled"), "true");
             return this;
         }
+
+        public DetailTab VerifyRegularTaskTypeDate(string dateRange) 
+        {
+            Assert.AreEqual(dateRange, GetElementText(startEndDateRe));
+            return this;
+        }
+        public DetailTab VerifyRegularTaskLineTypeStartDate(String startDate)
+        {
+            Assert.AreEqual(startDate, GetElementText(startDateCoverRe));
+            return this;
+        }
         public DetailTab VerifyRegularInfo(RegularModel regularModel, RegularModel input)
         {
             Assert.AreEqual(regularModel.TaskLineType, input.TaskLineType);
