@@ -14,6 +14,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 {
     public class WeighbridgeTests : BaseTest
     {
+        [Category("WB")]
         [Test]
         public void TC_045_WB_Create_party_customer()
         {
@@ -108,6 +109,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyWBSettingTab();
         }
 
+        [Category("WB")]
         [Test]
         public void TC_046_WB_Create_party_customer_and_haulier()
         {
