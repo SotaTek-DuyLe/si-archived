@@ -80,7 +80,7 @@ pipelines:
               - windows
             script:
               - echo "Running on environment " $env:TestEnv
-              - $env:SCRIPTT='TestRunParameters.Parameter(name=\"env\",value=\"'+$env:TestEnv+'\")'
+              - $env:SCRIPTT='TestRunParameters.Parameter\(name=\"env\",value=\"'+$env:TestEnv+'\"\)'
               - echo $env:SCRIPTT
               - dotnet clean
               - dotnet restore
