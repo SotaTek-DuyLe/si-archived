@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -8,29 +9,62 @@ using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
+using si_automated_tests.Source.Main.Pages.WB.Sites;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.WeighbridgeTests
 {
+    [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
     public class WeighbridgeTests : BaseTest
     {
-        [Category("WB")]
-        [Test]
-        public void TC_045_WB_Create_party_customer()
-        {
-            string address = "Twickenham";
-            string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
-            string siteName = CommonConstants.WBSiteName;
+        private readonly string address = "Twickenham";
+        private readonly string siteName45 = "Site Twickenham 45" + CommonUtil.GetRandomNumber(4);
+        private string addressAdded45;
+        private readonly string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
+        private readonly string siteName = CommonConstants.WBSiteName;
+        private string addressAdded;
+        private List<SiteModel> allSiteModel = new List<SiteModel>();
+        private List<SiteModel> siteModelBefore = new List<SiteModel>();
+        private List<SiteModel> siteModel045;
+        private string partyIdCustomer;
 
+        public override void Setup()
+        {
+            base.Setup();
+            Login();
+        }
+
+        public void Login()
+        {
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser10.UserName, AutoUser10.Password)
-                .IsOnHomePage(AutoUser10);
+                .Login(AutoUser14.UserName, AutoUser14.Password)
+                .IsOnHomePage(AutoUser14);
+        }
+
+        [Test(Description = "WB create party customer"), Order(1)]
+        public void GetAllSiteInWBBefore()
+        {
+            //Verify data in TC45, 46, 47 not apprear in WB Site
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Weighbridge")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Sites")
+                .SwitchNewIFrame();
+            SiteListingPage siteListingPage = PageFactoryManager.Get<SiteListingPage>();
+            siteModelBefore = siteListingPage
+                .GetAllSiteDisplayed();
+        }
+
+        [Category("WB")]
+        [Test(Description = "WB create party customer"), Order(2)]
+        public void TC_045_WB_Create_party_customer()
+        {
             //Create new party
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
@@ -47,9 +81,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
-                .VerifyDisplaySuccessfullyMessage();
-            detailPartyPage
+                .VerifyDisplaySuccessfullyMessage()
                 .WaitForLoadingIconToDisappear();
+            //Get id
+            partyIdCustomer = detailPartyPage
+                .GetPartyId();
             detailPartyPage
                 .ClickOnDetailsTab()
                 .ClickAddCorrespondenceAddress()
@@ -66,19 +102,19 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             CreateEditSiteAddressPage createEditSiteAddressPage = PageFactoryManager.Get<CreateEditSiteAddressPage>();
             createEditSiteAddressPage
                 .WaitForLoadingIconToDisappear();
-            string addressAdded = createEditSiteAddressPage
+            addressAdded45 = createEditSiteAddressPage
                 .SelectRandomSiteAddress();
             createEditSiteAddressPage.SelectAddressClickNextBtn()
-                .InsertSiteName(addressSite1)
+                .InsertSiteName(siteName45)
                 .ClickAnySiteInDd(siteName)
                 .ClickCreateBtn()
                 .SwitchToChildWindow(2);
             detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage
-                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
+                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded45)
                 .ClickOnInvoiceAddressButton()
-                .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded)
-                .SelectCreatedAddress(addressAdded)
+                .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded45)
+                .SelectCreatedAddress(addressAdded45)
                 .ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved party.");
             //Internal flag checked
@@ -90,14 +126,18 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             detailPartyPage
                 .ClickOnSitesTab()
-                .WaitForLoadingIconInvisiable()
+                .WaitForLoadingIconInvisiable();
+            siteModel045 = detailPartyPage
+                .GetAllSiteInList();
+            allSiteModel.Add(siteModel045[0]);
+            detailPartyPage
                 .OpenFirstSiteRow()
                 .SwitchToLastWindow();
             SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
             siteDetailPage
                 .WaitForLoadingIconToDisappear();
             siteDetailPage
-                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, addressSite1 + " / " + addressAdded)
+                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
                 .VerifyDisplayAllTab(CommonConstants.AllSiteTabCase46)
                 .ClickDetailTab()
                 .ClickSomeTabAndVerifyNoErrorMessage()
@@ -108,20 +148,16 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickWBSettingTab()
                 .WaitForLoadingIconInvisiable();
             detailPartyPage
-                .VerifyWBSettingTab();
+                .VerifyWBSettingTab()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
         }
 
         [Category("WB")]
-        [Test]
+        [Test(Description = "WB create party customer and haulier"), Order(3)]
         public void TC_046_WB_Create_party_customer_and_haulier()
         {
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            //Login
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser14.UserName, AutoUser14.Password)
-                .IsOnHomePage(AutoUser14);
             //Create new party
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
@@ -140,13 +176,14 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
                 .VerifyDisplaySuccessfullyMessage()
-                .WaitForLoadingIconToDisappear()
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             detailPartyPage
                 .VerifyDisplayGreenBoderInLicenceNumberExField()
                 .VerifyDisplayYellowMesInLicenceNumberExField()
                 .InputLienceNumberExField(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             detailPartyPage
                 .VerifyDisplayGreenBoderInLicenceNumberField()
                 .VerifyDisplayYellowMesInLicenceNumberField()
@@ -156,41 +193,44 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayMesInInvoiceAddressField()
                 .ClickOnAddInvoiceAddressBtn()
                 .SwitchToChildWindow(3);
-            string siteName = "SiteAuto" + CommonUtil.GetRandomNumber(3);
-            string postCode = CommonUtil.GetRandomString(2) + CommonUtil.GetRandomNumber(3);
-            AddressDetailModel addressDetailModel = new AddressDetailModel(siteName, postCode);
-            PageFactoryManager.Get<PartySiteAddressPage>()
-                .IsOnPartySiteAddressPage()
-                .ClickOnCreateManuallyBtn()
-                .IsCheckAddressDetailScreen(false)
-                .SendKeyInSiteNameInput(siteName)
-                .VerifyCreateBtnDisabled()
-                .InputAllMandatoryFieldInCheckAddressDetailScreen(addressDetailModel)
+            PartySiteAddressPage partySiteAddressPage = PageFactoryManager.Get<PartySiteAddressPage>();
+            partySiteAddressPage.WaitForLoadingIconToDisappear();
+            partySiteAddressPage.IsOnPartySiteAddressPage()
+                .InputTextToSearchBar(address)
+                .ClickSearchBtn()
+                .VerifySearchedAddressAppear(address)
+                .ClickOnSearchedAddress(address)
+                .ClickOnNextButton()
+                .SwitchToLastWindow();
+            CreateEditSiteAddressPage createEditSiteAddressPage = PageFactoryManager.Get<CreateEditSiteAddressPage>();
+            createEditSiteAddressPage
+                .WaitForLoadingIconToDisappear();
+            addressAdded = createEditSiteAddressPage
+                .SelectRandomSiteAddress();
+            createEditSiteAddressPage.SelectAddressClickNextBtn()
+                .InsertSiteName(addressSite1)
+                .ClickAnySiteInDd(siteName)
                 .ClickCreateBtn()
-                .WaitForLoadingIconInvisiable()
                 .SwitchToChildWindow(2);
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyCreatedSiteAddressAppearAtAddress(addressDetailModel)
-                .ClickCorresspondenAddress()
-                .VerifyDisplayNewSiteAddressInCorresspondence(addressDetailModel, false)
-                .SelectCorresspondenAddress(addressDetailModel)
+            detailPartyPage.WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
+                .ClickOnInvoiceAddressButton()
+                .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded)
+                .SelectCreatedAddress(addressAdded)
                 .ClickSaveBtn();
+            detailPartyPage
+                .ClickOnSitesTab()
+                .WaitForLoadingIconInvisiable();
+            List<SiteModel> siteModel = detailPartyPage
+                .GetAllSiteInList();
+            allSiteModel.Add(siteModel[0]);
         }
 
-        [Test]
+        [Category("WB")]
+        [Test(Description = "WB create party haulier"), Order(4)]
         public void TC_047_WB_Create_party_haulier()
         {
-            string address = "Twickenham";
-            string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
-            string siteName = CommonConstants.WBSiteName;
-
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            //Login
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser14.UserName, AutoUser14.Password)
-                .IsOnHomePage(AutoUser14);
             //Create new party
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
@@ -222,7 +262,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyForcusOnLicenceNumberField()
                 .VerifyDisplayGreenBoderInLicenceNumberField()
                 //Verify search Btn (waiting to confirm)
-                .ClickDownloadBtnAndVerify()
+                //.ClickDownloadBtnAndVerify()
                 //Input LicenceNumber
                 .InputLicenceNumber(CommonUtil.GetRandomNumber(5))
                 .ClickSaveBtn()
@@ -254,7 +294,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             detailPartyPage
                 .VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
                 .ClickOnSitesTab()
-                .WaitForLoadingIconInvisiable()
+                .WaitForLoadingIconInvisiable();
+            List<SiteModel> siteModel = detailPartyPage
+                .GetAllSiteInList();
+            allSiteModel.Add(siteModel[0]);
+            detailPartyPage
                 .OpenFirstSiteRow()
                 .SwitchToLastWindow();
             SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
@@ -269,5 +313,92 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveAndCloseBtn();
         }
 
+        [Category("WB")]
+        [Test(Description = "WB Station"), Order(5)]
+        public void TC_048_WB_Station()
+        {
+            string stationName = "AutoStation" + CommonUtil.GetRandomNumber(2);
+            //Verify data in TC45, 46, 47 not apprear in WB Site
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Weighbridge")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Sites")
+                .SwitchNewIFrame();
+            SiteListingPage siteListingPage = PageFactoryManager.Get<SiteListingPage>();
+            List<SiteModel> siteModelsAfter = siteListingPage
+                .GetAllSiteDisplayed();
+            siteListingPage
+                //.VerifySiteCreatedIsNotDisplayed(siteModelsAfter, allSiteModel, siteModelBefore)
+            //Back to the party customer in TC045
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(Int32.Parse(partyIdCustomer))
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .ClickOnSitesTab()
+                .WaitForLoadingIconInvisiable()
+                .OpenFirstSiteRow()
+                .SwitchToLastWindow();
+            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
+            siteDetailPage
+                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
+                .ClickStationTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            CreateStationPage createStationPage = PageFactoryManager.Get<CreateStationPage>();
+            createStationPage
+                .WaitForLoadingIconToDisappear();
+            createStationPage
+                .WaitForCreateStationPageLoaded("WEIGHBRIDGE STATION")
+                .IsCreateStationPage()
+                .ClickSaveBtn();
+            createStationPage
+                .VerifyDisplayErrorMesMissingTimezone()
+                .SelectTimezone("Europe/London")
+                .ClickSaveBtn();
+            //Missing message error name input
+            createStationPage
+                .InputName(stationName)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Successfully saved Weighbridge Station");
+            createStationPage
+                .SelectDefaultTicket("Incoming")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Successfully saved Weighbridge Station")
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            siteDetailPage
+                .ClickStationTab()
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Successfully saved Site")
+                .ClickSaveAndCloseBtn()
+                .SwitchToChildWindow(2);
+            detailPartyPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Weighbridge")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Sites")
+                .SwitchNewIFrame();
+            List<SiteModel> siteModelsNew = siteListingPage
+                .GetAllSiteDisplayed();
+            siteListingPage
+                .VerifyDisplayNewSite(siteModel045[0], siteModelsNew[0]);
+        }
     }
 }

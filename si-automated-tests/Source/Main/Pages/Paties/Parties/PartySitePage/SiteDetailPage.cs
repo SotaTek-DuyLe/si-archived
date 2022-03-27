@@ -19,6 +19,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private const string loadingData = "//div[@class='loading-data']";
         private const string frameMessage = "//div[@class='notifyjs-corner']/div";
         private const string allTabDisplayedNotContainsMapTab = "//li[@role='presentation']/a[not(contains(text(), 'Map'))]";
+        private readonly By stationTab = By.XPath("//a[text()='Stations']");
+
+        //STATION TAB
+        private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
 
         //DYNAMIC LOCATOR
         private const string allPrimaryContactValue = "//select[@id='primary-contact']/option";
@@ -133,6 +137,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             ClickOnElement(allTabInSite, CommonConstants.MapTab);
             Assert.IsTrue(IsControlDisplayed(string.Format(messageAtMapTab, message)));
             return this;
+        }
+
+        public SiteDetailPage ClickStationTab()
+        {
+            ClickOnElement(stationTab);
+            return this;
+        }
+
+        //STATION TAB
+        public CreateStationPage ClickAddNewItem()
+        {
+            ClickOnElement(addNewItemBtn);
+            return PageFactoryManager.Get< CreateStationPage>();
         }
     }
 }
