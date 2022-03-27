@@ -18,13 +18,15 @@ namespace si_automated_tests.Source.Test
         [SetUp]
         public void Setup()
         {
+            new WebUrl();
+            CustomTestListener.OnTestStarted();
             IWebDriverManager.SetDriver("ie");
             new UserRegistry();
         }
         [TearDown]
         public void TearDown()
         {
-            IWebDriverManager.GetDriver().Close();
+            CustomTestListener.OnTestFinished();
             IWebDriverManager.GetDriver().Quit();
         }
         [Test]
