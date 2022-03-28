@@ -59,6 +59,8 @@
     <None Remove="Source\Test\ContactTest\" />
     <None Remove="Source\Main\Pages\Paties\Parties\PartyContact\" />
     <None Remove="Source\Test\Weighbridge\" />
+    <None Remove="Source\Main\Pages\WB\" />
+    <None Remove="Source\Main\Pages\WB\Sites\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -71,6 +73,8 @@
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyContactPage\" />
     <Folder Include="Source\Test\WeighbridgeTests\" />
     <Folder Include="TestResults\Screenshots\" />
+    <Folder Include="Source\Main\Pages\WB\" />
+    <Folder Include="Source\Main\Pages\WB\Sites\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">

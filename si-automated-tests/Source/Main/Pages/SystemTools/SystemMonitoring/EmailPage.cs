@@ -30,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.SystemTools.SystemMonitoring
         public EmailPage ClickLastRow()
         {
             ScrollDownInElement(rightTableId);
+            SleepTimeInMiliseconds(1000);
             DoubleClickOnElement(lastRow);
             return this;
         }

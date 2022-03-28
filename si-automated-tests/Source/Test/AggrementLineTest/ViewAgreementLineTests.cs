@@ -32,8 +32,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")
                 .OpenOption("Site Services")
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<SiteServicesCommonPage>()
+                .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .FilterId(57)

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using si_automated_tests.Source.Core;
 using OpenQA.Selenium;
 using NUnit.Framework;

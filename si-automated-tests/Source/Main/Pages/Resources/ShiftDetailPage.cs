@@ -19,6 +19,16 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             WaitUtil.WaitForElementVisible(resolutionCodeSelect);
             return this;
         }
+        public ShiftDetailPage SelectState(string state)
+        {
+            SelectTextFromDropDown(stateSelect, state);
+            return this;
+        }
+        public ShiftDetailPage SelectResolutionCode(string code)
+        {
+            SelectTextFromDropDown(resolutionCodeSelect, code);
+            return this;
+        }
         public ShiftDetailPage RemoveAllocation()
         {
             ClickOnElement(deallocateBtn);

@@ -415,6 +415,7 @@ namespace si_automated_tests.Source.Core
             IWebElement comboBox = WaitUtil.WaitForElementClickable(by);
             SelectElement selectedValue = new SelectElement(comboBox);
             selectedValue.SelectByText(_text);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         public BasePage SelectValueFromDropDown(By by, string _value)
@@ -422,6 +423,7 @@ namespace si_automated_tests.Source.Core
             IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
             SelectElement selectedValue = new SelectElement(comboBox);
             selectedValue.SelectByValue(_value);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         public BasePage SelectIndexFromDropDown(By by, int index)
@@ -429,6 +431,7 @@ namespace si_automated_tests.Source.Core
             IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
             SelectElement selectedValue = new SelectElement(comboBox);
             selectedValue.SelectByIndex(index);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         //GET WARNING TEXT
@@ -441,7 +444,6 @@ namespace si_automated_tests.Source.Core
         public BasePage VerifyToastMessage(string message)
         {
             Assert.AreEqual(message, GetToastMessage());
-            WaitUtil.WaitForElementInvisible("//div[@data-notify-html='title']");
             return this;
         }
         public bool IsElementSelected(By by)
@@ -452,6 +454,7 @@ namespace si_automated_tests.Source.Core
         {
             Thread.Sleep(750);
             WaitUtil.WaitForElementInvisible("//*[contains(@data-bind,'shield: isLoading')]");
+            WaitUtil.WaitForElementInvisible("//div[@id='loading-shield']");
             WaitUtil.WaitForElementInvisible("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
             return this;
         }
@@ -546,6 +549,11 @@ namespace si_automated_tests.Source.Core
         public string GetCurrentTitle()
         {
             return driver.Title;
+        }
+
+        public bool IsCheckboxChecked(By by)
+        {
+            return GetElement(by).Selected;
         }
     }
 }

@@ -70,6 +70,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ExpandOption("CLINICAL1")
                 .OpenOption("Monday")
                 .SwitchNewIFrame()
+                .SleepTimeInMiliseconds(3000)
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<ServiceDefaultResourceTab>()
                 .IsOnServiceDefaultTab()
