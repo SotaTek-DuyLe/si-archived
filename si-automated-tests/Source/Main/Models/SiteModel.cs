@@ -13,6 +13,16 @@ namespace si_automated_tests.Source.Main.Models
         private string accountingReference;
         private string abv;
 
+        public SiteModel(string id, string name, string siteType, string startDate, string endDate, string clientRef)
+        {
+            this.id = id;
+            this.name = name;
+            this.siteType = siteType;
+            this.startDate = startDate;
+            this.endDate = endDate;
+            this.clientReference = clientRef;
+        }
+
         public SiteModel(string id, string name, string address, string siteType, string startDate, string endDate, string clientRef, string accountingRef, string abv)
         {
             this.id = id;

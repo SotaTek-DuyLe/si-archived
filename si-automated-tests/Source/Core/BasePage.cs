@@ -538,5 +538,10 @@ namespace si_automated_tests.Source.Core
         {
             return driver.Title;
         }
+
+        public bool IsCheckboxChecked(By by)
+        {
+            return GetElement(by).Selected;
+        }
     }
 }

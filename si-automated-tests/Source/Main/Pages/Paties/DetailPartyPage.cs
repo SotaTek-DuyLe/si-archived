@@ -696,6 +696,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
 
+        public string GetPartyId()
+        {
+            return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/parties/", "");
+        }
     }
 
 }

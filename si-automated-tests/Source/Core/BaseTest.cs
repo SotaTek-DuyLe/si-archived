@@ -8,7 +8,12 @@ namespace si_automated_tests.Source.Core
     public class BaseTest
     {
         [SetUp]
-        public void Setup()
+        public virtual void Setup()
+        {
+            OnSetup();
+        }
+
+        protected void OnSetup()
         {
             new WebUrl();
             CustomTestListener.OnTestStarted();
@@ -17,7 +22,12 @@ namespace si_automated_tests.Source.Core
         }
 
         [TearDown]
-        public void TearDown()
+        public virtual void TearDown()
+        {
+            OnTearDown();
+        }
+
+        protected void OnTearDown()
         {
             CustomTestListener.OnTestFinished();
             IWebDriverManager.GetDriver().Quit();
