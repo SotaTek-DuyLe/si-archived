@@ -23,5 +23,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] AllSiteTabCase47 = { "Details", "Data", "Assets", "Map", "Indicators", "Notes", "Time Restrictions", "Calendar" };
         public static readonly string[] SomeSiteTabNoMessage = { "Details", "Data", "Assets", "Indicators", "Stations", "Locations", "Products", "Weighbridge", "Notes", "Time Restrictions", "Calendar" };
         public static readonly string MapTab = "Map";
+        public static readonly string[] ColumnInVehicleCustomerHaulierPage = { "ID", "Resource", "Customer", "Haulier", "Hire Start", "Hire End", "Suspended Date", "Suspended Reason" };
+        public static readonly string BoderColorResourceInputWB = "rgb(160, 65, 63)";
     }
 }

@@ -9,6 +9,8 @@ using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
+using si_automated_tests.Source.Main.Pages.Resources;
+using si_automated_tests.Source.Main.Pages.Resources.Tabs;
 using si_automated_tests.Source.Main.Pages.WB.Sites;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
@@ -29,6 +31,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         private List<SiteModel> siteModelBefore = new List<SiteModel>();
         private List<SiteModel> siteModel045;
         private string partyIdCustomer;
+        private string partyName045 = "Auto045Customer" + CommonUtil.GetRandomString(2);
+        private string partyName047 = "Auto047Haulier" + CommonUtil.GetRandomString(2);
 
         public override void Setup()
         {
@@ -76,7 +80,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
                 .IsCreatePartiesPopup("North Star Commercial")
-                .SendKeyToThePartyInput("Auto" + CommonUtil.GetRandomString(2))
+                .SendKeyToThePartyInput(partyName045)
                 .SelectPartyType(1)
                 .ClickSaveBtn();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
@@ -242,7 +246,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
                 .IsCreatePartiesPopup("North Star Commercial")
-                .SendKeyToThePartyInput("Auto" + CommonUtil.GetRandomString(2))
+                .SendKeyToThePartyInput(partyName047)
                 .SelectPartyType(2)
                 .ClickSaveBtn();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
@@ -313,92 +317,145 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveAndCloseBtn();
         }
 
+        //[Category("WB")]
+        //[Test(Description = "WB Station"), Order(5)]
+        //public void TC_048_WB_Station()
+        //{
+        //    string stationName = "AutoStation" + CommonUtil.GetRandomNumber(2);
+        //    //Verify data in TC45, 46, 47 not apprear in WB Site
+        //    PageFactoryManager.Get<NavigationBase>()
+        //        .ClickMainOption("Weighbridge")
+        //        .ExpandOption("North Star Commercial")
+        //        .OpenOption("Sites")
+        //        .SwitchNewIFrame();
+        //    SiteListingPage siteListingPage = PageFactoryManager.Get<SiteListingPage>();
+        //    List<SiteModel> siteModelsAfter = siteListingPage
+        //        .GetAllSiteDisplayed();
+        //    siteListingPage
+        //        .VerifySiteCreatedIsNotDisplayed(siteModelsAfter, allSiteModel, siteModelBefore)
+        //    //Back to the party customer in TC045
+        //        .SwitchToDefaultContent();
+        //    PageFactoryManager.Get<NavigationBase>()
+        //        .ClickMainOption("Parties")
+        //        .ExpandOption("North Star Commercial")
+        //        .OpenOption("Parties")
+        //        .SwitchNewIFrame();
+        //    PageFactoryManager.Get<PartyCommonPage>()
+        //        .FilterPartyById(Int32.Parse(partyIdCustomer))
+        //        .OpenFirstResult()
+        //        .SwitchToLastWindow();
+        //    DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+        //    detailPartyPage
+        //        .ClickOnSitesTab()
+        //        .WaitForLoadingIconInvisiable()
+        //        .OpenFirstSiteRow()
+        //        .SwitchToLastWindow();
+        //    SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
+        //    siteDetailPage
+        //        .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
+        //        .ClickStationTab()
+        //        .WaitForLoadingIconToDisappear();
+        //    siteDetailPage
+        //        .ClickAddNewItem()
+        //        .SwitchToLastWindow();
+        //    CreateStationPage createStationPage = PageFactoryManager.Get<CreateStationPage>();
+        //    createStationPage
+        //        .WaitForLoadingIconToDisappear();
+        //    createStationPage
+        //        .WaitForCreateStationPageLoaded("WEIGHBRIDGE STATION")
+        //        .IsCreateStationPage()
+        //        .ClickSaveBtn();
+        //    createStationPage
+        //        .VerifyDisplayErrorMesMissingTimezone()
+        //        .SelectTimezone("Europe/London")
+        //        .ClickSaveBtn();
+        //    //Missing message error name input
+        //    createStationPage
+        //        .InputName(stationName)
+        //        .ClickSaveBtn()
+        //        .WaitForLoadingIconToDisappear()
+        //        .VerifyToastMessage("Successfully saved Weighbridge Station");
+        //    createStationPage
+        //        .SelectDefaultTicket("Incoming")
+        //        .ClickSaveBtn()
+        //        .WaitForLoadingIconToDisappear()
+        //        .VerifyToastMessage("Successfully saved Weighbridge Station")
+        //        .ClickCloseBtn()
+        //        .SwitchToChildWindow(3);
+        //    siteDetailPage
+        //        .ClickStationTab()
+        //        .ClickSaveBtn()
+        //        .WaitForLoadingIconToDisappear()
+        //        .VerifyToastMessage("Successfully saved Site")
+        //        .ClickSaveAndCloseBtn()
+        //        .SwitchToChildWindow(2);
+        //    detailPartyPage
+        //        .ClickCloseBtn()
+        //        .SwitchToChildWindow(1)
+        //        .SwitchNewIFrame()
+        //        .SwitchToDefaultContent();
+        //    PageFactoryManager.Get<NavigationBase>()
+        //        .ClickMainOption("Weighbridge")
+        //        .ExpandOption("North Star Commercial")
+        //        .OpenOption("Sites")
+        //        .SwitchNewIFrame();
+        //    List<SiteModel> siteModelsNew = siteListingPage
+        //        .GetAllSiteDisplayed();
+        //    siteListingPage
+        //        .VerifyDisplayNewSite(siteModel045[0], siteModelsNew[0]);
+        //}
+
         [Category("WB")]
-        [Test(Description = "WB Station"), Order(5)]
-        public void TC_048_WB_Station()
+        [Test(Description = "WB VCH Human"), Order(6)]
+        public void TC_050_WB_VCH_Human()
         {
-            string stationName = "AutoStation" + CommonUtil.GetRandomNumber(2);
-            //Verify data in TC45, 46, 47 not apprear in WB Site
+            string resourceName = "Auto WB " + CommonUtil.GetRandomNumber(2);
+            string resourceType = "Driver";
+
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Sites")
+                .ClickMainOption("Resources")
+                .OpenOption("North Star Commercial")
                 .SwitchNewIFrame();
-            SiteListingPage siteListingPage = PageFactoryManager.Get<SiteListingPage>();
-            List<SiteModel> siteModelsAfter = siteListingPage
-                .GetAllSiteDisplayed();
-            siteListingPage
-                .VerifySiteCreatedIsNotDisplayed(siteModelsAfter, allSiteModel, siteModelBefore)
-            //Back to the party customer in TC045
-                .SwitchToDefaultContent();
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<PartyCommonPage>()
-                .FilterPartyById(Int32.Parse(partyIdCustomer))
-                .OpenFirstResult()
-                .SwitchToLastWindow();
-            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-            detailPartyPage
-                .ClickOnSitesTab()
-                .WaitForLoadingIconInvisiable()
-                .OpenFirstSiteRow()
-                .SwitchToLastWindow();
-            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
-            siteDetailPage
-                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
-                .ClickStationTab()
-                .WaitForLoadingIconToDisappear();
-            siteDetailPage
+            PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
-            CreateStationPage createStationPage = PageFactoryManager.Get<CreateStationPage>();
-            createStationPage
-                .WaitForLoadingIconToDisappear();
-            createStationPage
-                .WaitForCreateStationPageLoaded("WEIGHBRIDGE STATION")
-                .IsCreateStationPage()
-                .ClickSaveBtn();
-            createStationPage
-                .VerifyDisplayErrorMesMissingTimezone()
-                .SelectTimezone("Europe/London")
-                .ClickSaveBtn();
-            //Missing message error name input
-            createStationPage
-                .InputName(stationName)
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage("Successfully saved Weighbridge Station");
-            createStationPage
-                .SelectDefaultTicket("Incoming")
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage("Successfully saved Weighbridge Station")
-                .ClickCloseBtn()
-                .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickStationTab()
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage("Successfully saved Site")
-                .ClickSaveAndCloseBtn()
-                .SwitchToChildWindow(2);
-            detailPartyPage
+                .VerifyToastMessage("Successfully saved resource.")
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1)
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
+                .ClickMainOption("Resources")
                 .ExpandOption("North Star Commercial")
-                .OpenOption("Sites")
+                .OpenOption("Vehicle_Customer_Haulier")
                 .SwitchNewIFrame();
-            List<SiteModel> siteModelsNew = siteListingPage
-                .GetAllSiteDisplayed();
-            siteListingPage
-                .VerifyDisplayNewSite(siteModel045[0], siteModelsNew[0]);
+            PageFactoryManager.Get<VehicleCustomerHaulierPage>()
+                .VerifyVehicleCustomerHaulierPageDisplayed()
+                .ClickAddNewItemBtn()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreateVehicleCustomerHaulierPage>()
+                .IsCreateVehicleCustomerHaulierPage()
+                //Input party customer from TC045
+                //.InputCustomer(partyName045)
+                .InputCustomer("Auto045CustomerFN")
+                //Input party haulier from TC047
+                //.InputHaulier(partyName047)
+                .InputHaulier("Auto047HaulierWW")
+                //Input human resource name
+                .InputHumanResourceName(resourceName)
+                //Verify not display suggestion
+                .VerifyNotDisplaySuggestionInResourceInput()
+                .ClickSaveBtn();
+            PageFactoryManager.Get<CreateVehicleCustomerHaulierPage>()
+                .VerifyDisplayResourceRequiredMessage();
+
         }
+
     }
 }
