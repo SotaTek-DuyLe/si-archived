@@ -10,7 +10,7 @@ namespace si_automated_tests.Source.Core
     {
         public static WebPlatform GetCurrentPlatform()
         {
-            var browser = IWebDriverManager.Browser;
+            var browser = IWebDriverManager.Brw.Value;
             if (browser.Equals(WebPlatform.Chrome.ToString(), StringComparison.OrdinalIgnoreCase) || browser.Equals(WebPlatform.Hchrome.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 return WebPlatform.Chrome;

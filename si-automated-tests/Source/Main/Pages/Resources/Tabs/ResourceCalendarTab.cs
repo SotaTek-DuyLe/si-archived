@@ -10,6 +10,12 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
     public class ResourceCalendarTab : BasePage
     {
         private readonly By workPattern = By.XPath("//span[@class='fc-title']");
+        //date view option when in Year tab:
+        private readonly string dateViewOptionYear = "//div[@id='calendar-year']//button[text()='{0}']";
+        private readonly string hiddenYearDateView = "//div[@class='calendar-year-component' and @style='display: none;']";
+        //date view option when in other tab:
+        private readonly string dateViewOptionOthers = "//div[contains(@data-bind,'echoCalendar')]//button[text()='{0}']";
+        private readonly By todayInYearView = By.XPath("//td[contains(@class,'day today')]");
 
         public ResourceCalendarTab VerifyWorkPatternIsSet(string _pattern)
         {
@@ -23,6 +29,30 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
         public ResourceCalendarTab VerifyWorkPatternNotSet()
         {
             WaitUtil.WaitForElementInvisible(workPattern);
+            return this;
+        }
+        public bool IsOnYearDateView()
+        {
+            //if hidden year view is found -> not on year view, not found -> on year view
+            return IsControlUnDisplayed(hiddenYearDateView);
+        }
+        public ResourceCalendarTab SwitchDateView(string viewOption)
+        {
+            //if is year view -> use other view and vice versa
+            if (IsOnYearDateView())
+            {
+                ClickOnElement(dateViewOptionYear, viewOption);
+            }
+            else
+            {
+                ClickOnElement(dateViewOptionOthers, viewOption);
+            }
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        public ResourceCalendarTab OpenTodayDateInYearView()
+        {
+            DoubleClickOnElement(todayInYearView);
             return this;
         }
     }

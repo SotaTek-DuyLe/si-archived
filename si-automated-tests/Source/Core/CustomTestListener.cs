@@ -3,6 +3,7 @@ using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace si_automated_tests.Source.Core
@@ -12,6 +13,7 @@ namespace si_automated_tests.Source.Core
     {
         public static void GetScreenShot(string testName)
         {
+            IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../si-automated-tests/TestResults/Screenshots/");
             var newPath = new Uri(path).LocalPath;
             Screenshot screenshot = ((ITakesScreenshot)IWebDriverManager.GetDriver()).GetScreenshot();
