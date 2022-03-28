@@ -44,7 +44,10 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
             Assert.AreEqual(siteModelsBefore.Count, siteModelsActual.Count);
             for(int i = 0; i < siteModelsActual.Count; i++)
             {
-                Assert.AreNotEqual(siteModelsActual[i].Name, siteModelsCreated[i].Name);
+                for(int j = 0; j < siteModelsCreated.Count; j++)
+                {
+                    Assert.AreNotEqual(siteModelsActual[i].Name, siteModelsCreated[j].Name);
+                }
             }
             return this;
         }

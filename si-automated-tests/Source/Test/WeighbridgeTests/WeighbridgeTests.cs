@@ -328,7 +328,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             List<SiteModel> siteModelsAfter = siteListingPage
                 .GetAllSiteDisplayed();
             siteListingPage
-                //.VerifySiteCreatedIsNotDisplayed(siteModelsAfter, allSiteModel, siteModelBefore)
+                .VerifySiteCreatedIsNotDisplayed(siteModelsAfter, allSiteModel, siteModelBefore)
             //Back to the party customer in TC045
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
