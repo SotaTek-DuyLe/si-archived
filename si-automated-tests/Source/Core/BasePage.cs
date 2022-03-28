@@ -203,7 +203,19 @@ namespace si_automated_tests.Source.Core
             }
 
         }
+        public bool IsControlUnDisplayed(By by)
+        {
+            int num = this.driver.FindElements(by).Count;
+            if (num == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
 
+        }
         public bool IsControlUnDisplayed(string xpath, string value)
         {
             xpath = String.Format(xpath, value);

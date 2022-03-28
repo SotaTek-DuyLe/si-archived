@@ -19,6 +19,7 @@ using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
 using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Pages.Task;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
 {
@@ -849,7 +850,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
         [Category("EditAgreement")]
         [Test]
-        public void TC_020_A()
+        public void TC_020()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
 
@@ -1016,6 +1017,127 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceScheduleTab>()
                 .verifyScheduleEndDate(tommorowDate);
+        }
+
+        [Category("EditAgreement")]
+        [Test]
+        public void TC_021()
+        {
+            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+            string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
+
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser15.UserName, AutoUser15.Password)
+                .IsOnHomePage(AutoUser15);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Agreements")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItem(29)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickTaskTabBtn()
+               .WaitForLoadingIconToDisappear();
+
+            //Verify DeliverCommercialBin task at TaskTab
+            //List<IWebElement> mobilizationRows = PageFactoryManager.Get<TaskTab>()
+            //   .VerifyNewDeliverCommercialBin("08/01/2022", 1);
+            ////Edit Task 
+            //for (int j = 0; j < mobilizationRows.Count; j++)
+            //{
+            //    PageFactoryManager.Get<TaskTab>()
+            //        .GoToATask(mobilizationRows[j])
+            //        .SwitchToLastWindow();
+            //    PageFactoryManager.Get<AgreementTaskDetailsPage>()
+            //    .WaitForLoadingIconToDisappear();
+            //    PageFactoryManager.Get<AgreementTaskDetailsPage>()
+            //        .ClickToTaskLinesTab()
+            //        .WaitForLoadingIconToDisappear();
+            //    PageFactoryManager.Get<TaskLineTab>()
+            //        .VerifyTaskLineInfo("Deliver", "1100L", "1", "General Recycling", "Kilograms", "Unallocated")
+            //        .InputActuaAssetQuantity(1)
+            //        .ClickOnAcualAssetQuantityText()
+            //        .SelectCompletedState()
+            //        .ClickOnAcualAssetQuantityText();
+            //    PageFactoryManager.Get<BasePage>()
+            //        .ClickSaveBtn()
+            //        .VerifyToastMessage("Success")
+            //        .WaitForLoadingIconToDisappear();
+            //    PageFactoryManager.Get<AgreementTaskDetailsPage>()
+            //        .ClickToDetailsTab();
+            //    PageFactoryManager.Get<TaskDetailTab>()
+            //        .ClickStateDetais()
+            //        .ChooseTaskState("Completed");
+            //    PageFactoryManager.Get<BasePage>()
+            //        .ClickSaveBtn()
+            //        .VerifyToastMessage("Success")
+            //        .WaitForLoadingIconToDisappear();
+            //    PageFactoryManager.Get<AgreementTaskDetailsPage>()
+            //        .ClickCloseWithoutSaving()
+            //        .SwitchToFirstWindow();
+            //}
+
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .SwitchToFirstWindow();
+
+            //Go to service and verify 
+            PageFactoryManager.Get<NavigationBase>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption("Services")
+               .ExpandOption("Regions")
+               .ExpandOption("London")
+               .ExpandOption("North Star Commercial")
+               .ExpandOption("Collections")
+               .ExpandOption("Commercial Collections")
+               .OpenOption("Active Service Tasks")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .InputPartyNameToFilter("Jaflong Tandoori")
+                .ClickApplyBtn()
+                .OpenTaskWithPartyNameAndDate("Jaflong Tandoori", todayDate, "STARTDATE")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .verifyTaskInfo("1100L", "1", "General Recycling", "Kilograms", todayDate, tommorowDate);
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnScheduleTask();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .verifyScheduleStartDate(todayDate)
+                .verifyScheduleEndDate("01/01/2050")
+                .CloseCurrentWindow()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickOnDetailsTab()
+               .WaitForLoadingIconToDisappear();
+
+            //Remove Agreement Line 
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickRemoveAgreementBtn()
+                .VerifyDotRedBorder()
+                .ClickKeepAgreementBtn()
+                .VerifyDotRedBorderDisappear()
+                .ClickRemoveAgreementBtn()
+                .VerifyAgreementLineDisappear();
         }
     }
 }
