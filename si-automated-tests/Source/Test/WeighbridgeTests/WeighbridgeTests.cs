@@ -9,6 +9,8 @@ using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
+using si_automated_tests.Source.Main.Pages.Resources;
+using si_automated_tests.Source.Main.Pages.Resources.Tabs;
 using si_automated_tests.Source.Main.Pages.WB.Sites;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
@@ -29,6 +31,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         private List<SiteModel> siteModelBefore = new List<SiteModel>();
         private List<SiteModel> siteModel045;
         private string partyIdCustomer;
+        private string partyName045 = "Auto045Customer" + CommonUtil.GetRandomString(2);
+        private string partyName047 = "Auto047Haulier" + CommonUtil.GetRandomString(2);
 
         public override void Setup()
         {
@@ -76,7 +80,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
                 .IsCreatePartiesPopup("North Star Commercial")
-                .SendKeyToThePartyInput("Auto" + CommonUtil.GetRandomString(2))
+                .SendKeyToThePartyInput(partyName045)
                 .SelectPartyType(1)
                 .ClickSaveBtn();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
@@ -242,7 +246,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
                 .IsCreatePartiesPopup("North Star Commercial")
-                .SendKeyToThePartyInput("Auto" + CommonUtil.GetRandomString(2))
+                .SendKeyToThePartyInput(partyName047)
                 .SelectPartyType(2)
                 .ClickSaveBtn();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
@@ -400,5 +404,58 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             siteListingPage
                 .VerifyDisplayNewSite(siteModel045[0], siteModelsNew[0]);
         }
+
+        [Category("WB")]
+        [Test(Description = "WB VCH Human"), Order(6)]
+        public void TC_050_WB_VCH_Human()
+        {
+            string resourceName = "Auto WB " + CommonUtil.GetRandomNumber(2);
+            string resourceType = "Driver";
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Resources")
+                .OpenOption("North Star Commercial")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Successfully saved resource.")
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Resources")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Vehicle_Customer_Haulier")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<VehicleCustomerHaulierPage>()
+                .VerifyVehicleCustomerHaulierPageDisplayed()
+                .ClickAddNewItemBtn()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreateVehicleCustomerHaulierPage>()
+                .IsCreateVehicleCustomerHaulierPage()
+                //Input party customer from TC045
+                //.InputCustomer(partyName045)
+                .InputCustomer("Auto045CustomerFN")
+                //Input party haulier from TC047
+                //.InputHaulier(partyName047)
+                .InputHaulier("Auto047HaulierWW")
+                //Input human resource name
+                .InputHumanResourceName(resourceName)
+                //Verify not display suggestion
+                .VerifyNotDisplaySuggestionInResourceInput()
+                .ClickSaveBtn();
+            PageFactoryManager.Get<CreateVehicleCustomerHaulierPage>()
+                .VerifyDisplayResourceRequiredMessage();
+
+        }
+
     }
 }
