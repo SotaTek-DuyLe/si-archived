@@ -11,6 +11,7 @@ namespace si_automated_tests.Source.Test
     [TestFixture]
     public class LoginTests : BaseTest
     {
+        [Category("User")]
         [Test]
         public void TC_001()
         {
