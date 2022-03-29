@@ -214,7 +214,6 @@ namespace si_automated_tests.Source.Core
             {
                 return false;
             }
-
         }
         public bool IsControlUnDisplayed(string xpath, string value)
         {
