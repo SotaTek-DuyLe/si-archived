@@ -283,6 +283,15 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             }
             return this;
         }
+        public PartyAgreementPage VerifyCreateAdhocButtonsAreEnabled()
+        {
+            IList<IWebElement> createAdhocBtns = WaitUtil.WaitForAllElementsVisible(createAdhocBtn);
+            foreach (var btn in createAdhocBtns)
+            {
+                Assert.AreEqual(true, btn.Enabled);
+            }
+            return this;
+        }
 
         public PartyAgreementPage VerifySchedule(string schedule)
         {

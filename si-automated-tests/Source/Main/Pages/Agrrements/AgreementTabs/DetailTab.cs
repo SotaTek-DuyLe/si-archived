@@ -571,6 +571,17 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return this;
         }
+
+        public DetailTab VerifyMobilizationPanelDisappear()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(beginLocatorMobi));
+            return this;
+        }
+        public DetailTab VerifyDeMobilizationPanelDisappear()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(beginLocatorDeMobilization));
+            return this;
+        }
     }
 
 }
