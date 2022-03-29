@@ -13,7 +13,7 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
         //title
         private readonly string pageTitle = ConfigManager.GetCurrentPlatform().Equals(WebPlatform.IE)
            ? "//div[@class='e_hdr']"
-           : "//p[text()='Northstar Environmental Services – Demo 8.6.0-dev01']";
+           : "//p[@class='navbar-text environment-logo']";
 
         //Main options
         private readonly string mainOption = "//span[text()='{0}']/parent::h4/parent::div";

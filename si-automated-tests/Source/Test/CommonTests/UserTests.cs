@@ -13,6 +13,8 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test
 {
+    [Parallelizable(scope: ParallelScope.Fixtures)]
+    [TestFixture]
     public class UserTests
     {
         [SetUp]
@@ -29,6 +31,7 @@ namespace si_automated_tests.Source.Test
             CustomTestListener.OnTestFinished();
             IWebDriverManager.GetDriver().Quit();
         }
+        [Category("User")]
         [Test]
         public void TC_002_Create_User_Test([Random(1, 999999, 1)] int random)
         {
@@ -108,6 +111,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(user);
         }
 
+        [Category("User")]
         [Test]
         public void TC_003_Reset_Password_Test([Random(1, 999999, 1)] int random)
         {
