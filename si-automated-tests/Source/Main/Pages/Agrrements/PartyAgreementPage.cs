@@ -52,11 +52,15 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private readonly By expandBtn = By.XPath("//button[@title='Expand/close agreement line']");
         private readonly By subExpandBtns = By.XPath("//div[contains(@class,'panel-heading clickable')]");
         private readonly By editBtn = By.XPath("//button[text()='Edit']");
+        private readonly By removeBtn = By.XPath("//button[text()='Remove']");
+        private readonly By keepBtn = By.XPath("//button[text()='Keep']");
         private readonly By assetAndProductAssetTypeStartDate = By.XPath("//tbody[contains(@data-bind,'assetProducts')]//span[@title='Start Date']");
         private readonly By regularAssertTypeStartDate = By.XPath("//span[text()='Regular']/ancestor::div[1]/following-sibling::div//span[contains(@data-bind,'displayStartDate')]");
         private readonly By serviceTaskLineTypeStartDates = By.XPath("//th[text()='Task Line Type']/ancestor::thead[1]/following-sibling::tbody//span[@title='Start Date']");
         private readonly By createAdhocBtn = By.XPath("//button[text()='Create Ad-Hoc Task']");
+
         private readonly By blueBorder = By.XPath("//div[contains(@data-bind,'#0886AD')]");
+        private readonly String dotRedBorder = "//div[@style='border: 3px dotted red;']";
 
         //Summary title
         private readonly By startDate = By.XPath("//span[@title='Start Date']");
@@ -251,6 +255,19 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             ClickOnElement(editBtn);
             return this;
         }
+
+        public PartyAgreementPage ClickRemoveAgreementBtn()
+        {
+            ScrollDownToElement(removeBtn);
+            ClickOnElement(removeBtn);
+            return this;
+        }
+        public PartyAgreementPage ClickKeepAgreementBtn()
+        {
+            ScrollDownToElement(keepBtn);
+            ClickOnElement(keepBtn);
+            return this;
+        }
         public PartyAgreementPage ClickEditAgreementByAddressBtn(string address)
         {
             ClickOnElement(editAgreementByAddress, address);
@@ -295,10 +312,26 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             return this;
         }
 
-        //Verify Blue border after edit Agreement 
+        //Verify border at Agreement 
         public PartyAgreementPage VerifyBlueBorder()
         {
             Assert.IsTrue(IsControlDisplayed(blueBorder));
+            return this;
+        }
+        public PartyAgreementPage VerifyDotRedBorder()
+        {
+            Assert.IsTrue(IsControlDisplayed(dotRedBorder));
+            return this;
+        }
+        public PartyAgreementPage VerifyDotRedBorderDisappear()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(dotRedBorder));
+            return this;
+        }
+
+        public PartyAgreementPage VerifyAgreementLineDisappear()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(serviceAgreementPanel));
             return this;
         }
     }
