@@ -326,6 +326,12 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             IList<IWebElement> all = WaitUtil.WaitForAllElementsVisible(allRows);
             return all.Count;
         }
+
+        public TaskTab VerifyNoNewTaskAppear()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(allRows));
+            return this;
+        }
         public TaskTab VerifyTaskNumUnchange(int before, int after)
         {
             Assert.AreEqual(before, after);

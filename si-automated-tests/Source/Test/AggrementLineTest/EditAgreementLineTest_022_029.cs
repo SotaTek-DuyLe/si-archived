@@ -37,8 +37,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser14.UserName, AutoUser14.Password)
-                .IsOnHomePage(AutoUser14);
+                .Login(AutoUser15.UserName, AutoUser15.Password)
+                .IsOnHomePage(AutoUser15);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")
@@ -171,10 +171,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickTaskTabBtn()
                 .WaitForLoadingIconToDisappear();
-            int taskNum = PageFactoryManager.Get<TaskTab>()
-                .GetAllTaskNum();
             PageFactoryManager.Get<TaskTab>()
-                .VerifyTaskNumUnchange(taskNum, 0)
+                .VerifyNoNewTaskAppear()
                 .SwitchToFirstWindow();
 
             //Go to services task and verify 
@@ -192,7 +190,53 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AgreementLinePage>()
                 .WaitForWindowLoadedSuccess(AgreementId.ToString())
-                .GoToAllTabAndConfirmNoError();
+                .ClickDetailTab();
+            PageFactoryManager.Get<DetailTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailTab>()
+                .ExpandAllAgreementFields()
+                .VerifyTaskLineTypeStartDates(todayDate)
+                .VerifyAssetAndProductAssetTypeStartDate(todayDate)
+                .VerifyRegularAssetTypeStartDate(todayDate)
+                .VerifyMobilizationPanelDisappear()
+                .VerifyDeMobilizationPanelDisappear(); 
+            PageFactoryManager.Get<AgreementLinePage>()
+                .GoToAllTabAndConfirmNoError()
+                .SwitchToFirstWindow();
+
+            //Go to Serivce and verify 
+            PageFactoryManager.Get<NavigationBase>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption("Services")
+               .ExpandOption("Regions")
+               .ExpandOption("London")
+               .ExpandOption("North Star Commercial")
+               .ExpandOption("Collections")
+               .ExpandOption("Commercial Collections")
+               .OpenOption("Active Service Tasks")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .InputPartyNameToFilter("Rosie and Java")
+                .ClickApplyBtn()
+                .OpenTaskWithPartyNameAndDate("Rosie and Java", todayDate, "STARTDATE")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .verifyTaskInfo("1100L", "2", "General Refuse", "Kilograms", todayDate, "01/01/2050");
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnScheduleTask();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .verifyScheduleStartDate(todayDate);
         }
     }
 }
