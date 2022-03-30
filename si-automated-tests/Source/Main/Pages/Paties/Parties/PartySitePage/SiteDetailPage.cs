@@ -24,6 +24,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         //STATION TAB
         private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
 
+        //LOCATION TAB
+        private readonly By locationTab = By.XPath("//a[text()='Locations']");
+        private readonly By allRowInTabel = By.XPath("//div[@class='grid-canvas']/div");
+
         //DYNAMIC LOCATOR
         private const string allPrimaryContactValue = "//select[@id='primary-contact']/option";
         private const string primaryContactValue = "//select[@id='primary-contact']/option[text()='{0}']";
@@ -31,8 +35,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private const string titleDetail = "//p[text()='{0}']";
         private const string nameDetail = "//h4[text()='{0}']";
         private const string siteNameDynamic = "//span[text()='{0}']";
-        private const string allTabInSite = "//ul[@role='tablist']//a[text()='{0}']";
+        private const string allTabInScreen = "//ul[@role='tablist']//a[text()='{0}']";
         private const string messageAtMapTab = "//div[@class='notifyjs-corner']//div[text()='{0}']";
+        private const string columnInRow = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
+        private const string nameOfColumnInLocationTab = "//div[@id='weighbridgeSiteLocations-tab']//span[text()='{0}']/parent::div";
 
         public SiteDetailPage WaitForSiteDetailPageLoaded()
         {
@@ -105,14 +111,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         {
             foreach(string tab in expectedAllTab)
             {
-                Assert.IsTrue(IsControlDisplayed(allTabInSite, tab));
+                Assert.IsTrue(IsControlDisplayed(allTabInScreen, tab));
             }
             return this;
         }
 
         public SiteDetailPage ClickDetailTab()
         {
-            ClickOnElement(allTabInSite, "Details");
+            ClickOnElement(allTabInScreen, "Details");
             WaitUtil.WaitForElementInvisible(frameMessage);
             return this;
         }
@@ -134,7 +140,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
 
         public SiteDetailPage ClickMapTabAndVerifyMessage(string message)
         {
-            ClickOnElement(allTabInSite, CommonConstants.MapTab);
+            ClickOnElement(allTabInScreen, CommonConstants.MapTab);
             Assert.IsTrue(IsControlDisplayed(string.Format(messageAtMapTab, message)));
             return this;
         }
@@ -146,10 +152,67 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         }
 
         //STATION TAB
-        public CreateStationPage ClickAddNewItem()
+        public CreateStationPage ClickAddNewStationItem()
         {
             ClickOnElement(addNewItemBtn);
             return PageFactoryManager.Get< CreateStationPage>();
+        }
+
+        //LOCATION TAB
+        public SiteDetailPage VerifyDisplayColumnInGrid()
+        {
+            foreach(string column in CommonConstants.LocationTabColumn)
+            {
+                WaitUtil.WaitForElementVisible(nameOfColumnInLocationTab, column);
+                Assert.IsTrue(IsControlDisplayed(nameOfColumnInLocationTab, column));
+            }
+            return this;
+        }
+
+        public SiteDetailPage ClickOnLocationTab()
+        {
+            ClickOnElement(locationTab);
+            return this;
+        }
+
+        public AddLocationPage ClickAddNewLocationItem()
+        {
+            ClickOnElement(addNewItemBtn);
+            return PageFactoryManager.Get<AddLocationPage>();
+        }
+
+        public List<LocationModel> GetAllLocationInGrid()
+        {
+            List<LocationModel> allModel = new List<LocationModel>();
+            List<IWebElement> allRow = GetAllElements(allRowInTabel);
+            List<IWebElement> allIdSite = GetAllElements(string.Format(columnInRow, CommonConstants.LocationTabColumn[0]));
+            List<IWebElement> allLocation = GetAllElements(string.Format(columnInRow, CommonConstants.LocationTabColumn[1]));
+            List<IWebElement> allActive = GetAllElements(string.Format(columnInRow, CommonConstants.LocationTabColumn[2]));
+            List<IWebElement> allClient = GetAllElements(string.Format(columnInRow, CommonConstants.LocationTabColumn[3]));
+            for(int i = 0; i < allRow.Count; i++)
+            {
+                string id = GetElementText(allIdSite[i]);
+                string location = GetElementText(allLocation[i]);
+                string active = GetElementText(allActive[i]);
+                string client = GetElementText(allClient[i]);
+                allModel.Add(new LocationModel(id, location, active, client));
+            }
+            return allModel;
+        }
+
+        public SiteDetailPage VerifyLocationCreated(LocationModel locationModel, string locationName, bool active, string client)
+        {
+            Assert.AreEqual(locationName, locationModel.Location);
+            if(active)
+            {
+                Assert.AreEqual("✓", locationModel.Active);
+            }
+            else
+            {
+                Assert.AreEqual("✗", locationModel.Active);
+            }
+            Assert.AreEqual(client, locationModel.Client);
+            return this;
         }
     }
 }
