@@ -38,22 +38,22 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(status, GetElementText(firstAgreementStatus));
             return this;
         }
-        public AgreementTab VerifyAgreementAppear(string id, string name, string startDate, string endDate, string status)
+        public AgreementTab VerifyAgreementAppear(string id, string name, string _startDate, string _endDate, string _status)
         {
             List<IWebElement> idList = GetAllElements(firstAgreementId);
             List<IWebElement> nameList = GetAllElements(firstAgreementName);
-            List<IWebElement> startDateList = GetAllElements(startDate);
-            List<IWebElement> endDateList = GetAllElements(endDate);
-            List<IWebElement> statusList = GetAllElements(status);
+            List<IWebElement> startDateList = GetAllElements(firstAgreementStartDate);
+            List<IWebElement> endDateList = GetAllElements(firstAgreementEndDate);
+            List<IWebElement> statusList = GetAllElements(firstAgreementStatus);
             int n = 0;
             for(int i = 0; i< idList.Count; i++)
             {
                 if (GetElementText(idList[i]).Equals(id))
                 {
                     Assert.AreEqual(name, GetElementText(nameList[i]));
-                    Assert.AreEqual(startDate, GetElementText(startDateList[i]));
-                    Assert.AreEqual(endDate, GetElementText(endDateList[i]));
-                    Assert.AreEqual(status, GetElementText(statusList[i]));
+                    Assert.AreEqual(_startDate, GetElementText(startDateList[i]));
+                    Assert.AreEqual(_endDate, GetElementText(endDateList[i]));
+                    Assert.AreEqual(_status, GetElementText(statusList[i]));
                     n = 0;
                     break;
                 }

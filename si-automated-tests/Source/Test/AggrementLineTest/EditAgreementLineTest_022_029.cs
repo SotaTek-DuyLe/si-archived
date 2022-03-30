@@ -355,9 +355,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToFirstWindow();
 
             //Verify in site service 
-            AsserAndProductModel assetAndProductInput = new AsserAndProductModel("660L", "3", "General Recycling", "", "165", "Kilograms", "Owned", new string[1], new string[1], tommorowDate, "01/01/2050");
-            RegularModel regularInput = new RegularModel("Service", "660L", "3", "General Recycling", "165", "Kilograms", tommorowDate);
-            MobilizationModel adhoc = new MobilizationModel("Service", "660L", "3", "General Recycling", "165", "Kilograms", tommorowDate);
+            AsserAndProductModel assetAndProductInput = new AsserAndProductModel("660L", "3", "General Recycling", "", "165", "", "Owned", new string[1], new string[1], tommorowDate, "01/01/2050");
+            RegularModel regularInput = new RegularModel("Service", "660L", "3", "General Recycling", "165", "", tommorowDate);
+            MobilizationModel adhoc = new MobilizationModel("Service", "660L", "3", "General Recycling", "165", "", tommorowDate);
             List<MobilizationModel> adhocListInput = new List<MobilizationModel> { adhoc, adhoc };
             PageFactoryManager.Get<NavigationBase>()
                 .WaitForLoadingIconToDisappear();
@@ -385,19 +385,21 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 ;
             //Assert and Product
             AsserAndProductModel asserAndProductModel = PageFactoryManager.Get<DetailTab>()
-                .GetAllInfoAssetAndProduct();
+                .GetAllInfoAssetAndProductAgreement();
+
             PageFactoryManager.Get<DetailTab>()
                 .VerifyAssertAndProductInfo(asserAndProductModel, assetAndProductInput);
-            
+
             //Regular
             RegularModel regularModel = PageFactoryManager.Get<DetailTab>()
                 .GetAllInfoRegular();
             PageFactoryManager.Get<DetailTab>()
                 .VerifyRegularInfo(regularModel, regularInput);
-          
+
             //Ad-hoc
             List<MobilizationModel> allAdhoc = PageFactoryManager.Get<DetailTab>()
                 .GetAllInfoAdhoc();
+
             PageFactoryManager.Get<DetailTab>()
                 .VerifyAdhocInfo(allAdhoc, adhocListInput);
         }
