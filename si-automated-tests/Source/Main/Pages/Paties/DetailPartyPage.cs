@@ -9,6 +9,7 @@ using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
 
 namespace si_automated_tests.Source.Main.Pages.Paties
 {
@@ -19,7 +20,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string DropdownBtn = "//li[contains(@class, 'dropdown')]/a[contains(@class, 'dropdown-toggle')]";
         private const string SuccessfullyToastMessage = "//div[@class='notifyjs-corner']//div[text()='Successfully saved party.']";
         private const string FrameMessage = "//div[@class='notifyjs-corner']/div";
-        private const string LoadingData = "//div[@class='loading-data']";
         private const string SaveWithDetailsBtn = "//a[@aria-controls='details-tab']/ancestor::body//button[@title='Save']";
         private readonly By closeWithoutSavingBtn = By.XPath("//a[@aria-controls='details-tab']/ancestor::body//button[@title='Close Without Saving']");
 
@@ -37,6 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By CorresspondenceAddressDd = By.Id("party-correspondence-address");
         private const string CorrespondenceAddressAddBtn = "//label[text()='Correspondence Address']/following-sibling::div//span[text()='Add']";
         private const string SitesTab = "//a[text()='Sites']";
+        private const string VehicleTab = "//a[text()='Vehicles']";
         private const string SaveBtn = "//button[@title='Save']";
         private const string InvoiceAddress = "//label[text()='Invoice Address']/following-sibling::div//select";
         private const string DetailsTab = "//a[text()='Details']";
@@ -112,6 +113,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         private const string authoriseTypingOption = "//label[text()='Authorise Tipping']/following-sibling::div//label[text()='{0}']/input";
 
+        //VEHICLE TAB
+        private const string ColumnInGrid = "//span[text()='{0}']/parent::div";
+        private const string ColumnInRow = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
+
 
         //STEP
         public DetailPartyPage WaitForDetailPartyPageLoadedSuccessfully(string name)
@@ -164,7 +169,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             {
                 ClickOnElement(allElements[clickButtonIdx]);
                 clickButtonIdx++;
-                WaitUtil.WaitForElementInvisible(LoadingData);
+                WaitForLoadingIconToDisappear();
                 Assert.IsFalse(IsControlDisplayedNotThrowEx(FrameMessage));
                 allElements = GetAllElements(AllTabDisplayed);
             }
@@ -174,17 +179,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             if (IsControlDisplayedNotThrowEx(DropdownBtn))
             {
-                List<IWebElement> allElements = GetAllElements(AllTabInDropdown);
                 int clickButtonIdx = 0;
-                while (clickButtonIdx < allElements.Count)
+                while (true)
                 {
                     ClickOnElement(DropdownBtn);
+                    List<IWebElement> allElements = GetAllElements(AllTabInDropdown);
+                    if (clickButtonIdx >= allElements.Count)
+                    {
+                        break;
+                    }
                     Thread.Sleep(500);
                     ClickOnElement(allElements[clickButtonIdx]);
                     clickButtonIdx++;
-                    WaitUtil.WaitForElementInvisible(LoadingData);
+                    WaitForLoadingIconToDisappear();
                     Assert.IsFalse(IsControlDisplayedNotThrowEx(FrameMessage));
-                    allElements = GetAllElements(AllTabInDropdown);
                 }
             }
             return this;
@@ -339,13 +347,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnSitesTab()
         {
             ClickOnElement(SitesTab);
-            return this;
-        }
-
-        public DetailPartyPage WaitForLoadingIconInvisiable()
-        {
-            WaitUtil.WaitForElementInvisible(LoadingData);
-            Thread.Sleep(3000);
             return this;
         }
 
@@ -700,6 +701,67 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/parties/", "");
         }
+
+        //VEHICLE TAB
+        public DetailPartyPage ClickOnVehicleTab()
+        {
+            ClickOnElement(VehicleTab);
+            return this;
+        }
+
+        public DetailPartyPage VerifyTableDisplayedInVehicle()
+        {
+            foreach(string column in CommonConstants.ColumnInVehicleCustomerHaulierPage)
+            {
+                WaitUtil.WaitForElementVisible(ColumnInGrid, column);
+                Assert.IsTrue(IsControlDisplayed(ColumnInGrid, column));
+            }
+            return this;
+        }
+
+        public AddVehiclePage ClickAddNewVehicleBtn()
+        {
+            ClickOnElement(AddNewItemBtn);
+            return PageFactoryManager.Get< AddVehiclePage>();
+        }
+
+        public List<VehicleModel> GetAllVehicleModel()
+        {
+            List<VehicleModel> vehicleModels = new List<VehicleModel>();
+            List<IWebElement> totalRow = GetAllElements(TotalSiteRow);
+            List<IWebElement> allIdVehicle = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[0]));
+            List<IWebElement> allResource = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[1]));
+            List<IWebElement> allCustomer = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[2]));
+            List<IWebElement> allHaulier = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[3]));
+            List<IWebElement> allHireStart = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[4]));
+            List<IWebElement> allHireEnd = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[5]));
+            List<IWebElement> allSuspendedDate = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[0]));
+            List<IWebElement> allSuspendedReason = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[0]));
+            for (int i = 0; i < totalRow.Count(); i++)
+            {
+                string id = GetElementText(allIdVehicle[i]);
+                string resource = GetElementText(allResource[i]);
+                string customer = GetElementText(allCustomer[i]);
+                string haulier = GetElementText(allHaulier[i]);
+                string hireStart = GetElementText(allHireStart[i]);
+                string hireEnd = GetElementText(allHireEnd[i]);
+                string suspendedDate = GetElementText(allSuspendedDate[i]);
+                string suspendedReason = GetElementText(allSuspendedReason[i]);
+                vehicleModels.Add(new VehicleModel(id, resource, customer, haulier, hireStart, hireEnd, suspendedDate, suspendedReason));
+            }
+            return vehicleModels;
+        }
+
+        public DetailPartyPage VerifyVehicleCreated(VehicleModel vehicleModelDisplayed, string resource, string customer, string haulier, string hireStart, string hireEnd)
+        {
+            Assert.AreEqual(resource, vehicleModelDisplayed.Resource);
+            Assert.AreEqual(customer, vehicleModelDisplayed.Customer);
+            Assert.AreEqual(haulier, vehicleModelDisplayed.Haulier);
+            Assert.AreEqual(hireStart, vehicleModelDisplayed.HireStart);
+            Assert.AreEqual(hireEnd, vehicleModelDisplayed.HireEnd);
+            return this;
+        }
+    
     }
 
 }

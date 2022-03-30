@@ -110,5 +110,11 @@ namespace si_automated_tests.Source.Core
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
             driverWait.Until(ExpectedConditions.TextToBePresentInElementLocated(by, text));
         }
+
+        public static void WaitForValueInputDisplayed(By by)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
+            driverWait.Until(driver => driver.FindElement(by).GetAttribute("value").Length != 0);
+        }
     }
 }
