@@ -15,8 +15,9 @@ namespace si_automated_tests.Source.Test
     [TestFixture]
     public class PartyTests : BaseTest
     {
+        [Category("Create party")]
         [Test]
-        public void TC_004()
+        public void TC_004_Create_a_party_form_grid()
         {
             LoginPage login = new LoginPage();
             PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
@@ -55,8 +56,9 @@ namespace si_automated_tests.Source.Test
 
         }
 
+        [Category("Create party")]
         [Test]
-        public void TC_005()
+        public void TC_005_Create_party_from_action_dropdown()
         {
             LoginPage login = new LoginPage();
             PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(5), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
@@ -92,8 +94,9 @@ namespace si_automated_tests.Source.Test
 
         }
 
+        [Category("Create party")]
         [Test]
-        public void TC_006()
+        public void TC_006_Create_party_customer_type_with_future_start_date()
         {
             string errorMessage = "Start Date cannot be in the future";
             LoginPage login = new LoginPage();
@@ -430,7 +433,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyDisplayNewSiteAddressInCorresspondence(addressDetailModel, false)
                 .SelectCorresspondenAddress(addressDetailModel)
                 .ClickOnSitesTab()
-                .WaitForLoadingIconInvisiable();
+                .WaitForLoadingIconToDisappear();
             List<SiteModel> allSiteModel = PageFactoryManager.Get<DetailPartyPage>()
                 .GetAllSiteInList();
             PageFactoryManager.Get<DetailPartyPage>()
@@ -481,7 +484,8 @@ namespace si_automated_tests.Source.Test
                 .VerifyDisplaySuccessfullyMessage()
             //Test path for TC 011
                  .ClickOnSitesTab()
-                 .WaitForLoadingIconInvisiable()
+                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
                  .ClickOnAddNewItemInSiteTabBtn()
                  .SwitchToChildWindow(3);
             PageFactoryManager.Get<PartySiteAddressPage>()

@@ -90,10 +90,11 @@ namespace si_automated_tests.Source.Test.ContactTests
                 //Step 3: Line 16
                 .ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved party.");
-                //Step 4: Line 17
+            //Step 4: Line 17
             detailPartyPage
                 .ClickOnSitesTab()
-                .WaitForLoadingIconInvisiable()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
                 .OpenFirstSiteRow()
                 .SwitchToLastWindow();
             SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
