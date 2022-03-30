@@ -61,6 +61,7 @@
     <None Remove="Source\Test\Weighbridge\" />
     <None Remove="Source\Main\Pages\WB\" />
     <None Remove="Source\Main\Pages\WB\Sites\" />
+    <None Remove="Source\Main\Pages\Paties\Parties\PartyVehiclePage\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -75,6 +76,7 @@
     <Folder Include="TestResults\Screenshots\" />
     <Folder Include="Source\Main\Pages\WB\" />
     <Folder Include="Source\Main\Pages\WB\Sites\" />
+    <Folder Include="Source\Main\Pages\Paties\Parties\PartyVehiclePage\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">

@@ -132,7 +132,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SwitchToChildWindow(2);
             detailPartyPage
                 .ClickOnSitesTab()
-                .WaitForLoadingIconInvisiable()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
                 .OpenFirstSiteRow()
                 .SwitchToLastWindow();
             string[] valueContactPrimary = new string[1] { "Select..." };
