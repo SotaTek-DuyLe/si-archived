@@ -269,47 +269,47 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
                 .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<PartyAgreementPage>()
-            //   .ClickEditAgreementBtn()
-            //   .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<EditAgreementServicePage>()
-            //    .ClickOnNextBtn()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<AssetAndProducTab>()
-            //    .VerifySummaryOfStep("2 x 660L(Owned), 165 General Recycling")
-            //    .ClickOnEditAsset()
-            //    .EditAssetQuantity(3)
-            //    .ClickOnTenureText()
-            //    .EditAssertClickDoneBtn()
-            //    .VerifySummaryOfStep("3 x 660L(Owned), 165 General Recycling")
-            //    .ClickNext()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<ScheduleServiceTab>()
-            //    .IsOnScheduleTab()
-            //    .ClickAddService()
-            //    .ClickDoneScheduleBtn()
-            //    .ClickOnNotSetLink()
-            //    .ClickOnWeeklyBtn()
-            //    .ClickDoneRequirementBtn()
-            //    .ClickNext()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<PriceTab>()
-            //    .IsOnPriceTab()
-            //    .ClickNext()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<InvoiceDetailTab>()
-            //    .IsOnInvoiceDetailsTab()
-            //    .ClickFinish()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<PartyAgreementPage>()
-            //    .VerifyBlueBorder()
-            //    .ClickSaveBtn()
-            //    .VerifyToastMessage("Successfully saved agreement")
-            //    .WaitForLoadingIconToDisappear();
-            //// Finish Edit Agreement Line 
-            //PageFactoryManager.Get<BasePage>()
-            //    .WaitForLoadingIconToDisappear()
-            //    .SleepTimeInMiliseconds(5000);
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickEditAgreementBtn()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<EditAgreementServicePage>()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AssetAndProducTab>()
+                .VerifySummaryOfStep("2 x 660L(Owned), 165 General Recycling")
+                .ClickOnEditAsset()
+                .EditAssetQuantity(3)
+                .ClickOnTenureText()
+                .EditAssertClickDoneBtn()
+                .VerifySummaryOfStep("3 x 660L(Owned), 165 General Recycling")
+                .ClickNext()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+                .IsOnScheduleTab()
+                .ClickAddService()
+                .ClickDoneScheduleBtn()
+                .ClickOnNotSetLink()
+                .ClickOnWeeklyBtn()
+                .ClickDoneRequirementBtn()
+                .ClickNext()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+                .IsOnPriceTab()
+                .ClickNext()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+                .IsOnInvoiceDetailsTab()
+                .ClickFinish()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .VerifyBlueBorder()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved agreement")
+                .WaitForLoadingIconToDisappear();
+            // Finish Edit Agreement Line 
+            PageFactoryManager.Get<BasePage>()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(5000);
             //Verify info in panel 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ExpandAgreementLine()
