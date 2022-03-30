@@ -26,5 +26,6 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] ColumnInVehicleCustomerHaulierPage = { "ID", "Resource", "Customer", "Haulier", "Hire Start", "Hire End", "Suspended Date", "Suspended Reason" };
         public static readonly string BoderColorResourceInputWB = "rgb(160, 65, 63)";
         public static readonly string BoderColorHaulierInputWB = "rgb(156, 63, 61)";
+        public static readonly string[] LocationTabColumn = { "ID", "Location", "Active", "Client #" };
     }
 }
