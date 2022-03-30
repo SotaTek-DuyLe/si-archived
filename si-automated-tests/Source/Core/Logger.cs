@@ -10,16 +10,14 @@ namespace si_automated_tests.Source.Core
 
         public static Logger Get()
         {
-            Console.WriteLine("crated");
             Logger loggerInstance = new Logger();
-            Console.WriteLine("crated");
             LoggerThread.Value = loggerInstance;
 
             return LoggerThread.Value;
         }
         public void Info(string text)
         {
-            Console.WriteLine("====[INFO]" + String.Format("<div style=\"color: green\">%s</div>", text) + "====");
+            Console.WriteLine("====[INFO]   " + text);
         }
     }
 }

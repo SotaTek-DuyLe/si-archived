@@ -22,7 +22,7 @@ namespace si_automated_tests.Source.Core
         public static void OnTestStarted()
         {
             var test = TestContext.CurrentContext;
-            Console.WriteLine("------TEST STARTED: " + test.Test.MethodName + "------");
+            Logger.Get().Info("TEST STARTED: " + test.Test.MethodName);
         }
         public static void OnTestFinished()
         {
@@ -30,15 +30,15 @@ namespace si_automated_tests.Source.Core
             var testOutCome = TestContext.CurrentContext.Result.Outcome;
             if (testOutCome.Equals(ResultState.Success))
             {
-                Console.WriteLine("TEST PASSED: " + test.Test.MethodName);
+                Logger.Get().Info("TEST PASSED: " + test.Test.MethodName);
             }
             else
             {
-                Console.WriteLine("TEST STATUS: " + testOutCome.ToString() + " " + test.Test.MethodName);
-                Console.WriteLine("TEST MESSAGE: " + test.Result.Message);
+                Logger.Get().Info("TEST STATUS: " + testOutCome.ToString() + " " + test.Test.MethodName);
+                Logger.Get().Info("TEST MESSAGE: " + test.Result.Message);
                 GetScreenShot(test.Test.MethodName);
             }
-            Console.WriteLine("------END OF TEST------");
+            Logger.Get().Info("END OF TEST");
         }
     }
 }

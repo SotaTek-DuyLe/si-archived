@@ -61,12 +61,12 @@ namespace si_automated_tests.Source.Core
                     new DriverManager().SetUpDriver(new ChromeConfig());
                     Drivers.Value = new ChromeDriver();
                 }
-                System.Console.WriteLine("Setting up " + browser);
+                Logger.Get().Info("Setting up " + browser);
                 Brw.Value = browser;
             }
             catch (NullReferenceException)
             {
-                System.Console.WriteLine("Browser not specified, setting up for Chrome");
+                Logger.Get().Info("Browser not specified, setting up for Chrome");
                 new DriverManager().SetUpDriver(new ChromeConfig());
                 Drivers.Value = new ChromeDriver();
                 Brw.Value = "chrome";
@@ -107,7 +107,7 @@ namespace si_automated_tests.Source.Core
                 new DriverManager().SetUpDriver(new ChromeConfig());
                 Drivers.Value = new ChromeDriver();
             }
-            System.Console.WriteLine("Setting up " + browser);
+            Logger.Get().Info("Setting up " + browser);
             Brw.Value = browser;
             Drivers.Value.Manage().Window.Maximize();
         }
