@@ -119,6 +119,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         private readonly By startDateCoverAdhoc = By.XPath(beginLocatorAdhocTaskLine + "//span[@title='Start Date']");
         private readonly By endDateCoverAdhoc = By.XPath(beginLocatorAdhocTaskLine + "//span[@title='End Date']");
 
+        private readonly By createAdhocBtn = By.XPath("//button[text()='Create Ad-Hoc Task']");
+
         private readonly By assetAndProductAssetTypeStartDate = By.XPath("//tbody[contains(@data-bind,'assetProducts')]//span[@title='Start Date']");
         private readonly By regularAssertTypeStartDate = By.XPath("//span[text()='Regular']/ancestor::div[1]/following-sibling::div//span[contains(@data-bind,'displayStartDate')]");
         private readonly By serviceTaskLineTypeStartDates = By.XPath("//th[text()='Task Line Type']/ancestor::thead[1]/following-sibling::tbody//span[@title='Start Date']");
@@ -576,6 +578,16 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                 Assert.AreEqual(mobilizationModelList[i].Unit, input[i].Unit);
                 Assert.AreEqual(mobilizationModelList[i].StartDateCover, input[i].StartDateCover);
 
+            }
+            return this;
+        }
+
+        public DetailTab VerifyCreateAdhocButtonsAreEnabled()
+        {
+            IList<IWebElement> createAdhocBtns = WaitUtil.WaitForAllElementsVisible(createAdhocBtn);
+            foreach (var btn in createAdhocBtns)
+            {
+                Assert.AreEqual(true, btn.Enabled);
             }
             return this;
         }

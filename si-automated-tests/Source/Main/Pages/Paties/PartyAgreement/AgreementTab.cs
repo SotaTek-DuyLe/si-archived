@@ -22,6 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By firstAgreementStatus = By.XPath("//div[@class='slick-cell l14 r14']");
         private readonly By firstAgreementRow = By.XPath("//div[@id='agreements-tab']//div[@class='grid-canvas']/div[1]");
 
+
         public PartyAgreementPage ClickAddNewItem()
         {
             ClickOnElement(addNewItemBtn);
@@ -37,7 +38,43 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(status, GetElementText(firstAgreementStatus));
             return this;
         }
-
+        public AgreementTab VerifyAgreementAppear(string id, string name, string startDate, string endDate, string status)
+        {
+            List<IWebElement> idList = GetAllElements(firstAgreementId);
+            List<IWebElement> nameList = GetAllElements(firstAgreementName);
+            List<IWebElement> startDateList = GetAllElements(startDate);
+            List<IWebElement> endDateList = GetAllElements(endDate);
+            List<IWebElement> statusList = GetAllElements(status);
+            int n = 0;
+            for(int i = 0; i< idList.Count; i++)
+            {
+                if (GetElementText(idList[i]).Equals(id))
+                {
+                    Assert.AreEqual(name, GetElementText(nameList[i]));
+                    Assert.AreEqual(startDate, GetElementText(startDateList[i]));
+                    Assert.AreEqual(endDate, GetElementText(endDateList[i]));
+                    Assert.AreEqual(status, GetElementText(statusList[i]));
+                    n = 0;
+                    break;
+                }
+                else { n++; }
+            }
+            //Fail if cannot find element 
+            Assert.AreEqual(n, 0);
+            return this;
+        }
+        public PartyAgreementPage OpenAgreementWithId(int id)
+        {
+            List<IWebElement> idList = GetAllElements(firstAgreementId);
+            for (int i = 0; i < idList.Count; i++)
+            {
+                if (GetElementText(idList[i]).Equals(id.ToString()))
+                {
+                    DoubleClickOnElement(idList[i]);
+                }
+            }
+            return PageFactoryManager.Get<PartyAgreementPage>(); 
+        }
         public PartyAgreementPage OpenFirstAgreement()
         {
             DoubleClickOnElement(firstAgreementId);
