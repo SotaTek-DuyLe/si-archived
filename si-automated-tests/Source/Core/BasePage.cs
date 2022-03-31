@@ -494,6 +494,7 @@ namespace si_automated_tests.Source.Core
         public BasePage SwitchToTab(string tabName)
         {
             ClickOnElement(String.Format(tab, tabName));
+            WaitForLoadingIconToDisappear();
             return this;
         }
         public int GetNumberOfWindowHandle()

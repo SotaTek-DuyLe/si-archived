@@ -14,8 +14,8 @@ namespace si_automated_tests.Source.Main.Constants
             {
                 var env = TestContext.Parameters.Get("env");
                 if (env.Equals("demo", StringComparison.OrdinalIgnoreCase)){
-                    MainPageUrl = "https://demo.echoweb.co.uk/";
-                    MainPageUrlIE = "https://demo.echoweb.co.uk/echo2/echo2extra/mainframe.aspx";
+                    MainPageUrl = "https://test.echoweb.co.uk/";
+                    MainPageUrlIE = "https://test.echoweb.co.uk/echo2/echo2extra/mainframe.aspx";
                 }
                 else if (env.Equals("prod", StringComparison.OrdinalIgnoreCase))
                 {
@@ -25,15 +25,15 @@ namespace si_automated_tests.Source.Main.Constants
                 else
                 {
                     Console.WriteLine("Environment incorrect. Using demo environment");
-                    MainPageUrl = "https://demo.echoweb.co.uk/";
-                    MainPageUrlIE = "https://demo.echoweb.co.uk/echo2/echo2extra/mainframe.aspx";
+                    MainPageUrl = "https://test.echoweb.co.uk/";
+                    MainPageUrlIE = "https://test.echoweb.co.uk/echo2/echo2extra/mainframe.aspx";
                 }
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine("Environment not specified. Using demo environment");
-                MainPageUrl = "https://demo.echoweb.co.uk/";
-                MainPageUrlIE = "https://demo.echoweb.co.uk/echo2/echo2extra/mainframe.aspx";
+                MainPageUrl = "https://test.echoweb.co.uk/";
+                MainPageUrlIE = "https://test.echoweb.co.uk/echo2/echo2extra/mainframe.aspx";
             }
         }
     }
