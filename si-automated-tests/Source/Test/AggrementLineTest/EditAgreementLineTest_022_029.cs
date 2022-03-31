@@ -402,6 +402,44 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             PageFactoryManager.Get<DetailTab>()
                 .VerifyAdhocInfo(allAdhoc, adhocListInput);
+            PageFactoryManager.Get<DetailTab>()
+                .SwitchToFirstWindow()
+                .WaitForLoadingIconToDisappear();
+
+            //Go to service and verify 
+            PageFactoryManager.Get<NavigationBase>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption("Services")
+               .ExpandOption("Regions")
+               .ExpandOption("London")
+               .ExpandOption("North Star Commercial")
+               .ExpandOption("Collections")
+               .ExpandOption("Commercial Collections")
+               .OpenOption("Active Service Tasks")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .InputPartyNameToFilter("Rosie and Java")
+                .ClickApplyBtn()
+                .OpenTaskWithPartyNameAndDate("Rosie and Java", tommorowDate, "STARTDATE")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .verifyTaskInfo("660L", "3", "General Recycling", "", tommorowDate, "01/01/2050");
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnScheduleTask();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .verifyScheduleStartDate(tommorowDate)
+                .verifyScheduleEndDate("01/01/2050");
         }
 
         [Category("EditAgreement")]
@@ -542,7 +580,6 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToFirstWindow();
 
             //Verify in site service 
-          
             PageFactoryManager.Get<NavigationBase>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
@@ -584,6 +621,44 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .GetAllInfoAdhoc();
             PageFactoryManager.Get<DetailTab>()
                 .VerifyAdhocInfo(allAdhoc1, adhocListInput);
+            PageFactoryManager.Get<DetailTab>()
+                .SwitchToFirstWindow()
+                .WaitForLoadingIconToDisappear();
+
+            //Go to service and verify 
+            PageFactoryManager.Get<NavigationBase>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption("Services")
+               .ExpandOption("Regions")
+               .ExpandOption("London")
+               .ExpandOption("North Star Commercial")
+               .ExpandOption("Collections")
+               .ExpandOption("Commercial Collections")
+               .OpenOption("Active Service Tasks")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .InputPartyNameToFilter("The White Cross")
+                .ClickApplyBtn()
+                .OpenTaskWithPartyNameAndDate("The White Cross", tommorowDate, "STARTDATE")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .verifyTaskInfo("660L", "1", "General Refuse", "", tommorowDate, "01/01/2050");
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnScheduleTask();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .verifyScheduleStartDate(tommorowDate)
+                .verifyScheduleEndDate("01/01/2050");
         }
     }
 }
