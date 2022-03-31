@@ -73,14 +73,14 @@ pipelines:
               - '*/TestResults/Screenshots/*.png'
     Run test on custom environment:
       - variables:
-            - name: TestEnv
+            - name: TestUrl
       - step:
             runs-on:
               - self.hosted
               - windows
             script:
               - echo "Running on environment " $env:TestEnv
-              - $env:SCRIPTT='TestRunParameters.Parameter(name=\\\"env\\\", value=\\\"'+$env:TestEnv+'\\\")'
+              - $env:SCRIPTT='TestRunParameters.Parameter(name=\\\"url\\\", value=\\\"'+$env:TestUrl+'\\\")'
               - echo $env:SCRIPTT
               - dotnet clean
               - dotnet restore
