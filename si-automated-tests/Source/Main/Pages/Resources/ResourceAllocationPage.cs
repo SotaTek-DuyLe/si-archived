@@ -17,7 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By refreshBtn = By.Id("t-refresh");
         private readonly By date = By.Id("date");
 
-        //Left panel
+        //Left panel Daily Allocation
         private readonly By firstRoundRow = By.XPath("//tbody[contains(@data-bind,'roundMenu')]/tr");
         private readonly string allocatedResource = "//span[@class='main-description resource-name' and contains(text(),'{0}')]";
         private readonly string allocatedResourceContainer = "//span[@class='main-description resource-name' and contains(text(),'{0}')]/parent::td";
@@ -26,12 +26,21 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string resourceState = "//button[contains(@class,'resource-state') and text()='{0}']";
         private readonly By viewShiftDetailBtn = By.XPath("//button[text()='VIEW SHIFT DETAILS']");
         private readonly By resourceDetailBtn = By.XPath("//button[text()='RESOURCE DETAILS']");
-       
+
         private readonly string whiteBackground = "background-color: rgb(255, 255, 255);";
         private readonly string greenBackground = "background-color: rgb(137, 203, 137);";
         private readonly string purpleBackground = "background-color: rgb(177, 156, 217);";
         private readonly string redBackground = "background-color: rgb(255, 105, 98);";
 
+        //Left Panel Default Allocation
+        private readonly By firstColumn = By.XPath("//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')]");
+        private readonly String expandOptions = "(//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')])[{0}]//div[@id='toggle-actions']";
+        private readonly String secondColumnResource = "(//div[@id='rounds-scrollable']//tr[@class='round-group-dropdown'])[{0}]//span[text()='{1}']";
+        private readonly String roundName = "//span[@class='main-description round-name' and text()='{0}']";
+        private readonly By viewRoundBtn = By.XPath("//button[text()='VIEW ROUND']");
+        private readonly By dateInput = By.XPath("//input[contains(@data-bind,'dateControl')]");
+        private readonly By calendarIcon = By.XPath("//div[@class='date-control container' and contains(@style,'display: block;')]//span[@class='input-group-addon']");
+        private readonly String futreDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@style,'display: block;')]//td[text()='{0}'])[last()]";
 
         //Right panel
         private readonly By headers = By.XPath("//div[contains(@class,'active')]//div[@class='ui-state-default slick-header-column slick-header-sortable ui-sortable-handle']/span[1]");
@@ -192,6 +201,56 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage VerifyStateAbbreviation(string _resourceName, string _abbr)
         {
             Assert.AreEqual(_abbr, WaitUtil.WaitForElementVisible(resourceAbbreviation, _resourceName).Text);
+            return this;
+        }
+
+        //DEFAULT ALLOCATION PAGE
+        public ResourceAllocationPage DragAndDropFirstResultToRound(int numberOfRow)
+        {
+            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
+            IList<IWebElement> rows = WaitUtil.WaitForAllElementsVisible(firstColumn);
+            DragAndDrop(_firstResultFields[0], rows[numberOfRow - 1]);
+            return this;
+        }
+        public ResourceAllocationPage ClickRound(string _roundName)
+        {
+            ClickOnElement(roundName, _roundName);
+            return this;
+        }
+        public ResourceAllocationPage ClickViewRoundGroup()
+        {
+            ClickOnElement(viewRoundBtn);
+            return this;
+        }
+        public ResourceAllocationPage ClickCalendar()
+        {
+            ClickOnElement(dateInput);
+            ClickOnElement(calendarIcon);
+            return this;
+        }
+        public ResourceAllocationPage InsertDayInFutre(string dayOfMonth)
+        {
+            if (dayOfMonth.StartsWith("0"))
+            {
+                dayOfMonth = dayOfMonth.Substring(1);
+            }
+            ClickOnElement(futreDayNumberInCalendar, dayOfMonth);
+            return this;
+        }
+        public ResourceAllocationPage DeallocateResourceFromRoundGroup(int whichRow, string whichResource)
+        {
+            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
+            IWebElement target = _firstResultFields[0];
+            var xpath = String.Format(secondColumnResource, whichRow, whichResource);
+            Console.WriteLine(xpath);
+            IWebElement source = WaitUtil.WaitForElementVisible(xpath);
+            DragAndDrop(source, target);
+            return this;
+        }
+        public ResourceAllocationPage ExpandRoundGroup(int whichRow)
+        {
+            ClickOnElement(expandOptions, whichRow.ToString());
+            SleepTimeInMiliseconds(200);
             return this;
         }
     }
