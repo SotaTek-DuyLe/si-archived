@@ -19,7 +19,6 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
         private readonly string mainOption = "//span[text()='{0}']/parent::h4/parent::div";
         private readonly string dropdownOption = "//span[text()='{0}']/parent::a/preceding-sibling::span[2]";
         private readonly string option = "//span[text()='{0}']/parent::a";
-        private readonly string locatorContainsExpanded = "//span[text()='North Star Commercial']/parent::a/preceding-sibling::span[contains(@class, 'expanded')]";
 
 
         public NavigationBase ClickMainOption(string optionName)
