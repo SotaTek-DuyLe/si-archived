@@ -242,7 +242,6 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
             IWebElement target = _firstResultFields[0];
             var xpath = String.Format(secondColumnResource, whichRow, whichResource);
-            Console.WriteLine(xpath);
             IWebElement source = WaitUtil.WaitForElementVisible(xpath);
             DragAndDrop(source, target);
             return this;
