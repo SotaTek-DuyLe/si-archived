@@ -22,7 +22,7 @@ namespace si_automated_tests.Source.Main.Constants
                 Logger.Get().Info("Url not specified, using default url");
                 url = "https://test.echoweb.co.uk/";
             }
-            if(url == null)
+            if (url == null)
             {
                 Logger.Get().Info("Url not specified, using default url");
                 url = "https://test.echoweb.co.uk/";

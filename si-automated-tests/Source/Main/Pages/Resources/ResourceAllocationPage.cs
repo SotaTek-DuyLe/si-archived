@@ -40,7 +40,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By viewRoundBtn = By.XPath("//button[text()='VIEW ROUND']");
         private readonly By dateInput = By.XPath("//input[contains(@data-bind,'dateControl')]");
         private readonly By calendarIcon = By.XPath("//div[@class='date-control container' and contains(@style,'display: block;')]//span[@class='input-group-addon']");
-        private readonly String futreDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@style,'display: block;')]//td[text()='{0}'])[last()]";
+        private readonly String futreDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@style,'display: block;')]//td[not(contains(@class,'disable')) and text()='{0}'])[last()]";
 
         //Right panel
         private readonly By headers = By.XPath("//div[contains(@class,'active')]//div[@class='ui-state-default slick-header-column slick-header-sortable ui-sortable-handle']/span[1]");
@@ -242,7 +242,6 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
             IWebElement target = _firstResultFields[0];
             var xpath = String.Format(secondColumnResource, whichRow, whichResource);
-            Console.WriteLine(xpath);
             IWebElement source = WaitUtil.WaitForElementVisible(xpath);
             DragAndDrop(source, target);
             return this;

@@ -53,7 +53,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickRound(roundName)
                 .ClickViewRoundGroup()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundDetailTab>()
                 .IsOnDetailTab()
                 .SwitchToTab("Default Resources");
@@ -79,6 +80,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRound("SKIP2 Daily Daily")
                 .ClickViewRoundGroup()
                 .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
@@ -98,6 +100,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRound(roundName)
                 .ClickViewRoundGroup()
                 .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
@@ -107,6 +110,129 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
             //Deallocate to maintain script
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DeallocateResourceFromRoundGroup(2, resourceType)
+                .VerifyToastMessage("Default resource-type cleared");
+        }
+        [Category("Resources")]
+        [Test]
+        public void TC_65_Allocation_Deallocation_Default_Resource()
+        {
+            string roundName = "SKIP2 Daily Daily";
+            string currentDate = CommonUtil.GetLocalTimeNow("dd");
+            string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd", 3);
+            string monthYearInFuture = CommonUtil.GetLocalTimeMinusDay("MMMM yyyy", 3);
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string resourceType = "Driver";
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser4.UserName, AutoUser4.Password)
+                .IsOnHomePage(AutoUser4);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Resources")
+                .OpenOption("Default Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract("North Star Commercial")
+                .SelectBusinessUnit("North Star Commercial")
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            //Create new default resource
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved resource.")
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .SwitchToTab("All Resources");
+            //Drag resource type to round
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource",resourceName)
+                .VerifyFirstResultValue("Resource", resourceName)
+                .DragAndDropFirstResultToRound(2)
+                .VerifyToastMessage("Default Resource Set");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickRound(roundName)
+                .ClickViewRoundGroup()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundDetailTab>()
+                .IsOnDetailTab()
+                .SwitchToTab("Default Resources");
+            //Expand Driver and verify end date is current date
+            PageFactoryManager.Get<RoundDefaultResourceTab>()
+                .ExpandOption(2)
+                .ClickOnSubEndDate(1)
+                .VerifyEndDateIsDefault()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //Move to future date and deallocate resource type from round
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCalendar()
+                .InsertDayInFutre(dateInFutre)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DeallocateResourceFromRoundGroup(2, resourceName)
+                .VerifyToastMessage("Default resource cleared");
+            ////Verify End date is updated on round in future
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickRound("SKIP2 Daily Daily")
+                .ClickViewRoundGroup()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear()
+                .SwitchToTab("Default Resources");
+            PageFactoryManager.Get<RoundDefaultResourceTab>()
+                .IsOnDefaultResourceTab()
+                .ClickOnEndDate(2)
+                .VerifyEndDateIsDefault()
+                .ExpandOption(2)
+                .ClickOnSubEndDate(1)
+                .VerifyEndDateIs(monthYearInFuture, dateInFutre)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //Verify End date is updated on round in current date
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCalendar()
+                .InsertDayInFutre(currentDate)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ExpandRoundGroup(2)
+                .ClickRound(roundName)
+                .ClickViewRoundGroup()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear()
+                .SwitchToTab("Default Resources");
+            PageFactoryManager.Get<RoundDefaultResourceTab>()
+                .IsOnDefaultResourceTab()
+                .ClickOnEndDate(2)
+                .VerifyEndDateIsDefault()
+                .ExpandOption(2)
+                .ClickOnSubEndDate(1)
+                .VerifyEndDateIs(monthYearInFuture, dateInFutre)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //Deallocate to maintain script
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DeallocateResourceFromRoundGroup(2, resourceName)
+                .VerifyToastMessage("Default resource cleared");
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceType)
                 .VerifyToastMessage("Default resource-type cleared");

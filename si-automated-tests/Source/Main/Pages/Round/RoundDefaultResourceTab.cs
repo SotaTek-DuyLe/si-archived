@@ -11,9 +11,11 @@ namespace si_automated_tests.Source.Main.Pages.Round
     {
         private readonly By table = By.Id("default-resources");
         private readonly By headers = By.XPath("//div[@id='default-resources']/table/thead//th");
-        private readonly By endDates = By.XPath("//input[@id='endDate.id']/following-sibling::span");
+        private readonly By endDates = By.XPath("//tr[@data-bind='with: $data.getFields()']//input[@id='endDate.id']/following-sibling::span");
+        private readonly By subEndDates = By.XPath("//tr[@class='child-container-row accordian-body collapse in']//input[@id='endDate.id']/following-sibling::span");
         private readonly By activeMonthYear = By.XPath("//div[@class='bootstrap-datetimepicker-widget dropdown-menu picker-open bottom' and contains(@style,'display: block;')]//div[@class='datepicker-days']//th[@class='picker-switch']");
         private readonly By activeDay = By.XPath("//div[@class='bootstrap-datetimepicker-widget dropdown-menu picker-open bottom' and contains(@style,'display: block;')]//div[@class='datepicker-days']//td[@class='day active']");
+        private readonly By expandBtn = By.XPath("//div[@id='toggle-actions']");
         public RoundDefaultResourceTab IsOnDefaultResourceTab()
         {
             WaitUtil.WaitForElementVisible(table);
@@ -23,6 +25,12 @@ namespace si_automated_tests.Source.Main.Pages.Round
         {
             IList<IWebElement> _endDates = WaitUtil.WaitForAllElementsVisible(endDates);
             ClickOnElement(_endDates[whichRow - 1]);
+            return this;
+        }
+        public RoundDefaultResourceTab ClickOnSubEndDate(int whichOneInOrder)
+        {
+            IList<IWebElement> _subEndDates = WaitUtil.WaitForAllElementsVisible(subEndDates);
+            ClickOnElement(_subEndDates[whichOneInOrder - 1]);
             return this;
         }
         public RoundDefaultResourceTab VerifyEndDateIsDefault()
@@ -39,6 +47,12 @@ namespace si_automated_tests.Source.Main.Pages.Round
             }
             Assert.AreEqual(monthAndYear, GetElementText(activeMonthYear));
             Assert.AreEqual(dayOfMonth, GetElementText(activeDay));
+            return this;
+        }
+        public RoundDefaultResourceTab ExpandOption(int whichRow)
+        {
+            IList<IWebElement> expandBtns = WaitUtil.WaitForAllElementsVisible(expandBtn);
+            ClickOnElement(expandBtns[whichRow-1]);
             return this;
         }
     }
