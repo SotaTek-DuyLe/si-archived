@@ -660,5 +660,214 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .verifyScheduleStartDate(tommorowDate)
                 .verifyScheduleEndDate("01/01/2050");
         }
+
+        [Category("EditAgreement")]
+        [Test]
+        public void TC_025()
+        {
+            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+
+            int agreementId = 31;
+            string partyName = "Danieli On The Green";
+
+
+            string assetType = AgreementConstants.ASSET_TYPE_660L;
+            int assetQty = 2;
+            string product = AgreementConstants.GENERAL_RECYCLING;
+            string tenure = AgreementConstants.TENURE_OWNED;
+            int productQty = 600;
+            string defautEndDate = AgreementConstants.DEFAULT_END_DATE;
+            string unit = AgreementConstants.KILOGRAMS;
+
+            AsserAndProductModel assetAndProductInput = new AsserAndProductModel(assetType, assetQty.ToString(), product, "", productQty.ToString(), unit, tenure, new string[1], new string[1], tommorowDate, defautEndDate);
+            RegularModel regularInput = new RegularModel("Service", assetType, assetQty.ToString(), product, productQty.ToString(), unit, tommorowDate);
+            MobilizationModel adhoc = new MobilizationModel("Service", assetType, assetQty.ToString(), product, productQty.ToString(), unit, tommorowDate);
+            List<MobilizationModel> adhocListInput = new List<MobilizationModel> { adhoc, adhoc };
+
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser13.UserName, AutoUser13.Password)
+                .IsOnHomePage(AutoUser13);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Agreements")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItem(agreementId)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            //Edit Agreement 
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickOnDetailsTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickEditAgreementBtn()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<EditAgreementServicePage>()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AssetAndProducTab>()
+                .ClickRemoveAsset()
+                .ClickAddAsset()
+                .SelectAssetType(assetType)
+                .InputAssetQuantity(assetQty)
+                .ChooseTenure(tenure)
+                .ChooseProduct(product)
+                .InputProductQuantity(productQty)
+                .ClickDoneBtn()
+                .ClickNext();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+               .IsOnScheduleTab()
+               .ClickAddService()
+               .ClickDoneScheduleBtn()
+               .ClickOnNotSetLink()
+               .ClickOnWeeklyBtn()
+               .ClickDoneRequirementBtn()
+               .ClickNext()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+               .IsOnPriceTab()
+               .RemoveAllRedundantPrices(1)
+               .ClickNext()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+               .IsOnInvoiceDetailsTab()
+               .ClickFinish()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickSaveBtn()
+               .VerifyToastMessage(AgreementConstants.SUCCESSFULLY_SAVED_AGREEMENT)
+               .WaitForLoadingIconToDisappear();
+            // Finish Edit Agreement Line 
+            PageFactoryManager.Get<BasePage>()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(10000);
+            
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ExpandAgreementLine();
+            //Verify at Details Tab
+            PageFactoryManager.Get<DetailTab>()
+                .ExpandAllAgreementFields()
+                .VerifyMobilizationPanelDisappear()
+                .VerifyDeMobilizationPanelDisappear();
+            //Assert and Product
+            AsserAndProductModel asserAndProductModel1 = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoAssetAndProductAgreement();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyAssertAndProductInfo(asserAndProductModel1, assetAndProductInput);
+            //Regular
+            RegularModel regularModel1 = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoRegular();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyRegularInfo(regularModel1, regularInput);
+            //Ad-hoc
+            List<MobilizationModel> allAdhoc1 = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoAdhoc();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyAdhocInfo(allAdhoc1, adhocListInput);
+
+            //Verify no new task appear at Task tab
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickTaskTabBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskTab>()
+                .WaitForLoadingIconToDisappear();
+            int taskNum = PageFactoryManager.Get<TaskTab>()
+                .GetAllTaskNum();
+            PageFactoryManager.Get<TaskTab>()
+                .VerifyTaskNumUnchange(taskNum, 3)
+                .SwitchToFirstWindow();
+
+            //Verify on Site Service
+            PageFactoryManager.Get<NavigationBase>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .OpenOption("Site Services")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+                .FilterAgreementId(agreementId)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<AgreementLinePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AgreementLinePage>()
+                .WaitForWindowLoadedSuccess(agreementId.ToString())
+                .ClickDetailTab();
+            PageFactoryManager.Get<DetailTab>()
+                .ExpandAllAgreementFields()
+                .VerifyMobilizationPanelDisappear()
+                .VerifyDeMobilizationPanelDisappear();
+            //Assert and Product
+            AsserAndProductModel asserAndProductModel = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoAssetAndProductAgreement();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyAssertAndProductInfo(asserAndProductModel, assetAndProductInput);
+            //Regular
+            RegularModel regularModel = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoRegular();
+            PageFactoryManager.Get<DetailTab>()
+                .VerifyRegularInfo(regularModel, regularInput);
+            //Ad-hoc
+            List<MobilizationModel> allAdhoc = PageFactoryManager.Get<DetailTab>()
+                .GetAllInfoAdhoc();
+            PageFactoryManager.Get<DetailTab>()
+               .VerifyAdhocInfo(allAdhoc1, adhocListInput);
+            PageFactoryManager.Get<AgreementLinePage>()
+                .GoToAllTabAndConfirmNoError()
+                .SwitchToFirstWindow();
+
+            //Go to active service Task and verify 
+            PageFactoryManager.Get<NavigationBase>()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption("Services")
+               .ExpandOption("Regions")
+               .ExpandOption("London")
+               .ExpandOption("North Star Commercial")
+               .ExpandOption("Collections")
+               .ExpandOption("Commercial Collections")
+               .OpenOption("Active Service Tasks")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .InputPartyNameToFilter(partyName)
+                .ClickApplyBtn()
+                .OpenTaskWithPartyNameAndDate(partyName, tommorowDate, "STARTDATE")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .verifyTaskInfo(assetType, assetQty.ToString(), product, unit, tommorowDate, defautEndDate);
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnScheduleTask();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .verifyScheduleStartDate(tommorowDate)
+                .verifyScheduleEndDate(defautEndDate);
+        }
     }
 }
