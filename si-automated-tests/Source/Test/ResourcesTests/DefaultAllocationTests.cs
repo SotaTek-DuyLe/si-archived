@@ -53,7 +53,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickRound(roundName)
                 .ClickViewRoundGroup()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundDetailTab>()
                 .IsOnDetailTab()
                 .SwitchToTab("Default Resources");
@@ -79,6 +80,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRound("SKIP2 Daily Daily")
                 .ClickViewRoundGroup()
                 .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
@@ -98,6 +100,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRound(roundName)
                 .ClickViewRoundGroup()
                 .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
@@ -142,7 +145,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //Create new default resource
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceDetailTab>()
                 .IsOnDetailTab()
                 .InputResourceName(resourceName)
@@ -163,7 +167,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickRound(roundName)
                 .ClickViewRoundGroup()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundDetailTab>()
                 .IsOnDetailTab()
                 .SwitchToTab("Default Resources");
@@ -189,6 +194,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRound("SKIP2 Daily Daily")
                 .ClickViewRoundGroup()
                 .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
@@ -211,6 +217,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRound(roundName)
                 .ClickViewRoundGroup()
                 .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
