@@ -1,9 +1,6 @@
 ﻿using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
-using si_automated_tests.Source.Main.Pages.Paties;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.NavigationPanel

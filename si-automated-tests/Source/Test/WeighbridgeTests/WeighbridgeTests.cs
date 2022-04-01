@@ -14,6 +14,7 @@ using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
 using si_automated_tests.Source.Main.Pages.WB.Sites;
+using si_automated_tests.Source.Main.Pages.WB.Tickets;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.WeighbridgeTests
@@ -35,6 +36,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         private string partyIdCustomer, partyIdHaulier;
         private string partyName045 = "Auto045Customer" + CommonUtil.GetRandomString(2);
         private string partyName047 = "Auto047Haulier" + CommonUtil.GetRandomString(2);
+        private string resourceName;
 
         public override void Setup()
         {
@@ -53,6 +55,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsOnHomePage(AutoUser14);
         }
 
+        [Category("WB")]
         [Test(Description = "WB create party customer"), Order(1)]
         public void GetAllSiteInWBBefore()
         {
@@ -465,7 +468,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Test(Description = "WB VCH Human"), Order(7)]
         public void TC_051_WB_VCH_Vehicle()
         {
-            string resourceName = "Auto WB Van" + CommonUtil.GetRandomNumber(2);
+            resourceName = "Auto WB Van" + CommonUtil.GetRandomNumber(2);
             string resourceType = "Van";
             string vehicleNotActiveName = "COM7 NST";
 
@@ -655,6 +658,87 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .GetAllLocationInGrid();
             siteDetailPage
                 .VerifyLocationCreated(allModelsNew[0], locationNameActive, true, clientRef);
+        }
+
+        [Category("WB")]
+        [Test(Description = "WB Station No ticket type"), Order(9)]
+        public void TC_053_WB_Station_No_ticket_type()
+        {
+            string stationName = "AutoStation" + CommonUtil.GetRandomNumber(2);
+            //Back to the party customer in TC45
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(Int32.Parse(partyIdCustomer))
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .OpenFirstSiteRow()
+                .SwitchToLastWindow();
+            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
+            siteDetailPage
+                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
+                .ClickStationTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .ClickAddNewStationItem()
+                .SwitchToLastWindow();
+            CreateStationPage createStationPage = PageFactoryManager.Get<CreateStationPage>();
+            createStationPage
+                .WaitForLoadingIconToDisappear();
+            createStationPage
+                .WaitForCreateStationPageLoaded("WEIGHBRIDGE STATION")
+                .IsCreateStationPage()
+                .ClickSaveBtn();
+            createStationPage
+                .VerifyDisplayErrorMesMissingTimezone()
+                .SelectTimezone("Europe/London")
+                .InputName(stationName)
+                .ClickSaveBtn()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            siteDetailPage
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Successfully saved Site")
+                .ClickSaveAndCloseBtn()
+                .SwitchToChildWindow(2);
+            detailPartyPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Weighbridge")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Tickets")
+                .SwitchNewIFrame();
+            TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
+            ticketListingPage
+                .WaitForLoadingIconToDisappear();
+            ticketListingPage
+                .ClickAddNewTicketBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleType("Van")
+                .VerifyDisplayTicketTypeInput();
         }
     }
 }
