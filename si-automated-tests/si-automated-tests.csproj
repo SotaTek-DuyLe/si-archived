@@ -62,6 +62,7 @@
     <None Remove="Source\Main\Pages\WB\" />
     <None Remove="Source\Main\Pages\WB\Sites\" />
     <None Remove="Source\Main\Pages\Paties\Parties\PartyVehiclePage\" />
+    <None Remove="Source\Main\Pages\WB\Tickets\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -77,6 +78,7 @@
     <Folder Include="Source\Main\Pages\WB\" />
     <Folder Include="Source\Main\Pages\WB\Sites\" />
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyVehiclePage\" />
+    <Folder Include="Source\Main\Pages\WB\Tickets\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
