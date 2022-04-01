@@ -6,9 +6,6 @@ using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
@@ -24,7 +21,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         {
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string currentDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
-            string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy",1);
+            string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string resourceType = "Driver";
 
             PageFactoryManager.Get<LoginPage>()
@@ -42,8 +39,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectBusinessUnit("North Star")
                 .SelectShift("AM")
                 .ClickGo()
-                .WaitForLoadingIconToDisappear();
-            Thread.Sleep(1000);
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
                 .SwitchToLastWindow();
@@ -80,8 +77,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyBackgroundColor(resourceName, "white")
                 .InsertDate(dateInFutre + Keys.Enter)
                 .ClickGo()
-                .WaitForLoadingIconToDisappear();
-            Thread.Sleep(1000);
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .SwitchToTab("All Resources");
             //ALLOCATE FOR FUTURE DATE
@@ -110,12 +107,12 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .RefreshGrid()
                 .FilterResource("Resource", resourceName)
                 .VerifyResourceDeallocated(resourceName)
-                .VerifyFirstResultValue("Status","Available")
+                .VerifyFirstResultValue("Status", "Available")
             //Deallocate current-date resource
                 .InsertDate(currentDate + Keys.Enter)
                 .ClickGo()
-                .WaitForLoadingIconToDisappear();
-            Thread.Sleep(1000);
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickAllocatedResource(resourceName)
                 .ClickViewShiftDetail();
@@ -129,6 +126,262 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .FilterResource("Resource", resourceName)
                 .VerifyResourceDeallocated(resourceName)
                 .VerifyFirstResultValue("Status", "Available");
+        }
+        [Category("Resources")]
+        [Test]
+        public void TC_44_1_Create_Resource_And_Daily_Allocation()
+        {
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string vehicleResourceName = "Van " + CommonUtil.GetRandomNumber(5);
+            string resourceType = "Driver";
+            string vehicleResourceType = "Van";
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser4.UserName, AutoUser4.Password)
+                .IsOnHomePage(AutoUser4);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Resources")
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract("North Star")
+                .SelectBusinessUnit("North Star")
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            //Create driver
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved resource.")
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //Create vehicle
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(vehicleResourceName)
+                .SelectResourceType(vehicleResourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved resource.")
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .SwitchToTab("All Resources");
+            //Verify Driver
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName)
+                .VerifyFirstResultValue("Resource", resourceName)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName)
+                .ClickAllocatedResource(resourceName)
+                .SelectResourceState("SICK")
+                .WaitForLoadingIconToDisappear();
+            Thread.Sleep(500);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyBackgroundColor(resourceName, "red")
+                .VerifyStateAbbreviation(resourceName, "S")
+                .VerifyFirstResultValue("Status", "Sick");
+            //Verify Vehicle
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", vehicleResourceName)
+                .VerifyFirstResultValue("Resource", vehicleResourceName)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(vehicleResourceName)
+                .ClickAllocatedResource(vehicleResourceName)
+                .SelectResourceState("MAINTENANCE")
+                .WaitForLoadingIconToDisappear();
+            Thread.Sleep(500);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyBackgroundColor(vehicleResourceName, "red")
+                .VerifyStateAbbreviation(vehicleResourceName, "M")
+                //.FilterResource("Resource", vehicleResourceName)
+                .VerifyFirstResultValue("Status", "Maintenance");
+            //Select state for resource
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName)
+                .ClickAllocatedResource(resourceName)
+                .ClickViewShiftDetail();
+            PageFactoryManager.Get<ShiftDetailPage>()
+                .IsOnShiftDetailPage()
+                .SelectState("Training")
+                .SelectResolutionCode("Paid")
+                .SaveDetail()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyStateAbbreviation(resourceName, "T")
+                .VerifyBackgroundColor(resourceName, "red")
+                .FilterResource("Resource", resourceName);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyFirstResultValue("Status", "Training");
+            //Select state for vehicle
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(vehicleResourceName)
+                .ClickAllocatedResource(vehicleResourceName)
+                .ClickViewShiftDetail();
+            PageFactoryManager.Get<ShiftDetailPage>()
+                .IsOnShiftDetailPage()
+                .SelectState("Vehicle Off Road")
+                .SaveDetail()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyStateAbbreviation(vehicleResourceName, "V")
+                .VerifyBackgroundColor(vehicleResourceName, "red")
+                .FilterResource("Resource", vehicleResourceName);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyFirstResultValue("Status", "Vehicle Off Road");
+
+        }
+        [Category("Resources")]
+        [Test]
+        public void TC_44_2_Create_Resource_And_Daily_Allocation()
+        {
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string vehicleResourceName = "Van " + CommonUtil.GetRandomNumber(5);
+            string currentDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
+            string today = CommonUtil.GetLocalTimeNow("dd");
+            string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+            string resourceType = "Driver";
+            string vehicleResourceType = "Van";
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser4.UserName, AutoUser4.Password)
+                .IsOnHomePage(AutoUser4);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Resources")
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract("North Star")
+                .SelectBusinessUnit("North Star")
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            //Create driver
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved resource.")
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //Create vehicle
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(vehicleResourceName)
+                .SelectResourceType(vehicleResourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved resource.")
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .SwitchToTab("All Resources");
+
+            //View Resource Detail of human resource
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName)
+                .VerifyFirstResultValue("Resource", resourceName)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName)
+                .ClickAllocatedResource(resourceName)
+                .ClickResourceDetail()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .SwitchToTab("Calendar");
+            PageFactoryManager.Get<ResourceCalendarTab>()
+                .SwitchDateView("Year")
+                .OpenTodayDateInYearView()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .IsOnLeaveEntryPage()
+                .SelectLeaveType("Holiday")
+                .SelectLeaveReason("Paid")
+                .SaveLeaveEntry()
+                .VerifyToastMessage("Successfully saved Leave Entry");
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .ApproveLeaveEntry()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .ConfirmApprovalLeaveEntry()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(1000) //wait for window to be automatically closed
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .IsOnLeaveEntryPage()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceCalendarTab>()
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName)
+                .VerifyFirstResultValue("Status", "Holiday");
+            //View Resource Detail of vehicle resource
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", vehicleResourceName)
+                .VerifyFirstResultValue("Resource", vehicleResourceName)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(vehicleResourceName)
+                .ClickAllocatedResource(vehicleResourceName)
+                .ClickResourceDetail()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .SwitchToTab("Shift Exceptions");
+            PageFactoryManager.Get<ResourceShiftExceptionTab>()
+                .IsOnShiftExceptionTab()
+                .SelectState("Maintenance")
+                .SetEndDate(dateInFutre)
+                .ClickCreateException()
+                .VerifyToastMessage("Success")
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .InsertDate(dateInFutre + Keys.Enter)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", vehicleResourceName)
+                .VerifyFirstResultValue("Status", "Maintenance");
         }
     }
 }

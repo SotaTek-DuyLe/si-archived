@@ -3,6 +3,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
+using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
 using si_automated_tests.Source.Main.Pages.Services;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
@@ -66,6 +67,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ExpandOption("CLINICAL1")
                 .OpenOption("Monday")
                 .SwitchNewIFrame()
+                .SleepTimeInMiliseconds(3000)
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<ServiceDefaultResourceTab>()
                 .IsOnServiceDefaultTab()
@@ -198,6 +200,52 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickAddResource()
                 .VerifyInputIsAvailable(resourceName)
                 .SwitchToDefaultContent();
+        }
+        [Category("Resources")]
+        [Test]
+        public void TC_49_Create_Resource_In_Default_Allocation()
+        {
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string resourceType = "Driver";
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser4.UserName, AutoUser4.Password)
+                .IsOnHomePage(AutoUser4);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Resources")
+                .OpenOption("Default Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract("North Star Commercial")
+                .SelectBusinessUnit("North Star Commercial")
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            //Create driver
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved resource.")
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName)
+                .VerifyFirstResultValue("Resrouce", resourceName)
+                .VerifyFirstResultValue("Class", "Human")
+                .VerifyFirstResultValue("Type", resourceType)
+                .VerifyFirstResultValue("Contract", "North Star Commercial");
         }
     }
 }

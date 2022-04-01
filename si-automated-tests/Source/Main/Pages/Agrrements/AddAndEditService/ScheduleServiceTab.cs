@@ -28,7 +28,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
 
         private readonly By startDateInput = By.XPath("//div[@data-bind='visible: recurrenceType() == 1']//label[text()='Starting on']/following-sibling::div/span/span");
 
-
+        //Dynamic locator
+        private string scheduleLink = "//a[text()='{0}']";
 
         public ScheduleServiceTab IsOnScheduleTab()
         {
@@ -79,6 +80,11 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             if (IsElementSelected(anyDayOption)) ClickOnElement(anyDayOption);
             return this;
         }
+        public ScheduleServiceTab TickAnyDayOption()
+        {
+            if (!IsElementSelected(anyDayOption)) ClickOnElement(anyDayOption);
+            return this;
+        }
         public ScheduleServiceTab SelectDayOfWeek(string day)
         {
             ClickOnElement(dayOption, day);
@@ -114,5 +120,12 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             //SendKeys(startDateInput, date);
             return this;
         }
+
+        public ScheduleServiceTab ClickOnSchedule(string schedule)
+        {
+            ClickOnElement(scheduleLink, schedule);
+            return this;
+        }
+
     }
 }

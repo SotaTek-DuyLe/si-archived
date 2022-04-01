@@ -30,7 +30,7 @@ namespace si_automated_tests.Source.Main.Pages
             : "//li[contains(@class, 'dropdown')]/button";
         private readonly string pageTitle = ConfigManager.GetCurrentPlatform().Equals(WebPlatform.IE)
             ? "//div[@class='e_hdr']"
-            : "//p[text()='Northstar Environmental Services – Demo 8.6.0']";
+            : "//p[@class='navbar-text environment-logo']";
         private readonly string searchBtn = "//span[text()='Search']/parent::button";
         private readonly string logoutBtn = "//a[text()='Log out']";
 

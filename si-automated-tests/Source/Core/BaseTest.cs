@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 
 namespace si_automated_tests.Source.Core
@@ -14,6 +15,7 @@ namespace si_automated_tests.Source.Core
 
         protected void OnSetup()
         {
+            new WebUrl();
             CustomTestListener.OnTestStarted();
             IWebDriverManager.SetDriver();
             new UserRegistry();

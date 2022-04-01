@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -10,6 +11,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 {
     public class DetailTab : BasePage
     {
+        private readonly By subExpandBtns = By.XPath("//div[contains(@class,'panel-heading clickable')]");
+
         private readonly By assetAndProduct = By.XPath("//span[text()='Assets and Products']/parent::div");
         private readonly By mobilization = By.XPath("//span[text()='Mobilization']/parent::span/parent::div");
         private readonly By regular = By.XPath("//span[text()='Regular']/parent::span/parent::div");
@@ -115,6 +118,13 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         private readonly By unitAdhoc = By.XPath(beginLocatorAdhocTaskLine + "//td[@data-bind='text: unit']");
         private readonly By startDateCoverAdhoc = By.XPath(beginLocatorAdhocTaskLine + "//span[@title='Start Date']");
         private readonly By endDateCoverAdhoc = By.XPath(beginLocatorAdhocTaskLine + "//span[@title='End Date']");
+
+        private readonly By createAdhocBtn = By.XPath("//button[text()='Create Ad-Hoc Task']");
+
+        private readonly By assetAndProductAssetTypeStartDate = By.XPath("//tbody[contains(@data-bind,'assetProducts')]//span[@title='Start Date']");
+        private readonly By regularAssertTypeStartDate = By.XPath("//span[text()='Regular']/ancestor::div[1]/following-sibling::div//span[contains(@data-bind,'displayStartDate')]");
+        private readonly By serviceTaskLineTypeStartDates = By.XPath("//th[text()='Task Line Type']/ancestor::thead[1]/following-sibling::tbody//span[@title='Start Date']");
+
 
         //AssetAndProduct
         public DetailTab ClickAssetAndProductAndVerify(string expectValue)
@@ -353,6 +363,17 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             Assert.AreEqual(GetAttributeValue(invoiceScheduleRe, "disabled"), "true");
             return this;
         }
+
+        public DetailTab VerifyRegularTaskTypeDate(string dateRange) 
+        {
+            Assert.AreEqual(dateRange, GetElementText(startEndDateRe));
+            return this;
+        }
+        public DetailTab VerifyRegularTaskLineTypeStartDate(String startDate)
+        {
+            Assert.AreEqual(startDate, GetElementText(startDateCoverRe));
+            return this;
+        }
         public DetailTab VerifyRegularInfo(RegularModel regularModel, RegularModel input)
         {
             Assert.AreEqual(regularModel.TaskLineType, input.TaskLineType);
@@ -558,6 +579,59 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                 Assert.AreEqual(mobilizationModelList[i].StartDateCover, input[i].StartDateCover);
 
             }
+            return this;
+        }
+
+        public DetailTab VerifyCreateAdhocButtonsAreEnabled()
+        {
+            IList<IWebElement> createAdhocBtns = WaitUtil.WaitForAllElementsVisible(createAdhocBtn);
+            foreach (var btn in createAdhocBtns)
+            {
+                Assert.AreEqual(true, btn.Enabled);
+            }
+            return this;
+        }
+
+        public DetailTab VerifyMobilizationPanelDisappear()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(beginLocatorMobi));
+            return this;
+        }
+        public DetailTab VerifyDeMobilizationPanelDisappear()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(beginLocatorDeMobilization));
+            return this;
+        }
+        public DetailTab ExpandAllAgreementFields()
+        {
+            IList<IWebElement> fields = WaitUtil.WaitForAllElementsVisible(subExpandBtns);
+            foreach (var field in fields)
+            {
+                Thread.Sleep(300);
+                field.Click();
+            }
+            return this;
+        }
+        public DetailTab VerifyTaskLineTypeStartDates(string startDate)
+        {
+            Assert.AreEqual(startDate, GetElementText(serviceTaskLineTypeStartDates));
+            IList<IWebElement> elements = WaitUtil.WaitForAllElementsVisible(serviceTaskLineTypeStartDates);
+            foreach (IWebElement element in elements)
+            {
+                Assert.AreEqual(startDate, GetElementText(element));
+            }
+            return this;
+        }
+        public DetailTab VerifyRegularAssetTypeStartDate(string startDate)
+        {
+            ScrollDownToElement(regularAssertTypeStartDate);
+            Assert.AreEqual(startDate, GetElementText(regularAssertTypeStartDate));
+            return this;
+        }
+        public DetailTab VerifyAssetAndProductAssetTypeStartDate(string startDate)
+        {
+
+            Assert.AreEqual(startDate, GetElementText(assetAndProductAssetTypeStartDate));
             return this;
         }
     }

@@ -26,13 +26,14 @@
 	</RunConfiguration>
 	<TestRunParameters>
 		<Parameter name="browser" value="hchrome" />
+		<Parameter name="url" value="https://demo.echoweb.co.uk/" />
 	</TestRunParameters>
 	<!-- Configuration for loggers -->
 	<LoggerRunSettings>
 		<Loggers>
 			<Logger friendlyName="console" enabled="True">
 				<Configuration>
-					<Verbosity>quiet</Verbosity>
+					<Verbosity>normal</Verbosity>
 				</Configuration>
 			</Logger>
 		</Loggers>

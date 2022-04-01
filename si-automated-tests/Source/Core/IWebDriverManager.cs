@@ -5,6 +5,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
+using si_automated_tests.Source.Main.Constants;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 
@@ -14,8 +15,7 @@ namespace si_automated_tests.Source.Core
     {
         public static ThreadLocal<IWebDriver> drivers = new ThreadLocal<IWebDriver>();
         public static ThreadLocal<IWebDriver> Drivers { get => drivers; set => drivers = value; }
-
-        public static string Browser;
+        public static ThreadLocal<string> Brw { get; set; } = new ThreadLocal<string>();
 
         public static IWebDriver GetDriver()
         {
@@ -61,15 +61,15 @@ namespace si_automated_tests.Source.Core
                     new DriverManager().SetUpDriver(new ChromeConfig());
                     Drivers.Value = new ChromeDriver();
                 }
-                System.Console.WriteLine("Setting up " + browser);
-                Browser = browser;
+                Logger.Get().Info("Setting up " + browser);
+                Brw.Value = browser;
             }
             catch (NullReferenceException)
             {
-                System.Console.WriteLine("Browser not specified, setting up for Chrome");
+                Logger.Get().Info("Browser not specified, setting up for Chrome");
                 new DriverManager().SetUpDriver(new ChromeConfig());
                 Drivers.Value = new ChromeDriver();
-                Browser = "chrome";
+                Brw.Value = "chrome";
             }
             Drivers.Value.Manage().Window.Maximize();
         }
@@ -107,8 +107,8 @@ namespace si_automated_tests.Source.Core
                 new DriverManager().SetUpDriver(new ChromeConfig());
                 Drivers.Value = new ChromeDriver();
             }
-            System.Console.WriteLine("Setting up " + browser);
-            Browser = browser;
+            Logger.Get().Info("Setting up " + browser);
+            Brw.Value = browser;
             Drivers.Value.Manage().Window.Maximize();
         }
     }
