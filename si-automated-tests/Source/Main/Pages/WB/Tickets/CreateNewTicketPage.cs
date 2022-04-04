@@ -17,6 +17,8 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         private readonly By ticketTypeDd = By.CssSelector("select[id='ticket-type']");
         private readonly By haulierDd = By.CssSelector("select[id='haulier']");
         private readonly By addTicketLineBtn = By.XPath("//button[text()='Add']");
+        private readonly By licenceNumberExpDate = By.CssSelector("input[id='licence-number-expiry']");
+        private readonly By licenceNumber = By.CssSelector("input[id='licence-number']");
 
         //Ticket line
         private readonly By productDd = By.XPath("//tbody[@data-bind='foreach: ticketLines']//td[2]/select");
@@ -126,6 +128,18 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return this;
         }
 
+        public CreateNewTicketPage InputLicenceNumberExpDate()
+        {
+            SendKeys(licenceNumberExpDate, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT));
+            return this;
+        }
+
+        public CreateNewTicketPage InputLicenceNumber()
+        {
+            SendKeys(licenceNumber, CommonUtil.GetRandomNumber(5));
+            return this;
+        }
+
         //Ticket line - Product Column
         public CreateNewTicketPage ClickProductDd()
         {
@@ -170,7 +184,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         //Ticket line - Second Date
         public CreateNewTicketPage InputSecondDate()
         {
-            SendKeys(firstDateInput, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT));
+            SendKeys(secondDateInput, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT));
             return this;
         }
     }

@@ -29,7 +29,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private readonly By allRowInTabel = By.XPath("//div[@class='grid-canvas']/div");
 
         //PRODUCT TAB
-        private readonly By productTab = By.XPath("//a[test()='Products']");
+        private readonly By productTab = By.XPath("//a[text()='Products']");
         private readonly By addNewProductItem = By.XPath("//div[@id='weighbridgeSiteProductLocations-tab']//button[text()='Add New Item']");
 
         //DYNAMIC LOCATOR
