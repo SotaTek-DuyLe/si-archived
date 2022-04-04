@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -37,6 +36,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         private string partyName045 = "Auto045Customer" + CommonUtil.GetRandomString(2);
         private string partyName047 = "Auto047Haulier" + CommonUtil.GetRandomString(2);
         private string resourceName;
+        private string stationNameTC48 = "AutoStation" + CommonUtil.GetRandomNumber(4);
 
         public override void Setup()
         {
@@ -125,12 +125,12 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded45)
                 .SelectCreatedAddress(addressAdded45)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved party.");
+                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
             //Internal flag checked
             detailPartyPage
                 .ClickInternalCheckbox()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved party.");
+                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
             //Navigate to Site page
 
             detailPartyPage
@@ -265,7 +265,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayYellowMesInLicenceNumberExField()
                 .VerifyForcusOnLicenceNumberExField()
                 .VerifyDisplayGreenBoderInLicenceNumberExField()
-                .InputLienceNumberExField(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .InputLienceNumberExField(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2))
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
@@ -328,7 +328,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Test(Description = "WB Station"), Order(5)]
         public void TC_048_WB_Station()
         {
-            string stationName = "AutoStation" + CommonUtil.GetRandomNumber(2);
             //Verify data in TC45, 46, 47 not apprear in WB Site
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Weighbridge")
@@ -379,22 +378,22 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn();
             //Missing message error name input
             createStationPage
-                .InputName(stationName)
+                .InputName(stationNameTC48)
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage("Successfully saved Weighbridge Station");
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBStationSuccessMessage);
             createStationPage
                 .SelectDefaultTicket("Incoming")
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage("Successfully saved Weighbridge Station")
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBStationSuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
                 .ClickStationTab()
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage("Successfully saved Site")
+                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
                 .ClickSaveAndCloseBtn()
                 .SwitchToChildWindow(2);
             detailPartyPage
@@ -433,7 +432,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectResourceType(resourceType)
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SaveResourceSuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1)
                 .SwitchNewIFrame()
@@ -486,7 +485,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectResourceType(resourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SaveResourceSuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1)
                 .SwitchNewIFrame()
@@ -529,7 +528,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .InputHaulierName(partyName047)
                 .SelectHaulierName(partyName047)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Weighbridge Vehicle Customer Haulier Successfully registered")
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBVCHRegistered)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Verify party customer
@@ -614,11 +613,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForAddLocationPageLoaded()
                 .VerifyDisplayPartySitePage()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Name is required");
+                .VerifyToastMessage(MessageRequiredFieldConstants.NameRequiredMessage);
             addLocationPage
                 .InputName(locationNameNotActive)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Weighbridge Site Location")
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
@@ -630,7 +629,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .InputName(locationNameActive)
                 .SelectActiveCheckbox()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Weighbridge Site Location");
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage);
             addLocationPage
                 .VerifyActiveCheckboxSelected()
                 .ClickCloseBtn()
@@ -651,7 +650,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectActiveCheckbox()
                 .InputClientName(clientRef)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Weighbridge Site Location")
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             List<LocationModel> allModelsNew = siteDetailPage
@@ -707,7 +706,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             siteDetailPage
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage("Successfully saved Site")
+                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
                 .ClickSaveAndCloseBtn()
                 .SwitchToChildWindow(2);
             detailPartyPage
@@ -739,6 +738,122 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createNewTicketPage
                 .VerifyDisplayVehicleType("Van")
                 .VerifyDisplayTicketTypeInput();
+        }
+
+        [Category("WB")]
+        [Test(Description = "WB Site product 1"), Order(10)]
+        public void TC_054_WB_Site_product_1()
+        {
+            string product = "Food";
+            string ticketType = "Incoming";
+
+            //Find party - Customer: TC045
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(Int32.Parse(partyIdCustomer))
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .OpenFirstSiteRow()
+                .SwitchToLastWindow();
+            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
+            siteDetailPage
+                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
+                //Create new product TC54
+                .ClickProductTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .VerifyDisplayColumnInProductTabGrid()
+                .ClickAddNewLocationItem()
+                .SwitchToLastWindow();
+            AddProductPage addProductPage = PageFactoryManager.Get<AddProductPage>();
+            addProductPage
+                .WaitForAddProductPageDisplayed()
+                .IsAddProductPage()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageRequiredFieldConstants.ProductRequiredMessage);
+            //Select any product
+            addProductPage
+                .ClickAnyProduct(product)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageRequiredFieldConstants.TicketTypeRequiredMessage);
+            //Select any ticket Type
+            addProductPage
+                .ClickAnyTicketType(ticketType)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            siteDetailPage
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                .ClickSaveAndCloseBtn()
+                .SwitchToChildWindow(2);
+            //Back to the WB ticket (same the TC053)
+            detailPartyPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Weighbridge")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Tickets")
+                .SwitchNewIFrame();
+            TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
+            ticketListingPage
+                .WaitForLoadingIconToDisappear();
+            ticketListingPage
+                .ClickAddNewTicketBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC48)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                //Verify vehicle type field displayed
+                .VerifyDisplayVehicleType("Van")
+                //Verify Ticket Type field displayed
+                .VerifyDisplayTicketTypeInput()
+                .ClickTicketType()
+                .VerifyValueInTicketTypeDd()
+                //Select Ticket Type is the same with TicketType of the product
+                .ClickAnyTicketType(ticketType)
+                //Verify Haulie field displayed
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyName047)
+                .WaitForLoadingIconToDisappear();
+            //Add ticket line
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                //Select Product created
+                .ClickProductDd()
+                .ClickAnyProductValue(product)
+                //Verify Location
+                .VerifyNoLocationIsPrepolulated()
+                //Mandatory field remaining
+                .InputFirstWeight(2)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(1)
+                //Input Licence Number
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBTicketSuccessMessage);
         }
     }
 }

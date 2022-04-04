@@ -28,6 +28,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private readonly By locationTab = By.XPath("//a[text()='Locations']");
         private readonly By allRowInTabel = By.XPath("//div[@class='grid-canvas']/div");
 
+        //PRODUCT TAB
+        private readonly By productTab = By.XPath("//a[text()='Products']");
+        private readonly By addNewProductItem = By.XPath("//div[@id='weighbridgeSiteProductLocations-tab']//button[text()='Add New Item']");
+
         //DYNAMIC LOCATOR
         private const string allPrimaryContactValue = "//select[@id='primary-contact']/option";
         private const string primaryContactValue = "//select[@id='primary-contact']/option[text()='{0}']";
@@ -39,6 +43,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private const string messageAtMapTab = "//div[@class='notifyjs-corner']//div[text()='{0}']";
         private const string columnInRow = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private const string nameOfColumnInLocationTab = "//div[@id='weighbridgeSiteLocations-tab']//span[text()='{0}']/parent::div";
+        private const string nameOfColumnInProductTab = "//div[@id='weighbridgeSiteProductLocations-tab']//span[text()='{0}']/parent::div";
 
         public SiteDetailPage WaitForSiteDetailPageLoaded()
         {
@@ -213,6 +218,29 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             }
             Assert.AreEqual(client, locationModel.Client);
             return this;
+        }
+
+        //PRODUCT TAB
+        public SiteDetailPage ClickProductTab()
+        {
+            ClickOnElement(productTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public SiteDetailPage VerifyDisplayColumnInProductTabGrid()
+        {
+            foreach(string column in CommonConstants.ProductTabColumn)
+            {
+                Assert.IsTrue(IsControlDisplayed(nameOfColumnInProductTab, column));
+            }
+            return this;
+        }
+
+        public AddProductPage ClickAddNewProductItem()
+        {
+            ClickOnElement(addNewProductItem);
+            return PageFactoryManager.Get< AddProductPage>();
         }
     }
 }

@@ -27,5 +27,8 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string BoderColorResourceInputWB = "rgb(160, 65, 63)";
         public static readonly string BoderColorHaulierInputWB = "rgb(156, 63, 61)";
         public static readonly string[] LocationTabColumn = { "ID", "Location", "Active", "Client #" };
+        public static readonly string[] ProductTabColumn = { "ID", "Product", "Ticket Type", "Default Location", "Is Location Mandatory", "Is Restrict Location", "Start Date", "End Date" };
+        public static readonly string[] TicketType = { "Select...", "Incoming", "Neutral", "Outbound" };
+        
     }
 }
