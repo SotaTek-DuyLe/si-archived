@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -571,175 +570,175 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyVehicleCreated(allVehicleCustomerHaulier[0], resourceName, partyName045, partyName047, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonConstants.EndDateAgreement);
         }
 
-        //[Category("WB")]
-        //[Test(Description = "WB Location"), Order(8)]
-        //public void TC_052_WB_Location()
-        //{
-        //    string locationNameNotActive = "Location52WBNotActive" + CommonUtil.GetRandomNumber(2);
-        //    string locationNameActive = "Location52WBActive" + CommonUtil.GetRandomNumber(2);
-        //    string clientRef = "Client" + CommonUtil.GetRandomNumber(2);
+        [Category("WB")]
+        [Test(Description = "WB Location"), Order(8)]
+        public void TC_052_WB_Location()
+        {
+            string locationNameNotActive = "Location52WBNotActive" + CommonUtil.GetRandomNumber(2);
+            string locationNameActive = "Location52WBActive" + CommonUtil.GetRandomNumber(2);
+            string clientRef = "Client" + CommonUtil.GetRandomNumber(2);
 
-        //    //Navigate to party detail in TC048
-        //    PageFactoryManager.Get<NavigationBase>()
-        //        .ClickMainOption("Parties")
-        //        .ExpandOption("North Star Commercial")
-        //        .OpenOption("Parties")
-        //        .SwitchNewIFrame()
-        //        .WaitForLoadingIconToDisappear();
-        //    PageFactoryManager.Get<PartyCommonPage>()
-        //        .FilterPartyById(Int32.Parse(partyIdCustomer))
-        //        .OpenFirstResult()
-        //        .SwitchToLastWindow()
-        //        .WaitForLoadingIconToDisappear();
-        //    DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-        //    detailPartyPage
-        //        .WaitForDetailPartyPageLoadedSuccessfully(partyName045)
-        //        .ClickOnSitesTab()
-        //        .WaitForLoadingIconToDisappear();
-        //    detailPartyPage
-        //        .OpenFirstSiteRow()
-        //        .SwitchToLastWindow()
-        //        .WaitForLoadingIconToDisappear();
-        //    SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
-        //    siteDetailPage
-        //        .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
-        //        .ClickOnLocationTab()
-        //        .WaitForLoadingIconToDisappear();
-        //    siteDetailPage
-        //        .VerifyDisplayColumnInGrid()
-        //        .ClickAddNewLocationItem()
-        //        .SwitchToLastWindow();
-        //    AddLocationPage addLocationPage = PageFactoryManager.Get<AddLocationPage>();
-        //    addLocationPage
-        //        .WaitForAddLocationPageLoaded()
-        //        .VerifyDisplayPartySitePage()
-        //        .ClickSaveBtn()
-        //        .VerifyToastMessage(MessageRequiredFieldConstants.NameRequiredMessage);
-        //    addLocationPage
-        //        .InputName(locationNameNotActive)
-        //        .ClickSaveBtn()
-        //        .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
-        //        .ClickCloseBtn()
-        //        .SwitchToChildWindow(3);
-        //    siteDetailPage
-        //        .ClickAddNewLocationItem()
-        //        .SwitchToLastWindow();
-        //    addLocationPage
-        //        .WaitForAddLocationPageLoaded()
-        //        .VerifyDisplayPartySitePage()
-        //        .InputName(locationNameActive)
-        //        .SelectActiveCheckbox()
-        //        .ClickSaveBtn()
-        //        .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage);
-        //    addLocationPage
-        //        .VerifyActiveCheckboxSelected()
-        //        .ClickCloseBtn()
-        //        .SwitchToChildWindow(3);
-        //    //Verify in grid
-        //    List<LocationModel> allModels = siteDetailPage
-        //        .GetAllLocationInGrid();
-        //    siteDetailPage
-        //        .VerifyLocationCreated(allModels[0], locationNameActive, true, "")
-        //        .VerifyLocationCreated(allModels[1], locationNameNotActive, false, "");
-        //    siteDetailPage
-        //        .ClickAddNewLocationItem()
-        //        .SwitchToLastWindow();
-        //    addLocationPage
-        //        .WaitForAddLocationPageLoaded()
-        //        .VerifyDisplayPartySitePage()
-        //        .InputName(locationNameActive)
-        //        .SelectActiveCheckbox()
-        //        .InputClientName(clientRef)
-        //        .ClickSaveBtn()
-        //        .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
-        //        .ClickCloseBtn()
-        //        .SwitchToChildWindow(3);
-        //    List<LocationModel> allModelsNew = siteDetailPage
-        //        .GetAllLocationInGrid();
-        //    siteDetailPage
-        //        .VerifyLocationCreated(allModelsNew[0], locationNameActive, true, clientRef);
-        //}
+            //Navigate to party detail in TC048
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(Int32.Parse(partyIdCustomer))
+                .OpenFirstResult()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName045)
+                .ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .OpenFirstSiteRow()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
+            siteDetailPage
+                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
+                .ClickOnLocationTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .VerifyDisplayColumnInGrid()
+                .ClickAddNewLocationItem()
+                .SwitchToLastWindow();
+            AddLocationPage addLocationPage = PageFactoryManager.Get<AddLocationPage>();
+            addLocationPage
+                .WaitForAddLocationPageLoaded()
+                .VerifyDisplayPartySitePage()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageRequiredFieldConstants.NameRequiredMessage);
+            addLocationPage
+                .InputName(locationNameNotActive)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            siteDetailPage
+                .ClickAddNewLocationItem()
+                .SwitchToLastWindow();
+            addLocationPage
+                .WaitForAddLocationPageLoaded()
+                .VerifyDisplayPartySitePage()
+                .InputName(locationNameActive)
+                .SelectActiveCheckbox()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage);
+            addLocationPage
+                .VerifyActiveCheckboxSelected()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            //Verify in grid
+            List<LocationModel> allModels = siteDetailPage
+                .GetAllLocationInGrid();
+            siteDetailPage
+                .VerifyLocationCreated(allModels[0], locationNameActive, true, "")
+                .VerifyLocationCreated(allModels[1], locationNameNotActive, false, "");
+            siteDetailPage
+                .ClickAddNewLocationItem()
+                .SwitchToLastWindow();
+            addLocationPage
+                .WaitForAddLocationPageLoaded()
+                .VerifyDisplayPartySitePage()
+                .InputName(locationNameActive)
+                .SelectActiveCheckbox()
+                .InputClientName(clientRef)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            List<LocationModel> allModelsNew = siteDetailPage
+                .GetAllLocationInGrid();
+            siteDetailPage
+                .VerifyLocationCreated(allModelsNew[0], locationNameActive, true, clientRef);
+        }
 
-        //[Category("WB")]
-        //[Test(Description = "WB Station No ticket type"), Order(9)]
-        //public void TC_053_WB_Station_No_ticket_type()
-        //{
-        //    string stationName = "AutoStation" + CommonUtil.GetRandomNumber(2);
-        //    //Back to the party customer in TC45
-        //    PageFactoryManager.Get<NavigationBase>()
-        //        .ClickMainOption("Parties")
-        //        .ExpandOption("North Star Commercial")
-        //        .OpenOption("Parties")
-        //        .SwitchNewIFrame();
-        //    PageFactoryManager.Get<PartyCommonPage>()
-        //        .FilterPartyById(Int32.Parse(partyIdCustomer))
-        //        .OpenFirstResult()
-        //        .SwitchToLastWindow();
-        //    DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-        //    detailPartyPage
-        //        .ClickOnSitesTab()
-        //        .WaitForLoadingIconToDisappear();
-        //    detailPartyPage
-        //        .OpenFirstSiteRow()
-        //        .SwitchToLastWindow();
-        //    SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
-        //    siteDetailPage
-        //        .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
-        //        .ClickStationTab()
-        //        .WaitForLoadingIconToDisappear();
-        //    siteDetailPage
-        //        .ClickAddNewStationItem()
-        //        .SwitchToLastWindow();
-        //    CreateStationPage createStationPage = PageFactoryManager.Get<CreateStationPage>();
-        //    createStationPage
-        //        .WaitForLoadingIconToDisappear();
-        //    createStationPage
-        //        .WaitForCreateStationPageLoaded("WEIGHBRIDGE STATION")
-        //        .IsCreateStationPage()
-        //        .ClickSaveBtn();
-        //    createStationPage
-        //        .VerifyDisplayErrorMesMissingTimezone()
-        //        .SelectTimezone("Europe/London")
-        //        .InputName(stationName)
-        //        .ClickSaveBtn()
-        //        .ClickCloseBtn()
-        //        .SwitchToChildWindow(3);
-        //    siteDetailPage
-        //        .ClickSaveBtn()
-        //        .WaitForLoadingIconToDisappear()
-        //        .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-        //        .ClickSaveAndCloseBtn()
-        //        .SwitchToChildWindow(2);
-        //    detailPartyPage
-        //        .ClickCloseBtn()
-        //        .SwitchToChildWindow(1)
-        //        .SwitchNewIFrame()
-        //        .SwitchToDefaultContent();
-        //    PageFactoryManager.Get<NavigationBase>()
-        //        .ClickMainOption("Weighbridge")
-        //        .ExpandOption("North Star Commercial")
-        //        .OpenOption("Tickets")
-        //        .SwitchNewIFrame();
-        //    TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
-        //    ticketListingPage
-        //        .WaitForLoadingIconToDisappear();
-        //    ticketListingPage
-        //        .ClickAddNewTicketBtn()
-        //        .SwitchToLastWindow()
-        //        .WaitForLoadingIconToDisappear();
-        //    CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
-        //    createNewTicketPage
-        //        .IsCreateNewTicketPage()
-        //        .ClickStationDdAndSelectStation(stationName)
-        //        .WaitForLoadingIconToDisappear();
-        //    createNewTicketPage
-        //        .VerifyDisplayVehicleRegInput()
-        //        .InputVehicleRegInput(resourceName)
-        //        .WaitForLoadingIconToDisappear();
-        //    createNewTicketPage
-        //        .VerifyDisplayVehicleType("Van")
-        //        .VerifyDisplayTicketTypeInput();
-        //}
+        [Category("WB")]
+        [Test(Description = "WB Station No ticket type"), Order(9)]
+        public void TC_053_WB_Station_No_ticket_type()
+        {
+            string stationName = "AutoStation" + CommonUtil.GetRandomNumber(2);
+            //Back to the party customer in TC45
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(Int32.Parse(partyIdCustomer))
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .OpenFirstSiteRow()
+                .SwitchToLastWindow();
+            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
+            siteDetailPage
+                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
+                .ClickStationTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .ClickAddNewStationItem()
+                .SwitchToLastWindow();
+            CreateStationPage createStationPage = PageFactoryManager.Get<CreateStationPage>();
+            createStationPage
+                .WaitForLoadingIconToDisappear();
+            createStationPage
+                .WaitForCreateStationPageLoaded("WEIGHBRIDGE STATION")
+                .IsCreateStationPage()
+                .ClickSaveBtn();
+            createStationPage
+                .VerifyDisplayErrorMesMissingTimezone()
+                .SelectTimezone("Europe/London")
+                .InputName(stationName)
+                .ClickSaveBtn()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            siteDetailPage
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                .ClickSaveAndCloseBtn()
+                .SwitchToChildWindow(2);
+            detailPartyPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Weighbridge")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Tickets")
+                .SwitchNewIFrame();
+            TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
+            ticketListingPage
+                .WaitForLoadingIconToDisappear();
+            ticketListingPage
+                .ClickAddNewTicketBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleType("Van")
+                .VerifyDisplayTicketTypeInput();
+        }
 
         [Category("WB")]
         [Test(Description = "WB Site product 1"), Order(10)]
