@@ -10,6 +10,7 @@ using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyWBTicketPage;
 
 namespace si_automated_tests.Source.Main.Pages.Paties
 {
@@ -26,6 +27,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string PartyName = "//div[text()='{0}']";
         private readonly By title = By.XPath("//h4[text()='Party']");
         private readonly By wBtab = By.XPath("//a[text()='Weighbridge Settings']");
+        private readonly By wBTicketTab = By.XPath("//a[text()='Weighbridge Tickets']");
 
         //COMMON DYNAMIC LOCATOR
         private const string partyName = "//p[text()='{0}']";
@@ -112,6 +114,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By downloadBtn = By.CssSelector("input#party-licence-number + span");
 
         private const string authoriseTypingOption = "//label[text()='Authorise Tipping']/following-sibling::div//label[text()='{0}']/input";
+
+        //WB TICKET TAB
+        private readonly By addNewItemWBTicket = By.XPath("//div[@id='weighbridgeTickets-tab']//button[text()='Add New Item']");
 
         //VEHICLE TAB
         private const string ColumnInGrid = "//span[text()='{0}']/parent::div";
@@ -761,7 +766,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(hireEnd, vehicleModelDisplayed.HireEnd);
             return this;
         }
-    
+
+        //WB ticket tab
+        public DetailPartyPage ClickWBTicketTab()
+        {
+            ClickOnElement(wBTicketTab);
+            return this;
+        }
+
+        public AddWBTicketPage ClickAddNewWBTicketBtn()
+        {
+            ClickOnElement(addNewItemWBTicket);
+            return PageFactoryManager.Get<AddWBTicketPage>();
+        }
+
     }
 
 }
