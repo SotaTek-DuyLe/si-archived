@@ -13,8 +13,8 @@ namespace si_automated_tests.Source.Main.Pages.Round
         private readonly By headers = By.XPath("//div[@id='default-resources']/table/thead//th");
         private readonly By endDates = By.XPath("//tr[@data-bind='with: $data.getFields()']//input[@id='endDate.id']/following-sibling::span");
         private readonly By subEndDates = By.XPath("//tr[@class='child-container-row accordian-body collapse in']//input[@id='endDate.id']/following-sibling::span");
-        private readonly By activeMonthYear = By.XPath("//div[@class='bootstrap-datetimepicker-widget dropdown-menu picker-open bottom' and contains(@style,'display: block;')]//div[@class='datepicker-days']//th[@class='picker-switch']");
-        private readonly By activeDay = By.XPath("//div[@class='bootstrap-datetimepicker-widget dropdown-menu picker-open bottom' and contains(@style,'display: block;')]//div[@class='datepicker-days']//td[@class='day active']");
+        private readonly By activeMonthYear = By.XPath("//div[contains(@class,'bootstrap-datetimepicker-widget dropdown-menu picker-open') and contains(@style,'display: block;')]//div[@class='datepicker-days']//th[@class='picker-switch']");
+        private readonly By activeDay = By.XPath("//div[contains(@class,'bootstrap-datetimepicker-widget dropdown-menu picker-open') and contains(@style,'display: block;')]//div[@class='datepicker-days']//td[@class='day active']");
         private readonly By expandBtn = By.XPath("//div[@id='toggle-actions']");
         public RoundDefaultResourceTab IsOnDefaultResourceTab()
         {
@@ -29,6 +29,7 @@ namespace si_automated_tests.Source.Main.Pages.Round
         }
         public RoundDefaultResourceTab ClickOnSubEndDate(int whichOneInOrder)
         {
+            SleepTimeInMiliseconds(500);
             IList<IWebElement> _subEndDates = WaitUtil.WaitForAllElementsVisible(subEndDates);
             ClickOnElement(_subEndDates[whichOneInOrder - 1]);
             return this;
