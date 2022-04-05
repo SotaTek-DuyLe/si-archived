@@ -169,6 +169,14 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return this;
         }
 
+        public CreateNewTicketPage VerifyLocationDeletedNotDisplay(string locationDeleted)
+        {
+            ClickOnElement(locationDd);
+            //Verify
+            Assert.IsTrue(IsControlUnDisplayed(locationOption, locationDeleted));
+            return this;
+        }
+
         //Ticket line - First Weight
         public CreateNewTicketPage InputFirstWeight(int firstW)
         {

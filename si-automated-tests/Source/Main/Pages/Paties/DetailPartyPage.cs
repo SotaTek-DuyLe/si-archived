@@ -10,7 +10,7 @@ using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
-using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyWBTicketPage;
+using si_automated_tests.Source.Main.Pages.WB.Tickets;
 
 namespace si_automated_tests.Source.Main.Pages.Paties
 {
@@ -774,10 +774,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
 
-        public AddWBTicketPage ClickAddNewWBTicketBtn()
+        public CreateNewTicketPage ClickAddNewWBTicketBtn()
         {
             ClickOnElement(addNewItemWBTicket);
-            return PageFactoryManager.Get<AddWBTicketPage>();
+            return PageFactoryManager.Get<CreateNewTicketPage>();
         }
 
     }

@@ -20,12 +20,14 @@ namespace si_automated_tests.Source.Main.Constants
             catch (NullReferenceException)
             {
                 Logger.Get().Info("Url not specified, using default url");
-                url = "https://test.echoweb.co.uk/";
+                //url = "https://test.echoweb.co.uk/";
+                url = "https://demo.echoweb.co.uk/web/";
             }
             if (url == null)
             {
                 Logger.Get().Info("Url not specified, using default url");
-                url = "https://test.echoweb.co.uk/";
+                //url = "https://test.echoweb.co.uk/";
+                url = "https://demo.echoweb.co.uk/web/";
             }
             MainPageUrl = url;
             MainPageUrlIE = url + "echo2/echo2extra/mainframe.aspx";

@@ -20,10 +20,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private readonly By clientRefInput = By.CssSelector("input[id='clientReference']");
         private readonly By productBtnExpanded = By.XPath("//button[@data-id='product' and @aria-expanded='true']");
         private readonly By ticketTypeBtnExpanded = By.XPath("//button[@data-id='ticket-type' and @aria-expanded='true']");
+        private readonly By defaultLocationDd = By.CssSelector("select[id='default-location']");
 
         //DYNAMIC LOCATOR
         private const string anyProductOption = "//select[@id='product']/option[text()='{0}']";
         private const string anyTicketTypeOption = "//select[@id='ticket-type']/option[text()='{0}']";
+        private const string anyLocationOption = "//select[@id='default-location']/option[text()='{0}']";
 
         public AddProductPage WaitForAddProductPageDisplayed()
         {
@@ -64,6 +66,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             ClickOnElement(ticketTypeBtn);
             WaitUtil.WaitForElementVisible(ticketTypeBtnExpanded);
             ClickOnElement(anyTicketTypeOption, ticketTypeName);
+            return this;
+        }
+
+        public AddProductPage ClickDefaultLocationDdAndSelectAnyOption(string locationName)
+        {
+            ClickOnElement(defaultLocationDd);
+            //Select location
+            ClickOnElement(anyLocationOption, locationName);
             return this;
         }
     }
