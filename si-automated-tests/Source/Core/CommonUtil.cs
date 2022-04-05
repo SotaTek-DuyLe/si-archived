@@ -28,6 +28,10 @@ namespace si_automated_tests.Source.Core
         {
             return DateTime.Now.AddDays(day).ToString(format).Replace('-', '/');
         }
+        public static string GetLocalTimeMinusMonth(string format, int month)
+        {
+            return DateTime.Now.AddMonths(month).ToString(format).Replace('-', '/');
+        }
         public static string GetLocalTimeFromDate(string now, string format, int day)
         {
             return DateTime.ParseExact(now, format, CultureInfo.InvariantCulture).AddDays(day).ToString(format).Replace('-', '/');

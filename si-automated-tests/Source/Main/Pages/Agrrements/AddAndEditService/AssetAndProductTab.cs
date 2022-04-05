@@ -50,7 +50,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         }
         public AssetAndProducTab ClickAssetType()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             ClickOnElement(assetType);
             return this;
         }

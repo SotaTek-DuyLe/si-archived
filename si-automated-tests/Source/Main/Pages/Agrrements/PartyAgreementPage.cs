@@ -27,6 +27,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private readonly By closeBtn = By.XPath("//button[@title='Close Without Saving']");
         private readonly By status = By.XPath("//div[@title='Agreement Status']");
         private string agreementStatus = "//div[@title='Agreement Status']//span[text()='{0}']";
+        private readonly By statusInRed = By.XPath("//div[@title='Agreement Status' and @class='red-status']");
 
         private readonly By agreementTypeInput = By.Id("agreement-type");
         private readonly By startDateInput = By.Id("start-date");
@@ -151,9 +152,12 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         }
         public PartyAgreementPage VerifyAgreementStatusWithText(string _status)
         {
-            Thread.Sleep(10000);
-            WaitUtil.WaitForElementInvisible(agreementStatus, _status);
             Assert.IsTrue(IsControlDisplayed(agreementStatus, _status));
+            return this;
+        }
+        public PartyAgreementPage VerifyAgreementStatusInRedBackground()
+        {
+            Assert.IsTrue(IsControlDisplayed(statusInRed));
             return this;
         }
         public PartyAgreementPage VerifyNewOptionsAvailable()
