@@ -160,7 +160,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("All Resources");
             //Drag resource type to round
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Resource",resourceName)
+                .FilterResource("Resource", resourceName)
                 .VerifyFirstResultValue("Resource", resourceName)
                 .DragAndDropFirstResultToRound(2)
                 .VerifyToastMessage("Default Resource Set");
@@ -246,7 +246,6 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd", 3);
             string dateInFurtherFutre = CommonUtil.GetLocalTimeMinusDay("dd", 4);
             string monthYearInFuture = CommonUtil.GetLocalTimeMinusDay("MMMM yyyy", 3);
-            string monthYearInFurtherFuture = CommonUtil.GetLocalTimeMinusDay("MMMM yyyy", 4);
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string resourceType = "Driver";
 
@@ -289,6 +288,22 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Resource", resourceName)
                 .DragAndDropFirstResultToRound(2)
                 .VerifyToastMessage("Default Resource Set");
+            //Verify End date is updated on round 
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickRound(roundName)
+                .ClickViewRoundGroup()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear()
+                .SwitchToTab("Default Resources");
+            PageFactoryManager.Get<RoundDefaultResourceTab>()
+                .IsOnDefaultResourceTab()
+                .ExpandOption(2)
+                .ClickOnSubEndDate(1)
+                .VerifyEndDateIsDefault()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+
             //Move to future date and deallocate resource type from round
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCalendar()
@@ -298,6 +313,22 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceName)
                 .VerifyToastMessage("Default resource cleared");
+            //Verify End date is updated on round 
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickRound(roundName)
+                .ClickViewRoundGroup()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear()
+                .SwitchToTab("Default Resources");
+            PageFactoryManager.Get<RoundDefaultResourceTab>()
+                .IsOnDefaultResourceTab()
+                .ExpandOption(2)
+                .ClickOnSubEndDate(1)
+                .VerifyEndDateIs(monthYearInFuture, dateInFutre)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+
             //Move to further future date and allocate resource:
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCalendar()
@@ -311,7 +342,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                .VerifyToastMessage("Default Resource Set");
             //Verify End date is updated on round in future
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .ClickRound("SKIP2 Daily Daily")
+                .ClickRound(roundName)
                 .ClickViewRoundGroup()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear()
