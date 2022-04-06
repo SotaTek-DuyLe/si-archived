@@ -76,5 +76,11 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             ClickOnElement(anyLocationOption, locationName);
             return this;
         }
+
+        public AddProductPage ClickOnIsLocationMandatoryCheckbox()
+        {
+            ClickOnElement(isLocationMandatoryCheckbox);
+            return this;
+        }
     }
 }

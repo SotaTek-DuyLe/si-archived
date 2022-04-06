@@ -169,11 +169,24 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return this;
         }
 
+        public CreateNewTicketPage VerifyLocationPrepolulated(string locationName)
+        {
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(locationDd), locationName);
+            return this;
+        }
+
         public CreateNewTicketPage VerifyLocationDeletedNotDisplay(string locationDeleted)
         {
             ClickOnElement(locationDd);
             //Verify
             Assert.IsTrue(IsControlUnDisplayed(locationOption, locationDeleted));
+            return this;
+        }
+
+        public CreateNewTicketPage SelectLocation(string locationName)
+        {
+            ClickOnElement(locationDd);
+            ClickOnElement(locationOption, locationName);
             return this;
         }
 
