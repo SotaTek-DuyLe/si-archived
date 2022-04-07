@@ -22,6 +22,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         private readonly By totalProductQuantity = By.Id("total-product-quantity");
         private readonly By doneBtn = By.XPath("//button[text()='Done']");
         private readonly By summaryText = By.XPath("//span[@data-bind='text: description']");
+        private readonly By assetOnSiteCheckBox = By.Id("asset-on-site");
+        private readonly By numberOfAssetOnSite = By.Id("number-of-assets-on-site");
 
         private string assetTypeOptions = "//select[@id='asset-type']/option[text()='{0}']";
 
@@ -107,6 +109,19 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         {
             //unable to get text from this element
             //Assert.AreEqual(value.ToString(), GetElementText(totalProductQuantity));
+            return this;
+        }
+        public AssetAndProducTab TickAssetOnSite()
+        {
+            if (!IsElementSelected(assetOnSiteCheckBox))
+            {
+                ClickOnElement(assetOnSiteCheckBox);
+            }
+            return this;
+        }
+        public AssetAndProducTab InputAssetOnSiteNum(int value)
+        {
+            SendKeys(numberOfAssetOnSite, value.ToString());
             return this;
         }
         public AssetAndProducTab ClickDoneBtn()
