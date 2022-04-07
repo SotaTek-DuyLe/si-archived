@@ -9,6 +9,7 @@ namespace si_automated_tests.Source.Main.Constants
         public const string GENERAL_RECYCLING = "General Recycling";
         public const string ASSET_TYPE_660L = "660L";
         public const string TENURE_OWNED = "Owned";
+        public const string TENURE_RENTAL= "Rental";
         public const string DEFAULT_END_DATE = "01/01/2050";
         public const string KILOGRAMS = "Kilograms";
 
