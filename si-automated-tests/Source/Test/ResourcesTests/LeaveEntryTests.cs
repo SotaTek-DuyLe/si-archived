@@ -19,7 +19,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
     {
         [Category("Resources")]
         [Test]
-        public void TC_67()
+        public void TC_67_68()
         {
             string currentDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string details = CommonUtil.GetRandomString(5);
@@ -88,7 +88,31 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValue("Resource", resourceName)
-                .VerifyFirstResultValue("Verdict", "Pending");
+                .VerifyFirstResultValue("Verdict", "Pending")
+                .OpenFirstResult()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            //TC-68: APPROVE LEAVE ENTRY
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .IsOnLeaveEntryPage()
+                .ApproveLeaveEntry()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .ConfirmApprovalLeaveEntry()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(1000) //wait for window to be automatically closed
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<LeaveEntryPage>()
+               .IsOnLeaveEntryPage()
+               .CloseCurrentWindow()
+               .SwitchToLastWindow()
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValue("Resource", resourceName)
+                .VerifyFirstResultValue("Verdict", "Approved");
         }
     }
 }
