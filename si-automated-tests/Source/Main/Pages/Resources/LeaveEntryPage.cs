@@ -18,6 +18,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By approveBtn = By.XPath("//button[text()='Approve']");
         private readonly By declineBtn = By.XPath("//button[text()='Decline']");
         private readonly By confirmApprovalBtn = By.XPath("//button[text()='Yes, Approve']");
+        private readonly By confirmDeclineBtn = By.XPath("//button[text()='Yes, Decline']");
+        private readonly By confirmDeleteBtn = By.XPath("//button[text()='Yes']");
 
         public LeaveEntryPage IsOnLeaveEntryPage()
         {
@@ -75,9 +77,33 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             WaitForLoadingIconToDisappear();
             return this;
         }
+        public LeaveEntryPage DeclineLeaveEntry()
+        {
+            ClickOnElement(declineBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        public LeaveEntryPage DeleteLeaveEntry()
+        {
+            ClickOnElement(deleteBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
         public LeaveEntryPage ConfirmApprovalLeaveEntry()
         {
             ClickOnElement(confirmApprovalBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        public LeaveEntryPage ConfirmDeclineLeaveEntry()
+        {
+            ClickOnElement(confirmDeclineBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        public LeaveEntryPage ConfirmDeleteLeaveEntry()
+        {
+            ClickOnElement(confirmDeleteBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
