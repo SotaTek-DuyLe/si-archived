@@ -26,6 +26,15 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(_endDate, GetElementText(endDate));
             return this;
         }
+        public ServiceTaskLineTab verifyTaskInfo(String _assetType, String _scheduledAssetQty, String _product, String _unit, String _endDate)
+        {
+            Assert.AreEqual(_assetType, GetFirstSelectedItemInDropdown(assetType));
+            Assert.AreEqual(_scheduledAssetQty, GetAttributeValue(scheduleAssetQty, "value"));
+            Assert.AreEqual(_product, GetFirstSelectedItemInDropdown(product));
+            Assert.AreEqual(_unit, GetFirstSelectedItemInDropdown(unit));
+            Assert.AreEqual(_endDate, GetElementText(endDate));
+            return this;
+        }
 
         public ServiceTaskLineTab verifyTaskLineStartDate(string date)
         {

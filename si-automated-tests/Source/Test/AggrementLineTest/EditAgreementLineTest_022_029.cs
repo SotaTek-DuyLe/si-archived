@@ -1003,7 +1003,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickTaskTabBtn()
                 .WaitForLoadingIconToDisappear();
-           
+
             List<IWebElement> allTasks = PageFactoryManager.Get<TaskTab>()
                .VerifyNewDeliverCommercialBin(futureDueDate, 1);
             for (int i = 0; i < allTasks.Count; i++)
@@ -1966,6 +1966,176 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .verifyScheduleStartDate(tommorowDate)
                 .verifyScheduleEndDate(defautEndDate);
         }
+        [Category("EditAgreement")]
+        [Test]
+        public void TC_029A()
+        {
+            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
 
+            int agreementId = 43;
+
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser13.UserName, AutoUser13.Password)
+                .IsOnHomePage(AutoUser13);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Agreements")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItem(agreementId)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            //Retire service 
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickOnDetailsTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .VerifyAgreementLineNum(2)
+                .ClickRetireButton()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .VerifyRetirePopup()
+                .RetirePopupClickOK()
+                .VerifyToastMessage("Successfully retired Agreement")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .VerifyEndDate(tommorowDate)
+                .VerifyAgreementLineDisappear();
+        }
+        [Category("EditAgreement")]
+        [Test]
+        public void TC_029B()
+        {
+            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+            string partyName = "Whitton Baptist Church";
+
+            string assetType = AgreementConstants.ASSET_TYPE_1100L;
+            int assetQty = 1;
+            string product = AgreementConstants.GENERAL_RECYCLING;
+            string unit = AgreementConstants.KILOGRAMS;
+
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser13.UserName, AutoUser13.Password)
+                .IsOnHomePage(AutoUser13);
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption("Services")
+               .ExpandOption("Regions")
+               .ExpandOption("London")
+               .ExpandOption("North Star Commercial")
+               .ExpandOption("Collections")
+               .ExpandOption("Commercial Collections")
+               .OpenOption("Active Service Tasks")
+               .SwitchNewIFrame();
+            //Verify at Active Service Task
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .InputPartyNameToFilter(partyName)
+                .ClickApplyBtn()
+                .WaitForLoadingIconToDisappear();
+            List<IWebElement> allTasks = PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .VerifyTaskWithPartyNameAndDate(2, partyName, tommorowDate, "ENDDATE");
+            for (int i = 0; i < allTasks.Count; i++)
+            {
+                PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                    .OpenATask(allTasks[i])
+                    .SwitchToLastWindow();
+                PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<ServicesTaskPage>()
+                    .ClickOnTaskLineTab();
+                PageFactoryManager.Get<ServiceTaskLineTab>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<ServiceTaskLineTab>()
+                    .verifyTaskInfo(assetType, assetQty.ToString(), product, unit, tommorowDate);
+                PageFactoryManager.Get<ServicesTaskPage>()
+                    .ClickOnScheduleTask();
+                PageFactoryManager.Get<ServiceScheduleTab>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<ServiceScheduleTab>()
+                    .verifyScheduleEndDate(tommorowDate)
+                    .SwitchToFirstWindow()
+                    .SwitchNewIFrame();
+            }
+        }
+        [Category("EditAgreement")]
+        [Test]
+        public void TC_029C()
+        {
+            //Verify at task tab
+            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+
+            int agreementId = 43;
+            string assetType = AgreementConstants.ASSET_TYPE_1100L;
+            int assetQty = 1;
+            string product = AgreementConstants.GENERAL_RECYCLING;
+            string unit = AgreementConstants.KILOGRAMS;
+
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser13.UserName, AutoUser13.Password)
+                .IsOnHomePage(AutoUser13);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Agreements")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItem(agreementId)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickTaskTabBtn();
+            PageFactoryManager.Get<TaskTab>()
+                .WaitForLoadingIconToDisappear();
+            List<IWebElement> allTasks = PageFactoryManager.Get<TaskTab>()
+              .VerifyNewTaskAppearWithNum(2, "Unallocated", "Remove Commercial Bin", "09/04/2022", "");
+
+            for (int i = 0; i < allTasks.Count; i++)
+            {
+                PageFactoryManager.Get<TaskTab>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<TaskTab>()
+                    .GoToATask(allTasks[i])
+                    .SwitchToLastWindow();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .ClickToTaskLinesTab()
+                    .WaitForLoadingIconToDisappear();
+                if(i == 0)
+                {
+                    PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                   .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, "50", unit, "Unallocated");
+                }
+                else
+                {
+                    PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                   .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, "60", unit, "Unallocated");
+                }
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .CloseCurrentWindow()
+                    .SwitchToChildWindow(2);
+            }
+        }
     }
 }
