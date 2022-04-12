@@ -13,12 +13,13 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly string customBtn = "//button[text()='{0}']";
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
-        private readonly By firstResult = By.XPath("//div[@class='ui-widget-content slick-row even']");
+        private readonly By firstResult = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')]");
         private readonly By headers = By.XPath("//div[@class='ui-state-default slick-header-column slick-header-sortable ui-sortable-handle']/span[1]");
         private readonly By firstResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
         public CommonBrowsePage FilterItem(int id)
         {
             WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForAllElementsVisible(addNewItemBtn);
             SendKeys(filterInputById, id.ToString());
             ClickOnElement(applyBtn);
             return this;

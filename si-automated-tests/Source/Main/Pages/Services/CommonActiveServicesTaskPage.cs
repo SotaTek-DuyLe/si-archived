@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
@@ -67,6 +68,55 @@ namespace si_automated_tests.Source.Main.Pages.Services
                     partyNameList.Clear();
                 }
             }
+            return new ServicesTaskPage();
+        }
+
+        public List<IWebElement> VerifyTaskWithPartyNameAndDate(int num, string name, string date, string dateType)
+        {
+            int n = 3;
+            int j = 0;
+            List<IWebElement> result = new List<IWebElement>();
+            while (n > 0)
+            {
+                List<IWebElement> allRowsList = GetAllElements(allRows);
+                List<IWebElement> partyNameList = GetAllElements(partyNameColumns);
+                List<IWebElement> dateList = new List<IWebElement>();
+                if (dateType.Equals("STARTDATE"))
+                {
+                    dateList = GetAllElements(startDateColumns);
+                }
+                else
+                {
+                    dateList = GetAllElements(endDateColumns);
+                }
+
+                for (int i = 0; i < allRowsList.Count; i++)
+                {
+                    if (GetElementText(partyNameList[i]) == name && GetElementText(dateList[i]) == date)
+                    {
+                        result.Add(allRowsList[i]);
+                        j = 1;
+                    }
+                }
+                if (j == 0)
+                {
+                    ClickRefreshBtn();
+                    WaitForLoadingIconToDisappear();
+                    SleepTimeInMiliseconds(5000);
+                    n--;
+                    allRowsList.Clear();
+                    dateList.Clear();
+                    partyNameList.Clear();
+                }
+                else {break;}
+            }
+            Assert.AreEqual(num, result.Count);
+            return result;
+        }
+
+        public ServicesTaskPage OpenATask(IWebElement result)
+        {
+            DoubleClickOnElement(result);
             return new ServicesTaskPage();
         }
 
