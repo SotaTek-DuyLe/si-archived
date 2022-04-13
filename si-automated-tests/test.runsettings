@@ -26,7 +26,7 @@
 	</RunConfiguration>
 	<TestRunParameters>
 		<Parameter name="browser" value="hchrome" />
-		<Parameter name="url" value="https://demo.echoweb.co.uk/" />
+		<Parameter name="url" value="https://test.echoweb.co.uk/" />
 	</TestRunParameters>
 	<!-- Configuration for loggers -->
 	<LoggerRunSettings>

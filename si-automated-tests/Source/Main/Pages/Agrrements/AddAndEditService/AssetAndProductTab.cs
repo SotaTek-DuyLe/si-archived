@@ -15,12 +15,15 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         private readonly By assetQuantity = By.Id("asset-quantity");
         private readonly By assertQuantiryText = By.XPath("//label[text()='Asset Quantity']");
         private readonly By tenure = By.Id("tenure");
+        private readonly By deliveryDate = By.Id("delivery-date");
         private readonly By product = By.XPath("//select[@id='product' and contains(@data-bind,'availableProducts')]");
         private readonly By ewc = By.XPath("//select[@id='product' and contains(@data-bind,'productCodes')]");
         private readonly By productQuantity = By.Id("product-quantity");
         private readonly By totalProductQuantity = By.Id("total-product-quantity");
         private readonly By doneBtn = By.XPath("//button[text()='Done']");
         private readonly By summaryText = By.XPath("//span[@data-bind='text: description']");
+        private readonly By assetOnSiteCheckBox = By.Id("asset-on-site");
+        private readonly By numberOfAssetOnSite = By.Id("number-of-assets-on-site");
 
         private string assetTypeOptions = "//select[@id='asset-type']/option[text()='{0}']";
 
@@ -50,7 +53,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         }
         public AssetAndProducTab ClickAssetType()
         {
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             ClickOnElement(assetType);
             return this;
         }
@@ -64,6 +67,11 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         public AssetAndProducTab ChooseTenure(string value)
         {
             SelectTextFromDropDown(tenure, value);
+            return this;
+        }
+        public AssetAndProducTab VerifyDeliveryDate(string date)
+        {
+            Assert.AreEqual(GetAttributeValue(deliveryDate, "value"), date);
             return this;
         }
         public AssetAndProducTab ChooseProduct(string value)
@@ -101,6 +109,19 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         {
             //unable to get text from this element
             //Assert.AreEqual(value.ToString(), GetElementText(totalProductQuantity));
+            return this;
+        }
+        public AssetAndProducTab TickAssetOnSite()
+        {
+            if (!IsElementSelected(assetOnSiteCheckBox))
+            {
+                ClickOnElement(assetOnSiteCheckBox);
+            }
+            return this;
+        }
+        public AssetAndProducTab InputAssetOnSiteNum(int value)
+        {
+            SendKeys(numberOfAssetOnSite, value.ToString());
             return this;
         }
         public AssetAndProducTab ClickDoneBtn()

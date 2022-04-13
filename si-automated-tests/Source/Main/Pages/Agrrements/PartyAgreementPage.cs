@@ -27,6 +27,9 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private readonly By closeBtn = By.XPath("//button[@title='Close Without Saving']");
         private readonly By status = By.XPath("//div[@title='Agreement Status']");
         private string agreementStatus = "//div[@title='Agreement Status']//span[text()='{0}']";
+        private readonly By statusInRed = By.XPath("//div[@title='Agreement Status' and @class='red-status']");
+
+        private readonly By retireBtn = By.XPath("//button[@title='Retire']");
 
         private readonly By agreementTypeInput = By.Id("agreement-type");
         private readonly By startDateInput = By.Id("start-date");
@@ -75,6 +78,11 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         //Agreement Tab locator
         private readonly By agreementTabBtn = By.XPath("//a[@aria-controls='agreements-tab']");
         private string agreementWithDate = "//div[text()='{0}']";
+
+        //Retire Popup
+        private readonly By retirePopUpTitle = By.XPath("//*[text()='Are you sure you want to retire this Agreement?']");
+        private readonly By retirePopUpCancelBtn = By.XPath("//button[text()='Cancel']");
+        private readonly By retirePopUpOKBtn = By.XPath("//button[text()='OK']");
 
         //Dynamic Locator
         private string expandAgreementLineByServicesName = "//span[text()='{0}' and contains(@data-bind, 'serviceName')]/ancestor::div[@class='panel-heading']//button[@title='Expand/close agreement line']";
@@ -135,6 +143,11 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             Assert.AreEqual("01/01/2050", WaitUtil.WaitForElementVisible(endDate).Text);
             return this;
         }
+        public PartyAgreementPage VerifyEndDate(string date)
+        {
+            Assert.AreEqual(date, WaitUtil.WaitForElementVisible(endDate).Text);
+            return this;
+        }
         public PartyAgreementPage EnterStartDate(string startDate)
         {
             SendKeys(startDateInput, startDate);
@@ -151,9 +164,12 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         }
         public PartyAgreementPage VerifyAgreementStatusWithText(string _status)
         {
-            Thread.Sleep(10000);
-            WaitUtil.WaitForElementInvisible(agreementStatus, _status);
             Assert.IsTrue(IsControlDisplayed(agreementStatus, _status));
+            return this;
+        }
+        public PartyAgreementPage VerifyAgreementStatusInRedBackground()
+        {
+            Assert.IsTrue(IsControlDisplayed(statusInRed));
             return this;
         }
         public PartyAgreementPage VerifyNewOptionsAvailable()
@@ -337,10 +353,45 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             Assert.IsTrue(IsControlUnDisplayed(dotRedBorder));
             return this;
         }
-
+        public PartyAgreementPage VerifyAgreementLineNum(int num)
+        {
+            List<IWebElement> lineNum = GetAllElements(serviceAgreementPanel);
+            Assert.AreEqual(num, lineNum.Count);
+            return this;
+        }
         public PartyAgreementPage VerifyAgreementLineDisappear()
         {
+            int i = 5;
+            while (i > 0)
+            {
+                if (IsControlUnDisplayed(serviceAgreementPanel))
+                {
+                    break;
+                }
+                else
+                {
+                    SleepTimeInMiliseconds(1000);
+                }
+            }
             Assert.IsTrue(IsControlUnDisplayed(serviceAgreementPanel));
+            return this;
+        }
+
+        //Retire popup
+        public PartyAgreementPage ClickRetireButton()
+        {
+            ClickOnElement(retireBtn);
+            return this;
+        }
+        public PartyAgreementPage VerifyRetirePopup()
+        {
+            Assert.IsTrue(IsControlDisplayed(retirePopUpTitle));
+            Assert.IsTrue(IsControlDisplayed(retirePopUpOKBtn));
+            return this;
+        }
+        public PartyAgreementPage RetirePopupClickOK()
+        {
+            ClickOnElement(retirePopUpOKBtn);
             return this;
         }
     }

@@ -16,8 +16,9 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         //fix locator for tc 016 017 
         private string removePriceBtn = "(//div[contains(@data-bind,'priceEditor')]//button[@title='Retire/Remove'])[3]";
         private string allPrices17 = "(//tr[@class='heading']/following-sibling::tr[1])[1]//button[@title='Retire/Remove']";
+        
         private string redundantPrice = "(//div[@id='step-4']//input[@placeholder='Price £' and contains(@class, 'has-error')])[1]/parent::td/following-sibling::td//button[@title='Retire/Remove']";
-
+        private string redundantPriceAll = "//div[@id='step-4']//input[@placeholder='Price £' and contains(@class, 'has-error')]";
         public PriceTab ClosePriceRecords()
         {
             int count = 0;
@@ -77,6 +78,11 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             return this;
         }
 
+        public int GetRedundantPricesNum()
+        {
+            List<IWebElement> all = GetAllElements(redundantPriceAll);
+            return all.Count;
+        }
         public PriceTab RemoveAllRedundantPrices(int num)
         {
             int i = num;

@@ -177,6 +177,7 @@ namespace si_automated_tests.Source.Core
         public bool IsControlDisplayed(string xpath, string value)
         {
             xpath = string.Format(xpath, value);
+            WaitUtil.WaitForElementVisible(xpath);
             return this.driver.FindElement(By.XPath(xpath)).Displayed;
         }
 

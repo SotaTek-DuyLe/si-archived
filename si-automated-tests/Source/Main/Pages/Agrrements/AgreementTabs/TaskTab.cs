@@ -138,25 +138,22 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             this.WaitForLoadingIconToDisappear();
             int i = 5;
             deliverCommercialBinWithDateRows = String.Format(deliverCommercialBinWithDateRows, dueDate);
-            List<IWebElement> taskList = new List<IWebElement>();
-            taskList = GetAllElements(deliverCommercialBinWithDateRows);
-            while (i > 0)
+            
+            while(i > 0)
             {
-                if (taskList.Count == num)
-                {
-                    Assert.AreEqual(taskList.Count, num);
-                    break;
-                }
-                else
+                if (IsControlUnDisplayed(deliverCommercialBinWithDateRows))
                 {
                     ClickOnElement(refreshBtn);
                     this.WaitForLoadingIconToDisappear();
                     Thread.Sleep(5000);
-                    taskList.Clear();
-                    taskList = GetAllElements(deliverCommercialBinWithDateRows);
                     i--;
                 }
+                else
+                {
+                    break;
+                }
             }
+            List<IWebElement> taskList = GetAllElements(deliverCommercialBinWithDateRows);
             return taskList;
         }
         public List<IWebElement> VerifyNewRemovedCommercialBin(String dueDate, int num)
@@ -164,25 +161,21 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             this.WaitForLoadingIconToDisappear();
             int i = 5;
             removeCommercialBinWithDateRows = String.Format(removeCommercialBinWithDateRows, dueDate);
-            List<IWebElement> taskList = new List<IWebElement>();
-            taskList = GetAllElements(removeCommercialBinWithDateRows);
             while (i > 0)
             {
-                if (taskList.Count == num)
-                {
-                    Assert.AreEqual(taskList.Count, num);
-                    break;
-                }
-                else
+                if (IsControlUnDisplayed(removeCommercialBinWithDateRows))
                 {
                     ClickOnElement(refreshBtn);
                     this.WaitForLoadingIconToDisappear();
                     Thread.Sleep(5000);
-                    taskList.Clear();
-                    taskList = GetAllElements(deliverCommercialBinWithDateRows);
                     i--;
                 }
+                else
+                {
+                    break;
+                }
             }
+            List<IWebElement> taskList = GetAllElements(removeCommercialBinWithDateRows);
             return taskList;
         }
         public AgreementTaskDetailsPage GoToATask(IWebElement e)
@@ -299,8 +292,9 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         {
             ClickOnElement(refreshBtn);
             WaitForLoadingIconToDisappear();
+            Thread.Sleep(5000);
             List<IWebElement> availableRow = new List<IWebElement>();
-            int i = 3;
+            int i = 5;
             while (i > 0)
             {
                 availableRow = GetTasksAppear(taskState, taskType, dueDate, completedDate);
@@ -313,7 +307,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                     availableRow.Clear();
                     ClickOnElement(refreshBtn);
                     WaitForLoadingIconToDisappear();
-                    Thread.Sleep(5000);
+                    Thread.Sleep(10000);
                     i--;
                 }
             }
