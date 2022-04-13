@@ -34,6 +34,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         private const string ticketTypeOption = "//select[@id='ticket-type']/option[text()='{0}']";
         private const string haulierOption = "//select[@id='haulier']/option[text()='{0}']";
         private const string productOption = "//tbody[@data-bind='foreach: ticketLines']//td[2]/select/option[text()='{0}']";
+        private const string locationOption = "//tbody[@data-bind='foreach: ticketLines']//td[3]/select/option[text()='{0}']";
 
         public CreateNewTicketPage IsCreateNewTicketPage()
         {
@@ -157,6 +158,46 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         public CreateNewTicketPage VerifyNoLocationIsPrepolulated()
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(locationDd), "Select...");
+            return this;
+        }
+
+        public CreateNewTicketPage VerifyActiveLocationIsDisplayed(string locationActiveName)
+        {
+            ClickOnElement(locationDd);
+            //Verify
+            Assert.IsTrue(IsControlDisplayed(locationOption, locationActiveName));
+            return this;
+        }
+
+        public CreateNewTicketPage VerifyActiveLocationIsDisplayed(string[] allLocationActiveName)
+        {
+            ClickOnElement(locationDd);
+            //Verify
+            foreach(string location in allLocationActiveName)
+            {
+                Assert.IsTrue(IsControlDisplayed(locationOption, location));
+            }
+            return this;
+        }
+
+        public CreateNewTicketPage VerifyLocationPrepolulated(string locationName)
+        {
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(locationDd), locationName);
+            return this;
+        }
+
+        public CreateNewTicketPage VerifyLocationDeletedNotDisplay(string locationDeleted)
+        {
+            ClickOnElement(locationDd);
+            //Verify
+            Assert.IsTrue(IsControlUnDisplayed(locationOption, locationDeleted));
+            return this;
+        }
+
+        public CreateNewTicketPage SelectLocation(string locationName)
+        {
+            ClickOnElement(locationDd);
+            ClickOnElement(locationOption, locationName);
             return this;
         }
 

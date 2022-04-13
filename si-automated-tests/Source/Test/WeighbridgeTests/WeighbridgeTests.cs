@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -10,6 +11,7 @@ using si_automated_tests.Source.Main.Pages.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyWBTicketPage;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
 using si_automated_tests.Source.Main.Pages.WB.Sites;
@@ -37,6 +39,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         private string partyName047 = "Auto047Haulier" + CommonUtil.GetRandomString(2);
         private string resourceName;
         private string stationNameTC48 = "AutoStation" + CommonUtil.GetRandomNumber(4);
+        private string locationNameActive = "Location52WBActive" + CommonUtil.GetRandomNumber(2);
 
         public override void Setup()
         {
@@ -464,7 +467,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
-        [Test(Description = "WB VCH Human"), Order(7)]
+        [Test(Description = "WB VCH Vehicle"), Order(7)]
         public void TC_051_WB_VCH_Vehicle()
         {
             resourceName = "Auto WB Van" + CommonUtil.GetRandomNumber(2);
@@ -505,6 +508,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName045)
+                //Create new Vehicle in Vehicles tab
                 .ClickOnVehicleTab()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
@@ -575,7 +579,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         public void TC_052_WB_Location()
         {
             string locationNameNotActive = "Location52WBNotActive" + CommonUtil.GetRandomNumber(2);
-            string locationNameActive = "Location52WBActive" + CommonUtil.GetRandomNumber(2);
             string clientRef = "Client" + CommonUtil.GetRandomNumber(2);
 
             //Navigate to party detail in TC048
@@ -772,7 +775,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             siteDetailPage
                 .VerifyDisplayColumnInProductTabGrid()
-                .ClickAddNewLocationItem()
+                .ClickAddNewProductItem()
                 .SwitchToLastWindow();
             AddProductPage addProductPage = PageFactoryManager.Get<AddProductPage>();
             addProductPage
@@ -846,14 +849,15 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAnyProductValue(product)
                 //Verify Location
                 .VerifyNoLocationIsPrepolulated()
+                .VerifyActiveLocationIsDisplayed(locationNameActive)
                 //Mandatory field remaining
                 .InputFirstWeight(2)
                 .InputFirstDate()
                 .InputSecondDate()
                 .InputSecondWeight(1)
-                //Input Licence Number
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveWBTicketSuccessMessage);
         }
+
     }
 }
