@@ -11,6 +11,9 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 {
     public class TaskTab : BasePage
     {
+        private readonly By deleteItemBtn = By.XPath("//button[text()='Delete Item']");
+        private readonly By bulkUpdateItemBtn = By.XPath("//button[text()='Bulk Update']");
+
         private readonly By taskType = By.XPath("//div[@class='slick-cell l11 r11']");
         private readonly By taskDueDate = By.XPath("//div[@class='slick-cell l13 r13']");
 
@@ -28,6 +31,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 
         private string retiredTasks = "//div[@class='grid-canvas']/div[contains(@class,'retired')]";
 
+        private string taskId = "//div[contains(@class,'r5')]/div[text()='{0}']";
 
         public TaskTab VerifyFirstTaskType(string expected)
         {
@@ -123,12 +127,6 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                     i--;
                 }
             }
-
-            return this;
-        }
-
-        public TaskTab VerifyTwoNewTaskAppearRemove()
-        {
 
             return this;
         }
@@ -330,6 +328,49 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         {
             Assert.AreEqual(before, after);
             return this;
+        }
+        
+        //Task
+        public TaskTab VerifyTaskAppearWithID(int id)
+        {
+            Assert.IsTrue(IsControlDisplayed(taskId, id.ToString()));
+            return this;
+        }
+        public TaskTab VerifyTaskDisappearWithID(int id)
+        {
+            int i = 5;
+            while(i > 0)
+            {
+                if(IsControlUnDisplayed(taskId, id.ToString()))
+                {
+                    break;
+                }
+                else
+                {
+                    SleepTimeInMiliseconds(1000);
+                    i--;
+                }
+            }
+            Assert.IsTrue(IsControlUnDisplayed(taskId, id.ToString()));
+            return this;
+        }
+        public TaskTab SelectATask(int id)
+        {
+            ClickOnElement(taskId, id.ToString());
+            return this;
+        }
+
+        //Delete Item
+        public RemoveTaskPage ClickDeleteItem()
+        {
+            ClickOnElement(deleteItemBtn);
+            return new RemoveTaskPage();
+        }
+
+        public BulkUpdatePage ClickBulkUpdateItem()
+        {
+            ClickOnElement(bulkUpdateItemBtn);
+            return new BulkUpdatePage();
         }
     }
 }
