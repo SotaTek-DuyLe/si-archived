@@ -169,6 +169,12 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return this;
         }
 
+        public CreateNewTicketPage VerifyLocationNotDisplayed(string locatioName)
+        {
+            Assert.IsTrue(IsControlUnDisplayed(locationOption, locatioName));
+            return this;
+        }
+
         public CreateNewTicketPage VerifyActiveLocationIsDisplayed(string[] allLocationActiveName)
         {
             ClickOnElement(locationDd);
@@ -194,9 +200,14 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return this;
         }
 
-        public CreateNewTicketPage SelectLocation(string locationName)
+        public CreateNewTicketPage ClickLocationDd()
         {
             ClickOnElement(locationDd);
+            return this;
+        }
+
+        public CreateNewTicketPage SelectLocation(string locationName)
+        {
             ClickOnElement(locationOption, locationName);
             return this;
         }
