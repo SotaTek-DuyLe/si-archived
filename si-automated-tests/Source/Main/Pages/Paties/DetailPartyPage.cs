@@ -686,7 +686,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             Assert.IsTrue(IsControlDisplayed(corresspondenRequiredMessage));
             //Verify color
-            Assert.AreEqual("rgba(159, 139, 64, 1)", GetCssValue(licenceNumberRequiredMessage, "color"));
+            Assert.AreEqual("rgba(159, 139, 64, 1)", GetCssValue(corresspondenRequiredMessage, "color"));
             return this;
         }
 
