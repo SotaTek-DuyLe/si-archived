@@ -7,5 +7,9 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string TicketTypeRequiredMessage = "Ticket Type is required";
         public static readonly string NameRequiredMessage = "Name is required";
         public static readonly string LocationRequiredMessage = "Location is required";
+
+        //WARNING MESSAGES
+        public static readonly string LocationRestrictWarningMessage = "Default location must be selected as a restricted location.";
+
     }
 }

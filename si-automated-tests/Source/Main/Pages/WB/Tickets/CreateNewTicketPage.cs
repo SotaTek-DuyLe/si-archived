@@ -169,6 +169,17 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return this;
         }
 
+        public CreateNewTicketPage VerifyActiveLocationIsDisplayed(string[] allLocationActiveName)
+        {
+            ClickOnElement(locationDd);
+            //Verify
+            foreach(string location in allLocationActiveName)
+            {
+                Assert.IsTrue(IsControlDisplayed(locationOption, location));
+            }
+            return this;
+        }
+
         public CreateNewTicketPage VerifyLocationPrepolulated(string locationName)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(locationDd), locationName);

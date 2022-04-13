@@ -26,6 +26,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private const string anyProductOption = "//select[@id='product']/option[text()='{0}']";
         private const string anyTicketTypeOption = "//select[@id='ticket-type']/option[text()='{0}']";
         private const string anyLocationOption = "//select[@id='default-location']/option[text()='{0}']";
+        private const string multipleLocationGrid = "//label[text()='Is Restrict Location']/following-sibling::div//li//span[text()='{0}']";
+        private const string locationInRestrictLocationCheckbox = "//span[text()='{0}']/parent::div/following-sibling::div/input";
 
         public AddProductPage WaitForAddProductPageDisplayed()
         {
@@ -80,6 +82,27 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         public AddProductPage ClickOnIsLocationMandatoryCheckbox()
         {
             ClickOnElement(isLocationMandatoryCheckbox);
+            return this;
+        }
+
+        public AddProductPage ClickIsRestrictLocation()
+        {
+            ClickOnElement(isRestricLocationCheckbox);
+            return this;
+        }
+
+        public AddProductPage VerifyDisplayMultipleLocationGrid(string[] locationName)
+        {
+            foreach(string location in locationName)
+            {
+                Assert.IsTrue(IsControlDisplayed(multipleLocationGrid, location));
+            }
+            return this;
+        }
+
+        public AddProductPage ClickAnyLocationInGrid(string locationName)
+        {
+            ClickOnElement(locationInRestrictLocationCheckbox, locationName);
             return this;
         }
     }
