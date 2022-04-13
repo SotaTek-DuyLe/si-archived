@@ -20,10 +20,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private readonly By clientRefInput = By.CssSelector("input[id='clientReference']");
         private readonly By productBtnExpanded = By.XPath("//button[@data-id='product' and @aria-expanded='true']");
         private readonly By ticketTypeBtnExpanded = By.XPath("//button[@data-id='ticket-type' and @aria-expanded='true']");
+        private readonly By defaultLocationDd = By.CssSelector("select[id='default-location']");
 
         //DYNAMIC LOCATOR
         private const string anyProductOption = "//select[@id='product']/option[text()='{0}']";
         private const string anyTicketTypeOption = "//select[@id='ticket-type']/option[text()='{0}']";
+        private const string anyLocationOption = "//select[@id='default-location']/option[text()='{0}']";
+        private const string multipleLocationGrid = "//label[text()='Is Restrict Location']/following-sibling::div//li//span[text()='{0}']";
+        private const string locationInRestrictLocationCheckbox = "//span[text()='{0}']/parent::div/following-sibling::div/input";
 
         public AddProductPage WaitForAddProductPageDisplayed()
         {
@@ -64,6 +68,41 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             ClickOnElement(ticketTypeBtn);
             WaitUtil.WaitForElementVisible(ticketTypeBtnExpanded);
             ClickOnElement(anyTicketTypeOption, ticketTypeName);
+            return this;
+        }
+
+        public AddProductPage ClickDefaultLocationDdAndSelectAnyOption(string locationName)
+        {
+            ClickOnElement(defaultLocationDd);
+            //Select location
+            ClickOnElement(anyLocationOption, locationName);
+            return this;
+        }
+
+        public AddProductPage ClickOnIsLocationMandatoryCheckbox()
+        {
+            ClickOnElement(isLocationMandatoryCheckbox);
+            return this;
+        }
+
+        public AddProductPage ClickIsRestrictLocation()
+        {
+            ClickOnElement(isRestricLocationCheckbox);
+            return this;
+        }
+
+        public AddProductPage VerifyDisplayMultipleLocationGrid(string[] locationName)
+        {
+            foreach(string location in locationName)
+            {
+                Assert.IsTrue(IsControlDisplayed(multipleLocationGrid, location));
+            }
+            return this;
+        }
+
+        public AddProductPage ClickAnyLocationInGrid(string locationName)
+        {
+            ClickOnElement(locationInRestrictLocationCheckbox, locationName);
             return this;
         }
     }
