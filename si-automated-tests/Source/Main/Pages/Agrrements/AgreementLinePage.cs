@@ -50,5 +50,10 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
             ClickOnElement(string.Format(anyTab, "Details"));
             return this;
         }
+        public AgreementLinePage ClickTasksTab()
+        {
+            ClickOnElement(string.Format(anyTab, "Tasks"));
+            return this;
+        }
     }
 }
