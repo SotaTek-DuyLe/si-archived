@@ -47,7 +47,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<CreditNoteLinePage>()
-                .IsOnCreditNotePage()
+                .IsOnCreditNoteLinePage()
                 .InputInfo()
                 .ClickSaveAndCloseBtn();
             PageFactoryManager.Get<LinesTab>()
