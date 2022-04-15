@@ -64,6 +64,8 @@
     <None Remove="Source\Main\Pages\Paties\Parties\PartyVehiclePage\" />
     <None Remove="Source\Main\Pages\WB\Tickets\" />
     <None Remove="Source\Main\Pages\Paties\Parties\PartyWBTicket\" />
+    <None Remove="Source\Test\AccountTests\" />
+    <None Remove="Source\Main\Pages\Accounts\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -81,6 +83,8 @@
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyVehiclePage\" />
     <Folder Include="Source\Main\Pages\WB\Tickets\" />
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyWBTicketPage\" />
+    <Folder Include="Source\Test\AccountTests\" />
+    <Folder Include="Source\Main\Pages\Accounts\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
