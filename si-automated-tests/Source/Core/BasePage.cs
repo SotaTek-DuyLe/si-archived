@@ -366,7 +366,17 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
+        public BasePage ScrollDownToElement(string locator, string value)
+        {
+            WaitUtil.WaitForPageLoaded();
+            Thread.Sleep(2000);
+            string xpath = String.Format(locator, value);
+            IWebElement e = driver.FindElement(By.XPath(xpath));
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", e);
 
+            return this;
+        }
         public BasePage ScrollToBottomOfPage()
         {
             WaitUtil.WaitForPageLoaded();
@@ -399,6 +409,11 @@ namespace si_automated_tests.Source.Core
         public string GetAttributeValue(By by, string attributeName)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(by);
+            return element.GetAttribute(attributeName);
+        }
+
+        public string GetAttributeValue(IWebElement element, string attributeName)
+        {
             return element.GetAttribute(attributeName);
         }
 
@@ -477,6 +492,8 @@ namespace si_automated_tests.Source.Core
         public BasePage ClickRefreshBtn()
         {
             ClickOnElement(refreshBtn);
+            WaitForLoadingIconToDisappear();
+            SleepTimeInMiliseconds(2000);
             return this;
         }
         public BasePage ClickSaveAndCloseBtn()
