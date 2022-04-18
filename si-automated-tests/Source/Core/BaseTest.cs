@@ -7,10 +7,18 @@ namespace si_automated_tests.Source.Core
 {
     public class BaseTest
     {
+        protected DatabaseContext DatabaseContext { get; private set; }
+        [OneTimeSetUp]
+        public virtual void OneTimeSetUp()
+        {
+            DatabaseContext = new DatabaseContext();
+        }
+
         [SetUp]
         public virtual void Setup()
         {
             OnSetup();
+            DatabaseContext = new DatabaseContext();
         }
 
         protected void OnSetup()
@@ -25,6 +33,13 @@ namespace si_automated_tests.Source.Core
         public virtual void TearDown()
         {
             OnTearDown();
+            DatabaseContext?.Dispose();
+        }
+
+        [OneTimeTearDown]
+        public virtual void OneTimeTearDown()
+        {
+            DatabaseContext?.Dispose();
         }
 
         protected void OnTearDown()
