@@ -1,6 +1,9 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
+using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartySitePage;
@@ -2181,6 +2184,16 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .InputSecondWeight(1)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveWBTicketSuccessMessage);
+        }
+
+        [Category("WB")]
+        [Test(Description = "WB Site product 9")]
+        public void TC_063_WB_Site_product_9()
+        {
+            string query = "select * from wb_siteproducts;";
+            SqlCommand command = new SqlCommand(query, DatabaseContext.Conection);
+            SqlDataReader reader = command.ExecuteReader();
+            List<WBSiteProduct> products = ObjectExtention.DataReaderMapToList<WBSiteProduct>(reader);
         }
     }
 }
