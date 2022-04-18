@@ -3,6 +3,7 @@ using si_automated_tests.Source.Main.Constants;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace si_automated_tests.Source.Core
 {
@@ -27,6 +28,14 @@ namespace si_automated_tests.Source.Core
             {
                 return WebPlatform.Chrome;
             }
+        }
+
+        public static IConfigurationRoot InitConfiguration()
+        {
+            var config = new ConfigurationBuilder()
+               .AddJsonFile("appsettings.json")
+               .Build();
+            return config;
         }
     }
 }
