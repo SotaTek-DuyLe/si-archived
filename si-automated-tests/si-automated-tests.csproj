@@ -30,6 +30,9 @@
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="Selenium.Support" Version="4.0.1" />
     <PackageReference Include="Selenium.WebDriver" Version="4.0.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,6 +69,10 @@
     <None Remove="Source\Main\Pages\Paties\Parties\PartyWBTicket\" />
     <None Remove="Source\Test\AccountTests\" />
     <None Remove="Source\Main\Pages\Accounts\" />
+    <None Remove="System.Data.SqlClient" />
+    <None Remove="Microsoft.Extensions.Configuration.Json" />
+    <None Remove="Microsoft.Extensions.Configuration.Binder" />
+    <None Remove="Source\Main\DBModels\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -85,6 +92,7 @@
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyWBTicketPage\" />
     <Folder Include="Source\Test\AccountTests\" />
     <Folder Include="Source\Main\Pages\Accounts\" />
+    <Folder Include="Source\Main\DBModels\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
@@ -101,5 +109,10 @@
     <Compile Update="Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
