@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -32,7 +33,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         private string retiredTasks = "//div[@class='grid-canvas']/div[contains(@class,'retired')]";
 
         private string taskId = "//div[contains(@class,'r5')]/div[text()='{0}']";
-
+        private string taskIdCheckBox = "//div[text()='{0}']/parent::div/preceding-sibling::div[contains(@class,'r0')]/input";
+        private string retiredTaskWithId = "//div[text()='{0}']/parent::div/parent::div[contains(@class,'retired')]";
         public TaskTab VerifyFirstTaskType(string expected)
         {
             IList<IWebElement> listTaskType = WaitUtil.WaitForAllElementsVisible(taskType);
@@ -182,6 +184,12 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             DoubleClickOnElement(e);
             return new AgreementTaskDetailsPage();
         }
+        public AgreementTaskDetailsPage GoToATaskById(int id)
+        {
+            SleepTimeInMiliseconds(1000);
+            DoubleClickOnElement(taskId, id.ToString());
+            return new AgreementTaskDetailsPage();
+        }
         public TaskTab GoToFirstTask()
         {
             DoubleClickOnElement(firstTask);
@@ -213,6 +221,13 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             List<AgreementTaskModel> list = new List<AgreementTaskModel>();
 
             List<IWebElement> allRow = GetAllElements(allRows);
+
+            int stateIndex = this.GetColumnIndexByColumnName("State");
+            List<IWebElement> states = GetAllElements(String.Format(eachColumn, stateIndex) + "//img");
+
+            int idIndex = this.GetColumnIndexByColumnName("ID");
+            List<IWebElement> ids = GetAllElements(String.Format(eachColumn, idIndex) + "/div");
+
             int taskStateIndex = this.GetColumnIndexByColumnName("Task State");
             List<IWebElement> taskStates = GetAllElements(String.Format(eachColumn, taskStateIndex));
 
@@ -230,6 +245,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 
             for (int i = 0; i < allRow.Count; i++)
             {
+                string state = GetAttributeValue(states[i], "title");
+                string id = GetElementText(ids[i]);
                 string taskState = GetElementText(taskStates[i]);
                 string taskType = GetElementText(taskTypes[i]);
                 string description = GetElementText(descriptions[i]);
@@ -245,7 +262,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                     completedDate = GetElementText(completedDates[i]).Substring(0, 10);
                 }
                 else { completedDate = GetElementText(completedDates[i]); }
-                AgreementTaskModel task = new AgreementTaskModel(taskState, taskType, description, dueDate, completedDate);
+                AgreementTaskModel task = new AgreementTaskModel(state, id, taskState, taskType, description, dueDate, completedDate);
                 list.Add(task);
             }
             return list;
@@ -359,6 +376,14 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             ClickOnElement(taskId, id.ToString());
             return this;
         }
+        public TaskTab SelectMultipleTask(int[] id)
+        {
+            foreach(int task in id)
+            {
+                ClickOnElement(taskIdCheckBox, task.ToString());
+            }
+            return this;
+        }
 
         //Delete Item
         public RemoveTaskPage ClickDeleteItem()
@@ -366,11 +391,69 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             ClickOnElement(deleteItemBtn);
             return new RemoveTaskPage();
         }
-
+        //Bulk Update
         public BulkUpdatePage ClickBulkUpdateItem()
         {
             ClickOnElement(bulkUpdateItemBtn);
             return new BulkUpdatePage();
         }
+
+        //Verify Retired Task
+        public TaskTab VerifyRetiredTaskWithId(int id)
+        {
+            WaitUtil.WaitForElementVisible(retiredTaskWithId, id.ToString());
+            Assert.IsTrue(IsControlDisplayed(retiredTaskWithId, id.ToString()));
+            return this;
+        }
+        public TaskTab VerifyRetiredTaskWithIds(int[] id)
+        {
+            foreach(int i in id)
+            {
+                this.VerifyRetiredTaskWithId(i);
+            }
+            return this;
+        }
+        public TaskTab VerifyTaskStateWithId(int id, string state)
+        {
+            List<AgreementTaskModel> listTasks = this.GetAllTaskInList();
+            AgreementTaskModel currentTask = (AgreementTaskModel)from task in listTasks
+                                           where task.Id.Equals(id.ToString())
+                                           select task;
+
+            Assert.AreEqual(currentTask.Id, id.ToString());
+            Assert.AreEqual(currentTask.State, state);
+            return this;
+        }
+        public TaskTab VerifyTaskStateWithIds(int[] idList, string state)
+        {
+            List<AgreementTaskModel> listTasks = this.GetAllTaskInList();
+            Console.WriteLine("list: " + listTasks.Count);
+            Console.WriteLine("list a: " + listTasks);
+            Console.WriteLine("idlist: " + idList);
+            int n = 0;
+            for(int j = 0; j < idList.Length; j++)
+            { 
+                //AgreementTaskModel currentTask = (AgreementTaskModel)from task in listTasks
+                //                                                     where task.Id.Equals(id.ToString())
+                //                                                     select task;
+
+                //Assert.AreEqual(currentTask.Id, id.ToString());
+                //Assert.AreEqual(currentTask.State, state);
+                int id = idList[j];
+                for(int i = 0; i < listTasks.Count; i++)
+                {
+                    if ((listTasks[i].Id).Equals(id.ToString()))
+                    {
+                        Assert.AreEqual(listTasks[i].Id, id.ToString());
+                        Assert.AreEqual(listTasks[i].State, state);
+                        n++;
+                        break;
+                    }
+                }
+            }
+            Assert.AreEqual(n, idList.Length);
+            return this;
+        }
     }
+
 }

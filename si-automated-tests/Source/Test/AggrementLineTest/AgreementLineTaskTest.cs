@@ -11,6 +11,7 @@ using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
+using si_automated_tests.Source.Main.Pages.Task;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
@@ -117,6 +118,249 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<TaskTab>()
                 .VerifyTaskDisappearWithID(taskId2)
                 .SwitchToFirstWindow();
+        }
+
+        [Category("AgreementTask")]
+        [Test]
+        public void TC_073_Bulk_Update_Tasks_A()
+        {
+            //Verify that user can bulk update tasks from an Agreement
+            int agreementId = 38;
+            int[] taskIdList = {524, 483};
+            String note = "test bulk update";
+            String todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
+
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser12.UserName, AutoUser12.Password)
+                .IsOnHomePage(AutoUser12);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Agreements")
+                .SwitchNewIFrame();
+            //Filter Agreement
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItem(agreementId)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickTaskTabBtn();
+            PageFactoryManager.Get<TaskTab>()
+                .WaitForLoadingIconToDisappear();
+            //Bulk Update Task
+            PageFactoryManager.Get<TaskTab>()
+                .SelectMultipleTask(taskIdList)
+                .ClickBulkUpdateItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<BulkUpdatePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<BulkUpdatePage>()
+                .VerifyBulkUpdatePage(taskIdList.Length)
+                .ExpandStandardCommercialCollection()
+                .SelectCompletedState()
+                .ClickResolutionText()
+                .ClickTaskCompletedDate()
+                .ClickResolutionText()
+                .VerifyTaskCompletedDateValue(todayDate)
+                .ClickTaskEndDate()
+                .ClickResolutionText()
+                .VerifyTaskEndDateValue(todayDate)
+                .InputNote(note)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved Task")
+                .CloseCurrentWindow()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<TaskTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskTab>()
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear()
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskTab>()
+                .SleepTimeInMiliseconds(2000);
+            //Verify bulked update for tasks
+            PageFactoryManager.Get<TaskTab>()
+                .VerifyRetiredTaskWithIds(taskIdList)
+                .VerifyTaskStateWithIds(taskIdList, "Completed");
+            foreach (int i in taskIdList)
+            {
+                PageFactoryManager.Get<TaskTab>()
+                    .GoToATaskById(i)
+                    .SwitchToLastWindow();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .ClickToDetailsTab();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .VerifyCompletionDate(todayDate)
+                    .VerifyEndDate(todayDate)
+                    .VerifyTaskState("Completed")
+                    .VerifyNote(note)
+                    .CloseCurrentWindow()
+                    .SwitchToChildWindow(2);
+            }
+            PageFactoryManager.Get<TaskTab>()
+                .CloseCurrentWindow()
+                .SwitchToFirstWindow();
+
+            //Go to Task Page and Verify
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Tasks")
+                .OpenOption("North Star Commercial")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            foreach (int i in taskIdList)
+            {
+                PageFactoryManager.Get<CommonTaskPage>()
+                    .FilterTaskId(i)
+                    .OpenTaskWithId(i)
+                    .SwitchToLastWindow();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .ClickToDetailsTab();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .VerifyCompletionDate(todayDate)
+                    .VerifyEndDate(todayDate)
+                    .VerifyTaskState("Completed")
+                    .VerifyNote(note)
+                    .CloseCurrentWindow()
+                    .SwitchToFirstWindow()
+                    .SwitchNewIFrame();
+            }
+        }
+
+        [Category("AgreementTask")]
+        [Test]
+        public void TC_073_Bulk_Update_Tasks_B()
+        {
+            //Verify that user can bulk update tasks from an Agreement Line
+            int agreementId = 38;
+            int[] taskIdList = {478, 481};
+            String note = "test bulk update";
+            String todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
+
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser12.UserName, AutoUser12.Password)
+                .IsOnHomePage(AutoUser12);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Site Services")
+                .SwitchNewIFrame();
+            //Filter Agreement
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+                .FilterAgreementId(agreementId)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<AgreementLinePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AgreementLinePage>()
+                .WaitForWindowLoadedSuccess(agreementId.ToString())
+                .ClickTasksTab();
+            PageFactoryManager.Get<TaskTab>()
+                .WaitForLoadingIconToDisappear();
+            //Bulk Update Task
+            PageFactoryManager.Get<TaskTab>()
+                .SelectMultipleTask(taskIdList)
+                .ClickBulkUpdateItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<BulkUpdatePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<BulkUpdatePage>()
+                .VerifyBulkUpdatePage(taskIdList.Length)
+                .ExpandStandardCommercialCollection()
+                .SelectCompletedState()
+                .ClickResolutionText()
+                .ClickTaskCompletedDate()
+                .ClickResolutionText()
+                .VerifyTaskCompletedDateValue(todayDate)
+                .ClickTaskEndDate()
+                .ClickResolutionText()
+                .VerifyTaskEndDateValue(todayDate)
+                .InputNote(note)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved Task")
+                .CloseCurrentWindow()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<TaskTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskTab>()
+                .ClickRefreshBtn()
+                .ClickRefreshBtn();
+            //Verify bulked update for tasks
+            PageFactoryManager.Get<TaskTab>()
+                .VerifyRetiredTaskWithIds(taskIdList)
+                .VerifyTaskStateWithIds(taskIdList, "Completed");
+            foreach (int i in taskIdList)
+            {
+                PageFactoryManager.Get<TaskTab>()
+                    .GoToATaskById(i)
+                    .SwitchToLastWindow();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .ClickToDetailsTab();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .VerifyCompletionDate(todayDate)
+                    .VerifyEndDate(todayDate)
+                    .VerifyTaskState("Completed")
+                    .VerifyNote(note)
+                    .CloseCurrentWindow()
+                    .SwitchToChildWindow(2);
+            }
+            PageFactoryManager.Get<TaskTab>()
+                .CloseCurrentWindow()
+                .SwitchToFirstWindow();
+
+            //Go to Task Page and Verify
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Tasks")
+                .OpenOption("North Star Commercial")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            foreach (int i in taskIdList)
+            {
+                PageFactoryManager.Get<CommonTaskPage>()
+                    .FilterTaskId(i)
+                    .OpenTaskWithId(i)
+                    .SwitchToLastWindow();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .ClickToDetailsTab();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .VerifyCompletionDate(todayDate)
+                    .VerifyEndDate(todayDate)
+                    .VerifyTaskState("Completed")
+                    .VerifyNote(note)
+                    .CloseCurrentWindow()
+                    .SwitchToFirstWindow()
+                    .SwitchNewIFrame();
+            }
         }
     }
 }
