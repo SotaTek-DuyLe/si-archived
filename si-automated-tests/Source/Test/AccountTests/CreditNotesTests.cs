@@ -48,7 +48,8 @@ namespace si_automated_tests.Source.Test.AccountTests
             PageFactoryManager.Get<CreditNotePage>()
                 .IsOnCreditNotePage()
                 .SearchForParty(partyName)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved Credit Note");
             PageFactoryManager.Get<CreditNotePage>()
                 .VerifyNewTabsArePresent()
                 .SwitchToTab("Lines");
