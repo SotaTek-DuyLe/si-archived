@@ -12,9 +12,8 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By noteInput = By.Id("notes");
 
         //New tabs
-        private readonly By lineTab = By.Id("tbd");
-        private readonly By noteTab = By.Id("tbd");
-
+        private readonly By lineTab = By.XPath("//a[@aria-controls='creditNoteLines-tab']");
+        private readonly By noteTab = By.XPath("//a[@aria-controls='notes-tab']");
 
 
         public CreditNotePage IsOnCreditNotePage()
@@ -34,7 +33,9 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         }
         public CreditNotePage VerifyNewTabsArePresent()
         {
-            
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(lineTab);
+            WaitUtil.WaitForElementVisible(noteTab);
             return this;
         }
     }
