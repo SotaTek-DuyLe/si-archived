@@ -12,21 +12,29 @@ namespace si_automated_tests.Source.Main.Pages.Paties
     //Agreement tab inside Party Detail Page
     public class AgreementTab : BasePage
     {
-        private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
+        private const string agreementTabId = "//div[@id='agreements-tab']";
+        private readonly By addNewItemBtn = By.XPath(agreementTabId + "//button[text()='Add New Item']");
 
-        private readonly By firstAgreementId = By.XPath("//div[@class='slick-cell l1 r1']");
-        private readonly By firstAgreementName = By.XPath("//div[@class='slick-cell l2 r2']");
-        private readonly By firstAgreementStartDate = By.XPath("//div[@class='slick-cell l9 r9']");
-        private readonly By firstAgreementEndDate = By.XPath("//div[@class='slick-cell l10 r10']");
-        private readonly By firstAgreementType = By.XPath("//div[@class='slick-cell l13 r13']");
-        private readonly By firstAgreementStatus = By.XPath("//div[@class='slick-cell l14 r14']");
-        private readonly By firstAgreementRow = By.XPath("//div[@id='agreements-tab']//div[@class='grid-canvas']/div[1]");
+        private readonly By firstAgreementId = By.XPath(agreementTabId + "//div[@class='slick-cell l1 r1']");
+        private readonly By firstAgreementName = By.XPath(agreementTabId + "//div[@class='slick-cell l2 r2']");
+        private readonly By firstAgreementStartDate = By.XPath(agreementTabId + "//div[@class='slick-cell l9 r9']");
+        private readonly By firstAgreementEndDate = By.XPath(agreementTabId + "//div[@class='slick-cell l10 r10']");
+        private readonly By firstAgreementType = By.XPath(agreementTabId + "//div[@class='slick-cell l13 r13']");
+        private readonly By firstAgreementStatus = By.XPath(agreementTabId + "//div[@class='slick-cell l14 r14']");
+        private readonly By firstAgreementRow = By.XPath(agreementTabId + "//div[@id='agreements-tab']//div[@class='grid-canvas']/div[1]");
 
 
         public PartyAgreementPage ClickAddNewItem()
         {
             ClickOnElement(addNewItemBtn);
             return PageFactoryManager.Get<PartyAgreementPage>();
+        }
+
+        public AgreementTab IsOnAgreementTab()
+        {
+            WaitUtil.WaitForElementVisible(addNewItemBtn);
+            Assert.IsTrue(IsControlDisplayed(addNewItemBtn));
+            return this;
         }
 
         public AgreementTab VerifyFirstAgreementInfo(string name, string startDate, string endDate, string type, string status)
@@ -71,6 +79,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
                 if (GetElementText(idList[i]).Equals(id.ToString()))
                 {
                     DoubleClickOnElement(idList[i]);
+                    break;
                 }
             }
             return PageFactoryManager.Get<PartyAgreementPage>(); 

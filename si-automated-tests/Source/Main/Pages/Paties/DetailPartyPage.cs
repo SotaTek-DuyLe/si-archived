@@ -31,6 +31,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         //COMMON DYNAMIC LOCATOR
         private const string partyName = "//p[text()='{0}']";
+        private const string aTab = "//a[text()='{0}']";
 
         //DETAIL TAB LOCATOR
         private const string InvoiceAddressAddBtn = "//label[text()='Invoice Address']/following-sibling::div//span[text()='Add']";
@@ -132,6 +133,11 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         //TAB
+        public DetailPartyPage GoToATab(string tabName)
+        {
+            ClickOnElement(aTab, tabName);
+            return this;
+        }
         public List<string> GetAllTabDisplayed()
         {
             List<string> allTabs = new List<string>();
@@ -219,7 +225,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             ClickOnElement(agreementTab);
             WaitForLoadingIconToDisappear();
-            return PageFactoryManager.Get<AgreementTab>();
+            return new AgreementTab();
         }
 
         public string GetPartyStartDate()

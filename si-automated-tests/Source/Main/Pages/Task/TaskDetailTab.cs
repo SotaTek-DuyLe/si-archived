@@ -9,6 +9,11 @@ namespace si_automated_tests.Source.Main.Pages
 {
     public class TaskDetailTab : BasePage
     {
+        private readonly By taskTypeURL = By.XPath("//a[@class='typeUrl']");
+        private readonly By taskImage = By.XPath("//img[@src='/web/content/images/form/save.svg']");
+        private string taskType = "//span[text()='Task']";
+        private string taskTypeName = "//span[text()='Task']/following-sibling::span";
+
         private readonly By dueDate = By.Id("dueDate.id");
         private readonly By completionDate = By.Id("completionDate.id");
         private readonly By endDate = By.Id("endDate.id");
@@ -17,6 +22,33 @@ namespace si_automated_tests.Source.Main.Pages
 
         private string detailsTaskStateOption = "//select[@name='taskState']//option[text()='{0}']";
 
+        private string purchaseOrderValue = "//div[contains(@data-bind, 'purchaseOrderNumberBadge') and text()='{0}']";
+        
+        public TaskDetailTab IsOnTaskDetailTab()
+        {
+            WaitUtil.WaitForElementVisible(taskTypeURL);
+            WaitUtil.WaitForElementVisible(taskImage);
+            WaitUtil.WaitForElementVisible(taskType);
+            WaitUtil.WaitForElementVisible(taskTypeName);
+            int i = 5;
+            while(i > 0)
+            {
+                if (GetElementText(taskTypeName).Equals(""))
+                {
+                    SleepTimeInMiliseconds(1000);
+                    i--;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            Assert.IsTrue(IsControlDisplayed(taskTypeURL));
+            Assert.IsTrue(IsControlDisplayed(taskImage));
+            Assert.IsTrue(IsControlDisplayed(taskType));
+            Assert.IsTrue(IsControlDisplayed(taskTypeName));
+            return this;
+        }
         public TaskDetailTab VerifyDueDate(string expected)
         {
             //Not usable because text is hidden in DOM
@@ -58,6 +90,19 @@ namespace si_automated_tests.Source.Main.Pages
             return this;
         }
 
+        public TaskDetailTab VerifyPurchaseOrderValue(string po)
+        {
 
+            WaitUtil.WaitForElementVisible(purchaseOrderValue, po);
+            Assert.IsTrue(IsControlDisplayed(purchaseOrderValue, po));
+            return this;
+        }
+        public TaskDetailTab VerifyPurchaseOrderValueNotPresent(string po)
+        {
+
+            WaitUtil.WaitForElementInvisible(purchaseOrderValue, po);
+            Assert.IsTrue(IsControlUnDisplayed(purchaseOrderValue, po));
+            return this;
+        }
     }
 }
