@@ -2194,6 +2194,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             SqlCommand command = new SqlCommand(query, DatabaseContext.Conection);
             SqlDataReader reader = command.ExecuteReader();
             List<WBSiteProduct> products = ObjectExtention.DataReaderMapToList<WBSiteProduct>(reader);
+
         }
     }
 }

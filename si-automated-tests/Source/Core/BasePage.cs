@@ -47,6 +47,11 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForAllElementsVisible(locator);
             return driver.FindElements(By.XPath(locator)).ToList();
         }
+        public List<IWebElement> GetAllElements(string locator, string value)
+        {
+            WaitUtil.WaitForAllElementsVisible(string.Format(locator, value));
+            return driver.FindElements(By.XPath(string.Format(locator, value))).ToList();
+        }
         public List<IWebElement> GetAllElements(By by)
         {
             WaitUtil.WaitForAllElementsVisible(by);
@@ -240,6 +245,10 @@ namespace si_automated_tests.Source.Core
         public string GetElementText(string xpath)
         {
             return WaitUtil.WaitForElementVisible(xpath).Text;
+        }
+        public string GetElementText(string xpath, string value)
+        {
+            return WaitUtil.WaitForElementVisible(xpath, value).Text;
         }
         public string GetElementText(By by)
         {
@@ -438,12 +447,16 @@ namespace si_automated_tests.Source.Core
         public string GetToastMessage()
         {
             string text = WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']").Text;
-            WaitUtil.WaitForElementInvisible("//div[@data-notify-html='title']");
             return text;
         }
         public BasePage VerifyToastMessage(string message)
         {
             Assert.AreEqual(message, GetToastMessage());
+            return this;
+        }
+        public BasePage ClickOnSuccessLink()
+        {
+            ClickOnElement("//a[@id='echo-notify-Success-link']");
             return this;
         }
         public bool IsElementSelected(By by)
