@@ -439,32 +439,13 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return this;
         }
-        public TaskTab VerifyTaskStateWithId(int id, string state)
-        {
-            List<AgreementTaskModel> listTasks = this.GetAllTaskInList();
-            AgreementTaskModel currentTask = (AgreementTaskModel)from task in listTasks
-                                           where task.Id.Equals(id.ToString())
-                                           select task;
-
-            Assert.AreEqual(currentTask.Id, id.ToString());
-            Assert.AreEqual(currentTask.State, state);
-            return this;
-        }
         public TaskTab VerifyTaskStateWithIds(int[] idList, string state)
         {
             List<AgreementTaskModel> listTasks = this.GetAllTaskInList();
-            Console.WriteLine("list: " + listTasks.Count);
-            Console.WriteLine("list a: " + listTasks);
-            Console.WriteLine("idlist: " + idList);
             int n = 0;
             for(int j = 0; j < idList.Length; j++)
             { 
-                //AgreementTaskModel currentTask = (AgreementTaskModel)from task in listTasks
-                //                                                     where task.Id.Equals(id.ToString())
-                //                                                     select task;
-
-                //Assert.AreEqual(currentTask.Id, id.ToString());
-                //Assert.AreEqual(currentTask.State, state);
+                
                 int id = idList[j];
                 for(int i = 0; i < listTasks.Count; i++)
                 {
