@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -23,6 +24,10 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private readonly By cancelBtn = By.XPath("//div[text()='Cancel']");
         private readonly By cancelBtnDisabled = By.XPath("//div[contains(@class, 'disabled') and text()='Cancel']");
         private readonly By completeBtnDisabled = By.XPath("//div[contains(@class, 'disabled') and text()='Complete']");
+        private readonly By allocatedUnitLabel = By.XPath("//label[text()='Allocated Unit']");
+
+        //DETAIL TAB
+        private readonly By detailTab = By.XPath("//a[text()='Details']");
 
         //DATA TAB
         private readonly By dataTab = By.XPath("//a[text()='Data']");
@@ -45,11 +50,18 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
 
         public DetailInspectionPage IsDetailInspectionPage(string allocatedUnitValue, string assignedUserValue, string noteValue)
         {
+            WaitUtil.WaitForElementVisible(allocatedUnitLabel);
+            Assert.IsTrue(IsControlEnabled(completeBtn));
+            Assert.IsTrue(IsControlEnabled(cancelBtn));
             Assert.AreEqual(GetFirstSelectedItemInDropdown(allocatedUnitDd), allocatedUnitValue);
             Assert.AreEqual(GetFirstSelectedItemInDropdown(assignedUserDd), assignedUserValue);
             Assert.AreEqual(GetAttributeValue(noteInput, "value"), noteValue);
-            Assert.IsTrue(IsControlEnabled(completeBtn));
-            Assert.IsTrue(IsControlEnabled(cancelBtn));
+            return this;
+        }
+
+        public DetailInspectionPage ClickOnDetailTab()
+        {
+            ClickOnElement(detailTab);
             return this;
         }
 
@@ -60,8 +72,17 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(GetAttributeValue(validFromInput, "value"), validFromValue);
             Assert.AreEqual(GetAttributeValue(validToInput, "value"), validToValue);
             Assert.AreEqual(GetAttributeValue(noteInput, "value"), noteValue);
-            Assert.IsTrue(IsControlEnabled(cancelBtnDisabled));
-            Assert.IsTrue(IsControlEnabled(completeBtnDisabled));
+            //Disabled
+            Assert.AreEqual(GetAttributeValue(allocatedUnitDd, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(assignedUserDd, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(validFromInput, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(validToInput, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(startDateInput, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(endDateInput, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(noteInput, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(cancelledDateInput, "disabled"), "true");
+            Assert.IsTrue(IsControlDisplayed(cancelBtnDisabled));
+            Assert.IsTrue(IsControlDisplayed(completeBtnDisabled));
             return this;
         }
 
@@ -112,8 +133,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(inspection.contractunitID, contractUnitId);
             Assert.AreEqual(inspection.inspectioninstance, instance);
             Assert.AreEqual(inspection.userID, userId);
-            Assert.AreEqual(inspection.inspectionvaliddate, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT) + " 00:00:00.000");
-            Assert.AreEqual(inspection.inspectionexpirydate, CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1) + " 00:00:00.000");
+            Assert.AreEqual(inspection.inspectionvaliddate.ToString().Replace("-", "/"), CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT) + " 00:00:00");
+            Assert.AreEqual(inspection.inspectionexpirydate.ToString().Replace("-", "/"), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1) + " 00:00:00");
             return this;
         }
 

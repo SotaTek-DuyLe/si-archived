@@ -24,6 +24,10 @@ namespace si_automated_tests.Source.Core
         {
             return DateTime.Now.ToString(format).Replace('-', '/');
         }
+        public static DateTime GetLocalTimeNow()
+        {
+            return DateTime.Now;
+        }
         public static string GetLocalTimeMinusDay(string format, int day)
         {
             return DateTime.Now.AddDays(day).ToString(format).Replace('-', '/');

@@ -38,11 +38,13 @@ namespace si_automated_tests.Source.Test.InspectionTests
 
         [Category("WB")]
         [Test(Description = "Creating inspection from task")]
-        public void TC_073_Create_inspection_from_task()
+        public void TC_079_Create_inspection_from_task()
         {
-            string taskId = "477";
+            //string taskId = "477";
+            string taskId = "472";
             string name = " - Collect Domestic Recycling";
-            string location = "14 LONSDALE ROAD, BARNES, LONDON, SW13 9EB";
+            //string location = "14 LONSDALE ROAD, BARNES, LONDON, SW13 9EB";
+            string location = "2B RALEIGH ROAD, RICHMOND, TW9 2DX";
             string[] sourceNameList = { location, location };
             string inspectionTypeValue = "Site Inspection";
             string allocatedUnitValue_1 = "Ancillary";
@@ -59,6 +61,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             //command.CommandType = CommandType.StoredProcedure;
             //SqlDataReader reader = command.ExecuteReader();
             //List<WBSiteProduct> products = ObjectExtention.DataReaderMapToList<WBSiteProduct>(reader);
+            //Get data in DB to verify
 
             PageFactoryManager.Get<NavigationBase>()
                     .ClickMainOption("Tasks")
@@ -86,6 +89,9 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<DetailInspectionPage>()
                 .WaitForInspectionDetailDisplayed()
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailInspectionPage>()
                 .IsDetailInspectionPage(allocatedUnitValue_1, allocatedUserValue_1, noteValue)
                 .VerifyStateInspection("Pending")
                 .VerifyInspectionAddress(location)
@@ -96,9 +102,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             PageFactoryManager.Get<DetailInspectionPage>()
                 .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue_1, allocatedUserValue_1, "0");
             //Get inspection Id
-            Console.WriteLine(PageFactoryManager.Get<DetailInspectionPage>()
-                .GetCurrentUrl());
-            int inspectionId = Int32.Parse( PageFactoryManager.Get<DetailInspectionPage>()
+            int inspectionId = Int32.Parse(PageFactoryManager.Get<DetailInspectionPage>()
                 .GetCurrentUrl()
                 .Replace(WebUrl.MainPageUrl + "web/inspections/", ""));
             //Get data in DB to verify
@@ -106,8 +110,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
             SqlCommand commandInspection = new SqlCommand(query, DatabaseContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<InspectionDBModel> inspections = ObjectExtention.DataReaderMapToList<InspectionDBModel>(readerInspection);
+            readerInspection.Close();
+
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataDisplayedWithDB(inspections[0], noteValue, 5, 0, 48)
+                .VerifyDataDisplayedWithDB(inspections[0], noteValue, 5, 0, 2)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             detailTaskPage
@@ -130,34 +136,46 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .InputValidFrom(validFromInThePast)
                 .InputValidTo(validToInThePast)
                 .InputNote(noteValue)
-                .ClickSaveBtn()
+                .ClickCreateBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage)
                 .ClickOnSuccessLink()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<DetailInspectionPage>()
                 .WaitForInspectionDetailDisplayed()
-                .IsDetailInspectionPage(allocatedUnitValue_1, allocatedUserValue_1, noteValue)
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            int inspectionId_2 = Int32.Parse(PageFactoryManager.Get<DetailInspectionPage>()
+                .GetCurrentUrl()
+                .Replace(WebUrl.MainPageUrl + "web/inspections/", ""));
+            PageFactoryManager.Get<DetailInspectionPage>()
+                .IsDetailInspectionPage(allocatedUnitValue_2, allocatedUserValue_2, noteValue)
                 .VerifyStateInspection("Expired")
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             allInspectionModels = detailTaskPage
                 .getAllInspection();
-            detailTaskPage
-                .VerifyInspectionCreated(allInspectionModels[0], inspectionId.ToString(), inspectionTypeValue, AutoUser14.UserName, allocatedUserValue_2, allocatedUnitValue_2, "Expired", validFromInThePast, validToInThePast)
+             detailTaskPage
+                .VerifyInspectionCreated(allInspectionModels[0], inspectionId_2.ToString() , inspectionTypeValue, AutoUser14.UserName, allocatedUserValue_2, allocatedUnitValue_2, "Expired", validFromInThePast + " 00:00", validToInThePast + " 00:00")
                 //Clik First Inspection Row
-                .ClickOnFirstInspection();
+                .ClickOnFirstInspection()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailInspectionPage>()
                 .WaitForInspectionDetailDisplayed()
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailInspectionPage>()
                 .VerifyAllFieldsInPopupAndDisabled(allocatedUnitValue_2, allocatedUserValue_2, noteValue, validFromInThePast + " 00:00", validToInThePast + " 00:00")
                 .VerifyStateInspection("Expired");
             //Get sourceId
-            string querySourceId = "select * from inspections where inspectionID=" + inspectionId + ";";
+            string querySourceId = "select * from inspections where inspectionID=" + inspectionId_2 + ";";
             SqlCommand commandSource = new SqlCommand(querySourceId, DatabaseContext.Conection);
             SqlDataReader readerSource = commandSource.ExecuteReader();
             List<InspectionDBModel> inspectionNew = ObjectExtention.DataReaderMapToList<InspectionDBModel>(readerSource);
+            readerSource.Close();
 
             PageFactoryManager.Get<DetailInspectionPage>()
-                .ClickAddressLinkAndVerify(address, inspectionNew[0].echoID.ToString())
+                .ClickAddressLinkAndVerify(location, inspectionNew[0].echoID.ToString())
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
         }

@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string BoderColorMandatory = "rgb(169, 68, 66)";
         public static readonly string BoderColorMandatory_Rbga = "rgba(169, 68, 66, 1)";
         public static readonly string DATE_DD_MM_YYYY_FORMAT = "dd/MM/yyyy";
+        public static readonly string DATE_MM_DD_YYYY_FORMAT = "MM/dd/yyyy";
         public static readonly string[] ContactGroupsOptions = { "Invoicing", "Operational" };
         public static readonly string[] ContactTable = { "ID", "Title", "First Name", "Last Name", "Position", "Telephone", "Mobile", "Email", "Receive Emails", "Contact Groups", "Start Date", "End Date" };
         public static readonly string WBSiteName = "Weighbridge";

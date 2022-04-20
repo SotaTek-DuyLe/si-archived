@@ -137,7 +137,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         public DetailTaskPage InputValidTo(string validFromTo)
         {
-            SendKeys(validFromTo, validFromTo);
+            SendKeys(validToInput, validFromTo);
             return this;
         }
 
@@ -153,17 +153,17 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             WaitUtil.WaitForElementVisible(addNewItemInSpectionBtn);
             List<InspectionModel> allModel = new List<InspectionModel>();
             List<IWebElement> allRow = GetAllElements(allRowInInspectionTabel);
-            List<IWebElement> allId = GetAllElements(columnInRowInspectionTab, CommonConstants.LocationTabColumn[0]);
-            List<IWebElement> allInspectionType = GetAllElements(columnInRowInspectionTab, CommonConstants.LocationTabColumn[1]);
-            List<IWebElement> allCreatedDate = GetAllElements(columnInRowInspectionTab, CommonConstants.LocationTabColumn[2]);
-            List<IWebElement> allCreatedByUser = GetAllElements(columnInRowInspectionTab, CommonConstants.LocationTabColumn[3]);
-            List<IWebElement> allAssignedUser = GetAllElements(columnInRowInspectionTab, CommonConstants.LocationTabColumn[4]);
-            List<IWebElement> allAllocatedUser = GetAllElements(columnInRowInspectionTab, CommonConstants.LocationTabColumn[5]);
-            List<IWebElement> allStatus = GetAllElements(columnInRowInspectionTab, CommonConstants.LocationTabColumn[6]);
-            List<IWebElement> allValidFrom = GetAllElements(columnInRowInspectionTab, CommonConstants.LocationTabColumn[7]);
-            List<IWebElement> allValidTo = GetAllElements(columnInRowInspectionTab, CommonConstants.LocationTabColumn[8]);
-            List<IWebElement> allCompletionDate = GetAllElements(columnInRowInspectionTab, CommonConstants.LocationTabColumn[9]);
-            List<IWebElement> allCancelledDate = GetAllElements(columnInRowInspectionTab, CommonConstants.LocationTabColumn[10]);
+            List<IWebElement> allId = GetAllElements(columnInRowInspectionTab, CommonConstants.InspectionTabColumn[0]);
+            List<IWebElement> allInspectionType = GetAllElements(columnInRowInspectionTab, CommonConstants.InspectionTabColumn[1]);
+            List<IWebElement> allCreatedDate = GetAllElements(columnInRowInspectionTab, CommonConstants.InspectionTabColumn[2]);
+            List<IWebElement> allCreatedByUser = GetAllElements(columnInRowInspectionTab, CommonConstants.InspectionTabColumn[3]);
+            List<IWebElement> allAssignedUser = GetAllElements(columnInRowInspectionTab, CommonConstants.InspectionTabColumn[4]);
+            List<IWebElement> allAllocatedUser = GetAllElements(columnInRowInspectionTab, CommonConstants.InspectionTabColumn[5]);
+            List<IWebElement> allStatus = GetAllElements(columnInRowInspectionTab, CommonConstants.InspectionTabColumn[6]);
+            List<IWebElement> allValidFrom = GetAllElements(columnInRowInspectionTab, CommonConstants.InspectionTabColumn[7]);
+            List<IWebElement> allValidTo = GetAllElements(columnInRowInspectionTab, CommonConstants.InspectionTabColumn[8]);
+            List<IWebElement> allCompletionDate = GetAllElements(columnInRowInspectionTab, CommonConstants.InspectionTabColumn[9]);
+            List<IWebElement> allCancelledDate = GetAllElements(columnInRowInspectionTab, CommonConstants.InspectionTabColumn[10]);
 
             for (int i = 0; i < allRow.Count; i++)
             {
@@ -172,13 +172,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
                 string createdDate = GetElementText(allCreatedDate[i]);
                 string createdByUser = GetElementText(allCreatedByUser[i]);
                 string assignedUser = GetElementText(allAssignedUser[i]);
-                string allocatedUser = GetElementText(allAllocatedUser[i]);
+                string allocatedUnit = GetElementText(allAllocatedUser[i]);
                 string status = GetElementText(allStatus[i]);
                 string validFrom = GetElementText(allValidFrom[i]);
                 string validTo = GetElementText(allValidTo[i]);
                 string completionDate = GetElementText(allCompletionDate[i]);
                 string cancelledDate = GetElementText(allCancelledDate[i]);
-                allModel.Add(new InspectionModel(id, inspectionType, createdDate, createdByUser, assignedUser, allocatedUser, status, validFrom, validTo, completionDate, cancelledDate));
+                allModel.Add(new InspectionModel(id, inspectionType, createdDate, createdByUser, assignedUser, allocatedUnit, status, validFrom, validTo, completionDate, cancelledDate));
             }
             return allModel;
         }
