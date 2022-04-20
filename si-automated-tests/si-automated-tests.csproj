@@ -76,7 +76,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
-    <Folder Include="Source\Main\Pages\Paties\Parties\" />
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
     <Folder Include="Source\Main\Pages\Paties\SiteServices\" />
     <Folder Include="Source\Main\Pages\Paties\Sites\" />

@@ -222,6 +222,9 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 
             List<IWebElement> allRow = GetAllElements(allRows);
 
+            int createdDateIndex = this.GetColumnIndexByColumnName("Created Date");
+            List<IWebElement> createdDates = GetAllElements(String.Format(eachColumn, createdDateIndex) + "/div");
+
             int stateIndex = this.GetColumnIndexByColumnName("State");
             List<IWebElement> states = GetAllElements(String.Format(eachColumn, stateIndex) + "//img");
 
@@ -250,6 +253,12 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                 string taskState = GetElementText(taskStates[i]);
                 string taskType = GetElementText(taskTypes[i]);
                 string description = GetElementText(descriptions[i]);
+                string createdDate;
+                if (GetElementText(createdDates[i]).Length > 10)
+                {
+                    createdDate = GetElementText(createdDates[i]).Substring(0, 10);
+                }
+                else { createdDate = GetElementText(createdDates[i]); }
                 string dueDate;
                 if (GetElementText(dueDates[i]).Length > 10)
                 {
@@ -262,7 +271,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                     completedDate = GetElementText(completedDates[i]).Substring(0, 10);
                 }
                 else { completedDate = GetElementText(completedDates[i]); }
-                AgreementTaskModel task = new AgreementTaskModel(state, id, taskState, taskType, description, dueDate, completedDate);
+                AgreementTaskModel task = new AgreementTaskModel(createdDate, state, id, taskState, taskType, description, dueDate, completedDate);
                 list.Add(task);
             }
             return list;
@@ -278,6 +287,23 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             for (int i = 0; i < list.Count; i++)
             {
                 if (list[i].TaskType == taskType && list[i].DueDate == dueDate)
+                {
+                    num++;
+                    availableRow.Add(allRow[i]);
+                }
+            }
+            return availableRow;
+        }
+        public List<IWebElement> GetTasksAppear(string taskState, string createdDate, string dueDate)
+        {
+            List<AgreementTaskModel> list = this.GetAllTaskInList();
+            List<IWebElement> allRow = GetAllElements(allRows);
+            List<IWebElement> availableRow = new List<IWebElement>();
+
+            int num = 0;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].TaskState == taskState && list[i].DueDate == dueDate && list[i].CreatedDate == createdDate)
                 {
                     num++;
                     availableRow.Add(allRow[i]);
