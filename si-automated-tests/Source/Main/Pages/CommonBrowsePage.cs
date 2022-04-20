@@ -14,8 +14,9 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
         private readonly By firstResult = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')]");
-        private readonly By headers = By.XPath("//div[@class='ui-state-default slick-header-column slick-header-sortable ui-sortable-handle']/span[1]");
+        private readonly By headers = By.XPath("//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
         private readonly By firstResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
+
         public CommonBrowsePage FilterItem(int id)
         {
             WaitForLoadingIconToDisappear();
@@ -42,7 +43,7 @@ namespace si_automated_tests.Source.Main.Pages
                 if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
                 {
                     IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
-                    Assert.AreEqual(expected, _firstResultFields[i + 1].Text);
+                    Assert.AreEqual(expected, _firstResultFields[i].Text);
                 }
             }
             return this;
@@ -52,5 +53,25 @@ namespace si_automated_tests.Source.Main.Pages
             ClickOnElement(customBtn, _buttonName);
             return this;
         }
+        public CommonBrowsePage ClickFirstItem()
+        {
+            ClickOnElement(firstResult);
+            return this;
+        }
+        public string GetFirstResultValueOfField(string field)
+        {
+            string value = "";
+            IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
+            for (int i = 0; i < hds.Count; i++)
+            {
+                if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
+                {
+                    IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
+                    value = _firstResultFields[i].Text;
+                }
+            }
+            return value;
+        }
+
     }
 }

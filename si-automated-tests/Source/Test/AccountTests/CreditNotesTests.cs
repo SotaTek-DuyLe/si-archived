@@ -31,7 +31,7 @@ namespace si_automated_tests.Source.Test.AccountTests
 
         [Category("Account")]
         [Test]
-        public void TC_78()
+        public void TC_78_82()
         {
             string partyName = "Greggs";
             string lineType = "Commercial Line Type";
@@ -41,6 +41,8 @@ namespace si_automated_tests.Source.Test.AccountTests
             string description = "test description no." + CommonUtil.GetRandomNumber(5);
             string quantity = "1";
             string price = "100.00";
+            string notes = "test note" + CommonUtil.GetRandomString(5);
+
 
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
@@ -66,7 +68,29 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<LinesTab>()
                 .IsOnLinesTab()
-                .VerifyLineInfo(partyName, product, description, quantity, price);
+                .VerifyLineInfo(partyName, product, description, quantity, price)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //TC-82
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickFirstItem()
+                .ClickButton("Add to Batch");
+            PageFactoryManager.Get<CreditNoteBatchOptionPage>()
+                .ClickNewBatch()
+                .InputNotes(notes)
+                .ClickSaveBtn()
+                .SleepTimeInMiliseconds(3000)
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            string batchId = PageFactoryManager.Get<CommonBrowsePage>()
+                .GetFirstResultValueOfField("Credit Note Batch #");
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickFirstItem()
+                .ClickButton("Add to Batch");
+            PageFactoryManager.Get<CreditNoteBatchOptionPage>()
+                .ClickExistingBatch()
+                .SelectBatchId(batchId);
         }
     }
 }
