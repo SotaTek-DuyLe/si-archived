@@ -31,8 +31,6 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] ProductTabColumn = { "ID", "Product", "Ticket Type", "Default Location", "Is Location Mandatory", "Is Restrict Location", "Start Date", "End Date" };
         public static readonly string[] TicketType = { "Select...", "Incoming", "Neutral", "Outbound" };
         public static readonly string[] InspectionTabColumn = { "ID", "Inspection Type", "Created Date", "Created By User", "Assigned User", "Allocated Unit", "Status", "Valid From", "Valid To", "Completion Date", "Cancelled Date" };
-        
-
-
+        public static readonly string[] InspectionColumnInListingPage = { "ID", "Point", "Inspection Type", "Created Date", "Created By User", "Inspection Scheme", "Assigned User", "Allocated Unit", "Status", "Client Reference", "Contract", "Valid From", "Valid To", "Completion Date", "Last Updated", "Cancelled Date", "GPS Description", "Source", "Service" };
     }
 }

@@ -6,6 +6,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.Inspections;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
@@ -64,10 +65,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
             //Get data in DB to verify
 
             PageFactoryManager.Get<NavigationBase>()
-                    .ClickMainOption("Tasks")
-                    .OpenOption("North Star")
-                    .SwitchNewIFrame()
-                    .WaitForLoadingIconToDisappear();
+                .ClickMainOption("Tasks")
+                .OpenOption("North Star")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TasksListingPage>()
                 .FilterByTaskId(taskId)
                 .ClickOnFirstRecord()
@@ -178,6 +179,21 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickAddressLinkAndVerify(location, inspectionNew[0].echoID.ToString())
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
+            detailTaskPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            PageFactoryManager.Get<TasksListingPage>()
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Inspections")
+                .OpenOption("All Inspections")
+                .SwitchNewIFrame();
+            List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
+                .getAllInspectionInList();
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .VerifyTheFirstInspection(allInspectionModels[0], inspectionModels[0], location, "North Star", location, "Domestic Recycling");
+
         }
     }
 }

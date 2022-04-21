@@ -74,6 +74,7 @@
     <None Remove="Source\Test\InspectionTest\" />
     <None Remove="Source\Main\Pages\Tasks\" />
     <None Remove="Source\Main\Pages\Tasks\Inspection\" />
+    <None Remove="Source\Main\Pages\Inspections\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -95,6 +96,7 @@
     <Folder Include="Source\Test\InspectionTests\" />
     <Folder Include="Source\Main\Pages\Tasks\" />
     <Folder Include="Source\Main\Pages\Tasks\Inspection\" />
+    <Folder Include="Source\Main\Pages\Inspections\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
