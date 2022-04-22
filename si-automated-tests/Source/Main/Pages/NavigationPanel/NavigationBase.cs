@@ -17,6 +17,10 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
         private readonly string dropdownOption = "//span[text()='{0}']/parent::a/preceding-sibling::span[2]";
         private readonly string option = "//span[text()='{0}']/parent::a";
 
+        public NavigationBase()
+        {
+            SwitchToDefaultContent();
+        }
 
         public NavigationBase ClickMainOption(string optionName)
         {

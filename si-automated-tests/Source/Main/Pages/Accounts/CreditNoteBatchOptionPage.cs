@@ -38,7 +38,6 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             ClickOnElement(radioBtn, batchId);
             ClickOnElement(confirmBtn);
-            SleepTimeInMiliseconds(1500);
             return this;
         }
     }

@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By firstResult = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')]");
         private readonly By headers = By.XPath("//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
         private readonly By firstResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
+        private readonly By secondResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row odd')][1]/div");
 
         public CommonBrowsePage FilterItem(int id)
         {
@@ -44,6 +45,19 @@ namespace si_automated_tests.Source.Main.Pages
                 {
                     IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
                     Assert.AreEqual(expected, _firstResultFields[i].Text);
+                }
+            }
+            return this;
+        }
+        public CommonBrowsePage VerifySecondResultValue(string field, string expected)
+        {
+            IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
+            for (int i = 0; i < hds.Count; i++)
+            {
+                if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
+                {
+                    IList<IWebElement> _secondResultFields = WaitUtil.WaitForAllElementsVisible(secondResultFields);
+                    Assert.AreEqual(expected, _secondResultFields[i].Text);
                 }
             }
             return this;

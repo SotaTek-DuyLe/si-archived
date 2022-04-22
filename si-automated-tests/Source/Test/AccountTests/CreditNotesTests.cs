@@ -20,8 +20,8 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser4.UserName, AutoUser4.Password)
-                .IsOnHomePage(AutoUser4);
+                .Login(AutoUser21.UserName, AutoUser21.Password)
+                .IsOnHomePage(AutoUser21);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Accounts")
                 .ExpandOption("North Star Commercial")
@@ -43,7 +43,7 @@ namespace si_automated_tests.Source.Test.AccountTests
             string price = "100.00";
             string notes = "test note" + CommonUtil.GetRandomString(5);
 
-
+            //Create credit note 1
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
@@ -72,7 +72,11 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
-            //TC-82
+            string firstCreditId = PageFactoryManager.Get<CommonBrowsePage>()
+                .GetFirstResultValueOfField("ID");
+            Console.WriteLine("first id: " + firstCreditId);
+
+             //TC-82
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickFirstItem()
                 .ClickButton("Add to Batch");
@@ -83,14 +87,68 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SleepTimeInMiliseconds(3000)
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
+            //Verify first credit note has batchId
             string batchId = PageFactoryManager.Get<CommonBrowsePage>()
                 .GetFirstResultValueOfField("Credit Note Batch #");
+
+            //Create credit note 2
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreditNotePage>()
+                .IsOnCreditNotePage()
+                .SearchForParty(partyName)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved Credit Note");
+            PageFactoryManager.Get<CreditNotePage>()
+                .VerifyNewTabsArePresent()
+                .SwitchToTab("Lines");
+            PageFactoryManager.Get<LinesTab>()
+                .IsOnLinesTab()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreditNoteLinePage>()
+                .IsOnCreditNoteLinePage()
+                .InputInfo(lineType, site, product, priceElement, description, quantity, price)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved Credit Note Line")
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<LinesTab>()
+                .IsOnLinesTab()
+                .VerifyLineInfo(partyName, product, description, quantity, price)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+
+            string secondCreditId = PageFactoryManager.Get<CommonBrowsePage>()
+                .GetFirstResultValueOfField("ID");
+            Console.WriteLine("first id: " + secondCreditId);
+
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickFirstItem()
                 .ClickButton("Add to Batch");
             PageFactoryManager.Get<CreditNoteBatchOptionPage>()
                 .ClickExistingBatch()
-                .SelectBatchId(batchId);
+                .SelectBatchId(batchId)
+                .SleepTimeInMiliseconds(2000)
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValue("Credit Note Batch #", batchId);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Accounts")
+                .OpenOption("Credit Note Batches")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .OpenFirstResult();
+
+            //Verify credit notes ids are included in credit note batch
+            PageFactoryManager.Get<CreditNoteBatchPage>()
+                .SwitchToCreditNotesTab()
+                .VerifyFirstCreditNoteId(secondCreditId)
+                .VerifySecondCreditNoteId(firstCreditId);
+
         }
     }
 }
