@@ -33,8 +33,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser4.UserName, AutoUser4.Password)
-                .IsOnHomePage(AutoUser4);
+                .Login(AutoUser20.UserName, AutoUser20.Password)
+                .IsOnHomePage(AutoUser20);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
                 .OpenOption("Default Allocation")
@@ -131,8 +131,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser4.UserName, AutoUser4.Password)
-                .IsOnHomePage(AutoUser4);
+                .Login(AutoUser20.UserName, AutoUser20.Password)
+                .IsOnHomePage(AutoUser20);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
                 .OpenOption("Default Allocation")
@@ -255,8 +255,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser4.UserName, AutoUser4.Password)
-                .IsOnHomePage(AutoUser4);
+                .Login(AutoUser20.UserName, AutoUser20.Password)
+                .IsOnHomePage(AutoUser20);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
                 .OpenOption("Default Allocation")

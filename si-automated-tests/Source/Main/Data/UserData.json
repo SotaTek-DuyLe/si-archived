@@ -129,14 +129,208 @@
     "username": "auto15",
     "displayname": "auto15 display",
     "password": "2My2D&3pp",
-    "displayname": "auto15 display",
     "data": "TF",
     "role": "sysadmin",
     "home contract": "none",
     "email": "manhnguyen@sotatek.com"
   },
-  "testauto":{
-      "username":"testauto",
-      "displayname":"testauto display"
+  "testauto": {
+    "username": "testauto",
+    "displayname": "testauto display"
+  },
+  "auto_user_20": {
+    "username": "auto20",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto20 display"
+  },
+  "auto_user_21": {
+    "username": "auto21",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto21 display"
+  },
+  "auto_user_22": {
+    "username": "auto22",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto22 display"
+  },
+  "auto_user_23": {
+    "username": "auto23",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto23 display"
+  },
+  "auto_user_24": {
+    "username": "auto24",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto25 display"
+  },
+  "auto_user_25": {
+    "username": "auto25",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto25 display"
+  },
+  "auto_user_26": {
+    "username": "auto26",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto26 display"
+  },
+  "auto_user_27": {
+    "username": "auto27",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto27 display"
+  },
+  "auto_user_28": {
+    "username": "auto28",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto28 display"
+  },
+  "auto_user_29": {
+    "username": "auto29",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto29 display"
+  },
+  "auto_user_30": {
+    "username": "auto30",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto30 display"
+  },
+  "auto_user_31": {
+    "username": "auto31",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto31 display"
+  },
+  "auto_user_32": {
+    "username": "auto33",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto33 display"
+  },
+  "auto_user_34": {
+    "username": "auto34",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto34 display"
+  },
+  "auto_user_35": {
+    "username": "auto35",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto35 display"
+  },
+  "auto_user_36": {
+    "username": "auto36",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto36 display"
+  },
+  "auto_user_37": {
+    "username": "auto37",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto37 display"
+  },
+  "auto_user_38": {
+    "username": "auto38",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto38 display"
+  },
+  "auto_user_39": {
+    "username": "auto39",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto39 display"
+  },
+  "auto_user_40": {
+    "username": "auto40",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto40 display"
+  },
+  "auto_user_41": {
+    "username": "auto41",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto20 display"
+  },
+  "auto_user_42": {
+    "username": "auto42",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto42 display"
+  },
+  "auto_user_43": {
+    "username": "auto43",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto43 display"
+  },
+  "auto_user_44": {
+    "username": "auto44",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto44 display"
+  },
+  "auto_user_45": {
+    "username": "auto45",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto45 display"
+  },
+  "auto_user_46": {
+    "username": "auto46",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto46 display"
+  },
+  "auto_user_47": {
+    "username": "auto47",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto47 display"
+  },
+  "auto_user_48": {
+    "username": "auto48",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto48 display"
+  },
+  "auto_user_49": {
+    "username": "auto49",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto49 display"
+  },
+  "auto_user_50": {
+    "username": "auto50",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto50 display"
+  },
+  "auto_user_51": {
+    "username": "auto51",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto51 display"
+  },
+  "auto_user_52": {
+    "username": "auto52",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto52 display"
+  },
+  "auto_user_53": {
+    "username": "auto53",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto54 display"
+  },
+  "auto_user_55": {
+    "username": "auto55",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto55 display"
+  },
+  "auto_user_56": {
+    "username": "auto56",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto56 display"
+  },
+  "auto_user_57": {
+    "username": "auto57",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto57 display"
+  },
+  "auto_user_58": {
+    "username": "auto58",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto58 display"
+  },
+  "auto_user_59": {
+    "username": "auto59",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto59 display"
+  },
+  "auto_user_60": {
+    "username": "auto60",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto60 display"
   }
 }
