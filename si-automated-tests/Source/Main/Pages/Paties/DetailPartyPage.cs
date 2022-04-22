@@ -62,6 +62,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string PrimaryContactDisplayed = "//div[@data-bind='with:primaryContact']/p[text()='{0}']";
         private const string InvoiceContactValue = "//select[@id='invoice-contact']/option[text()='{0}']";
         private const string InvoiceContactDisplayed = "//div[@data-bind='with:invoiceContact']/p[text()='{0}']";
+        private const string PartyTypeCheckbox = "//span[text()='{0}']/preceding-sibling::input";
 
         //SITE TAB LOCATOR
         private const string AddNewItemBtn = "//button[text()='Add New Item']";
@@ -218,6 +219,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnParty(string name)
         {
             ClickOnElement(PartyName, name);
+            return this;
+        }
+        public DetailPartyPage VerifyPartyTypeChecked(string type)
+        {
+            WaitUtil.WaitForElementVisible(PartyTypeCheckbox, type);
+            Assert.IsTrue(IsElementSelected(PartyTypeCheckbox, type));
             return this;
         }
         //Agreement tab
