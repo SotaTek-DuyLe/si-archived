@@ -6,14 +6,21 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Pages.Task;
 
 namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
 {
     //Details page for a task inside Agreement
     public class AgreementTaskDetailsPage : BasePage
     {
+        private readonly By taskTypeURL = By.XPath("//a[@class='typeUrl']");
+        private readonly By taskImage = By.XPath("//img[@src='/web/content/images/form/save.svg']");
+        private string taskType = "//span[text()='Task']";
+        private string taskTypeName = "//span[text()='Task']/following-sibling::span";
+
         private readonly By detailsTab = By.XPath("//a[@aria-controls='details-tab']");
         private readonly By taskLinesTab = By.XPath("//a[@aria-controls='taskLines-tab']");
+        private readonly By historyTab = By.XPath("//a[@aria-controls='history-tab']");
         private readonly By saveBtn = By.XPath("//button[@title='Save']");
         private readonly By closeWithoutSavingBtn = By.XPath("//button[@title='Close Without Saving']");
 
@@ -42,6 +49,31 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
         private static string actualAssetQuantityText = "//th[text()='Actual Asset Quantity']";
         private static string actualAssetQuantityInput = "//th[text()='Actual Asset Quantity']/ancestor::thead/following-sibling::tbody/tr[1]/td[count(//th[text()='Actual Asset Quantity']/preceding-sibling::th) + boolean(//th[text()='Actual Asset Quantity'])]//input";
 
+        public AgreementTaskDetailsPage WaitingForTaskDetailsPageLoadedSuccessfully()
+        {
+            WaitUtil.WaitForElementVisible(taskTypeURL);
+            WaitUtil.WaitForElementVisible(taskImage);
+            WaitUtil.WaitForElementVisible(taskType);
+            WaitUtil.WaitForElementVisible(taskTypeName);
+            int i = 5;
+            while (i > 0)
+            {
+                if (GetElementText(taskTypeName).Equals("") || GetElementText(taskTypeURL).Equals(""))
+                {
+                    SleepTimeInMiliseconds(1000);
+                    i--;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            Assert.IsTrue(IsControlDisplayed(taskTypeURL));
+            Assert.IsTrue(IsControlDisplayed(taskImage));
+            Assert.IsTrue(IsControlDisplayed(taskType));
+            Assert.IsTrue(IsControlDisplayed(taskTypeName));
+            return this;
+        }
         public AgreementTaskDetailsPage IsOnAgreementTaskPage()
         {
             WaitUtil.WaitForElementVisible(detailsTab);
@@ -136,6 +168,12 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
             ClickOnElement(stateCompleted);
             Thread.Sleep(1000);
             return this;
+        }
+
+        public HistoryTab ClickHistoryTab()
+        {
+            ClickOnElement(historyTab);
+            return new HistoryTab();
         }
 
     }

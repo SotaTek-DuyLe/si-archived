@@ -7,6 +7,7 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
@@ -23,11 +24,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string FrameMessage = "//div[@class='notifyjs-corner']/div";
         private const string SaveWithDetailsBtn = "//a[@aria-controls='details-tab']/ancestor::body//button[@title='Save']";
         private readonly By closeWithoutSavingBtn = By.XPath("//a[@aria-controls='details-tab']/ancestor::body//button[@title='Close Without Saving']");
+        private readonly By dropdown = By.XPath("//li[@class='dropdown']");
 
         private const string PartyName = "//div[text()='{0}']";
         private readonly By title = By.XPath("//h4[text()='Party']");
         private readonly By wBtab = By.XPath("//a[text()='Weighbridge Settings']");
         private readonly By wBTicketTab = By.XPath("//a[text()='Weighbridge Tickets']");
+        private readonly By taskTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='tasks-tab']");
 
         //COMMON DYNAMIC LOCATOR
         private const string partyName = "//p[text()='{0}']";
@@ -134,10 +137,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         //TAB
+        public DetailPartyPage ClickTabDropDown()
+        {
+            ClickOnElement(dropdown);
+            return this;
+        }
         public DetailPartyPage GoToATab(string tabName)
         {
             ClickOnElement(aTab, tabName);
             return this;
+        }
+        public TaskTab ClickTasksTab()
+        {
+            ClickOnElement(taskTab);
+            return new TaskTab();
         }
         public List<string> GetAllTabDisplayed()
         {

@@ -494,6 +494,11 @@ namespace si_automated_tests.Source.Core
             ClickOnElement(saveBtn);
             return this;
         }
+        public string ClickSaveBtnGetUTCTime()
+        {
+            ClickOnElement(saveBtn);
+            return CommonUtil.GetUtcTimeNow("dd/MM/yyyy hh:mm");
+        }
         public BasePage ClickRefreshBtn()
         {
             ClickOnElement(refreshBtn);
