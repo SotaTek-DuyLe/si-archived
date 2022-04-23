@@ -34,8 +34,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser11.UserName, AutoUser11.Password)
-                .IsOnHomePage(AutoUser11);
+                .Login(AutoUser30.UserName, AutoUser30.Password)
+                .IsOnHomePage(AutoUser30);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")

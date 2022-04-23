@@ -34,8 +34,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser11.UserName, AutoUser11.Password)
-                .IsOnHomePage(AutoUser11);
+                .Login(AutoUser31.UserName, AutoUser31.Password)
+                .IsOnHomePage(AutoUser31);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")
