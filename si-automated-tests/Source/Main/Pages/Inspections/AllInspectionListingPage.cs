@@ -5,21 +5,22 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
 
 namespace si_automated_tests.Source.Main.Pages.Inspections
 {
     public class AllInspectionListingPage : BasePage
     {
         private readonly By allRowInInspectionTabel = By.XPath("//div[@class='grid-canvas']/div");
+        private readonly By firstInspectionRow= By.XPath("//div[@class='grid-canvas']/div[not(contains(@style, 'display: none;'))][1]");
 
         //DYNAMIC LOCATOR
         private const string columnInRowInspection = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
 
-        public List<InspectionModel> getAllInspectionInList()
+        public List<InspectionModel> getAllInspectionInList(int numberOfRow)
         {
             List<InspectionModel> allModel = new List<InspectionModel>();
-            List<IWebElement> allRow = GetAllElements(allRowInInspectionTabel);
-            for (int i = 0; i < allRow.Count; i++)
+            for (int i = 0; i < numberOfRow; i++)
             {
                 string id = GetElementText(GetAllElements(columnInRowInspection, CommonConstants.InspectionColumnInListingPage[0])[i]);
                 string point = GetElementText(GetAllElements(columnInRowInspection, CommonConstants.InspectionColumnInListingPage[1])[i]);
@@ -61,5 +62,46 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             Assert.AreEqual(service, inspectionModelActual.service);
             return this;
         }
+
+        public AllInspectionListingPage VerifyTheFirstInspection(PointHistoryModel pointHistoryModel, InspectionModel inspectionModelActual, string location, string contract, string source, string service, string createdByUser, string assignedUser, string allocatedUnit)
+        {
+            Assert.AreEqual(pointHistoryModel.ID, inspectionModelActual.ID);
+            Assert.AreEqual(location, inspectionModelActual.point);
+            Assert.AreEqual(pointHistoryModel.type, inspectionModelActual.inspectionType);
+            Assert.AreEqual(createdByUser, inspectionModelActual.createdByUser);
+            Assert.AreEqual(assignedUser, inspectionModelActual.assignedUser);
+            Assert.AreEqual(allocatedUnit, inspectionModelActual.allocatedUnit);
+            Assert.AreEqual(pointHistoryModel.state, inspectionModelActual.status);
+            Assert.AreEqual(contract, inspectionModelActual.contract);
+            Assert.AreEqual(pointHistoryModel.date, inspectionModelActual.validFrom);
+            Assert.AreEqual(pointHistoryModel.dueDate, inspectionModelActual.validTo);
+            Assert.AreEqual(source, inspectionModelActual.source);
+            Assert.AreEqual(service, inspectionModelActual.service);
+            return this;
+        }
+
+        public AllInspectionListingPage VerifyTheFirstInspection(InspectionModel inspectionModelActual, string location, string contract, string source, string service, string createdByUser, string assignedUser, string allocatedUnit, string id, string type, string state, string date, string dueDate)
+        {
+            //Assert.AreEqual(id, inspectionModelActual.ID);
+            Assert.AreEqual(location, inspectionModelActual.point);
+            Assert.AreEqual(type, inspectionModelActual.inspectionType);
+            Assert.AreEqual(createdByUser, inspectionModelActual.createdByUser);
+            Assert.AreEqual(assignedUser, inspectionModelActual.assignedUser);
+            Assert.AreEqual(allocatedUnit, inspectionModelActual.allocatedUnit);
+            Assert.AreEqual(state, inspectionModelActual.status);
+            Assert.AreEqual(contract, inspectionModelActual.contract);
+            Assert.AreEqual(date + " 00:00", inspectionModelActual.validFrom);
+            Assert.AreEqual(dueDate + " 00:00", inspectionModelActual.validTo);
+            Assert.AreEqual(source, inspectionModelActual.source);
+            Assert.AreEqual(service, inspectionModelActual.service);
+            return this;
+        }
+
+        public DetailInspectionPage DoubleClickFirstInspectionRow()
+        {
+            DoubleClickOnElement(firstInspectionRow);
+            return PageFactoryManager.Get<DetailInspectionPage>();
+        }
+
     }
 }

@@ -67,7 +67,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.IsTrue(IsControlDisplayed(allocatedUnitDd));
             Assert.IsTrue(IsControlDisplayed(allocatedUserDd));
             Assert.IsTrue(IsControlDisplayed(noteInput));
-            Assert.AreEqual(GetAttributeValue(createBtn, "disabled"), "true");
             Assert.IsTrue(IsControlEnabled(cancelBtn));
             //Create btn disabled
             Assert.AreEqual(GetAttributeValue(createBtn, "disabled"), "true");

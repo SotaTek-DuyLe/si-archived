@@ -218,7 +218,7 @@ namespace si_automated_tests.Source.Core
             }
             else
             {
-                return false;
+                return !this.driver.FindElements(by).FirstOrDefault()?.Displayed ?? false;
             }
         }
         public bool IsControlUnDisplayed(string xpath, string value)
