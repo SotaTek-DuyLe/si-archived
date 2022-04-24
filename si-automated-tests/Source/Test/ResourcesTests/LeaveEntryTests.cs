@@ -17,6 +17,29 @@ namespace si_automated_tests.Source.Test.ResourcesTests
     [TestFixture]
     public class LeaveEntryTests : BaseTest
     {
+        public override void Setup()
+        {
+            base.Setup();
+            //LOGIN AND GO TO DEFAULT ALLOCATION
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser21.UserName, AutoUser21.Password)
+                .IsOnHomePage(AutoUser21);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Resources")
+                .OpenOption("Default Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract("North Star Commercial")
+                .SelectBusinessUnit("North Star Commercial")
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+
+        }
 
         [Category("Resources")]
         [Test]
@@ -29,23 +52,6 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             string leaveType = "Holiday";
             string leaveReason = "Paid";
 
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser4.UserName, AutoUser4.Password)
-                .IsOnHomePage(AutoUser4);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .OpenOption("Default Allocation")
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract("North Star Commercial")
-                .SelectBusinessUnit("North Star Commercial")
-                .SelectShift("AM")
-                .ClickGo()
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
             //Create new default resource
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
@@ -126,23 +132,6 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             string leaveType = "Holiday";
             string leaveReason = "Paid";
 
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser4.UserName, AutoUser4.Password)
-                .IsOnHomePage(AutoUser4);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .OpenOption("Default Allocation")
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract("North Star Commercial")
-                .SelectBusinessUnit("North Star Commercial")
-                .SelectShift("AM")
-                .ClickGo()
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
             //CREATE NEW RESOURCE
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
@@ -219,23 +208,6 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             string leaveType = "Holiday";
             string leaveReason = "Paid";
 
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser4.UserName, AutoUser4.Password)
-                .IsOnHomePage(AutoUser4);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .OpenOption("Default Allocation")
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract("North Star Commercial")
-                .SelectBusinessUnit("North Star Commercial")
-                .SelectShift("AM")
-                .ClickGo()
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
             //CREATE NEW RESOURCE
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
@@ -312,23 +284,6 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             string resourceType = "Driver";
             string leaveType = "Jury Service";
 
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser4.UserName, AutoUser4.Password)
-                .IsOnHomePage(AutoUser4);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .OpenOption("Default Allocation")
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract("North Star Commercial")
-                .SelectBusinessUnit("North Star Commercial")
-                .SelectShift("AM")
-                .ClickGo()
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
             //CREATE NEW RESOURCE
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
@@ -391,6 +346,149 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValue("Resource", resourceName)
                 .VerifyFirstResultValue("Verdict", "Cancelled");
+        }
+        [Category("Resources")]
+        [Test]
+        public void TC_77()
+        {
+            string currentDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
+            string details = CommonUtil.GetRandomString(5);
+            string resourceNameA = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string resourceNameB = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string[] resourceNames = { resourceNameA, resourceNameB };
+            string resourceType = "Driver";
+            string leaveType = "Holiday";
+            string leaveReason = "Paid";
+
+
+            //CREATE NEW RESOURCE A
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceNameA)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved resource.")
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+
+            //CREATE NEW RESOURCE B
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow() 
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceNameB)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved resource.")
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .SwitchToTab("All Resources");
+
+            //ALLOCATE RESOURCES
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceNameA)
+                .VerifyFirstResultValue("Resource", resourceNameA)
+                .DragAndDropFirstResultToRound(2)
+                .VerifyToastMessage("Default Resource Set");
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceNameB)
+                .VerifyFirstResultValue("Resource", resourceNameB)
+                .DragAndDropFirstResultToRound(2)
+                .VerifyToastMessage("Default Resource Set")
+
+            //CREATE LEAVE ENTRY
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Resources")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickButton("Create Leave Entry Record")
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .IsOnLeaveEntryPage()
+                .SelectLeaveResource(resourceNameA)
+                .SelectLeaveType(leaveType)
+                .SelectLeaveReason(leaveReason)
+                .EnterDates(currentDate)
+                .EnterDetails(details)
+                .SaveLeaveEntry()
+                .VerifyToastMessage("Successfully saved Leave Entry");
+            //VERIFY
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .VerifyNewButtonsDisplayed()
+                .VerifyDateIsHighlighted(currentDate)
+                .VerifyResourceNamesArePresent(resourceNames)
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .VerifyTotalUnavailableNumberIs(0)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+
+            //CREATE ANOTHER LEAVE ENTRY
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickButton("Create Leave Entry Record")
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .IsOnLeaveEntryPage()
+                .SelectLeaveResource(resourceNameB)
+                .SelectLeaveType(leaveType)
+                .SelectLeaveReason(leaveReason)
+                .EnterDates(currentDate)
+                .EnterDetails(details)
+                .SaveLeaveEntry()
+                .VerifyToastMessage("Successfully saved Leave Entry");
+            //VERIFY
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .VerifyNewButtonsDisplayed()
+                .VerifyDateIsHighlighted(currentDate)
+                .VerifyResourceNamesArePresent(resourceNames)
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .VerifyTotalUnavailableNumberIs(0)
+
+            //DEALLOCATE RESOURCE TO MAINTAIN TEST
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption("Resources")
+               .OpenOption("Default Allocation")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract("North Star Commercial")
+                .SelectBusinessUnit("North Star Commercial")
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DeallocateResourceFromRoundGroup(2, resourceNameA)
+                .VerifyToastMessage("Default resource cleared");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DeallocateResourceFromRoundGroup(2, resourceType)
+                .VerifyToastMessage("Default resource-type cleared");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DeallocateResourceFromRoundGroup(2, resourceNameB)
+                .VerifyToastMessage("Default resource cleared");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DeallocateResourceFromRoundGroup(2, resourceType)
+                .VerifyToastMessage("Default resource-type cleared");
         }
     }
 }

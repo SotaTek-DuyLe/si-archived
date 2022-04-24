@@ -6,6 +6,7 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 
 namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 {
@@ -591,7 +592,16 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return this;
         }
-
+        public IList<IWebElement> GetCreateAdhocBtnList()
+        {
+            IList<IWebElement> createAdhocBtns = WaitUtil.WaitForAllElementsVisible(createAdhocBtn);
+            return createAdhocBtns;
+        }
+        public AgreementTaskDetailsPage ClickAdHocBtn(IWebElement e)
+        {
+            ClickOnElement(e);
+            return new AgreementTaskDetailsPage();
+        }
         public DetailTab VerifyMobilizationPanelDisappear()
         {
             Assert.IsTrue(IsControlUnDisplayed(beginLocatorMobi));

@@ -13,7 +13,7 @@ namespace si_automated_tests.Source.Test
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    public class PartyTests : BaseTest
+    public class PartyTest : BaseTest
     {
         [Category("Create party")]
         [Test]

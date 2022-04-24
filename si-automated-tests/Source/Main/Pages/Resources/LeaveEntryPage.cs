@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
@@ -20,6 +22,15 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By confirmApprovalBtn = By.XPath("//button[text()='Yes, Approve']");
         private readonly By confirmDeclineBtn = By.XPath("//button[text()='Yes, Decline']");
         private readonly By confirmDeleteBtn = By.XPath("//button[text()='Yes']");
+
+        //RIGHT PANEL
+        //DEFAULT ALLOCATION TAB
+        private readonly string hightlightStyle = "background-color: skyblue;";
+        private readonly string currentDateRow = "//td[text()='{0}']/parent::tr";
+        private readonly By tableHeaders = By.XPath("//div[@class='tab-pane active']//tr[@class='spaced-header']/th");
+
+        //ALL RESOURCES TAB
+        private readonly By totalUnavailableAM = By.XPath("((//div[@class='tab-pane active']//tr[@style='background-color: skyblue;'])[2]//span)[2]");
 
         public LeaveEntryPage IsOnLeaveEntryPage()
         {
@@ -105,6 +116,26 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         {
             ClickOnElement(confirmDeleteBtn);
             WaitForLoadingIconToDisappear();
+            return this;
+        }
+        public LeaveEntryPage VerifyDateIsHighlighted(string date)
+        {
+            var xpath = String.Format(currentDateRow, date);
+            Assert.AreEqual(GetAttributeValue(xpath, "style"), hightlightStyle);
+            return this;
+        }
+        public LeaveEntryPage VerifyResourceNamesArePresent(string[] names)
+        {
+            List<IWebElement> headers = GetAllElements(tableHeaders);
+            for(int i = 2; i < headers.Count; i++)
+            {
+                Assert.AreEqual(names[i-2], GetElementText(headers[i]));
+            }
+            return this;
+        }
+        public LeaveEntryPage VerifyTotalUnavailableNumberIs(int num)
+        {
+            Assert.AreEqual(num.ToString(), GetElementText(totalUnavailableAM));
             return this;
         }
     }

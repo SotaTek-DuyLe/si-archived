@@ -67,6 +67,8 @@
     <None Remove="Source\Main\Pages\Paties\Parties\PartyVehiclePage\" />
     <None Remove="Source\Main\Pages\WB\Tickets\" />
     <None Remove="Source\Main\Pages\Paties\Parties\PartyWBTicket\" />
+    <None Remove="Source\Test\AccountTests\" />
+    <None Remove="Source\Main\Pages\Accounts\" />
     <None Remove="System.Data.SqlClient" />
     <None Remove="Microsoft.Extensions.Configuration.Json" />
     <None Remove="Microsoft.Extensions.Configuration.Binder" />
@@ -80,11 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
-    <Folder Include="Source\Main\Pages\Paties\Parties\" />
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
     <Folder Include="Source\Main\Pages\Paties\SiteServices\" />
     <Folder Include="Source\Main\Pages\Paties\Sites\" />
-    <Folder Include="Source\Main\Pages\Task\" />
     <Folder Include="Source\Test\ContactTests\" />
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyContactPage\" />
     <Folder Include="Source\Test\WeighbridgeTests\" />
@@ -94,6 +94,8 @@
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyVehiclePage\" />
     <Folder Include="Source\Main\Pages\WB\Tickets\" />
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyWBTicketPage\" />
+    <Folder Include="Source\Test\AccountTests\" />
+    <Folder Include="Source\Main\Pages\Accounts\" />
     <Folder Include="Source\Main\DBModels\" />
     <Folder Include="Source\Test\InspectionTests\" />
     <Folder Include="Source\Main\Pages\Tasks\" />
