@@ -71,6 +71,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
 
         //Tabs
         private readonly By taskTab = By.XPath("//a[text()='Tasks']");
+        private readonly By dataTab = By.XPath("//a[text()='Data']");
 
         //Task Tab locator 
         private readonly By taskTabBtn = By.XPath("//a[@aria-controls='tasks-tab']");
@@ -88,6 +89,15 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private string expandAgreementLineByServicesName = "//span[text()='{0}' and contains(@data-bind, 'serviceName')]/ancestor::div[@class='panel-heading']//button[@title='Expand/close agreement line']";
         private string regularFrequency = "//td[text()='Commercial Collection']/following-sibling::td/p[text()='{0}']";
         private string editAgreementByAddress = "//p[text()='{0}']//ancestor::div[@class='panel-heading']//button[text()='Edit']";
+
+        private string agreementType = "//h4[contains(.,'{0}')]";
+        private string agreementName = "//p[text()='{0}']";
+        public PartyAgreementPage WaitForAgreementPageLoadedSuccessfully(string type, string name)
+        {
+            WaitUtil.WaitForElementVisible(agreementType, type);
+            WaitUtil.WaitForElementVisible(agreementName, name);
+            return this;
+        }
         public PartyAgreementPage ClickOnDetailsTab()
         {
             ClickOnElement(detailsTabBtn);
@@ -393,6 +403,12 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         {
             ClickOnElement(retirePopUpOKBtn);
             return this;
+        }
+
+        public DataTab ClickDataTab()
+        {
+            ClickOnElement(dataTab);
+            return new DataTab();
         }
     }
 }

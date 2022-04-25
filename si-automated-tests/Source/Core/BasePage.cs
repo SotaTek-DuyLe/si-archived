@@ -478,6 +478,11 @@ namespace si_automated_tests.Source.Core
         {
             return WaitUtil.WaitForElementVisible(by).Selected;
         }
+        public bool IsElementSelected(string xpath, string value)
+        {
+            xpath = String.Format(xpath, value);
+            return WaitUtil.WaitForElementVisible(xpath).Selected;
+        }
         public BasePage WaitForLoadingIconToDisappear()
         {
             Thread.Sleep(750);
@@ -501,6 +506,11 @@ namespace si_automated_tests.Source.Core
         {
             ClickOnElement(saveBtn);
             return this;
+        }
+        public string ClickSaveBtnGetUTCTime()
+        {
+            ClickOnElement(saveBtn);
+            return CommonUtil.GetUtcTimeNow("dd/MM/yyyy hh:mm");
         }
         public BasePage ClickRefreshBtn()
         {

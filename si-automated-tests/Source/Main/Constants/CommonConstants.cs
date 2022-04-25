@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string EndDateAgreement = "01/01/2050";
         public static readonly string BoderColorMandatory = "rgb(169, 68, 66)";
         public static readonly string BoderColorMandatory_Rbga = "rgba(169, 68, 66, 1)";
+        public static readonly string ColorBlue = "rgba(51, 122, 183, 1)"; //#337AB7
         public static readonly string DATE_DD_MM_YYYY_FORMAT = "dd/MM/yyyy";
         public static readonly string DATE_MM_DD_YYYY_FORMAT = "MM/dd/yyyy";
         public static readonly string[] ContactGroupsOptions = { "Invoicing", "Operational" };

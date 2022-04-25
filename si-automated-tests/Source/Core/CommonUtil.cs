@@ -48,7 +48,11 @@ namespace si_automated_tests.Source.Core
 
         public static string GetUtcTimeNow(string format)
         {
-            return DateTime.UtcNow.ToString(format);
+            return DateTime.UtcNow.ToString(format).Replace('-', '/');
+        }
+        public static string GetTimeMinusHour(string time, string format, int hour)
+        {
+            return DateTime.ParseExact(time, format, CultureInfo.InvariantCulture).AddHours(hour).ToString(format).Replace('-', '/');
         }
 
         public static string GetLocalDayMinusDay(int day)
