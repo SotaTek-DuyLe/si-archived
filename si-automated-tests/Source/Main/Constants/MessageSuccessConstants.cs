@@ -11,6 +11,6 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string SaveWBVCHRegistered = "Weighbridge Vehicle Customer Haulier Successfully registered";
         public static readonly string SaveWBSiteProductSuccessMessage = "Successfully saved Weighbridge Site Product";
         public static readonly string SaveWBTicketSuccessMessage = "Successfully saved Weighbridge Ticket";
-
+        public static readonly string SaveInspectionCreatedMessage = "Inspection Created";
     }
 }

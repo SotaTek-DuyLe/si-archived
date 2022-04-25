@@ -26,5 +26,11 @@ namespace si_automated_tests.Source.Main.Models
         [JsonProperty(PropertyName = "email")]
         public string Email;
 
+        [JsonProperty(PropertyName = "location name")]
+        public string LocationName;
+
+        [JsonProperty(PropertyName = "address name")]
+        public string AddressName;
+
     }
 }

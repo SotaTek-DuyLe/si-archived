@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string BoderColorMandatory = "rgb(169, 68, 66)";
         public static readonly string BoderColorMandatory_Rbga = "rgba(169, 68, 66, 1)";
         public static readonly string DATE_DD_MM_YYYY_FORMAT = "dd/MM/yyyy";
+        public static readonly string DATE_MM_DD_YYYY_FORMAT = "MM/dd/yyyy";
         public static readonly string[] ContactGroupsOptions = { "Invoicing", "Operational" };
         public static readonly string[] ContactTable = { "ID", "Title", "First Name", "Last Name", "Position", "Telephone", "Mobile", "Email", "Receive Emails", "Contact Groups", "Start Date", "End Date" };
         public static readonly string WBSiteName = "Weighbridge";
@@ -29,6 +30,10 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] LocationTabColumn = { "ID", "Location", "Active", "Client #" };
         public static readonly string[] ProductTabColumn = { "ID", "Product", "Ticket Type", "Default Location", "Is Location Mandatory", "Is Restrict Location", "Start Date", "End Date" };
         public static readonly string[] TicketType = { "Select...", "Incoming", "Neutral", "Outbound" };
-        
+        public static readonly string[] InspectionTabColumn = { "ID", "Inspection Type", "Created Date", "Created By User", "Assigned User", "Allocated Unit", "Status", "Valid From", "Valid To", "Completion Date", "Cancelled Date" };
+        public static readonly string[] InspectionColumnInListingPage = { "ID", "Point", "Inspection Type", "Created Date", "Created By User", "Inspection Scheme", "Assigned User", "Allocated Unit", "Status", "Client Reference", "Contract", "Valid From", "Valid To", "Completion Date", "Last Updated", "Cancelled Date", "GPS Description", "Source", "Service" };
+        public static readonly string[] PointHistoryTabColumn = { "Description", "ID", "Type", "Service", "Address", "Date", "Due Date", "State", "Resolution Code" };
+        public static readonly string[] PointAddressColumn = { "ID", "Name", "UPRN", "Postcode", "Property Name", "Property", "To Property", "Sub Building", "Property Suffix", "Point Segment ID", "Point Address Type", "Start Date", "End Date" };
+
     }
 }

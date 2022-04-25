@@ -7,6 +7,7 @@ using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages.SystemTools.SystemMonitoring;
 using si_automated_tests.Source.Main.Pages.UserAndRole;
 using si_automated_tests.Source.Main.Models;
+using OpenQA.Selenium;
 
 namespace si_automated_tests.Source.Main.Pages
 {
@@ -34,6 +35,18 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly string searchBtn = "//span[text()='Search']/parent::button";
         private readonly string logoutBtn = "//a[text()='Log out']";
 
+        //SEARCH MODEL
+        private readonly By searchInput = By.CssSelector("h4#search-header");
+        private readonly By sectorDd = By.CssSelector("select#sector");
+        private readonly By uprnInput = By.CssSelector("input#uprn");
+        private readonly By postCodeInput = By.CssSelector("input#postcode");
+        private readonly By propertyInput = By.CssSelector("input#property");
+        private readonly By streetInput = By.CssSelector("input#street");
+        private readonly By searchInPopupBtn = By.XPath("//button[text()='Search']");
+        private readonly By cancelInPopupBtn = By.XPath("//button[text()='Search']/preceding-sibling::button[text()='Cancel']");
+        private readonly By closeInPopupBtn = By.XPath("//h4[text()='Search for...']/parent::div/following-sibling::div//button[@aria-label='Close']");
+        private const string richomndCommercialOption = "//optgroup/option[text()='Richmond Commercial']";
+
         //IE ONLY
         private readonly string systemTool = "//img[@title='System Tools']";
         private readonly string systemMonitoring = "//span[contains(text(),'System Monitoring')]/../../descendant::img";
@@ -56,6 +69,13 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.AreEqual(GetElementText(userNameBtn).Trim(), user.DisplayName);
             return this;
         }
+
+        public HomePage ClickOnSearchBtn()
+        {
+            ClickOnElement(searchBtn);
+            return this;
+        }
+
         public HomePage ClickUserNameDd()
         {
             ClickOnElement(userNameBtn);
@@ -121,6 +141,35 @@ namespace si_automated_tests.Source.Main.Pages
         {
             ClickOnElement(String.Format(userNameValue, userName));
             return PageFactoryManager.Get<UserDetailPage>();
+        }
+
+        //SEARCH MODEL
+        public HomePage IsSearchModel()
+        {
+            WaitUtil.WaitForElementVisible(searchInput);
+            Assert.IsTrue(IsControlDisplayed(searchInput));
+            Assert.IsTrue(IsControlDisplayed(sectorDd));
+            Assert.IsTrue(IsControlDisplayed(uprnInput));
+            Assert.IsTrue(IsControlDisplayed(postCodeInput));
+            Assert.IsTrue(IsControlDisplayed(propertyInput));
+            Assert.IsTrue(IsControlDisplayed(streetInput));
+            Assert.IsTrue(IsControlEnabled(searchInPopupBtn));
+            Assert.IsTrue(IsControlEnabled(cancelInPopupBtn));
+            Assert.IsTrue(IsControlDisplayed(closeInPopupBtn));
+            return this;
+        }
+
+        public HomePage ClickAndSelectSectorValue()
+        {
+            ClickOnElement(sectorDd);
+            ClickOnElement(richomndCommercialOption);
+            return this;
+        }
+
+        public HomePage ClickOnSearchBtnInPopup()
+        {
+            ClickOnElement(searchInPopupBtn);
+            return this;
         }
     }
 }
