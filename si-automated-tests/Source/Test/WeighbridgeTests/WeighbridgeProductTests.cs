@@ -2196,5 +2196,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             List<WBSiteProduct> products = ObjectExtention.DataReaderMapToList<WBSiteProduct>(reader);
 
         }
+
+
     }
 }
