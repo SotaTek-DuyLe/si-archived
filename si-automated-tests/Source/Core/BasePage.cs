@@ -231,7 +231,7 @@ namespace si_automated_tests.Source.Core
             }
             else
             {
-                return false;
+                return !this.driver.FindElements(By.XPath(xpath)).FirstOrDefault()?.Displayed ?? false;
             }
 
         }

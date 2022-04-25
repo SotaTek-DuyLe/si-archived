@@ -199,6 +199,11 @@
     "displayname": "auto31 display"
   },
   "auto_user_32": {
+    "username": "auto32",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto32 display"
+  },
+  "auto_user_33": {
     "username": "auto33",
     "password": "n9L/4X:.rs",
     "displayname": "auto33 display"
@@ -300,6 +305,11 @@
   },
   "auto_user_53": {
     "username": "auto53",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto54 display"
+  },
+  "auto_user_54": {
+    "username": "auto54",
     "password": "n9L/4X:.rs",
     "displayname": "auto54 display"
   },
