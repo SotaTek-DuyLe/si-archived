@@ -205,7 +205,7 @@ namespace si_automated_tests.Source.Test.PartyTests
         }
         [Category("PurchaseOrder")]
         [Test]
-        public void TC_076_Remove_Purchase_Order()
+        public void TC_076_PO_Number_Require_Is_True()
         {
             string todayUTCDate = CommonUtil.GetUtcTimeNow("dd/MM/yyyy");
             int partyId = 73;
@@ -216,6 +216,8 @@ namespace si_automated_tests.Source.Test.PartyTests
             string refUpdateValue = "Task reference: " + refValue;
             string refUpdateValue1 = "Task reference: " + refValue1;
             string PONumberCreatedValue = "PurchaseOrder = " + PO_Number;
+
+            int taskId = 703;
 
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -258,7 +260,7 @@ namespace si_automated_tests.Source.Test.PartyTests
                 .ClickTasksTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskTab>()
-                .OpenFirstTask()
+                .GoToATaskById(taskId)
                 .SwitchToLastWindow();
             PageFactoryManager.Get<AgreementTaskDetailsPage>()
                 .WaitForLoadingIconToDisappear();
@@ -276,9 +278,6 @@ namespace si_automated_tests.Source.Test.PartyTests
             string savedUTCTime = PageFactoryManager.Get<TaskDetailTab>()
                 .ClickSaveBtnGetUTCTime();
             string updatedUTCTime = CommonUtil.GetTimeMinusHour(savedUTCTime, "dd/MM/yyyy hh:mm", 1);
-
-            Console.WriteLine(savedUTCTime);
-            Console.WriteLine(updatedUTCTime);
 
             PageFactoryManager.Get<BasePage>()
                 .VerifyToastMessage("Success")
@@ -300,6 +299,28 @@ namespace si_automated_tests.Source.Test.PartyTests
             PageFactoryManager.Get<HistoryTab>()
                 .VerifyUpdateTaskTimeAndValue(refUpdateValue, updatedUTCTime)
                 .VerifyCreatedTaskTimeAndValue(PONumberCreatedValue, savedUTCTime)
+                .CloseCurrentWindow()
+                .SwitchToChildWindow(2);
+            //Back to Party and Verify Purchase order 
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName);
+            PageFactoryManager.Get<DetailPartyPage>()
+                .GoToATab("Purchase Orders");
+            PageFactoryManager.Get<PartyPurchaseOrderPage>()
+                .WaitForLoadingIconToDisappear();
+            //Confirm purchase order appear 
+            PageFactoryManager.Get<PartyPurchaseOrderPage>()
+                .IsOnPartyPurchaseOrderPage()
+                .VerifyPurchaseOrder(PO_Number, todayUTCDate, "31/12/2049")
+                .OpenPurchaseOrder(PO_Number)
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PurchaseOrderDetailsPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PurchaseOrderDetailsPage>()
+                .WaitingForPurchaseOrderPageLoadedSuccessfully(PO_Number)
+                .VerifyDetailsPageWithDateEnabled(todayUTCDate, "31/12/2049", taskId.ToString())
                 .CloseCurrentWindow()
                 .SwitchToChildWindow(2);
             //Back to party and Set 'PO Number Required'  = false
@@ -326,7 +347,7 @@ namespace si_automated_tests.Source.Test.PartyTests
                 .ClickTasksTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskTab>()
-                .OpenFirstTask()
+                .GoToATaskById(taskId)
                 .SwitchToLastWindow();
             PageFactoryManager.Get<AgreementTaskDetailsPage>()
                 .WaitForLoadingIconToDisappear();
