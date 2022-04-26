@@ -25,7 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             WaitUtil.WaitForElementVisible(site);
             WaitUtil.WaitForElementVisible(product);
             WaitUtil.WaitForElementVisible(priceElement);
-            //WaitUtil.WaitForElementVisible(nominalCode);
+            WaitUtil.WaitForElementVisible(nominalCode);
             WaitUtil.WaitForElementVisible(description);
             WaitUtil.WaitForElementVisible(quantity);
             WaitUtil.WaitForElementVisible(price);

@@ -22,17 +22,9 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         public SaleInvoiceLinePage IsOnSaleInvoiceLinePage()
         {
             SwitchToLastWindow();
-            //WaitUtil.WaitForElementVisible(lineType);
-            //WaitUtil.WaitForElementVisible(site);
-            //WaitUtil.WaitForElementVisible(product);
-            //WaitUtil.WaitForElementVisible(priceElement);
-            //WaitUtil.WaitForElementVisible(nominalCode);
-            //WaitUtil.WaitForElementVisible(description);
-            //WaitUtil.WaitForElementVisible(quantity);
-            //WaitUtil.WaitForElementVisible(price);
-            //WaitUtil.WaitForElementVisible(netValue);
-            //WaitUtil.WaitForElementVisible(vatRate);
-            //WaitUtil.WaitForElementVisible(poNumber);
+            WaitUtil.WaitForElementVisible(lineType);
+            WaitUtil.WaitForElementVisible(site);
+            WaitUtil.WaitForElementVisible(product);
             return this;
         }
         public SaleInvoiceLinePage InputInfo(string _lineType, string _site, string _product, string _priceElement, string _quantity, string _price)
