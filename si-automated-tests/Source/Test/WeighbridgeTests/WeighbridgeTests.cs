@@ -260,19 +260,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
 
-            //SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
-            //DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-            //PageFactoryManager.Get<PartyCommonPage>()
-            //    .FilterPartyById(Int32.Parse("1079"))
-            //    .OpenFirstResult()
-            //    .SwitchToLastWindow();
-            //detailPartyPage
-            //    .ClickOnSitesTab()
-            //    .WaitForLoadingIconToDisappear();
-            //detailPartyPage
-            //    .OpenFirstSiteRow()
-            //    .SwitchToLastWindow();
-
             //TC55: Navigate to Location tab to delete location
             siteDetailPage
                 .ClickOnLocationTab()
@@ -303,12 +290,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createNewTicketPage
                 .IsCreateNewTicketPage()
                 .ClickStationDdAndSelectStation(stationNameTC55)
-                //.ClickStationDdAndSelectStation("AutoStation7603")
                 .WaitForLoadingIconToDisappear();
             createNewTicketPage
                 .VerifyDisplayVehicleRegInput()
                 .InputVehicleRegInput(resourceName)
-                //.InputVehicleRegInput("Auto55 WB Van77")
                 .WaitForLoadingIconToDisappear();
             createNewTicketPage
                 //Verify vehicle type field displayed
@@ -319,11 +304,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyValueInTicketTypeDd()
                //Select Ticket Type is the same with TicketType of the product
                .ClickAnyTicketType(ticketType)
-               //.ClickAnyTicketType("Incoming")
                 //Verify Haulie field displayed
                 .VerifyDisplayHaulierDd()
                 .ClickAnyHaulier(partyNameHaulier)
-                //.ClickAnyHaulier("Auto055HaulierGU")
                 .WaitForLoadingIconToDisappear();
             //Add ticket line
             createNewTicketPage
@@ -334,7 +317,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Verify Location
                 .VerifyNoLocationIsPrepolulated()
                 .VerifyLocationDeletedNotDisplay(locationNameActive);
-                //.VerifyLocationDeletedNotDisplay("Location01");
         }
 
         [Category("WB")]
