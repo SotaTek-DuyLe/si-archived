@@ -18,6 +18,12 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By firstResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
         private readonly By secondResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row odd')][1]/div");
 
+        public CommonBrowsePage()
+        {
+            SwitchToLastWindow();
+            SwitchToDefaultContent();
+            SwitchNewIFrame();
+        }
         public CommonBrowsePage FilterItem(int id)
         {
             WaitForLoadingIconToDisappear();

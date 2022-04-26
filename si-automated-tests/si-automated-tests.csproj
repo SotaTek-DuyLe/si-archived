@@ -79,6 +79,7 @@
     <None Remove="Source\Main\Pages\Inspections\" />
     <None Remove="Source\Main\Pages\Events\" />
     <None Remove="Source\Main\Pages\PointAddress\" />
+    <None Remove="Source\Main\Pages\Common\" />
     <None Remove="Source\Main\Pages\Search\" />
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +105,7 @@
     <Folder Include="Source\Main\Pages\Inspections\" />
     <Folder Include="Source\Main\Pages\Events\" />
     <Folder Include="Source\Main\Pages\PointAddress\" />
+    <Folder Include="Source\Main\Pages\Common\" />
     <Folder Include="Source\Main\Pages\Search\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,115 @@
+﻿using System;
+using NUnit.Framework;
+using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.Accounts;
+using si_automated_tests.Source.Main.Pages.Common;
+using si_automated_tests.Source.Main.Pages.NavigationPanel;
+using static si_automated_tests.Source.Main.Models.UserRegistry;
+
+namespace si_automated_tests.Source.Test.AccountTests
+{
+    [Parallelizable(scope: ParallelScope.Fixtures)]
+    [TestFixture]
+    public class SaleInvoiceTests : BaseTest
+    {
+
+        public override void Setup()
+        {
+            base.Setup();
+            //LOGIN AND GO TO DEFAULT ALLOCATION
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser24.UserName, AutoUser24.Password)
+                .IsOnHomePage(AutoUser24);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Accounts")
+                .ExpandOption("North Star Commercial");
+        }
+
+        [Category("Account")]
+        [Test]
+        public void TC_84()
+        {
+            string partyName = "Greggs";
+            string lineType = "Commercial Line Type";
+            string site = "Greggs - 35 THE QUADRANT, RICHMOND, TW9 1DN";
+            string product = "General Refuse";
+            string priceElement = "Revenue";
+            string quantity = "1";
+            string price = "100.00";
+
+            PageFactoryManager.Get<NavigationBase>()
+                .OpenOption("Sales Invoices");
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickButton("Create");
+            PageFactoryManager.Get<CreateInvoicePage>()
+                .IsOnCreateInvoicePage()
+                .SearchForParty(partyName)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved Sales Invoice");
+            PageFactoryManager.Get<CreateInvoicePage>()
+                .VerifyNewTabsArePresent()
+                .SwitchToTab("Lines");
+            PageFactoryManager.Get<LinesTab>()
+                .IsOnLinesTab()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<SaleInvoiceLinePage>()
+                .IsOnSaleInvoiceLinePage()
+                .InputInfo(lineType, site, product, priceElement, quantity, price)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved Sales Invoice Line")
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<LinesTab>()
+                .IsOnLinesTab()
+                .VerifyLineInfo(partyName, product, product, quantity, price)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickFirstItem()
+                .ClickButton("Post");
+            PageFactoryManager.Get<PostConfirmationPage>()
+                .ClickConfirm()
+                .VerifyToastMessage("Success")
+                .SleepTimeInMiliseconds(1500);
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValue("Status", "POSTED");
+        }
+        [Category("Account")]
+        [Test]
+        public void TC_85()
+        {
+            string type = "Credit";
+            string customer = "Jaflong Tandoori - AL00000043";
+            string method = "Credit/Debit Card";
+            string invoiceType = "Monthly in Arrears";
+            string dateNextMonth = "01/"+CommonUtil.GetLocalTimeMinusMonth("MM/yyyy", 1);
+            string scheduelDate = CommonUtil.GetLocalTimeFromDate(dateNextMonth, "dd/MM/yyyy", -1);
+            string currentDateTime = CommonUtil.GetTimeMinusHour(CommonUtil.GetLocalTimeNow("dd/MM/yyyy HH:mm"),"dd/MM/yyyy HH:mm", 1);
+
+            PageFactoryManager.Get<NavigationBase>()
+                .OpenOption("Sales Invoice Batches");
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickButton("Create");
+            PageFactoryManager.Get<CreateInvoiceBatchPage>()
+                .IsOnBatchPage()
+                .SelectInputs(type, customer, method)
+                .InputInvoiceSchedule(invoiceType, scheduelDate)
+                .InputGenerateDate(currentDateTime)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved sales invoice batch")
+                .CloseCurrentWindow();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValue("Status", "PENDING")
+                .VerifyFirstResultValue("Generation Scheduled Date", currentDateTime)
+                .VerifyFirstResultValue("Account Types", type);           
+
+
+        }
+    }
+}
