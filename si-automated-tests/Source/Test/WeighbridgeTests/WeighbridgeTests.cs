@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -54,8 +53,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser14.UserName, AutoUser14.Password)
-                .IsOnHomePage(AutoUser14);
+                .Login(AutoUser9.UserName, AutoUser9.Password)
+                .IsOnHomePage(AutoUser9);
         }
 
         [Category("WB")]
@@ -415,7 +414,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
             //Navigate to Site page
-
             detailPartyPage
                 .ClickOnSitesTab()
                 .WaitForLoadingIconToDisappear();
@@ -433,17 +431,14 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayAllTab(CommonConstants.AllSiteTabCase46)
                 .ClickDetailTab()
                 .ClickSomeTabAndVerifyNoErrorMessage()
-                .ClickMapTabAndVerifyMessage("No Service Unit(s) associated to this Site ")
+                .ClickMapTabAndVerifyMessage(MessageRequiredFieldConstants.WBMapTabWarningMessage)
                 .ClickSaveAndCloseBtn()
                 .SwitchToChildWindow(2);
             detailPartyPage
                 .ClickWBSettingTab()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
-                .VerifyWBSettingTab()
-                .ClickCloseBtn()
-                .SwitchToChildWindow(1)
-                .SwitchNewIFrame();
+                .VerifyWBSettingTab();
         }
 
         [Category("WB")]
@@ -603,7 +598,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayAllTab(CommonConstants.AllSiteTabCase47)
                 .ClickDetailTab()
                 .ClickSomeTabAndVerifyNoErrorMessage()
-                .ClickMapTabAndVerifyMessage("No Service Unit(s) associated to this Site ")
+                .ClickMapTabAndVerifyMessage(MessageRequiredFieldConstants.WBMapTabWarningMessage)
                 .ClickSaveAndCloseBtn();
         }
 
@@ -896,11 +891,13 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForAddLocationPageLoaded()
                 .VerifyDisplayPartySitePage()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageRequiredFieldConstants.NameRequiredMessage);
+                .VerifyToastMessage(MessageRequiredFieldConstants.NameRequiredMessage)
+                .WaitUntilToastMessageInvisiable(MessageRequiredFieldConstants.NameRequiredMessage);
             addLocationPage
                 .InputName(locationNameNotActive)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
+                .WaitUntilToastMessageInvisiable(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
@@ -1067,12 +1064,14 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             addProductPage
                 .ClickAnyProduct(product)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageRequiredFieldConstants.TicketTypeRequiredMessage);
+                .VerifyToastMessage(MessageRequiredFieldConstants.TicketTypeRequiredMessage)
+                .WaitUntilToastMessageInvisiable(MessageRequiredFieldConstants.TicketTypeRequiredMessage);
             //Select any ticket Type
             addProductPage
                 .ClickAnyTicketType(ticketType)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
+                .WaitUntilToastMessageInvisiable(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage

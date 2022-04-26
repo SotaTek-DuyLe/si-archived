@@ -124,8 +124,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By addNewItemWBTicket = By.XPath("//div[@id='weighbridgeTickets-tab']//button[text()='Add New Item']");
 
         //VEHICLE TAB
-        private const string ColumnInGrid = "//span[text()='{0}']/parent::div";
-        private const string ColumnInRow = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
+        private readonly By addNewItemVehicleTab = By.XPath("//div[@id='weighbridgeVehicleCustomerHauliers-tab']//button[text()='Add New Item']");
+        private const string ColumnInGrid = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//span[text()='{0}']/parent::div";
+        private const string ColumnInRow = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
 
 
         //STEP
@@ -623,6 +624,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         public DetailPartyPage VerifyWBSettingTab()
         {
+            WaitUtil.WaitForElementVisible(autoPrintTicketCheckbox);
             Assert.IsTrue(GetElement(autoPrintTicketCheckbox).Selected);
             Assert.IsFalse(GetElement(driverNameRequiredCheckbox).Selected);
             Assert.IsFalse(GetElement(purcharseOrderNumberRequiredCheckbox).Selected);
@@ -742,9 +744,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         public DetailPartyPage VerifyTableDisplayedInVehicle()
         {
+            WaitUtil.WaitForElementVisible(addNewItemVehicleTab);
             foreach(string column in CommonConstants.ColumnInVehicleCustomerHaulierPage)
             {
-                WaitUtil.WaitForElementVisible(ColumnInGrid, column);
                 Assert.IsTrue(IsControlDisplayed(ColumnInGrid, column));
             }
             return this;
@@ -752,7 +754,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         public AddVehiclePage ClickAddNewVehicleBtn()
         {
-            ClickOnElement(AddNewItemBtn);
+            ClickOnElement(addNewItemVehicleTab);
             return PageFactoryManager.Get< AddVehiclePage>();
         }
 

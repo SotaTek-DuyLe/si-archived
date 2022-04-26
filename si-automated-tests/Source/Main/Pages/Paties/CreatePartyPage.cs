@@ -1,11 +1,13 @@
 ﻿using System;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.Paties
 {
     public class CreatePartyPage : BasePage
     {
+        private const string partyTitle = "//h4[text()='Party']";
         private const string PartyNameInput = "//label[text()='Party Name']/following-sibling::div/input";
         private const string ContractDropdown = "//label[text()='Contract']/following-sibling::div/select";
         private const string StartDateInput = "//label[text()='Start Date']/following-sibling::div//input";
@@ -23,6 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         public CreatePartyPage IsCreatePartiesPopup(string contractDefault)
         {
+            WaitUtil.WaitForElementVisible(partyTitle);
             Assert.IsTrue(IsControlDisplayed(PartyNameInput));
             Assert.IsTrue(IsControlDisplayed(ContractDropdown));
             Assert.IsTrue(IsControlDisplayed(StartDateInput));
@@ -32,7 +35,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.IsTrue(IsControlDisplayed(CloseWithoutSaveingBtn));
             //Verify defaul value
             Assert.AreEqual(GetFirstSelectedItemInDropdown(ContractDropdown), contractDefault);
-            string dateNow = CommonUtil.GetLocalTimeNow("dd/MM/yyyy").Replace('-','/');
+            string dateNow = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT).Replace('-','/');
             Assert.AreEqual(GetAttributeValue(StartDateInput, "value"), dateNow);
             return this;
         }
