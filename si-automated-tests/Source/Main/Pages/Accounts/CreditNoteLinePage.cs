@@ -6,18 +6,18 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
 {
     public class CreditNoteLinePage : BasePage
     {
-        private readonly By lineType = By.Id("price-element");
-        private readonly By site = By.Id("site");
-        private readonly By product = By.Id("product");
-        private readonly By priceElement = By.XPath("//*[@id='price-element' and contains(@data-bind,'priceElement')]");
-        private readonly By nominalCode = By.XPath("//input[@list='nominal-code']");
-        private readonly By nominalCodeValue = By.XPath("//datalist[@id='nominal-code']/option");
-        private readonly By description = By.Id("description");
-        private readonly By quantity = By.Id("quantity");
-        private readonly By price = By.Id("price");
-        private readonly By netValue = By.Id("net-value");
-        private readonly By vatRate = By.Id("vat-rate");
-        private readonly By poNumber = By.Id("po-number");
+        public readonly By lineType = By.Id("price-element");
+        public readonly By site = By.Id("site");
+        public readonly By product = By.Id("product");
+        public readonly By priceElement = By.XPath("//*[@id='price-element' and contains(@data-bind,'priceElement')]");
+        public readonly By nominalCode = By.XPath("//input[@list='nominal-code']");
+        public readonly By nominalCodeValue = By.XPath("//datalist[@id='nominal-code']/option");
+        public readonly By description = By.Id("description");
+        public readonly By quantity = By.Id("quantity");
+        public readonly By price = By.Id("price");
+        public readonly By netValue = By.Id("net-value");
+        public readonly By vatRate = By.Id("vat-rate");
+        public readonly By poNumber = By.Id("po-number");
 
         public CreditNoteLinePage IsOnCreditNoteLinePage()
         {
@@ -25,7 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             WaitUtil.WaitForElementVisible(site);
             WaitUtil.WaitForElementVisible(product);
             WaitUtil.WaitForElementVisible(priceElement);
-            WaitUtil.WaitForElementVisible(nominalCode);
+            //WaitUtil.WaitForElementVisible(nominalCode);
             WaitUtil.WaitForElementVisible(description);
             WaitUtil.WaitForElementVisible(quantity);
             WaitUtil.WaitForElementVisible(price);

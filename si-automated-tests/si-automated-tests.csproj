@@ -79,6 +79,7 @@
     <None Remove="Source\Main\Pages\Inspections\" />
     <None Remove="Source\Main\Pages\Events\" />
     <None Remove="Source\Main\Pages\PointAddress\" />
+    <None Remove="Source\Main\Pages\Common\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -103,6 +104,7 @@
     <Folder Include="Source\Main\Pages\Inspections\" />
     <Folder Include="Source\Main\Pages\Events\" />
     <Folder Include="Source\Main\Pages\PointAddress\" />
+    <Folder Include="Source\Main\Pages\Common\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
