@@ -30,8 +30,9 @@ namespace si_automated_tests.Source.Main.Pages.Events
         //Point History tab
         private readonly By pointHistoryBtn = By.CssSelector("a[aria-controls='pointHistory-tab']");
         private readonly By allRowInPointHistoryTabel = By.XPath("//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div");
-        private const string columnInRowPointHistoryTab = "//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
+        private const string columnInRowPointHistoryTab = "//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div/div[count(//div[@id='pointHistory-tab']//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private readonly By firstRowPointHistory = By.XPath("//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div[not(contains(@style, 'display: none;'))][1]");
+        private readonly By descriptionColumn = By.XPath("//div[@id='pointHistory-tab']//span[text()='Description']");
 
         //DYNAMIC
         private const string eventType = "//span[text()='{0}']";
@@ -193,6 +194,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
         public List<PointHistoryModel> GetAllPointHistory()
         {
+            WaitUtil.WaitForElementVisible(descriptionColumn);
             List<PointHistoryModel> allModel = new List<PointHistoryModel>();
             List<IWebElement> allRow = GetAllElements(allRowInPointHistoryTabel);
 
