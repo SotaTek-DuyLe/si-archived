@@ -45,10 +45,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
         [Test(Description = "Creating inspection from task")]
         public void TC_079_Create_inspection_from_task()
         {
-            //string taskId = "477";
             string taskId = "472";
             string name = " - Collect Domestic Recycling";
-            //string location = "14 LONSDALE ROAD, BARNES, LONDON, SW13 9EB";
             string location = "2B RALEIGH ROAD, RICHMOND, TW9 2DX";
             string[] sourceNameList = { location, location };
             string inspectionTypeValue = "Site Inspection";

@@ -194,6 +194,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
 
         public List<LocationModel> GetAllLocationInGrid()
         {
+            WaitUtil.WaitForElementVisible(addNewItemLocationBtn);
             List<LocationModel> allModel = new List<LocationModel>();
             List<IWebElement> allRow = GetAllElements(allRowInTabel);
             List<IWebElement> allIdSite = GetAllElements(string.Format(columnInRowLocations, CommonConstants.LocationTabColumn[0]));

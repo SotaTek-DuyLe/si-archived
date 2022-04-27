@@ -1104,6 +1104,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             //Add ticket line
             createNewTicketPage
+                .InputLicenceNumberExpDate()
+                .InputLicenceNumber()
                 .ClickAddTicketLineBtn()
                 //Select Product created
                 .ClickProductDd()
