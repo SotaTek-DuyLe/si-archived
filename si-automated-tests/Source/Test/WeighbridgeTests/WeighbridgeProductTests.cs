@@ -37,8 +37,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser14.UserName, AutoUser14.Password)
-                .IsOnHomePage(AutoUser14);
+                .Login(AutoUser10.UserName, AutoUser10.Password)
+                .IsOnHomePage(AutoUser10);
         }
 
         [Category("WB")]
@@ -313,7 +313,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             string partyNameCustomer = "Auto57Customer" + CommonUtil.GetRandomString(2);
             string partyNameHaulier = "Auto057Haulier" + CommonUtil.GetRandomString(2);
             string siteName57 = "Site Twickenham 57" + CommonUtil.GetRandomNumber(4);
-            string stationNameTC57 = "AutoStation" + CommonUtil.GetRandomNumber(4);
+            string stationNameTC57 = "AutoStation57" + CommonUtil.GetRandomNumber(4);
             string resourceName = "Auto57 WB Van" + CommonUtil.GetRandomNumber(2);
             string locationNameActive57 = "Location57WBActive" + CommonUtil.GetRandomNumber(2);
             string resourceType57 = "Van";
@@ -561,7 +561,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickProductDd()
                 .ClickAnyProductValue(product57)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageRequiredFieldConstants.LocationRequiredMessage);
+                .VerifyToastMessage(MessageRequiredFieldConstants.LocationRequiredMessage)
+                .WaitUntilToastMessageInvisiable(MessageRequiredFieldConstants.LocationRequiredMessage);
             //Select Location
             createNewTicketPage
                 .ClickLocationDd()
@@ -721,7 +722,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectDefaultTicket("Incoming")
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBStationSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBStationSuccessMessage)
+                .WaitUntilToastMessageInvisiable(MessageSuccessConstants.SaveWBStationSuccessMessage);
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
@@ -1066,7 +1068,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Click any location
                 .ClickAnyLocationInGrid(locationNameActive59_1)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageRequiredFieldConstants.LocationRestrictWarningMessage);
+                .VerifyToastMessage(MessageRequiredFieldConstants.LocationRestrictWarningMessage)
+                .WaitUntilToastMessageInvisiable(MessageRequiredFieldConstants.LocationRestrictWarningMessage);
             //Select default location
             addProductPage
                 .ClickDefaultLocationDdAndSelectAnyOption(locationNameActive59_1)
@@ -1724,7 +1727,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectActiveCheckbox()
                 .InputClientName(clientRef61)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
+                .WaitUntilToastMessageInvisiable(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage);
             addLocationPage
                 .VerifyActiveCheckboxSelected()
                 .ClickCloseBtn()

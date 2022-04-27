@@ -81,6 +81,8 @@
     <None Remove="Source\Main\Pages\PointAddress\" />
     <None Remove="Source\Main\Pages\Common\" />
     <None Remove="Source\Main\Pages\Search\" />
+    <None Remove="Source\Main\Pages\Search\PointAddress\" />
+    <None Remove="Source\Main\Pages\Search\PointSegment\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -107,6 +109,8 @@
     <Folder Include="Source\Main\Pages\PointAddress\" />
     <Folder Include="Source\Main\Pages\Common\" />
     <Folder Include="Source\Main\Pages\Search\" />
+    <Folder Include="Source\Main\Pages\Search\PointAddress\" />
+    <Folder Include="Source\Main\Pages\Search\PointSegment\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">

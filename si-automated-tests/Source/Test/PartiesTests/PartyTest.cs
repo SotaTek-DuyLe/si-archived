@@ -17,15 +17,14 @@ namespace si_automated_tests.Source.Test
     {
         [Category("Create party")]
         [Test]
-        public void TC_004_Create_a_party_form_grid()
+        public void TC_004_Create_a_party_customer_type_form_grid()
         {
-            LoginPage login = new LoginPage();
             PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
 
             //login
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
-            login
+            PageFactoryManager.Get<LoginPage>()
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
@@ -58,15 +57,14 @@ namespace si_automated_tests.Source.Test
 
         [Category("Create party")]
         [Test]
-        public void TC_005_Create_party_from_action_dropdown()
+        public void TC_005_Create_party_customer_type_from_action_dropdown()
         {
-            LoginPage login = new LoginPage();
             PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(5), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
 
             //login
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
-            login
+            PageFactoryManager.Get<LoginPage>()
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
@@ -96,15 +94,14 @@ namespace si_automated_tests.Source.Test
 
         [Category("Create party")]
         [Test]
-        public void TC_006_Create_party_customer_type_with_future_start_date()
+        public void TC_006_Dont_Create_a_party_customer_type_from_parties_grid_with_future_start_date()
         {
             string errorMessage = "Start Date cannot be in the future";
-            LoginPage login = new LoginPage();
 
             //login
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
-            login
+            PageFactoryManager.Get<LoginPage>()
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
@@ -376,17 +373,16 @@ namespace si_automated_tests.Source.Test
                 .VerifyAddressAppearAtSitesTab(addressSite2); //successful save site address with other name 
         }
 
+        [Category("SiteAddress")]
         [Test]
-        public void TC_010()
+        public void TC_010_Create_manual_site()
         {
-            LoginPage login = new LoginPage();
-
-            string PartyName = "AutoParty " + CommonUtil.GetRandomNumber(4);
+            string PartyName = "AutoPartyTC10 " + CommonUtil.GetRandomNumber(4);
             PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             //login
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
-            login
+            PageFactoryManager.Get<LoginPage>()
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
@@ -414,7 +410,7 @@ namespace si_automated_tests.Source.Test
             //Test path for TC 010
                 .ClickOnAddInvoiceAddressBtn()
                 .SwitchToChildWindow(3);
-            string siteName = "SiteAuto" + CommonUtil.GetRandomNumber(3);
+            string siteName = "SiteAutoTC10" + CommonUtil.GetRandomNumber(3);
             string postCode = CommonUtil.GetRandomString(2) + CommonUtil.GetRandomNumber(3);
             AddressDetailModel addressDetailModel = new AddressDetailModel(siteName, postCode);
             PageFactoryManager.Get<PartySiteAddressPage>()
@@ -444,20 +440,20 @@ namespace si_automated_tests.Source.Test
                 .VerifyDisplaySuccessfullyMessage();
         }
 
+        [Category("SiteAddress")]
         [Test]
-        public void TC_011()
+        public void TC_011_Create_Non_Georgaphical_address()
         {
-            LoginPage login = new LoginPage();
-            string siteName = "SiteAuto" + CommonUtil.GetRandomNumber(3);
+            string siteName = "SiteAutoTC11" + CommonUtil.GetRandomNumber(3);
             string postCode = CommonUtil.GetRandomString(2) + CommonUtil.GetRandomNumber(3);
             AddressDetailModel addressDetailModel = new AddressDetailModel(siteName, postCode);
 
-            string PartyName = "AutoParty " + CommonUtil.GetRandomNumber(4);
+            string PartyName = "AutoPartyTC11 " + CommonUtil.GetRandomNumber(4);
             PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             //login
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
-            login
+            PageFactoryManager.Get<LoginPage>()
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
                 .ClickOnSignIn();
@@ -486,8 +482,9 @@ namespace si_automated_tests.Source.Test
                  .ClickOnSitesTab()
                  .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
-                 .ClickOnAddNewItemInSiteTabBtn()
-                 .SwitchToChildWindow(3);
+                .IsOnSitesTab()
+                .ClickOnAddNewItemInSiteTabBtn()
+                .SwitchToChildWindow(3);
             PageFactoryManager.Get<PartySiteAddressPage>()
                 .IsOnPartySiteAddressPage()
                 .ClickOnNonGeoGraphicalAddressBtn()

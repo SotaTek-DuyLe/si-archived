@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -79,8 +81,26 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         {
             Assert.IsTrue(IsControlUnDisplayed(suggestionResource));
             //Verify field is highlighted in red
-            Assert.AreEqual(GetCssValue(resourceInput, "border-color"), CommonConstants.BoderColorResourceInputWB);
+            string hexStr = GetCssValue(resourceInput, "border-color");
+            Color color = ToColor(hexStr.ToLower().Replace("rgb(", "").Replace(")", ""));
+            float hueColor = color.GetHue();
+            Assert.IsTrue(hueColor < 15 || hueColor > 345);
             return this;
+        }
+
+        private System.Drawing.Color ToColor(string color)
+        {
+            var arrColorFragments = color?.Split(',').Select(sFragment => { int.TryParse(sFragment, out int fragment); return fragment; }).ToArray();
+
+            switch (arrColorFragments?.Length)
+            {
+                case 3:
+                    return System.Drawing.Color.FromArgb(arrColorFragments[0], arrColorFragments[1], arrColorFragments[2]);
+                case 4:
+                    return System.Drawing.Color.FromArgb(arrColorFragments[0], arrColorFragments[1], arrColorFragments[2], arrColorFragments[3]);
+                default:
+                    return System.Drawing.Color.Transparent;
+            }
         }
 
         public CreateVehicleCustomerHaulierPage VerifyDisplayResourceRequiredMessage()

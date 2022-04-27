@@ -35,6 +35,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] InspectionColumnInListingPage = { "ID", "Point", "Inspection Type", "Created Date", "Created By User", "Inspection Scheme", "Assigned User", "Allocated Unit", "Status", "Client Reference", "Contract", "Valid From", "Valid To", "Completion Date", "Last Updated", "Cancelled Date", "GPS Description", "Source", "Service" };
         public static readonly string[] PointHistoryTabColumn = { "Description", "ID", "Type", "Service", "Address", "Date", "Due Date", "State", "Resolution Code" };
         public static readonly string[] PointAddressColumn = { "ID", "Name", "UPRN", "Postcode", "Property Name", "Property", "To Property", "Sub Building", "Property Suffix", "Point Segment ID", "Point Address Type", "Start Date", "End Date" };
+        public static readonly string[] PointSegmentColumn = { "ID", "Name", "Point Segment Type", "Point Segment Class", "Start Date", "End Date" };
 
     }
 }

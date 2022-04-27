@@ -38,13 +38,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         //DETAIL TAB LOCATOR
         private const string InvoiceAddressAddBtn = "//label[text()='Invoice Address']/following-sibling::div//span[text()='Add']";
-        private const string PartyNameInput = "//label[text()='Party Name']/following-sibling::div/input";
-        private const string ContractInput = "//label[text()='Contract']/following-sibling::div/input";
         private readonly By CorresspondenceAddressDd = By.Id("party-correspondence-address");
         private const string CorrespondenceAddressAddBtn = "//label[text()='Correspondence Address']/following-sibling::div//span[text()='Add']";
         private const string SitesTab = "//a[text()='Sites']";
         private const string VehicleTab = "//a[text()='Vehicles']";
-        private const string SaveBtn = "//button[@title='Save']";
         private const string InvoiceAddress = "//label[text()='Invoice Address']/following-sibling::div//select";
         private const string DetailsTab = "//a[text()='Details']";
         private readonly By InvoiceAddressButton = By.Id("party-invoice-address");
@@ -58,7 +55,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By internalInputCheckbox = By.CssSelector("input#is-internal");
 
         //DETAIL TAB DYNAMIC LOCATOR
-        private const string PrimaryContact = "//label[text()='Primary Contact']/following-sibling::div//select/option[text()={0}]";
         private const string InvoiceAddressValue = "//label[text()='Invoice Address']/following-sibling::div//option[text()='{0}']";
         private const string CorresspondenceValue = "//label[text()='Correspondence Address']/following-sibling::div//select/option[text()='{0}']";
         private const string PrimaryContactValue = "//select[@id='primary-contact']/option[text()='{0}']";
@@ -68,20 +64,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string PartyTypeCheckbox = "//span[text()='{0}']/preceding-sibling::input";
 
         //SITE TAB LOCATOR
-        private const string AddNewItemBtn = "//button[text()='Add New Item']";
+        private const string AddNewItemSiteBtn = "//div[@id='sites-tab']//button[text()='Add New Item']";
         private readonly By firstSiteRow = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']/div[1]");
-        private const string TotalSiteRow = "//div[@class='grid-canvas']/div";
-        private const string IdColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='ID']/parent::div/preceding-sibling::div) + 1]";
-        private const string NameColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Name']/parent::div/preceding-sibling::div) + 1]";
-        private const string AddressColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Address']/parent::div) + 1]";
-        private const string SiteTypeColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Site Type']/parent::div/preceding-sibling::div) + 1]";
-        private const string StartDateColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Start Date']/parent::div/preceding-sibling::div) + 1]";
-        private const string EndDateColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='End Date']/parent::div/preceding-sibling::div) + 1]";
-        private const string ClientReferenceColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Client Reference']/parent::div/preceding-sibling::div) + 1]";
-        private const string AccountingReferenceColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Accounting Reference']/parent::div/preceding-sibling::div) + 1]";
-        private const string AbvColumn = "//div[@class='grid-canvas']/div/div[count(//span[text()='Abv']/parent::div/preceding-sibling::div) + 1]";
+        private const string TotalSiteRow = "//div[@id='sites-tab']//div[@class='grid-canvas']/div";
+        private const string IdColumn = "//div[@id='sites-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='ID']/parent::div/preceding-sibling::div) + 1]";
+        private const string NameColumn = "//div[@id='sites-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='Name']/parent::div/preceding-sibling::div) + 1]";
+        private const string AddressColumn = "//div[@id='sites-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='Address']/parent::div) + 1]";
+        private const string SiteTypeColumn = "//div[@id='sites-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='Site Type']/parent::div/preceding-sibling::div) + 1]";
+        private const string StartDateColumn = "//div[@id='sites-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='Start Date']/parent::div/preceding-sibling::div) + 1]";
+        private const string EndDateColumn = "//div[@id='sites-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='End Date']/parent::div/preceding-sibling::div) + 1]";
+        private const string ClientReferenceColumn = "//div[@id='sites-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='Client Reference']/parent::div/preceding-sibling::div) + 1]";
+        private const string AccountingReferenceColumn = "//div[@id='sites-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='Accounting Reference']/parent::div/preceding-sibling::div) + 1]";
+        private const string AbvColumn = "//div[@id='sites-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='Abv']/parent::div/preceding-sibling::div) + 1]";
         private readonly By SiteList = By.XPath("//button[contains(.,'Add New Item')]/ancestor::nav/following-sibling::div/div/div[@class='slick-viewport']");
-        private readonly By TotalRow = By.XPath("//span[contains(text(),'Total rows')]");
 
         //Agreement tab
         private readonly By agreementTab = By.XPath("//a[text()='Agreements']");
@@ -89,7 +84,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         //Contact tab
         private readonly By contactTab = By.XPath("//a[text()='Contacts']");
-        private readonly By addNewItemAtContactTabBtn = By.XPath("//button[text()='Add New Item']");
+        private readonly By addNewItemAtContactTabBtn = By.XPath("//div[@id='contacts-tab']//button[text()='Add New Item']");
         private readonly By totalContactRow = By.XPath("//div[@id='contacts-tab']//div[@class='grid-canvas']/div");
         private const string ColumnOfRowContact = "//div[@id='contacts-tab']//div[@class='grid-canvas']/div/div[count(//div[@id='contacts-tab']//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private const string firstContactRow = "//div[@id='contacts-tab']//div[@class='grid-canvas']/div[1]";
@@ -124,8 +119,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By addNewItemWBTicket = By.XPath("//div[@id='weighbridgeTickets-tab']//button[text()='Add New Item']");
 
         //VEHICLE TAB
-        private const string ColumnInGrid = "//span[text()='{0}']/parent::div";
-        private const string ColumnInRow = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
+        private readonly By addNewItemVehicleTab = By.XPath("//div[@id='weighbridgeVehicleCustomerHauliers-tab']//button[text()='Add New Item']");
+        private const string TotalVehicleRow = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='grid-canvas']/div";
+        private const string ColumnInGrid = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//span[text()='{0}']/parent::div";
+        private const string ColumnInRow = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
 
 
         //STEP
@@ -517,14 +514,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         //Site Tab
         public DetailPartyPage IsOnSitesTab()
         {
-            WaitUtil.WaitForElementClickable(AddNewItemBtn);
-            Assert.IsTrue(IsControlDisplayed(AddNewItemBtn));
+            WaitUtil.WaitForElementClickable(AddNewItemSiteBtn);
+            Assert.IsTrue(IsControlDisplayed(AddNewItemSiteBtn));
             Assert.IsTrue(IsControlDisplayed(SiteList));
             return this;
         }
         public DetailPartyPage ClickOnAddNewItemInSiteTabBtn()
         {
-            ClickOnElement(AddNewItemBtn);
+            ClickOnElement(AddNewItemSiteBtn);
             return this;
         }
 
@@ -623,6 +620,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         public DetailPartyPage VerifyWBSettingTab()
         {
+            WaitUtil.WaitForElementVisible(autoPrintTicketCheckbox);
             Assert.IsTrue(GetElement(autoPrintTicketCheckbox).Selected);
             Assert.IsFalse(GetElement(driverNameRequiredCheckbox).Selected);
             Assert.IsFalse(GetElement(purcharseOrderNumberRequiredCheckbox).Selected);
@@ -742,9 +740,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         public DetailPartyPage VerifyTableDisplayedInVehicle()
         {
+            WaitUtil.WaitForElementVisible(addNewItemVehicleTab);
             foreach(string column in CommonConstants.ColumnInVehicleCustomerHaulierPage)
             {
-                WaitUtil.WaitForElementVisible(ColumnInGrid, column);
                 Assert.IsTrue(IsControlDisplayed(ColumnInGrid, column));
             }
             return this;
@@ -752,22 +750,22 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         public AddVehiclePage ClickAddNewVehicleBtn()
         {
-            ClickOnElement(AddNewItemBtn);
+            ClickOnElement(addNewItemVehicleTab);
             return PageFactoryManager.Get< AddVehiclePage>();
         }
 
         public List<VehicleModel> GetAllVehicleModel()
         {
             List<VehicleModel> vehicleModels = new List<VehicleModel>();
-            List<IWebElement> totalRow = GetAllElements(TotalSiteRow);
+            List<IWebElement> totalRow = GetAllElements(TotalVehicleRow);
             List<IWebElement> allIdVehicle = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[0]));
             List<IWebElement> allResource = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[1]));
             List<IWebElement> allCustomer = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[2]));
             List<IWebElement> allHaulier = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[3]));
             List<IWebElement> allHireStart = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[4]));
             List<IWebElement> allHireEnd = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[5]));
-            List<IWebElement> allSuspendedDate = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[0]));
-            List<IWebElement> allSuspendedReason = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[0]));
+            List<IWebElement> allSuspendedDate = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[6]));
+            List<IWebElement> allSuspendedReason = GetAllElements(string.Format(ColumnInRow, CommonConstants.ColumnInVehicleCustomerHaulierPage[7]));
             for (int i = 0; i < totalRow.Count(); i++)
             {
                 string id = GetElementText(allIdVehicle[i]);

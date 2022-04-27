@@ -82,7 +82,7 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
 
         public AllInspectionListingPage VerifyTheFirstInspection(InspectionModel inspectionModelActual, string location, string contract, string source, string service, string createdByUser, string assignedUser, string allocatedUnit, string id, string type, string state, string date, string dueDate)
         {
-            //Assert.AreEqual(id, inspectionModelActual.ID);
+            Assert.AreEqual(id, inspectionModelActual.ID);
             Assert.AreEqual(location, inspectionModelActual.point);
             Assert.AreEqual(type, inspectionModelActual.inspectionType);
             Assert.AreEqual(createdByUser, inspectionModelActual.createdByUser);
