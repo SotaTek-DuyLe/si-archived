@@ -12,6 +12,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
     {
         private readonly By eventTitle = By.XPath("//span[text()='Event']");
         private readonly By inspectionBtn = By.XPath("//button[@title='Inspect']");
+        private readonly By locationName = By.CssSelector("a.typeUrl");
 
         //POPUP
         private readonly By createTitle = By.XPath("//h4[text()='Create ']");
@@ -43,12 +44,15 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private const string assignedUserOption = "//label[text()='Assigned User']/following-sibling::div/select/option[text()='{0}']";
 
 
-        public EventDetailPage WaitForEventDetailDisplayed(string eventTypeValue, string location)
+        public EventDetailPage WaitForEventDetailDisplayed()
         {
             WaitUtil.WaitForElementVisible(eventTitle);
-            WaitUtil.WaitForElementVisible(eventType, eventTypeValue);
-            WaitUtil.WaitForElementVisible(urlType, location);
             return this;
+        }
+
+        public string GetLocationName()
+        {
+            return GetElementText(locationName);
         }
 
         public EventDetailPage ClickInspectionBtn()

@@ -146,6 +146,18 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
         }
 
+        public DetailInspectionPage VerifyDataDisplayedWithDB(InspectionQueryModel inspection, string note, string contractUnitName, int instance, string userNameCreatedInspec, string validDateValue, string expDateValue, string allocatedUserInModel, string allocatedUserDisplayed)
+        {
+            Assert.AreEqual(inspection.note, note);
+            Assert.AreEqual(inspection.contractunit, contractUnitName);
+            Assert.AreEqual(inspection.inspectioninstance, instance);
+            Assert.AreEqual(inspection.username, userNameCreatedInspec);
+            Assert.AreEqual(allocatedUserInModel, allocatedUserDisplayed);
+            Assert.AreEqual(inspection.inspectionvaliddate.ToString().Replace("-", "/"), validDateValue + " 00:00:00");
+            Assert.AreEqual(inspection.inspectionexpirydate.ToString().Replace("-", "/"), expDateValue + " 00:00:00");
+            return this;
+        }
+
         public DetailInspectionPage VerifyInspectionId(string inspectionIdValue)
         {
             string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/inspections/", "");

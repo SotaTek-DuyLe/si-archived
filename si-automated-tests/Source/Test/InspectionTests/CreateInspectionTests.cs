@@ -25,6 +25,9 @@ namespace si_automated_tests.Source.Test.InspectionTests
     [TestFixture]
     public class CreateInspectionTests : BaseTest
     {
+        private string allocatedUnitValue = "Ancillary";
+        private string assignedUserValue = "josie";
+
         public override void Setup()
         {
             base.Setup();
@@ -46,16 +49,9 @@ namespace si_automated_tests.Source.Test.InspectionTests
         [Test(Description = "Creating inspection from task")]
         public void TC_079_Create_inspection_from_task()
         {
-            string taskId = "472";
-            string name = " - Collect Domestic Recycling";
-            string location = "2B RALEIGH ROAD, RICHMOND, TW9 2DX";
-            string[] sourceNameList = { location, location };
             string inspectionTypeValue = "Site Inspection";
-            string allocatedUnitValue_1 = "Ancillary";
             string allocatedUnitValue_2 = "East Waste";
-            string allocatedUserValue_1 = "josie";
             string allocatedUserValue_2 = "User";
-            string address = "Collect Domestic Recycling";
             string noteValue = "AutoNote" + CommonUtil.GetRandomString(5);
             string validFromInThePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -2);
             string validToInThePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -1);
@@ -73,19 +69,23 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TasksListingPage>()
-                .FilterByTaskId(taskId)
+                .WaitForTaskListinPageDisplayed()
                 .ClickOnFirstRecord()
                 .SwitchToLastWindow();
             DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
             detailTaskPage
-                .IsDetailTaskPage(name, location)
+                .IsDetailTaskPage();
+            string location = detailTaskPage
+                .GetLocationName();
+            string[] sourceNameList = { location, location };
+            detailTaskPage
                 .ClickOnInspectionBtn()
                 .IsInspectionPopup()
                 .VerifyDefaultValue(location)
                 .ClickAndVerifySourceDd(sourceNameList)
                 .ClickInspectionTypeDdAndSelectValue(inspectionTypeValue)
-                .ClickAllocatedUnitAndSelectValue(allocatedUnitValue_1)
-                .ClickAllocatedUserAndSelectValue(allocatedUserValue_1)
+                .ClickAllocatedUnitAndSelectValue(allocatedUnitValue)
+                .ClickAllocatedUserAndSelectValue(assignedUserValue)
                 .InputNote(noteValue)
                 .ClickCreateBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage)
@@ -96,7 +96,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailInspectionPage>()
-                .IsDetailInspectionPage(allocatedUnitValue_1, allocatedUserValue_1, noteValue)
+                .IsDetailInspectionPage(allocatedUnitValue, assignedUserValue, noteValue)
                 .VerifyStateInspection("Pending")
                 .VerifyInspectionAddress(location)
                 .VerifyValidFromValidToAndOtherDateField(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
@@ -104,7 +104,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnHistoryTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue_1, allocatedUserValue_1, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1));
+                .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1));
             //Get inspection Id
             int inspectionId = Int32.Parse(PageFactoryManager.Get<DetailInspectionPage>()
                 .GetCurrentUrl()
@@ -126,7 +126,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             List<InspectionModel> allInspectionModels = detailTaskPage
                 .getAllInspection();
             detailTaskPage
-                .VerifyInspectionCreated(allInspectionModels[0], inspectionId.ToString(), inspectionTypeValue, AutoUser14.UserName, allocatedUserValue_1, allocatedUnitValue_1, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT) + " 00:00", CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1) + " 00:00");
+                .VerifyInspectionCreated(allInspectionModels[0], inspectionId.ToString(), inspectionTypeValue, AutoUser14.UserName, assignedUserValue, allocatedUnitValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT) + " 00:00", CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1) + " 00:00");
             //Add new item
             detailTaskPage
                 .ClickAddNewInspectionItem()
@@ -202,15 +202,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
         [Test(Description = "Creating inspection from event")]
         public void TC_080_Create_inspection_from_event()
         {
-            string eventIdWithIcon = "9";
-            string eventTypeValue = " - Complaint";
-            string locationValueWithIcon = "STREET RECORD, KEW BRIDGE, KEW, TW9 3AN";
-            string[] sourceValueWithIcon = { "Select..." };
-            string eventIdWithoutIcon = "10";
-            string locationValueWithoutIcon = "4A RALEIGH ROAD, RICHMOND, TW9 2DX";
             string inspectionTypeValue = "Site Inspection";
-            string allocatedUnitValue = "Ancillary";
-            string assignedUserValue = "josie";
+            string eventIdWithIcon = AutoUser14.EventIDWithIcon;
+            string[] sourceValueWithIcon = { "Select..." };
+            string eventIdWithoutIcon = AutoUser14.EventIDWithoutIcon;
             string validFromValue = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
             string validToValue = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
             string noteValue = "AutoNote " + CommonUtil.GetRandomString(5);
@@ -226,7 +221,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnFirstRecord()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<EventDetailPage>()
-                .WaitForEventDetailDisplayed(eventTypeValue, locationValueWithIcon)
+                .WaitForEventDetailDisplayed()
                 .ClickInspectionBtn()
                 .IsCreateInspectionPopup(true)
                 .VerifyDefaulValue(true)
@@ -246,7 +241,11 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnFirstRecord()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<EventDetailPage>()
-                .WaitForEventDetailDisplayed(eventTypeValue, locationValueWithoutIcon)
+                .WaitForEventDetailDisplayed();
+
+            string locationValueWithoutIcon = PageFactoryManager.Get<EventDetailPage>()
+                .GetLocationName();
+            PageFactoryManager.Get<EventDetailPage>()
                 .ClickInspectionBtn()
                 .IsCreateInspectionPopup(false)
                 .VerifyDefaulValue(false)
@@ -281,14 +280,18 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .GetCurrentUrl()
                 .Replace(WebUrl.MainPageUrl + "web/inspections/", ""));
             //Query to verify
-            string query = "select * from inspections where inspectionID=" + inspectionId + ";";
-            SqlCommand commandInspection = new SqlCommand(query, DatabaseContext.Conection);
+            string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
+            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
-            List<InspectionDBModel> inspections = ObjectExtention.DataReaderMapToList<InspectionDBModel>(readerInspection);
+            List<InspectionQueryModel> inspections = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection);
+            string query_2 = "select u.username from inspections inspec join users u on inspec.userID = u.userID where inspectionID =" + inspectionId + "; ";
+            SqlCommand commandInspection_2 = new SqlCommand(query_2, DatabaseContext.Conection);
+            SqlDataReader readerInspection_2 = commandInspection_2.ExecuteReader();
+            List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
             readerInspection.Close();
 
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataDisplayedWithDB(inspections[0], noteValue, 5, 0, 2, CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 2), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 3))
+                .VerifyDataDisplayedWithDB(inspections[0], noteValue, allocatedUnitValue, 0, AutoUser14.UserName, CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 2), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 3), inspections_2[0].username, allocatedUnitValue)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<EventDetailPage>()
@@ -344,12 +347,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
         [Test(Description = "Creating inspection from service unit")]
         public void TC_081_Create_inspection_from_service_unit()
         {
-            string eventIdWithoutIcon = "13";
-            string eventTypeValue = " - Complaint";
-            string locationValue = "6 RALEIGH ROAD, RICHMOND, TW9 2DX";
             string inspectionTypeValue = "Site Inspection";
-            string allocatedUnitValue = "Ancillary";
-            string assignedUserValue = "josie";
+            string eventIdWithoutIcon = "13";
             string noteValue = "Auto081 " + CommonUtil.GetRandomString(5);
 
             PageFactoryManager.Get<NavigationBase>()
@@ -363,8 +362,11 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnFirstRecord()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<EventDetailPage>()
-                .WaitForEventDetailDisplayed(eventTypeValue, locationValue)
-                //Click source hyperlink
+                .WaitForEventDetailDisplayed();
+            string locationValue = PageFactoryManager.Get<EventDetailPage>()
+                .GetLocationName();
+            //Click source hyperlink
+            PageFactoryManager.Get<EventDetailPage>()
                 .ClickOnSourceHyperlink(locationValue)
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ServiceUnitDetailPage>()
@@ -457,8 +459,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
         public void TC_083_Create_inspection_from_point_address()
         {
             string inspectionTypeValue = "Repeat Missed Assessment";
-            string allocatedUnitValue = "Ancillary";
-            string assignedUserValue = "josie";
             string noteValue = "AutoTC083 " + CommonUtil.GetRandomString(5);
             string searchForAddresses = "Addresses";
 
@@ -586,8 +586,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
         {
             string searchForSegments = "Segments";
             string inspectionTypeValue = "Street Cleansing Assessment";
-            string allocatedUnitValue = "Ancillary";
-            string assignedUserValue = "josie";
             string noteValue = "AutoTC086 " + CommonUtil.GetRandomString(5);
             string idSegment = "32844";
 
@@ -718,8 +716,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
         {
             string searchForAreas = "Areas";
             string inspectionTypeValue = "Grounds Maintenance Assessment";
-            string allocatedUnitValue = "Ancillary";
-            string assignedUserValue = "josie";
             string noteValue = "AutoTC087 " + CommonUtil.GetRandomString(5);
             string idArea = "17";
 

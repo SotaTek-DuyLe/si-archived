@@ -83,6 +83,8 @@
     <None Remove="Source\Main\Pages\Search\PointAddress\" />
     <None Remove="Source\Main\Pages\Search\PointSegment\" />
     <None Remove="Source\Main\Pages\Search\PointAreas\" />
+    <None Remove="Source\Main\Data\TestUserData.json" />
+    <None Remove="Source\Main\Data\DemoUserData.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -115,6 +117,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Main\Data\TestUserData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Source\Main\Data\DemoUserData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
