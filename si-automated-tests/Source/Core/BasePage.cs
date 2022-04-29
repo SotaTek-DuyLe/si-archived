@@ -583,18 +583,18 @@ namespace si_automated_tests.Source.Core
 
         public string GetCurrentUrl()
         {
-            return this.driver.Url;
+            return IWebDriverManager.GetDriver().Url;
         }
 
         public BasePage CloseCurrentWindow()
         {
-            this.driver.Close();
+            IWebDriverManager.GetDriver().Close();
             return this;
         }
 
         public string GetCurrentTitle()
         {
-            return this.driver.Title;
+            return IWebDriverManager.GetDriver().Title;
         }
 
         public bool IsCheckboxChecked(By by)
