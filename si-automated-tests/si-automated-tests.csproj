@@ -97,7 +97,6 @@
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyWBTicketPage\" />
     <Folder Include="Source\Test\AccountTests\" />
     <Folder Include="Source\Main\Pages\Accounts\" />
-    <Folder Include="Source\Main\DBModels\" />
     <Folder Include="Source\Test\InspectionTests\" />
     <Folder Include="Source\Main\Pages\Tasks\" />
     <Folder Include="Source\Main\Pages\Tasks\Inspection\" />

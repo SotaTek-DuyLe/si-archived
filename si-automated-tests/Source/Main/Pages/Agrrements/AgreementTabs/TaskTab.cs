@@ -136,7 +136,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         public List<IWebElement> VerifyNewDeliverCommercialBin(String dueDate, int num)
         {
             this.WaitForLoadingIconToDisappear();
-            int i = 5;
+            int i = 10;
             deliverCommercialBinWithDateRows = String.Format(deliverCommercialBinWithDateRows, dueDate);
             
             while(i > 0)
