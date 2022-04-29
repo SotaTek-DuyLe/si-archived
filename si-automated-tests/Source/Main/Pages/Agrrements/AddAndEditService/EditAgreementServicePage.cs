@@ -16,10 +16,11 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
 
         public EditAgreementServicePage IsOnEditAgreementServicePage()
         {
-            WaitUtil.WaitForAllElementsVisible(editServiceTitle);
+            WaitUtil.WaitForElementVisible(editServiceTitle);
+            WaitUtil.WaitForElementVisible(nextBtn);
             Assert.IsTrue(IsControlDisplayed(editServiceTitle));
             Assert.IsTrue(IsControlDisplayed(Page1SiteAndServiceText));
-            Assert.IsTrue(!IsControlDisplayed(nextBtn));
+            Assert.IsTrue(IsControlDisplayed(nextBtn));
             return this;
         }
         public AssetAndProducTab ClickOnNextBtn()

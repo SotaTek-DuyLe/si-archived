@@ -54,6 +54,10 @@ namespace si_automated_tests.Source.Core
         {
             return DateTime.ParseExact(time, format, CultureInfo.InvariantCulture).AddHours(hour).ToString(format).Replace('-', '/');
         }
+        public static string ParseDateTimeToFormat(DateTime date, string format)
+        {
+            return date.ToString(format);
+        }
 
         public static string GetLocalDayMinusDay(int day)
         {
