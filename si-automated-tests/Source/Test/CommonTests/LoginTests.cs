@@ -13,7 +13,7 @@ namespace si_automated_tests.Source.Test
     {
         [Category("User")]
         [Test]
-        public void TC_001()
+        public void TC_001_login()
         {
             LoginPage login = new LoginPage();
             HomePage homePage = new HomePage();

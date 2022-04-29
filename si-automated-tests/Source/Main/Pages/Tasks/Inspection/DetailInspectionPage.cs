@@ -106,7 +106,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             SwitchToLastWindow();
             WaitUtil.WaitForElementVisible("//span[text()='Service Task']");
             string currentUrl = GetCurrentUrl();
-            Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "service-tasks/" + sourceId);
+            Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "web/service-tasks/" + sourceId);
             ClickCloseBtn();
             SwitchToChildWindow(3);
             return this;

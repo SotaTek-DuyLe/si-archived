@@ -47,10 +47,10 @@ namespace si_automated_tests.Source.Main.Pages
 
         //DYNAMIC LOCATOR
         private const string AddressSite = "//div[contains(text(),'{0}')]";
-        private const string SiteTypeOption = "//label[text()='Site Type']/following-sibling::select/option[text()='{0}']";
 
         public PartySiteAddressPage IsOnPartySiteAddressPage()
         {
+            WaitUtil.WaitForElementVisible(SearchInput);
             Assert.IsTrue(IsControlDisplayed(SearchInput));
             Assert.IsTrue(IsControlDisplayed(SearchBtn));
             Assert.IsTrue(IsControlDisplayed(ResultField));

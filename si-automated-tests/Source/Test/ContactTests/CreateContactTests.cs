@@ -18,8 +18,9 @@ namespace si_automated_tests.Source.Test.ContactTests
     [TestFixture]
     public class CreateContactTests : BaseTest
     {
+        [Category("CreateContact")]
         [Test]
-        public void TC_037_01_02_03_04_05_06_07verify_user_can_create_a_new_contact_and_set_newly_create_contact_related_on_a_party()
+        public void TC_037_01_02_03_04_05_06_07_verify_user_can_create_a_new_contact_and_set_newly_create_contact_related_on_a_party()
         {
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -55,12 +56,13 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .EnterFirstName(contactModel.FirstName)
                 .EnterLastName(contactModel.LastName)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Please enter at least one of the contact details.");
+                .VerifyToastMessage(MessageRequiredFieldConstants.ContactDetailsWarningMessage)
+                .WaitUntilToastMessageInvisiable(MessageRequiredFieldConstants.ContactDetailsWarningMessage);
             //Step 1: Line 9
             createPartyContactPage
                 .EnterMobileValue(contactModel.Mobile)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Contact");
+                .VerifyToastMessage(MessageSuccessConstants.SaveContactMessage);
             //Step 1: Line 10
             createPartyContactPage
                 .EnterValueRemainingFields(contactModel)
@@ -80,7 +82,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyPrimaryContactAndVerify(contactModel)
                 //Step 2: Line 13
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved party.");
+                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
             //Step 3: Line 14
             detailPartyPage
                 .ClickInvoiceContactDd()
@@ -89,7 +91,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyInvoiceContactAndVerify(contactModel)
                 //Step 3: Line 16
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved party.");
+                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
             //Step 4: Line 17
             detailPartyPage
                 .ClickOnSitesTab()
@@ -104,7 +106,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 //Step 4: Line 18
                 .SelectAnyPrimaryContactAndVerify(contactModel)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Site")
+                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Step 5: Line 19
@@ -124,7 +126,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyPrimaryContactAndVerify(contactModel)
                 //Step 5: Line 22
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SaveAgreementMessage)
                 .WaitForLoadingIconToDisappear();
             //Step 6: Line 23
             agreementDetailPage
@@ -134,7 +136,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyInvoiceContactAndVerify(contactModel)
                 //Step 5: Line 25
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SaveAgreementMessage)
                 .WaitForLoadingIconToDisappear()
                 .ScrollToBottomOfPage();
             //Step 7: Line 26
@@ -145,11 +147,12 @@ namespace si_automated_tests.Source.Test.ContactTests
                 //Step 7: Line 28
                 .SelectAnyInvoiceContactServiceTableAndVerify(contactModel)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SaveAgreementMessage)
                 .WaitForLoadingIconToDisappear()
                 .ClickCloseBtn();
         }
 
+        [Category("CreateContact")]
         [Test]
         public void TC_037_08_verify_user_can_create_new_contact_using_add_button_on_party_form()
         {
@@ -200,6 +203,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .VerifyContactCreatedWithSomeFields(contactModelNewPrimary, contactModels[0]);
         }
 
+        [Category("CreateContact")]
         [Test]
         public void TC_037_09_verify_user_can_create_new_contact_using_add_button_on_Agreement_form()
         {
@@ -262,6 +266,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .VerifyContactCreatedWithSomeFields( contactModelNewInvoice, getAllContact[0]);
         }
 
+        [Category("CreateContact")]
         [Test]
         public void TC_037_10_verify_user_can_create_new_contact_using_add_button_on_Site_form()
         {

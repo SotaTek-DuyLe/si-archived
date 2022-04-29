@@ -31,7 +31,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private readonly By deleteItemLocationBtn = By.XPath("//div[@id='weighbridgeSiteLocations-tab']//button[text()='Delete Item']");
         private readonly By addNewItemLocationBtn = By.XPath("//div[@id='weighbridgeSiteLocations-tab']//button[text()='Add New Item']");
         private const string columnInRowLocations = "//div[@id='weighbridgeSiteLocations-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
-        private const string columnIDInRowLocations = "//div[@id='weighbridgeSiteLocations-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div)]";
         private const string selectAndDeSelectCheckboxLocations = "//div[@id='weighbridgeSiteLocations-tab']//div[@class='grid-canvas']/div//input[{0}]";
 
         //PRODUCT TAB
@@ -195,9 +194,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
 
         public List<LocationModel> GetAllLocationInGrid()
         {
+            WaitUtil.WaitForElementVisible(addNewItemLocationBtn);
             List<LocationModel> allModel = new List<LocationModel>();
             List<IWebElement> allRow = GetAllElements(allRowInTabel);
-            List<IWebElement> allIdSite = GetAllElements(string.Format(columnIDInRowLocations, CommonConstants.LocationTabColumn[0]));
+            List<IWebElement> allIdSite = GetAllElements(string.Format(columnInRowLocations, CommonConstants.LocationTabColumn[0]));
             List<IWebElement> allLocation = GetAllElements(string.Format(columnInRowLocations, CommonConstants.LocationTabColumn[1]));
             List<IWebElement> allActive = GetAllElements(string.Format(columnInRowLocations, CommonConstants.LocationTabColumn[2]));
             List<IWebElement> allClient = GetAllElements(string.Format(columnInRowLocations, CommonConstants.LocationTabColumn[3]));

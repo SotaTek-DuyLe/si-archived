@@ -12,5 +12,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string SaveWBSiteProductSuccessMessage = "Successfully saved Weighbridge Site Product";
         public static readonly string SaveWBTicketSuccessMessage = "Successfully saved Weighbridge Ticket";
         public static readonly string SaveInspectionCreatedMessage = "Inspection Created";
+        public static readonly string SaveAgreementMessage = "Successfully saved agreement";
+        public static readonly string SaveContactMessage = "Successfully saved Contact";
     }
 }
