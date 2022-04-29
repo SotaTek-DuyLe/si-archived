@@ -32,7 +32,7 @@ namespace si_automated_tests.Source.Test.AccountTests
 
         [Category("Account")]
         [Test]
-        public void TC_84()
+        public void TC_84_Create_sales_invoice()
         {
             string partyName = "Greggs";
             string lineType = "Commercial Line Type";
@@ -82,7 +82,7 @@ namespace si_automated_tests.Source.Test.AccountTests
         }
         [Category("Account")]
         [Test]
-        public void TC_85()
+        public void TC_85_Create_sales_invoice_batch()
         {
             string type = "Credit";
             string customer = "Jaflong Tandoori - AL00000043";

@@ -31,7 +31,7 @@ namespace si_automated_tests.Source.Test.AccountTests
 
         [Category("Account")]
         [Test]
-        public void TC_78_82()
+        public void TC_78_82_Create_credit_notes_and_add_to_note_batch()
         {
             string partyName = "Greggs";
             string lineType = "Commercial Line Type";
