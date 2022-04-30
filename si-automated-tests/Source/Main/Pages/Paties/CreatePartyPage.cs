@@ -25,6 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         public CreatePartyPage IsCreatePartiesPopup(string contractDefault)
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(partyTitle);
             Assert.IsTrue(IsControlDisplayed(PartyNameInput));
             Assert.IsTrue(IsControlDisplayed(ContractDropdown));

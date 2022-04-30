@@ -153,8 +153,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(inspection.inspectioninstance, instance);
             Assert.AreEqual(inspection.username, userNameCreatedInspec);
             Assert.AreEqual(allocatedUserInModel, allocatedUserDisplayed);
-            Assert.AreEqual(inspection.inspectionvaliddate.ToString().Replace("-", "/"), validDateValue + " 00:00:00");
-            Assert.AreEqual(inspection.inspectionexpirydate.ToString().Replace("-", "/"), expDateValue + " 00:00:00");
+            Assert.AreEqual(inspection.inspectionvaliddate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), validDateValue);
+            Assert.AreEqual(inspection.inspectionexpirydate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), expDateValue);
             return this;
         }
 

@@ -36,7 +36,6 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By descriptionColumn = By.XPath("//div[@id='pointHistory-tab']//span[text()='Description']");
 
         //DYNAMIC
-        private const string eventType = "//span[text()='{0}']";
         private const string urlType = "//a[text()='{0}']";
         private const string sourceOption = "//select[@id='source']/option[text()='{0}']";
         private const string inspectionTypeOption = "//select[@id='inspection-type']/option[text()='{0}']";
@@ -46,6 +45,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
         public EventDetailPage WaitForEventDetailDisplayed()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(eventTitle);
             return this;
         }
@@ -70,6 +70,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         //POPUP CREATE INSPECTION
         public EventDetailPage IsCreateInspectionPopup(bool isIcon)
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(createTitle);
             Assert.IsTrue(IsControlDisplayed(sourceDd));
             Assert.IsTrue(IsControlDisplayed(inspectionTypeDd));

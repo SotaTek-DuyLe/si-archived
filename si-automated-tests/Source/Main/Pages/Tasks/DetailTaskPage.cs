@@ -42,6 +42,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         public DetailTaskPage IsDetailTaskPage()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(taskTitle);
             return this;
@@ -61,6 +62,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         //INSPECTION POPUP
         public DetailTaskPage IsInspectionPopup()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(inspectionPopupTitle);
             Assert.IsTrue(IsControlDisplayed(sourceDd));
             Assert.IsTrue(IsControlDisplayed(inspectionTypeDd));
@@ -151,6 +153,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         public List<InspectionModel> getAllInspection()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(addNewItemInSpectionBtn);
             List<InspectionModel> allModel = new List<InspectionModel>();
             List<IWebElement> allRow = GetAllElements(allRowInInspectionTabel);

@@ -494,6 +494,7 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForElementInvisible("//*[contains(@data-bind,'shield: isLoading')]");
             WaitUtil.WaitForElementInvisible("//div[@id='loading-shield']");
             WaitUtil.WaitForElementInvisible("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
+            WaitUtil.WaitForPageLoaded();
             return this;
         }
         public BasePage VerifyToastMessageNotAppear(string message)

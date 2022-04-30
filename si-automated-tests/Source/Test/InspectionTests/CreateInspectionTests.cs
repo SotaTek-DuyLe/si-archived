@@ -284,14 +284,15 @@ namespace si_automated_tests.Source.Test.InspectionTests
             SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<InspectionQueryModel> inspections = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection);
+            readerInspection.Close();
             string query_2 = "select u.username from inspections inspec join users u on inspec.userID = u.userID where inspectionID =" + inspectionId + "; ";
             SqlCommand commandInspection_2 = new SqlCommand(query_2, DatabaseContext.Conection);
             SqlDataReader readerInspection_2 = commandInspection_2.ExecuteReader();
             List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
-            readerInspection.Close();
+            readerInspection_2.Close();
 
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataDisplayedWithDB(inspections[0], noteValue, allocatedUnitValue, 0, AutoUser14.UserName, CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 2), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 3), inspections_2[0].username, allocatedUnitValue)
+                .VerifyDataDisplayedWithDB(inspections[0], noteValue, allocatedUnitValue, 0, AutoUser14.UserName, CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 2), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 3), inspections_2[0].username, assignedUserValue)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<EventDetailPage>()
@@ -520,15 +521,20 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailInspectionPage>()
                 .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1));
-            //Get data in DB to verify
-            string query = "select * from inspections where inspectionID=" + inspectionId + ";";
-            SqlCommand commandInspection = new SqlCommand(query, DatabaseContext.Conection);
+            //Query to verify
+            string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
+            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
-            List<InspectionDBModel> inspections = ObjectExtention.DataReaderMapToList<InspectionDBModel>(readerInspection);
+            List<InspectionQueryModel> inspections = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection);
             readerInspection.Close();
+            string query_2 = "select u.username from inspections inspec join users u on inspec.userID = u.userID where inspectionID =" + inspectionId + "; ";
+            SqlCommand commandInspection_2 = new SqlCommand(query_2, DatabaseContext.Conection);
+            SqlDataReader readerInspection_2 = commandInspection_2.ExecuteReader();
+            List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
+            readerInspection_2.Close();
 
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataDisplayedWithDB(inspections[0], noteValue, 5, 0, 2, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1))
+                .VerifyDataDisplayedWithDB(inspections[0], noteValue, allocatedUnitValue, 0, AutoUser14.UserName, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1), inspections_2[0].username, assignedUserValue)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<PointAddressDetailPage>()
@@ -542,9 +548,9 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
-                .getAllInspectionInList(1);
+                .getAllInspectionInList(2);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, "", inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 
@@ -651,14 +657,20 @@ namespace si_automated_tests.Source.Test.InspectionTests
             PageFactoryManager.Get<DetailInspectionPage>()
                 .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1));
             //Get data in DB to verify
-            string query = "select * from inspections where inspectionID=" + inspectionId + ";";
-            SqlCommand commandInspection = new SqlCommand(query, DatabaseContext.Conection);
+            //Query to verify
+            string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
+            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
-            List<InspectionDBModel> inspections = ObjectExtention.DataReaderMapToList<InspectionDBModel>(readerInspection);
+            List<InspectionQueryModel> inspections = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection);
             readerInspection.Close();
+            string query_2 = "select u.username from inspections inspec join users u on inspec.userID = u.userID where inspectionID =" + inspectionId + "; ";
+            SqlCommand commandInspection_2 = new SqlCommand(query_2, DatabaseContext.Conection);
+            SqlDataReader readerInspection_2 = commandInspection_2.ExecuteReader();
+            List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
+            readerInspection_2.Close();
 
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataDisplayedWithDB(inspections[0], noteValue, 5, 0, 2, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1))
+                .VerifyDataDisplayedWithDB(inspections[0], noteValue, allocatedUnitValue, 0, AutoUser14.UserName, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1), inspections_2[0].username, assignedUserValue)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<PointSegmentDetailPage>()
@@ -674,7 +686,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
                 .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, "", inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 
@@ -777,14 +789,19 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailInspectionPage>()
                 .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1));
-            //Get data in DB to verify
-            string query = "select * from inspections where inspectionID=" + inspectionId + ";";
-            SqlCommand commandInspection = new SqlCommand(query, DatabaseContext.Conection);
+            //Query to verify
+            string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
+            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
-            List<InspectionDBModel> inspections = ObjectExtention.DataReaderMapToList<InspectionDBModel>(readerInspection);
+            List<InspectionQueryModel> inspections = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection);
             readerInspection.Close();
+            string query_2 = "select u.username from inspections inspec join users u on inspec.userID = u.userID where inspectionID =" + inspectionId + "; ";
+            SqlCommand commandInspection_2 = new SqlCommand(query_2, DatabaseContext.Conection);
+            SqlDataReader readerInspection_2 = commandInspection_2.ExecuteReader();
+            List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
+            readerInspection_2.Close();
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataDisplayedWithDB(inspections[0], noteValue, 5, 0, 2, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1))
+                .VerifyDataDisplayedWithDB(inspections[0], noteValue, allocatedUnitValue, 0, AutoUser14.UserName, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1), inspections_2[0].username, assignedUserValue)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<PointSegmentDetailPage>()
@@ -801,7 +818,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
                 .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, "", inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 

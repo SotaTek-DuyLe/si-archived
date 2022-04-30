@@ -32,6 +32,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
 
         public CreateStationPage WaitForCreateStationPageLoaded(string siteName)
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(title, siteName);
             return this;
         }

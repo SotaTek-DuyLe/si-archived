@@ -39,6 +39,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
 
         public PointAddressDetailPage WaitForPointAddressDetailDisplayed()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(titleDetail);
             return this;
         }
@@ -56,7 +57,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
 
         public PointAddressDetailPage VerifyPointAddressId(string idExpected)
         {
-            string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "/web/point-addresses/", "");
+            string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/point-addresses/", "");
             Assert.AreEqual(idExpected, idActual);
             return this;
         }

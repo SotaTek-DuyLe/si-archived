@@ -128,6 +128,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         //STEP
         public DetailPartyPage WaitForDetailPartyPageLoadedSuccessfully(string name)
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(string.Format(partyName, name));
             return this;

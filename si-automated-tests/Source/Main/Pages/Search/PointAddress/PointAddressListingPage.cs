@@ -17,6 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
 
         public PointAddressListingPage WaitForPointAddressPageDisplayed()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(addNewPointAddressBtn);
             return this;
         }

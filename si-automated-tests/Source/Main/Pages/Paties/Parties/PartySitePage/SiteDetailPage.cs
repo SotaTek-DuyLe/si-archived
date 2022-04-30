@@ -46,13 +46,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private const string siteNameDynamic = "//span[text()='{0}']";
         private const string allTabInScreen = "//ul[@role='tablist']//a[text()='{0}']";
         private const string messageAtMapTab = "//div[@class='notifyjs-corner']//div[text()='{0}']";
-        private const string columnInRow = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private const string nameOfColumnInLocationTab = "//div[@id='weighbridgeSiteLocations-tab']//span[text()='{0}']/parent::div";
         private const string nameOfColumnInProductTab = "//div[@id='weighbridgeSiteProductLocations-tab']//span[text()='{0}']/parent::div";
-        private const string selectAndDeSelectCheckbox = "//div[@class='grid-canvas']/div//input[{0}]";
 
         public SiteDetailPage WaitForSiteDetailPageLoaded()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(siteName);
             return this;
@@ -60,6 +59,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
 
         public SiteDetailPage WaitForSiteDetailPageLoaded(string titleA, string agreementNameA)
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(string.Format(titleDetail, titleA));
             WaitUtil.WaitForElementVisible(string.Format(nameDetail, agreementNameA));
             return this;
@@ -67,6 +67,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
 
         public SiteDetailPage WaitForSiteDetailsLoaded(string titleA, string siteNameDisplayed)
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(string.Format(siteNameDynamic, titleA));
             WaitUtil.WaitForElementVisible(string.Format(titleDetail, siteNameDisplayed));
             return this;

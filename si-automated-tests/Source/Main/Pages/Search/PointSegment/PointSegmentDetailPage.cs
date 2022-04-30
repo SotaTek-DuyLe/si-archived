@@ -56,7 +56,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
 
         public PointSegmentDetailPage VerifyPointSegmentId(string idExpected)
         {
-            string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "/web/point-segments/", "");
+            string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/point-segments/", "");
             Assert.AreEqual(idExpected, idActual);
             return this;
         }

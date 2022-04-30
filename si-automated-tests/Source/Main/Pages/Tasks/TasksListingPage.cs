@@ -13,7 +13,9 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         public TasksListingPage WaitForTaskListinPageDisplayed()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(deleteItem);
             return this;
         }
