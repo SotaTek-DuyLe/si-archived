@@ -74,7 +74,6 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchNewIFrame();
             string firstCreditId = PageFactoryManager.Get<CommonBrowsePage>()
                 .GetFirstResultValueOfField("ID");
-            Console.WriteLine("first id: " + firstCreditId);
 
              //TC-82
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -123,7 +122,6 @@ namespace si_automated_tests.Source.Test.AccountTests
 
             string secondCreditId = PageFactoryManager.Get<CommonBrowsePage>()
                 .GetFirstResultValueOfField("ID");
-            Console.WriteLine("first id: " + secondCreditId);
 
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickFirstItem()
