@@ -14,6 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By taskTitle = By.XPath("//span[text()='Task']");
         private readonly By inspectionBtn = By.XPath("//button[@title='Inspect']");
         private readonly By locationName = By.CssSelector("a[class='typeUrl']");
+        private readonly By serviceName = By.XPath("//div[text()='Service']/following-sibling::div");
 
         //INSPECTION POPUP
         private readonly By inspectionPopupTitle = By.XPath("//h4[text()='Create ']");
@@ -57,6 +58,11 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             ClickOnElement(inspectionBtn);
             return this;
+        }
+
+        public string GetServiceName()
+        {
+            return GetElementText(serviceName);
         }
 
         //INSPECTION POPUP

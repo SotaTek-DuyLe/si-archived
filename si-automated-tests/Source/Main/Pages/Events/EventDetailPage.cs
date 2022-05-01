@@ -34,6 +34,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private const string columnInRowPointHistoryTab = "//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div/div[count(//div[@id='pointHistory-tab']//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private readonly By firstRowPointHistory = By.XPath("//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div[not(contains(@style, 'display: none;'))][1]");
         private readonly By descriptionColumn = By.XPath("//div[@id='pointHistory-tab']//span[text()='Description']");
+        private readonly By filterInputById = By.XPath("//div[@id='pointHistory-tab']//div[contains(@class, 'l2 r2')]/descendant::input");
 
         //DYNAMIC
         private const string urlType = "//a[text()='{0}']";
@@ -236,6 +237,13 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventDetailPage DoubleClickOnCreatedInspection()
         {
             DoubleClickOnElement(firstRowPointHistory);
+            return this;
+        }
+
+        public EventDetailPage FilterByPointHistoryId(string pointHistoryId)
+        {
+            SendKeys(filterInputById, pointHistoryId);
+            SendKeys(filterInputById, Keys.Enter);
             return this;
         }
     }

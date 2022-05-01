@@ -6,13 +6,12 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 
-namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
+namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
 {
-    public class PointSegmentDetailPage : BasePage
+    public class PointNodeDetailPage : BasePage
     {
-        private readonly By titleDetail = By.XPath("//h4[text()='Point Segment']");
+        private readonly By titleDetail = By.XPath("//h4[text()='Point Node']");
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
-        private readonly By segmentName = By.XPath("//p[@class='object-name']");
 
         //POPUP
         private readonly By createTitle = By.XPath("//div[@id='inspection-modal']//h4[text()='Create ']");
@@ -31,40 +30,28 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
         private readonly By pointHistoryTab = By.CssSelector("a[aria-controls='pointHistory-tab']");
         private readonly By allRowInPointHistoryTabel = By.XPath("//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div");
         private const string columnInRowPointHistoryTab = "//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
-        private readonly By filterInputById = By.XPath("//div[@id='pointHistory-tab']//div[contains(@class, 'l2 r2')]/descendant::input");
 
         //DYNAMIC LOCATOR
         private const string inspectionTypeOption = "//div[@id='inspection-modal']//select[@id='inspection-type']/option[text()='{0}']";
         private const string allocatedUnitOption = "//label[text()=' Allocated Unit']/following-sibling::div/select/option[text()='{0}']";
         private const string assignedUserOption = "//div[@id='inspection-modal']//label[text()='Assigned User']/following-sibling::div/select/option[text()='{0}']";
 
-        public PointSegmentDetailPage WaitForPointSegmentDetailPageDisplayed()
+
+        public PointNodeDetailPage WaitForPointNodeDetailDisplayed()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(titleDetail);
             return this;
         }
 
-        public PointSegmentDetailPage ClickInspectBtn()
+        public PointNodeDetailPage ClickInspectBtn()
         {
             ClickOnElement(inspectBtn);
             return this;
         }
 
-        public string GetPointSegmentName()
-        {
-            return GetElementText(segmentName);
-        }
-
-        public PointSegmentDetailPage VerifyPointSegmentId(string idExpected)
-        {
-            string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/point-segments/", "");
-            Assert.AreEqual(idExpected, idActual);
-            return this;
-        }
-
-
         //INSPECTION MODEL
-        public PointSegmentDetailPage IsCreateInspectionPopup()
+        public PointNodeDetailPage IsCreateInspectionPopup()
         {
             WaitUtil.WaitForElementVisible(createTitle);
             Assert.IsTrue(IsControlDisplayed(sourceDd));
@@ -84,7 +71,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
             return this;
         }
 
-        public PointSegmentDetailPage VerifyDefaulValue()
+        public PointNodeDetailPage VerifyDefaulValue()
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(inspectionTypeDd), "Select... ...");
             Assert.IsTrue(GetFirstSelectedItemInDropdown(allocatedUnitDd).Contains("Select..."));
@@ -95,59 +82,66 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
             return this;
         }
 
-        public PointSegmentDetailPage VerifyDefaultSourceDd(string sourceValue)
+        public PointNodeDetailPage VerifyDefaultSourceDd(string sourceValue)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(sourceDd), sourceValue);
             return this;
         }
 
-        public PointSegmentDetailPage ClickAndSelectInspectionType(string inspectionTypeValue)
+        public PointNodeDetailPage ClickAndSelectInspectionType(string inspectionTypeValue)
         {
             ClickOnElement(inspectionTypeDd);
             ClickOnElement(inspectionTypeOption, inspectionTypeValue);
             return this;
         }
 
-        public PointSegmentDetailPage ClickAndSelectAllocatedUnit(string allocatedUnitValue)
+        public PointNodeDetailPage ClickAndSelectAllocatedUnit(string allocatedUnitValue)
         {
             ClickOnElement(allocatedUnitDd);
             ClickOnElement(allocatedUnitOption, allocatedUnitValue);
             return this;
         }
 
-        public PointSegmentDetailPage ClickAndSelectAssignedUser(string assignedUserValue)
+        public PointNodeDetailPage ClickAndSelectAssignedUser(string assignedUserValue)
         {
             ClickOnElement(assignedUserDd);
             ClickOnElement(assignedUserOption, assignedUserValue);
             return this;
         }
 
-        public PointSegmentDetailPage InputValidTo(string validFromTo)
+        public PointNodeDetailPage InputValidTo(string validFromTo)
         {
             SendKeys(validToInput, validFromTo);
             return this;
         }
 
-        public PointSegmentDetailPage ClickCreateBtn()
+        public PointNodeDetailPage ClickCreateBtn()
         {
             ClickOnElement(createBtn);
             return this;
         }
 
-        public PointSegmentDetailPage InputNote(string noteValue)
+        public PointNodeDetailPage InputNote(string noteValue)
         {
             SendKeys(noteInput, noteValue);
             return this;
         }
 
-        public PointSegmentDetailPage ClickOnInspectionCreatedLink()
+        public PointNodeDetailPage ClickOnInspectionCreatedLink()
         {
             ClickOnElement("//a[@id='echo-notify-success-link']");
             return this;
         }
 
+        public PointNodeDetailPage VerifyPointNodeId(string idExpected)
+        {
+            string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/point-nodes/", "");
+            Assert.AreEqual(idExpected, idActual);
+            return this;
+        }
+
         //POINT HISTORY TAB
-        public PointSegmentDetailPage ClickPointHistoryTab()
+        public PointNodeDetailPage ClickPointHistoryTab()
         {
             ClickOnElement(pointHistoryTab);
             return this;
@@ -174,7 +168,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
             return allModel;
         }
 
-        public PointSegmentDetailPage VerifyPointHistory(PointHistoryModel pointHistoryModelActual, string desc, string id, string type, string address, string date, string dueDate, string state)
+        public PointNodeDetailPage VerifyPointHistory(PointHistoryModel pointHistoryModelActual, string desc, string id, string type, string address, string date, string dueDate, string state)
         {
             Assert.AreEqual(desc, pointHistoryModelActual.description);
             Assert.AreEqual(id, pointHistoryModelActual.ID);
@@ -184,13 +178,8 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
             Assert.AreEqual(dueDate, pointHistoryModelActual.dueDate);
             Assert.AreEqual(state, pointHistoryModelActual.state);
             return this;
+
         }
 
-        public PointSegmentDetailPage FilterByPointHistoryId(string pointHistoryId)
-        {
-            SendKeys(filterInputById, pointHistoryId);
-            SendKeys(filterInputById, Keys.Enter);
-            return this;
-        }
     }
 }

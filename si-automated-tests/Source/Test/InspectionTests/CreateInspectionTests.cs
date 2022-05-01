@@ -12,6 +12,7 @@ using si_automated_tests.Source.Main.Pages.Inspections;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PointAddress;
 using si_automated_tests.Source.Main.Pages.Search.PointAreas;
+using si_automated_tests.Source.Main.Pages.Search.PointNodes;
 using si_automated_tests.Source.Main.Pages.Search.PointSegment;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
@@ -36,6 +37,13 @@ namespace si_automated_tests.Source.Test.InspectionTests
 
         public void Login()
         {
+
+        }
+
+        [Category("CreateInspection")]
+        [Test(Description = "Creating inspection from task")]
+        public void TC_079_Create_inspection_from_task()
+        {
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
@@ -43,12 +51,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .IsOnLoginPage()
                 .Login(AutoUser14.UserName, AutoUser14.Password)
                 .IsOnHomePage(AutoUser14);
-        }
-
-        [Category("CreateInspection")]
-        [Test(Description = "Creating inspection from task")]
-        public void TC_079_Create_inspection_from_task()
-        {
             string inspectionTypeValue = "Site Inspection";
             string allocatedUnitValue_2 = "East Waste";
             string allocatedUserValue_2 = "User";
@@ -77,6 +79,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .IsDetailTaskPage();
             string location = detailTaskPage
                 .GetLocationName();
+            string serviceName = detailTaskPage
+                .GetServiceName();
             string[] sourceNameList = { location, location };
             detailTaskPage
                 .ClickOnInspectionBtn()
@@ -109,15 +113,20 @@ namespace si_automated_tests.Source.Test.InspectionTests
             int inspectionId = Int32.Parse(PageFactoryManager.Get<DetailInspectionPage>()
                 .GetCurrentUrl()
                 .Replace(WebUrl.MainPageUrl + "web/inspections/", ""));
-            //Get data in DB to verify
-            string query = "select * from inspections where inspectionID=" + inspectionId + ";";
-            SqlCommand commandInspection = new SqlCommand(query, DatabaseContext.Conection);
+            //Query to verify
+            string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
+            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
-            List<InspectionDBModel> inspections = ObjectExtention.DataReaderMapToList<InspectionDBModel>(readerInspection);
+            List<InspectionQueryModel> inspections = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection);
             readerInspection.Close();
+            string query_2 = "select u.username from inspections inspec join users u on inspec.userID = u.userID where inspectionID =" + inspectionId + "; ";
+            SqlCommand commandInspection_2 = new SqlCommand(query_2, DatabaseContext.Conection);
+            SqlDataReader readerInspection_2 = commandInspection_2.ExecuteReader();
+            List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
+            readerInspection_2.Close();
 
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataDisplayedWithDB(inspections[0], noteValue, 5, 0, 2, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1))
+                .VerifyDataDisplayedWithDB(inspections[0], noteValue, allocatedUnitValue, 0, AutoUser14.UserName, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1), inspections_2[0].username, assignedUserValue)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             detailTaskPage
@@ -195,7 +204,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
                 .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(allInspectionModels[0], inspectionModels[0], location, "North Star", location, "Domestic Recycling");
+                .VerifyTheFirstInspection(allInspectionModels[0], inspectionModels[0], location, "North Star", location, serviceName);
         }
 
         [Category("CreateInspection")]
@@ -210,6 +219,13 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string validToValue = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
             string noteValue = "AutoNote " + CommonUtil.GetRandomString(5);
 
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser14.UserName, AutoUser14.Password)
+                .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Events")
                 .OpenOption("North Star")
@@ -305,6 +321,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             List<PointHistoryModel> pointHistoryModels = PageFactoryManager.Get<EventDetailPage>()
                 .GetAllPointHistory();
             PageFactoryManager.Get<EventDetailPage>()
+                .FilterByPointHistoryId(inspectionId.ToString())
                 .VerifyPointHistory(pointHistoryModels[0], "Inspection:Site Inspection", inspectionId.ToString(), "Inspection", "Clinical Waste", locationValueWithoutIcon, validFromValue, validToValue, "Pending")
                 .DoubleClickOnCreatedInspection()
                 .SwitchToLastWindow()
@@ -352,6 +369,13 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string eventIdWithoutIcon = "13";
             string noteValue = "Auto081 " + CommonUtil.GetRandomString(5);
 
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser14.UserName, AutoUser14.Password)
+                .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Events")
                 .OpenOption("North Star")
@@ -463,6 +487,13 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string noteValue = "AutoTC083 " + CommonUtil.GetRandomString(5);
             string searchForAddresses = "Addresses";
 
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser14.UserName, AutoUser14.Password)
+                .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<HomePage>()
                 .ClickOnSearchBtn()
                 .IsSearchModel()
@@ -581,9 +612,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickPointHistoryTab()
                 .WaitForLoadingIconToDisappear();
             List<PointHistoryModel> pointHistoryModels = PageFactoryManager.Get<PointAddressDetailPage>()
+                .FilterByPointHistoryId(inspectionId.ToString())
                 .GetAllPointHistory();
             PageFactoryManager.Get<PointAddressDetailPage>()
-                .VerifyPointHistory(pointHistoryModels[pointHistoryModels.Count - 1], "Inspection:Repeat Missed Assessment", inspectionId.ToString(), "Inspection", locationValue, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), "Pending");
+                .VerifyPointHistory(pointHistoryModels[0], "Inspection:" + inspectionTypeValue, inspectionId.ToString(), "Inspection", locationValue, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), "Pending");
         }
 
         [Category("CreateInspection")]
@@ -595,6 +627,13 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string noteValue = "AutoTC086 " + CommonUtil.GetRandomString(5);
             string idSegment = "32844";
 
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser14.UserName, AutoUser14.Password)
+                .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<HomePage>()
                 .ClickOnSearchBtn()
                 .IsSearchModel()
@@ -717,9 +756,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickPointHistoryTab()
                 .WaitForLoadingIconToDisappear();
             List<PointHistoryModel> pointHistoryModels = PageFactoryManager.Get<PointAddressDetailPage>()
+                .FilterByPointHistoryId(inspectionId.ToString())
                 .GetAllPointHistory();
             PageFactoryManager.Get<PointSegmentDetailPage>()
-                .VerifyPointHistory(pointHistoryModels[pointHistoryModels.Count - 1], "Inspection:Street Cleansing Assessment", inspectionId.ToString(), "Inspection", locationValue, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), "Pending");
+                .VerifyPointHistory(pointHistoryModels[0], "Inspection:" + inspectionTypeValue, inspectionId.ToString(), "Inspection", locationValue, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), "Pending");
         }
 
         [Category("CreateInspection")]
@@ -731,6 +771,13 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string noteValue = "AutoTC087 " + CommonUtil.GetRandomString(5);
             string idArea = "17";
 
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser14.UserName, AutoUser14.Password)
+                .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<HomePage>()
                 .ClickOnSearchBtn()
                 .IsSearchModel()
@@ -848,11 +895,148 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 //Verify data in [Point History] tab
                 .ClickPointHistoryTab()
                 .WaitForLoadingIconToDisappear();
-            List<PointHistoryModel> pointHistoryModels = PageFactoryManager.Get<PointAddressDetailPage>()
+            List<PointHistoryModel> pointHistoryModels = PageFactoryManager.Get<PointSegmentDetailPage>()
+                .FilterByPointHistoryId(inspectionId.ToString())
                 .GetAllPointHistory();
             PageFactoryManager.Get<PointSegmentDetailPage>()
-                .VerifyPointHistory(pointHistoryModels[pointHistoryModels.Count - 1], "Inspection:Grounds Maintenance Assessment", inspectionId.ToString(), "Inspection", locationValue, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), "Pending");
+                .VerifyPointHistory(pointHistoryModels[0], "Inspection:" + inspectionTypeValue, inspectionId.ToString(), "Inspection", locationValue, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), "Pending");
 
+        }
+
+        [Category("CreateInspection")]
+        [Test(Description = "Creating inspection from point node")]
+        public void TC_088_Create_inspection_from_point_node()
+        {
+            string searchForPointNodes = "Nodes";
+            string inspectionTypeValue = "Site Inspection";
+            string noteValue = "AutoTC088 " + CommonUtil.GetRandomString(5);
+            string idNode = "3";
+            string locationValue = "Sainsburys Hampton Bring Site";
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser15.UserName, AutoUser15.Password)
+                .IsOnHomePage(AutoUser15);
+            PageFactoryManager.Get<HomePage>()
+                .ClickOnSearchBtn()
+                .IsSearchModel()
+                .ClickAnySearchForOption(searchForPointNodes)
+                .ClickAndSelectRichmondSectorValue()
+                .ClickOnSearchBtnInPopup()
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PointNodeListingPage>()
+                .WaitForPointNodeListingPageDisplayed()
+                .FilterNodeById(idNode)
+                .DoubleClickFirstPointNodeRow()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            //Detail node page
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .WaitForPointNodeDetailDisplayed()
+                .ClickInspectBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+               .IsCreateInspectionPopup()
+               .VerifyDefaulValue()
+               .VerifyDefaultSourceDd(locationValue)
+               .ClickAndSelectInspectionType(inspectionTypeValue)
+               .ClickAndSelectAllocatedUnit(allocatedUnitValue)
+               .InputValidTo(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+               .ClickAndSelectAssignedUser(assignedUserValue)
+               .InputNote(noteValue)
+               .ClickCreateBtn();
+            //Bug wrong message
+            //.VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .ClickOnInspectionCreatedLink()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<DetailInspectionPage>()
+                .WaitForInspectionDetailDisplayed(inspectionTypeValue)
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            int inspectionId = Int32.Parse(PageFactoryManager.Get<DetailInspectionPage>()
+                .GetCurrentUrl()
+                .Replace(WebUrl.MainPageUrl + "web/inspections/", ""));
+            PageFactoryManager.Get<DetailInspectionPage>()
+                //Verify detail tab 
+                .IsDetailInspectionPage(allocatedUnitValue, assignedUserValue, noteValue)
+                .VerifyStateInspection("Pending")
+                .VerifyInspectionAddress(locationValue)
+                .VerifyValidFromValidToAndOtherDateField(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .ClickOnDataTab()
+                //Verify history tab
+                .ClickOnHistoryTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailInspectionPage>()
+                .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1));
+            //Query to verify
+            string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
+            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
+            SqlDataReader readerInspection = commandInspection.ExecuteReader();
+            List<InspectionQueryModel> inspections = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection);
+            readerInspection.Close();
+            string query_2 = "select u.username from inspections inspec join users u on inspec.userID = u.userID where inspectionID =" + inspectionId + "; ";
+            SqlCommand commandInspection_2 = new SqlCommand(query_2, DatabaseContext.Conection);
+            SqlDataReader readerInspection_2 = commandInspection_2.ExecuteReader();
+            List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
+            readerInspection_2.Close();
+            PageFactoryManager.Get<DetailInspectionPage>()
+                .VerifyDataDisplayedWithDB(inspections[0], noteValue, allocatedUnitValue, 0, AutoUser14.UserName, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1), inspections_2[0].username, assignedUserValue)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+
+            //Verify in [All Inspections]
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Inspections")
+                .OpenOption("All Inspections")
+                .SwitchNewIFrame();
+            List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
+                .getAllInspectionInList(1);
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .DoubleClickFirstInspectionRow()
+                .SwitchToLastWindow();
+
+            PageFactoryManager.Get<DetailInspectionPage>()
+                .WaitForInspectionDetailDisplayed(inspectionTypeValue)
+                .VerifyInspectionId(inspectionId.ToString())
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailInspectionPage>()
+                //Verify detail tab 
+                .IsDetailInspectionPage(allocatedUnitValue, assignedUserValue, noteValue)
+                .VerifyStateInspection("Pending")
+                .VerifyInspectionAddress(locationValue)
+                .VerifyValidFromValidToAndOtherDateField(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .ClickOnDataTab()
+                //Verify history tab
+                .ClickOnHistoryTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailInspectionPage>()
+                .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                //Click on header
+                .ClickAddressLink(locationValue)
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .WaitForPointNodeDetailDisplayed()
+                .VerifyPointNodeId(idNode)
+                //Verify data in [Point History] tab
+                .ClickPointHistoryTab()
+                .WaitForLoadingIconToDisappear();
+            List<PointHistoryModel> pointHistoryModels = PageFactoryManager.Get<PointSegmentDetailPage>()
+                .FilterByPointHistoryId(inspectionId.ToString())
+                .GetAllPointHistory();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .VerifyPointHistory(pointHistoryModels[0], "Inspection:" + inspectionTypeValue, inspectionId.ToString(), "Inspection", locationValue, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), "Pending");
         }
     }
 }

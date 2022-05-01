@@ -476,7 +476,7 @@ namespace si_automated_tests.Source.Core
         }
         public BasePage ClickOnSuccessLink()
         {
-            ClickOnElement("//a[@id='echo-notify-success-link']");
+            ClickOnElement("//a[@id='echo-notify-Success-link']");
             return this;
         }
         public bool IsElementSelected(By by)
