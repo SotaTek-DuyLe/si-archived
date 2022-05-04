@@ -32,8 +32,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnHomePage(AutoUser23);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .OpenOption("North Star")
-                .SwitchNewIFrame();
+                .OpenOption("North Star");
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
@@ -46,8 +45,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved resource.")
                 .ClickCloseBtn()
-                .SwitchToLastWindow()
-                .SwitchNewIFrame();
+                .SwitchToLastWindow();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValue("Name", resourceName)
                 .VerifyFirstResultValue("Resource Type", resourceType)
@@ -81,8 +79,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickMainOption("Resources")
                 .OpenOption("North Star")
                 .AcceptAlert()
-                .AcceptAlert()
-                .SwitchNewIFrame();
+                .AcceptAlert();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .OpenFirstResult()
                 .SwitchToLastWindow();
@@ -118,8 +115,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickMainOption("Resources")
                 .OpenOption("North Star")
                 .AcceptAlert()
-                .AcceptAlert()
-                .SwitchNewIFrame();
+                .AcceptAlert();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .OpenFirstResult()
                 .SwitchToLastWindow();
@@ -159,8 +155,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnHomePage(AutoUser23);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .OpenOption("North Star")
-                .SwitchNewIFrame();
+                .OpenOption("North Star");
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
@@ -172,8 +167,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved resource.")
                 .ClickCloseBtn()
-                .SwitchToLastWindow()
-                .SwitchNewIFrame();
+                .SwitchToLastWindow();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValue("Name", resourceName)
                 .VerifyFirstResultValue("Resource Type", resourceType)

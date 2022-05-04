@@ -79,8 +79,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .OpenOption("Agreements")
-                .SwitchNewIFrame();
+                .OpenOption("Agreements");
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(newAgreementId)
                 .OpenFirstResult()
@@ -235,8 +234,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .OpenOption("Agreements")
-                .SwitchNewIFrame();
+                .OpenOption("Agreements");
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(newAgreementId)
                 .OpenFirstResult()
@@ -407,8 +405,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .OpenOption("Agreements")
-                .SwitchNewIFrame();
+                .OpenOption("Agreements");
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(newAgreementId)
                 .OpenFirstResult()

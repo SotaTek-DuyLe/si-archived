@@ -32,7 +32,7 @@ namespace si_automated_tests.Source.Test.AccountTests
 
         [Category("Account")]
         [Test]
-        public void TC_84()
+        public void TC_84_Create_sales_invoice()
         {
             string partyName = "Greggs";
             string lineType = "Commercial Line Type";
@@ -43,7 +43,8 @@ namespace si_automated_tests.Source.Test.AccountTests
             string price = "100.00";
 
             PageFactoryManager.Get<NavigationBase>()
-                .OpenOption("Sales Invoices");
+                .OpenOption("Sales Invoices")
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickButton("Create");
             PageFactoryManager.Get<CreateInvoicePage>()
@@ -69,7 +70,8 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .IsOnLinesTab()
                 .VerifyLineInfo(partyName, product, product, quantity, price)
                 .CloseCurrentWindow()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickFirstItem()
                 .ClickButton("Post");
@@ -82,7 +84,7 @@ namespace si_automated_tests.Source.Test.AccountTests
         }
         [Category("Account")]
         [Test]
-        public void TC_85()
+        public void TC_85_Create_sales_invoice_batch()
         {
             string type = "Credit";
             string customer = "Jaflong Tandoori - AL00000043";
@@ -93,7 +95,8 @@ namespace si_automated_tests.Source.Test.AccountTests
             string currentDateTime = CommonUtil.GetTimeMinusHour(CommonUtil.GetLocalTimeNow("dd/MM/yyyy HH:mm"),"dd/MM/yyyy HH:mm", 1);
 
             PageFactoryManager.Get<NavigationBase>()
-                .OpenOption("Sales Invoice Batches");
+                .OpenOption("Sales Invoice Batches")
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickButton("Create");
             PageFactoryManager.Get<CreateInvoiceBatchPage>()
@@ -103,7 +106,9 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .InputGenerateDate(currentDateTime)
                 .ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved sales invoice batch")
-                .CloseCurrentWindow();
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValue("Status", "PENDING")
                 .VerifyFirstResultValue("Generation Scheduled Date", currentDateTime)

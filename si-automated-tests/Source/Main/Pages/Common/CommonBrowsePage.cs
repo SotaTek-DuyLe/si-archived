@@ -20,9 +20,6 @@ namespace si_automated_tests.Source.Main.Pages
 
         public CommonBrowsePage()
         {
-            SwitchToLastWindow();
-            SwitchToDefaultContent();
-            SwitchNewIFrame();
         }
         public CommonBrowsePage FilterItem(int id)
         {
