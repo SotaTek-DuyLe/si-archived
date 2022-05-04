@@ -191,6 +191,11 @@ namespace si_automated_tests.Source.Core
             return this.driver.FindElements(By.XPath(xpath)).Count != 0;
         }
 
+        public bool IsControlDisplayedNotThrowEx(By by)
+        {
+            return this.driver.FindElements(by).Count != 0;
+        }
+
         public bool IsControlDisplayed(By by)
         {
             return this.driver.FindElement(by).Displayed;
@@ -476,7 +481,7 @@ namespace si_automated_tests.Source.Core
         }
         public BasePage ClickOnSuccessLink()
         {
-            ClickOnElement("//a[@id='echo-notify-success-link']");
+            ClickOnElement("//a[@id='echo-notify-Success-link']");
             return this;
         }
         public bool IsElementSelected(By by)
@@ -494,6 +499,7 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForElementInvisible("//*[contains(@data-bind,'shield: isLoading')]");
             WaitUtil.WaitForElementInvisible("//div[@id='loading-shield']");
             WaitUtil.WaitForElementInvisible("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
+            WaitUtil.WaitForPageLoaded();
             return this;
         }
         public BasePage VerifyToastMessageNotAppear(string message)

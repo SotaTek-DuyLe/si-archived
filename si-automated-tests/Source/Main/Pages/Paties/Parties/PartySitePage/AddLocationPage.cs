@@ -15,12 +15,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
 
         public AddLocationPage WaitForAddLocationPageLoaded()
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(title);
             return this;
         }
 
         public AddLocationPage VerifyDisplayPartySitePage()
         {
+            WaitUtil.WaitForElementVisible(nameInput);
             Assert.IsTrue(IsControlDisplayed(nameInput));
             Assert.IsTrue(IsControlDisplayed(activeCheckbox));
             Assert.IsTrue(IsControlDisplayed(clientRefInput));

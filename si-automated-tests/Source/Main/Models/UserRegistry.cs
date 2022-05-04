@@ -2,6 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Models
 {
@@ -67,7 +68,17 @@ namespace si_automated_tests.Source.Main.Models
 
         public UserRegistry()
         {
-            var iconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Source/Main/Data/UserData.json");
+            string iconPath;
+            if (WebUrl.MainPageUrl.Contains("https://test.echoweb.co.uk/"))
+            {
+                iconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Source/Main/Data/TestUserData.json");
+            } else if (WebUrl.MainPageUrl.Contains("https://demo.echoweb.co.uk/"))
+            {
+                iconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Source/Main/Data/DemoUserData.json");
+            } else
+            {
+                iconPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Source/Main/Data/TestUserData.json");
+            }
             var newPath = new Uri(iconPath).LocalPath;
             JObject jsonObject = JObject.Parse(File.ReadAllText(newPath));
 

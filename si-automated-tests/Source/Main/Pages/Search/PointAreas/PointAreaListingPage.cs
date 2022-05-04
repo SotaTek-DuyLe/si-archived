@@ -13,6 +13,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
 
         public PointAreaListingPage WaitForPointAreaListingPageDisplayed()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(addNewPointAreasBtn);
             return this;
         }
