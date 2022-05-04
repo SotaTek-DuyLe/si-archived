@@ -11,7 +11,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
     {
         private readonly By addNewPointAddressBtn = By.XPath("//button[text()='Add New Item']");
         private readonly By firstPointAddressRow = By.XPath("//div[@class='grid-canvas']/div[not(contains(@style, 'display: none;'))][1]");
-        private readonly By filterInputById = By.XPath("//div[contains(@class, 'l6 r6')]/descendant::input");
+        private readonly By filterInputById = By.XPath("//div[contains(@class, 'l1 r1')]/descendant::input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
 
         //DYNAMIC LOCATOR

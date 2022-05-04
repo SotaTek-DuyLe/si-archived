@@ -140,5 +140,16 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(GetFirstSelectedItemInDropdown(sourceDd), sourceValue);
             return this;
         }
+
+        public string GetServiceUnitId()
+        {
+            return GetCurrentUrl().Replace("web/service-units/", "");
+        }
+
+        public ServiceUnitDetailPage VerifyServiceUnitId(string serviceUnitIdEx, string serviceUnitIdDisplayed)
+        {
+            Assert.AreEqual(serviceUnitIdEx, serviceUnitIdDisplayed);
+            return this;
+        }
     }
 }
