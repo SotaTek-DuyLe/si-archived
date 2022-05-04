@@ -242,7 +242,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         public EventDetailPage ClickAnyEventOption(string eventName)
         {
             ClickOnElement(eventOptions, eventName);
-            return PageFactoryManager.Get<EventDetailPage>;
+            return PageFactoryManager.Get<EventDetailPage>();
         }
     }
 }
