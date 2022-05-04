@@ -40,6 +40,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
 
         public EditPartyContactPage IsEditPartyContactPage(ContactModel contactModel)
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(contactTitle);
             WaitUtil.WaitForElementVisible(string.Format(fullName, contactModel.FirstName + " " + contactModel.LastName));
             //Verify default value

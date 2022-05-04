@@ -5,14 +5,12 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
-using si_automated_tests.Source.Main.Pages.Events;
 
-namespace si_automated_tests.Source.Main.Pages.PointAddress
+namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
 {
-    public class PointAddressDetailPage : BasePage
+    public class PointNodeDetailPage : BasePage
     {
-        private readonly By titleDetail = By.XPath("//h4[text()='Point Address']");
-        private readonly By pointAddressName = By.XPath("//span[@class='object-name']");
+        private readonly By titleDetail = By.XPath("//h4[text()='Point Node']");
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
 
         //POPUP
@@ -32,50 +30,28 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private readonly By pointHistoryTab = By.CssSelector("a[aria-controls='pointHistory-tab']");
         private readonly By allRowInPointHistoryTabel = By.XPath("//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div");
         private const string columnInRowPointHistoryTab = "//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
-        private readonly By filterInputById = By.XPath("//div[@id='pointHistory-tab']//div[contains(@class, 'l2 r2')]/descendant::input");
-
-        //ACTIVE SERVICES TAB
-        private readonly By activeServiceTab = By.CssSelector("a[aria-controls='activeServices-tab']");
-        private readonly By allActiveServiceRow = By.CssSelector("//div[@class='parent-row']/div[1]");
-
-        private const string eventDynamicLocator = "//div[@class='parent-row'][{0}]//div[text()='Event']";
-        private const string serviceUnitDynamic = "//div[@class='parent-row'][{0}]//div[@title='Open Service Unit']/span";
-        private const string serviceDynamic = "//div[@class='parent-row'][{0}]//span[@title='0']";
-
-        private const string eventOptions = "//div[@id='create-event-dropdown']//li[text()='{0}']";
 
         //DYNAMIC LOCATOR
         private const string inspectionTypeOption = "//div[@id='inspection-modal']//select[@id='inspection-type']/option[text()='{0}']";
         private const string allocatedUnitOption = "//label[text()=' Allocated Unit']/following-sibling::div/select/option[text()='{0}']";
         private const string assignedUserOption = "//div[@id='inspection-modal']//label[text()='Assigned User']/following-sibling::div/select/option[text()='{0}']";
 
-        public PointAddressDetailPage WaitForPointAddressDetailDisplayed()
+
+        public PointNodeDetailPage WaitForPointNodeDetailDisplayed()
         {
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(titleDetail);
             return this;
         }
 
-        public string GetPointAddressName()
-        {
-            return GetElementText(pointAddressName);
-        }
-
-        public PointAddressDetailPage ClickInspectBtn()
+        public PointNodeDetailPage ClickInspectBtn()
         {
             ClickOnElement(inspectBtn);
             return this;
         }
 
-        public PointAddressDetailPage VerifyPointAddressId(string idExpected)
-        {
-            string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/point-addresses/", "");
-            Assert.AreEqual(idExpected, idActual);
-            return this;
-        }
-
         //INSPECTION MODEL
-        public PointAddressDetailPage IsCreateInspectionPopup()
+        public PointNodeDetailPage IsCreateInspectionPopup()
         {
             WaitUtil.WaitForElementVisible(createTitle);
             Assert.IsTrue(IsControlDisplayed(sourceDd));
@@ -95,7 +71,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             return this;
         }
 
-        public PointAddressDetailPage VerifyDefaulValue()
+        public PointNodeDetailPage VerifyDefaulValue()
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(inspectionTypeDd), "Select... ...");
             Assert.IsTrue(GetFirstSelectedItemInDropdown(allocatedUnitDd).Contains("Select..."));
@@ -106,59 +82,66 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             return this;
         }
 
-        public PointAddressDetailPage VerifyDefaultSourceDd(string sourceValue)
+        public PointNodeDetailPage VerifyDefaultSourceDd(string sourceValue)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(sourceDd), sourceValue);
             return this;
         }
 
-        public PointAddressDetailPage ClickAndSelectInspectionType(string inspectionTypeValue)
+        public PointNodeDetailPage ClickAndSelectInspectionType(string inspectionTypeValue)
         {
             ClickOnElement(inspectionTypeDd);
             ClickOnElement(inspectionTypeOption, inspectionTypeValue);
             return this;
         }
 
-        public PointAddressDetailPage ClickAndSelectAllocatedUnit(string allocatedUnitValue)
+        public PointNodeDetailPage ClickAndSelectAllocatedUnit(string allocatedUnitValue)
         {
             ClickOnElement(allocatedUnitDd);
             ClickOnElement(allocatedUnitOption, allocatedUnitValue);
             return this;
         }
 
-        public PointAddressDetailPage ClickAndSelectAssignedUser(string assignedUserValue)
+        public PointNodeDetailPage ClickAndSelectAssignedUser(string assignedUserValue)
         {
             ClickOnElement(assignedUserDd);
             ClickOnElement(assignedUserOption, assignedUserValue);
             return this;
         }
 
-        public PointAddressDetailPage InputValidTo(string validFromTo)
+        public PointNodeDetailPage InputValidTo(string validFromTo)
         {
             SendKeys(validToInput, validFromTo);
             return this;
         }
 
-        public PointAddressDetailPage ClickCreateBtn()
+        public PointNodeDetailPage ClickCreateBtn()
         {
             ClickOnElement(createBtn);
             return this;
         }
 
-        public PointAddressDetailPage InputNote(string noteValue)
+        public PointNodeDetailPage InputNote(string noteValue)
         {
             SendKeys(noteInput, noteValue);
             return this;
         }
 
-        public PointAddressDetailPage ClickOnInspectionCreatedLink()
+        public PointNodeDetailPage ClickOnInspectionCreatedLink()
         {
             ClickOnElement("//a[@id='echo-notify-success-link']");
             return this;
         }
 
+        public PointNodeDetailPage VerifyPointNodeId(string idExpected)
+        {
+            string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/point-nodes/", "");
+            Assert.AreEqual(idExpected, idActual);
+            return this;
+        }
+
         //POINT HISTORY TAB
-        public PointAddressDetailPage ClickPointHistoryTab()
+        public PointNodeDetailPage ClickPointHistoryTab()
         {
             ClickOnElement(pointHistoryTab);
             return this;
@@ -185,7 +168,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             return allModel;
         }
 
-        public PointAddressDetailPage VerifyPointHistory(PointHistoryModel pointHistoryModelActual, string desc, string id, string type, string address, string date, string dueDate, string state)
+        public PointNodeDetailPage VerifyPointHistory(PointHistoryModel pointHistoryModelActual, string desc, string id, string type, string address, string date, string dueDate, string state)
         {
             Assert.AreEqual(desc, pointHistoryModelActual.description);
             Assert.AreEqual(id, pointHistoryModelActual.ID);
@@ -195,54 +178,8 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             Assert.AreEqual(dueDate, pointHistoryModelActual.dueDate);
             Assert.AreEqual(state, pointHistoryModelActual.state);
             return this;
+
         }
 
-        public PointAddressDetailPage FilterByPointHistoryId(string pointHistoryId)
-        {
-            SendKeys(filterInputById, pointHistoryId);
-            SendKeys(filterInputById, Keys.Enter);
-            return this;
-        }
-
-        //ACTIVE SERVICES TAB
-        public PointAddressDetailPage ClickOnActiveServicesTab()
-        {
-            ClickOnElement(activeServiceTab);
-            return this;
-        }
-
-        public List<ActiveSeviceModel> GetAllActiveServiceModel()
-        {
-            List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
-            List<IWebElement> allActiveRow = GetAllElements(allActiveServiceRow);
-            for(int i = 0; i < allActiveRow.Count; i++)
-            {
-                string eventLocator = string.Format(eventDynamicLocator, i.ToString());
-                string serviceUnitValue = GetElementText(serviceUnitDynamic, i.ToString());
-                string serviceValue = GetElementText(serviceDynamic, i.ToString());
-                activeSeviceModels.Add(new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue));
-            }
-            return activeSeviceModels;
-        }
-
-        public ActiveSeviceModel GetFirstActiveServiceModel()
-        {
-            string eventLocator = string.Format(eventDynamicLocator, "1");
-            string serviceUnitValue = GetElementText(serviceUnitDynamic, "1");
-            string serviceValue = GetElementText(serviceDynamic, "1");
-            return new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue);
-        }
-
-        public PointAddressDetailPage ClickFirstEventInFirstServiceRow()
-        {
-            ClickOnElement(eventDynamicLocator, "1");
-            return this;
-        }
-
-        public EventDetailPage ClickAnyEventOption(string eventName)
-        {
-            ClickOnElement(eventOptions, eventName);
-            return PageFactoryManager.Get<EventDetailPage>();
-        }
     }
 }

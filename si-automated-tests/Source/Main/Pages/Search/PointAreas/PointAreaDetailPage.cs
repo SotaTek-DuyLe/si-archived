@@ -39,6 +39,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
 
         public PointAreaDetailPage WaitForAreaDetailDisplayed()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(titleDetail);
             return this;
         }
@@ -134,7 +135,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
 
         public PointAreaDetailPage VerifyPointAreaId(string idExpected)
         {
-            string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "/web/point-areas/", "");
+            string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/point-areas/", "");
             Assert.AreEqual(idExpected, idActual);
             return this;
         }

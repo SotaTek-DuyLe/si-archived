@@ -34,6 +34,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
 
         public AddPrimaryContactPage IsCreatePrimaryContactPage()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(contactTitle);
             Assert.IsTrue(IsControlDisplayed(contactTitle));
             Assert.AreEqual(GetElementText(startDateTitle), CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT));

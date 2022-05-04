@@ -50,6 +50,7 @@ namespace si_automated_tests.Source.Main.Pages
 
         public PartySiteAddressPage IsOnPartySiteAddressPage()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(SearchInput);
             Assert.IsTrue(IsControlDisplayed(SearchInput));
             Assert.IsTrue(IsControlDisplayed(SearchBtn));

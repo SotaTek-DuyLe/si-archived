@@ -32,5 +32,10 @@ namespace si_automated_tests.Source.Main.Models
         [JsonProperty(PropertyName = "address name")]
         public string AddressName;
 
+        [JsonProperty(PropertyName = "event id with icon")]
+        public string EventIDWithIcon;
+
+        [JsonProperty(PropertyName = "event id without icon")]
+        public string EventIDWithoutIcon;
     }
 }
