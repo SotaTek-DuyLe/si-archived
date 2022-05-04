@@ -13,6 +13,30 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By eventTitle = By.XPath("//span[text()='Event']");
         private readonly By inspectionBtn = By.XPath("//button[@title='Inspect']");
         private readonly By locationName = By.CssSelector("a.typeUrl");
+        private readonly By eventType = By.XPath("//span[text()='Event']/following-sibling::span");
+        private readonly By serviceGroup = By.XPath("//div[text()='Service Group']/following-sibling::div");
+        private readonly By service = By.XPath("//div[text()='Service']/following-sibling::div");
+        private readonly By detailToggle = By.CssSelector("div#details-content-tab>div#toggle-actions");
+        private readonly By detailLoactorExpanded = By.XPath("//div[@id='toggle-actions' and @aria-expanded='true']");
+        private readonly By FrameMessage = By.XPath("//div[@class='notifyjs-corner']/div");
+
+        //DETAIL - Expanded
+        private readonly By sourceInput = By.CssSelector("div#details-content input#source");
+        private readonly By statusDd = By.CssSelector("div#details-content select#status");
+        private readonly By eventDateInput = By.CssSelector("div#details-content input#event-date");
+        private readonly By allocatedUnitDetailDd = By.CssSelector("div#details-content select#allocated-unit");
+        private readonly By resolutionCodeDd = By.CssSelector("div#details-content select#resolution-code");
+        private readonly By assignedUserDetailDd = By.CssSelector("div#details-content select#allocated-user");
+        private readonly By dueDateInput = By.CssSelector("div#details-content input#due-date");
+        private readonly By resolvedDateInput = By.CssSelector("div#details-content input#resolved-date");
+        private readonly By endDateInput = By.CssSelector("div#details-content input#end-date");
+        private readonly By clientRefInput = By.CssSelector("div#details-content input#client-reference");
+
+        //DATA TAB
+        private readonly By allActiveServiceRow = By.CssSelector("//div[@class='parent-row']/div[1]");
+        private const string eventDynamicLocator = "//div[@class='parent-row'][{0}]//div[text()='Event']";
+        private const string serviceUnitDynamic = "//div[@class='parent-row'][{0}]//div[@title='Open Service Unit']/span";
+        private const string serviceDynamic = "//div[@class='parent-row'][{0}]//span[@title='0']";
 
         //POPUP
         private readonly By createTitle = By.XPath("//h4[text()='Create ']");
@@ -42,6 +66,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private const string inspectionTypeOption = "//select[@id='inspection-type']/option[text()='{0}']";
         private const string allocatedUnitOption = "//label[text()='Allocated Unit']/following-sibling::div/select/option[text()='{0}']";
         private const string assignedUserOption = "//label[text()='Assigned User']/following-sibling::div/select/option[text()='{0}']";
+        private const string anyTab = "//a[@aria-controls='{0}']";
 
 
         public EventDetailPage WaitForEventDetailDisplayed()
@@ -66,6 +91,128 @@ namespace si_automated_tests.Source.Main.Pages.Events
         {
             ClickOnElement(urlType, sourceName);
             return PageFactoryManager.Get<ServiceUnitDetailPage>();
+        }
+
+        public string GetEventTypeName()
+        {
+            return GetElementText(eventType);
+        }
+
+        public EventDetailPage VerifyEventType(string eventTypeValueExpected)
+        {
+            Assert.AreEqual(eventTypeValueExpected, GetElementText(eventType).Replace("- ", ""));
+            return this;
+        }
+
+        public EventDetailPage VerifyServiceGroupAndService(string serviceGroupExp, string serviceExp)
+        {
+            Assert.AreEqual(serviceGroupExp, GetElementText(serviceGroup));
+            Assert.AreEqual(serviceExp, GetElementText(service));
+            return this;
+        }
+
+        public EventDetailPage ExpandDetailToggle()
+        {
+            ClickOnElement(detailToggle);
+            WaitUtil.WaitForAllElementsVisible(detailLoactorExpanded);
+            return this;
+        }
+
+        //DETAIL - Expanded
+        public EventDetailPage VerifyValueInSubDetailInformation(string sourceExp, string statusExp)
+        {
+            Assert.AreEqual(sourceExp, GetElementText(sourceInput));
+            Assert.AreEqual(statusExp, GetFirstSelectedItemInDropdown(statusDd));
+            Assert.IsTrue(GetAttributeValue(eventDateInput, "value").Contains(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT)));
+            Assert.AreEqual("", GetFirstSelectedItemInDropdown(allocatedUnitDetailDd));
+            Assert.AreEqual("", GetFirstSelectedItemInDropdown(resolutionCodeDd));
+            Assert.AreEqual("", GetFirstSelectedItemInDropdown(assignedUserDetailDd));
+            Assert.AreEqual("", GetAttributeValue(dueDateInput, "value"));
+            Assert.AreEqual("", GetAttributeValue(resolvedDateInput, "value"));
+            Assert.AreEqual("", GetAttributeValue(endDateInput, "value"));
+            Assert.AreEqual("", GetAttributeValue(clientRefInput, "value"));
+            return this;
+        }
+
+        public EventDetailPage VerifyDueDate(string dueDateValue)
+        {
+            Assert.IsTrue(GetAttributeValue(dueDateInput, "value").Contains(dueDateValue));
+            return this;
+        }
+
+        public EventDetailPage VerifyDisplayTabsAfterSaveEvent()
+        {
+            Assert.IsTrue(IsControlDisplayed(anyTab, "data-tab"));
+            Assert.IsTrue(IsControlDisplayed(anyTab, "history-tab"));
+            Assert.IsTrue(IsControlDisplayed(anyTab, "services-tab"));
+            Assert.IsTrue(IsControlDisplayed(anyTab, "pointHistory-tab"));
+            Assert.IsTrue(IsControlDisplayed(anyTab, "outstanding-tab"));
+            Assert.IsTrue(IsControlDisplayed(anyTab, "history-tab"));
+            Assert.IsTrue(IsControlDisplayed(anyTab, "tasks-tab"));
+            Assert.IsTrue(IsControlDisplayed(anyTab, "map-tab"));
+            return this;
+        }
+
+        public EventDetailPage ClickHistoryTab()
+        {
+            ClickOnElement(anyTab, "history-tab");
+            return this;
+        }
+
+        public EventDetailPage ClickDataSubTab()
+        {
+            ClickOnElement(anyTab, "data-tab");
+            return this;
+        }
+
+        public EventDetailPage VerifyNotDisplayErrorMessage()
+        {
+            Assert.IsFalse(IsControlDisplayedNotThrowEx(FrameMessage));
+            return this;
+        }
+
+        public EventDetailPage ClickServicesSubTab()
+        {
+            ClickOnElement(anyTab, "services-tab");
+            return this;
+        }
+
+        public EventDetailPage ClickOutstandingSubTab()
+        {
+            ClickOnElement(anyTab, "outstanding-tab");
+            return this;
+        }
+
+        public EventDetailPage ClickPointHistorySubTab()
+        {
+            ClickOnElement(anyTab, "pointHistory-tab");
+            return this;
+        }
+
+        public EventDetailPage VerifyDataInServiceSubTab(List<ActiveSeviceModel> allActiveServicesInServiceTab, List<ActiveSeviceModel> allActiveServicesSubTab)
+        {
+            Assert.AreEqual(allActiveServicesInServiceTab, allActiveServicesSubTab);
+            return this;
+        }
+
+        public List<ActiveSeviceModel> GetAllActiveServiceModel()
+        {
+            List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
+            List<IWebElement> allActiveRow = GetAllElements(allActiveServiceRow);
+            for (int i = 0; i < allActiveRow.Count; i++)
+            {
+                string eventLocator = string.Format(eventDynamicLocator, i.ToString());
+                string serviceUnitValue = GetElementText(serviceUnitDynamic, i.ToString());
+                string serviceValue = GetElementText(serviceDynamic, i.ToString());
+                activeSeviceModels.Add(new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue));
+            }
+            return activeSeviceModels;
+        }
+
+        public EventDetailPage VerifyPointHistoryInSubTab(List<PointHistoryModel> pointHistoryModelsInDetail, List<PointHistoryModel> pointHistoryModelsInPointHistorySubTab)
+        {
+            Assert.AreEqual(pointHistoryModelsInDetail, pointHistoryModelsInPointHistorySubTab);
+            return this;
         }
 
         //POPUP CREATE INSPECTION
@@ -245,6 +392,18 @@ namespace si_automated_tests.Source.Main.Pages.Events
             SendKeys(filterInputById, pointHistoryId);
             SendKeys(filterInputById, Keys.Enter);
             return this;
+        }
+
+        public EventDetailPage VerifyCurrentEventUrl()
+        {
+            Assert.IsTrue(GetCurrentUrl().Contains(WebUrl.MainPageUrl + "web/events/"));
+            return this;
+        }
+
+        public string GetEventId()
+        {
+            return GetCurrentUrl()
+                .Replace(WebUrl.MainPageUrl + "web/events/", "");
         }
     }
 }

@@ -29,17 +29,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
         private string allocatedUnitValue = "Ancillary";
         private string assignedUserValue = "josie";
 
-        public override void Setup()
-        {
-            base.Setup();
-            Login();
-        }
-
-        public void Login()
-        {
-
-        }
-
         [Category("CreateInspection")]
         [Test(Description = "Creating inspection from task")]
         public void TC_079_Create_inspection_from_task()
@@ -512,7 +501,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .GetPointAddressName();
             string idPointAddress = PageFactoryManager.Get<PointAddressDetailPage>()
                 .GetCurrentUrl()
-                .Replace(WebUrl.MainPageUrl + "/web/point-addresses/", "");
+                .Replace(WebUrl.MainPageUrl + "web/point-addresses/", "");
 
             PageFactoryManager.Get<PointAddressDetailPage>()
                 .ClickInspectBtn()
@@ -659,7 +648,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .GetPointSegmentName();
             string idPointSegment = PageFactoryManager.Get<PointSegmentDetailPage>()
                 .GetCurrentUrl()
-                .Replace(WebUrl.MainPageUrl + "/web/point-segments/", "");
+                .Replace(WebUrl.MainPageUrl + "web/point-segments/", "");
             PageFactoryManager.Get<PointSegmentDetailPage>()
                 .IsCreateInspectionPopup()
                 .VerifyDefaulValue()
@@ -972,7 +961,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnHistoryTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1));
+                .VerifyDataInHistoryTab(AutoUser15.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1));
             //Query to verify
             string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
             SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
@@ -1022,7 +1011,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnHistoryTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyDataInHistoryTab(AutoUser15.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 //Click on header
                 .ClickAddressLink(locationValue)
                 .SwitchToLastWindow();

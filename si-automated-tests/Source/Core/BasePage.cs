@@ -191,6 +191,11 @@ namespace si_automated_tests.Source.Core
             return this.driver.FindElements(By.XPath(xpath)).Count != 0;
         }
 
+        public bool IsControlDisplayedNotThrowEx(By by)
+        {
+            return this.driver.FindElements(by).Count != 0;
+        }
+
         public bool IsControlDisplayed(By by)
         {
             return this.driver.FindElement(by).Displayed;

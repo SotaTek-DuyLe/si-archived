@@ -5,6 +5,7 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Pages.Events;
 
 namespace si_automated_tests.Source.Main.Pages.PointAddress
 {
@@ -32,6 +33,16 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private readonly By allRowInPointHistoryTabel = By.XPath("//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div");
         private const string columnInRowPointHistoryTab = "//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private readonly By filterInputById = By.XPath("//div[@id='pointHistory-tab']//div[contains(@class, 'l2 r2')]/descendant::input");
+
+        //ACTIVE SERVICES TAB
+        private readonly By activeServiceTab = By.CssSelector("a[aria-controls='activeServices-tab']");
+        private readonly By allActiveServiceRow = By.CssSelector("//div[@class='parent-row']/div[1]");
+
+        private const string eventDynamicLocator = "//div[@class='parent-row'][{0}]//div[text()='Event']";
+        private const string serviceUnitDynamic = "//div[@class='parent-row'][{0}]//div[@title='Open Service Unit']/span";
+        private const string serviceDynamic = "//div[@class='parent-row'][{0}]//span[@title='0']";
+
+        private const string eventOptions = "//div[@id='create-event-dropdown']//li[text()='{0}']";
 
         //DYNAMIC LOCATOR
         private const string inspectionTypeOption = "//div[@id='inspection-modal']//select[@id='inspection-type']/option[text()='{0}']";
@@ -191,6 +202,47 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             SendKeys(filterInputById, pointHistoryId);
             SendKeys(filterInputById, Keys.Enter);
             return this;
+        }
+
+        //ACTIVE SERVICES TAB
+        public PointAddressDetailPage ClickOnActiveServicesTab()
+        {
+            ClickOnElement(activeServiceTab);
+            return this;
+        }
+
+        public List<ActiveSeviceModel> GetAllActiveServiceModel()
+        {
+            List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
+            List<IWebElement> allActiveRow = GetAllElements(allActiveServiceRow);
+            for(int i = 0; i < allActiveRow.Count; i++)
+            {
+                string eventLocator = string.Format(eventDynamicLocator, i.ToString());
+                string serviceUnitValue = GetElementText(serviceUnitDynamic, i.ToString());
+                string serviceValue = GetElementText(serviceDynamic, i.ToString());
+                activeSeviceModels.Add(new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue));
+            }
+            return activeSeviceModels;
+        }
+
+        public ActiveSeviceModel GetFirstActiveServiceModel()
+        {
+            string eventLocator = string.Format(eventDynamicLocator, "1");
+            string serviceUnitValue = GetElementText(serviceUnitDynamic, "1");
+            string serviceValue = GetElementText(serviceDynamic, "1");
+            return new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue);
+        }
+
+        public PointAddressDetailPage ClickFirstEventInFirstServiceRow()
+        {
+            ClickOnElement(eventDynamicLocator, "1");
+            return this;
+        }
+
+        public EventDetailPage ClickAnyEventOption(string eventName)
+        {
+            ClickOnElement(eventOptions, eventName);
+            return PageFactoryManager.Get<EventDetailPage>;
         }
     }
 }

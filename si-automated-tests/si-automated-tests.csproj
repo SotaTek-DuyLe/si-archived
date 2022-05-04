@@ -86,6 +86,7 @@
     <None Remove="Source\Main\Data\TestUserData.json" />
     <None Remove="Source\Main\Data\DemoUserData.json" />
     <None Remove="Source\Main\Pages\Search\PointNodes\" />
+    <None Remove="Source\Test\EventTests\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -115,6 +116,7 @@
     <Folder Include="Source\Main\Pages\Search\PointSegment\" />
     <Folder Include="Source\Main\Pages\Search\PointAreas\" />
     <Folder Include="Source\Main\Pages\Search\PointNodes\" />
+    <Folder Include="Source\Test\EventTests\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
