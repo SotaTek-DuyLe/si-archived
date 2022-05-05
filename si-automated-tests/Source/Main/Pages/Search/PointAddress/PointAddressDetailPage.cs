@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -255,6 +256,12 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             }
             return serviceModels;
         }
+
+        public ActiveSeviceModel GetActiveServiceWithSkipService(List<ActiveSeviceModel> allActiveServicesInServiceTab)
+        {
+            return allActiveServicesInServiceTab.FirstOrDefault(x => x.service.Equals("Skips"));
+        }
+
 
         public ActiveSeviceModel GetFirstActiveServiceModel()
         {

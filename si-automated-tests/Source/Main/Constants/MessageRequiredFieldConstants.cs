@@ -12,6 +12,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string LocationRestrictWarningMessage = "Default location must be selected as a restricted location.";
         public static readonly string ContactDetailsWarningMessage =  "Please enter at least one of the contact details.";
         public static readonly string WBMapTabWarningMessage = "No Service Unit(s) associated to this Site ";
+        public static readonly string NoEventsAvailableWarningMessage = "No Events Available";
 
     }
 }

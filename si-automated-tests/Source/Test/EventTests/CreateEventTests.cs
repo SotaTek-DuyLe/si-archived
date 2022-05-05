@@ -121,7 +121,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyValueInSubDetailInformation(locationValue, "New")
                 .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
                 .VerifyDisplayTabsAfterSaveEvent();
-            string query_1 = "select * from events where " + eventId + "; ";
+            string query_1 = "select * from events where eventid=" + eventId + "; ";
             SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<EventDBModel> eventModels = ObjectExtention.DataReaderMapToList<EventDBModel>(readerInspection);
@@ -150,6 +150,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .SwitchToChildWindow(3);
             //Verify Source in Detail toggle
             eventDetailPage
+                .ExpandDetailToggle()
                 .ClickOnSourceInputInDetailToggle()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
@@ -202,6 +203,14 @@ namespace si_automated_tests.Source.Test.EventTests
             //Get all data in [Active Services]
             List<ActiveSeviceModel> allActiveServices = PageFactoryManager.Get<PointAddressDetailPage>()
                 .GetAllServiceInTab();
+            //Service = Skip
+            ActiveSeviceModel activeSeviceModelWithSkip = PageFactoryManager.Get<PointAddressDetailPage>()
+                .GetActiveServiceWithSkipService(allActiveServices);
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .ClickAnyEventInActiveServiceRow(activeSeviceModelWithSkip.eventLocator)
+                .VerifyToastMessage(MessageRequiredFieldConstants.NoEventsAvailableWarningMessage)
+                .WaitUntilToastMessageInvisiable(MessageRequiredFieldConstants.NoEventsAvailableWarningMessage);
+            //Get all active service no service unit
             List<ActiveSeviceModel> allActiveServicesNoServiceUnit = PageFactoryManager.Get<PointAddressDetailPage>()
                 .GetAllServiceWithoutServiceUnitModel(allActiveServices);
             List<string> allEventTypes = PageFactoryManager.Get<PointAddressDetailPage>()
@@ -235,7 +244,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<ActiveSeviceModel> allSeviceModelsInSubTab = eventDetailPage
                 .GetAllServiceInTab();
             eventDetailPage
-                .VerifyDataInServiceSubTab(allActiveServices, allSeviceModelsInSubTab)
+                //.VerifyDataInServiceSubTab(allActiveServices, allSeviceModelsInSubTab)
                 //Verify Outstanding - sub tab display without error
                 .ClickOutstandingSubTab()
                 .WaitForLoadingIconToDisappear();
@@ -267,41 +276,36 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyValueInSubDetailInformation(locationValue, "New")
                 .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
                 .VerifyDisplayTabsAfterSaveEvent();
-            //string query_1 = "select * from events where " + eventId + "; ";
-            //SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
-            //SqlDataReader readerInspection = commandInspection.ExecuteReader();
-            //List<EventDBModel> eventModels = ObjectExtention.DataReaderMapToList<EventDBModel>(readerInspection);
-            //readerInspection.Close();
+            string query_1 = "select * from events where eventid=" + eventId + "; ";
+            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
+            SqlDataReader readerInspection = commandInspection.ExecuteReader();
+            List<EventDBModel> eventModels = ObjectExtention.DataReaderMapToList<EventDBModel>(readerInspection);
+            readerInspection.Close();
             //Verify History tab
             eventDetailPage
                 .ClickHistoryTab()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
-                //.VerifyHistoryWithDB(eventModels[0], AutoUser12.DisplayName)
+                .VerifyHistoryWithDB(eventModels[0], AutoUser12.DisplayName)
                 //Verify Map tab
                 .ClickMapTab()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
                 .VerifyDataInMapTab("event", allEventTypes[0], serviceUnit)
-                //Check service unit link
-                .ClickOnLocation()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            string serviceUnitId = PageFactoryManager.Get<ServiceUnitDetailPage>()
-                .WaitForServiceUnitDetailPageDisplayed(serviceUnit)
-                .GetServiceUnitId();
-            PageFactoryManager.Get<ServiceUnitDetailPage>()
-                //.VerifyServiceUnitId(eventModels[0].echoID.ToString(), serviceUnitId)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(3);
-            //Verify Source in Detail toggle
-            eventDetailPage
+                //Check service unit link show popup
+                .ClickOnLocationShowPopup()
+                .VeriryDisplayPopupLinkEventToServiceUnit("Richmond")
+                .ClickCloseEventPopupBtn()
+                .ExpandDetailToggle()
+                //Verify Source in Detail toggle
                 .ClickOnSourceInputInDetailToggle()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PointAddressDetailPage>()
-                .WaitForPointAddressDetailDisplayed();
-                //.VerifyPointAddressId(eventModels[0].eventpointID.ToString());
+                .WaitForPointAddressDetailDisplayed()
+                .VerifyPointAddressId(eventModels[0].eventpointID.ToString())
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
         }
 
     }

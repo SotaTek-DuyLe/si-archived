@@ -34,6 +34,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] PointHistoryTabColumn = { "Description", "ID", "Type", "Service", "Address", "Date", "Due Date", "State", "Resolution Code" };
         public static readonly string[] PointAddressColumn = { "ID", "Name", "UPRN", "Postcode", "Property Name", "Property", "To Property", "Sub Building", "Property Suffix", "Point Segment ID", "Point Address Type", "Start Date", "End Date" };
         public static readonly string[] PointSegmentColumn = { "ID", "Name", "Point Segment Type", "Point Segment Class", "Start Date", "End Date" };
+        public static readonly string[] LinkEventPopupColumn = { "Set", "Service Unit", "Service", "Schedule", " Last", "Next", "Asset Type", "Allocation", "Assured Task", "Client Reference" };
 
         //DATE
         public static readonly string DATE_DD_MM_YYYY_FORMAT = "dd/MM/yyyy";

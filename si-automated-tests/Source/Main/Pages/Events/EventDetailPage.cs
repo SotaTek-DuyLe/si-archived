@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -89,6 +90,59 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private const string assignedUserOption = "//label[text()='Assigned User']/following-sibling::div/select/option[text()='{0}']";
         private const string anyTab = "//a[@aria-controls='{0}']";
 
+        //POPUP
+        private readonly By linkEventTitle = By.XPath("//div[@id='no-service-unit']//h4[text()='Link event to a service unit']");
+        private readonly By searchSection = By.XPath("//div[@id='no-service-unit']//span[text()='Search']");
+        private readonly By resultSection = By.XPath("//div[@id='no-service-unit']//span[text()='Result']");
+        private readonly By addressSearchCheckbox = By.XPath("//div[@id='no-service-unit']//label[text()='Address']/preceding-sibling::input");
+        private readonly By areaSearchCheckbox = By.XPath("//div[@id='no-service-unit']//label[text()='Area']/preceding-sibling::input");
+        private readonly By nodeSearchCheckbox = By.XPath("//div[@id='no-service-unit']//label[text()='Node']/preceding-sibling::input");
+        private readonly By segmentSearchCheckbox = By.XPath("//div[@id='no-service-unit']//label[text()='Segment']/preceding-sibling::input");
+        private readonly By sectorDd = By.XPath("//div[@id='no-service-unit']//label[text()='Sector']/following-sibling::select");
+        private readonly By closePopupBtn = By.XPath("//div[@id='no-service-unit']//h4[text()='Link event to a service unit']/following-sibling::button[@aria-label='Close']");
+        private readonly By streetInput = By.CssSelector("div#no-service-unit input[placeholder='Start typing for suggestions...']");
+        private readonly By houseNumberNameInput = By.XPath("//div[@id='no-service-unit']//label[text()='House Number/Name']/following-sibling::input");
+        private readonly By postCodeInput = By.XPath("//div[@id='no-service-unit']//label[text()='Postcode']/following-sibling::input");
+        private readonly By searchBtn = By.XPath("//div[@id='no-service-unit']//button[text()='Search']");
+        private readonly By clearFilterInput = By.CssSelector("div#no-service-unit input[value='Clear Filters']");
+        private readonly By cannotFindAddressBtn = By.XPath("//div[@id='no-service-unit']//button[text()='Cannot find Address']");
+        private const string columnInPopupEventTitle = "//div[@id='no-service-unit']//th[text()='{0}']";
+
+
+        //LOCATION POPUP
+        public EventDetailPage VeriryDisplayPopupLinkEventToServiceUnit(string sectorValue)
+        {
+            WaitUtil.WaitForElementVisible(linkEventTitle);
+            Assert.IsTrue(IsControlDisplayed(linkEventTitle));
+            Assert.IsTrue(IsControlDisplayed(searchSection));
+            Assert.IsTrue(IsControlDisplayed(resultSection));
+            //Assert.IsTrue(IsControlDisplayed(areaSearchCheckbox));
+            //Assert.IsTrue(IsControlDisplayed(nodeSearchCheckbox));
+            //Assert.IsTrue(IsControlDisplayed(segmentSearchCheckbox));
+            Assert.IsTrue(IsControlDisplayed(sectorDd));
+            Assert.IsTrue(IsControlDisplayed(closePopupBtn));
+            Assert.IsTrue(IsControlDisplayed(streetInput));
+            Assert.IsTrue(IsControlDisplayed(houseNumberNameInput));
+            Assert.IsTrue(IsControlDisplayed(postCodeInput));
+            Assert.IsTrue(IsControlDisplayed(searchBtn));
+            Assert.IsTrue(IsControlDisplayed(clearFilterInput));
+            Assert.IsTrue(IsControlDisplayed(cannotFindAddressBtn));
+            //Address checked
+           // Assert.AreEqual(GetAttributeValue(addressSearchCheckbox, "checked"), "true");
+            //Sector defaul value
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(sectorDd), sectorValue);
+            foreach(string column in CommonConstants.LinkEventPopupColumn)
+            {
+                Assert.IsTrue(IsControlDisplayed(columnInPopupEventTitle, column));
+            }
+            return this;
+        }
+
+        public EventDetailPage ClickCloseEventPopupBtn()
+        {
+            ClickOnElement(closePopupBtn);
+            return this;
+        }
 
         public EventDetailPage WaitForEventDetailDisplayed()
         {
@@ -106,6 +160,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
         {
             ClickOnElement(locationName);
             return PageFactoryManager.Get<ServiceUnitDetailPage>();
+        }
+
+        public EventDetailPage ClickOnLocationShowPopup()
+        {
+            ClickOnElement(locationName);
+            return this;
         }
 
         public EventDetailPage ClickInspectionBtn()
@@ -140,7 +200,8 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
         public EventDetailPage ExpandDetailToggle()
         {
-            if(GetAttributeValue(detailToggle, "aria-expanded").Equals("false"))
+            //if(GetAttributeValue(detailToggle, "aria-expanded").Equals("false"))
+            if (IsControlUnDisplayed(detailLoactorExpanded))
             {
                 ClickOnElement(detailToggle);
                 WaitUtil.WaitForAllElementsVisible(detailLoactorExpanded);
@@ -212,16 +273,16 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventDetailPage VerifyDataInMapTab(string typeExp, string eventTypeExp, string serviceUnitEpx)
         {
             Assert.AreEqual(typeExp, GetElementText(typeInMapTab));
-            Assert.AreEqual(eventTypeExp + " > " + serviceUnitEpx, GetElementText(descInMapTab));
+            Assert.AreEqual((eventTypeExp.ToLower().Replace("standard", "").Replace("-", "").Trim() + " > " + serviceUnitEpx).ToLower(), GetElementText(descInMapTab).ToLower());
             return this;
         }
 
         public EventDetailPage VerifyHistoryWithDB(EventDBModel eventDBModel, string displayUserLogin)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab));
-            Assert.AreEqual((GetElementText(stateInHistoryTab) + "."), eventDBModel.basestatedesc);
-            Assert.AreEqual((GetElementText(eventDateInHistoryTab) + "."), eventDBModel.eventdate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT));
-            Assert.AreEqual((GetElementText(dueDateInHistoryTab) + "."), eventDBModel.eventduedate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT));
+            Assert.AreEqual(GetElementText(stateInHistoryTab), eventDBModel.basestatedesc + ".");
+            Assert.AreEqual(GetElementText(eventDateInHistoryTab), eventDBModel.eventdate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT) + ".");
+            Assert.AreEqual(GetElementText(dueDateInHistoryTab), eventDBModel.eventduedate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT) + ".");
             Assert.AreEqual(GetElementText(createdByUserInHistoryTab), displayUserLogin);
             Assert.AreEqual(54, eventDBModel.eventcreatedbyuserID);
             return this;
@@ -520,5 +581,6 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return GetCurrentUrl()
                 .Replace(WebUrl.MainPageUrl + "web/events/", "");
         }
+        
     }
 }
