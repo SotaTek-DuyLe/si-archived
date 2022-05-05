@@ -17,7 +17,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         public override void Setup()
         {
             base.Setup();
-            //LOGIN AND GO TO DEFAULT ALLOCATION
+            //LOGIN AND GO TO BUSINESS UNITS
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
