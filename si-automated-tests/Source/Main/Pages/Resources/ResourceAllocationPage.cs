@@ -80,7 +80,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             Assert.AreEqual(expectedUnits.Count, buNameList.Count);
             for(int i = 0; i < expectedUnits.Count; i++)
             {
-                Assert.AreEqual(expectedUnits[i], buNameList[i]);
+                Assert.AreEqual("Collections - " + expectedUnits[i], buNameList[i]);
             }
             return this;
         }

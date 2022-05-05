@@ -100,7 +100,6 @@ namespace si_automated_tests.Source.Core
         public static IList<IWebElement> WaitForAllElementsVisible(string xpath, string value)
         {
             xpath = String.Format(xpath, value);
-            Console.WriteLine(xpath);
             By by = By.XPath(xpath);
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
             return driverWait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(by));

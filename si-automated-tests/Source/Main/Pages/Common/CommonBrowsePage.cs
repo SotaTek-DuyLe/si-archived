@@ -104,7 +104,6 @@ namespace si_automated_tests.Source.Main.Pages
                     {
                         IList<IWebElement> _resultFields = WaitUtil.WaitForAllElementsVisible(resultFields,(j+1).ToString());
                         result.Add(_resultFields[i].Text);
-                        Console.WriteLine(result.ToString());
                     }
                 }
             }
