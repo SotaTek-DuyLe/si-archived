@@ -32,7 +32,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnHomePage(AutoUser23);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .OpenOption("North Star");
+                .OpenOption("North Star")
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
@@ -155,7 +156,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnHomePage(AutoUser23);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .OpenOption("North Star");
+                .OpenOption("North Star")
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
