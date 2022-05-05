@@ -17,6 +17,8 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By headers = By.XPath("//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
         private readonly By firstResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
         private readonly By secondResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row odd')][1]/div");
+        private readonly By availableRows = By.XPath("//div[contains(@class,'ui-widget-content slick-row')]");
+        private readonly String resultFields = "//div[contains(@class,'ui-widget-content slick-row')][{0}]/div";
 
         public CommonBrowsePage()
         {
@@ -88,6 +90,24 @@ namespace si_automated_tests.Source.Main.Pages
                 }
             }
             return value;
+        }
+        public List<string> GetListOfValueFilterBy(string filterValue)
+        {
+            List<string> result = new List<string>();
+            IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
+            IList<IWebElement> rows = WaitUtil.WaitForAllElementsVisible(availableRows);
+            for (int i = 0; i < hds.Count; i++)
+            {
+                if (hds[i].Text.Equals(filterValue, StringComparison.OrdinalIgnoreCase))
+                {
+                    for(int j = 0; j < rows.Count; j++)
+                    {
+                        IList<IWebElement> _resultFields = WaitUtil.WaitForAllElementsVisible(resultFields,(j+1).ToString());
+                        result.Add(_resultFields[i].Text);
+                    }
+                }
+            }
+            return result;
         }
 
     }

@@ -14,7 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
 
         //Main options
         private readonly string mainOption = "//span[text()='{0}']/parent::h4/parent::div";
-        private readonly string dropdownOption = "//span[text()='{0}']/parent::a/preceding-sibling::span[2]";
+        private readonly string dropdownOption = "(//span[text()='{0}']/parent::a/preceding-sibling::span[2])[last()]";
         private readonly string option = "//span[text()='{0}']/parent::a";
 
         public NavigationBase()
