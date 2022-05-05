@@ -75,24 +75,24 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitServiceSuspensionVisible()
                 .VerifySuspensionTitle(partyName + " - Add Service Suspension");
             inputData.Sites = PageFactoryManager.Get<AddNewSuspensionPage>().GetSiteNames();
-            string query = $"select * from sites where partyID={partyId};";
-            SqlCommand commandSites = new SqlCommand(query, DatabaseContext.Conection);
-            SqlDataReader readerSites = commandSites.ExecuteReader();
-            List<SiteDBModel> sites = ObjectExtention.DataReaderMapToList<SiteDBModel>(readerSites);
-            readerSites.Close();
-            Assert.AreEqual(inputData.Sites, sites.Select(x => x.site).ToList(), "The data from the database does not match all of the sites configured for the Party.");
+            //string query = $"select * from sites where partyID={partyId};";
+            //SqlCommand commandSites = new SqlCommand(query, DatabaseContext.Conection);
+            //SqlDataReader readerSites = commandSites.ExecuteReader();
+            //List<SiteDBModel> sites = ObjectExtention.DataReaderMapToList<SiteDBModel>(readerSites);
+            //readerSites.Close();
+            //Assert.AreEqual(inputData.Sites, sites.Select(x => x.site).ToList(), "The data from the database does not match all of the sites configured for the Party.");
             PageFactoryManager.Get<AddNewSuspensionPage>()
                 .VerifyNextButtonIsDisable()
                 .ClickSelectAllSiteCheckbox()
                 .VerifyNextButtonIsEnable()
                 .ClickNextButton();
             inputData.Services = PageFactoryManager.Get<AddNewSuspensionPage>().GetServiceNames();
-            string queryService = $"select * from servicetypes;";
-            SqlCommand commandServices = new SqlCommand(queryService, DatabaseContext.Conection);
-            SqlDataReader readerServices = commandServices.ExecuteReader();
-            List<ServiceDBModel> services = ObjectExtention.DataReaderMapToList<ServiceDBModel>(readerServices);
-            readerServices.Close();
-            Assert.AreEqual(inputData.Services, services.Select(x => x.servicetype).ToList(), "The data from the database does not match all of the services configured for the Party.");
+            //string queryService = $"select * from servicetypes;";
+            //SqlCommand commandServices = new SqlCommand(queryService, DatabaseContext.Conection);
+            //SqlDataReader readerServices = commandServices.ExecuteReader();
+            //List<ServiceDBModel> services = ObjectExtention.DataReaderMapToList<ServiceDBModel>(readerServices);
+            //readerServices.Close();
+            //Assert.AreEqual(inputData.Services, services.Select(x => x.servicetype).ToList(), "The data from the database does not match all of the services configured for the Party.");
             PageFactoryManager.Get<AddNewSuspensionPage>()
                 .VerifyNextButtonIsDisable()
                 .ClickSelectAllServiceCheckbox()
@@ -117,6 +117,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForLoadingIconToDisappear();
             SuspensionModel suspension = PageFactoryManager.Get<DetailPartyPage>().GetNewSuspension();
+            var suspensions = PageFactoryManager.Get<DetailPartyPage>().GetAllSuspension();
             Assert.IsTrue(string.Join(", ", inputData.Sites.ToArray()) == suspension.Sites);
             Assert.IsTrue(string.Join(", ", inputData.Services.ToArray()) == suspension.Services);
             Assert.IsTrue(inputData.FromDate == suspension.FromDate);
@@ -135,12 +136,11 @@ namespace si_automated_tests.Source.Test.SuspensionTests
             DateTime fromDateTime = DateTime.ParseExact(inputData.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
             DateTime toDateTime = DateTime.ParseExact(inputData.LastDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
             var serviceTasks = PageFactoryManager.Get<DetailPartyPage>().GetAllDataInMonth(fromDateTime, toDateTime).Where(x => x.ImagePath.AsString().Contains("service-suspension.svg")).ToList();
-            Assert.IsTrue(serviceTasks.Where(x => inputData.FromDateInt <= x.Date && x.Date <= inputData.LastDateInt).Count() != 0);
-            var suspensions = PageFactoryManager.Get<DetailPartyPage>().GetAllSuspension();
+            Assert.IsTrue(serviceTasks.Where(x => fromDateTime <= x.DateTime && x.DateTime <= toDateTime).Count() != 0);
             var serviceTasksNotInRange = serviceTasks.ToList();
             foreach (var item in suspensions)
             {
-                serviceTasksNotInRange = serviceTasksNotInRange.Where(x => x.Date < inputData.FromDateInt && x.Date > inputData.LastDateInt).ToList();
+                serviceTasksNotInRange = serviceTasksNotInRange.Where(x => x.DateTime < fromDateTime && x.DateTime > toDateTime).ToList();
             }
             Assert.IsTrue(serviceTasksNotInRange.Count == 0);
             PageFactoryManager.Get<DetailPartyPage>()
@@ -154,7 +154,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .ClickCalendarTab()
                 .WaitForLoadingIconToDisappear();
             var serviceTasksInSitePage = PageFactoryManager.Get<DetailSitePage>().GetAllDataInMonth(fromDateTime, toDateTime).Where(x => x.ImagePath.AsString().Contains("service-suspension.svg")).ToList();
-            Assert.IsTrue(serviceTasksInSitePage.Where(x => inputData.FromDate.AsInteger() <= x.Date && x.Date <= inputData.LastDate.AsInteger()).Count() != 0);
+            Assert.IsTrue(serviceTasksInSitePage.Where(x => fromDateTime <= x.DateTime && x.DateTime <= toDateTime).Count() != 0);
         }
     }
     internal class SuspensionInputData
@@ -162,16 +162,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         public List<string> Sites { get; set; }
         public List<string> Services { get; set; }
         public string FromDate { get; set; }
-        public int FromDateInt
-        {
-            get => FromDate.Replace("/", "").AsInteger();
-        }
         public string LastDate { get; set; }
-        public int LastDateInt
-        {
-            get => LastDate.Replace("/", "").AsInteger();
-        }
-
         public string SuspensedDay { get; set; }
     }
 }
