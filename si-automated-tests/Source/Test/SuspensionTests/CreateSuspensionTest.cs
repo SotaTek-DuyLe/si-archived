@@ -75,7 +75,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitServiceSuspensionVisible()
                 .VerifySuspensionTitle(partyName + " - Add Service Suspension");
             inputData.Sites = PageFactoryManager.Get<AddNewSuspensionPage>().GetSiteNames();
-            string query = $"select * from sites where partyID=\"{partyId}\";";
+            string query = $"select * from sites where partyID={partyId};";
             SqlCommand commandSites = new SqlCommand(query, DatabaseContext.Conection);
             SqlDataReader readerSites = commandSites.ExecuteReader();
             List<SiteDBModel> sites = ObjectExtention.DataReaderMapToList<SiteDBModel>(readerSites);
