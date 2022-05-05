@@ -49,6 +49,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources
 
         //business unit option
         private readonly string businessUnitOption = "//a[contains(@class,'jstree-anchor') and text()='{0}']";
+        private readonly string businessUnitExpandIcon = "//a[contains(@class,'jstree-anchor') and text()='{0}']/preceding-sibling::i";
+        private readonly By businessUnitStaticOptions = By.XPath("(//*[@class='jstree-children'])[last()]//a");
 
         public ResourceAllocationPage SelectContract(string contract)
         {
@@ -59,6 +61,27 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         {
             ClickOnElement(businessUnitInput);
             ClickOnElement(businessUnitOption, bu);
+            return this;
+        }
+        public ResourceAllocationPage ExpandBusinessUnitOption(string option)
+        {
+            ClickOnElement(businessUnitInput);
+            ClickOnElement(businessUnitExpandIcon, option);
+            return this;
+        }
+        public ResourceAllocationPage VerifyBusinessUnitsAre(List<string> expectedUnits)
+        {
+            List<string> buNameList = new List<string>();
+            IList<IWebElement> buList = WaitUtil.WaitForAllElementsVisible(businessUnitStaticOptions);
+            foreach(var bu in buList)
+            {
+                buNameList.Add(bu.Text);
+            }
+            Assert.AreEqual(expectedUnits.Count, buNameList.Count);
+            for(int i = 0; i < expectedUnits.Count; i++)
+            {
+                Assert.AreEqual(expectedUnits[i], buNameList[i]);
+            }
             return this;
         }
         public ResourceAllocationPage SelectShift(string shift)
