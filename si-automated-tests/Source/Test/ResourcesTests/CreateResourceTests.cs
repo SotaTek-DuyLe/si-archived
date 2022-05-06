@@ -46,7 +46,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved resource.")
                 .ClickCloseBtn()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValue("Name", resourceName)
                 .VerifyFirstResultValue("Resource Type", resourceType)
@@ -169,7 +170,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved resource.")
                 .ClickCloseBtn()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValue("Name", resourceName)
                 .VerifyFirstResultValue("Resource Type", resourceType)
