@@ -884,10 +884,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 //Verify data in [Point History] tab
                 .ClickPointHistoryTab()
                 .WaitForLoadingIconToDisappear();
-            List<PointHistoryModel> pointHistoryModels = PageFactoryManager.Get<PointSegmentDetailPage>()
+            List<PointHistoryModel> pointHistoryModels = PageFactoryManager.Get<PointAreaDetailPage>()
                 .FilterByPointHistoryId(inspectionId.ToString())
                 .GetAllPointHistory();
-            PageFactoryManager.Get<PointSegmentDetailPage>()
+            PageFactoryManager.Get<PointAreaDetailPage>()
                 .VerifyPointHistory(pointHistoryModels[0], "Inspection:" + inspectionTypeValue, inspectionId.ToString(), "Inspection", locationValue, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), "Pending");
 
         }
@@ -1021,10 +1021,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 //Verify data in [Point History] tab
                 .ClickPointHistoryTab()
                 .WaitForLoadingIconToDisappear();
-            List<PointHistoryModel> pointHistoryModels = PageFactoryManager.Get<PointSegmentDetailPage>()
+            List<PointHistoryModel> pointHistoryModels = PageFactoryManager.Get<PointNodeDetailPage>()
                 .FilterByPointHistoryId(inspectionId.ToString())
                 .GetAllPointHistory();
-            PageFactoryManager.Get<PointSegmentDetailPage>()
+            PageFactoryManager.Get<PointNodeDetailPage>()
                 .VerifyPointHistory(pointHistoryModels[0], "Inspection:" + inspectionTypeValue, inspectionId.ToString(), "Inspection", locationValue, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), "Pending");
         }
     }

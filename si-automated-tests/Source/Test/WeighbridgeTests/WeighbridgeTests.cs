@@ -72,7 +72,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             string product = "Food";
             string ticketType = "Incoming";
 
-
             //Create new Resource with type = Van in TC51
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
@@ -280,10 +279,20 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToChildWindow(2);
             //TC55: Click WB Ticket tab and verify
             detailPartyPage
-                .ClickWBTicketTab()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Weighbridge")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Tickets")
+                .SwitchNewIFrame();
+            TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
+            ticketListingPage
                 .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .ClickAddNewWBTicketBtn()
+            ticketListingPage
+                .ClickAddNewTicketBtn()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
@@ -480,17 +489,18 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             addressAdded = createEditSiteAddressPage
                 .SelectRandomSiteAddress();
-            createEditSiteAddressPage.SelectAddressClickNextBtn()
+            createEditSiteAddressPage
+                .SelectAddressClickNextBtn()
                 .InsertSiteName(addressSite1)
                 .ClickAnySiteInDd(siteName)
                 .ClickCreateBtn()
                 .SwitchToChildWindow(2);
             detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage
+                .ClickCorresspondenAddress()
                 .VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
-                .ClickOnInvoiceAddressButton()
-                .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded)
-                .SelectCreatedAddress(addressAdded)
+                .SelectCreatedAddressInCorresspondenceAddress(addressAdded)
+                .VerifyAddressIsFilledAtInvoiceAddress(addressAdded)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
                 .WaitUntilToastMessageInvisiable(MessageSuccessConstants.SavePartySuccessMessage);

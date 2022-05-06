@@ -189,7 +189,8 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
         public PointSegmentDetailPage FilterByPointHistoryId(string pointHistoryId)
         {
             SendKeys(filterInputById, pointHistoryId);
-            SendKeys(filterInputById, Keys.Enter);
+            ClickOnElement(titleDetail);
+            WaitUtil.WaitForPageLoaded();
             return this;
         }
     }

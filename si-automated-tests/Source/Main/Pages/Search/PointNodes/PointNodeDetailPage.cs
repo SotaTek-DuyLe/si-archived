@@ -30,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
         private readonly By pointHistoryTab = By.CssSelector("a[aria-controls='pointHistory-tab']");
         private readonly By allRowInPointHistoryTabel = By.XPath("//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div");
         private const string columnInRowPointHistoryTab = "//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
+        private readonly By filterInputById = By.XPath("//div[@id='pointHistory-tab']//div[contains(@class, 'l2 r2')]/descendant::input");
 
         //DYNAMIC LOCATOR
         private const string inspectionTypeOption = "//div[@id='inspection-modal']//select[@id='inspection-type']/option[text()='{0}']";
@@ -179,6 +180,14 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
             Assert.AreEqual(state, pointHistoryModelActual.state);
             return this;
 
+        }
+
+        public PointNodeDetailPage FilterByPointHistoryId(string pointHistoryId)
+        {
+            SendKeys(filterInputById, pointHistoryId);
+            ClickOnElement(titleDetail);
+            WaitUtil.WaitForPageLoaded();
+            return this;
         }
 
     }

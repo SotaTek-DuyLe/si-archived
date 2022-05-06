@@ -16,8 +16,6 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string BoderColorMandatory = "rgb(169, 68, 66)";
         public static readonly string BoderColorMandatory_Rbga = "rgba(169, 68, 66, 1)";
         public static readonly string ColorBlue = "rgba(51, 122, 183, 1)"; //#337AB7
-        public static readonly string DATE_DD_MM_YYYY_FORMAT = "dd/MM/yyyy";
-        public static readonly string DATE_MM_DD_YYYY_FORMAT = "MM/dd/yyyy";
         public static readonly string[] ContactGroupsOptions = { "Invoicing", "Operational" };
         public static readonly string[] ContactTable = { "ID", "Title", "First Name", "Last Name", "Position", "Telephone", "Mobile", "Email", "Receive Emails", "Contact Groups", "Start Date", "End Date" };
         public static readonly string WBSiteName = "Weighbridge";
@@ -36,6 +34,12 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] PointHistoryTabColumn = { "Description", "ID", "Type", "Service", "Address", "Date", "Due Date", "State", "Resolution Code" };
         public static readonly string[] PointAddressColumn = { "ID", "Name", "UPRN", "Postcode", "Property Name", "Property", "To Property", "Sub Building", "Property Suffix", "Point Segment ID", "Point Address Type", "Start Date", "End Date" };
         public static readonly string[] PointSegmentColumn = { "ID", "Name", "Point Segment Type", "Point Segment Class", "Start Date", "End Date" };
+        public static readonly string[] LinkEventPopupColumn = { "Set", "Service Unit", "Service", "Schedule", " Last", "Next", "Asset Type", "Allocation", "Assured Task", "Client Reference" };
+
+        //DATE
+        public static readonly string DATE_DD_MM_YYYY_FORMAT = "dd/MM/yyyy";
+        public static readonly string DATE_MM_DD_YYYY_FORMAT = "MM/dd/yyyy";
+        public static readonly string DATE_DD_MM_YYYY_HH_MM_FORMAT = "dd/MM/yyyy HH:mm";
 
     }
 }
