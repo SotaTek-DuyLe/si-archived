@@ -907,8 +907,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser15.UserName, AutoUser15.Password)
-                .IsOnHomePage(AutoUser15);
+                .Login(AutoUser45.UserName, AutoUser45.Password)
+                .IsOnHomePage(AutoUser45);
             PageFactoryManager.Get<HomePage>()
                 .ClickOnSearchBtn()
                 .IsSearchModel()
@@ -961,7 +961,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnHistoryTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataInHistoryTab(AutoUser15.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1));
+                .VerifyDataInHistoryTab(AutoUser45.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1));
             //Query to verify
             string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
             SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
@@ -1011,7 +1011,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnHistoryTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataInHistoryTab(AutoUser15.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyDataInHistoryTab(AutoUser45.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 //Click on header
                 .ClickAddressLink(locationValue)
                 .SwitchToLastWindow();

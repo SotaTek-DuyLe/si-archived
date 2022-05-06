@@ -26,6 +26,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
         //DETAIL - Expanded
         private readonly By sourceInput = By.CssSelector("div#details-content input#source");
+        private readonly By parentSourceInput = By.XPath("//input[@id='source']/parent::div/parent::div");
         private readonly By statusDd = By.CssSelector("div#details-content select#status");
         private readonly By eventDateInput = By.CssSelector("div#details-content input#event-date");
         private readonly By allocatedUnitDetailDd = By.CssSelector("div#details-content select#allocated-unit");
@@ -234,7 +235,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
         public PointAddressDetailPage ClickOnSourceInputInDetailToggle()
         {
-            ClickOnElement(sourceInput);
+            ClickOnElement(parentSourceInput);
             return PageFactoryManager.Get<PointAddressDetailPage>();
         }
 

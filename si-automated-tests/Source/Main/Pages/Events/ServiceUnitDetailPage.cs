@@ -143,7 +143,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
         public string GetServiceUnitId()
         {
-            return GetCurrentUrl().Replace("web/service-units/", "");
+            return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/service-units/", "");
         }
 
         public ServiceUnitDetailPage VerifyServiceUnitId(string serviceUnitIdEx, string serviceUnitIdDisplayed)
