@@ -852,11 +852,11 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             for (int i = 0; i < cells.Count; i = i + 5)
             {
                 SuspensionModel suspension = new SuspensionModel();
-                suspension.Sites = cells.Count > i ? cells[i].Text : "";
-                suspension.Services = cells.Count > i + 1 ? cells[i + 1].Text : "";
-                suspension.FromDate = cells.Count > i + 2 ? cells[i + 2].Text : "";
-                suspension.LastDate = cells.Count > i + 3 ? cells[i + 3].Text : "";
-                suspension.SuspensedDay = cells.Count > i + 4 ? cells[i + 4].Text : "";
+                suspension.Sites = cells.Count > i ? GetElementText(cells[i]) : "";
+                suspension.Services = cells.Count > i + 1 ? GetElementText(cells[i + 1]) : "";
+                suspension.FromDate = cells.Count > i + 2 ? GetElementText(cells[i + 2]) : "";
+                suspension.LastDate = cells.Count > i + 3 ? GetElementText(cells[i + 3]) : "";
+                suspension.SuspensedDay = cells.Count > i + 4 ? GetElementText(cells[i + 4]) : "";
                 suspensions.Add(suspension);
             }
             return suspensions;
