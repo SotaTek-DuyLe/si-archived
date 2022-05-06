@@ -56,7 +56,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         //DETAIL TAB DYNAMIC LOCATOR
         private const string InvoiceAddressValue = "//label[text()='Invoice Address']/following-sibling::div//option[text()='{0}']";
-        private const string CorresspondenceValue = "//label[text()='Correspondence Address']/following-sibling::div//select/option[text()='{0}']";
+        private const string CorresspondenceValue = "//label[text()='Correspondence Address']/following-sibling::div//option[text()='{0}']";
         private const string PrimaryContactValue = "//select[@id='primary-contact']/option[text()='{0}']";
         private const string PrimaryContactDisplayed = "//div[@data-bind='with:primaryContact']/p[text()='{0}']";
         private const string InvoiceContactValue = "//select[@id='invoice-contact']/option[text()='{0}']";
@@ -452,9 +452,21 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
 
+        public DetailPartyPage SelectCreatedAddressInCorresspondenceAddress(string address)
+        {
+            ClickOnElement(CorresspondenceValue, address);
+            return this;
+        }
+
         public DetailPartyPage ClickOnInvoiceAddressButton()
         {
             ClickOnElement(InvoiceAddressButton);
+            return this;
+        }
+
+        public DetailPartyPage VerifyAddressIsFilledAtInvoiceAddress(string address)
+        {
+            Assert.AreEqual(address, GetFirstSelectedItemInDropdown(InvoiceAddress));
             return this;
         }
 

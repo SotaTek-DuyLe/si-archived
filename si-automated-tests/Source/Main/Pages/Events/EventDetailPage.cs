@@ -216,7 +216,6 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(sourceExp, GetAttributeValue(sourceInput, "value"));
             Assert.AreEqual(statusExp, GetFirstSelectedItemInDropdown(statusDd));
             string eventDate = GetAttributeValue(eventDateInput, "value");
-            string now = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT);
             Assert.IsTrue(eventDate.Contains(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT)));
             Assert.AreEqual("", GetFirstSelectedItemInDropdown(allocatedUnitDetailDd));
             Assert.AreEqual("", GetFirstSelectedItemInDropdown(resolutionCodeDd));
@@ -451,6 +450,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
         public EventDetailPage VerifyPopupDisappears()
         {
+            WaitUtil.WaitForElementInvisible(sourceDd);
             Assert.IsTrue(IsControlUnDisplayed(createBtn));
             Assert.IsTrue(IsControlUnDisplayed(sourceDd));
             return this;
@@ -581,6 +581,6 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return GetCurrentUrl()
                 .Replace(WebUrl.MainPageUrl + "web/events/", "");
         }
-        
+
     }
 }
