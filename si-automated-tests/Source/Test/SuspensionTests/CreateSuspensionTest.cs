@@ -121,9 +121,9 @@ namespace si_automated_tests.Source.Test.SuspensionTests
             var suspensions = PageFactoryManager.Get<DetailPartyPage>().GetAllSuspension();
             Assert.AreEqual(inputData.Sites.Select(x => x.Trim()).ToArray(), suspension.Sites.Split(',').Select(x => x.Trim()).ToArray());
             Assert.AreEqual(inputData.Services.Select(x => x.Trim()).ToArray(), suspension.Services.Split(',').Select(x => x.Trim()).ToArray());
-            Assert.IsTrue(inputData.FromDate == suspension.FromDate);
-            Assert.IsTrue(inputData.LastDate == suspension.LastDate);
-            Assert.IsTrue(inputData.SuspensedDay == suspension.SuspensedDay);
+            Assert.IsTrue(inputData.FromDate == suspension.FromDate.Trim());
+            Assert.IsTrue(inputData.LastDate == suspension.LastDate.Trim());
+            Assert.IsTrue(inputData.SuspensedDay == suspension.SuspensedDay.Trim());
             PageFactoryManager.Get<DetailPartyPage>()
                 .ClickCalendarTab()
                 .WaitForLoadingIconToDisappear();
