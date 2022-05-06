@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using NUnit.Framework;
@@ -76,7 +77,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitServiceSuspensionVisible()
                 .VerifySuspensionTitle(partyName + " - Add Service Suspension");
             inputData.Sites = PageFactoryManager.Get<AddNewSuspensionPage>().GetSiteNames();
-            string query = $"select * from sites where partyID={partyId};";
+            string query = "select * from sites where partyID=" + partyId;
             SqlCommand commandSites = new SqlCommand(query, DatabaseContext.Conection);
             SqlDataReader readerSites = commandSites.ExecuteReader();
             List<SiteDBModel> sites = ObjectExtention.DataReaderMapToList<SiteDBModel>(readerSites);
@@ -88,7 +89,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .VerifyNextButtonIsEnable()
                 .ClickNextButton();
             inputData.Services = PageFactoryManager.Get<AddNewSuspensionPage>().GetServiceNames();
-            string queryService = $"select * from servicetypes;";
+            string queryService = "select * from servicetypes;";
             SqlCommand commandServices = new SqlCommand(queryService, DatabaseContext.Conection);
             SqlDataReader readerServices = commandServices.ExecuteReader();
             List<ServiceDBModel> services = ObjectExtention.DataReaderMapToList<ServiceDBModel>(readerServices);
@@ -100,8 +101,8 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .VerifyNextButtonIsEnable()
                 .ClickNextButton();
 
-            inputData.FromDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
-            inputData.LastDate = DateTime.Now.AddDays(30).ToString("dd/MM/yyyy");
+            inputData.FromDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+            inputData.LastDate = DateTime.Now.AddDays(30).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
             inputData.SuspensedDay = "Everyday";
             PageFactoryManager.Get<AddNewSuspensionPage>()
                 .IsFirstDayInputVisible()
@@ -121,8 +122,8 @@ namespace si_automated_tests.Source.Test.SuspensionTests
             var suspensions = PageFactoryManager.Get<DetailPartyPage>().GetAllSuspension();
             Assert.AreEqual(inputData.Sites.Select(x => x.Trim()).ToArray(), suspension.Sites.Split(',').Select(x => x.Trim()).ToArray());
             Assert.AreEqual(inputData.Services.Select(x => x.Trim()).ToArray(), suspension.Services.Split(',').Select(x => x.Trim()).ToArray());
-            Assert.IsTrue(inputData.FromDate.Replace("/", "") == suspension.FromDate.Replace("/", "").Replace("-", "").Trim());
-            Assert.IsTrue(inputData.LastDate.Replace("/", "") == suspension.LastDate.Replace("/", "").Replace("-", "").Trim());
+            Assert.IsTrue(inputData.FromDate.Replace("/", "").Replace("-", "") == suspension.FromDate.Replace("/", "").Replace("-", "").Trim());
+            Assert.IsTrue(inputData.LastDate.Replace("/", "").Replace("-", "") == suspension.LastDate.Replace("/", "").Replace("-", "").Trim());
             Assert.IsTrue(inputData.SuspensedDay == suspension.SuspensedDay.Trim());
             PageFactoryManager.Get<DetailPartyPage>()
                 .ClickCalendarTab()

@@ -25,7 +25,7 @@
 		<TreatNoTestsAsError>true</TreatNoTestsAsError>
 	</RunConfiguration>
 	<TestRunParameters>
-		<Parameter name="browser" value="hchrome" />
+		<Parameter name="browser" value="chrome" />
 		<Parameter name="url" value="https://test.echoweb.co.uk/" />
 	</TestRunParameters>
 	<!-- Configuration for loggers -->
