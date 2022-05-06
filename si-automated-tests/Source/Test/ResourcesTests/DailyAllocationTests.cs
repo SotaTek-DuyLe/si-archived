@@ -181,6 +181,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToTab("All Resources");
             //Verify Driver
             PageFactoryManager.Get<ResourceAllocationPage>()
