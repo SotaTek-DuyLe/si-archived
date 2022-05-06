@@ -4,6 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Models;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
@@ -13,9 +14,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
 
         private readonly By allRows = By.XPath("//div[@class='grid-canvas']/div");
+        private readonly By taskIDColumns = By.XPath("//div[@class='grid-canvas']/div/div[count(//span[text()='ID']/parent::div/preceding-sibling::div) + 1]/div");
         private readonly By partyNameColumns = By.XPath("//div[@class='grid-canvas']/div/div[count(//span[text()='Party']/parent::div/preceding-sibling::div) + 1]");
-        private readonly By startDateColumns = By.XPath("//div[@class='grid-canvas']/div/div[count(//span[text()='Start Date']/parent::div/preceding-sibling::div) + 1]");
-        private readonly By endDateColumns = By.XPath("//div[@class='grid-canvas']/div/div[count(//span[text()='End Date']/parent::div/preceding-sibling::div) + 1]");
+        private readonly By startDateColumns = By.XPath("//div[@class='grid-canvas']/div/div[count(//span[text()='Start Date']/parent::div/preceding-sibling::div) + 1]/div");
+        private readonly By endDateColumns = By.XPath("//div[@class='grid-canvas']/div/div[count(//span[text()='End Date']/parent::div/preceding-sibling::div) + 1]/div");
 
         //DYNAMIC LOCATOR
         private string tribeYarnsWithDate = "//div[text()='Tribe Yarns']/following-sibling::div/div[text()='{0}']";
@@ -32,7 +34,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         //date type are STARTDATE or ENDDATE
         public ServicesTaskPage OpenTaskWithPartyNameAndDate(string name, string date, string dateType)
         {
-            int n = 3;
+            int n = 5;
             int j = 0;
             while(n > 0)
             {
@@ -61,7 +63,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 {
                     ClickRefreshBtn();
                     WaitForLoadingIconToDisappear();
-                    SleepTimeInMiliseconds(1000);
+                    SleepTimeInMiliseconds(5000);
                     n--;
                     allRowsList.Clear();
                     dateList.Clear();
@@ -142,14 +144,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
         public CommonActiveServicesTaskPage OpenTribleYarnsWithDate(string date)
         {
-            int i = 3;
+            int i = 10;
             while (i > 0)
             {
                 if (IsControlUnDisplayed(tribeYarnsWithDate, date))
                 {
                     ClickRefreshBtn();
                     WaitForLoadingIconToDisappear();
-                    SleepTimeInMiliseconds(1000);
+                    SleepTimeInMiliseconds(5000);
                     i--;
                 }
                 else
@@ -205,6 +207,31 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             ClickOnElement(applyBtn);
             return this;
+        }
+        public List<ServiceTaskModel> GetAllTaskFromPage()
+        {
+            List<ServiceTaskModel> listAll = new List<ServiceTaskModel>();
+            List<IWebElement> idList = GetAllElements(taskIDColumns);
+            List<IWebElement> partyNameList = GetAllElements(partyNameColumns);
+            List<IWebElement> startDateList = GetAllElements(startDateColumns);
+            List<IWebElement> endDateList = GetAllElements(endDateColumns);
+            for(int i = 0; i < idList.Count; i++)
+            {
+                ServiceTaskModel task = new ServiceTaskModel(GetElementText(idList[i]), GetElementText(partyNameList[i]), GetElementText(startDateList[i]), GetElementText(endDateList[i]));
+                listAll.Add(task);
+            }
+            return listAll;
+        }
+        public string GetTaskId(string _partyName, string _startDate)
+        {
+            List<ServiceTaskModel> listAll = this.GetAllTaskFromPage();
+            for(int i = 0; i < listAll.Count; i++)
+            {
+                if(listAll[i].partyName.Equals(_partyName) && listAll[i].startDate.Equals(_startDate)){
+                    return listAll[i].taskId;
+                }
+            }
+            return "";
         }
     }
 }

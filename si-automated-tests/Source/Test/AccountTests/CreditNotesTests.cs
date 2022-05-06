@@ -31,7 +31,7 @@ namespace si_automated_tests.Source.Test.AccountTests
 
         [Category("Account")]
         [Test]
-        public void TC_78_82()
+        public void TC_78_82_Create_credit_notes_and_add_to_note_batch()
         {
             string partyName = "Greggs";
             string lineType = "Commercial Line Type";
@@ -74,7 +74,6 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchNewIFrame();
             string firstCreditId = PageFactoryManager.Get<CommonBrowsePage>()
                 .GetFirstResultValueOfField("ID");
-            Console.WriteLine("first id: " + firstCreditId);
 
              //TC-82
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -123,7 +122,6 @@ namespace si_automated_tests.Source.Test.AccountTests
 
             string secondCreditId = PageFactoryManager.Get<CommonBrowsePage>()
                 .GetFirstResultValueOfField("ID");
-            Console.WriteLine("first id: " + secondCreditId);
 
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickFirstItem()

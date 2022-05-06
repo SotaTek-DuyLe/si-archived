@@ -20,6 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
     //Or Agreements Main Page -> Double click one agreement
     public class PartyAgreementPage : BasePage
     {
+        private readonly By agreementId = By.XPath("//h4[@title='Id']");
         private readonly By detailsTabBtn = By.XPath("//a[@aria-controls='details-tab']");
         private readonly By saveBtn = By.XPath("//button[@title='Save']");
         private readonly By saveAndCloseBtn = By.XPath("//button[@title='Save and Close']");
@@ -95,8 +96,22 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         public PartyAgreementPage WaitForAgreementPageLoadedSuccessfully(string type, string name)
         {
             WaitUtil.WaitForElementVisible(agreementType, type);
-            WaitUtil.WaitForElementVisible(agreementName, name);
+            WaitUtil.WaitForElementVisible(agreementName, name.ToUpper());
             return this;
+        }
+        public string GetAgreementId()
+        {
+            int i = 5;
+            while (i > 0)
+            {
+                if (GetElementText(agreementId).Equals("0"))
+                {
+                    SleepTimeInMiliseconds(2000);
+                    i--;
+                }
+                else { break; }
+            }
+            return GetElementText(agreementId);
         }
         public PartyAgreementPage ClickOnDetailsTab()
         {

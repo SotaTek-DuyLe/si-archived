@@ -19,6 +19,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         
         private string redundantPrice = "(//div[@id='step-4']//input[@placeholder='Price £' and contains(@class, 'has-error')])[1]/parent::td/following-sibling::td//button[@title='Retire/Remove']";
         private string redundantPriceAll = "//div[@id='step-4']//input[@placeholder='Price £' and contains(@class, 'has-error')]";
+        private string redundantPrices = "//div[@id='step-4']//tr[contains(@data-bind, 'openPriceForm') and not(contains(@style, 'display: none;'))]//input[contains(@class,'price-text has-error')]/parent::td[1]/following-sibling::td/button[@title='Retire/Remove']";
         public PriceTab ClosePriceRecords()
         {
             int count = 0;
@@ -55,6 +56,17 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
                 }
             }
 
+            return this;
+        }
+
+        public PriceTab RemoveAllRedundantPrices()
+        {
+            List<IWebElement> allBtn = GetAllElements(redundantPrices);
+            foreach(IWebElement btn in allBtn)
+            {
+                ClickOnElement(btn);
+                Thread.Sleep(1000);
+            }
             return this;
         }
 

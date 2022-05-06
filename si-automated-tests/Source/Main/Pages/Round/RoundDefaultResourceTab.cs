@@ -27,11 +27,20 @@ namespace si_automated_tests.Source.Main.Pages.Round
             ClickOnElement(_endDates[whichRow - 1]);
             return this;
         }
-        public RoundDefaultResourceTab ClickOnSubEndDate(int whichOneInOrder)
+        public RoundDefaultResourceTab ClickOnLastSubEndDate()
         {
             SleepTimeInMiliseconds(500);
             IList<IWebElement> _subEndDates = WaitUtil.WaitForAllElementsVisible(subEndDates);
-            ClickOnElement(_subEndDates[whichOneInOrder - 1]);
+            //ClickOnElement(_subEndDates[whichOneInOrder - 1]);
+            ClickOnElement(_subEndDates[_subEndDates.Count - 1]);
+            return this;
+        }
+        public RoundDefaultResourceTab ClickOnSecondLastSubEndDate()
+        {
+            SleepTimeInMiliseconds(500);
+            IList<IWebElement> _subEndDates = WaitUtil.WaitForAllElementsVisible(subEndDates);
+            //ClickOnElement(_subEndDates[whichOneInOrder - 1]);
+            ClickOnElement(_subEndDates[_subEndDates.Count - 1]);
             return this;
         }
         public RoundDefaultResourceTab VerifyEndDateIsDefault()

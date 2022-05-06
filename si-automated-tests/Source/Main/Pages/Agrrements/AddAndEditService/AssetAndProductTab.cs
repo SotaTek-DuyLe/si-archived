@@ -74,6 +74,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             Assert.AreEqual(GetAttributeValue(deliveryDate, "value"), date);
             return this;
         }
+         
         public AssetAndProducTab ChooseProduct(string value)
         {
             SelectTextFromDropDown(product, value);
