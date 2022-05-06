@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
         private readonly By panelFrame = By.XPath("//iframe[@role='tabpanel']");
         public ResourceTermTab IsOnTermTab()
         {
+            WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(term);
             return this;
         }

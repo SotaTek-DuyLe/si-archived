@@ -30,7 +30,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("London")
                 .ExpandOption("North Star Commercial")
                 .ExpandOption("Business Unit Groups")
-                .ExpandOption("Collections")
+                .ExpandOptionLast("Collections")
                 .OpenOption("Business Units")
                 .SwitchNewIFrame();
         }

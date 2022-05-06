@@ -1,4 +1,5 @@
-﻿using si_automated_tests.Source.Core;
+﻿using OpenQA.Selenium;
+using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using System;
 using System.Threading;
@@ -14,7 +15,8 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
 
         //Main options
         private readonly string mainOption = "//span[text()='{0}']/parent::h4/parent::div";
-        private readonly string dropdownOption = "(//span[text()='{0}']/parent::a/preceding-sibling::span[2])[last()]";
+        private readonly string dropdownOption = "//span[text()='{0}']/parent::a/preceding-sibling::span[2]";
+        private readonly string dropdownOptionLast = "(//span[text()='{0}']/parent::a/preceding-sibling::span[2])[last()]";
         private readonly string option = "//span[text()='{0}']/parent::a";
 
         public NavigationBase()
@@ -38,10 +40,21 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
             }
             return this;
         }
+        public NavigationBase ExpandOptionLast(string optionName)
+        {
+            Thread.Sleep(500);
+            String expandedAttribute = GetAttributeValue(string.Format(dropdownOptionLast, optionName), "class");
+            if(!expandedAttribute.Contains("expanded"))
+            {
+                ClickOnElement(String.Format(dropdownOptionLast, optionName));
+            }
+            return this;
+        }
         public NavigationBase OpenOption(string optionName)
         {
             Thread.Sleep(500);
             ClickOnElement(String.Format(option, optionName));
+            AcceptAlertIfAny();
             ExitNavigation();
             return this;
         }
@@ -50,6 +63,22 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
         {
             Thread.Sleep(500);
             ClickOnElement(pageTitle);
+            return this;
+        }
+        public NavigationBase AcceptAlertIfAny()
+        {
+            try
+            {
+                for(int i = 0; i < 2; i++)
+                {
+                    SleepTimeInMiliseconds(1000);
+                    this.driver.SwitchTo().Alert().Accept();
+                }
+            }
+            catch (NoAlertPresentException)
+            {
+                return this;
+            }
             return this;
         }
     }
