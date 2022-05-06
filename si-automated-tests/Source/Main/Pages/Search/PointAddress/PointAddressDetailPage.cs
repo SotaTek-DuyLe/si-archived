@@ -205,7 +205,8 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         public PointAddressDetailPage FilterByPointHistoryId(string pointHistoryId)
         {
             SendKeys(filterInputById, pointHistoryId);
-            SendKeys(filterInputById, Keys.Enter);
+            ClickOnElement(titleDetail);
+            WaitUtil.WaitForPageLoaded();
             return this;
         }
 

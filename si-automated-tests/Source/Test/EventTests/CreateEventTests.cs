@@ -137,7 +137,18 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
-                //Check service unit link
+                .ExpandDetailToggle()
+                //Verify Source in Detail toggle
+                .ClickOnSourceInputInDetailToggle()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .WaitForPointAddressDetailDisplayed()
+                .VerifyPointAddressId(eventModels[0].eventpointID.ToString())
+                .ClickCloseBtn()
+                .SwitchToLastWindow();
+            //Check service unit link
+            PageFactoryManager.Get<EventDetailPage>()
                 .ClickOnLocation()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
@@ -146,17 +157,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetServiceUnitId();
             PageFactoryManager.Get<ServiceUnitDetailPage>()
                 .VerifyServiceUnitId(eventModels[0].echoID.ToString(), serviceUnitId)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(3);
-            //Verify Source in Detail toggle
-            eventDetailPage
-                .ExpandDetailToggle()
-                .ClickOnSourceInputInDetailToggle()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PointAddressDetailPage>()
-                .WaitForPointAddressDetailDisplayed()
-                .VerifyPointAddressId(eventModels[0].eventpointID.ToString());
+                .ClickCloseBtn();
         }
 
         [Category("CreateEvent")]
