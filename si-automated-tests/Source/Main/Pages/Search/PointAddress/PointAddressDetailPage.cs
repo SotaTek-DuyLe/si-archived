@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -33,16 +34,20 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private readonly By allRowInPointHistoryTabel = By.XPath("//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div");
         private const string columnInRowPointHistoryTab = "//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private readonly By filterInputById = By.XPath("//div[@id='pointHistory-tab']//div[contains(@class, 'l2 r2')]/descendant::input");
+        private readonly By allDueDate = By.XPath("//div[@class='slick-cell l7 r7']");
 
         //ACTIVE SERVICES TAB
         private readonly By activeServiceTab = By.CssSelector("a[aria-controls='activeServices-tab']");
-        private readonly By allActiveServiceRow = By.CssSelector("//div[@class='parent-row']/div[1]");
+        private readonly By allActiveServiceWithServiceUnitRow = By.XPath("//div[@class='parent-row']//span[@title='Open Service Task']");
+        private readonly By allActiveServiceRows = By.XPath("//span[@title='Open Service Task' or @title='0']");
 
         private const string eventDynamicLocator = "//div[@class='parent-row'][{0}]//div[text()='Event']";
         private const string serviceUnitDynamic = "//div[@class='parent-row'][{0}]//div[@title='Open Service Unit']/span";
-        private const string serviceDynamic = "//div[@class='parent-row'][{0}]//span[@title='0']";
+        private const string serviceWithServiceUnitDynamic = "//div[@class='parent-row'][{0}]//span[@title='Open Service Task']";
+        private const string allserviceUnitDynamic = "//div[@class='parent-row'][{0}]//span[@title='Open Service Task' or @title='0']";
 
         private const string eventOptions = "//div[@id='create-event-dropdown']//li[text()='{0}']";
+        private readonly By allEventOptions = By.CssSelector("ul#create-event-opts>li");
 
         //DYNAMIC LOCATOR
         private const string inspectionTypeOption = "//div[@id='inspection-modal']//select[@id='inspection-type']/option[text()='{0}']";
@@ -177,7 +182,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                 string service = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[3])[i]);
                 string address = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[4])[i]);
                 string date = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[5])[i]);
-                string dueDate = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[6])[i]);
+                string dueDate = GetElementText(GetAllElements(allDueDate)[i]);
                 string state = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[7])[i]);
                 string resolution = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[8])[i]);
                 allModel.Add(new PointHistoryModel(desc, ID, type, service, address, date, dueDate, state, resolution));
@@ -211,25 +216,58 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             return this;
         }
 
-        public List<ActiveSeviceModel> GetAllActiveServiceModel()
+        public List<ActiveSeviceModel> GetAllServiceWithServiceUnitModel()
         {
             List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
-            List<IWebElement> allActiveRow = GetAllElements(allActiveServiceRow);
+            List<IWebElement> allActiveRow = GetAllElements(allActiveServiceWithServiceUnitRow);
             for(int i = 0; i < allActiveRow.Count; i++)
             {
-                string eventLocator = string.Format(eventDynamicLocator, i.ToString());
-                string serviceUnitValue = GetElementText(serviceUnitDynamic, i.ToString());
-                string serviceValue = GetElementText(serviceDynamic, i.ToString());
+                string eventLocator = string.Format(eventDynamicLocator, (i + 1).ToString());
+                string serviceUnitValue = GetElementText(serviceUnitDynamic, (i + 1).ToString());
+                string serviceValue = GetElementText(serviceWithServiceUnitDynamic, (i + 1).ToString());
                 activeSeviceModels.Add(new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue));
             }
             return activeSeviceModels;
         }
 
+        public List<ActiveSeviceModel> GetAllServiceInTab()
+        {
+            List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
+            List<IWebElement> allActiveRow = GetAllElements(allActiveServiceRows);
+            for (int i = 0; i < allActiveRow.Count; i++)
+            {
+                string eventLocator = string.Format(eventDynamicLocator, (i + 1).ToString());
+                string serviceUnitValue = GetElementText(serviceUnitDynamic, (i + 1).ToString());
+                string serviceValue = GetElementText(allserviceUnitDynamic, (i + 1).ToString());
+                activeSeviceModels.Add(new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue));
+            }
+            return activeSeviceModels; 
+        }
+
+        public List<ActiveSeviceModel> GetAllServiceWithoutServiceUnitModel(List<ActiveSeviceModel> GetAllServiceInTab)
+        {
+            List<ActiveSeviceModel> serviceModels = new List<ActiveSeviceModel>();
+            foreach (ActiveSeviceModel activeSeviceModel in GetAllServiceInTab)
+            {
+                if(activeSeviceModel.serviceUnit.Equals("No Service Unit"))
+                {
+                    serviceModels.Add(activeSeviceModel);
+                }
+            }
+            return serviceModels;
+        }
+
+        public ActiveSeviceModel GetActiveServiceWithSkipService(List<ActiveSeviceModel> allActiveServicesInServiceTab)
+        {
+            return allActiveServicesInServiceTab.FirstOrDefault(x => x.service.Equals("Skips"));
+        }
+
+
         public ActiveSeviceModel GetFirstActiveServiceModel()
         {
             string eventLocator = string.Format(eventDynamicLocator, "1");
             string serviceUnitValue = GetElementText(serviceUnitDynamic, "1");
-            string serviceValue = GetElementText(serviceDynamic, "1");
+            string serviceValue = GetElementText(serviceWithServiceUnitDynamic, "1");
             return new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue);
         }
 
@@ -239,10 +277,29 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             return this;
         }
 
+        public PointAddressDetailPage ClickAnyEventInActiveServiceRow(string eventLocator)
+        {
+            ClickOnElement(eventLocator);
+            return this;
+        }
+
+        public List<string> GetAllEventTypeInDd()
+        {
+            List<string> eventTypes = new List<string>();
+            List<IWebElement> allEventTypes = GetAllElements(allEventOptions);
+            foreach (IWebElement eventLocator in allEventTypes)
+            {
+                eventTypes.Add(GetElementText(eventLocator));
+            }
+            return eventTypes;
+        }
+
         public EventDetailPage ClickAnyEventOption(string eventName)
         {
             ClickOnElement(eventOptions, eventName);
             return PageFactoryManager.Get<EventDetailPage>();
         }
+
+       
     }
 }
