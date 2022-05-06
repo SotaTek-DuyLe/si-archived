@@ -119,8 +119,8 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitForLoadingIconToDisappear();
             SuspensionModel suspension = PageFactoryManager.Get<DetailPartyPage>().GetNewSuspension();
             var suspensions = PageFactoryManager.Get<DetailPartyPage>().GetAllSuspension();
-            Assert.IsTrue(string.Join(", ", inputData.Sites.ToArray()) == suspension.Sites);
-            Assert.IsTrue(string.Join(", ", inputData.Services.ToArray()) == suspension.Services);
+            Assert.AreEqual(inputData.Sites.Select(x => x.Trim()).ToArray(), suspension.Sites.Split(',').Select(x => x.Trim()).ToArray());
+            Assert.AreEqual(inputData.Services.Select(x => x.Trim()).ToArray(), suspension.Services.Split(',').Select(x => x.Trim()).ToArray());
             Assert.IsTrue(inputData.FromDate == suspension.FromDate);
             Assert.IsTrue(inputData.LastDate == suspension.LastDate);
             Assert.IsTrue(inputData.SuspensedDay == suspension.SuspensedDay);
