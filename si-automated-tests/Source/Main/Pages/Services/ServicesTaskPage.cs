@@ -64,6 +64,26 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(n, num);
             return this;
         }
+        public ServicesTaskPage VerifyServiceUnitAssets(List<ServiceUnitAssetsDBModel> listAll,int num, string assetType, string _product, string startDate, string endDate)
+        {
+            int n = 0;
+            for (int i = 0; i < listAll.Count; i++)
+            {
+                string _startDate = CommonUtil.ParseDateTimeToFormat(listAll[i].startdate, "dd/MM/yyyy").Replace('-', '/');
+                string _endDate = CommonUtil.ParseDateTimeToFormat(listAll[i].enddate, "dd/MM/yyyy").Replace('-', '/');
+                if (_startDate.Equals(startDate) && _endDate.Equals(endDate) && listAll[i].assettype.Equals(assetType) && listAll[i].product.Equals(_product))
+                {
+                    n++;
+                }
+            }
+            Assert.AreEqual(n, num);
+            return this;
+        }
+        public ServicesTaskPage VerifyServiceUnitAssetsNum(List<ServiceUnitAssetsDBModel> listAll, int num)
+        {
+            Assert.AreEqual(listAll.Count, num);
+            return this;
+        }
         public ServicesTaskPage VerifyServiceTaskAgreementNum(List<ServiceTaskForAgreementDBModel> listAll, int num, string startDate) 
         {
             int n = 0;
