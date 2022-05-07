@@ -19,10 +19,11 @@ using si_automated_tests.Source.Main.Pages.PointAddress;
 using si_automated_tests.Source.Main.Pages.Search.PointAreas;
 using si_automated_tests.Source.Main.Pages.Search.PointSegment;
 using si_automated_tests.Source.Main.Pages.Sites;
-using si_automated_tests.Source.Main.Pages.Suspension;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar;
 
 namespace si_automated_tests.Source.Test.SuspensionTests
 {
@@ -72,7 +73,8 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .ClickTabDropDown()
                 .ClickSuspensionTab()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>().ClickAddNewSuspension();
+            //Add New Suspension
+            PageFactoryManager.Get<PartySuspensionPage>().ClickAddNewSuspension();
             PageFactoryManager.Get<AddNewSuspensionPage>()
                 .WaitServiceSuspensionVisible()
                 .VerifySuspensionTitle(partyName + " - Add Service Suspension");
@@ -116,19 +118,21 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .ClickFinish()
                 .VerifySaveMessage("Saved")
                 .IsAddSuspensionModalInVisible();
-            PageFactoryManager.Get<DetailPartyPage>()
+            //Verify Suspension Created
+            PageFactoryManager.Get<PartySuspensionPage>()
                 .WaitForLoadingIconToDisappear();
-            SuspensionModel suspension = PageFactoryManager.Get<DetailPartyPage>().GetNewSuspension();
-            var suspensions = PageFactoryManager.Get<DetailPartyPage>().GetAllSuspension();
+            SuspensionModel suspension = PageFactoryManager.Get<PartySuspensionPage>().GetNewSuspension();
+            var suspensions = PageFactoryManager.Get<PartySuspensionPage>().GetAllSuspension();
             Assert.AreEqual(inputData.Sites.Select(x => x.Trim()).ToArray(), suspension.Sites.Split(',').Select(x => x.Trim()).ToArray());
             Assert.AreEqual(inputData.Services.Select(x => x.Trim()).ToArray(), suspension.Services.Split(',').Select(x => x.Trim()).ToArray());
             Assert.IsTrue(inputData.FromDate.Replace("/", "").Replace("-", "") == suspension.FromDate.Replace("/", "").Replace("-", "").Trim());
             Assert.IsTrue(inputData.LastDate.Replace("/", "").Replace("-", "") == suspension.LastDate.Replace("/", "").Replace("-", "").Trim());
             Assert.IsTrue(inputData.SuspensedDay == suspension.SuspensedDay.Trim());
+            //Go to Calendar and Verify
             PageFactoryManager.Get<DetailPartyPage>()
                 .ClickCalendarTab()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
+            PageFactoryManager.Get<PartyCalendarPage>()
                 .ClickSiteCombobox()
                 .ClickSellectAllSites()
                 .ClickServiceCombobox()
@@ -137,7 +141,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitForLoadingIconToDisappear();
             DateTime fromDateTime = DateTime.ParseExact(inputData.FromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
             DateTime toDateTime = DateTime.ParseExact(inputData.LastDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
-            var serviceTasks = PageFactoryManager.Get<DetailPartyPage>().GetAllDataInMonth(fromDateTime, toDateTime).Where(x => x.ImagePath.AsString().Contains("service-suspension.svg")).ToList();
+            var serviceTasks = PageFactoryManager.Get<PartyCalendarPage>().GetAllDataInMonth(fromDateTime, toDateTime).Where(x => x.ImagePath.AsString().Contains("service-suspension.svg")).ToList();
             Assert.IsTrue(serviceTasks.Where(x => fromDateTime <= x.DateTime && x.DateTime <= toDateTime).Count() != 0);
             var serviceTasksNotInRange = serviceTasks.ToList();
             foreach (var item in suspensions)
@@ -145,6 +149,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 serviceTasksNotInRange = serviceTasksNotInRange.Where(x => x.DateTime < fromDateTime && x.DateTime > toDateTime).ToList();
             }
             Assert.IsTrue(serviceTasksNotInRange.Count == 0);
+            //Go to Site Tab and Verify
             PageFactoryManager.Get<DetailPartyPage>()
                  .ClickSiteTab()
                  .WaitForLoadingIconToDisappear();

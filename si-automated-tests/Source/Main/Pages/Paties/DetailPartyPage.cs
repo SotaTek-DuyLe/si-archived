@@ -8,6 +8,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
@@ -127,15 +128,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string TotalVehicleRow = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='grid-canvas']/div";
         private const string ColumnInGrid = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//span[text()='{0}']/parent::div";
         private const string ColumnInRow = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
-
-        private readonly By suspensionCells = By.XPath("//div[@id='suspensions-tab']//div[@class='grid-canvas']//div//*");
-        private readonly By comboboxInCalendars = By.XPath("//div[@id='calendar-tab']//button[@data-toggle='dropdown']");
-        private readonly By selectAllSitesBtn = By.XPath("//div[not(contains(@style,'display: none;')) and contains(@class, 'bs-container')]//button[text()='Select All']");
-        private readonly By applyBtn = By.XPath("//div[@id='calendar-tab']//button[text()='Apply']");
-        private readonly By rowsCalendarTableInMonth = By.XPath("//div[@class='fc-content-skeleton']//table//tbody//tr");
-        private readonly By nextCalendarBtn = By.XPath("//div[@class='fc-left']//button[contains(@class,'fc-next-button')]"); 
         private readonly By siteRows = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']//div[contains(@class,'ui-widget-content')]");
-        private readonly By suspensionBtn = By.XPath("//button[contains(string(), 'Add New Suspension')]");
+
         //STEP
         public DetailPartyPage WaitForDetailPartyPageLoadedSuccessfully(string name)
         {
@@ -167,10 +161,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
 
-        public DetailPartyPage ClickCalendarTab()
+        public PartyCalendarPage ClickCalendarTab()
         {
             ClickOnElement(canlendarTab);
-            return this;
+            return new PartyCalendarPage();
         }
 
         public DetailPartyPage ClickSiteTab()
@@ -179,11 +173,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
 
-        public DetailPartyPage ClickAddNewSuspension()
-        {
-            ClickOnElement(suspensionBtn);
-            return this;
-        }
+        
 
         public List<string> GetAllTabDisplayed()
         {
@@ -840,116 +830,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return PageFactoryManager.Get<CreateNewTicketPage>();
         }
 
-        public SuspensionModel GetNewSuspension()
-        {
-            return GetAllSuspension().LastOrDefault();
-        }
-
-        public List<SuspensionModel> GetAllSuspension()
-        {
-            List<IWebElement> cells = GetAllElements(suspensionCells);
-            List<SuspensionModel> suspensions = new List<SuspensionModel>();
-            for (int i = 0; i < cells.Count; i = i + 5)
-            {
-                SuspensionModel suspension = new SuspensionModel();
-                suspension.Sites = cells.Count > i ? GetElementText(cells[i]) : "";
-                suspension.Services = cells.Count > i + 1 ? GetElementText(cells[i + 1]) : "";
-                suspension.FromDate = cells.Count > i + 2 ? GetElementText(cells[i + 2]) : "";
-                suspension.LastDate = cells.Count > i + 3 ? GetElementText(cells[i + 3]) : "";
-                suspension.SuspensedDay = cells.Count > i + 4 ? GetElementText(cells[i + 4]) : "";
-                suspensions.Add(suspension);
-            }
-            return suspensions;
-        }
-
-        public DetailPartyPage ClickSiteCombobox()
-        {
-            IWebElement siteCombobox = GetAllElements(comboboxInCalendars).FirstOrDefault();
-            ClickOnElement(siteCombobox);
-            return this;
-        }
-
-        public DetailPartyPage ClickSellectAllSites()
-        {
-            WaitUtil.WaitForElementVisible(selectAllSitesBtn);
-            ClickOnElement(selectAllSitesBtn);
-            return this;
-        }
-
-        public DetailPartyPage ClickServiceCombobox()
-        {
-            IWebElement serviceCombobox = GetAllElements(comboboxInCalendars)[1];
-            ClickOnElement(serviceCombobox);
-            return this;
-        }
-
-        public DetailPartyPage ClickSellectAllServices()
-        {
-            WaitUtil.WaitForElementVisible(selectAllSitesBtn);
-            ClickOnElement(selectAllSitesBtn);
-            return this;
-        }
-
-        public DetailPartyPage ClickApplyCalendarButton()
-        {
-            ClickOnElement(applyBtn);
-            return this;
-        }
-
-        public List<CanlendarServiceTask> GetAllDataInMonth(DateTime fromDateTime, DateTime toDateTime)
-        {
-            int GetStartDate()
-            {
-                string startDateXpath = $"//div[@class='fc-content-skeleton']//table//thead//tr/td[1]";
-                IWebElement cell = GetAllElements(startDateXpath).FirstOrDefault();
-                string dataDate = cell.GetAttribute("data-date");
-                DateTime startDateTime = DateTime.ParseExact(dataDate, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
-                return startDateTime.ToString("ddMMyyyy").AsInteger();
-            }
-            List<CanlendarServiceTask> serviceTasks = new List<CanlendarServiceTask>();
-            int dayOfWeek = 7;
-            int months = toDateTime.Month - fromDateTime.Month;
-            int step = 0;
-            while (step <= months)
-            {
-                if (step > 0)
-                {
-                    ClickOnElement(nextCalendarBtn);
-                    WaitForLoadingIconToDisappear();
-                }
-                step++;
-                Thread.Sleep(1000);
-                int startDate = GetStartDate();
-                var rows = driver.FindElements(rowsCalendarTableInMonth);
-                foreach (var row in rows)
-                {
-                    for (int day = 1; day <= dayOfWeek; day++)
-                    {
-                        string cellXpath = $"//td[{day}]//a";
-                        if (row.FindElements(By.XPath(cellXpath)).Count != 0)
-                        {
-                            IWebElement cell = row.FindElement(By.XPath(cellXpath));
-                            CanlendarServiceTask serviceTask = new CanlendarServiceTask();
-                            serviceTask.Date = startDate;
-                            startDate++;
-                            serviceTask.Content = GetElementText(cell);
-                            serviceTask.ImagePath = cell.GetCssValue("background");
-                            serviceTasks.Add(serviceTask);
-                        }
-                        else
-                        {
-                            //Empty cell
-                            CanlendarServiceTask serviceTask = new CanlendarServiceTask();
-                            serviceTask.Date = startDate;
-                            startDate++;
-                            serviceTasks.Add(serviceTask);
-                        }
-                    }
-                }
-            }
-            return serviceTasks;
-        }
-    
         public DetailPartyPage DoubleClickSiteRow(int siteId)
         {
             List<IWebElement> rows = GetAllElements(siteRows);
