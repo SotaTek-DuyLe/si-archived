@@ -24,6 +24,7 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
 
         public CreateEditSiteAddressPage IsOnCreateEditSiteAddressPage()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(CreateSiteAddressTitle);
             Assert.IsTrue(IsControlDisplayed(CreateSiteAddressTitle));
             Assert.IsTrue(IsControlDisplayed(CancelBtn));

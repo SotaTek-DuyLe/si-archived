@@ -29,6 +29,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
 
         public CreatePartyContactPage IsCreatePartyContactPage()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(title);
             return this;
         }

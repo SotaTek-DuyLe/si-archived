@@ -27,11 +27,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage
         //DYNAMIC LOCATOR
         private const string DefaultCustomerAddressOption = "//select[@id='default-site']/option[text()='{0}']";
         private const string AnyLiOption = "//li[contains(text(), '{0}')]";
-        private const string CustomerValueDisplayed = "//li[contains(text(), '{0}')]";
 
         public AddVehiclePage IsCreateVehicleCustomerHaulierPage()
         {
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(title);
+            WaitUtil.WaitForElementVisible(resourceInput);
             Assert.IsTrue(IsControlDisplayed(title));
             Assert.IsTrue(IsControlDisplayed(resourceInput));
             Assert.IsTrue(IsControlDisplayed(customerInput));

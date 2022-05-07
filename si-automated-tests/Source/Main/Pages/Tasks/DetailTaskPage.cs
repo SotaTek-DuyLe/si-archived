@@ -13,6 +13,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
     {
         private readonly By taskTitle = By.XPath("//span[text()='Task']");
         private readonly By inspectionBtn = By.XPath("//button[@title='Inspect']");
+        private readonly By locationName = By.CssSelector("a[class='typeUrl']");
+        private readonly By serviceName = By.XPath("//div[text()='Service']/following-sibling::div");
 
         //INSPECTION POPUP
         private readonly By inspectionPopupTitle = By.XPath("//h4[text()='Create ']");
@@ -34,20 +36,22 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private const string columnInRowInspectionTab = "//div[@id='taskInspections-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
 
         //DYNAMIC LOCATOR
-        private const string taskName = "//span[text()='{0}']";
-        private const string locationName = "//a[text()='{0}']";
         private const string sourceName = "//select[@id='source']/option[text()='{0}']";
         private const string inspectionTypeOption = "//select[@id='inspection-type']/option[text()='{0}']";
         private const string allocatedUnitOption = "//select[@id='allocated-unit']/option[text()='{0}']";
         private const string allocatedUserOption = "//select[@id='allocated-user']/option[text()='{0}']";
 
-        public DetailTaskPage IsDetailTaskPage(string name, string location)
+        public DetailTaskPage IsDetailTaskPage()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(taskTitle);
-            WaitUtil.WaitForElementVisible(string.Format(taskName, name));
-            Assert.IsTrue(IsControlDisplayed(locationName, location));
             return this;
+        }
+
+        public string GetLocationName()
+        {
+            return GetElementText(locationName);
         }
 
         public DetailTaskPage ClickOnInspectionBtn()
@@ -56,9 +60,15 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        public string GetServiceName()
+        {
+            return GetElementText(serviceName);
+        }
+
         //INSPECTION POPUP
         public DetailTaskPage IsInspectionPopup()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(inspectionPopupTitle);
             Assert.IsTrue(IsControlDisplayed(sourceDd));
             Assert.IsTrue(IsControlDisplayed(inspectionTypeDd));
@@ -149,6 +159,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         public List<InspectionModel> getAllInspection()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(addNewItemInSpectionBtn);
             List<InspectionModel> allModel = new List<InspectionModel>();
             List<IWebElement> allRow = GetAllElements(allRowInInspectionTabel);

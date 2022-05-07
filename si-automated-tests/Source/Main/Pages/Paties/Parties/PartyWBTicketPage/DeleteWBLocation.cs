@@ -13,6 +13,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyWBTicketPage
 
         public DeleteWBLocation IsWarningPopupDisplayed()
         {
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(title);
             Assert.IsTrue(IsControlDisplayed(contentPopup));
             Assert.IsTrue(IsControlDisplayed(yesBtn));

@@ -43,7 +43,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
         [Category("Resources")]
         [Test]
-        public void TC_67_68()
+        public void TC_67_68_create_and_approve_leave_entry_descision_false()
         {
             string currentDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string details = CommonUtil.GetRandomString(5);
@@ -123,7 +123,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         }
         [Category("Resources")]
         [Test]
-        public void TC_69()
+        public void TC_69_deny_leave_entry()
         {
             string currentDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string details = CommonUtil.GetRandomString(5);
@@ -199,7 +199,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         }
         [Category("Resources")]
         [Test]
-        public void TC_70()
+        public void TC_70_delete_leave_entry()
         {
             string currentDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string details = CommonUtil.GetRandomString(5);
@@ -276,7 +276,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         }
         [Category("Resources")]
         [Test]
-        public void TC_71()
+        public void TC_71_create_leave_entry_decision_false()
         {
             string currentDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string details = CommonUtil.GetRandomString(5);
@@ -349,7 +349,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         }
         [Category("Resources")]
         [Test]
-        public void TC_77()
+        public void TC_77_default_resource_count_leave_entry()
         {
             string currentDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string details = CommonUtil.GetRandomString(5);

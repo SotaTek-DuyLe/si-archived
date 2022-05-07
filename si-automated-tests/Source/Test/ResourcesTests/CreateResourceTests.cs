@@ -80,8 +80,6 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
                 .OpenOption("North Star")
-                .AcceptAlert()
-                .AcceptAlert()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .OpenFirstResult()
@@ -104,6 +102,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ExpandOption("BULKY1")
                 .OpenOption("Monday")
                 .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToTab("Default Resources");
 
             PageFactoryManager.Get<ServiceDefaultResourceTab>()
@@ -117,8 +116,6 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
                 .OpenOption("North Star")
-                .AcceptAlert()
-                .AcceptAlert()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .OpenFirstResult()
@@ -131,7 +128,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("Resource Terms");
             PageFactoryManager.Get<ResourceTermTab>()
                 .IsOnTermTab()
-                .SelectTerm("40H Mon-Fri")
+                .SelectTerm("40H Mon-Fri AM")
                 .IsOnTermTab()
                 .VerifyExtraTabsArePresent()
                 .ClickSaveBtn()

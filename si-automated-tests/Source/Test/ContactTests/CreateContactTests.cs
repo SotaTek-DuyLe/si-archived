@@ -91,7 +91,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyInvoiceContactAndVerify(contactModel)
                 //Step 3: Line 16
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
+                .WaitUntilToastMessageInvisiable(MessageSuccessConstants.SavePartySuccessMessage)
+                .WaitForLoadingIconToDisappear();
             //Step 4: Line 17
             detailPartyPage
                 .ClickOnSitesTab()

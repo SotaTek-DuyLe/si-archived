@@ -32,12 +32,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         public AddProductPage WaitForAddProductPageDisplayed()
         {
             WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(title);
             return this;
         }
 
         public AddProductPage IsAddProductPage()
         {
+            WaitUtil.WaitForPageLoaded();
             Assert.IsTrue(IsControlDisplayed(productBtn));
             Assert.IsTrue(IsControlDisplayed(productDescInput));
             Assert.IsTrue(IsControlDisplayed(ticketTypeBtn));
