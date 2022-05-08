@@ -95,8 +95,9 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private string agreementName = "//p[text()='{0}']";
         public PartyAgreementPage WaitForAgreementPageLoadedSuccessfully(string type, string name)
         {
-            WaitUtil.WaitForElementVisible(agreementType, type);
+            WaitUtil.WaitForElementVisible(agreementType, type.ToUpper());
             WaitUtil.WaitForElementVisible(agreementName, name.ToUpper());
+            WaitUtil.WaitForPageLoaded();
             return this;
         }
         public string GetAgreementId()
