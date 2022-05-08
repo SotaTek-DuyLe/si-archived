@@ -8,10 +8,12 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
 using si_automated_tests.Source.Main.Pages.WB.Tickets;
+using CanlendarServiceTask = si_automated_tests.Source.Main.Models.Suspension.ServiceTaskModel;
 
 namespace si_automated_tests.Source.Main.Pages.Paties
 {
@@ -31,6 +33,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By wBtab = By.XPath("//a[text()='Weighbridge Settings']");
         private readonly By wBTicketTab = By.XPath("//a[text()='Weighbridge Tickets']");
         private readonly By taskTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='tasks-tab']");
+        private readonly By suspensionTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='suspensions-tab']");
+        private readonly By canlendarTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='calendar-tab']");
+        private readonly By siteTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='sites-tab']");
 
         //COMMON DYNAMIC LOCATOR
         private const string partyName = "//p[text()='{0}']";
@@ -123,7 +128,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string TotalVehicleRow = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='grid-canvas']/div";
         private const string ColumnInGrid = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//span[text()='{0}']/parent::div";
         private const string ColumnInRow = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
-
+        private readonly By siteRows = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']//div[contains(@class,'ui-widget-content')]");
 
         //STEP
         public DetailPartyPage WaitForDetailPartyPageLoadedSuccessfully(string name)
@@ -150,6 +155,27 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             ClickOnElement(taskTab);
             return new TaskTab();
         }
+
+        public DetailPartyPage ClickSuspensionTab()
+        {
+            ClickOnElement(suspensionTab);
+            return this;
+        }
+
+        public PartyCalendarPage ClickCalendarTab()
+        {
+            ClickOnElement(canlendarTab);
+            return new PartyCalendarPage();
+        }
+
+        public DetailPartyPage ClickSiteTab()
+        {
+            ClickOnElement(siteTab);
+            return this;
+        }
+
+        
+
         public List<string> GetAllTabDisplayed()
         {
             List<string> allTabs = new List<string>();
@@ -817,6 +843,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return PageFactoryManager.Get<CreateNewTicketPage>();
         }
 
+        public DetailPartyPage DoubleClickSiteRow(int siteId)
+        {
+            List<IWebElement> rows = GetAllElements(siteRows);
+            foreach (var row in rows)
+            {
+                IWebElement idCell = row.FindElement(By.XPath("//div[contains(@class,'l1')]"));
+                int id = GetElementText(idCell).AsInteger();
+                if (siteId == id)
+                {
+                    DoubleClickOnElement(row);
+                    break;
+                }
+            }
+            return this;
+        }
     }
-
 }
