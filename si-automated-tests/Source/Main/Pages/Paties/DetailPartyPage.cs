@@ -136,6 +136,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(string.Format(partyName, name));
+            WaitUtil.WaitForPageLoaded();
             return this;
         }
 
