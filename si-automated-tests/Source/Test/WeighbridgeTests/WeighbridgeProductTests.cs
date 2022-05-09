@@ -562,7 +562,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAnyProductValue(product57)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageRequiredFieldConstants.LocationRequiredMessage)
-                .WaitUntilToastMessageInvisiable(MessageRequiredFieldConstants.LocationRequiredMessage);
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.LocationRequiredMessage);
             //Select Location
             createNewTicketPage
                 .ClickLocationDd()
@@ -723,7 +723,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
                 .VerifyToastMessage(MessageSuccessConstants.SaveWBStationSuccessMessage)
-                .WaitUntilToastMessageInvisiable(MessageSuccessConstants.SaveWBStationSuccessMessage);
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBStationSuccessMessage);
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
@@ -1069,7 +1069,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAnyLocationInGrid(locationNameActive59_1)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageRequiredFieldConstants.LocationRestrictWarningMessage)
-                .WaitUntilToastMessageInvisiable(MessageRequiredFieldConstants.LocationRestrictWarningMessage);
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.LocationRestrictWarningMessage);
             //Select default location
             addProductPage
                 .ClickDefaultLocationDdAndSelectAnyOption(locationNameActive59_1)
@@ -1728,7 +1728,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .InputClientName(clientRef61)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
-                .WaitUntilToastMessageInvisiable(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage);
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage);
             addLocationPage
                 .VerifyActiveCheckboxSelected()
                 .ClickCloseBtn()

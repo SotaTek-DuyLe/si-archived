@@ -57,7 +57,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .EnterLastName(contactModel.LastName)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageRequiredFieldConstants.ContactDetailsWarningMessage)
-                .WaitUntilToastMessageInvisiable(MessageRequiredFieldConstants.ContactDetailsWarningMessage);
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.ContactDetailsWarningMessage);
             //Step 1: Line 9
             createPartyContactPage
                 .EnterMobileValue(contactModel.Mobile)
@@ -92,7 +92,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 //Step 3: Line 16
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
-                .WaitUntilToastMessageInvisiable(MessageSuccessConstants.SavePartySuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SavePartySuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Step 4: Line 17
             detailPartyPage
