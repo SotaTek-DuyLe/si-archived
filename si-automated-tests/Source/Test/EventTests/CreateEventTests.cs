@@ -210,7 +210,7 @@ namespace si_automated_tests.Source.Test.EventTests
             PageFactoryManager.Get<PointAddressDetailPage>()
                 .ClickAnyEventInActiveServiceRow(activeSeviceModelWithSkip.eventLocator)
                 .VerifyToastMessage(MessageRequiredFieldConstants.NoEventsAvailableWarningMessage)
-                .WaitUntilToastMessageInvisiable(MessageRequiredFieldConstants.NoEventsAvailableWarningMessage);
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.NoEventsAvailableWarningMessage);
             //Get all active service no service unit
             List<ActiveSeviceModel> allActiveServicesNoServiceUnit = PageFactoryManager.Get<PointAddressDetailPage>()
                 .GetAllServiceWithoutServiceUnitModel(allActiveServices);

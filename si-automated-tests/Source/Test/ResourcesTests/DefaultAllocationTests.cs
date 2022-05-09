@@ -229,7 +229,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //Deallocate to maintain script
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceName)
-                .VerifyToastMessage("Default resource cleared");
+                .VerifyToastMessage("Default resource cleared")
+                .WaitUntilToastMessageInvisible("Default resource cleared");
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceType)
                 .VerifyToastMessage("Default resource-type cleared");
@@ -363,7 +364,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceName)
-                .VerifyToastMessage("Default resource cleared");
+                .VerifyToastMessage("Default resource cleared")
+                .WaitUntilToastMessageInvisible("Default resource cleared");
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceType)
                 .VerifyToastMessage("Default resource-type cleared");
