@@ -109,7 +109,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //Deallocate to maintain script
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceType)
-                .VerifyToastMessage("Default resource-type cleared.");
+                .VerifyToastMessage("Default resource-type cleared");
         }
         [Category("Resources")]
         [Test]
