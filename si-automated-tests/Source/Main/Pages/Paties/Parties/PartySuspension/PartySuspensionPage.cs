@@ -39,5 +39,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
             }
             return suspensions;
         }
+
+        public PartySuspensionPage DoubleClickNewSuspension()
+        {
+            IWebElement cells = GetAllElements(suspensionCells).LastOrDefault();
+            DoubleClickOnElement(cells);
+            return this;
+        }
     }
 }
