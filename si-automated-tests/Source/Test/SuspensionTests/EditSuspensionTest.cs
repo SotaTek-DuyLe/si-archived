@@ -37,7 +37,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         public override void Setup()
         {
             base.Setup();
-            finder = new CommonFinder(DatabaseContext);
+            //finder = new CommonFinder(DatabaseContext);
             Login();
         }
 
@@ -78,18 +78,19 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .ClickSuspensionTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartySuspensionPage>().DoubleClickNewSuspension();
-            inputData.FromDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-            inputData.LastDate = DateTime.Now.AddDays(30).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+            inputData.FromDate = DateTime.Now.AddDays(4).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+            inputData.LastDate = DateTime.Now.AddDays(18).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
             inputData.SuspensedDay = "Everyday";
             PageFactoryManager.Get<EditSuspensionPage>()
                .VerifyNextButtonIsEnable()
                .VerifyServiceCheckboxsAreSelected()
                .ClickServiceCheckbox();
-            inputData.Sites = PageFactoryManager.Get<AddNewSuspensionPage>().GetSiteNames();
+            Thread.Sleep(200);
+            inputData.Sites = PageFactoryManager.Get<EditSuspensionPage>().GetSiteNames();
             PageFactoryManager.Get<EditSuspensionPage>()
                .ClickNextButton()
                .VerifyServiceTypeCheckboxsAreSelected();
-            inputData.Services = PageFactoryManager.Get<AddNewSuspensionPage>().GetServiceNames();
+            inputData.Services = PageFactoryManager.Get<EditSuspensionPage>().GetServiceNames();
             PageFactoryManager.Get<EditSuspensionPage>()
                .ClickNextButton()
                .InputDaysAndVerifyDaysCalculationLbl(inputData.FromDate, inputData.LastDate)

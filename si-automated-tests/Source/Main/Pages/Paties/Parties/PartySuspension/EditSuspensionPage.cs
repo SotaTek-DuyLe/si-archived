@@ -20,7 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
         private readonly By serviceTypeCheckboxs = By.XPath("//div[@id='step-2']//ul[contains(@class, 'list-group-services')]//li//input");
         private readonly By fromDateInput = By.XPath("//input[@id='fromDateField.id']");
         private readonly By untilDateInput = By.XPath("//input[@id='untilDateField.id']");
-        private readonly By dateDiffLabel = By.XPath("//div[@id='step-3']//label[text()='0 days']");
+        private readonly By dateDiffLabel = By.XPath("//div[@id='step-3']//label[text()='30 days']");
         private readonly By everydayRadio = By.XPath("//div[@id='step-3']//span[text()='Everyday']/preceding-sibling::input[@type='radio']");
         private readonly By finishBtn = By.XPath("//div[@id='add-service-suspensions']//div[@class='modal-footer']//button[text()='Finish']");
         private const string AnyMessage = "//div[text()='{0}']";
@@ -65,10 +65,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
 
         public List<string> GetSiteNames()
         {
-            List<IWebElement> checkboxs = GetAllElements(siteItems).Where(x => 
-            {
-                return x.GetAttribute("data-bind").Contains("checked: selected");
-            }).ToList();
+            List<IWebElement> checkboxs = GetAllElements(siteItems);
+            checkboxs.RemoveAt(1);
             return checkboxs.Select(x => GetElementText(x)).ToList();
         }
 
