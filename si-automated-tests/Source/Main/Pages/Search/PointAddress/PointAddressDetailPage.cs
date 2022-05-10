@@ -5,6 +5,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Events;
 
@@ -45,6 +46,29 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private const string serviceUnitDynamic = "//div[@class='parent-row'][{0}]//div[@title='Open Service Unit']/span";
         private const string serviceWithServiceUnitDynamic = "//div[@class='parent-row'][{0}]//span[@title='Open Service Task']";
         private const string allserviceUnitDynamic = "//div[@class='parent-row'][{0}]//span[@title='Open Service Task' or @title='0']";
+        private const string statusDesc = "//div[@class='parent-row'][{0}]//b";
+        //Chrild row
+        private const string numberOfChirdRow = "//div[@class='services-grid--row'][{0}]//div[@class='child-row' and not(contains(@style,'display: none;'))]";
+        private const string roundChirdRow = "//div[@class='services-grid--row'][{0}]//div[@class='child-row' and not(contains(@style,'display: none;'))]//div[@data-bind='text: $data']";
+        private const string lastChirdRow = "//div[@class='services-grid--row'][1]//div[@class='child-row' and not(contains(@style,'display: none;'))]//span[@data-bind='text: ew.formatDateForUser($data.lastDate)']";
+        private const string nextChrirdRow = "//div[@class='services-grid--row'][1]//div[@class='child-row' and not(contains(@style,'display: none;'))]//div[@data-bind='text: $data.next']";
+        private const string assetTypeChildRow = "//div[@class='services-grid--row'][1]//div[@class='child-row' and not(contains(@style,'display: none;'))]//div[@data-bind='$data']";
+        private const string allocationChildRow = "//div[@class='services-grid--row'][1]//div[@class='child-row' and not(contains(@style,'display: none;'))]//span[contains(@data-bind, '$data.allocation')]";
+
+        public List<ActiveSeviceModel> GetAllServiceInTab()
+        {
+            List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
+            List<IWebElement> allActiveRow = GetAllElements(allActiveServiceRows);
+            for (int i = 0; i < allActiveRow.Count; i++)
+            {
+                string eventLocator = string.Format(eventDynamicLocator, (i + 1).ToString());
+                string serviceUnitValue = GetElementText(serviceUnitDynamic, (i + 1).ToString());
+                string serviceValue = GetElementText(allserviceUnitDynamic, (i + 1).ToString());
+
+                activeSeviceModels.Add(new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue));
+            }
+            return activeSeviceModels;
+        }
 
         private const string eventOptions = "//div[@id='create-event-dropdown']//li[text()='{0}']";
         private readonly By allEventOptions = By.CssSelector("ul#create-event-opts>li");
@@ -231,20 +255,6 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             return activeSeviceModels;
         }
 
-        public List<ActiveSeviceModel> GetAllServiceInTab()
-        {
-            List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
-            List<IWebElement> allActiveRow = GetAllElements(allActiveServiceRows);
-            for (int i = 0; i < allActiveRow.Count; i++)
-            {
-                string eventLocator = string.Format(eventDynamicLocator, (i + 1).ToString());
-                string serviceUnitValue = GetElementText(serviceUnitDynamic, (i + 1).ToString());
-                string serviceValue = GetElementText(allserviceUnitDynamic, (i + 1).ToString());
-                activeSeviceModels.Add(new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue));
-            }
-            return activeSeviceModels; 
-        }
-
         public List<ActiveSeviceModel> GetAllServiceWithoutServiceUnitModel(List<ActiveSeviceModel> GetAllServiceInTab)
         {
             List<ActiveSeviceModel> serviceModels = new List<ActiveSeviceModel>();
@@ -301,6 +311,14 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             return PageFactoryManager.Get<EventDetailPage>();
         }
 
-       
+        public PointAddressDetailPage VerifyDataInActiveServiceWithSp(List<ActiveSeviceModel> allActiveServices, List<ServiceForPointDBModel> serviceForPoint)
+        {
+            for(int i = 0; i < allActiveServices.Count; i++)
+            {
+                Assert.AreEqual(serviceForPoint[i].serviceunit, allActiveServices[i].serviceUnit);
+                Assert.AreEqual(serviceForPoint[i].service, allActiveServices[i].service);
+            }
+            return this;
+        }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Events;
@@ -25,7 +27,30 @@ namespace si_automated_tests.Source.Test.EventTests
             string eventOption = "Standard - Complaint";
             string pointAddressId = "483986";
             string eventType = "Complaint";
+            List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
+            List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
+            List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
 
+            //Check SP
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DatabaseContext.Conection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add("@PointID", SqlDbType.Int).Value = 483986;
+            command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
+            command.Parameters.Add("@UserID", SqlDbType.Int).Value = 54;
+
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                serviceForPoint = ObjectExtention.DataReaderMapToList<ServiceForPointDBModel>(reader);
+                if (reader.NextResult())
+                {
+                    serviceTaskForPoint = ObjectExtention.DataReaderMapToList<ServiceTaskForPointDBModel>(reader);
+                }
+                if (reader.NextResult())
+                {
+                    commonService = ObjectExtention.DataReaderMapToList<CommonServiceForPointDBModel>(reader);
+                }
+            }
+            
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
@@ -63,6 +88,8 @@ namespace si_automated_tests.Source.Test.EventTests
             //Get all data in [Active Services]
             List<ActiveSeviceModel> allActiveServices = PageFactoryManager.Get<PointAddressDetailPage>()
                 .GetAllServiceWithServiceUnitModel();
+            //Verify data in [Active Service] tab with SP
+
             PageFactoryManager.Get<PointAddressDetailPage>()
                 .ClickFirstEventInFirstServiceRow()
                 .ClickAnyEventOption(eventOption)
