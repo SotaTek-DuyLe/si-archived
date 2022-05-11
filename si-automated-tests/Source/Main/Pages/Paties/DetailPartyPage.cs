@@ -34,6 +34,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By wBTicketTab = By.XPath("//a[text()='Weighbridge Tickets']");
         private readonly By taskTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='tasks-tab']");
         private readonly By suspensionTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='suspensions-tab']");
+        private readonly By adhocTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='adhoc-tab']");
         private readonly By canlendarTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='calendar-tab']");
         private readonly By siteTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='sites-tab']");
 
@@ -160,6 +161,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickSuspensionTab()
         {
             ClickOnElement(suspensionTab);
+            return this;
+        }
+
+        public DetailPartyPage ClickAdHocTab()
+        {
+            ClickOnElement(adhocTab);
             return this;
         }
 
