@@ -26,6 +26,7 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar;
 using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount;
 
 namespace si_automated_tests.Source.Test.AdHocTests
 {
@@ -72,7 +73,15 @@ namespace si_automated_tests.Source.Test.AdHocTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClickAdHocTab()
+                .ClickAccountTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .UncheckOnAccountType("PO Number Required")
+                .CheckOnAccountType("PO Number Required")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>().ClickAdHocTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AdhocPage>()
                 .ClickCreateAdHocTask("Repair Commercial Bin");
@@ -81,7 +90,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
                 .VerifyTitle("PO Number Required for Party")
                 .InputPoNumber(inputPO)
                 .ClickDone()
-                .IsCreateAdhocTaskInVisible();
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<BasePage>()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();

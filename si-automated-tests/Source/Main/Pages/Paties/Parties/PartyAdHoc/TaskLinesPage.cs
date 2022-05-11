@@ -31,9 +31,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
                 TaskLineModel linesModel = new TaskLineModel();
                 linesModel.Type = GetSelectedCombobox(row, selectType);
                 linesModel.AssetType = GetSelectedCombobox(echoSelects, 0);
-                linesModel.ScheduledAssetQty = row.FindElement(scheduledAssetQuantityInput).Text;
+                linesModel.ScheduledAssetQty = row.FindElement(scheduledAssetQuantityInput).GetAttribute("value");
                 linesModel.Product = GetSelectedCombobox(echoSelects, 1);
-                linesModel.ScheduledProductQuantity = row.FindElement(scheduledProductQuantityInput).Text;
+                linesModel.ScheduledProductQuantity = row.FindElement(scheduledProductQuantityInput).GetAttribute("value");
                 linesModel.Unit = GetSelectedCombobox(echoSelects, 2);
                 linesModel.State = GetSelectedCombobox(row, itemState);
                 taskLines.Add(linesModel);
