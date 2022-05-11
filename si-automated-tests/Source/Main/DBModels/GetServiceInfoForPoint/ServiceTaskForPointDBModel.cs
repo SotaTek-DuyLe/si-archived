@@ -11,5 +11,12 @@ namespace si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint
         public string serviceunit { get; set; }
         public int serviceunitpointID { get; set; }
         public int servicetaskID { get; set; }
+        public string assets { get; set; }
+        public int roundscheduleID { get; set; }
+        public string last { get; set; }
+        public string next { get; set; }
+        public string round { get; set; }
+        public string roundgroup { get; set; }
+        public DateTime nextdate { get; set; }
     }
 }

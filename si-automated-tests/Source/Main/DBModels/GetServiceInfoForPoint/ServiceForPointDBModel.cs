@@ -14,5 +14,7 @@ namespace si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint
         public string tasktype { get; set; }
         public string servicedesc { get; set; }
         public string roundgroup { get; set; }
+        public string last { get; set; }
+        public string assets { get; set; }
     }
 }

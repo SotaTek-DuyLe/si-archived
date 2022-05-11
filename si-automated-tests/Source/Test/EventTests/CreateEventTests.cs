@@ -73,25 +73,36 @@ namespace si_automated_tests.Source.Test.EventTests
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             //Get all point history in point history tab
-            PageFactoryManager.Get<PointAddressDetailPage>()
+            PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
+            pointAddressDetailPage
                 .ClickPointHistoryTab()
                 .WaitForLoadingIconToDisappear();
-            List<PointHistoryModel> pointHistoryModelsInDetail = PageFactoryManager.Get<PointAddressDetailPage>()
+            List<PointHistoryModel> pointHistoryModelsInDetail = pointAddressDetailPage
                 .GetAllPointHistory();
             //Active service tab
-            PageFactoryManager.Get<PointAddressDetailPage>()
+            pointAddressDetailPage
                 .ClickOnActiveServicesTab()
                 .WaitForLoadingIconToDisappear();
-            string locationValue = PageFactoryManager.Get<PointAddressDetailPage>()
+            string locationValue = pointAddressDetailPage
                 .WaitForPointAddressDetailDisplayed()
                 .GetPointAddressName();
-            //Get all data in [Active Services]
-            List<ActiveSeviceModel> allActiveServices = PageFactoryManager.Get<PointAddressDetailPage>()
+            //Get all data in [Active Services] with Service unit
+            List<ActiveSeviceModel> allAServicesWithServiceUnit = pointAddressDetailPage
                 .GetAllServiceWithServiceUnitModel();
+            List<ActiveSeviceModel> allServices = pointAddressDetailPage
+                .GetAllServiceInTab();
+            //Get all data in [Active Services] without Service unit
+            List<ActiveSeviceModel> GetAllServiceWithoutServiceUnitModel = pointAddressDetailPage
+                .GetAllServiceWithoutServiceUnitModel(allServices);
             //Verify data in [Active Service] tab with SP
-
-            PageFactoryManager.Get<PointAddressDetailPage>()
+            pointAddressDetailPage
+                .VerifyDataInActiveServicesTab(allAServicesWithServiceUnit, serviceForPoint, serviceTaskForPoint)
+                .VerifyDataInActiveServicesTab(GetAllServiceWithoutServiceUnitModel, serviceForPoint);
+            List<CommonServiceForPointDBModel> FilterCommonServiceForPointWithServiceId = pointAddressDetailPage
+                .FilterCommonServiceForPointWithServiceId(commonService, serviceForPoint[0].serviceID);
+            pointAddressDetailPage
                 .ClickFirstEventInFirstServiceRow()
+                .VerifyEventTypeWhenClickEventBtn(FilterCommonServiceForPointWithServiceId)
                 .ClickAnyEventOption(eventOption)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
@@ -117,7 +128,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<ActiveSeviceModel> activeSeviceModelsInSubTab = eventDetailPage
                 .GetAllActiveServiceWithServiceUnitModel();
             eventDetailPage
-                .VerifyDataInServiceSubTab(allActiveServices, activeSeviceModelsInSubTab)
+                .VerifyDataInServiceSubTab(allAServicesWithServiceUnit, activeSeviceModelsInSubTab)
                 //Verify Outstanding - sub tab display without error
                 .ClickOutstandingSubTab()
                 .WaitForLoadingIconToDisappear();
