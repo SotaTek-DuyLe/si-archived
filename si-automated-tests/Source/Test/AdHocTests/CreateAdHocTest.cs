@@ -111,6 +111,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
         {
             int partyId = 73;
             string partyName = "Greggs";
+            string inputPO = "PO ad hoc task 2";
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")
@@ -142,15 +143,27 @@ namespace si_automated_tests.Source.Test.AdHocTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ExpandAgreementLine()
-                .ExpandAllAgreementFields();
+                .ExpandAdhocOnAgreementFields()
+                .CreateAdhocTaskBtnInAgreementLine("Collect Missed Commercial");
+            Thread.Sleep(200);
 
-            //PageFactoryManager.Get<AdhocTaskDetailPage>()
-            //   .VerifyPoNumber()
-            //   .VerifyPurchaseOrderField(inputPO)
-            //   .ClickTaskLinesTab()
-            //   .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<TaskLinesPage>()
-            //    .VerifyTaskLine();
+            PageFactoryManager.Get<CreateAdHocTaskPage>()
+               .VerifyTitle("PO Number Required for Party")
+               .InputPoNumber(inputPO)
+               .ClickDone()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<AdhocTaskDetailPage>()
+                .VerifyPoNumber()
+                .VerifyPurchaseOrderField(inputPO)
+                .VerifyPurchaseOrderNumber(inputPO)
+                .ClickTaskLinesTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskLinesPage>()
+                .VerifyTaskLine();
         }
     }
 }

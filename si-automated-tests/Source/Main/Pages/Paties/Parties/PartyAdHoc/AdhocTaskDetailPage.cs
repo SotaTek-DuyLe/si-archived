@@ -23,6 +23,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
         private readonly By title = By.XPath("//div[@class='popup-container']//h4[@class='id']");
         private readonly By purchaseOrderValue = By.XPath("//div[@class='popup-container']//div[@class='header-block-name' and text()='Purchase Order #']//following-sibling::div");
         private readonly By tasklineTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='taskLines-tab']");
+        private readonly By purchaseOrderInput = By.XPath("//div[@id='details-tab']//input[@id='purchaseOrderNumber']");
 
         public AdhocTaskDetailPage VerifyPoNumber()
         {
@@ -33,6 +34,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
         public AdhocTaskDetailPage VerifyPurchaseOrderField(string expectedStr)
         {
             Assert.IsTrue(GetElementText(purchaseOrderValue) == expectedStr);
+            return this;
+        } 
+        
+        public AdhocTaskDetailPage VerifyPurchaseOrderNumber(string expectedStr)
+        {
+            Assert.IsTrue(WaitUtil.WaitForElementVisible(purchaseOrderInput).GetAttribute("value") == expectedStr);
             return this;
         }
 
