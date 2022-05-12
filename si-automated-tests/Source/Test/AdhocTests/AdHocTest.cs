@@ -27,6 +27,7 @@ using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar;
 using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount;
+using si_automated_tests.Source.Main.Pages.PartyAgreement;
 
 namespace si_automated_tests.Source.Test.AdHocTests
 {
@@ -101,7 +102,86 @@ namespace si_automated_tests.Source.Test.AdHocTests
                 .ClickTaskLinesTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskLinesPage>()
-                .VerifyTaskLine();
+                .VerifyTaskLine(new Main.Models.Adhoc.TaskLinesModel() 
+                { 
+                    Type = "Service",
+                    AssetType = "1100L",
+                    ScheduledAssetQty = "4",
+                    Product = "General Recycling",
+                    ScheduledProductQuantity = "1000",
+                    Unit = "Kilograms",
+                    State = "Unallocated"
+                });
+        }
+
+        [Category("Create Ad-Hoc Task from an Agreement form")]
+        [Test(Description = "Create ad-hoc task from an Agreement form")]
+        public void TC_092_CreateAdHocTask()
+        {
+            int partyId = 73;
+            string partyName = "Greggs";
+            string inputPO = "PO ad hoc task 2";
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(partyId)
+                .OpenFirstResult();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
+                .ClickAccountTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .UncheckOnAccountType("PO Number Required")
+                .CheckOnAccountType("PO Number Required")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .OpenAgreementTab()
+                .OpenAgreementWithId(41)
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ExpandAgreementLine()
+                .ExpandAdhocOnAgreementFields()
+                .CreateAdhocTaskBtnInAgreementLine("Collect Missed Commercial");
+            Thread.Sleep(200);
+
+            PageFactoryManager.Get<CreateAdHocTaskPage>()
+               .VerifyTitle("PO Number Required for Party")
+               .InputPoNumber(inputPO)
+               .ClickDone()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<AdhocTaskDetailPage>()
+                .VerifyPoNumber()
+                .VerifyPurchaseOrderField(inputPO)
+                .VerifyPurchaseOrderNumber(inputPO)
+                .ClickTaskLinesTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskLinesPage>()
+                .VerifyTaskLine(new Main.Models.Adhoc.TaskLinesModel()
+                {
+                    Type = "Service",
+                    AssetType = "660L",
+                    ScheduledAssetQty = "1",
+                    Product = "General Refuse",
+                    ScheduledProductQuantity = "0",
+                    Unit = "Kilograms",
+                    State = "Unallocated"
+                });
         }
     }
 }
