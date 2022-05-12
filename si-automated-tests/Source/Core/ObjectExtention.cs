@@ -13,7 +13,6 @@ namespace si_automated_tests.Source.Core
             T obj = default(T);
             while (dr.Read())
             {
-                Console.WriteLine("xxxx", dr);
                 obj = Activator.CreateInstance<T>();
                 foreach (PropertyInfo prop in obj.GetType().GetProperties())
                 {
