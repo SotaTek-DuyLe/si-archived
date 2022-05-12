@@ -526,13 +526,17 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("EditAgreement")]
-        [Test]
+        [Test(Description = "Edit Agreement Line (Remove Asset Type and Add new Asset Type) on active Agreement with Mobilization/Demobilization phases")]
         public void TC_018()
         {
             string date = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 7);
             string tmrDatePlus7day = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+
+            int agreementId = 7;
+            string agreementSite = "COMMERCIAL COLLECTIONS";
+            string agreementName = "SIDRA - TEDDINGTON";
 
             AsserAndProductModel assetAndProductInput = new AsserAndProductModel("1100L", "2", "Paper & Cardboard", "", "100", "Kilograms", "Rental", new string[1], new string[1], tommorowDate, "");
             MobilizationModel mobilizationInput = new MobilizationModel("Deliver", "1100L", "2", "Paper & Cardboard", "100", "Kilograms", tommorowDate);
@@ -560,15 +564,20 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully(agreementSite, agreementName);
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
                 .IsOnPartyAgreementPage()
                 .ClickEditAgreementBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EditAgreementServicePage>()
+                .IsOnEditAgreementServicePage()
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AssetAndProducTab>()
+                .IsOnAssetTab()
                 .ClickRemoveAsset()
                 .ClickAddAsset()
                 .ClickAssetType()
@@ -591,7 +600,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab()
-               .RemoveAllRedundantPrices(4)
+               .RemoveAllRedundantPrices()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
@@ -728,14 +737,16 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<CommonActiveServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonActiveServicesTaskPage>()
-                .OpenSidraTeddingtonStartDate(tommorowDate)
+                .InputPartyNameToFilter("Sidra - Teddington")
+                  .ClickApplyBtn()
+                .OpenTaskWithPartyNameAndDate("Sidra - Teddington", tommorowDate, "STARTDATE")
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<ServicesTaskPage>()
-            //    .ClickOnTaskLineTab();
-            //PageFactoryManager.Get<ServiceTaskLineTab>()
-            //    .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
             //PageFactoryManager.Get<ServiceTaskLineTab>()
             //    .verifyTaskLineStartDate(tommorowDate);
             PageFactoryManager.Get<ServicesTaskPage>()
@@ -746,25 +757,38 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .verifyScheduleStartDate(tommorowDate)
                 .SwitchToFirstWindow();
             //verify last step
-            //PageFactoryManager.Get<CommonActiveServicesTaskPage>()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<CommonActiveServicesTaskPage>()
-            //    .OpenSidraTeddingtonEndDate(tommorowDate)
-            //    .SwitchToLastWindow();
-            //PageFactoryManager.Get<ServicesTaskPage>()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<ServicesTaskPage>()
-            //    .ClickOnTaskLineTab();
-            //PageFactoryManager.Get<ServiceTaskLineTab>()
-            //    .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .InputPartyNameToFilter("Sidra - Teddington")
+                .ClickApplyBtn()
+                .OpenTaskWithPartyNameAndDate("Sidra - Teddington", tommorowDate, "ENDDATE")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
             //PageFactoryManager.Get<ServiceTaskLineTab>()
             //    .verifyTaskLineEndDate(tommorowDate);
-            //PageFactoryManager.Get<ServicesTaskPage>()
-            //    .ClickOnScheduleTask();
-            //PageFactoryManager.Get<ServiceScheduleTab>()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<ServiceScheduleTab>()
-            //    .verifyScheduleEndDate(tommorowDate);
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnScheduleTask();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .verifyScheduleEndDate(tommorowDate);
+
+            //Verify in DB
+            string serviceUnitAssetQuery = SQLConstants.SQL_ServiceUnitAssets + agreementId;
+            SqlCommand commandServiceUnitAsset = new SqlCommand(serviceUnitAssetQuery, DatabaseContext.Conection);
+            SqlDataReader readerServiceUnitAsset = commandServiceUnitAsset.ExecuteReader();
+            List<ServiceUnitAssetsDBModel> serviceUnitAsset = ObjectExtention.DataReaderMapToList<ServiceUnitAssetsDBModel>(readerServiceUnitAsset);
+            readerServiceUnitAsset.Close();
+
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .VerifyServiceUnitAssets(serviceUnitAsset, 1, "660L", "General Refuse", "16/12/2021", tommorowDate) //Verify 1 retired task with enddate is tommorow
+                .VerifyServiceUnitAssets(serviceUnitAsset, 2, "1100L", "Paper & Cardboard", tommorowDate, "01/01/2050"); //Verify 2 new task with start date is tommorow 
         }
 
         [Category("EditAgreement")]
@@ -773,6 +797,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             AsserAndProductModel assetAndProductInput = new AsserAndProductModel("Mini (1.53m3)", "1", "Wood", "", "3", "Kilograms", "Owned", new string[1], new string[1], tommorowDate, "");
+            string agreementType = "COMMERCIAL COLLECTIONS";
+            string agreementName = "LA PLATA STEAKHOUSE";
+            int agreementId = 28;
 
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -794,12 +821,13 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully(agreementType, agreementName);
+            PageFactoryManager.Get<PartyAgreementPage>()
                .OpenTaskTab();
             PageFactoryManager.Get<TaskTab>()
                 .WaitForLoadingIconToDisappear();
             int taskNumBefore = PageFactoryManager.Get<TaskTab>()
                 .GetAllTaskNum();
-
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
                 .WaitForLoadingIconToDisappear();
@@ -888,6 +916,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         public void TC_020()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+            string agreementType = "COMMERCIAL COLLECTIONS";
+            string agreementName = "LA PLATA STEAKHOUSE";
 
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -908,6 +938,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully(agreementType, agreementName);
             //Edit Agreement 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
@@ -936,6 +968,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickEditAgreementByAddressBtn("109 SHEEN LANE, EAST SHEEN, LONDON, SW14 8AE")
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EditAgreementServicePage>()
+                .IsOnEditAgreementServicePage()
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AssetAndProducTab>()
@@ -1052,6 +1085,16 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceScheduleTab>()
                 .verifyScheduleEndDate(tommorowDate);
+            //Verify in DB
+            string serviceUnitAssetQuery = SQLConstants.SQL_ServiceUnitAssets + "28";
+            SqlCommand commandServiceUnitAsset = new SqlCommand(serviceUnitAssetQuery, DatabaseContext.Conection);
+            SqlDataReader readerServiceUnitAsset = commandServiceUnitAsset.ExecuteReader();
+            List<ServiceUnitAssetsDBModel> serviceUnitAsset = ObjectExtention.DataReaderMapToList<ServiceUnitAssetsDBModel>(readerServiceUnitAsset);
+            readerServiceUnitAsset.Close();
+
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .VerifyServiceUnitAssetsNum(serviceUnitAsset, 1); //Verify no new service unit asset for this agreement
+               
         }
 
         [Category("EditAgreement")]

@@ -745,7 +745,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 //Verify data in [Point History] tab
                 .ClickPointHistoryTab()
                 .WaitForLoadingIconToDisappear();
-            List<PointHistoryModel> pointHistoryModels = PageFactoryManager.Get<PointAddressDetailPage>()
+            List<PointHistoryModel> pointHistoryModels = PageFactoryManager.Get<PointSegmentDetailPage>()
                 .FilterByPointHistoryId(inspectionId.ToString())
                 .GetAllPointHistory();
             PageFactoryManager.Get<PointSegmentDetailPage>()
@@ -975,7 +975,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
             readerInspection_2.Close();
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataDisplayedWithDB(inspections[0], noteValue, allocatedUnitValue, 0, AutoUser14.UserName, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1), inspections_2[0].username, assignedUserValue)
+                .VerifyDataDisplayedWithDB(inspections[0], noteValue, allocatedUnitValue, 0, AutoUser45.UserName, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1), inspections_2[0].username, assignedUserValue)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<PointNodeDetailPage>()
@@ -992,7 +992,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
                 .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "", AutoUser45.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 

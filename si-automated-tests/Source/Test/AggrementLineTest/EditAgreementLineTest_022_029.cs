@@ -20,6 +20,9 @@ using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Task;
+using System.Data.SqlClient;
+using si_automated_tests.Source.Main.Models.DBModels;
+using si_automated_tests.Source.Main.DBModels;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
 {
@@ -28,10 +31,11 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
     public class EditAgreementLineTest_022_029 : BaseTest
     {
         [Category("EditAgreement")]
-        [Test]
+        [Test(Description = "022A_Create Agreement without Mobilization and Demobilization phases")]
         public void TC_022()
         {
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
+            string partyName = "Rosie and Java";
 
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -52,8 +56,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<BasePage>()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
                 .OpenAgreementTab();
             PageFactoryManager.Get<AgreementTab>()
+                .IsOnAgreementTab()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
@@ -107,7 +113,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab()
-               .RemoveAllRedundantPrices(1)
+               .RemoveAllRedundantPrices()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
@@ -168,6 +174,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Verify no new task appear 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully("Commercial Collections", partyName);
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickTaskTabBtn()
                 .WaitForLoadingIconToDisappear();
@@ -240,11 +248,16 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("EditAgreement")]
-        [Test]
+        [Test(Description = "023A_Edit Agreement Line (Increase Asset Type Qty) on active Agreement without Mobilization and Demobilization phases")]
         public void TC_023()
         {
+            string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string originDate = "08/03/2022";
+            string agreementType = "COMMERCIAL COLLECTIONS";
+            string partyName = "Rosie and Java";
+            int agreementId = 32;
+            int partyId = 53;
 
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -265,6 +278,14 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully(agreementType, partyName)
+                .ClickTaskTabBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskTab>()
+                .WaitForLoadingIconToDisappear();
+            int taskNumBefore = PageFactoryManager.Get<TaskTab>()
+                .GetAllTaskNum();
             //Edit Agreement 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
@@ -273,9 +294,11 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .ClickEditAgreementBtn()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EditAgreementServicePage>()
+                .IsOnEditAgreementServicePage()
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AssetAndProducTab>()
+                .IsOnAssetTab()
                 .VerifySummaryOfStep("2 x 660L(Owned), 165 General Recycling")
                 .ClickOnEditAsset()
                 .EditAssetQuantity(3)
@@ -309,7 +332,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             // Finish Edit Agreement Line 
             PageFactoryManager.Get<BasePage>()
                 .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(5000);
+                .SleepTimeInMiliseconds(10000);
             //Verify info in panel 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ExpandAgreementLine()
@@ -336,6 +359,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<BasePage>()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName);
+            PageFactoryManager.Get<DetailPartyPage>()
                 .OpenAgreementTab();
             PageFactoryManager.Get<AgreementTab>()
                 .WaitForLoadingIconToDisappear();
@@ -344,6 +371,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .OpenAgreementWithId(32)
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully(agreementType, partyName)
                 .ClickTaskTabBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskTab>()
@@ -351,7 +381,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             int taskNum = PageFactoryManager.Get<TaskTab>()
                 .GetAllTaskNum();
             PageFactoryManager.Get<TaskTab>()
-                .VerifyTaskNumUnchange(taskNum, 3)
+                .VerifyTaskNumUnchange(taskNum, taskNumBefore)
                 .SwitchToFirstWindow();
 
             //Verify in site service 
@@ -440,14 +470,20 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<ServiceScheduleTab>()
                 .verifyScheduleStartDate(tommorowDate)
                 .verifyScheduleEndDate("01/01/2050");
+
+           //BUGS FOR VERIFY IN DB
         }
 
         [Category("EditAgreement")]
-        [Test]
+        [Test(Description = "Edit Agreement Line (Decrease Asset Type Qty) on active Agreement without Mobilization and Demobilization phases")]
         public void TC_024()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string originDate = "08/03/2022";
+            int agreementId = 33;
+            string agreementType = "COMMERCIAL COLLECTIONS";
+            string agreementName = "The White Cross ";
+
             AsserAndProductModel assetAndProductInput = new AsserAndProductModel("660L", "1", "General Refuse", "", "120", "", "Owned", new string[1], new string[1], tommorowDate, "01/01/2050");
             RegularModel regularInput = new RegularModel("Service", "660L", "1", "General Refuse", "120", "", tommorowDate);
             MobilizationModel adhoc = new MobilizationModel("Service", "660L", "1", "General Refuse", "120", "", tommorowDate);
@@ -473,6 +509,15 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully(agreementType, agreementName);
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickTaskTabBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskTab>()
+                .WaitForLoadingIconToDisappear();
+            int taskNumBefore = PageFactoryManager.Get<TaskTab>()
+                .GetAllTaskNum();
             //Edit Agreement 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
@@ -481,9 +526,11 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .ClickEditAgreementBtn()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EditAgreementServicePage>()
+                .IsOnEditAgreementServicePage()
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AssetAndProducTab>()
+                .IsOnAssetTab()
                 .VerifySummaryOfStep("3 x 660L(Owned), 120 General Refuse")
                 .ClickOnEditAsset()
                 .EditAssetQuantity(1)
@@ -517,7 +564,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             // Finish Edit Agreement Line 
             PageFactoryManager.Get<BasePage>()
                 .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(5000);
+                .SleepTimeInMiliseconds(10000);
             //Verify info in panel 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ExpandAgreementLine()
@@ -561,6 +608,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<BasePage>()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(agreementName);
+            PageFactoryManager.Get<DetailPartyPage>()
                 .OpenAgreementTab();
             PageFactoryManager.Get<AgreementTab>()
                 .WaitForLoadingIconToDisappear();
@@ -569,6 +618,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .OpenAgreementWithId(33)
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully(agreementType, agreementName);
+            PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickTaskTabBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskTab>()
@@ -576,7 +629,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             int taskNum = PageFactoryManager.Get<TaskTab>()
                 .GetAllTaskNum();
             PageFactoryManager.Get<TaskTab>()
-                .VerifyTaskNumUnchange(taskNum, 3)
+                .VerifyTaskNumUnchange(taskNum, taskNumBefore)
                 .SwitchToFirstWindow();
 
             //Verify in site service 
@@ -659,17 +712,18 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<ServiceScheduleTab>()
                 .verifyScheduleStartDate(tommorowDate)
                 .verifyScheduleEndDate("01/01/2050");
+            //BUGS FOR VERIFY IN DB
         }
 
         [Category("EditAgreement")]
-        [Test]
+        [Test(Description = "Edit Agreement Line (Remove Asset Type and Add new Asset Type) on active Agreement without Mobilization and Demobilization phases")]
         public void TC_025()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
 
             int agreementId = 31;
             string partyName = "Danieli On The Green";
-
+            string agreementType = "COMMERCIAL COLLECTIONS";
 
             string assetType = AgreementConstants.ASSET_TYPE_660L;
             int assetQty = 2;
@@ -703,6 +757,15 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully(agreementType, partyName);
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickTaskTabBtn()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskTab>()
+                .WaitForLoadingIconToDisappear();
+            int taskNumBefore = PageFactoryManager.Get<TaskTab>()
+                .GetAllTaskNum();
             //Edit Agreement 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
@@ -711,9 +774,11 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .ClickEditAgreementBtn()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EditAgreementServicePage>()
+                .IsOnEditAgreementServicePage()
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AssetAndProducTab>()
+                .IsOnAssetTab()
                 .ClickRemoveAsset()
                 .ClickAddAsset()
                 .SelectAssetType(assetType)
@@ -738,7 +803,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab()
-               .RemoveAllRedundantPrices(1)
+               .RemoveAllRedundantPrices()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
@@ -755,7 +820,6 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .WaitForLoadingIconToDisappear();
             // Finish Edit Agreement Line 
             PageFactoryManager.Get<BasePage>()
-                .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(10000);
 
             PageFactoryManager.Get<PartyAgreementPage>()
@@ -790,7 +854,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             int taskNum = PageFactoryManager.Get<TaskTab>()
                 .GetAllTaskNum();
             PageFactoryManager.Get<TaskTab>()
-                .VerifyTaskNumUnchange(taskNum, 3)
+                .VerifyTaskNumUnchange(taskNum, taskNumBefore)
                 .SwitchToFirstWindow();
 
             //Verify on Site Service
@@ -868,6 +932,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<ServiceScheduleTab>()
                 .verifyScheduleStartDate(tommorowDate)
                 .verifyScheduleEndDate(defautEndDate);
+            //BUGS FOR VERIFY IN DB
         }
 
         [Category("EditAgreement")]
@@ -879,6 +944,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string futureDueDate = CommonUtil.GetLocalTimeFromDate(futureDate, "dd/MM/yyyy", 7);
 
             int partyId = 55;
+            string partyName = "Kiss the Hippo Coffee";
 
             string assetType = AgreementConstants.ASSET_TYPE_660L;
             int assetQty = 1;
@@ -915,11 +981,14 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
-                .OpenAgreementTab();
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName);
             PageFactoryManager.Get<DetailPartyPage>()
+                .OpenAgreementTab();
+            PageFactoryManager.Get<AgreementTab>()
                 .WaitForLoadingIconToDisappear();
 
             PageFactoryManager.Get<AgreementTab>()
+                .IsOnAgreementTab()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
@@ -946,6 +1015,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<AssetAndProducTab>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AssetAndProducTab>()
+                .IsOnAssetTab()
                 .ClickAddAsset()
                 .SelectAssetType(assetType)
                 .InputAssetQuantity(assetQty)
@@ -972,7 +1042,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab();
             PageFactoryManager.Get<PriceTab>()
-               .RemoveAllRedundantPrices(3)
+               .RemoveAllRedundantPrices()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
@@ -1046,6 +1116,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             int partyId = 55;
             string partyName = "Kiss the Hippo Coffee";
+            string agreementType = "Commercial Collections";
 
             string assetType = AgreementConstants.ASSET_TYPE_660L;
             int assetQty1 = 1;
@@ -1125,6 +1196,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName);
+            PageFactoryManager.Get<DetailPartyPage>()
                 .OpenAgreementTab();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForLoadingIconToDisappear();
@@ -1137,7 +1210,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
-                .SleepTimeInMiliseconds(10000);
+                .WaitForAgreementPageLoadedSuccessfully(agreementType, partyName);
             //Edit Agreement
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
@@ -1146,9 +1219,11 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .ClickEditAgreementBtn()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EditAgreementServicePage>()
+                .IsOnEditAgreementServicePage()
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AssetAndProducTab>()
+                .IsOnAssetTab()
                 .ClickOnEditAsset()
                 .EditAssetQuantity(3)
                 .ClickOnTenureText()
@@ -1169,7 +1244,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab()
-               .RemoveAllRedundantPrices(3)
+               .RemoveAllRedundantPrices()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
@@ -1334,6 +1409,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string futureDueDate = CommonUtil.GetLocalTimeFromDate(futureDate, "dd/MM/yyyy", 7);
 
             int partyId = 64;
+            string partyName = "Tribe Yarns";
+            string agreementType = "Commercial Collections";
 
             string assetType = AgreementConstants.ASSET_TYPE_660L;
             int assetQty = 4;
@@ -1370,6 +1447,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName);
+            PageFactoryManager.Get<DetailPartyPage>()
                 .OpenAgreementTab();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForLoadingIconToDisappear();
@@ -1400,6 +1479,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<AssetAndProducTab>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AssetAndProducTab>()
+                .IsOnAssetTab()
                 .ClickAddAsset()
                 .SelectAssetType(assetType)
                 .InputAssetQuantity(assetQty)
@@ -1426,7 +1506,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab();
             PageFactoryManager.Get<PriceTab>()
-               .RemoveAllRedundantPrices(3)
+               .RemoveAllRedundantPrices()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
@@ -1500,6 +1580,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             int partyId = 64;
             string partyName = "Tribe Yarns";
+            string agreementType = "Commercial Collections";
 
             string assetType = AgreementConstants.ASSET_TYPE_660L;
             int assetQty1 = 4;
@@ -1578,6 +1659,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName);
+            PageFactoryManager.Get<DetailPartyPage>()
                 .OpenAgreementTab();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForLoadingIconToDisappear();
@@ -1589,6 +1672,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully(agreementType, partyName);
             //Edit Agreement
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
@@ -1600,6 +1685,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AssetAndProducTab>()
+                .IsOnAssetTab()
                 .ClickOnEditAsset()
                 .EditAssetQuantity(1)
                 .ClickOnTenureText()
@@ -1620,7 +1706,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab()
-               .RemoveAllRedundantPrices(3)
+               .RemoveAllRedundantPrices()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
@@ -1658,10 +1744,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickToTaskLinesTab()
                     .WaitForLoadingIconToDisappear();
+                //PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                //    .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, productQty.ToString(), unit, "Unallocated");
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                    .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, productQty.ToString(), unit, "Unallocated");
-                PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                    .CloseCurrentWindow()
+                    .ClickCloseWithoutSaving()
                     .SwitchToChildWindow(3);
             }
 
@@ -1776,6 +1862,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             int agreementId = 41;
             string partyName = "Greggs";
+            string agreementType = "COMMERCIAL COLLECTIONS";
 
             string assetType = AgreementConstants.ASSET_TYPE_1100L;
             int assetQty = 4;
@@ -1805,6 +1892,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully(agreementType, partyName);
             //Add service 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
@@ -1823,6 +1912,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<AssetAndProducTab>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AssetAndProducTab>()
+                .IsOnAssetTab()
                 .ClickAddAsset()
                 .SelectAssetType(assetType)
                 .InputAssetQuantity(assetQty)
@@ -1850,7 +1940,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab();
             PageFactoryManager.Get<PriceTab>()
-               .RemoveAllRedundantPrices(3)
+               .RemoveAllRedundantPrices()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
@@ -1875,7 +1965,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<TaskTab>()
                 .WaitForLoadingIconToDisappear();
             List<IWebElement> allTasks = PageFactoryManager.Get<TaskTab>()
-              .VerifyNewTaskAppearWithNum(1, "Unallocated", "Deliver Commercial Bin", tommorowDueDate, "");
+              .VerifyNewTaskAppearWithNum(3, "Unallocated", "Deliver Commercial Bin", tommorowDueDate, "");
 
             for (int i = 0; i < allTasks.Count; i++)
             {
@@ -1917,6 +2007,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             int agreementId = 41;
             string partyName = "Greggs";
+            string agreementType = "COMMERCIAL COLLECTIONS";
 
             string assetType = AgreementConstants.ASSET_TYPE_1100L;
             int assetQty = 4;
@@ -1973,6 +2064,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
 
             int agreementId = 43;
+            string agreementType = "COMMERCIAL COLLECTIONS";
+            string agreementName = "Whitton Baptist Church";
 
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -1993,6 +2086,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully(agreementType, agreementName);
             //Retire service 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
@@ -2084,6 +2179,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string product = AgreementConstants.GENERAL_RECYCLING;
             string unit = AgreementConstants.KILOGRAMS;
 
+            string agreementType = "COMMERCIAL COLLECTIONS";
+            string agreementName = "Whitton Baptist Church";
+
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -2103,6 +2201,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully(agreementType, agreementName);
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickTaskTabBtn();
             PageFactoryManager.Get<TaskTab>()

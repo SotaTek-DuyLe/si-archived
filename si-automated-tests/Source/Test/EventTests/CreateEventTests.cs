@@ -10,6 +10,7 @@ using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Events;
 using si_automated_tests.Source.Main.Pages.PointAddress;
+using si_automated_tests.Source.Main.Pages.Search.PointSegment;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.EventTests
@@ -259,7 +260,7 @@ namespace si_automated_tests.Source.Test.EventTests
             PageFactoryManager.Get<PointAddressDetailPage>()
                 .ClickAnyEventInActiveServiceRow(activeSeviceModelWithSkip.eventLocator)
                 .VerifyToastMessage(MessageRequiredFieldConstants.NoEventsAvailableWarningMessage)
-                .WaitUntilToastMessageInvisiable(MessageRequiredFieldConstants.NoEventsAvailableWarningMessage);
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.NoEventsAvailableWarningMessage);
             //Get all active service no service unit
             List<ActiveSeviceModel> allActiveServicesNoServiceUnit = PageFactoryManager.Get<PointAddressDetailPage>()
                 .GetAllServiceWithoutServiceUnitModel(allActiveServices);
@@ -356,6 +357,63 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyPointAddressId(eventModels[0].eventpointID.ToString())
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
+        }
+
+        [Category("CreateEvent")]
+        [Test(Description = "Creating event from point segment with service unit")]
+        public void TC_096_Create_event_from_point_segment_with_service_unit()
+        {
+            string searchForSegments = "Segments";
+            string idSegment = "32844";
+
+            List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
+            List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
+            List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
+
+            //Check SP
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DatabaseContext.Conection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add("@PointID", SqlDbType.Int).Value = 483986;
+            command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 2;
+            command.Parameters.Add("@UserID", SqlDbType.Int).Value = 54;
+
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                serviceForPoint = ObjectExtention.DataReaderMapToList<ServiceForPointDBModel>(reader);
+                if (reader.NextResult())
+                {
+                    serviceTaskForPoint = ObjectExtention.DataReaderMapToList<ServiceTaskForPointDBModel>(reader);
+                }
+                if (reader.NextResult())
+                {
+                    commonService = ObjectExtention.DataReaderMapToList<CommonServiceForPointDBModel>(reader);
+                }
+            }
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser12.UserName, AutoUser12.Password)
+                .IsOnHomePage(AutoUser12);
+            PageFactoryManager.Get<HomePage>()
+                .ClickOnSearchBtn()
+                .IsSearchModel()
+                .ClickAnySearchForOption(searchForSegments)
+                .ClickAndSelectRichmondSectorValue()
+                .ClickOnSearchBtnInPopup()
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            //Filter segment with id
+            PageFactoryManager.Get<PointSegmentListingPage>()
+                .WaitForPointSegmentsPageDisplayed()
+                .FilterSegmentById(idSegment)
+                .DoubleClickFirstPointSegmentRow()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .WaitForPointSegmentDetailPageDisplayed();
         }
 
     }

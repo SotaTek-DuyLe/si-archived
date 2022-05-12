@@ -139,7 +139,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             int i = 10;
             deliverCommercialBinWithDateRows = String.Format(deliverCommercialBinWithDateRows, dueDate);
             
-            while(i > 0)
+            while (i > 0)
             {
                 if (IsControlUnDisplayed(deliverCommercialBinWithDateRows))
                 {
@@ -150,10 +150,16 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                 }
                 else
                 {
-                    break;
+                    if(GetAllElements(deliverCommercialBinWithDateRows).Count == num) {
+                        break;
+                    }
+                    else { 
+                        Thread.Sleep(5000); 
+                    }
                 }
             }
             List<IWebElement> taskList = GetAllElements(deliverCommercialBinWithDateRows);
+            Assert.AreEqual(taskList.Count, num);
             return taskList;
         }
         public List<IWebElement> VerifyNewRemovedCommercialBin(String dueDate, int num)
@@ -333,25 +339,24 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         {
             ClickOnElement(refreshBtn);
             WaitForLoadingIconToDisappear();
-            Thread.Sleep(5000);
-            List<IWebElement> availableRow = new List<IWebElement>();
-            int i = 5;
+            Thread.Sleep(10000);
+            int i = 10;
             while (i > 0)
             {
-                availableRow = GetTasksAppear(taskState, taskType, dueDate, completedDate);
-                if (availableRow.Count == num)
+                
+                if (GetTasksAppear(taskState, taskType, dueDate, completedDate).Count == num)
                 {
-                    return availableRow; 
+                    break; 
                 }
                 else
                 {
-                    availableRow.Clear();
                     ClickOnElement(refreshBtn);
                     WaitForLoadingIconToDisappear();
                     Thread.Sleep(10000);
                     i--;
                 }
             }
+            List<IWebElement> availableRow = GetTasksAppear(taskState, taskType, dueDate, completedDate);
             Assert.AreEqual(availableRow.Count, num);
             return availableRow;
         }

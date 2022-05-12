@@ -474,7 +474,7 @@ namespace si_automated_tests.Source.Core
             Assert.AreEqual(message, GetToastMessage());
             return this;
         }
-        public BasePage WaitUntilToastMessageInvisiable(string message)
+        public BasePage WaitUntilToastMessageInvisible(string message)
         {
             WaitUtil.WaitForElementInvisible(string.Format("//div[text()='{0}']", message));
             return this;

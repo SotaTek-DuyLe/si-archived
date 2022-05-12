@@ -75,7 +75,7 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             Assert.AreEqual(contract, inspectionModelActual.contract);
             Assert.True(inspectionModelActual.validFrom.Contains(pointHistoryModel.date));
             Assert.True(inspectionModelActual.validTo.Contains(pointHistoryModel.dueDate));
-            Assert.AreEqual(source, inspectionModelActual.source);
+            Assert.True(inspectionModelActual.source.Contains(source));
             Assert.AreEqual(service, inspectionModelActual.service);
             return this;
         }
