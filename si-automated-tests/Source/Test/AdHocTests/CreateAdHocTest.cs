@@ -102,7 +102,16 @@ namespace si_automated_tests.Source.Test.AdHocTests
                 .ClickTaskLinesTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskLinesPage>()
-                .VerifyTaskLine();
+                .VerifyTaskLine(new Main.Models.Adhoc.TaskLinesModel() 
+                { 
+                    Type = "Service",
+                    AssetType = "1100L",
+                    ScheduledAssetQty = "4",
+                    Product = "General Recycling",
+                    ScheduledProductQuantity = "1000",
+                    Unit = "Kilograms",
+                    State = "Unallocated"
+                });
         }
 
         [Category("Create Ad-Hoc Task from an Agreement form")]
@@ -163,7 +172,16 @@ namespace si_automated_tests.Source.Test.AdHocTests
                 .ClickTaskLinesTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskLinesPage>()
-                .VerifyTaskLine();
+                .VerifyTaskLine(new Main.Models.Adhoc.TaskLinesModel()
+                {
+                    Type = "Service",
+                    AssetType = "660L",
+                    ScheduledAssetQty = "1",
+                    Product = "General Refuse",
+                    ScheduledProductQuantity = "0",
+                    Unit = "Kilograms",
+                    State = "Unallocated"
+                });
         }
     }
 }

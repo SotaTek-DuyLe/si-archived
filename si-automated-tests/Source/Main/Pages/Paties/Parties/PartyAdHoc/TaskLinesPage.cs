@@ -41,16 +41,16 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
             return taskLines;
         }
 
-        public TaskLinesPage VerifyTaskLine()
+        public TaskLinesPage VerifyTaskLine(TaskLineModel expectedResult)
         {
             TaskLineModel taskLines = GetAllTaskLines().FirstOrDefault();
-            Assert.IsTrue(taskLines.Type == "Service");
-            Assert.IsTrue(taskLines.AssetType == "1100L");
-            Assert.IsTrue(taskLines.ScheduledAssetQty == "4");
-            Assert.IsTrue(taskLines.Product == "General Recycling");
-            Assert.IsTrue(taskLines.ScheduledProductQuantity == "1000");
-            Assert.IsTrue(taskLines.Unit == "Kilograms");
-            Assert.IsTrue(taskLines.State == "Unallocated");
+            Assert.IsTrue(taskLines.Type == expectedResult.Type);
+            Assert.IsTrue(taskLines.AssetType == expectedResult.AssetType);
+            Assert.IsTrue(taskLines.ScheduledAssetQty == expectedResult.ScheduledAssetQty);
+            Assert.IsTrue(taskLines.Product == expectedResult.Product);
+            Assert.IsTrue(taskLines.ScheduledProductQuantity == expectedResult.ScheduledProductQuantity);
+            Assert.IsTrue(taskLines.Unit == expectedResult.Unit);
+            Assert.IsTrue(taskLines.State == expectedResult.State);
             return this;
         }
 
