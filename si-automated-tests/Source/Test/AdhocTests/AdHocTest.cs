@@ -48,8 +48,8 @@ namespace si_automated_tests.Source.Test.AdHocTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser34.UserName, AutoUser34.Password)
-                .IsOnHomePage(AutoUser34);
+                .Login(AutoUser35.UserName, AutoUser35.Password)
+                .IsOnHomePage(AutoUser35);
         }
 
         [Category("Create ad-hoc task")]
