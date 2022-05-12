@@ -5,6 +5,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Events;
@@ -128,9 +129,9 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                 {
                     Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, 1), activeSeviceWithServiceUnitModels[i].lastService);
                 }
-                else
+                else if (serviceForPoint[i].last.Equals("Today"))
                 {
-                    Assert.AreEqual(serviceForPoint[i].last.Replace("-", "/"), activeSeviceWithServiceUnitModels[i].lastService);
+                    Assert.AreEqual(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB), activeSeviceWithServiceUnitModels[i].lastService);
                 }
 
                 Assert.AreEqual(serviceForPoint[i].assets, activeSeviceWithServiceUnitModels[i].assetTypeService);
@@ -141,9 +142,14 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                 for (int j = 0; j < childSchedules.Count; j++)
                 {
                     Assert.AreEqual("Every " + allSTForPointWithSameAssetType[j].round.Trim(), childSchedules[j].round.Trim());
-                    Assert.AreEqual(allSTForPointWithSameAssetType[j].last.Replace("-", "/"), childSchedules[j].lastRound);
-                    
-                    if(allSTForPointWithSameAssetType[j].next.Equals("Tomorrow"))
+                    if(allSTForPointWithSameAssetType[j].last.Equals("Today")) {
+                        Assert.AreEqual(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB), childSchedules[j].lastRound);
+                    } else
+                    {
+                        Assert.AreEqual(allSTForPointWithSameAssetType[j].last.Replace("-", "/"), childSchedules[j].lastRound);
+                    }
+
+                    if (allSTForPointWithSameAssetType[j].next.Equals("Tomorrow"))
                     {
                         Assert.AreEqual(allSTForPointWithSameAssetType[j].next, childSchedules[j].nextRound);
                     } else

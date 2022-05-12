@@ -27,6 +27,8 @@ namespace si_automated_tests.Source.Test.EventTests
             string eventOption = "Standard - Complaint";
             string pointAddressId = "483986";
             string eventType = "Complaint";
+            string serviceGroup = "Collections";
+            string service = "Commercial Collections";
             List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
             List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
@@ -111,7 +113,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForEventDetailDisplayed()
                 .VerifyEventType(eventType)
                 //Need to confirm
-                //.VerifyServiceGroupAndService()
+                .VerifyServiceGroupAndService(serviceGroup, service)
                 .ExpandDetailToggle()
                 .VerifyValueInSubDetailInformation(locationValue, "New")
                 .VerifyDueDateEmpty()
@@ -125,10 +127,19 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
                 .VerifyNotDisplayErrorMessage();
-            List<ActiveSeviceModel> activeSeviceModelsInSubTab = eventDetailPage
+            //DB - Get servicegroup with contractID = 2
+            string query_servicegroup = "SELECT * FROM services s join servicegroups s2 on s.servicegroupID = s2.servicegroupID  WHERE s2.contractID = 2;";
+            SqlCommand commandService = new SqlCommand(query_servicegroup, DatabaseContext.Conection);
+            SqlDataReader readerService = commandService.ExecuteReader();
+            List<ServiceDBModel> serviceInDB = ObjectExtention.DataReaderMapToList<ServiceDBModel>(readerService);
+            readerService.Close();
+            List<ServiceForPointDBModel> filterServiceWithContract = eventDetailPage
+                .FilterServicePointWithServiceID(serviceForPoint, serviceInDB);
+
+            List<ActiveSeviceModel> activeSeviceWithUnitModelsInSubTab = eventDetailPage
                 .GetAllActiveServiceWithServiceUnitModel();
             eventDetailPage
-                .VerifyDataInServiceSubTab(allAServicesWithServiceUnit, activeSeviceModelsInSubTab)
+                .VerifyDataInServiceSubTab(allAServicesWithServiceUnit, filterServiceWithContract)
                 //Verify Outstanding - sub tab display without error
                 .ClickOutstandingSubTab()
                 .WaitForLoadingIconToDisappear();

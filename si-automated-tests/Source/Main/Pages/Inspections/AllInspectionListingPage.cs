@@ -67,14 +67,14 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
         {
             Assert.AreEqual(pointHistoryModel.ID, inspectionModelActual.ID);
             Assert.AreEqual(location, inspectionModelActual.point);
-            Assert.AreEqual(pointHistoryModel.type, inspectionModelActual.inspectionType);
+            Assert.True(inspectionModelActual.inspectionType.Contains(pointHistoryModel.type));
             Assert.AreEqual(createdByUser, inspectionModelActual.createdByUser);
             Assert.AreEqual(assignedUser, inspectionModelActual.assignedUser);
             Assert.AreEqual(allocatedUnit, inspectionModelActual.allocatedUnit);
             Assert.AreEqual(pointHistoryModel.state, inspectionModelActual.status);
             Assert.AreEqual(contract, inspectionModelActual.contract);
-            Assert.AreEqual(pointHistoryModel.date, inspectionModelActual.validFrom);
-            Assert.AreEqual(pointHistoryModel.dueDate, inspectionModelActual.validTo);
+            Assert.True(inspectionModelActual.validFrom.Contains(pointHistoryModel.date));
+            Assert.True(inspectionModelActual.validTo.Contains(pointHistoryModel.dueDate));
             Assert.AreEqual(source, inspectionModelActual.source);
             Assert.AreEqual(service, inspectionModelActual.service);
             return this;

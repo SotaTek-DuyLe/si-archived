@@ -308,9 +308,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickPointHistoryTab()
                 .WaitForLoadingIconToDisappear();
             List<PointHistoryModel> pointHistoryModels = PageFactoryManager.Get<EventDetailPage>()
-                .GetAllPointHistory();
-            PageFactoryManager.Get<EventDetailPage>()
                 .FilterByPointHistoryId(inspectionId.ToString())
+                .GetAllPointHistory();
+
+            PageFactoryManager.Get<EventDetailPage>()
                 .VerifyPointHistory(pointHistoryModels[0], "Inspection:Site Inspection", inspectionId.ToString(), "Inspection", "Clinical Waste", locationValueWithoutIcon, validFromValue, validToValue, "Pending")
                 .DoubleClickOnCreatedInspection()
                 .SwitchToLastWindow()
@@ -331,7 +332,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
 
             //Verify
             PageFactoryManager.Get<DetailInspectionPage>()
-                .ClickAddressLinkAndVerify(locationValueWithoutIcon, inspectionNew[0].echoID.ToString())
+                .ClickServiceUnitLinkAndVerify(locationValueWithoutIcon, inspectionNew[0].echoID.ToString())
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<EventDetailPage>()
