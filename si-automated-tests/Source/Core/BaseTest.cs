@@ -11,7 +11,7 @@ namespace si_automated_tests.Source.Core
         [OneTimeSetUp]
         public virtual void OneTimeSetUp()
         {
-            DatabaseContext = new DatabaseContext();
+            //DatabaseContext = new DatabaseContext();
         }
 
         [SetUp]

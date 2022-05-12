@@ -27,6 +27,7 @@ using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar;
 using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount;
+using si_automated_tests.Source.Main.Pages.PartyAgreement;
 
 namespace si_automated_tests.Source.Test.AdHocTests
 {
@@ -102,6 +103,54 @@ namespace si_automated_tests.Source.Test.AdHocTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskLinesPage>()
                 .VerifyTaskLine();
+        }
+
+        [Category("Create Ad-Hoc Task from an Agreement form")]
+        [Test(Description = "Create ad-hoc task from an Agreement form")]
+        public void TC_092_CreateAdHocTask()
+        {
+            int partyId = 73;
+            string partyName = "Greggs";
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(partyId)
+                .OpenFirstResult();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
+                .ClickAccountTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .UncheckOnAccountType("PO Number Required")
+                .CheckOnAccountType("PO Number Required")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .OpenAgreementTab()
+                .OpenAgreementWithId(41)
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ExpandAgreementLine()
+                .ExpandAllAgreementFields();
+
+            //PageFactoryManager.Get<AdhocTaskDetailPage>()
+            //   .VerifyPoNumber()
+            //   .VerifyPurchaseOrderField(inputPO)
+            //   .ClickTaskLinesTab()
+            //   .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<TaskLinesPage>()
+            //    .VerifyTaskLine();
         }
     }
 }
