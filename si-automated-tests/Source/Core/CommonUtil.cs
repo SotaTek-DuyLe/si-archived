@@ -58,7 +58,11 @@ namespace si_automated_tests.Source.Core
         {
             return date.ToString(format);
         }
-
+        public static string ParseDateTimeStringToNewFormat(string currentDateTime, string format)
+        {
+            var parsedDate = DateTime.Parse(currentDateTime);
+            return parsedDate.ToString(format);
+        }
         public static string GetLocalDayMinusDay(int day)
         {
             return DateTime.Now.AddDays(day).Day.ToString();

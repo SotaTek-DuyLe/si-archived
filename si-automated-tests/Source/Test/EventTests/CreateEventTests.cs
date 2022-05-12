@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Events;
 using si_automated_tests.Source.Main.Pages.PointAddress;
+using si_automated_tests.Source.Main.Pages.Search.PointSegment;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.EventTests
@@ -25,7 +28,32 @@ namespace si_automated_tests.Source.Test.EventTests
             string eventOption = "Standard - Complaint";
             string pointAddressId = "483986";
             string eventType = "Complaint";
+            string serviceGroup = "Collections";
+            string service = "Commercial Collections";
+            List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
+            List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
+            List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
 
+            //Check SP
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DatabaseContext.Conection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add("@PointID", SqlDbType.Int).Value = 483986;
+            command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
+            command.Parameters.Add("@UserID", SqlDbType.Int).Value = 54;
+
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                serviceForPoint = ObjectExtention.DataReaderMapToList<ServiceForPointDBModel>(reader);
+                if (reader.NextResult())
+                {
+                    serviceTaskForPoint = ObjectExtention.DataReaderMapToList<ServiceTaskForPointDBModel>(reader);
+                }
+                if (reader.NextResult())
+                {
+                    commonService = ObjectExtention.DataReaderMapToList<CommonServiceForPointDBModel>(reader);
+                }
+            }
+            
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
@@ -48,23 +76,36 @@ namespace si_automated_tests.Source.Test.EventTests
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             //Get all point history in point history tab
-            PageFactoryManager.Get<PointAddressDetailPage>()
+            PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
+            pointAddressDetailPage
                 .ClickPointHistoryTab()
                 .WaitForLoadingIconToDisappear();
-            List<PointHistoryModel> pointHistoryModelsInDetail = PageFactoryManager.Get<PointAddressDetailPage>()
+            List<PointHistoryModel> pointHistoryModelsInDetail = pointAddressDetailPage
                 .GetAllPointHistory();
             //Active service tab
-            PageFactoryManager.Get<PointAddressDetailPage>()
+            pointAddressDetailPage
                 .ClickOnActiveServicesTab()
                 .WaitForLoadingIconToDisappear();
-            string locationValue = PageFactoryManager.Get<PointAddressDetailPage>()
+            string locationValue = pointAddressDetailPage
                 .WaitForPointAddressDetailDisplayed()
                 .GetPointAddressName();
-            //Get all data in [Active Services]
-            List<ActiveSeviceModel> allActiveServices = PageFactoryManager.Get<PointAddressDetailPage>()
+            //Get all data in [Active Services] with Service unit
+            List<ActiveSeviceModel> allAServicesWithServiceUnit = pointAddressDetailPage
                 .GetAllServiceWithServiceUnitModel();
-            PageFactoryManager.Get<PointAddressDetailPage>()
+            List<ActiveSeviceModel> allServices = pointAddressDetailPage
+                .GetAllServiceInTab();
+            //Get all data in [Active Services] without Service unit
+            List<ActiveSeviceModel> GetAllServiceWithoutServiceUnitModel = pointAddressDetailPage
+                .GetAllServiceWithoutServiceUnitModel(allServices);
+            //Verify data in [Active Service] tab with SP
+            pointAddressDetailPage
+                .VerifyDataInActiveServicesTab(allAServicesWithServiceUnit, serviceForPoint, serviceTaskForPoint)
+                .VerifyDataInActiveServicesTab(GetAllServiceWithoutServiceUnitModel, serviceForPoint);
+            List<CommonServiceForPointDBModel> FilterCommonServiceForPointWithServiceId = pointAddressDetailPage
+                .FilterCommonServiceForPointWithServiceId(commonService, serviceForPoint[0].serviceID);
+            pointAddressDetailPage
                 .ClickFirstEventInFirstServiceRow()
+                .VerifyEventTypeWhenClickEventBtn(FilterCommonServiceForPointWithServiceId)
                 .ClickAnyEventOption(eventOption)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
@@ -73,7 +114,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForEventDetailDisplayed()
                 .VerifyEventType(eventType)
                 //Need to confirm
-                //.VerifyServiceGroupAndService()
+                .VerifyServiceGroupAndService(serviceGroup, service)
                 .ExpandDetailToggle()
                 .VerifyValueInSubDetailInformation(locationValue, "New")
                 .VerifyDueDateEmpty()
@@ -87,10 +128,19 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
                 .VerifyNotDisplayErrorMessage();
-            List<ActiveSeviceModel> activeSeviceModelsInSubTab = eventDetailPage
+            //DB - Get servicegroup with contractID = 2
+            string query_servicegroup = "SELECT * FROM services s join servicegroups s2 on s.servicegroupID = s2.servicegroupID  WHERE s2.contractID = 2;";
+            SqlCommand commandService = new SqlCommand(query_servicegroup, DatabaseContext.Conection);
+            SqlDataReader readerService = commandService.ExecuteReader();
+            List<ServiceDBModel> serviceInDB = ObjectExtention.DataReaderMapToList<ServiceDBModel>(readerService);
+            readerService.Close();
+            List<ServiceForPointDBModel> filterServiceWithContract = eventDetailPage
+                .FilterServicePointWithServiceID(serviceForPoint, serviceInDB);
+
+            List<ActiveSeviceModel> activeSeviceWithUnitModelsInSubTab = eventDetailPage
                 .GetAllActiveServiceWithServiceUnitModel();
             eventDetailPage
-                .VerifyDataInServiceSubTab(allActiveServices, activeSeviceModelsInSubTab)
+                .VerifyDataInServiceSubTab(allAServicesWithServiceUnit, filterServiceWithContract)
                 //Verify Outstanding - sub tab display without error
                 .ClickOutstandingSubTab()
                 .WaitForLoadingIconToDisappear();
@@ -307,6 +357,63 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyPointAddressId(eventModels[0].eventpointID.ToString())
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
+        }
+
+        [Category("CreateEvent")]
+        [Test(Description = "Creating event from point segment with service unit")]
+        public void TC_096_Create_event_from_point_segment_with_service_unit()
+        {
+            string searchForSegments = "Segments";
+            string idSegment = "32844";
+
+            List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
+            List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
+            List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
+
+            //Check SP
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DatabaseContext.Conection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add("@PointID", SqlDbType.Int).Value = 483986;
+            command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 2;
+            command.Parameters.Add("@UserID", SqlDbType.Int).Value = 54;
+
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                serviceForPoint = ObjectExtention.DataReaderMapToList<ServiceForPointDBModel>(reader);
+                if (reader.NextResult())
+                {
+                    serviceTaskForPoint = ObjectExtention.DataReaderMapToList<ServiceTaskForPointDBModel>(reader);
+                }
+                if (reader.NextResult())
+                {
+                    commonService = ObjectExtention.DataReaderMapToList<CommonServiceForPointDBModel>(reader);
+                }
+            }
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser12.UserName, AutoUser12.Password)
+                .IsOnHomePage(AutoUser12);
+            PageFactoryManager.Get<HomePage>()
+                .ClickOnSearchBtn()
+                .IsSearchModel()
+                .ClickAnySearchForOption(searchForSegments)
+                .ClickAndSelectRichmondSectorValue()
+                .ClickOnSearchBtnInPopup()
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            //Filter segment with id
+            PageFactoryManager.Get<PointSegmentListingPage>()
+                .WaitForPointSegmentsPageDisplayed()
+                .FilterSegmentById(idSegment)
+                .DoubleClickFirstPointSegmentRow()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .WaitForPointSegmentDetailPageDisplayed();
         }
 
     }

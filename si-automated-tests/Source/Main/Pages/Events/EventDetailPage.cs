@@ -6,6 +6,7 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.PointAddress;
 
@@ -318,14 +319,15 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
-        public EventDetailPage VerifyDataInServiceSubTab(List<ActiveSeviceModel> allActiveServicesInServiceTab, List<ActiveSeviceModel> allActiveServicesSubTab)
+
+        public EventDetailPage VerifyDataInServiceSubTab(List<ActiveSeviceModel> allActiveServicesSubTab, List<ServiceForPointDBModel> filterServiceWithContract)
         {
-            for (int i = 0; i < allActiveServicesInServiceTab.Count; i++)
+            for (int i = 0; i < allActiveServicesSubTab.Count; i++)
             {
-                Assert.AreEqual(allActiveServicesInServiceTab[i].service, allActiveServicesSubTab[i].service);
-                Assert.AreEqual(allActiveServicesInServiceTab[i].serviceUnit, allActiveServicesSubTab[i].serviceUnit);
+                Assert.AreEqual(filterServiceWithContract[i].serviceunit, allActiveServicesSubTab[i].serviceUnit);
+                Assert.AreEqual(filterServiceWithContract[i].service, allActiveServicesSubTab[i].service);
             }
-            
+
             return this;
         }
 
@@ -355,6 +357,19 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 activeSeviceModels.Add(new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue));
             }
             return activeSeviceModels;
+        }
+
+        public List<ActiveSeviceModel> GetAllServiceWithoutServiceUnitModel(List<ActiveSeviceModel> GetAllServiceInTab)
+        {
+            List<ActiveSeviceModel> serviceModels = new List<ActiveSeviceModel>();
+            foreach (ActiveSeviceModel activeSeviceModel in GetAllServiceInTab)
+            {
+                if (activeSeviceModel.serviceUnit.Equals("No Service Unit"))
+                {
+                    serviceModels.Add(activeSeviceModel);
+                }
+            }
+            return serviceModels;
         }
 
         public EventDetailPage VerifyPointHistoryInSubTab(List<PointHistoryModel> pointHistoryModelsInDetail, List<PointHistoryModel> pointHistoryModelsInPointHistorySubTab)
@@ -538,6 +553,11 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return allModel;
         }
 
+        public List<PointHistoryModel> FilterPointHistoryWithId(List<PointHistoryModel> pointHistoryModelsAll, string pointHistoryIdInput)
+        {
+            return pointHistoryModelsAll.FindAll(x => x.ID.Equals(pointHistoryIdInput));
+        }
+
         public EventDetailPage VerifyPointHistory(PointHistoryModel pointHistoryModelActual, string desc, string id, string type, string service, string address, string date, string dueDate, string state)
         {
             Assert.AreEqual(desc, pointHistoryModelActual.description);
@@ -561,7 +581,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventDetailPage FilterByPointHistoryId(string pointHistoryId)
         {
             SendKeys(filterInputById, pointHistoryId);
-            SendKeys(filterInputById, Keys.Enter);
+            ClickOnElement(eventTitle);
             return this;
         }
 
@@ -583,5 +603,24 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 .Replace(WebUrl.MainPageUrl + "web/events/", "");
         }
 
+
+        //DB
+
+        public List<ServiceForPointDBModel> FilterServicePointWithServiceID(List<ServiceForPointDBModel> allServices, List<ServiceDBModel> serviceDBModels)
+        {
+            List<ServiceForPointDBModel> result = new List<ServiceForPointDBModel>();
+            for (int i = 0; i < serviceDBModels.Count; i++)
+            {
+                foreach (ServiceForPointDBModel model in allServices)
+                {
+                    if (model.serviceID == serviceDBModels[i].serviceID)
+                    {
+                        result.Add(model);
+                    }
+                }
+            }
+            return result;
+
+        }
     }
 }
