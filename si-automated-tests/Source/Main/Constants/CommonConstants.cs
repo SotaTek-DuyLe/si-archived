@@ -38,8 +38,10 @@ namespace si_automated_tests.Source.Main.Constants
 
         //DATE
         public static readonly string DATE_DD_MM_YYYY_FORMAT = "dd/MM/yyyy";
+        public static readonly string DATE_DD_MM_YYYY_FORMAT_DB = "dd-MM-yyyy";
         public static readonly string DATE_MM_DD_YYYY_FORMAT = "MM/dd/yyyy";
         public static readonly string DATE_DD_MM_YYYY_HH_MM_FORMAT = "dd/MM/yyyy HH:mm";
+        public static readonly string DATE_DDD_D_MMM = "ddd d MMM";
 
     }
 }

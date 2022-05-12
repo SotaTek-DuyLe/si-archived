@@ -99,12 +99,25 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
         }
 
+        public DetailInspectionPage ClickServiceUnitLinkAndVerify(string address, string serviceUnitId)
+        {
+            ClickOnElement(inspectionAddress, address);
+            //Verify
+            SwitchToLastWindow();
+            WaitUtil.WaitForElementVisible("//span[text()='Service Unit']");
+            string currentUrl = GetCurrentUrl();
+            Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "web/service-units/" + serviceUnitId);
+            ClickCloseBtn();
+            SwitchToChildWindow(3);
+            return this;
+        }
+
         public DetailInspectionPage ClickAddressLinkAndVerify(string address, string sourceId)
         {
             ClickOnElement(inspectionAddress, address);
             //Verify
             SwitchToLastWindow();
-            WaitUtil.WaitForElementVisible("//span[text()='Service Task']");
+            WaitUtil.WaitForElementVisible("//span[text()='Service Unit']");
             string currentUrl = GetCurrentUrl();
             Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "web/service-tasks/" + sourceId);
             ClickCloseBtn();
