@@ -2,6 +2,8 @@
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PointAddress;
@@ -19,7 +21,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         public override void Setup()
         {
             base.Setup();
-            //LOGIN AND GO TO BUSINESS UNITS
+            //LOGIN AND GO TO POINT ADDRESS
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -39,6 +41,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         [Test]
         public void TC_101_Create_point_address()
         {
+            CommonFinder finder = new CommonFinder(DatabaseContext);
             string postCode = "TW9 1DN";
             string postCodeOption = "The Quadrant, Richmond TW9 1DN";
             string location = "35 THE QUADRANT, RICHMOND, TW9 1DN";
@@ -59,9 +62,17 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .IsOnThirdScreen()
                 .InputValuesInScreen3(propertyName, property, toProperty, pointSegment, pointAddType)
                 .VerifyToastMessage("Address created.");
-            PageFactoryManager.Get<PointAddressDetailPage>()
+            //VERIFY ON UI
+            String pointAddressId = PageFactoryManager.Get<PointAddressDetailPage>()
                 .WaitForPointAddressDetailDisplayed()
-                .VerifyDetailsInDetailsTab(propertyName, property, toProperty, postCodeOption, pointAddType);
+                .VerifyDetailsInDetailsTab(propertyName, property, toProperty, postCodeOption, pointAddType)
+                .GetPointAddressId();
+            //VERIFY ON DB
+            PointAddressModel pointAddress = finder.GetPointAddress(pointAddressId)[0];
+            Assert.AreEqual(propertyName, pointAddress.Propertyname);
+            Assert.AreEqual(property, pointAddress.Property.ToString());
+            Assert.AreEqual(toProperty, pointAddress.Toproperty.ToString());
+            Assert.AreEqual(PageFactoryManager.Get<PointAddressDetailPage>().GetPointAddressName(), pointAddress.Sourcedescription);
         }
     }
 

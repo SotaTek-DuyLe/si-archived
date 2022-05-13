@@ -20,10 +20,10 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
 
 
         //DETAILS TAB
-        private readonly By propertyName = By.Id("propertyName");
-        private readonly By property = By.Id("property");
-        private readonly By toProperty = By.Id("toProperty");
-        private readonly By pointSegment = By.Id("point-segment");
+        //private readonly By propertyName = By.Id("propertyName");
+        //private readonly By property = By.Id("property");
+        //private readonly By toProperty = By.Id("toProperty");
+        //private readonly By pointSegment = By.Id("point-segment");
         private readonly By pointAddressTypeSelect = By.Id("point-address-type");
 
 
@@ -231,11 +231,13 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             ClickOnElement(inspectBtn);
             return this;
         }
-
+        public String GetPointAddressId()
+        {
+            return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/point-addresses/", "");
+        }
         public PointAddressDetailPage VerifyPointAddressId(string idExpected)
         {
-            string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/point-addresses/", "");
-            Assert.AreEqual(idExpected, idActual);
+            Assert.AreEqual(idExpected, GetPointAddressId());
             return this;
         }
 
