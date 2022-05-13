@@ -256,8 +256,6 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string originDate = "08/03/2022";
             string agreementType = "COMMERCIAL COLLECTIONS";
             string partyName = "Rosie and Java";
-            int agreementId = 32;
-            int partyId = 53;
 
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -480,7 +478,6 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string originDate = "08/03/2022";
-            int agreementId = 33;
             string agreementType = "COMMERCIAL COLLECTIONS";
             string agreementName = "The White Cross ";
 
@@ -1410,7 +1407,6 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             int partyId = 64;
             string partyName = "Tribe Yarns";
-            string agreementType = "Commercial Collections";
 
             string assetType = AgreementConstants.ASSET_TYPE_660L;
             int assetQty = 4;
@@ -1868,10 +1864,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             int assetQty = 4;
             string product = AgreementConstants.GENERAL_RECYCLING;
             string tenure = AgreementConstants.TENURE_RENTAL;
-            int assetOnsite = 1;
             int productQty = 1000;
-            string defautEndDate = AgreementConstants.DEFAULT_END_DATE;
-            string unit = AgreementConstants.KILOGRAMS;
 
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -2005,16 +1998,11 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string tommorowDueDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
 
-            int agreementId = 41;
             string partyName = "Greggs";
-            string agreementType = "COMMERCIAL COLLECTIONS";
 
             string assetType = AgreementConstants.ASSET_TYPE_1100L;
             int assetQty = 4;
             string product = AgreementConstants.GENERAL_RECYCLING;
-            string tenure = AgreementConstants.TENURE_RENTAL;
-            int assetOnsite = 1;
-            int productQty = 1000;
             string defautEndDate = AgreementConstants.DEFAULT_END_DATE;
             string unit = AgreementConstants.KILOGRAMS;
 

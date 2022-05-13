@@ -175,7 +175,6 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string agreementId017;
-            int partyId = 64;
             string partyName = "Tribe Yarns";
             string agreementType = "COMMERCIAL COLLECTIONS";
 
@@ -799,7 +798,6 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             AsserAndProductModel assetAndProductInput = new AsserAndProductModel("Mini (1.53m3)", "1", "Wood", "", "3", "Kilograms", "Owned", new string[1], new string[1], tommorowDate, "");
             string agreementType = "COMMERCIAL COLLECTIONS";
             string agreementName = "LA PLATA STEAKHOUSE";
-            int agreementId = 28;
 
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);

@@ -34,6 +34,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .OpenOption("Business Units")
                 .SwitchNewIFrame();
         }
+        [Category("BusinessUnit")]
         [Test]
         public void TC_95_business_unit_group()
         {
