@@ -24,5 +24,10 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from servicetypes;";
             return FindList<ServiceDBModel>(query);
         }
+        public List<PointAddressModel> GetPointAddress(string id)
+        {
+            string query = "select * from pointaddresses where pointaddressID="+id+";";
+            return FindList<PointAddressModel>(query);
+        }
     }
 }
