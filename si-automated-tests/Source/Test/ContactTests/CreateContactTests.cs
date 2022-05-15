@@ -253,10 +253,13 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .ClickSaveAndCloseBtn()
                 .SwitchToChildWindow(3);
             agreementDetailPage
+                .WaitForLoadingIconToDisappear();
+            agreementDetailPage
                 .ClickInvoiceContactDd()
                 .VerifyFirstValueInInvoiceContactDd(contactModelNewInvoice)
                 .ClickSaveAndCloseBtn()
-                .SwitchToChildWindow(2, 200);
+                .SwitchToChildWindow(2, 200)
+                .WaitForLoadingIconToDisappear();
             detailPartyPage
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();

@@ -6,6 +6,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
+using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Events;
@@ -53,7 +54,7 @@ namespace si_automated_tests.Source.Test.EventTests
                     commonService = ObjectExtention.DataReaderMapToList<CommonServiceForPointDBModel>(reader);
                 }
             }
-            
+
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
@@ -113,7 +114,6 @@ namespace si_automated_tests.Source.Test.EventTests
             eventDetailPage
                 .WaitForEventDetailDisplayed()
                 .VerifyEventType(eventType)
-                //Need to confirm
                 .VerifyServiceGroupAndService(serviceGroup, service)
                 .ExpandDetailToggle()
                 .VerifyValueInSubDetailInformation(locationValue, "New")
@@ -363,8 +363,11 @@ namespace si_automated_tests.Source.Test.EventTests
         [Test(Description = "Creating event from point segment with service unit")]
         public void TC_096_Create_event_from_point_segment_with_service_unit()
         {
+            CommonFinder finder = new CommonFinder(DatabaseContext);
             string searchForSegments = "Segments";
-            string idSegment = "32844";
+            string idSegmentWithServiceUnit = "32839";
+            string eventOption = "Standard - Complaint";
+            string eventType = "Complaint";
 
             List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
             List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
@@ -373,7 +376,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Check SP
             SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DatabaseContext.Conection);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add("@PointID", SqlDbType.Int).Value = 483986;
+            command.Parameters.Add("@PointID", SqlDbType.Int).Value = 32839;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 2;
             command.Parameters.Add("@UserID", SqlDbType.Int).Value = 54;
 
@@ -408,13 +411,291 @@ namespace si_automated_tests.Source.Test.EventTests
             //Filter segment with id
             PageFactoryManager.Get<PointSegmentListingPage>()
                 .WaitForPointSegmentsPageDisplayed()
-                .FilterSegmentById(idSegment)
+                .FilterSegmentById(idSegmentWithServiceUnit)
                 .DoubleClickFirstPointSegmentRow()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PointSegmentDetailPage>()
+            PointSegmentDetailPage pointSegmentDetailPage = PageFactoryManager.Get<PointSegmentDetailPage>();
+            pointSegmentDetailPage
                 .WaitForPointSegmentDetailPageDisplayed();
+            //Get all point history in point history tab
+            pointSegmentDetailPage
+                .ClickPointHistoryTab()
+                .WaitForLoadingIconToDisappear();
+            List<PointHistoryModel> pointHistoryModelsInDetail = pointSegmentDetailPage
+                .GetAllPointHistory();
+            //Active Service tab
+            pointSegmentDetailPage
+                .ClickOnActiveServiceTab()
+                .WaitForLoadingIconToDisappear();
+            string locationValue = pointSegmentDetailPage
+                .GetPointSegmentName();
+            List<ActiveSeviceModel> activeSeviceModelsDisplayed = pointSegmentDetailPage
+                .GetAllActiveServiceInTab();
+            //Verify Active service displayed with SPs
+            pointSegmentDetailPage
+                .VerifyActiveServiceDisplayedWithDB(activeSeviceModelsDisplayed, serviceForPoint);
+            List<CommonServiceForPointDBModel> FilterCommonServiceForPointWithServiceId = pointSegmentDetailPage
+                .FilterCommonServiceForPointWithServiceId(commonService, serviceForPoint[0].serviceID);
+            pointSegmentDetailPage
+                .ClickFirstEventInFirstServiceRow()
+                .VerifyEventTypeWhenClickEventBtn(FilterCommonServiceForPointWithServiceId)
+                .ClickAnyEventOption(eventOption)
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            //Event Detail page
+            EventDetailPage eventDetailPage = PageFactoryManager.Get<EventDetailPage>();
+            eventDetailPage
+                .WaitForEventDetailDisplayed();
+            string serviceId = CommonUtil.GetBetween(eventDetailPage.GetCurrentUrl(), "serviceId=", "&serviceUnitId");
+
+            //DB - get service and service group
+            List<ServiceJoinServiceGroupDBModel> serviceDBs = finder.GetServiceAndServiceGroupInfo(int.Parse(serviceId));
+            eventDetailPage
+                .VerifyEventType(eventType)
+                .VerifyServiceGroupAndService(serviceDBs[0].servicegroup, serviceDBs[0].service)
+                .ExpandDetailToggle()
+                .VerifyValueInSubDetailInformation(locationValue, "New")
+                .VerifyDueDateEmpty()
+                //Verify Data - sub tab display without error
+                .ClickDataSubTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyNotDisplayErrorMessage()
+                .ClickServicesSubTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyNotDisplayErrorMessage();
+            List<ActiveSeviceModel> activeSeviceModelsFullInfoSubTab = eventDetailPage
+                .GetAllActiveServiceInTabFullInfo();
+
+            eventDetailPage
+                .VerifyDataInServiceSubTab(activeSeviceModelsDisplayed, activeSeviceModelsFullInfoSubTab)
+                //Verify Outstanding - sub tab display without error
+                .ClickOutstandingSubTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyNotDisplayErrorMessage()
+                //Verify Point History - sub tab display without error
+                .ClickPointHistorySubTab()
+                .WaitForLoadingIconToDisappear();
+            List<PointHistoryModel> pointHistoryModelsInPointHistorySubTab = eventDetailPage
+                .GetAllPointHistory();
+            eventDetailPage
+                .VerifyPointHistoryInSubTab(pointHistoryModelsInDetail, pointHistoryModelsInPointHistorySubTab);
+            //Line 15
+            eventDetailPage
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .WaitForEventDetailDisplayed()
+                .VerifyCurrentEventUrl();
+            string eventId = eventDetailPage
+                .GetEventId();
+            string serviceUnit = eventDetailPage
+                .GetLocationName();
+            eventDetailPage
+                .ExpandDetailToggle()
+                .VerifyValueInSubDetailInformation(locationValue, "New")
+                .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
+                .VerifyDisplayTabsAfterSaveEvent();
+            //DB - Get Event
+            List<EventDBModel> eventModels = finder.GetEvent(int.Parse(eventId));
+            //Verify History tab
+            eventDetailPage
+                .ClickHistoryTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyHistoryWithDB(eventModels[0], AutoUser12.DisplayName)
+                //Verify Map tab
+                .ClickMapTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyDataInMapTab("event", eventType, serviceUnit)
+                .ExpandDetailToggle()
+                //Verify Source in Detail toggle
+                .ClickOnSourceInputInDetailToggle()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .WaitForPointSegmentDetailPageDisplayed()
+                .VerifyPointSegmentId(eventModels[0].eventpointID.ToString())
+                .ClickCloseBtn()
+                .SwitchToLastWindow();
+            //Check service unit link
+            PageFactoryManager.Get<EventDetailPage>()
+                .ClickOnLocation()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            string serviceUnitId = PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .WaitForServiceUnitDetailPageDisplayed(serviceUnit)
+                .GetServiceUnitId();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .VerifyServiceUnitId(eventModels[0].echoID.ToString(), serviceUnitId)
+                .ClickCloseBtn();
         }
 
+        [Category("CreateEvent")]
+        [Test(Description = "Creating event from point segment without service unit")]
+        public void TC_096_Create_event_from_point_segment_without_service_unit()
+        {
+            CommonFinder finder = new CommonFinder(DatabaseContext);
+            string searchForSegments = "Segments";
+            string idSegmentWithoutServiceUnit = "32844";
+            string eventOption = "Standard - Clear Flytip";
+            string eventType = "Clear Flytip";
+
+            List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
+            List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
+            List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
+
+            //Check SP
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DatabaseContext.Conection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add("@PointID", SqlDbType.Int).Value = 32844;
+            command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 2;
+            command.Parameters.Add("@UserID", SqlDbType.Int).Value = 54;
+
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                serviceForPoint = ObjectExtention.DataReaderMapToList<ServiceForPointDBModel>(reader);
+                if (reader.NextResult())
+                {
+                    serviceTaskForPoint = ObjectExtention.DataReaderMapToList<ServiceTaskForPointDBModel>(reader);
+                }
+                if (reader.NextResult())
+                {
+                    commonService = ObjectExtention.DataReaderMapToList<CommonServiceForPointDBModel>(reader);
+                }
+            }
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser12.UserName, AutoUser12.Password)
+                .IsOnHomePage(AutoUser12);
+            PageFactoryManager.Get<HomePage>()
+                .ClickOnSearchBtn()
+                .IsSearchModel()
+                .ClickAnySearchForOption(searchForSegments)
+                .ClickAndSelectRichmondSectorValue()
+                .ClickOnSearchBtnInPopup()
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            //Filter segment with id
+            PageFactoryManager.Get<PointSegmentListingPage>()
+                .WaitForPointSegmentsPageDisplayed()
+                .FilterSegmentById(idSegmentWithoutServiceUnit)
+                .DoubleClickFirstPointSegmentRow()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PointSegmentDetailPage pointSegmentDetailPage = PageFactoryManager.Get<PointSegmentDetailPage>();
+            pointSegmentDetailPage
+                .WaitForPointSegmentDetailPageDisplayed();
+            pointSegmentDetailPage
+                .ClickOnActiveServiceTab()
+                .WaitForLoadingIconToDisappear();
+            string locationValue = pointSegmentDetailPage
+                .GetPointSegmentName();
+            List<ActiveSeviceModel> activeSeviceModelsDisplayed = pointSegmentDetailPage
+                .GetAllActiveServiceWithoutServiceUnit();
+            //Verify Active service displayed with SPs
+            pointSegmentDetailPage
+                .VerifyActiveServiceWithoutServiceUnitDisplayedWithDB(activeSeviceModelsDisplayed, serviceForPoint);
+            List<CommonServiceForPointDBModel> FilterCommonServiceForPointWithServiceId = pointSegmentDetailPage
+                .FilterCommonServiceForPointWithServiceId(commonService, serviceForPoint[0].serviceID);
+            pointSegmentDetailPage
+                .ClickFirstEventInFirstServiceRow()
+                .VerifyEventTypeWhenClickEventBtn(FilterCommonServiceForPointWithServiceId)
+                .ClickAnyEventOption(eventOption)
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            //Event Detail page
+            EventDetailPage eventDetailPage = PageFactoryManager.Get<EventDetailPage>();
+            eventDetailPage
+                .WaitForEventDetailDisplayed();
+            string serviceId = CommonUtil.GetBetween(eventDetailPage.GetCurrentUrl(), "serviceId=", "&serviceUnitId");
+            //DB - get service and service group
+            List<ServiceJoinServiceGroupDBModel> serviceDBs = finder.GetServiceAndServiceGroupInfo(int.Parse(serviceId));
+            eventDetailPage
+                .VerifyEventType(eventType)
+                .VerifyServiceGroupAndService(serviceDBs[0].servicegroup, serviceDBs[0].service)
+                .ExpandDetailToggle()
+                .VerifyValueInSubDetailInformation(locationValue, "New")
+                .VerifyDueDateEmpty()
+                //Verify Data - sub tab display without error
+                .ClickDataSubTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyNotDisplayErrorMessage()
+                .ClickServicesSubTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyNotDisplayErrorMessage();
+            List<ActiveSeviceModel> activeSeviceModelsFullInfoSubTab = eventDetailPage
+                .GetAllServiceInTab();
+
+            eventDetailPage
+                .VerifyDataInServiceSubTab(activeSeviceModelsDisplayed, activeSeviceModelsFullInfoSubTab)
+                //Verify Outstanding - sub tab display without error
+                .ClickOutstandingSubTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyNotDisplayErrorMessage()
+                //Verify Point History - sub tab display without error
+                .ClickPointHistorySubTab()
+                .WaitForLoadingIconToDisappear();
+            //Line 15
+            eventDetailPage
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .WaitForEventDetailDisplayed()
+                .VerifyCurrentEventUrl()
+                .VerifyDisplayBlueIcon();
+            string eventId = eventDetailPage
+                .GetEventId();
+            string serviceUnit = eventDetailPage
+                .GetLocationName();
+            eventDetailPage
+                .ExpandDetailToggle()
+                .VerifyValueInSubDetailInformation(locationValue, "New")
+                .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
+                .VerifyDisplayTabsAfterSaveEvent();
+            //DB - Get Event
+            List<EventDBModel> eventModels = finder.GetEvent(int.Parse(eventId));
+            //Verify History tab
+            eventDetailPage
+                .ClickHistoryTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyHistoryWithDB(eventModels[0], AutoUser12.DisplayName)
+                //Verify Map tab
+                .ClickMapTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyDataInMapTab("event", eventType, serviceUnit)
+                .ExpandDetailToggle()
+                //Verify Source in Detail toggle
+                .ClickOnSourceInputInDetailToggle()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .WaitForPointSegmentDetailPageDisplayed()
+                .VerifyPointSegmentId(eventModels[0].eventpointID.ToString())
+                .ClickCloseBtn()
+                .SwitchToLastWindow();
+            //Check service unit link
+            PageFactoryManager.Get<EventDetailPage>()
+                .ClickOnLocationShowPopup()
+                .VeriryDisplayPopupLinkEventToServiceUnit("Richmond")
+                .ClickCloseEventPopupBtn();
+        }
     }
 }

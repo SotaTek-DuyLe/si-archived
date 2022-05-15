@@ -48,6 +48,11 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By emailInput = By.CssSelector("input[type='email']");
         private readonly By allActiveServiceRows = By.XPath("//span[@title='Open Service Task' or @title='0']");
         private const string allserviceUnitDynamic = "//div[@class='parent-row'][{0}]//span[@title='Open Service Task' or @title='0']";
+        private readonly By schedule = By.CssSelector("div.parent-row div[data-bind='text: $data']");
+        private readonly By last = By.CssSelector("div.parent-row span[data-bind='text: ew.formatDateForUser($data.lastDate)']");
+        private readonly By next = By.CssSelector("div.parent-row span[data-bind='text: ew.formatDateForUser($data.nextDate)']");
+        private readonly By assetType = By.CssSelector("div.parent-row div[data-bind='foreach: $data.asset']");
+        private readonly By allocation = By.XPath("//div[@class='parent-row']//span[contains(@data-bind, 'text: $parents[0].getParentAllocationText($data)')]");
 
         //MAP TAB
         private readonly By typeInMapTab = By.CssSelector("td[data-bind='text: pointType']");
@@ -331,6 +336,22 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
+        public EventDetailPage VerifyDataInServiceSubTab(List<ActiveSeviceModel> allActiveServicesSubTab, List<ActiveSeviceModel> activeSeviceModelsDetailPointSegment)
+        {
+            for(int i = 0; i < allActiveServicesSubTab.Count; i++)
+            {
+                Assert.AreEqual(activeSeviceModelsDetailPointSegment[i].service, allActiveServicesSubTab[i].service);
+                Assert.AreEqual(activeSeviceModelsDetailPointSegment[i].serviceUnit, allActiveServicesSubTab[i].serviceUnit);
+                Assert.AreEqual(activeSeviceModelsDetailPointSegment[i].schedule, allActiveServicesSubTab[i].schedule);
+                Assert.AreEqual(activeSeviceModelsDetailPointSegment[i].lastService, allActiveServicesSubTab[i].lastService);
+                Assert.AreEqual(activeSeviceModelsDetailPointSegment[i].nextService, allActiveServicesSubTab[i].nextService);
+                Assert.AreEqual(activeSeviceModelsDetailPointSegment[i].allocationService, allActiveServicesSubTab[i].allocationService);
+                Assert.AreEqual(activeSeviceModelsDetailPointSegment[i].assetTypeService, allActiveServicesSubTab[i].assetTypeService);
+            }
+           
+            return this;
+        }
+
         public List<ActiveSeviceModel> GetAllActiveServiceWithServiceUnitModel()
         {
             List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
@@ -344,6 +365,25 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return activeSeviceModels;
         }
+
+        public List<ActiveSeviceModel> GetAllActiveServiceInTabFullInfo()
+        {
+            List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
+            List<IWebElement> allRow = GetAllElements(allActiveServiceRow);
+            for (int i = 0; i < allRow.Count; i++)
+            {
+                string serviceUnitValue = GetElementText(serviceUnitDynamic, (i + 1).ToString());
+                string serviceValue = GetElementText(serviceWithServiceUnitDynamic, (i + 1).ToString());
+                string scheduleValue = GetElementText(GetAllElements(schedule)[i]);
+                string lastValue = GetElementText(GetAllElements(last)[i]);
+                string nextValue = GetElementText(GetAllElements(next)[i]);
+                string assetTypeValue = GetElementText(GetAllElements(assetType)[i]);
+                string allocationValue = GetElementText(GetAllElements(allocation)[i]);
+                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue));
+            }
+            return activeSeviceModels;
+        }
+
 
         public List<ActiveSeviceModel> GetAllServiceInTab()
         {

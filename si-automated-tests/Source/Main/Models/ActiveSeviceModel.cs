@@ -36,6 +36,23 @@ namespace si_automated_tests.Source.Main.Models
             this.listChildSchedule = listSchedule;
         }
 
+        public ActiveSeviceModel(string serviceUnitValue, string serviceValue, string scheduleValue, string lastValue, string nextValue, string assetTypeValue, string allocationValue)
+        {
+            this.serviceUnit = serviceUnitValue;
+            this.service = serviceValue;
+            this.schedule = scheduleValue;
+            this.lastService = lastValue;
+            this.nextService = nextValue;
+            this.assetTypeService = assetTypeValue;
+            this.allocationService = allocationValue;
+        }
+
+        public ActiveSeviceModel(string serviceUnitValue, string serviceValue)
+        {
+            this.service = serviceValue;
+            this.serviceUnit = serviceUnitValue;
+        }
+
         public class ChildSchedule
         {
             public ChildSchedule(string roundChildValue, string lastChildValue, string nextChildValue, string assertTypeChildValue, string allocationChildValue)
