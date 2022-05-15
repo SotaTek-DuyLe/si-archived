@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Linq;
 
 namespace si_automated_tests.Source.Main.Pages.PartyAgreement
 {
@@ -275,6 +276,34 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             }
             return this;
         }
+
+        public PartyAgreementPage ExpandAdhocOnAgreementFields()
+        {
+            IList<IWebElement> fields = WaitUtil.WaitForAllElementsVisible(subExpandBtns);
+            fields?.LastOrDefault()?.Click();
+            return this;
+        }
+
+        public PartyAgreementPage CreateAdhocTaskBtnInAgreementLine(string taskType)
+        {
+            List<IWebElement> rows = GetAllElements("(//div[@id='details-tab']//table[@class='table'])[4]//tbody//tr");
+            foreach (var row in rows)
+            {
+                IReadOnlyCollection<IWebElement> cells = row.FindElements(By.XPath("//td[@data-bind='text: name']"));
+                foreach (var cell in cells)
+                {
+                    string title = GetElementText(cell);
+                    if (title == taskType)
+                    {
+                        IWebElement adhocBtn = row.FindElements(By.XPath("//button[text()='Create Ad-Hoc Task']")).FirstOrDefault();
+                        adhocBtn?.Click();
+                        return this;
+                    }
+                }
+            }
+            return this;
+        }
+
         public PartyAgreementPage ExpandAgreementLine()
         {
             ClickOnElement(expandBtn);

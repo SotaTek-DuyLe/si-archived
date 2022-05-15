@@ -34,8 +34,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By wBTicketTab = By.XPath("//a[text()='Weighbridge Tickets']");
         private readonly By taskTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='tasks-tab']");
         private readonly By suspensionTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='suspensions-tab']");
+        private readonly By adhocTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='adhoc-tab']");
         private readonly By canlendarTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='calendar-tab']");
         private readonly By siteTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='sites-tab']");
+        private readonly By accountTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='account-tab']");
 
         //COMMON DYNAMIC LOCATOR
         private const string partyName = "//p[text()='{0}']";
@@ -163,6 +165,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
 
+        public DetailPartyPage ClickAdHocTab()
+        {
+            ClickOnElement(adhocTab);
+            return this;
+        }
+
         public PartyCalendarPage ClickCalendarTab()
         {
             ClickOnElement(canlendarTab);
@@ -174,8 +182,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             ClickOnElement(siteTab);
             return this;
         }
-
         
+        public DetailPartyPage ClickAccountTab()
+        {
+            ClickOnElement(accountTab);
+            return this;
+        }
 
         public List<string> GetAllTabDisplayed()
         {

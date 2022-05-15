@@ -1,8 +1,6 @@
 ﻿using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.DBModels;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace si_automated_tests.Source.Main.Finders
 {
@@ -35,6 +33,12 @@ namespace si_automated_tests.Source.Main.Finders
         {
             string query = "select* from events where eventid = " + eventId + ";";
             return FindList<EventDBModel>(query);
+        }
+
+        public List<PointAddressModel> GetPointAddress(string id)
+        {
+            string query = "select * from pointaddresses where pointaddressID="+id+";";
+            return FindList<PointAddressModel>(query);
         }
     }
 }

@@ -61,17 +61,23 @@ namespace si_automated_tests.Source.Core
         //SEND KEYS
         public void SendKeys(IWebElement element, string value)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             element.Clear();
             element.SendKeys(value);
         }
         public void SendKeys(string locator, string value)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             IWebElement element = WaitUtil.WaitForElementVisible(locator);
             element.Clear();
             element.SendKeys(value);
         }
         public void SendKeys(By by, string value)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             element.Clear();
             element.SendKeys(value);
@@ -93,17 +99,23 @@ namespace si_automated_tests.Source.Core
         //CLICK ON ELEMENT
         public void ClickOnElement(By by)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             WaitUtil
                 .WaitForElementClickable(by)
                 .Click();
         }
         public void ClickOnElement(IWebElement element)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementClickable(element).Click();
         }
 
         public void ClickOnElement(string xpath)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             WaitUtil
                 .WaitForElementVisible(xpath);
             WaitUtil
@@ -112,6 +124,8 @@ namespace si_automated_tests.Source.Core
         }
         public void ClickOnElement(string xpath, string value)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             xpath = string.Format(xpath, value);
             WaitUtil
                 .WaitForElementClickable(xpath)
@@ -119,6 +133,8 @@ namespace si_automated_tests.Source.Core
         }
         public void ClickToElementByAction(string xpath)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             IWebElement element = this.driver.FindElement(By.XPath(xpath));
             this.javascriptExecutor.ExecuteScript("arguments[0].scrollIntoViewIfNeeded(true);", new Object[] { element });
             Actions actions = new Actions(driver);
@@ -127,6 +143,8 @@ namespace si_automated_tests.Source.Core
         }
         public void ClickToElementByAction(string xpath, string value)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             xpath = string.Format(xpath, value);
             IWebElement element = this.driver.FindElement(By.XPath(xpath));
             this.javascriptExecutor.ExecuteScript("arguments[0].scrollIntoViewIfNeeded(true);", new Object[] { element });
@@ -136,6 +154,8 @@ namespace si_automated_tests.Source.Core
         }
         public void ClickToElementByJavascript(string xpath)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             IWebElement element = this.driver.FindElement(By.XPath(xpath));
             this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
             this.javascriptExecutor.ExecuteScript("arguments[0].click();", new Object[] { element });
@@ -143,6 +163,8 @@ namespace si_automated_tests.Source.Core
 
         public void ClickToElementByJavascript(string xpath, string value)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             xpath = string.Format(xpath, value);
             IWebElement element = this.driver.FindElement(By.XPath(xpath));
             this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
@@ -150,12 +172,16 @@ namespace si_automated_tests.Source.Core
         }
         public void DoubleClickOnElement(By by)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             Actions act = new Actions(IWebDriverManager.GetDriver());
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             act.DoubleClick(element).Perform();
         }
         public void DoubleClickOnElement(string xpath, string value)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             xpath = String.Format(xpath, value);
             Actions act = new Actions(IWebDriverManager.GetDriver());
             IWebElement element = WaitUtil.WaitForElementVisible(xpath);
@@ -163,12 +189,16 @@ namespace si_automated_tests.Source.Core
         }
         public void DoubleClickOnElement(string xpath)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             Actions act = new Actions(IWebDriverManager.GetDriver());
             IWebElement element = WaitUtil.WaitForElementVisible(xpath);
             act.DoubleClick(element).Perform();
         }
         public void DoubleClickOnElement(IWebElement element)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             Actions act = new Actions(IWebDriverManager.GetDriver());
             WaitUtil.WaitForElementClickable(element);
             act.DoubleClick(element).Perform();
@@ -440,6 +470,8 @@ namespace si_automated_tests.Source.Core
         //SELECT VALUE FROM SELECT ELEMENT
         public BasePage SelectTextFromDropDown(By by, string _text)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             Thread.Sleep(1000);
             IWebElement comboBox = WaitUtil.WaitForElementClickable(by);
             SelectElement selectedValue = new SelectElement(comboBox);
@@ -449,6 +481,8 @@ namespace si_automated_tests.Source.Core
         }
         public BasePage SelectValueFromDropDown(By by, string _value)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
             SelectElement selectedValue = new SelectElement(comboBox);
             selectedValue.SelectByValue(_value);
@@ -457,6 +491,8 @@ namespace si_automated_tests.Source.Core
         }
         public BasePage SelectIndexFromDropDown(By by, int index)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
             SelectElement selectedValue = new SelectElement(comboBox);
             selectedValue.SelectByIndex(index);

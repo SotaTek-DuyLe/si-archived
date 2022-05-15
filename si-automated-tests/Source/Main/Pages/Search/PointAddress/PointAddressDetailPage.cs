@@ -18,6 +18,15 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private readonly By pointAddressName = By.XPath("//span[@class='object-name']");
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
 
+
+        //DETAILS TAB
+        //private readonly By propertyName = By.Id("propertyName");
+        //private readonly By property = By.Id("property");
+        //private readonly By toProperty = By.Id("toProperty");
+        //private readonly By pointSegment = By.Id("point-segment");
+        private readonly By pointAddressTypeSelect = By.Id("point-address-type");
+
+
         //POPUP
         private readonly By createTitle = By.XPath("//div[@id='inspection-modal']//h4[text()='Create ']");
         private readonly By sourceDd = By.CssSelector("div#inspection-modal select#source");
@@ -207,6 +216,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         public PointAddressDetailPage WaitForPointAddressDetailDisplayed()
         {
             WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(titleDetail);
             return this;
         }
@@ -221,11 +231,13 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             ClickOnElement(inspectBtn);
             return this;
         }
-
+        public String GetPointAddressId()
+        {
+            return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/point-addresses/", "");
+        }
         public PointAddressDetailPage VerifyPointAddressId(string idExpected)
         {
-            string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/point-addresses/", "");
-            Assert.AreEqual(idExpected, idActual);
+            Assert.AreEqual(idExpected, GetPointAddressId());
             return this;
         }
 
@@ -439,6 +451,14 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                 Assert.AreEqual(serviceForPoint[i].serviceunit, allActiveServices[i].serviceUnit);
                 Assert.AreEqual(serviceForPoint[i].service, allActiveServices[i].service);
             }
+            return this;
+        }
+        public PointAddressDetailPage VerifyDetailsInDetailsTab(string _propertyName, string _property, string _toProperty, string _pointSegment, string _pointAddType)
+        {
+            Assert.True(GetPointAddressName().Contains(_propertyName));
+            Assert.True(GetPointAddressName().Contains(_property + "-" + _toProperty));
+            Assert.True(GetPointAddressName().Replace(",","").Contains(_pointSegment.Replace(",","")));
+            Assert.AreEqual(_pointAddType, GetFirstSelectedItemInDropdown(pointAddressTypeSelect));
             return this;
         }
     }
