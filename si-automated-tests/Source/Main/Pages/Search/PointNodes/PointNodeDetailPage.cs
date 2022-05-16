@@ -17,6 +17,11 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
         private readonly By pointNodeName = By.XPath("//p[@class='object-name']");
 
+        //DETAIL TAB
+        private readonly By description = By.Id("description");
+        private readonly By latitude = By.Id("latitude");
+        private readonly By longitude = By.Id("longitude");
+
         //POPUP
         private readonly By createTitle = By.XPath("//div[@id='inspection-modal']//h4[text()='Create ']");
         private readonly By sourceDd = By.CssSelector("div#inspection-modal select#source");
@@ -319,6 +324,14 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
             SendKeys(filterInputById, pointHistoryId);
             ClickOnElement(titleDetail);
             WaitUtil.WaitForPageLoaded();
+            return this;
+        }
+        
+        public PointNodeDetailPage InputPointNodeDetails(string _des, string _lat, string _long)
+        {
+            SendKeys(description, _des);
+            SendKeys(latitude, _lat);
+            SendKeys(longitude, _long);
             return this;
         }
 
