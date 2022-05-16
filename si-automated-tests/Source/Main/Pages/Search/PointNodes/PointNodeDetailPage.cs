@@ -110,11 +110,10 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
                 {
                     Assert.AreEqual(serviceForPointDB[i].last.Replace("-", "/"), activeSeviceModelsDisplayed[i].lastService);
                 }
-                List<ServiceTaskForPointDBModel> allSTForPointWithSameAssetType = GetServiceTaskForPointWithSameAssetType(serviceTaskForPointDBModels, serviceForPointDB[i].assets);
+                //List<ServiceTaskForPointDBModel> allSTForPointWithSameAssetType = GetServiceTaskForPointWithSameAssetType(serviceTaskForPointDBModels, serviceForPointDB[i].assets);
                 Assert.AreEqual(serviceForPointDB[i].roundgroup + " - " + serviceForPointDB[i].round.Trim(), activeSeviceModelsDisplayed[i].allocationService);
                 Assert.AreEqual(serviceForPointDB[i].assets, activeSeviceModelsDisplayed[i].assetTypeService);
                 Assert.AreEqual(serviceForPointDB[i].rescheduleddesc, activeSeviceModelsDisplayed[i].nextReScheduled);
-                Assert.AreEqual(allSTForPointWithSameAssetType[0].roundgroup + " - " + allSTForPointWithSameAssetType[0].round.Trim(), activeSeviceModelsDisplayed[i].allocationService);
             }
             return this;
         }
