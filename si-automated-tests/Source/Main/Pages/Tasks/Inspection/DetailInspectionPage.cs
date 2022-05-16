@@ -117,7 +117,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             ClickOnElement(inspectionAddress, address);
             //Verify
             SwitchToLastWindow();
-            WaitUtil.WaitForElementVisible("//span[text()='Service Unit']");
+            WaitUtil.WaitForElementVisible("//span[text()='Service Task']");
             string currentUrl = GetCurrentUrl();
             Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "web/service-tasks/" + sourceId);
             ClickCloseBtn();

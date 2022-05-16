@@ -25,20 +25,20 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
     public class WeighbridgeTests : BaseTest
     {
         private readonly string address = "Twickenham";
-        private readonly string siteName45 = "Site Twickenham 45" + CommonUtil.GetRandomNumber(4);
+        private readonly string siteName45 = "Site Twickenham 45" + CommonUtil.GetRandomNumber(5);
         private string addressAdded45;
-        private readonly string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
+        private readonly string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(5);
         private readonly string siteName = CommonConstants.WBSiteName;
         private string addressAdded;
         private List<SiteModel> allSiteModel = new List<SiteModel>();
         private List<SiteModel> siteModelBefore = new List<SiteModel>();
         private List<SiteModel> siteModel045;
         private string partyIdCustomer, partyIdHaulier;
-        private string partyName045 = "Auto045Customer" + CommonUtil.GetRandomString(2);
-        private string partyName047 = "Auto047Haulier" + CommonUtil.GetRandomString(2);
+        private string partyName045 = "Auto045Customer" + CommonUtil.GetRandomNumber(5);
+        private string partyName047 = "Auto047Haulier" + CommonUtil.GetRandomNumber(5);
         private string resourceName;
         private string stationNameTC48 = "AutoStation" + CommonUtil.GetRandomNumber(4);
-        private string locationNameActive = "Location52WBActive" + CommonUtil.GetRandomNumber(2);
+        private string locationNameActive = "Location52WBActive" + CommonUtil.GetRandomNumber(3);
 
         public override void Setup()
         {
@@ -165,7 +165,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             detailPartyPage
                 .VerifyTableDisplayedInVehicle()
                 .ClickAddNewVehicleBtn()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AddVehiclePage>()
                 .IsCreateVehicleCustomerHaulierPage()
                 .InputResourceName(resourceName)
@@ -726,7 +727,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             PageFactoryManager.Get<VehicleCustomerHaulierPage>()
                 .VerifyVehicleCustomerHaulierPageDisplayed()
                 .ClickAddNewItemBtn()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CreateVehicleCustomerHaulierPage>()
                 .IsCreateVehicleCustomerHaulierPage()
                 .VerifyDefaultMandatoryField()
@@ -793,7 +795,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             detailPartyPage
                 .VerifyTableDisplayedInVehicle()
                 .ClickAddNewVehicleBtn()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AddVehiclePage>()
                 .IsCreateVehicleCustomerHaulierPage()
                 .VerifyDefaultMandatoryFieldAndDefaultValue(partyName045)
