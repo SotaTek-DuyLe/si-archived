@@ -610,7 +610,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
 
         [Category("CreateInspection")]
         [Test(Description = "Creating inspection from point segment")]
-        public void TC_086_Create_inspection_from_point_address()
+        public void TC_086_Create_inspection_from_point_segment()
         {
             string searchForSegments = "Segments";
             string inspectionTypeValue = "Street Cleansing Assessment";
