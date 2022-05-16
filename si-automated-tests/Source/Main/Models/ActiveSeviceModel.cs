@@ -12,6 +12,7 @@ namespace si_automated_tests.Source.Main.Models
         public string status { get; set; }
         public string lastService { get; set; }
         public string nextService { get; set; }
+        public string nextReScheduled { get; set; }
         public string assetTypeService { get; set; }
         public string allocationService { get; set; }
         public string timeBandService { get; set; }
@@ -43,6 +44,18 @@ namespace si_automated_tests.Source.Main.Models
             this.schedule = scheduleValue;
             this.lastService = lastValue;
             this.nextService = nextValue;
+            this.assetTypeService = assetTypeValue;
+            this.allocationService = allocationValue;
+        }
+
+        public ActiveSeviceModel(string serviceUnitValue, string serviceValue, string scheduleValue, string lastValue, string nextValue, string nextReScheduled, string assetTypeValue, string allocationValue)
+        {
+            this.serviceUnit = serviceUnitValue;
+            this.service = serviceValue;
+            this.schedule = scheduleValue;
+            this.lastService = lastValue;
+            this.nextService = nextValue;
+            this.nextReScheduled = nextReScheduled;
             this.assetTypeService = assetTypeValue;
             this.allocationService = allocationValue;
         }

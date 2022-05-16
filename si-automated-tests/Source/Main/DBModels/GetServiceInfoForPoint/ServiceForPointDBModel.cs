@@ -18,5 +18,6 @@ namespace si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint
         public string assets { get; set; }
         public string patterndesc { get; set; }
         public string round { get; set; }
+        public string rescheduleddesc { get; set; }
     }
 }
