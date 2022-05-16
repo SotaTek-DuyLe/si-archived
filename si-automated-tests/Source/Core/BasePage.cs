@@ -19,6 +19,8 @@ namespace si_automated_tests.Source.Core
         private readonly By saveBtn = By.XPath("//button[@title='Save']");
         private readonly By saveAndCloseBtn = By.XPath("//button[@title='Save and Close']");
         private readonly string tab = "//a[@data-toggle='tab' and contains(text(),'{0}')]";
+        private readonly string tabs = "//a[@data-toggle='tab']";
+        private readonly string frameMessage = "//div[@class='notifyjs-corner']/div";
 
 
         public BasePage()
@@ -642,6 +644,19 @@ namespace si_automated_tests.Source.Core
         public bool IsCheckboxChecked(By by)
         {
             return GetElement(by).Selected;
+        }
+
+        public BasePage GoToAllTabAndConfirmNoError()
+        {
+            IList<IWebElement> elements = WaitUtil.WaitForAllElementsVisible(tabs);
+            foreach (IWebElement element in elements)
+            {
+                Thread.Sleep(1000);
+                ClickOnElement(element);
+                WaitForLoadingIconToDisappear();
+                Assert.IsFalse(IsControlDisplayedNotThrowEx(frameMessage));
+            }
+            return this;
         }
     }
 }
