@@ -77,7 +77,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
         [Category("PointArea")]
         [Test]
-        public void TC_107_Create_point_area()
+        public void TC_107_Create_announcement()
         {
             //VERIFY ON CONTRACTS
             PageFactoryManager.Get<NavigationBase>()
