@@ -11,7 +11,7 @@ namespace si_automated_tests.Source.Core
         public static void WaitForPageLoaded()
         {
             var js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
-            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(60));
             driverWait.Until(wd => js.ExecuteScript("return document.readyState").ToString() == "complete");
         }
         public static IWebElement WaitForElementVisible(string locator)
@@ -63,6 +63,11 @@ namespace si_automated_tests.Source.Core
         public static void WaitForElementInvisible(string xpath)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
+            driverWait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath(xpath)));
+        }
+        public static void WaitForElementInvisible60(string xpath)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(60));
             driverWait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath(xpath)));
         }
         public static void WaitForElementInvisible(By by)
