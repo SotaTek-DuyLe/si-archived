@@ -618,6 +618,12 @@ namespace si_automated_tests.Source.Core
             dragAndDrop.Perform();
             return this;
         }
+        public BasePage AlternativeDragAndDrop(IWebElement sourceElement, IWebElement targetElement)
+        {
+            var builder = new Actions(IWebDriverManager.GetDriver());
+            builder.ClickAndHold(sourceElement).MoveToElement(targetElement, 5, 5).Click(targetElement).Build().Perform();
+            return this;
+        }
 
         public BasePage VerifyFocusElement(By by)
         {
