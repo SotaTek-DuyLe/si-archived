@@ -15,7 +15,9 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
         private readonly By firstResult = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')]");
         private readonly By headers = By.XPath("//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
+        private readonly By headersInTabSection = By.XPath("//div[@class='tab-pane active']//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
         private readonly By firstResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
+        private readonly By firstResultFieldsInTabSection = By.XPath("//div[@class='tab-pane active']//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
         private readonly By secondResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row odd')][1]/div");
         private readonly By availableRows = By.XPath("//div[contains(@class,'ui-widget-content slick-row')]");
         private readonly String resultFields = "//div[contains(@class,'ui-widget-content slick-row')][{0}]/div";
@@ -34,7 +36,7 @@ namespace si_automated_tests.Source.Main.Pages
         public CommonBrowsePage OpenFirstResult()
         {
             DoubleClickOnElement(firstResult);
-            return PageFactoryManager.Get<CommonBrowsePage>();
+            return this;
         }
         public CommonBrowsePage ClickAddNewItem()
         {
@@ -49,6 +51,19 @@ namespace si_automated_tests.Source.Main.Pages
                 if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
                 {
                     IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
+                    Assert.AreEqual(expected, _firstResultFields[i].Text);
+                }
+            }
+            return this;
+        }
+        public CommonBrowsePage VerifyFirstResultValueInTab(string field, string expected)
+        {
+            IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headersInTabSection);
+            for (int i = 0; i < hds.Count; i++)
+            {
+                if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
+                {
+                    IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFieldsInTabSection);
                     Assert.AreEqual(expected, _firstResultFields[i].Text);
                 }
             }
