@@ -20,7 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By notes = By.XPath("//textarea[@id='notes']");
         private readonly By paymentMethod = By.XPath("//select[@id='payment-method']");
         private readonly By paymentMethodOpt = By.XPath("//select[@id='payment-method']//option");
-        private readonly By autoCompleteParty = By.XPath("//div[@id='party-name']//ul");
+        private readonly By autoCompleteParty = By.XPath("//div[@id='party-name']//ul//li");
         private readonly By lineTab = By.XPath("//a[@aria-controls='salesReceiptLines-tab']");
         private readonly By detailTab = By.XPath("//a[@aria-controls='details-tab']");
         private readonly By addnewItemBtn = By.XPath("//button[contains(string(), 'Add New Item')]");
@@ -29,9 +29,10 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
 
         public SalesReceiptPage IsInputPartyNameHasError()
         {
+            Thread.Sleep(200);
             IWebElement input = GetElement(inputPartyName);
             string borderColor = input.GetCssValue("border-color");
-            Assert.AreEqual("#a94442", borderColor);
+            Assert.AreEqual("rgb(169, 68, 66)", borderColor);
             return this;
         }
 
@@ -39,14 +40,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             IWebElement input = GetElement(inputPartyName);
             SendKeys(input, value);
-            SelectIndexFromDropDown(autoCompleteParty, 0);
-            return this;
-        }
-
-        public SalesReceiptPage IsPartyNamePopulated(string value)
-        {
-            IWebElement input = GetElement(inputPartyName);
-            Assert.IsTrue(input.Text == value);
+            ClickOnElement(GetAllElements(autoCompleteParty).FirstOrDefault());
             return this;
         }
 
@@ -54,7 +48,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             IWebElement input = GetElement(inputPartyName);
             string borderColor = input.GetCssValue("border-color");
-            Assert.AreNotEqual("#a94442", borderColor);
+            Assert.AreNotEqual("rgb(169, 68, 66)", borderColor);
             return this;
         }
 

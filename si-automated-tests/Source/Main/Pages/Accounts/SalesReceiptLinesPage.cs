@@ -45,25 +45,26 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
 
         public SalesReceiptLinesPage NetPriceHasValue()
         {
-            Assert.IsNotEmpty(GetElementText(netPrice));
+            Thread.Sleep(200);
+            Assert.IsNotEmpty(GetInputValue(netPrice));
             return this;
         }
 
         public SalesReceiptLinesPage VatPriceHasValue()
         {
-            Assert.IsNotEmpty(GetElementText(vatPrice));
+            Assert.IsNotEmpty(GetInputValue(vatPrice));
             return this;
         }
 
         public SalesReceiptLinesPage GrossPriceHasValue()
         {
-            Assert.IsNotEmpty(GetElementText(grossPrice));
+            Assert.IsNotEmpty(GetInputValue(grossPrice));
             return this;
         }
 
         public SalesReceiptLinesPage ValuePriceContainValue(string value)
         {
-            Assert.IsTrue(GetElementText(valuePrice) == value);
+            Assert.IsTrue(GetInputValue(valuePrice) == value);
             return this;
         }
 
@@ -82,7 +83,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
 
         public SalesReceiptLinesPage VerifyAmountOwned(string value)
         {
-            Assert.IsTrue(GetElementText(amountOwedPrice) == value);
+            Assert.IsTrue(GetInputValue(amountOwedPrice) == value);
             return this;
         }
 

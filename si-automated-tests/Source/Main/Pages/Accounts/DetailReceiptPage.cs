@@ -62,7 +62,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
                     PaymentMethod = GetElementText(paymentMethodCell),
                     PaymentReference = GetElementText(paymentReferenceCell),
                     Notes = GetElementText(notesCell),
-                    Value = GetElementText(valueCell).Replace("£", ""),
+                    Value = GetElementText(valueCell).Replace("£", "").Replace(".00", ""),
                 });
             }
             return receiptLines;

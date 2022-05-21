@@ -261,6 +261,12 @@ namespace si_automated_tests.Source.Core
         {
             return WaitUtil.WaitForElementVisible(by).Text;
         }
+
+        public string GetInputValue(By by)
+        {
+            return WaitUtil.WaitForElementVisible(by).GetAttribute("value");
+        }
+
         public string GetElementText(IWebElement element)
         {
             return element.Text;

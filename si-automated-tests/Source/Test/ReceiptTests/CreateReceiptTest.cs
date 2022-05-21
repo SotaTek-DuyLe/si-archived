@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -54,7 +55,6 @@ namespace si_automated_tests.Source.Test.ReceiptTests
                 .VerifyToastMessage("Please select a party");
             PageFactoryManager.Get<SalesReceiptPage>()
                 .SearchPartyNameAndSelect("jaflong tandoori")
-                .IsPartyNamePopulated(input.Party)
                 .IsInputPartyNameValid()
                 .IsAccountRefReadOnly()
                 .IsAccountNumberReadOnly()
@@ -77,7 +77,8 @@ namespace si_automated_tests.Source.Test.ReceiptTests
                 .ClickObjectTypeAndVerifyListType()
                 .SelectObjectType("Sales Invoice")
                 .InputInvoice("28441")
-                .VerifyToastMessage("No data available for the selected type");
+                .VerifyToastMessage("No data available for the selected type.");
+            Thread.Sleep(300);
             PageFactoryManager.Get<SalesReceiptLinesPage>()
                 .InputInvoice("1")
                 .WaitForLoadingIconToDisappear();
@@ -87,10 +88,14 @@ namespace si_automated_tests.Source.Test.ReceiptTests
                 .VatPriceHasValue()
                 .ValuePriceContainValue("0")
                 .ClickOnSaveBtn()
-                .VerifyToastMessage("Please enter value that's greaterthan 0.");
+                .VerifyToastMessage("Please enter value that's greater than 0.")
+                .WaitUntilToastMessageInvisible("Please enter value that's greater than 0.");
+            Thread.Sleep(300);
             PageFactoryManager.Get<SalesReceiptLinesPage>()
                 .InputValuePrice(input.Value)
-                .IsReceiptValueDisplay()
+                .IsReceiptValueDisplay();
+            Thread.Sleep(300);
+            PageFactoryManager.Get<SalesReceiptLinesPage>()
                 .ClickOnSaveBtn()
                 .VerifyToastMessage("Sales receipt line can only be created against a posted invoice.");
             PageFactoryManager.Get<SalesReceiptLinesPage>()
@@ -115,12 +120,14 @@ namespace si_automated_tests.Source.Test.ReceiptTests
             PageFactoryManager.Get<SalesInvoiceBatchesPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SalesInvoiceBatchesPage>()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<SalesInvoiceBatchesPage>()
                 .VerifySalesInvoiceBatchesIsPosted(1);
             PageFactoryManager.Get<SalesInvoiceBatchesPage>()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<SalesReceiptLinesPage>()
                 .ClickOnSaveBtn()
-                .VerifyToastMessage("Successfully saved Sales Receipt Line")
+                .VerifyToastMessage("Successfully saved Sales ReceiptLine")
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SalesReceiptLinesPage>()
                 .VerifyAmountOwned("83.2")
