@@ -99,23 +99,17 @@ namespace si_automated_tests.Source.Core
         //CLICK ON ELEMENT
         public void ClickOnElement(By by)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             WaitUtil
                 .WaitForElementClickable(by)
                 .Click();
         }
         public void ClickOnElement(IWebElement element)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementClickable(element).Click();
         }
 
         public void ClickOnElement(string xpath)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             WaitUtil
                 .WaitForElementVisible(xpath);
             WaitUtil
@@ -124,8 +118,6 @@ namespace si_automated_tests.Source.Core
         }
         public void ClickOnElement(string xpath, string value)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             xpath = string.Format(xpath, value);
             WaitUtil
                 .WaitForElementClickable(xpath)
@@ -133,8 +125,6 @@ namespace si_automated_tests.Source.Core
         }
         public void ClickToElementByAction(string xpath)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             IWebElement element = this.driver.FindElement(By.XPath(xpath));
             this.javascriptExecutor.ExecuteScript("arguments[0].scrollIntoViewIfNeeded(true);", new Object[] { element });
             Actions actions = new Actions(driver);

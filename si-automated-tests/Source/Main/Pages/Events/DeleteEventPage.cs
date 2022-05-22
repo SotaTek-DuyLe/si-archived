@@ -35,5 +35,11 @@ namespace si_automated_tests.Source.Main.Pages.Events
             ClickOnElement(closeBtn);
             return PageFactoryManager.Get<EventsListingPage>();
         }
+
+        public EventsListingPage ClickYesBtn()
+        {
+            ClickOnElement(yesBtn);
+            return PageFactoryManager.Get<EventsListingPage>();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
@@ -13,6 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By linkedIcon = By.XPath("//div[@class='grid-canvas']/div[not(contains(@style, 'display: none;'))]/div[contains(@class, 'l3 r3')]");
         private readonly By clearBtn = By.XPath("//button[@title='Clear Filters']");
         private readonly By deleteEventItemBtn = By.XPath("//button[text()='Delete Item']");
+        private readonly By eventRow = By.XPath("//div[@class='grid-canvas']");
 
         public EventsListingPage FilterByEventId(String eventId)
         {
@@ -44,6 +46,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventsListingPage ClickDeleteBtn()
         {
             ClickOnElement(deleteEventItemBtn);
+            return this;
+        }
+
+        public EventsListingPage VerifyNoRecordDisplayed()
+        {
+            Assert.AreEqual("", GetElementText(eventRow));
             return this;
         }
     }

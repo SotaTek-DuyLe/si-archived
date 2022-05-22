@@ -6,6 +6,7 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.DBModels.GetPointHistory;
 using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.PointAddress;
@@ -24,6 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By detailLoactorExpanded = By.XPath("//div[@id='toggle-actions' and @aria-expanded='true']");
         private readonly By FrameMessage = By.XPath("//div[@class='notifyjs-corner']/div");
         private readonly By blueIcon = By.CssSelector("img[title='Find Service Unit for this location']");
+        private readonly By allEventOptions = By.CssSelector("ul#create-event-opts>li");
 
         //DETAIL - Expanded
         private readonly By sourceInput = By.CssSelector("div#details-content input#source");
@@ -139,6 +141,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             List<IWebElement> allRow = GetAllElements(allServiceRowsInServiceTab);
             for (int i = 0; i < allRow.Count; i++)
             {
+                string eventParentLocator = string.Format(eventDynamicLocator, (i + 1).ToString());
                 string serviceUnitValue = GetElementText(GetAllElements(serviceUnitInServiceTab)[i]);
                 string serviceValue = GetElementText(GetAllElements(serviceInServiceTab)[i]);
                 string scheduleValue = GetElementText(GetAllElements(scheduleInServiceTab)[i]);
@@ -146,7 +149,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 string nextValue = GetElementText(GetAllElements(nextInServiceTab)[i]);
                 string assetTypeValue = GetElementText(GetAllElements(assetTypeInServiceTab)[i]);
                 string allocationValue = GetElementText(GetAllElements(allocationInServiceTab)[i]);
-                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue));
+                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue, eventParentLocator, ""));
             }
             return activeSeviceModels;
         }
@@ -160,6 +163,15 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventDetailPage ClickFirstEventInFirstServiceRow()
         {
             ClickOnElement(eventDynamicLocator, "1");
+            return this;
+        }
+
+        public EventDetailPage VerifyEventTypeWhenClickEventBtn(List<CommonServiceForPointDBModel> FilterCommonServiceForPointWithServiceId)
+        {
+            foreach (CommonServiceForPointDBModel common in FilterCommonServiceForPointWithServiceId)
+            {
+                Assert.IsTrue(IsControlDisplayed(eventOptions, common.prefix + " - " + common.eventtype));
+            }
             return this;
         }
 
@@ -280,6 +292,11 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             
             return this;
+        }
+
+        public List<CommonServiceForPointDBModel> FilterCommonServiceForPointWithServiceId(List<CommonServiceForPointDBModel> commonService, int serviceIdExpected)
+        {
+            return commonService.FindAll(x => x.serviceID == serviceIdExpected);
         }
 
         //DETAIL - Expanded
@@ -508,6 +525,28 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
+        public EventDetailPage VerifyPointHistoryInSubTab(List<PointHistoryDBModel> pointHistoryDBModels, List<PointHistoryModel> pointHistoryModelsInPointHistorySubTab)
+        {
+            for (int i = 0; i < pointHistoryDBModels.Count; i++)
+            {
+                Assert.AreEqual(pointHistoryDBModels[i].description, pointHistoryModelsInPointHistorySubTab[i].description);
+                Assert.AreEqual(pointHistoryDBModels[i].echoID, int.Parse(pointHistoryModelsInPointHistorySubTab[i].ID));
+                Assert.AreEqual(pointHistoryDBModels[i].typename, pointHistoryModelsInPointHistorySubTab[i].type);
+                Assert.AreEqual(pointHistoryDBModels[i].service, pointHistoryModelsInPointHistorySubTab[i].service);
+                Assert.AreEqual(pointHistoryDBModels[i].location, pointHistoryModelsInPointHistorySubTab[i].address);
+                Assert.AreEqual(CommonUtil.ParseDateTimeToFormat(pointHistoryDBModels[i].itemdate, CommonConstants.DATE_DD_MM_YYYY_FORMAT), pointHistoryModelsInPointHistorySubTab[i].date);
+                Assert.AreEqual(CommonUtil.ParseDateTimeToFormat(pointHistoryDBModels[i].duedate, CommonConstants.DATE_DD_MM_YYYY_FORMAT), pointHistoryModelsInPointHistorySubTab[i].dueDate);
+                Assert.AreEqual(pointHistoryDBModels[i].statedesc, pointHistoryModelsInPointHistorySubTab[i].state);
+            }
+            return this;
+        }
+
+        public EventDetailPage ClickAnyEventInActiveServiceRow(string eventLocator)
+        {
+            ClickOnElement(eventLocator);
+            return this;
+        }
+
         public EventDetailPage InputNameInDataTab(string nameValue)
         {
             SendKeys(nameInput, nameValue);
@@ -518,6 +557,17 @@ namespace si_automated_tests.Source.Main.Pages.Events
         {
             SendKeys(contactNumberInput, numberValue);
             return this;
+        }
+
+        public List<string> GetAllEventTypeInDd()
+        {
+            List<string> eventTypes = new List<string>();
+            List<IWebElement> allEventTypes = GetAllElements(allEventOptions);
+            foreach (IWebElement eventLocator in allEventTypes)
+            {
+                eventTypes.Add(GetElementText(eventLocator));
+            }
+            return eventTypes;
         }
 
         //POPUP CREATE INSPECTION

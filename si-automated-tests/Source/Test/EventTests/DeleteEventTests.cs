@@ -43,7 +43,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .FilterByEventId(eventIdWithServiceUnit)
                 //Click row with icon
                 .ClickOnFirstRecord()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             EventDetailPage eventDetailPage = PageFactoryManager.Get<EventDetailPage>();
             eventDetailPage
                 .WaitForEventDetailDisplayed()
@@ -63,7 +64,19 @@ namespace si_automated_tests.Source.Test.EventTests
             PageFactoryManager.Get<DeleteEventPage>()
                 .IsWarningPopup()
                 //No btn
-                .ClickNoBtn();
+                .ClickNoBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+            eventListingPage
+                .VerifyWindowClosed(1);
+            eventListingPage
+                .ClickDeleteBtn()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<DeleteEventPage>()
+                .IsWarningPopup()
+                //==> small bug
+            //    //Close btn
+            //    .ClickClosePopupBtn()
             //    .SwitchToChildWindow(1)
             //    .SwitchNewIFrame();
             //eventListingPage
@@ -73,12 +86,22 @@ namespace si_automated_tests.Source.Test.EventTests
             //    .SwitchToLastWindow();
             //PageFactoryManager.Get<DeleteEventPage>()
             //    .IsWarningPopup()
-            //    //Close btn
-            //    .ClickClosePopupBtn()
-            //    .SwitchToChildWindow(1)
-            //    .SwitchNewIFrame();
-            //eventListingPage
-            //    .VerifyWindowClosed(1);
+                //Yes btn
+                .ClickYesBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+            eventListingPage
+                .VerifyWindowClosed(1);
+            eventListingPage
+                .ClickClearBtn()
+                .WaitForLoadingIconToDisappear();
+            eventListingPage
+                .FilterByEventId(eventIdWithServiceUnit)
+                .VerifyNoRecordDisplayed();
+            //DB
+            List<EventDBModel> listEventsAfter = finder.GetEvent(int.Parse(eventIdWithServiceUnit));
+            Assert.AreEqual(0, listEventsAfter.Count);
         }
     }
 }
