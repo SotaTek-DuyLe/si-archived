@@ -12,22 +12,42 @@ namespace si_automated_tests.Source.Main.Pages.Services
 {
     public class RoundGroupListPage : BasePage
     {
-        private readonly By roundGroupCells = By.XPath("//div[@class='slick-viewport']//div[@class='grid-canvas']//div//*");
+        private readonly By roundGroupRows = By.XPath("//div[@class='slick-viewport']//div[@class='grid-canvas']//div[contains(@class,'ui-widget-content')]");
+
+        public RoundGroupListPage DoubleClickRoundGroup(string name)
+        {
+            List<IWebElement> rows = GetAllElements(roundGroupRows);
+            foreach (var row in rows)
+            {
+                IWebElement nameCell = row.FindElement(By.XPath("./div[contains(@class,'l2')]"));
+                if (GetElementText(nameCell) == name)
+                {
+                    DoubleClickOnElement(row);
+                    break;
+                }
+            }
+            return this;
+        }
 
         public List<RoundGroupModel> GetAllRoundGroup()
         {
-            List<IWebElement> cells = GetAllElements(roundGroupCells);
-            List<RoundGroupModel> roundGroups = new List<RoundGroupModel>();
-            for (int i = 0; i < cells.Count; i = i + 5)
+            List<RoundGroupModel> receiptLines = new List<RoundGroupModel>();
+            List<IWebElement> rows = GetAllElements(roundGroupRows);
+            foreach (var row in rows)
             {
-                RoundGroupModel roundGroup = new RoundGroupModel();
-                roundGroup.Name = cells.Count > i ? GetElementText(cells[i]) : "";
-                roundGroup.SortOrder = cells.Count > i + 1 ? GetElementText(cells[i + 1]) : "";
-                roundGroup.StartDate = cells.Count > i + 2 ? GetElementText(cells[i + 2]) : "";
-                roundGroup.EndDate = cells.Count > i + 3 ? GetElementText(cells[i + 3]) : "";
-                roundGroups.Add(roundGroup);
+                IWebElement nameCell = row.FindElement(By.XPath("./div[contains(@class,'l2')]"));
+                IWebElement sortCell = row.FindElement(By.XPath("./div[contains(@class,'l3')]"));
+                IWebElement startDateCell = row.FindElement(By.XPath("./div[contains(@class,'l4')]"));
+                IWebElement endDateCell = row.FindElement(By.XPath("./div[contains(@class,'l5')]"));
+                receiptLines.Add(new RoundGroupModel()
+                {
+                    Name = GetElementText(nameCell),
+                    SortOrder = GetElementText(sortCell),
+                    StartDate = GetElementText(startDateCell),
+                    EndDate = GetElementText(endDateCell),
+                });
             }
-            return roundGroups;
+            return receiptLines;
         }
 
     }

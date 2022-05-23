@@ -74,8 +74,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser26.UserName, AutoUser26.Password)
-                .IsOnHomePage(AutoUser26);
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
@@ -85,7 +85,46 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Skips")
                 .OpenOption("Round Groups")
                 .SwitchNewIFrame();
+            PageFactoryManager.Get<RoundGroupListPage>()
+                .DoubleClickRoundGroup("SKIP2 Daily")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .WaitForLoadingIconToDisappear();
+            Thread.Sleep(1000);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickRoundTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickAddNewItem()
+                .ClickSaveBtn()
+                .VerifyToastMessages(new System.Collections.Generic.List<string>() { "Shift is required" , "Dispatch Site is required" , "Round Type is required" , "Round is required" });
 
+            int newRowIdx = PageFactoryManager.Get<RoundGroupPage>().GetIndexNewRoundRow();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .EnterRoundValue(newRowIdx, "Test Round")
+                .EnterRoundTypeValue(newRowIdx, "Skips")
+                .EnterDispatchSiteValue(newRowIdx, "Townmead Tip & Depot (East)")
+                .EnterShiftValue(newRowIdx, "PM: 14.00 - 21.30")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Success");
+            Thread.Sleep(1000);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyRoundColor(newRowIdx, "#000000")
+                .DoubleClickRound(newRowIdx)
+                .SwitchToLastWindow();
+
+            PageFactoryManager.Get<RoundDetailPage>()
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<RoundDetailPage>()
+                .VerifyRoundInput("Test Round")
+                .VerifyRoundType("Skips")
+                .VerifyDispatchSite("Townmead Tip & Depot (East)")
+                .VerifyShift("PM: 14.00 - 21.30")
+                .ClickAllTabAndVerify()
+                .ClickCloseBtn()
+                .AcceptAlert();
         }
     }
 }
