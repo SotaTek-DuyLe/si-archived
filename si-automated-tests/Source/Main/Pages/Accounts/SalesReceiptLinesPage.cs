@@ -45,19 +45,49 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
 
         public SalesReceiptLinesPage NetPriceHasValue()
         {
-            Thread.Sleep(200);
+
+            int i = 5;
+            while (i > 0)
+            {
+                if (GetInputValue(netPrice).Equals(""))
+                {
+                    SleepTimeInMiliseconds(1000);
+                    i--;
+                }
+                else { break; }
+            }
             Assert.IsNotEmpty(GetInputValue(netPrice));
             return this;
         }
 
         public SalesReceiptLinesPage VatPriceHasValue()
         {
+            int i = 5;
+            while (i > 0)
+            {
+                if (GetInputValue(vatPrice).Equals(""))
+                {
+                    SleepTimeInMiliseconds(1000);
+                    i--;
+                }
+                else { break; }
+            }
             Assert.IsNotEmpty(GetInputValue(vatPrice));
             return this;
         }
 
         public SalesReceiptLinesPage GrossPriceHasValue()
         {
+            int i = 5;
+            while (i > 0)
+            {
+                if (GetInputValue(grossPrice).Equals(""))
+                {
+                    SleepTimeInMiliseconds(1000);
+                    i--;
+                }
+                else { break; }
+            }
             Assert.IsNotEmpty(GetInputValue(grossPrice));
             return this;
         }

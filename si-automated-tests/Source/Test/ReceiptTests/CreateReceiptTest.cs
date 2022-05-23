@@ -33,8 +33,8 @@ namespace si_automated_tests.Source.Test.ReceiptTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser14.UserName, AutoUser14.Password)
-                .IsOnHomePage(AutoUser14);
+                .Login(AutoUser36.UserName, AutoUser36.Password)
+                .IsOnHomePage(AutoUser36);
            
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Accounts")
@@ -94,7 +94,7 @@ namespace si_automated_tests.Source.Test.ReceiptTests
             PageFactoryManager.Get<SalesReceiptLinesPage>()
                 .InputValuePrice(input.Value)
                 .IsReceiptValueDisplay();
-            Thread.Sleep(300);
+            Thread.Sleep(2000);
             PageFactoryManager.Get<SalesReceiptLinesPage>()
                 .ClickOnSaveBtn()
                 .VerifyToastMessage("Sales receipt line can only be created against a posted invoice.");
