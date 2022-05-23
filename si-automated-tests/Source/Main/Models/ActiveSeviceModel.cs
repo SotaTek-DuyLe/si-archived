@@ -48,6 +48,19 @@ namespace si_automated_tests.Source.Main.Models
             this.allocationService = allocationValue;
         }
 
+        public ActiveSeviceModel(string serviceUnitValue, string serviceValue, string scheduleValue, string lastValue, string nextValue, string assetTypeValue, string allocationValue, string locator, string nextReScheduled)
+        {
+            this.serviceUnit = serviceUnitValue;
+            this.service = serviceValue;
+            this.schedule = scheduleValue;
+            this.lastService = lastValue;
+            this.nextService = nextValue;
+            this.assetTypeService = assetTypeValue;
+            this.allocationService = allocationValue;
+            this.eventLocator = locator;
+            this.nextReScheduled = nextReScheduled;
+        }
+
         public ActiveSeviceModel(string serviceUnitValue, string serviceValue, string scheduleValue, string lastValue, string nextValue, string nextReScheduled, string assetTypeValue, string allocationValue)
         {
             this.serviceUnit = serviceUnitValue;
