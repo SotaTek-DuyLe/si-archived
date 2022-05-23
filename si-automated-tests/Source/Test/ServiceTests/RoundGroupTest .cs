@@ -16,7 +16,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    public class AddRoundGroupTests : BaseTest
+    public class RoundGroupTest : BaseTest
     {
         [Category("109_Add a Round Group")]
         [Test]
