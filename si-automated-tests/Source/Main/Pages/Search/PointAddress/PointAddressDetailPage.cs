@@ -129,7 +129,12 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                 Assert.AreEqual("Multiple", activeSeviceWithServiceUnitModels[i].schedule);
                 if(serviceForPoint[i].next.Equals("Tomorrow")) {
                     Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, 1), activeSeviceWithServiceUnitModels[i].nextService);
-                } else
+                }
+                else if(serviceForPoint[i].next.Equals("Yesterday"))
+                {
+                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, -1), activeSeviceWithServiceUnitModels[i].nextService);
+                }
+                else
                 {
                     Assert.AreEqual(serviceForPoint[i].next.Replace("-", "/"), activeSeviceWithServiceUnitModels[i].nextService);
                 }
@@ -140,6 +145,14 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                 else if (serviceForPoint[i].last.Equals("Today"))
                 {
                     Assert.AreEqual(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB), activeSeviceWithServiceUnitModels[i].lastService);
+                }
+                else if (serviceForPoint[i].last.Equals("Yesterday"))
+                {
+                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, -1), activeSeviceWithServiceUnitModels[i].lastService);
+                }
+                else
+                {
+                    Assert.AreEqual(serviceForPoint[i].last.Replace("-", "/"), activeSeviceWithServiceUnitModels[i].lastService);
                 }
 
                 Assert.AreEqual(serviceForPoint[i].assets, activeSeviceWithServiceUnitModels[i].assetTypeService);
@@ -152,7 +165,12 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                     Assert.AreEqual("Every " + allSTForPointWithSameAssetType[j].round.Trim(), childSchedules[j].round.Trim());
                     if(allSTForPointWithSameAssetType[j].last.Equals("Today")) {
                         Assert.AreEqual(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB), childSchedules[j].lastRound);
-                    } else
+                    }
+                    else if (allSTForPointWithSameAssetType[j].last.Equals("Yesterday"))
+                    {
+                        Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, -1), childSchedules[j].lastRound);
+                    }
+                    else
                     {
                         Assert.AreEqual(allSTForPointWithSameAssetType[j].last.Replace("-", "/"), childSchedules[j].lastRound);
                     }
@@ -160,7 +178,12 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                     if (allSTForPointWithSameAssetType[j].next.Equals("Tomorrow"))
                     {
                         Assert.AreEqual(allSTForPointWithSameAssetType[j].next, childSchedules[j].nextRound);
-                    } else
+                    }
+                    else if (allSTForPointWithSameAssetType[j].next.Equals("Yesterday"))
+                    {
+                        Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, -1), childSchedules[j].nextRound);
+                    }
+                    else
                     {
                         //Assert.AreEqual(allSTForPointWithSameAssetType[j].next, CommonUtil.ParseDateTimeStringToNewFormat(childSchedules[j].nextRound, CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB));
                     }
