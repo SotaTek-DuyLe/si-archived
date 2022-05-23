@@ -1348,7 +1348,7 @@ namespace si_automated_tests.Source.Test.EventTests
             eventDetailPage
                 .VerifyNotDisplayErrorMessage();
             List<ActiveSeviceModel> allSeviceModelsInSubTab = eventDetailPage
-                .GetAllServiceInTab();
+                .GetAllServiceWithServiceUnitModel();
             eventDetailPage
                 .VerifyDataInServiceSubTab(allActiveServices, allSeviceModelsInSubTab)
                 //Verify Outstanding - sub tab display without error

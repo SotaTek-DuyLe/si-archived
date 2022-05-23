@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Test.EventTests
     [TestFixture]
     public class DeleteEventTests : BaseTest
     {
+        //BUG
         [Category("DeleteEvent")]
         [Test(Description = "Delete event")]
         public void TC_106_Delete_event()
@@ -75,17 +76,17 @@ namespace si_automated_tests.Source.Test.EventTests
             PageFactoryManager.Get<DeleteEventPage>()
                 .IsWarningPopup()
                 //==> small bug
-            //    //Close btn
-            //    .ClickClosePopupBtn()
-            //    .SwitchToChildWindow(1)
-            //    .SwitchNewIFrame();
-            //eventListingPage
-            //    .VerifyWindowClosed(1);
-            //eventListingPage
-            //    .ClickDeleteBtn()
-            //    .SwitchToLastWindow();
-            //PageFactoryManager.Get<DeleteEventPage>()
-            //    .IsWarningPopup()
+                //Close btn
+                .ClickClosePopupBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+            eventListingPage
+                .VerifyWindowClosed(1);
+            eventListingPage
+                .ClickDeleteBtn()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<DeleteEventPage>()
+                .IsWarningPopup()
                 //Yes btn
                 .ClickYesBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)

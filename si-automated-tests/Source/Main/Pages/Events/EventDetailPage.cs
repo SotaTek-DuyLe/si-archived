@@ -154,6 +154,26 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return activeSeviceModels;
         }
 
+        public List<ActiveSeviceModel> GetAllActiveServiceInTabFullInfo()
+        {
+            List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
+            List<IWebElement> allRow = GetAllElements(allActiveServiceRow);
+            for (int i = 0; i < allRow.Count; i++)
+            {
+                string serviceUnitValue = GetElementText(serviceUnitDynamic, (i + 1).ToString());
+                string serviceValue = GetElementText(serviceWithServiceUnitDynamic, (i + 1).ToString());
+                string scheduleValue = GetElementText(GetAllElements(schedule)[i]);
+                string lastValue = GetElementText(GetAllElements(last)[i]);
+                string nextValue = GetElementText(GetAllElements(next)[i]);
+                string assetTypeValue = GetElementText(GetAllElements(assetType)[i]);
+                string allocationValue = GetElementText(GetAllElements(allocation)[i]);
+                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue));
+            }
+            return activeSeviceModels;
+        }
+
+
+
 
         public EventDetailPage VerifyActiveServiceDisplayedWithDB(List<ActiveSeviceModel> activeSeviceModelsDisplayed, List<ServiceForPointDBModel> serviceForPointDB, List<ServiceTaskForPointDBModel> serviceTaskForPointDBModels)
         {
@@ -449,6 +469,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
+
         public List<ActiveSeviceModel> GetAllActiveServiceWithServiceUnitModel()
         {
             List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
@@ -462,25 +483,6 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return activeSeviceModels;
         }
-
-        public List<ActiveSeviceModel> GetAllActiveServiceInTabFullInfo()
-        {
-            List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
-            List<IWebElement> allRow = GetAllElements(allActiveServiceRow);
-            for (int i = 0; i < allRow.Count; i++)
-            {
-                string serviceUnitValue = GetElementText(serviceUnitDynamic, (i + 1).ToString());
-                string serviceValue = GetElementText(serviceWithServiceUnitDynamic, (i + 1).ToString());
-                string scheduleValue = GetElementText(GetAllElements(schedule)[i]);
-                string lastValue = GetElementText(GetAllElements(last)[i]);
-                string nextValue = GetElementText(GetAllElements(next)[i]);
-                string assetTypeValue = GetElementText(GetAllElements(assetType)[i]);
-                string allocationValue = GetElementText(GetAllElements(allocation)[i]);
-                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue));
-            }
-            return activeSeviceModels;
-        }
-
 
         public List<ActiveSeviceModel> GetAllServiceInTab()
         {
