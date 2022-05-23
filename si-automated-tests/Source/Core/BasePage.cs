@@ -19,6 +19,8 @@ namespace si_automated_tests.Source.Core
         private readonly By saveBtn = By.XPath("//button[@title='Save']");
         private readonly By saveAndCloseBtn = By.XPath("//button[@title='Save and Close']");
         private readonly string tab = "//a[@data-toggle='tab' and contains(text(),'{0}')]";
+        private readonly string tabs = "//a[@data-toggle='tab']";
+        private readonly string frameMessage = "//div[@class='notifyjs-corner']/div";
 
 
         public BasePage()
@@ -61,23 +63,17 @@ namespace si_automated_tests.Source.Core
         //SEND KEYS
         public void SendKeys(IWebElement element, string value)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             element.Clear();
             element.SendKeys(value);
         }
         public void SendKeys(string locator, string value)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             IWebElement element = WaitUtil.WaitForElementVisible(locator);
             element.Clear();
             element.SendKeys(value);
         }
         public void SendKeys(By by, string value)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             element.Clear();
             element.SendKeys(value);
@@ -133,8 +129,6 @@ namespace si_automated_tests.Source.Core
         }
         public void ClickToElementByAction(string xpath, string value)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             xpath = string.Format(xpath, value);
             IWebElement element = this.driver.FindElement(By.XPath(xpath));
             this.javascriptExecutor.ExecuteScript("arguments[0].scrollIntoViewIfNeeded(true);", new Object[] { element });
@@ -144,8 +138,6 @@ namespace si_automated_tests.Source.Core
         }
         public void ClickToElementByJavascript(string xpath)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             IWebElement element = this.driver.FindElement(By.XPath(xpath));
             this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
             this.javascriptExecutor.ExecuteScript("arguments[0].click();", new Object[] { element });
@@ -153,8 +145,6 @@ namespace si_automated_tests.Source.Core
 
         public void ClickToElementByJavascript(string xpath, string value)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             xpath = string.Format(xpath, value);
             IWebElement element = this.driver.FindElement(By.XPath(xpath));
             this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
@@ -162,16 +152,12 @@ namespace si_automated_tests.Source.Core
         }
         public void DoubleClickOnElement(By by)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             Actions act = new Actions(IWebDriverManager.GetDriver());
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             act.DoubleClick(element).Perform();
         }
         public void DoubleClickOnElement(string xpath, string value)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             xpath = String.Format(xpath, value);
             Actions act = new Actions(IWebDriverManager.GetDriver());
             IWebElement element = WaitUtil.WaitForElementVisible(xpath);
@@ -179,16 +165,12 @@ namespace si_automated_tests.Source.Core
         }
         public void DoubleClickOnElement(string xpath)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             Actions act = new Actions(IWebDriverManager.GetDriver());
             IWebElement element = WaitUtil.WaitForElementVisible(xpath);
             act.DoubleClick(element).Perform();
         }
         public void DoubleClickOnElement(IWebElement element)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             Actions act = new Actions(IWebDriverManager.GetDriver());
             WaitUtil.WaitForElementClickable(element);
             act.DoubleClick(element).Perform();
@@ -460,8 +442,6 @@ namespace si_automated_tests.Source.Core
         //SELECT VALUE FROM SELECT ELEMENT
         public BasePage SelectTextFromDropDown(By by, string _text)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             Thread.Sleep(1000);
             IWebElement comboBox = WaitUtil.WaitForElementClickable(by);
             SelectElement selectedValue = new SelectElement(comboBox);
@@ -471,8 +451,6 @@ namespace si_automated_tests.Source.Core
         }
         public BasePage SelectValueFromDropDown(By by, string _value)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
             SelectElement selectedValue = new SelectElement(comboBox);
             selectedValue.SelectByValue(_value);
@@ -481,8 +459,6 @@ namespace si_automated_tests.Source.Core
         }
         public BasePage SelectIndexFromDropDown(By by, int index)
         {
-            WaitUtil.WaitForPageLoaded();
-            WaitForLoadingIconToDisappear();
             IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
             SelectElement selectedValue = new SelectElement(comboBox);
             selectedValue.SelectByIndex(index);
@@ -522,9 +498,9 @@ namespace si_automated_tests.Source.Core
         public BasePage WaitForLoadingIconToDisappear()
         {
             Thread.Sleep(750);
-            WaitUtil.WaitForElementInvisible("//*[contains(@data-bind,'shield: isLoading')]");
-            WaitUtil.WaitForElementInvisible("//div[@id='loading-shield']");
-            WaitUtil.WaitForElementInvisible("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
+            WaitUtil.WaitForElementInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
+            WaitUtil.WaitForElementInvisible60("//div[@id='loading-shield']");
+            WaitUtil.WaitForElementInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
             WaitUtil.WaitForPageLoaded();
             return this;
         }
@@ -606,6 +582,12 @@ namespace si_automated_tests.Source.Core
             dragAndDrop.Perform();
             return this;
         }
+        public BasePage AlternativeDragAndDrop(IWebElement sourceElement, IWebElement targetElement)
+        {
+            var builder = new Actions(IWebDriverManager.GetDriver());
+            builder.ClickAndHold(sourceElement).MoveToElement(targetElement, 5, 5).Click(targetElement).Build().Perform();
+            return this;
+        }
 
         public BasePage VerifyFocusElement(By by)
         {
@@ -632,6 +614,19 @@ namespace si_automated_tests.Source.Core
         public bool IsCheckboxChecked(By by)
         {
             return GetElement(by).Selected;
+        }
+
+        public BasePage GoToAllTabAndConfirmNoError()
+        {
+            IList<IWebElement> elements = WaitUtil.WaitForAllElementsVisible(tabs);
+            foreach (IWebElement element in elements)
+            {
+                Thread.Sleep(1000);
+                ClickOnElement(element);
+                WaitForLoadingIconToDisappear();
+                Assert.IsFalse(IsControlDisplayedNotThrowEx(frameMessage));
+            }
+            return this;
         }
     }
 }

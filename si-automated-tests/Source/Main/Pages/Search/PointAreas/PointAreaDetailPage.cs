@@ -17,6 +17,10 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
         private readonly By areaName = By.XPath("//p[@class='object-name']");
 
+        //DETAILS PAGE
+        private readonly By areaNameInput = By.Id("area-name"); 
+        private readonly By latLongInput = By.Id("latLonPolygon"); 
+
         //POPUP
         private readonly By createTitle = By.XPath("//div[@id='inspection-modal']//h4[text()='Create ']");
         private readonly By sourceDd = By.CssSelector("div#inspection-modal select#source");
@@ -323,6 +327,17 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
             SendKeys(filterInputById, pointHistoryId);
             ClickOnElement(titleDetail);
             WaitUtil.WaitForPageLoaded();
+            return this;
+        }
+        //DETAIL TAB
+        public PointAreaDetailPage InputAreaName(string value)
+        {
+            SendKeys(areaNameInput, value);
+            return this;
+        }
+        public PointAreaDetailPage InputLatLong(string value)
+        {
+            SendKeys(latLongInput, value);
             return this;
         }
     }

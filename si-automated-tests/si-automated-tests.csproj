@@ -119,7 +119,6 @@
     <Folder Include="Source\Main\Pages\Search\PointAreas\" />
     <Folder Include="Source\Main\Pages\Search\PointNodes\" />
     <Folder Include="Source\Test\EventTests\" />
-    <Folder Include="Source\Test\ServiceTests\" />
     <Folder Include="Source\Main\DBModels\GetServiceInfoForPoint\" />
     <Folder Include="Source\Main\DBModels\GetPointHistory\" />
   </ItemGroup>
