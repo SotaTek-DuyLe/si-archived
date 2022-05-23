@@ -65,5 +65,27 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<RoundGroupPage>()
                 .VerifyRoundGroup("SKIP 3ABC");
         }
+
+        [Category("110_Add Round on a Round Group")]
+        [Test]
+        public void TC_110_Add_Round_on_a_Round_Group()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser26.UserName, AutoUser26.Password)
+                .IsOnHomePage(AutoUser26);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star Commercial")
+                .ExpandOption("Ancillary")
+                .ExpandOption("Skips")
+                .OpenOption("Round Groups")
+                .SwitchNewIFrame();
+
+        }
     }
 }
