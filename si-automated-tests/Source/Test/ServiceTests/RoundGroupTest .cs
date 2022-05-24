@@ -124,7 +124,11 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyShift("PM: 14.00 - 21.30")
                 .ClickAllTabAndVerify()
                 .ClickCloseBtn()
-                .AcceptAlert();
+                .AcceptAlert()
+                .SwitchToLastWindow();
+
+            PageFactoryManager.Get<RoundGroupPage>()
+                .IsRoundTab();
         }
     }
 }

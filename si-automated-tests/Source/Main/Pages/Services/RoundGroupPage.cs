@@ -77,6 +77,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        public RoundGroupPage IsRoundTab()
+        {
+            Assert.IsTrue(IsControlDisplayed(roundTab));
+            Assert.IsTrue(IsControlDisplayed(roundRows));
+            return this;
+        }
+
         public RoundGroupPage ClickAddNewItem()
         {
             ClickOnElement(addNewItemBtn);
