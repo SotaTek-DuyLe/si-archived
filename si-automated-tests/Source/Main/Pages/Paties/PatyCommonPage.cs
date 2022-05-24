@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -59,6 +58,7 @@ namespace si_automated_tests.Source.Main.Pages
             WaitUtil.WaitForElementVisible(AddNewItem);
             SendKeys(filterInputById, id.ToString());
             ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         public DetailPartyPage OpenFirstResult()

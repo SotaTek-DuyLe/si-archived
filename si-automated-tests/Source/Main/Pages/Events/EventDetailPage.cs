@@ -33,6 +33,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By statusDd = By.CssSelector("div#details-content select#status");
         private readonly By eventDateInput = By.CssSelector("div#details-content input#event-date");
         private readonly By allocatedUnitDetailDd = By.CssSelector("div#details-content select#allocated-unit");
+        private readonly By allAllocatedUnitInDetailSubTab = By.CssSelector("div#details-content select#allocated-unit>option");
         private readonly By resolutionCodeDd = By.CssSelector("div#details-content select#resolution-code");
         private readonly By assignedUserDetailDd = By.CssSelector("div#details-content select#allocated-user");
         private readonly By dueDateInput = By.CssSelector("div#details-content input#due-date");
@@ -90,6 +91,8 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By dueDateInHistoryTab = By.XPath("//span[text()='Due date']/following-sibling::span[@data-bind='text: $data.value'][1]");
         private readonly By createdByUserInHistoryTab = By.XPath("//strong[@data-bind='text: $data.createdByUser']");
         private readonly By createdDateInHistoryTab = By.XPath("//strong[@data-bind='text: $data.createdDate']");
+        private readonly By nameInHistoryTab = By.XPath("//span[text()='Name']/following-sibling::span[1]");
+        private readonly By notesInHistoryTab = By.XPath("//span[text()='Notes']/following-sibling::span[1]");
 
         //DYNAMIC
         private const string urlType = "//a[text()='{0}']";
@@ -387,6 +390,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
+        public EventDetailPage ClickDataTab()
+        {
+            ClickOnElement(anyTab, "data-tab");
+            return this;
+        }
+
         public EventDetailPage ClickMapTab()
         {
             ClickOnElement(anyTab, "map-tab");
@@ -408,6 +417,18 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(GetElementText(dueDateInHistoryTab), eventDBModel.eventduedate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT) + ".");
             Assert.AreEqual(GetElementText(createdByUserInHistoryTab), displayUserLogin);
             Assert.AreEqual(54, eventDBModel.eventcreatedbyuserID);
+            return this;
+        }
+
+        public EventDetailPage VerifyHistoryData(string eventDate, string dueDate, string name, string notes, string state, string displayUserLogin)
+        {
+            Assert.IsTrue(IsControlDisplayed(titleHistoryTab));
+            Assert.AreEqual(state, GetElementText(stateInHistoryTab));
+            Assert.IsTrue(GetElementText(eventDateInHistoryTab).Contains(eventDate));
+            Assert.IsTrue(GetElementText(dueDateInHistoryTab).Contains(dueDate));
+            Assert.AreEqual(GetElementText(createdByUserInHistoryTab), displayUserLogin);
+            Assert.AreEqual(name, GetElementText(nameInHistoryTab));
+            Assert.AreEqual(notes, GetElementText(notesInHistoryTab));
             return this;
         }
 
@@ -570,6 +591,23 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 eventTypes.Add(GetElementText(eventLocator));
             }
             return eventTypes;
+        }
+
+        public EventDetailPage ClickOnAllocatedUnit()
+        {
+            ClickOnElement(allocatedUnitDetailDd);
+            return this;
+        }
+
+        public List<string> GetAllOptionInAllocatedUnitDetailSubTab()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allAllocatedOptions = GetAllElements(allAllocatedUnitInDetailSubTab);
+            foreach(IWebElement e in allAllocatedOptions)
+            {
+                results.Add(GetElementText(e));
+            }
+            return results;
         }
 
         //POPUP CREATE INSPECTION
@@ -798,5 +836,15 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return result;
 
         }
+
+        //Event Actions
+        private readonly By allocateEventBtnInEventActions = By.XPath("//span[text()='Allocate Event']/parent::button/parent::li");
+
+        public EventDetailPage ClickAllocateEventInEventActionsPanel()
+        {
+            ClickOnElement(allocateEventBtnInEventActions);
+            return this;
+        }
+       
     }
 }
