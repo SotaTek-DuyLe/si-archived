@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Core
 {
@@ -26,7 +27,7 @@ namespace si_automated_tests.Source.Core
             config.Bind("ConnectionStrings", mSConfiguration);
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.DataSource = mSConfiguration.Host;
-            builder.InitialCatalog = mSConfiguration.DBName;
+            builder.InitialCatalog = WebUrl.GetDBName();
             builder.UserID = mSConfiguration.UserId;
             builder.Password = mSConfiguration.Password;
             Conection = new SqlConnection(builder.ConnectionString);

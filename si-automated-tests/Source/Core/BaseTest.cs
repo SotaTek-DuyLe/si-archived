@@ -11,6 +11,7 @@ namespace si_automated_tests.Source.Core
         [OneTimeSetUp]
         public virtual void OneTimeSetUp()
         {
+            new WebUrl();
             DatabaseContext = new DatabaseContext();
         }
 
@@ -23,7 +24,6 @@ namespace si_automated_tests.Source.Core
 
         protected void OnSetup()
         {
-            new WebUrl();
             CustomTestListener.OnTestStarted();
             IWebDriverManager.SetDriver();
             new UserRegistry();
