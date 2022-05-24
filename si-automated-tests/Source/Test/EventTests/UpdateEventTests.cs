@@ -20,6 +20,7 @@ namespace si_automated_tests.Source.Test.EventTests
         {
             string eventID = "12";
             string eventOption = "Standard - Complaint";
+            string allocatedUnitValue = "East Waste";
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -86,7 +87,65 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickOnAllocatedUnit()
                 .GetAllOptionsInAllocatedUnitDd();
             eventActionPage
-                .VerifyAllocatedUnitDisplayTheSameEventForm(allAllocatedUnitEventForm, allAllocatedUnitEventAction);
+                .VerifyAllocatedUnitDisplayTheSameEventForm(allAllocatedUnitEventForm, allAllocatedUnitEventAction)
+            //Select [Allocated Unit]
+                .SelectAnyAllocatedUnit(allocatedUnitValue)
+                .ClickOnAllocatedUser();
+            List<string> allAllocatedUserEventAction = eventActionPage
+                .GetAllOptionsInAllocatedUserDd();
+            //Select [Allocated User]
+            eventActionPage
+                .SelectAnyAllocatedUser(allAllocatedUserEventAction[0])
+                .ClickSaveAndCloseBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            //Verify value in [Event detail] page
+            eventDetailPage
+                .ExpandDetailToggle()
+                .VerifyValueInStatus("Initial Assessment")
+                .VerifyValueInAllocatedUnit(allocatedUnitValue)
+                .VerifyValueInAssignedUser(allAllocatedUserEventAction[0]);
+            //Verify value in [History] tab
+            eventDetailPage
+                .ClickHistoryTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyNewRecordInHistoryTab("Initial Assessment", allAllocatedUserEventAction[0], allocatedUnitValue, AutoUser60.DisplayName);
+            string newEventName = "NewEvent112" + CommonUtil.GetRandomString(5);
+            //Back to [Data] tab and fill some fields
+            eventDetailPage
+                .ClickDataTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .InputNameInDataTab(newEventName)
+                //Click [Accept] btn
+                .ClickAcceptInEventActionsPanel()
+                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.ActionSuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            //Verify new Status
+            eventDetailPage
+                .VerifyValueInStatus("Under Investigation")
+                .VerifyValueInNameFieldInDataTab(newEventName);
+            //Verify value in [History] tab
+            eventDetailPage
+               .ClickHistoryTab()
+               .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyRecordInHistoryTabAfterUpdate(newEventName, AutoUser60.DisplayName)
+                .VerifyRecordInHistoryTabAfterAccept("Under Investigation.", AutoUser60.DisplayName);
+            //Click [Add Note] btn
+            eventDetailPage
+                .ClickAddNoteInEventsActionsPanel()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<EventActionPage>()
+                .ClickSaveAndCloseBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            //Step 21:
         }
     }
 }

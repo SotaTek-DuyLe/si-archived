@@ -85,7 +85,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By allDueDate = By.XPath("//div[@class='slick-cell l7 r7']");
 
         //HISTORY TAB
-        private readonly By titleHistoryTab = By.XPath("//strong[text()='Create Event - Event']");
+        private const string titleHistoryTab = "//strong[text()='{0}']";
         private readonly By stateInHistoryTab = By.XPath("//span[text()='State']/following-sibling::span[@data-bind='text: $data.value'][1]");
         private readonly By eventDateInHistoryTab = By.XPath("//span[text()='Event date']/following-sibling::span[@data-bind='text: $data.value'][1]");
         private readonly By dueDateInHistoryTab = By.XPath("//span[text()='Due date']/following-sibling::span[@data-bind='text: $data.value'][1]");
@@ -93,6 +93,15 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By createdDateInHistoryTab = By.XPath("//strong[@data-bind='text: $data.createdDate']");
         private readonly By nameInHistoryTab = By.XPath("//span[text()='Name']/following-sibling::span[1]");
         private readonly By notesInHistoryTab = By.XPath("//span[text()='Notes']/following-sibling::span[1]");
+        //HISTORY TAB => NEW RECORD
+        private readonly By newStateInHistoryTab = By.XPath(" //strong[text()='Allocate Event - Event']/following-sibling::div/span[text()='State']/following-sibling::span[1]");
+        private readonly By newAllocatedUserInHistoryTab = By.XPath("//strong[text()='Allocate Event - Event']/following-sibling::div/span[text()='Allocated user']/following-sibling::span[1]");
+        private readonly By newContractUnitInHistoryTab = By.XPath("//strong[text()='Allocate Event - Event']/following-sibling::div/span[text()='Contract unit']/following-sibling::span[1]");
+        private readonly By createdByUserNewRecord = By.XPath("//strong[text()='Allocate Event - Event']/parent::div/following-sibling::div/strong[1]");
+        private readonly By nameAfterUpdateInHistoryTab = By.XPath("//strong[text()='Update Event - Event']/following-sibling::div/span[text()='Name']/following-sibling::span[1]");
+        private readonly By createdByUserAfterUpdate = By.XPath("//strong[text()='Update Event - Event']/parent::div/following-sibling::div/strong[1]");
+        private readonly By stateAfterAcceptInHistoryTab = By.XPath("//strong[text()='Accept - Event']/following-sibling::div/span[text()='State']/following-sibling::span[1]");
+        private readonly By createdByUserAfterAccept = By.XPath("//strong[text()='Accept - Event']/parent::div/following-sibling::div/strong[1]");
 
         //DYNAMIC
         private const string urlType = "//a[text()='{0}']";
@@ -411,7 +420,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
         public EventDetailPage VerifyHistoryWithDB(EventDBModel eventDBModel, string displayUserLogin)
         {
-            Assert.IsTrue(IsControlDisplayed(titleHistoryTab));
+            Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CreateEventEventTitle));
             Assert.AreEqual(GetElementText(stateInHistoryTab), eventDBModel.basestatedesc + ".");
             Assert.AreEqual(GetElementText(eventDateInHistoryTab), eventDBModel.eventdate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT) + ".");
             Assert.AreEqual(GetElementText(dueDateInHistoryTab), eventDBModel.eventduedate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT) + ".");
@@ -422,13 +431,39 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
         public EventDetailPage VerifyHistoryData(string eventDate, string dueDate, string name, string notes, string state, string displayUserLogin)
         {
-            Assert.IsTrue(IsControlDisplayed(titleHistoryTab));
+            Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CreateEventEventTitle));
             Assert.AreEqual(state, GetElementText(stateInHistoryTab));
             Assert.IsTrue(GetElementText(eventDateInHistoryTab).Contains(eventDate));
             Assert.IsTrue(GetElementText(dueDateInHistoryTab).Contains(dueDate));
             Assert.AreEqual(GetElementText(createdByUserInHistoryTab), displayUserLogin);
             Assert.AreEqual(name, GetElementText(nameInHistoryTab));
             Assert.AreEqual(notes, GetElementText(notesInHistoryTab));
+            return this;
+        }
+
+        public EventDetailPage VerifyNewRecordInHistoryTab(string newStateValue, string newAllocatedUserValue, string newContractUnitValue, string user)
+        {
+            Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.AllocateEventEventTitle));
+            Assert.AreEqual(newStateValue + ".", GetElementText(newStateInHistoryTab));
+            Assert.AreEqual(newAllocatedUserValue + ".", GetElementText(newAllocatedUserInHistoryTab));
+            Assert.AreEqual(newContractUnitValue + ".", GetElementText(newContractUnitInHistoryTab));
+            Assert.AreEqual(user, GetElementText(createdByUserNewRecord));
+            return this;
+        }
+
+        public EventDetailPage VerifyRecordInHistoryTabAfterUpdate(string newNameValue, string user)
+        {
+            Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.UpdateEventTitle));
+            Assert.AreEqual(newNameValue + ".", GetElementText(nameAfterUpdateInHistoryTab));
+            Assert.AreEqual(user, GetElementText(createdByUserAfterUpdate));
+            return this;
+        }
+
+        public EventDetailPage VerifyRecordInHistoryTabAfterAccept(string newStateValue, string user)
+        {
+            Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.AcceptEventTitle));
+            Assert.AreEqual(newStateValue, GetElementText(stateAfterAcceptInHistoryTab));
+            Assert.AreEqual(user, GetElementText(createdByUserAfterAccept));
             return this;
         }
 
@@ -459,6 +494,24 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventDetailPage ClickPointHistorySubTab()
         {
             ClickOnElement(anyTab, "pointHistory-tab");
+            return this;
+        }
+
+        public EventDetailPage VerifyValueInStatus(string expectedStatus)
+        {
+            Assert.AreEqual(expectedStatus, GetFirstSelectedItemInDropdown(statusDd));
+            return this;
+        }
+
+        public EventDetailPage VerifyValueInAllocatedUnit(string expectedAllocatedUnit)
+        {
+            Assert.AreEqual(expectedAllocatedUnit, GetFirstSelectedItemInDropdown(allocatedUnitDetailDd));
+            return this;
+        }
+
+        public EventDetailPage VerifyValueInAssignedUser(string expectedAlssignedUser)
+        {
+            Assert.AreEqual(expectedAlssignedUser, GetFirstSelectedItemInDropdown(assignedUserDetailDd));
             return this;
         }
 
@@ -573,6 +626,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventDetailPage InputNameInDataTab(string nameValue)
         {
             SendKeys(nameInput, nameValue);
+            return this;
+        }
+
+        public EventDetailPage VerifyValueInNameFieldInDataTab(string expName)
+        {
+            Assert.AreEqual(expName, GetAttributeValue(nameInput, "value"));
             return this;
         }
 
@@ -839,12 +898,26 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
         //Event Actions
         private readonly By allocateEventBtnInEventActions = By.XPath("//span[text()='Allocate Event']/parent::button/parent::li");
+        private readonly By acceptBtnInEventActions = By.XPath("//span[text()='Accept']/parent::button/parent::li");
+        private readonly By addNoteBtnInEventActions = By.XPath("//span[text()='Add Note']/parent::button/parent::li");
 
         public EventDetailPage ClickAllocateEventInEventActionsPanel()
         {
             ClickOnElement(allocateEventBtnInEventActions);
             return this;
         }
-       
+
+        public EventDetailPage ClickAcceptInEventActionsPanel()
+        {
+            ClickOnElement(acceptBtnInEventActions);
+            return this;
+        }
+
+        public EventActionPage ClickAddNoteInEventsActionsPanel()
+        {
+            ClickOnElement(addNoteBtnInEventActions);
+            return PageFactoryManager.Get< EventActionPage>();
+        }
+
     }
 }
