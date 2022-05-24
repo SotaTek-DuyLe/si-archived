@@ -25,13 +25,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser25.UserName, AutoUser25.Password)
                 .IsOnHomePage(AutoUser25);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
-                .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
-                .ExpandOption("Business Unit Groups")
-                .ExpandOptionLast("Collections")
-                .OpenOption("Business Units")
+                .ClickMainOption("Applications")
+                .OpenOption("Master Round Management")
                 .SwitchNewIFrame();
         }
         [Category("BusinessUnit")]
