@@ -23,8 +23,27 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By copyBtn = By.XPath("//button[@title='Copy']");
         private readonly By optimiseBtn = By.XPath("//button[@title='Optimise']");
         private readonly By roundTab = By.XPath("//a[@aria-controls='rounds-tab']");
-        private readonly By addNewItemBtn = By.XPath("//div[@id='rounds-tab']//button");
+        private readonly By defaultResourcesTab = By.XPath("//a[@aria-controls='defaultResources-tab']");
+        private readonly By addNewItemBtnOnRoundTab = By.XPath("//div[@id='rounds-tab']//button");
+        private readonly By addNewItemBtnOnResourceTab = By.XPath("//div[@id='defaultResources-tab']//button[contains(string(), 'Add New Item')]");
         private readonly By roundRows = By.XPath("//div[@id='rounds-tab']//table//tbody//tr");
+        private readonly By resourceRows = By.XPath("//div[@id='defaultResources-tab']//table//tbody//tr[contains(@data-bind, 'with: $data.getFields()')]");
+        private readonly By resourceDetailRows = By.XPath("//div[@id='defaultResources-tab']//table//tbody//tr[contains(@class, 'child-container-row')]");
+        private readonly By typeSelect = By.XPath("./select[@id='type.id']");
+        private readonly By resourceSelect = By.XPath("./select[@id='resource.id']");
+        private readonly By resourceSelectOpt = By.XPath("./select[@id='resource.id']//option");
+        private readonly By quantityInput = By.XPath("./input[@id='quantity.id']");
+        private readonly By retireBtn = By.XPath("./button[@title='Retire']");
+        private readonly By editBtn = By.XPath("./button[@title='Edit']");
+        private readonly By toggleBtn = By.XPath("./div[@id='toggle-actions']");
+        private readonly By addResourceBtn = By.XPath("./button[contains(string(), 'Add Resource')]");
+        private readonly By hasScheduleCheckbox = By.XPath("./input[@type='checkbox']");
+        private readonly By scheduleInput = By.XPath("./input[@id='schedule.id']");
+        private readonly By patternStartDateInput = By.XPath("//div[@id='defaultResources-tab']//div[@id='rightPanel']//input[@id='patternStartDate.id']");
+        private readonly By rightPanelTitle = By.XPath("//div[@id='defaultResources-tab']//label[@class='text-muted']");
+        private readonly By periodTimeButtons = By.XPath("//div[@id='defaultResources-tab']//div[@id='rightPanel']//div[@role='group']//button");
+        private readonly By weeklyFrequencySelect = By.XPath("//div[@id='defaultResources-tab']//div[@id='rightPanel']//select[@id='weekly-frequency']");
+        private readonly By dailyFrequencySelect = By.XPath("//div[@id='defaultResources-tab']//div[@id='rightPanel']//select[@id='daily-frequency']");
 
         public RoundGroupPage VerifyDefaultDataOnAddForm()
         {
@@ -75,6 +94,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             ClickOnElement(roundTab);
             return this;
+        } 
+        
+        public RoundGroupPage ClickDefaultResourceTab()
+        {
+            ClickOnElement(defaultResourcesTab);
+            return this;
         }
 
         public RoundGroupPage IsRoundTab()
@@ -84,21 +109,211 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
-        public RoundGroupPage ClickAddNewItem()
+        public RoundGroupPage ClickAddNewItemOnRoundTab()
         {
-            ClickOnElement(addNewItemBtn);
+            ClickOnElement(addNewItemBtnOnRoundTab);
+            return this;
+        }
+        
+        public RoundGroupPage ClickAddNewItemOnResourceTab()
+        {
+            ClickOnElement(addNewItemBtnOnResourceTab);
             return this;
         }
 
         public int GetIndexNewRoundRow()
         {
             return GetAllElements(roundRows).Count - 1;
+        } 
+        
+        public int GetIndexNewResourceRow()
+        {
+            return GetAllElements(resourceRows).Count - 1;
+        }
+
+        public RoundGroupPage VerifyDropDownTypeIsPresent(int rowIdx)
+        {
+            IWebElement row = GetAllElements(resourceRows)[rowIdx];
+            Assert.IsTrue(row.FindElement(typeSelect).Displayed);
+            return this;
+        }
+
+        public RoundGroupPage VerifyInputQuantityIsPresent(int rowIdx)
+        {
+            IWebElement row = GetAllElements(resourceRows)[rowIdx];
+            Assert.IsTrue(row.FindElement(quantityInput).Displayed);
+            return this;
+        }
+
+        public RoundGroupPage VerifyRetireButtonIsPresent(int rowIdx)
+        {
+            IWebElement row = GetAllElements(resourceRows)[rowIdx];
+            Assert.IsTrue(row.FindElement(retireBtn).Displayed);
+            return this;
+        }
+
+        public RoundGroupPage SelectType(int rowIdx, string value)
+        {
+            IWebElement row = GetAllElements(resourceRows)[rowIdx];
+            IWebElement select = row.FindElement(typeSelect);
+            SelectTextFromDropDown(select, value);
+            return this;
+        }
+
+        public RoundGroupPage EnterQuantity(int rowIdx, string value)
+        {
+            IWebElement row = GetAllElements(resourceRows)[rowIdx];
+            IWebElement input = row.FindElement(quantityInput);
+            SendKeys(input, value);
+            return this;
         }
 
         public RoundGroupPage EnterRoundValue(int rowIdx, string value)
         {
             IWebElement webElement = GetAllElements(roundRows)[rowIdx];
             SendKeys(webElement.FindElement(By.XPath("./td/input[@id='round.id']")), value);
+            return this;
+        }
+
+        public RoundGroupPage ClickExpandButton(int rowIdx)
+        {
+            IWebElement webElement = GetAllElements(resourceRows)[rowIdx];
+            ClickOnElement(webElement.FindElement(toggleBtn));
+            return this;
+        }
+
+        public RoundGroupPage ClickAddResource(int rowIdx)
+        {
+            IWebElement webElement = GetAllElements(resourceDetailRows)[rowIdx];
+            ClickOnElement(webElement.FindElement(addResourceBtn));
+            return this;
+        }
+
+        public RoundGroupPage SelectRandomResource(int rowIdx, int index)
+        {
+            IWebElement webElement = GetAllElements(resourceDetailRows)[rowIdx];
+            SelectIndexFromDropDown(webElement.FindElement(resourceSelect), index);
+            return this;
+        }
+
+        public int GetResourceOptionCount(int rowIdx)
+        {
+            IWebElement webElement = GetAllElements(resourceDetailRows)[rowIdx];
+            return webElement.FindElements(resourceSelectOpt).Count;
+        }
+
+        public RoundGroupPage ClickHasSchedule(int rowIdx)
+        {
+            IWebElement webElement = GetAllElements(resourceDetailRows)[rowIdx];
+            ClickOnElement(webElement.FindElement(hasScheduleCheckbox));
+            return this;
+        }
+        
+        public RoundGroupPage VerifyPatternStartDateContainString(string value)
+        {
+            IWebElement webElement = GetElement(patternStartDateInput);
+            Assert.IsTrue(GetElementText(webElement) == value);
+            return this;
+        } 
+        
+        public RoundGroupPage VerifyRightPanelTitle(string value)
+        {
+            IWebElement webElement = GetElement(rightPanelTitle);
+            Assert.IsTrue(GetElementText(webElement).Trim() == value);
+            return this;
+        }
+
+        public RoundGroupPage VerifyAllPeriodTimeOptions(List<string> options)
+        {
+            List<string> presentOptions = GetAllElements(periodTimeButtons).Select(x => x.Text).ToList();
+            Assert.AreEqual(options, presentOptions);
+            return this;
+        }
+
+        public RoundGroupPage VerifyResourceDetailRow(int rowIdx, int resourceSelectedIdx, bool hasSchedule, string schedule, bool isVisibleRetireBtn, bool isVisibleEditBtn)
+        {
+            IWebElement row = GetAllElements(resourceDetailRows)[rowIdx];
+            IWebElement select = row.FindElement(resourceSelect);
+            List<string> options = row.FindElements(resourceSelectOpt).Select(x => x.Text).ToList();
+            string selectedValue = GetFirstSelectedItemInDropdown(select);
+            Assert.IsTrue(options.IndexOf(selectedValue) == resourceSelectedIdx);
+            IWebElement checkbox = row.FindElement(hasScheduleCheckbox);
+            Assert.IsTrue(checkbox.Selected == hasSchedule);
+            IWebElement input = row.FindElement(scheduleInput);
+            Assert.IsTrue(input.GetAttribute("value") == schedule);
+            IWebElement retireButton = row.FindElement(retireBtn);
+            Assert.IsTrue(retireButton.Displayed);
+            IWebElement editButton = row.FindElement(editBtn);
+            Assert.IsTrue(editButton.Displayed);
+            return this;
+        }
+
+        public RoundGroupPage ClickEditButton(int rowIdx)
+        {
+            IWebElement row = GetAllElements(resourceDetailRows)[rowIdx];
+            IWebElement editButton = row.FindElement(editBtn);
+            ClickOnElement(editButton);
+            return this;
+        }
+
+        public RoundGroupPage ClickPeriodTimeButton(string period)
+        {
+            IWebElement webElement = GetAllElements(periodTimeButtons).FirstOrDefault(x => x.Text.Contains(period));
+            ClickOnElement(webElement);
+            return this;
+        }
+
+        public RoundGroupPage IsPeriodButtonSelected(string period)
+        {
+            IWebElement webElement = GetAllElements(periodTimeButtons).FirstOrDefault(x => x.Text.Contains(period));
+            Assert.IsTrue(webElement.GetAttribute("class").Contains("btn-primary"));
+            return this;
+        }
+
+        public RoundGroupPage SelectWeeklyFrequency(string value)
+        {
+            SelectTextFromDropDown(weeklyFrequencySelect, value);
+            return this;
+        } 
+        
+        public RoundGroupPage SelectDailyFrequency(string value)
+        {
+            SelectTextFromDropDown(dailyFrequencySelect, value);
+            return this;
+        }
+
+        public RoundGroupPage VerifySelectWeeklyFrequency(string value)
+        {
+            Assert.IsTrue(GetFirstSelectedItemInDropdown(weeklyFrequencySelect) == value); ;
+            return this;
+        }
+
+        public RoundGroupPage ClickDayButtonOnWeekly(string day)
+        {
+            string xpath = $"//div[@id='defaultResources-tab']//div[@id='rightPanel']//button[contains(string(), '{day}')]";
+            ClickOnElement(By.XPath(xpath));
+            return this;
+        }
+
+        public RoundGroupPage IsDayButtonOnWeeklySelected(string day)
+        {
+            string xpath = $"//div[@id='defaultResources-tab']//div[@id='rightPanel']//button[contains(string(), '{day}')]";
+            IWebElement webElement = GetElement(By.XPath(xpath));
+            Assert.IsTrue(webElement.GetAttribute("class").Contains("btn-primary"));
+            return this;
+        }
+
+        public RoundGroupPage VerifyRightPanelIsInVisible()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(rightPanelTitle));
+            return this;
+        }
+
+        public RoundGroupPage VerifyRowDetailIsVisible(int rowIdx)
+        {
+            Assert.IsTrue(GetAllElements(resourceDetailRows).Count > rowIdx);
+            IWebElement webElement = GetAllElements(resourceDetailRows)[rowIdx];
+            Assert.IsTrue(webElement.Displayed);
             return this;
         }
 
@@ -141,6 +356,19 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             IWebElement webElement = GetAllElements(roundRows)[rowIdx];
             DoubleClickOnElement(webElement);
+            return this;
+        }
+
+        public RoundGroupPage DoubleClickRound(string roundType)
+        {
+            List<IWebElement> webElements = GetAllElements(roundRows);
+            foreach (var webElement in webElements)
+            {
+                IWebElement input = webElement.FindElement(By.XPath("./input[@id='round.id']"));
+                if (input.GetAttribute("value") != roundType) continue;
+                DoubleClickOnElement(webElement);
+                break;
+            }
             return this;
         }
     }

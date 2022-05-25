@@ -95,7 +95,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickRoundTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundGroupPage>()
-                .ClickAddNewItem()
+                .ClickAddNewItemOnRoundTab()
                 .ClickSaveBtn()
                 .VerifyToastMessages(new System.Collections.Generic.List<string>() { "Shift is required" , "Dispatch Site is required" , "Round Type is required" , "Round is required" });
 
@@ -129,6 +129,108 @@ namespace si_automated_tests.Source.Test.ServiceTests
 
             PageFactoryManager.Get<RoundGroupPage>()
                 .IsRoundTab();
+        }
+
+        [Category("111_Add Default Resource on a Round Group")]
+        [Test]
+        public void TC_111_Add_Default_Resource_on_a_Round_Group()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star Commercial")
+                .ExpandOption("Ancillary")
+                .ExpandOption("Skips")
+                .OpenOption("Round Groups")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<RoundGroupListPage>()
+                .DoubleClickRoundGroup("SKIP2 Daily")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .WaitForLoadingIconToDisappear();
+            Thread.Sleep(1000);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickDefaultResourceTab()
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<RoundGroupPage>()
+               .ClickAddNewItemOnResourceTab();
+            Thread.Sleep(300);
+            int newRow = PageFactoryManager.Get<RoundGroupPage>().GetIndexNewResourceRow();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyDropDownTypeIsPresent(newRow)
+                .VerifyInputQuantityIsPresent(newRow)
+                .VerifyRetireButtonIsPresent(newRow)
+                .SelectType(newRow, "Van")
+                .EnterQuantity(newRow, "1")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Success");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickExpandButton(newRow);
+            Thread.Sleep(300);
+            string dateNow = DateTime.Now.ToString("dd/MM/yyyy");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyRowDetailIsVisible(newRow)
+                .ClickAddResource(newRow);
+            int countOpt = PageFactoryManager.Get<RoundGroupPage>().GetResourceOptionCount(newRow);
+            Random rnd = new Random();
+            int index = rnd.Next(0, countOpt);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .SelectRandomResource(newRow, index)
+                .ClickHasSchedule(newRow)
+                .VerifyRightPanelTitle("Round Group Resource Allocation")
+                .VerifyPatternStartDateContainString(dateNow)
+                .VerifyAllPeriodTimeOptions(new System.Collections.Generic.List<string>() { "Daily", "Weekly", "Monthly", "Yearly" })
+                .ClickPeriodTimeButton("Weekly")
+                .SelectWeeklyFrequency("Every week")
+                .ClickDayButtonOnWeekly("Tue")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Success");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyRightPanelIsInVisible()
+                .ClickExpandButton(newRow);
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyResourceDetailRow(newRow, index, true, $"Every Tuesday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true, true)
+                .ClickEditButton(newRow);
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyRightPanelTitle("Round Group Resource Allocation")
+                .IsPeriodButtonSelected("Weekly")
+                .IsDayButtonOnWeeklySelected("Tue")
+                .VerifySelectWeeklyFrequency("Every week")
+                .ClickPeriodTimeButton("Daily")
+                .SelectDailyFrequency("Every day")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Success");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickExpandButton(newRow);
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyResourceDetailRow(newRow, index, true, $"Daily commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true, true);
+
+            //Verify that user can sync Round Resources on a Round Group
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickRoundTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .DoubleClickRound("Daily")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<RoundDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundDetailPage>()
+                .ClickDefaultResourceTab()
+                .WaitForLoadingIconToDisappear();
         }
     }
 }

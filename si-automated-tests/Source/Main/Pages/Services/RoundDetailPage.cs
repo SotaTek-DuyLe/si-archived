@@ -18,6 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By shiftSelect = By.XPath("//div[@id='details-tab']//select[@id='shift.id']");
         private const string AllTabDisplayed = "//li[@role='presentation' and not(contains(@style, 'visibility: collapse'))]/a";
         private const string FrameMessage = "//div[@class='notifyjs-corner']/div";
+        private readonly By defaultResourceTab = By.XPath("//a[@aria-controls='defaultResources-tab']");
 
         public RoundDetailPage VerifyRoundInput(string expectedValue)
         {
@@ -54,6 +55,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 WaitForLoadingIconToDisappear();
                 Assert.IsFalse(IsControlDisplayedNotThrowEx(FrameMessage));
             }
+            return this;
+        }
+
+        public RoundDetailPage ClickDefaultResourceTab()
+        {
+            ClickOnElement(defaultResourceTab);
             return this;
         }
     }
