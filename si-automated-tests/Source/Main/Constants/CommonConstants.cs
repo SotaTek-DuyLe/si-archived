@@ -37,6 +37,8 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] LinkEventPopupColumn = { "Set", "Service Unit", "Service", "Schedule", " Last", "Next", "Asset Type", "Allocation", "Assured Task", "Client Reference" };
         public static readonly string CreateEventEventTitle = "Create Event - Event";        public static readonly string AllocateEventEventTitle = "Allocate Event - Event";        public static readonly string AcceptEventTitle = "Accept - Event";
         public static readonly string UpdateEventTitle = "Update Event - Event";
+        public static readonly string AddNoteEventTitle = "Add Note - Event";
+        public static readonly string CancelEventTitle = "Cancel - Event";
 
         //DATE
         public static readonly string DATE_DD_MM_YYYY_FORMAT = "dd/MM/yyyy";

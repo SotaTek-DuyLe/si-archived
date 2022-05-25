@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -60,7 +61,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
                 .InputNameInDataTab(nameInDataTab)
-                .InputNote(noteInDataTab)
+                .InputNoteInDataTab(noteInDataTab)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
                 .SwitchToLastWindow()
@@ -76,26 +77,49 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ExpandDetailToggle()
                 .ClickOnAllocatedUnit()
                 .GetAllOptionInAllocatedUnitDetailSubTab();
+            List<string> allAssignedUserEventForm = eventDetailPage
+                .ClickOnAssignedUser()
+                .GetAllOptionInAssignedUserDetailSubTab();
+            eventDetailPage
+                .ClickAndSelectAllocatedUnit(allocatedUnitValue);
+            List<string> assignedUserMapped = eventDetailPage
+                .GetAllOptionInAssignedUserDetailSubTab();
+            eventDetailPage
+                .ClickAndSelectAllocatedUnit("");
+
             //Allocate event
             eventDetailPage
                 .ClickAllocateEventInEventActionsPanel()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
+
+            //EVENT ACTION
             EventActionPage eventActionPage = PageFactoryManager.Get<EventActionPage>();
             List<string> allAllocatedUnitEventAction = eventActionPage
                 .IsEventActionPage()
                 .ClickOnAllocatedUnit()
                 .GetAllOptionsInAllocatedUnitDd();
             eventActionPage
-                .VerifyAllocatedUnitDisplayTheSameEventForm(allAllocatedUnitEventForm, allAllocatedUnitEventAction)
+                .VerifyAllocatedUnitDisplayTheSameEventForm(allAllocatedUnitEventForm, allAllocatedUnitEventAction);
+            //Step 12
+            List<string> allAllocatedUserEventAction = eventActionPage
+                .ClickOnAllocatedUser()
+                .GetAllOptionsInAllocatedUserDd();
+            eventActionPage
+                .VerifyAllocatedUserDisplayTheSameEventForm(allAssignedUserEventForm, allAllocatedUserEventAction);
+            
+
             //Select [Allocated Unit]
+            eventActionPage
+                .ClickOnAllocatedUnit()
                 .SelectAnyAllocatedUnit(allocatedUnitValue)
                 .ClickOnAllocatedUser();
-            List<string> allAllocatedUserEventAction = eventActionPage
+            allAllocatedUserEventAction = eventActionPage
                 .GetAllOptionsInAllocatedUserDd();
+            Assert.IsTrue(allAllocatedUserEventAction.SequenceEqual(assignedUserMapped));
             //Select [Allocated User]
             eventActionPage
-                .SelectAnyAllocatedUser(allAllocatedUserEventAction[0])
+                .SelectAnyAllocatedUser(allAllocatedUserEventAction[1])
                 .ClickSaveAndCloseBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToChildWindow(3)
@@ -105,13 +129,13 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ExpandDetailToggle()
                 .VerifyValueInStatus("Initial Assessment")
                 .VerifyValueInAllocatedUnit(allocatedUnitValue)
-                .VerifyValueInAssignedUser(allAllocatedUserEventAction[0]);
+                .VerifyValueInAssignedUser(allAllocatedUserEventAction[1]);
             //Verify value in [History] tab
             eventDetailPage
                 .ClickHistoryTab()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
-                .VerifyNewRecordInHistoryTab("Initial Assessment", allAllocatedUserEventAction[0], allocatedUnitValue, AutoUser60.DisplayName);
+                .VerifyNewRecordInHistoryTab("Initial Assessment", allAllocatedUserEventAction[1], allocatedUnitValue, AutoUser60.DisplayName);
             string newEventName = "NewEvent112" + CommonUtil.GetRandomString(5);
             //Back to [Data] tab and fill some fields
             eventDetailPage
@@ -121,8 +145,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .InputNameInDataTab(newEventName)
                 //Click [Accept] btn
                 .ClickAcceptInEventActionsPanel()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
-                .VerifyToastMessage(MessageSuccessConstants.ActionSuccessMessage)
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyDisplayToastMessage(MessageSuccessConstants.ActionSuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Verify new Status
             eventDetailPage
@@ -143,9 +167,136 @@ namespace si_automated_tests.Source.Test.EventTests
             PageFactoryManager.Get<EventActionPage>()
                 .ClickSaveAndCloseBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .SwitchToChildWindow(3);
+            //Verify value in [History] tab
+            eventDetailPage
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .ClickHistoryTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyRecordInHistoryTabAfterAddNote(AutoUser60.DisplayName)
+                //Step 22
+                .ClickOnServicesTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+               .ClickFirstEventInFirstServiceRow()
+               .ClickAnyEventOption(eventOption)
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
+            eventDetailPage
+               .WaitForEventDetailDisplayed();
+            eventDetailPage
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
-            //Step 21:
+            //Verify details value
+            eventDetailPage
+                .ExpandDetailToggle()
+                .VerifyValueInStatus("New")
+                .VerifyValueInAllocatedUnit(allocatedUnitValue)
+                .VerifyValueInAssignedUser(allAllocatedUserEventAction[1])
+                .ClickDataTab()
+                .WaitForLoadingIconToDisappear();
+            string clientRef = "Client Ref 112" + CommonUtil.GetRandomString(4);
+            string emailAddress = "email112" + CommonUtil.GetRandomString(5) + "@email.com";
+            eventDetailPage
+                .VerifyValueInNameFieldInDataTab(newEventName)
+                .VerifyValueInNoteField(noteInDataTab)
+                //Step 23: Input clientRef and emailAddress
+                .InputClientRef(clientRef)
+                .InputEmailAddress(emailAddress)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage);
+            eventDetailPage
+                .VerifyValueInClientRef(clientRef)
+                .VerifyValueInEmailFieldInDataTab(emailAddress);
+            eventDetailPage
+                .VerifyCurrentEventUrl();
+            //Step 24: Verify history tab
+            eventDetailPage
+                .ClickHistoryTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyRecordInHistoryTabAfterUpdateClientRefAndEmail(clientRef, emailAddress, AutoUser60.DisplayName);
+            //Step 25: Cancel
+            eventDetailPage
+                .ClickCancelInEventsActionsPanel()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyDisplayToastMessage(MessageSuccessConstants.ActionSuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            string endDate = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT);
+            string resolvedDate = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT);
+            eventDetailPage
+                .VerifyValueInStatus("Cancelled")
+                .VerifyEndDateAndResolvedDate();
+            //Step 26: Verify history tab
+            eventDetailPage
+                .ClickHistoryTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyRecordInHistoryTabAfterCancel("Cancelled", endDate, resolvedDate, AutoUser60.DisplayName);
+            //Step 27: Create new event
+            eventDetailPage
+                .ClickOnServicesTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+               .ClickFirstEventInFirstServiceRow()
+               .ClickAnyEventOption(eventOption)
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
+            eventDetailPage
+               .WaitForEventDetailDisplayed();
+            eventDetailPage
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            //Verify details value
+            eventDetailPage
+                .ExpandDetailToggle()
+                .VerifyValueInStatus("New")
+                .VerifyValueInAllocatedUnit(allocatedUnitValue)
+                .VerifyValueInAssignedUser(allAllocatedUserEventAction[1])
+                .ClickDataTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyValueInNameFieldInDataTab(newEventName)
+                .VerifyValueInNoteField(noteInDataTab)
+                .VerifyValueInEmailFieldInDataTab(emailAddress);
+            List<string> allActionInEventActions = eventDetailPage
+                .GetAllOptionInEventActions();
+            //Step 28
+            List<string> allActions = eventDetailPage
+                .ClickActionBtn()
+                .GetAllOptionInActionDd();
+            eventDetailPage
+                .VerifyActionAreTheSame(allActions, allActionInEventActions);
+            //Step 29
+            eventDetailPage
+                .ClickAnyOptionInActionDd("Allocate Event")
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            eventActionPage
+                .IsEventActionPage()
+                //Step 30
+                .ClickOnAllocatedUnit()
+                .SelectAnyAllocatedUnit("Ancillary")
+                .ClickSaveAndCloseBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .ExpandDetailToggle()
+                .VerifyValueInStatus("Initial Assessment")
+                .VerifyValueInAllocatedUnit("Ancillary")
+                .VerifyValueInAssignedUser("")
+                //Step 31
+                .ClickHistoryTab()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .VerifyNewRecordInHistoryTabAfterAllocate("Initial Assessment", AutoUser60.DisplayName);
         }
     }
 }

@@ -26,6 +26,9 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By FrameMessage = By.XPath("//div[@class='notifyjs-corner']/div");
         private readonly By blueIcon = By.CssSelector("img[title='Find Service Unit for this location']");
         private readonly By allEventOptions = By.CssSelector("ul#create-event-opts>li");
+        private readonly By actionBtn = By.CssSelector("button[title='Actions']");
+        private readonly By allOptionsInActionDd = By.XPath("//button[@title='Actions']/following-sibling::ul/li");
+        private readonly By allOptionsInEventAction = By.XPath("//div[@id='event-actions-content']//span");
 
         //DETAIL - Expanded
         private readonly By sourceInput = By.CssSelector("div#details-content input#source");
@@ -36,6 +39,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By allAllocatedUnitInDetailSubTab = By.CssSelector("div#details-content select#allocated-unit>option");
         private readonly By resolutionCodeDd = By.CssSelector("div#details-content select#resolution-code");
         private readonly By assignedUserDetailDd = By.CssSelector("div#details-content select#allocated-user");
+        private readonly By allAssignedUserInDetailSubTab = By.CssSelector("div#details-content select#allocated-user>option");
         private readonly By dueDateInput = By.CssSelector("div#details-content input#due-date");
         private readonly By resolvedDateInput = By.CssSelector("div#details-content input#resolved-date");
         private readonly By endDateInput = By.CssSelector("div#details-content input#end-date");
@@ -47,6 +51,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private const string serviceUnitDynamic = "//div[@class='parent-row'][{0}]//div[@title='Open Service Unit']/span";
         private const string serviceWithServiceUnitDynamic = "//div[@class='parent-row'][{0}]//span[@title='Open Service Task']";
         private readonly By nameInput = By.XPath("//label[text()='Name']/following-sibling::input");
+        private readonly By noteInputInDataTab = By.XPath("//label[text()='Notes']/following-sibling::textarea");
         private readonly By contactNumberInput = By.XPath("//label[text()='Contact Number']/following-sibling::input");
         private readonly By emailInput = By.CssSelector("input[type='email']");
         private readonly By allActiveServiceRows = By.XPath("//span[@title='Open Service Task' or @title='0']");
@@ -102,6 +107,14 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By createdByUserAfterUpdate = By.XPath("//strong[text()='Update Event - Event']/parent::div/following-sibling::div/strong[1]");
         private readonly By stateAfterAcceptInHistoryTab = By.XPath("//strong[text()='Accept - Event']/following-sibling::div/span[text()='State']/following-sibling::span[1]");
         private readonly By createdByUserAfterAccept = By.XPath("//strong[text()='Accept - Event']/parent::div/following-sibling::div/strong[1]");
+        private readonly By createdByUserAfterAddNote = By.XPath("//strong[text()='Add Note - Event']/parent::div/following-sibling::div/strong[1]");
+        private readonly By clientRefAfterUpdateInHistoryTab = By.XPath("//strong[text()='Update Event - Event']/following-sibling::div/span[text()='Client reference']/following-sibling::span[1]");
+        private readonly By emailAddressAfterUpdateInHistoryTab = By.XPath("//strong[text()='Update Event - Event']/following-sibling::div/span[text()='Email Address']/following-sibling::span[1]");
+
+        private readonly By stateAfterCancelInHistoryTab = By.XPath("//strong[text()='Cancel - Event']/following-sibling::div/span[text()='State']/following-sibling::span[1]");
+        private readonly By endDateAfterCancelInHistoryTab = By.XPath("//strong[text()='Cancel - Event']/following-sibling::div/span[text()='End date']/following-sibling::span[1]");
+        private readonly By resolvedDateAfterCancelInHistoryTab = By.XPath("//strong[text()='Cancel - Event']/following-sibling::div/span[text()='Resolved date']/following-sibling::span[1]");
+        private readonly By emailAddressAfterCancelInHistoryTab = By.XPath("//strong[text()='Cancel - Event']/following-sibling::div/span[text()='Email Address']/following-sibling::span[1]");
 
         //DYNAMIC
         private const string urlType = "//a[text()='{0}']";
@@ -110,6 +123,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private const string allocatedUnitOption = "//label[text()='Allocated Unit']/following-sibling::div/select/option[text()='{0}']";
         private const string assignedUserOption = "//label[text()='Assigned User']/following-sibling::div/select/option[text()='{0}']";
         private const string anyTab = "//a[@aria-controls='{0}']";
+        private const string anyOptionInActionDd = "//button[@title='Actions']/following-sibling::ul/li/a[text()='{0}']";
 
         //POPUP
         private readonly By linkEventTitle = By.XPath("//div[@id='no-service-unit']//h4[text()='Link event to a service unit']");
@@ -322,6 +336,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 ClickOnElement(detailToggle);
                 WaitUtil.WaitForAllElementsVisible(detailLoactorExpanded);
             }
+            WaitUtil.WaitForPageLoaded();
             
             return this;
         }
@@ -432,12 +447,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventDetailPage VerifyHistoryData(string eventDate, string dueDate, string name, string notes, string state, string displayUserLogin)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CreateEventEventTitle));
-            Assert.AreEqual(state, GetElementText(stateInHistoryTab));
+            Assert.AreEqual(state + ".", GetElementText(stateInHistoryTab));
             Assert.IsTrue(GetElementText(eventDateInHistoryTab).Contains(eventDate));
             Assert.IsTrue(GetElementText(dueDateInHistoryTab).Contains(dueDate));
             Assert.AreEqual(GetElementText(createdByUserInHistoryTab), displayUserLogin);
-            Assert.AreEqual(name, GetElementText(nameInHistoryTab));
-            Assert.AreEqual(notes, GetElementText(notesInHistoryTab));
+            Assert.AreEqual(name + ".", GetElementText(nameInHistoryTab));
+            Assert.AreEqual(notes + ".", GetElementText(notesInHistoryTab));
             return this;
         }
 
@@ -451,11 +466,46 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
+        public EventDetailPage VerifyNewRecordInHistoryTabAfterAllocate(string newStateValue, string user)
+        {
+            Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.AllocateEventEventTitle));
+            Assert.AreEqual(newStateValue + ".", GetElementText(newStateInHistoryTab));
+            Assert.AreEqual(user, GetElementText(createdByUserNewRecord));
+            return this;
+        }
+
+
         public EventDetailPage VerifyRecordInHistoryTabAfterUpdate(string newNameValue, string user)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.UpdateEventTitle));
             Assert.AreEqual(newNameValue + ".", GetElementText(nameAfterUpdateInHistoryTab));
             Assert.AreEqual(user, GetElementText(createdByUserAfterUpdate));
+            return this;
+        }
+
+        public EventDetailPage VerifyRecordInHistoryTabAfterCancel(string newState, string endDate, string resolvedDate, string user)
+        {
+            Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CancelEventTitle));
+            Assert.AreEqual(newState + ".", GetElementText(stateAfterCancelInHistoryTab));
+            Assert.IsTrue(GetElementText(endDateAfterCancelInHistoryTab).Contains(endDate));
+            Assert.IsTrue(GetElementText(resolvedDateAfterCancelInHistoryTab).Contains(resolvedDate));
+            Assert.AreEqual(user, GetElementText(createdByUserAfterUpdate));
+            return this;
+        }
+
+        public EventDetailPage VerifyRecordInHistoryTabAfterUpdateClientRefAndEmail(string clientRef, string emailAddress, string user)
+        {
+            Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.UpdateEventTitle));
+            Assert.AreEqual(clientRef + ".", GetElementText(clientRefAfterUpdateInHistoryTab));
+            Assert.AreEqual(emailAddress + ".", GetElementText(emailAddressAfterUpdateInHistoryTab));
+            Assert.AreEqual(user, GetElementText(createdByUserAfterUpdate));
+            return this;
+        }
+
+        public EventDetailPage VerifyRecordInHistoryTabAfterAddNote(string user)
+        {
+            Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.AddNoteEventTitle));
+            Assert.AreEqual(user, GetElementText(createdByUserAfterAddNote));
             return this;
         }
 
@@ -499,13 +549,33 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
         public EventDetailPage VerifyValueInStatus(string expectedStatus)
         {
+            WaitUtil.WaitForElementVisible(statusDd);
             Assert.AreEqual(expectedStatus, GetFirstSelectedItemInDropdown(statusDd));
+            return this;
+        }
+
+        public EventDetailPage VerifyEndDateAndResolvedDate()
+        {
+            Assert.IsTrue(GetAttributeValue(endDateInput, "value").Contains(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT)));
+            Assert.IsTrue(GetAttributeValue(resolvedDateInput, "value").Contains(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT)));
             return this;
         }
 
         public EventDetailPage VerifyValueInAllocatedUnit(string expectedAllocatedUnit)
         {
             Assert.AreEqual(expectedAllocatedUnit, GetFirstSelectedItemInDropdown(allocatedUnitDetailDd));
+            return this;
+        }
+
+        public EventDetailPage InputClientRef(string clientRefValue)
+        {
+            SendKeys(clientRefInput, clientRefValue);
+            return this;
+        }
+
+        public EventDetailPage VerifyValueInClientRef(string expectedClientRef)
+        {
+            Assert.AreEqual(expectedClientRef, GetAttributeValue(clientRefInput, "value"));
             return this;
         }
 
@@ -629,6 +699,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
+        public EventDetailPage InputNoteInDataTab(string noteValue)
+        {
+            SendKeys(noteInputInDataTab, noteValue);
+            return this;
+        }
+
         public EventDetailPage VerifyValueInNameFieldInDataTab(string expName)
         {
             Assert.AreEqual(expName, GetAttributeValue(nameInput, "value"));
@@ -640,6 +716,19 @@ namespace si_automated_tests.Source.Main.Pages.Events
             SendKeys(contactNumberInput, numberValue);
             return this;
         }
+
+        public EventDetailPage InputEmailAddress(string emailValue)
+        {
+            SendKeys(emailInput, emailValue);
+            return this;
+        }
+
+        public EventDetailPage VerifyValueInEmailFieldInDataTab(string expName)
+        {
+            Assert.AreEqual(expName, GetAttributeValue(emailInput, "value"));
+            return this;
+        }
+
 
         public List<string> GetAllEventTypeInDd()
         {
@@ -663,6 +752,17 @@ namespace si_automated_tests.Source.Main.Pages.Events
             List<string> results = new List<string>();
             List<IWebElement> allAllocatedOptions = GetAllElements(allAllocatedUnitInDetailSubTab);
             foreach(IWebElement e in allAllocatedOptions)
+            {
+                results.Add(GetElementText(e));
+            }
+            return results;
+        }
+
+        public List<string> GetAllOptionInAssignedUserDetailSubTab()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allAllocatedOptions = GetAllElements(allAssignedUserInDetailSubTab);
+            foreach (IWebElement e in allAllocatedOptions)
             {
                 results.Add(GetElementText(e));
             }
@@ -755,6 +855,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
+        public EventDetailPage ClickOnAssignedUser()
+        {
+            ClickOnElement(assignedUserDd);
+            return this;
+        }
+
         public EventDetailPage ClickAndSelectAssignedUser(string assignedUserValue)
         {
             ClickOnElement(assignedUserDd);
@@ -783,6 +889,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventDetailPage InputNote(string noteValue)
         {
             SendKeys(noteInput, noteValue);
+            return this;
+        }
+
+        public EventDetailPage VerifyValueInNoteField(string expNoteValue)
+        {
+            Assert.AreEqual(expNoteValue, GetAttributeValue(noteInputInDataTab, "value"));
             return this;
         }
 
@@ -876,6 +988,46 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 .Replace(WebUrl.MainPageUrl + "web/events/", "");
         }
 
+        public EventDetailPage ClickActionBtn()
+        {
+            ClickOnElement(actionBtn);
+            return this;
+        }
+
+        public List<string> GetAllOptionInActionDd()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allActions = GetAllElements(allOptionsInActionDd);
+            foreach(IWebElement e in allActions)
+            {
+                results.Add(GetElementText(e));
+            }
+            return results;
+        }  
+
+        public EventDetailPage ClickAnyOptionInActionDd(string actionName)
+        {
+            ClickOnElement(anyOptionInActionDd, actionName);
+            return this;
+        }
+
+        public List<string> GetAllOptionInEventActions()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allActions = GetAllElements(allOptionsInEventAction);
+            foreach (IWebElement e in allActions)
+            {
+                results.Add(GetElementText(e));
+            }
+            return results;
+        }
+
+        public EventDetailPage VerifyActionAreTheSame(List<string> actions, List<string> eventActions)
+        {
+            Assert.IsTrue(actions.SequenceEqual(eventActions));
+            return this;
+        }
+
 
         //DB
 
@@ -900,6 +1052,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By allocateEventBtnInEventActions = By.XPath("//span[text()='Allocate Event']/parent::button/parent::li");
         private readonly By acceptBtnInEventActions = By.XPath("//span[text()='Accept']/parent::button/parent::li");
         private readonly By addNoteBtnInEventActions = By.XPath("//span[text()='Add Note']/parent::button/parent::li");
+        private readonly By cancelBtnInEventActions = By.XPath("//span[text()='Cancel']/parent::button/parent::li");
 
         public EventDetailPage ClickAllocateEventInEventActionsPanel()
         {
@@ -917,6 +1070,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
         {
             ClickOnElement(addNoteBtnInEventActions);
             return PageFactoryManager.Get< EventActionPage>();
+        }
+
+        public EventDetailPage ClickCancelInEventsActionsPanel()
+        {
+            ClickOnElement(cancelBtnInEventActions);
+            return this;
         }
 
     }

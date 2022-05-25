@@ -80,5 +80,11 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.IsTrue(allocatedUnitEventActionForm.SequenceEqual(allocatedUnitInEventForm));
             return this;
         }
+
+        public EventActionPage VerifyAllocatedUserDisplayTheSameEventForm(List<string> allocatedUserInEventForm, List<string> allocatedUserEventActionForm)
+        {
+            Assert.IsTrue(allocatedUserInEventForm.SequenceEqual(allocatedUserEventActionForm));
+            return this;
+        }
     }
 }
