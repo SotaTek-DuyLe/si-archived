@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.Models.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,19 +27,20 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By defaultResourcesTab = By.XPath("//a[@aria-controls='defaultResources-tab']");
         private readonly By addNewItemBtnOnRoundTab = By.XPath("//div[@id='rounds-tab']//button");
         private readonly By addNewItemBtnOnResourceTab = By.XPath("//div[@id='defaultResources-tab']//button[contains(string(), 'Add New Item')]");
+        private readonly By syncRoundResourceOnResourceTab = By.XPath("//div[@id='defaultResources-tab']//button[contains(string(), 'Sync Round Resource')]");
         private readonly By roundRows = By.XPath("//div[@id='rounds-tab']//table//tbody//tr");
-        private readonly By resourceRows = By.XPath("//div[@id='defaultResources-tab']//table//tbody//tr[contains(@data-bind, 'with: $data.getFields()')]");
+        private readonly By resourceRows = By.XPath("//div[@id='defaultResources-tab']//table//tbody//tr[contains(@data-bind, 'with: $data.getFields()')][not(ancestor::tr)]");
         private readonly By resourceDetailRows = By.XPath("//div[@id='defaultResources-tab']//table//tbody//tr[contains(@class, 'child-container-row')]");
-        private readonly By typeSelect = By.XPath("./select[@id='type.id']");
-        private readonly By resourceSelect = By.XPath("./select[@id='resource.id']");
-        private readonly By resourceSelectOpt = By.XPath("./select[@id='resource.id']//option");
-        private readonly By quantityInput = By.XPath("./input[@id='quantity.id']");
-        private readonly By retireBtn = By.XPath("./button[@title='Retire']");
-        private readonly By editBtn = By.XPath("./button[@title='Edit']");
-        private readonly By toggleBtn = By.XPath("./div[@id='toggle-actions']");
-        private readonly By addResourceBtn = By.XPath("./button[contains(string(), 'Add Resource')]");
-        private readonly By hasScheduleCheckbox = By.XPath("./input[@type='checkbox']");
-        private readonly By scheduleInput = By.XPath("./input[@id='schedule.id']");
+        private readonly By typeSelect = By.XPath("./td//select[@id='type.id']");
+        private readonly By resourceSelect = By.XPath("./td//select[@id='resource.id']");
+        private readonly By resourceSelectOpt = By.XPath("./td//select[@id='resource.id']//option");
+        private readonly By quantityInput = By.XPath("./td//input[@id='quantity.id']");
+        private readonly By retireBtn = By.XPath("./td//button[@title='Retire']");
+        private readonly By editBtn = By.XPath("./td//button[@title='Edit']");
+        private readonly By toggleBtn = By.XPath("./td//div[@id='toggle-actions']");
+        private readonly By addResourceBtn = By.XPath("./td//button[contains(string(), 'Add Resource')]");
+        private readonly By hasScheduleCheckbox = By.XPath("./td//input[@type='checkbox']");
+        private readonly By scheduleInput = By.XPath("./td//input[@id='schedule.id']");
         private readonly By patternStartDateInput = By.XPath("//div[@id='defaultResources-tab']//div[@id='rightPanel']//input[@id='patternStartDate.id']");
         private readonly By rightPanelTitle = By.XPath("//div[@id='defaultResources-tab']//label[@class='text-muted']");
         private readonly By periodTimeButtons = By.XPath("//div[@id='defaultResources-tab']//div[@id='rightPanel']//div[@role='group']//button");
@@ -120,6 +122,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(addNewItemBtnOnResourceTab);
             return this;
         }
+         
+        public RoundGroupPage ClickSyncRoundResourceOnResourceTab()
+        {
+            ClickOnElement(syncRoundResourceOnResourceTab);
+            return this;
+        }
 
         public int GetIndexNewRoundRow()
         {
@@ -184,27 +192,27 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         public RoundGroupPage ClickAddResource(int rowIdx)
         {
-            IWebElement webElement = GetAllElements(resourceDetailRows)[rowIdx];
+            IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
             ClickOnElement(webElement.FindElement(addResourceBtn));
             return this;
         }
 
         public RoundGroupPage SelectRandomResource(int rowIdx, int index)
         {
-            IWebElement webElement = GetAllElements(resourceDetailRows)[rowIdx];
+            IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
             SelectIndexFromDropDown(webElement.FindElement(resourceSelect), index);
             return this;
         }
 
         public int GetResourceOptionCount(int rowIdx)
         {
-            IWebElement webElement = GetAllElements(resourceDetailRows)[rowIdx];
+            IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
             return webElement.FindElements(resourceSelectOpt).Count;
         }
 
         public RoundGroupPage ClickHasSchedule(int rowIdx)
         {
-            IWebElement webElement = GetAllElements(resourceDetailRows)[rowIdx];
+            IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
             ClickOnElement(webElement.FindElement(hasScheduleCheckbox));
             return this;
         }
@@ -212,7 +220,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public RoundGroupPage VerifyPatternStartDateContainString(string value)
         {
             IWebElement webElement = GetElement(patternStartDateInput);
-            Assert.IsTrue(GetElementText(webElement) == value);
+            Assert.IsTrue(webElement.GetAttribute("value") == value);
             return this;
         } 
         
@@ -232,11 +240,11 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         public RoundGroupPage VerifyResourceDetailRow(int rowIdx, int resourceSelectedIdx, bool hasSchedule, string schedule, bool isVisibleRetireBtn, bool isVisibleEditBtn)
         {
-            IWebElement row = GetAllElements(resourceDetailRows)[rowIdx];
-            IWebElement select = row.FindElement(resourceSelect);
-            List<string> options = row.FindElements(resourceSelectOpt).Select(x => x.Text).ToList();
-            string selectedValue = GetFirstSelectedItemInDropdown(select);
-            Assert.IsTrue(options.IndexOf(selectedValue) == resourceSelectedIdx);
+            IWebElement row = this.driver.FindElements(resourceDetailRows)[rowIdx];
+            //IWebElement select = row.FindElement(resourceSelect);
+            //List<string> options = row.FindElements(resourceSelectOpt).Select(x => x.Text).ToList();
+            //string selectedValue = GetFirstSelectedItemInDropdown(select);
+            //Assert.IsTrue(options.IndexOf(selectedValue) == resourceSelectedIdx);
             IWebElement checkbox = row.FindElement(hasScheduleCheckbox);
             Assert.IsTrue(checkbox.Selected == hasSchedule);
             IWebElement input = row.FindElement(scheduleInput);
@@ -250,7 +258,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         public RoundGroupPage ClickEditButton(int rowIdx)
         {
-            IWebElement row = GetAllElements(resourceDetailRows)[rowIdx];
+            IWebElement row = this.driver.FindElements(resourceDetailRows)[rowIdx];
             IWebElement editButton = row.FindElement(editBtn);
             ClickOnElement(editButton);
             return this;
@@ -311,8 +319,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         public RoundGroupPage VerifyRowDetailIsVisible(int rowIdx)
         {
-            Assert.IsTrue(GetAllElements(resourceDetailRows).Count > rowIdx);
-            IWebElement webElement = GetAllElements(resourceDetailRows)[rowIdx];
+            Assert.IsTrue(this.driver.FindElements(resourceDetailRows).Count > rowIdx);
+            IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
             Assert.IsTrue(webElement.Displayed);
             return this;
         }
@@ -364,12 +372,43 @@ namespace si_automated_tests.Source.Main.Pages.Services
             List<IWebElement> webElements = GetAllElements(roundRows);
             foreach (var webElement in webElements)
             {
-                IWebElement input = webElement.FindElement(By.XPath("./input[@id='round.id']"));
+                IWebElement input = webElement.FindElement(By.XPath("./td/input[@id='round.id']"));
                 if (input.GetAttribute("value") != roundType) continue;
                 DoubleClickOnElement(webElement);
                 break;
             }
             return this;
+        }
+
+        public List<DefaultResourceModel> GetAllDefaultResourceModels()
+        {
+            List<DefaultResourceModel> defaultResources = new List<DefaultResourceModel>();
+            List<IWebElement> webElements = GetAllElements(resourceRows);
+            List<IWebElement> webDetailElements = this.driver.FindElements(resourceDetailRows).ToList();
+            for (int i = 0; i < webElements.Count; i++)
+            {
+                DefaultResourceModel defaultResource = new DefaultResourceModel();
+                defaultResource.Type = GetFirstSelectedItemInDropdown(webElements[i].FindElement(typeSelect));
+                defaultResource.Quantity = webElements[i].FindElement(quantityInput).GetAttribute("value");
+                bool containDetail = webDetailElements[i].FindElements(resourceSelect).Count != 0;
+                if (containDetail)
+                {
+                    if (!webDetailElements[i].Displayed)
+                    {
+                        ClickExpandButton(i);
+                        Thread.Sleep(300);
+                    }
+
+                    defaultResource.Detail = new DetailDefaultResourceModel()
+                    {
+                        Resource = GetFirstSelectedItemInDropdown(webDetailElements[i].FindElement(resourceSelect)),
+                        HasSchedule = webDetailElements[i].FindElement(hasScheduleCheckbox).Selected,
+                        Schedule = webDetailElements[i].FindElement(scheduleInput).GetAttribute("value"),
+                    };
+                }
+                defaultResources.Add(defaultResource);
+            }
+            return defaultResources;
         }
     }
 }

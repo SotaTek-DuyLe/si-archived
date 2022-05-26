@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Finders;
+using si_automated_tests.Source.Main.Models.Services;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PointAddress;
@@ -178,8 +180,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             Thread.Sleep(300);
             string dateNow = DateTime.Now.ToString("dd/MM/yyyy");
             PageFactoryManager.Get<RoundGroupPage>()
-                .VerifyRowDetailIsVisible(newRow)
-                .ClickAddResource(newRow);
+                .ClickAddResource(newRow)
+                .VerifyRowDetailIsVisible(newRow);
             int countOpt = PageFactoryManager.Get<RoundGroupPage>().GetResourceOptionCount(newRow);
             Random rnd = new Random();
             int index = rnd.Next(0, countOpt);
@@ -231,6 +233,32 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<RoundDetailPage>()
                 .ClickDefaultResourceTab()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundDetailPage>()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickDefaultResourceTab()
+                .WaitForLoadingIconToDisappear();
+            List<DefaultResourceModel> defaultResourceOnRound = PageFactoryManager.Get<RoundGroupPage>().GetAllDefaultResourceModels();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickSyncRoundResourceOnResourceTab()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Successfully saved Round Group");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickRoundTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .DoubleClickRound("Daily")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<RoundDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundDetailPage>()
+                .ClickDefaultResourceTab()
+                .WaitForLoadingIconToDisappear();
+            List<DefaultResourceModel> defaultResourceOnRoundDetailAfterSync = PageFactoryManager.Get<RoundDetailPage>().GetAllDefaultResourceModels();
+            PageFactoryManager.Get<RoundDetailPage>()
+                .IsDefaultResourceSync(defaultResourceOnRound, defaultResourceOnRoundDetailAfterSync);
         }
     }
 }
