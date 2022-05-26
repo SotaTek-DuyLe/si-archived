@@ -380,6 +380,30 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        public RoundGroupPage ClickRetireButton(string driverType)
+        {
+            List<IWebElement> webElements = GetAllElements(resourceRows);
+            for (int i = 0; i < webElements.Count; i++)
+            {
+                if (GetFirstSelectedItemInDropdown(webElements[i].FindElement(typeSelect)) == driverType)
+                {
+                    ClickOnElement(webElements[i].FindElement(retireBtn));
+                    break;
+                }
+            }
+            return this;
+        }
+
+        public RoundGroupPage VerifyDefaultResourceIsInVisible(string driverType)
+        {
+            List<IWebElement> webElements = GetAllElements(resourceRows);
+            for (int i = 0; i < webElements.Count; i++)
+            {
+                Assert.IsFalse(GetFirstSelectedItemInDropdown(webElements[i].FindElement(typeSelect)) == driverType);
+            }
+            return this;
+        }
+
         public List<DefaultResourceModel> GetAllDefaultResourceModels()
         {
             List<DefaultResourceModel> defaultResources = new List<DefaultResourceModel>();

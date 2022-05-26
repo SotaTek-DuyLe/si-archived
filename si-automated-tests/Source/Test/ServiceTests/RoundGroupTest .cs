@@ -260,5 +260,45 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<RoundDetailPage>()
                 .IsDefaultResourceSync(defaultResourceOnRound, defaultResourceOnRoundDetailAfterSync);
         }
+
+        [Category("113_Retire Default Resource on a Round Group")]
+        [Test]
+        public void TC_113_Retire_Default_Resource_on_a_Round_Group()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star Commercial")
+                .ExpandOption("Ancillary")
+                .ExpandOption("Skips")
+                .OpenOption("Round Groups")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<RoundGroupListPage>()
+                .DoubleClickRoundGroup("SKIP2 Daily")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .WaitForLoadingIconToDisappear();
+            Thread.Sleep(1000);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickDefaultResourceTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickRetireButton("Driver");
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyDefaultResourceIsInVisible("Driver")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Success");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyDefaultResourceIsInVisible("Driver");
+        }
     }
 }
