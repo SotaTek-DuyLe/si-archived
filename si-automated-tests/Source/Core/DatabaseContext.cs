@@ -33,6 +33,31 @@ namespace si_automated_tests.Source.Core
             Conection = new SqlConnection(builder.ConnectionString);
             Conection.Open();
         }
+        public DatabaseContext(string dbName, string userId, string pass)
+        {
+            IConfigurationRoot config = ConfigManager.InitConfiguration();
+            var mSConfiguration = new MSConfiguration();
+            config.Bind("ConnectionStrings", mSConfiguration);
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            builder.DataSource = mSConfiguration.Host;
+            builder.InitialCatalog = dbName;
+            builder.UserID = userId;
+            builder.Password = pass;
+            Conection = new SqlConnection(builder.ConnectionString);
+            Conection.Open();
+        }
+        public DatabaseContext(string dbName)
+        {
+            IConfigurationRoot config = ConfigManager.InitConfiguration();
+            var mSConfiguration = new MSConfiguration();
+            config.Bind("ConnectionStrings", mSConfiguration);
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            builder.DataSource = mSConfiguration.Host;
+            builder.InitialCatalog = dbName;
+            builder.IntegratedSecurity = true;
+            Conection = new SqlConnection(builder.ConnectionString);
+            Conection.Open();
+        }
 
         public void Dispose()
         {

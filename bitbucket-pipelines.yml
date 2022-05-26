@@ -89,6 +89,37 @@ pipelines:
               - dotnet test --logger:"junit" --settings test.runsettings -- "$env:SCRIPTT"
             artifacts:
               - '*/TestResults/Screenshots/*.png'
+
+    Run test on custom environment and db creds:
+      - variables:
+            - name: TestUrl
+            - name: IntegratedSecurity
+            - name: DbName
+            - name: DbUser
+            - name: DbPass
+      - step:
+            runs-on:
+              - self.hosted
+              - windows
+            script:
+              - echo "Running on environment " $env:TestEnv
+              - $env:SCRIPT1='TestRunParameters.Parameter(name=\\\"url\\\", value=\\\"'+$env:TestUrl+'\\\")'
+              - $env:SCRIPT2='TestRunParameters.Parameter(name=\\\"useIntegratedSecurity\\\", value=\\\"'+$env:IntegratedSecurity+'\\\")'
+              - $env:SCRIPT3='TestRunParameters.Parameter(name=\\\"dbname\\\", value=\\\"'+$env:DbName+'\\\")'
+              - $env:SCRIPT4='TestRunParameters.Parameter(name=\\\"dbusername\\\", value=\\\"'+$env:DbUser+'\\\")'
+              - $env:SCRIPT5='TestRunParameters.Parameter(name=\\\"dbpassword\\\", value=\\\"'+$env:DbPass+'\\\")'
+              - echo $env:SCRIPT1
+              - echo $env:SCRIPT2
+              - echo $env:SCRIPT3
+              - echo $env:SCRIPT4
+              - echo $env:SCRIPT5
+              - dotnet clean
+              - dotnet restore
+              - cd si-automated-tests
+              - dotnet add package JUnitTestLogger --version 1.1.0
+              - dotnet test --filter Name~TC_95_business_unit_group --logger:"junit" --settings test.runsettings -- "$env:SCRIPT1" -- "$env:SCRIPT2" -- "$env:SCRIPT3" -- "$env:SCRIPT4" -- "$env:SCRIPT5"
+            artifacts:
+              - '*/TestResults/Screenshots/*.png'
               
   default:
     - parallel:
