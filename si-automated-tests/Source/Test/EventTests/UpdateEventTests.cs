@@ -78,14 +78,17 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickOnAllocatedUnit()
                 .GetAllOptionInAllocatedUnitDetailSubTab();
             List<string> allAssignedUserEventForm = eventDetailPage
-                .ClickOnAssignedUser()
+                .ClickOnAssignedUserInDetailSubTab()
                 .GetAllOptionInAssignedUserDetailSubTab();
             eventDetailPage
-                .ClickAndSelectAllocatedUnit(allocatedUnitValue);
+                .ClickOnAllocatedUnit()
+                .SelectAnyAllocatedUnit(allocatedUnitValue);
             List<string> assignedUserMapped = eventDetailPage
+                .ClickOnAssignedUserInDetailSubTab()
                 .GetAllOptionInAssignedUserDetailSubTab();
             eventDetailPage
-                .ClickAndSelectAllocatedUnit("");
+                 .ClickOnAllocatedUnit()
+                .SelectAnyAllocatedUnit("");
 
             //Allocate event
             eventDetailPage

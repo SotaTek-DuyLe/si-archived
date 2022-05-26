@@ -44,6 +44,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By resolvedDateInput = By.CssSelector("div#details-content input#resolved-date");
         private readonly By endDateInput = By.CssSelector("div#details-content input#end-date");
         private readonly By clientRefInput = By.CssSelector("div#details-content input#client-reference");
+        private const string allocatedUnitDetailOption = "//div[@id='details-content']//select[@id='allocated-unit']/option[text()='{0}']";
 
         //DATA TAB
         private readonly By allActiveServiceRow = By.XPath("//div[@class='parent-row']//span[@title='Open Service Task']");
@@ -747,6 +748,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
+        public EventDetailPage SelectAnyAllocatedUnit(string allocatedUnitValue)
+        {
+            ClickOnElement(allocatedUnitDetailOption, allocatedUnitValue);
+            return this;
+        }
+
         public List<string> GetAllOptionInAllocatedUnitDetailSubTab()
         {
             List<string> results = new List<string>();
@@ -855,9 +862,9 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
-        public EventDetailPage ClickOnAssignedUser()
+        public EventDetailPage ClickOnAssignedUserInDetailSubTab()
         {
-            ClickOnElement(assignedUserDd);
+            ClickOnElement(assignedUserDetailDd);
             return this;
         }
 
