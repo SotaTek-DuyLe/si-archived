@@ -27,7 +27,7 @@ namespace si_automated_tests.Source.Core
             config.Bind("ConnectionStrings", mSConfiguration);
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
             builder.DataSource = mSConfiguration.Host;
-            builder.InitialCatalog = WebUrl.GetDBName();
+            builder.InitialCatalog = mSConfiguration.DBName;
             builder.UserID = mSConfiguration.UserId;
             builder.Password = mSConfiguration.Password;
             Conection = new SqlConnection(builder.ConnectionString);

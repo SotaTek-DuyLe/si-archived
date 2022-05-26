@@ -93,6 +93,7 @@ pipelines:
     Run test on custom environment and db creds:
       - variables:
             - name: TestUrl
+            - name: TestHost
             - name: IntegratedSecurity
             - name: DbName
             - name: DbUser
@@ -103,11 +104,13 @@ pipelines:
               - windows
             script:
               - echo "Running on environment " $env:TestEnv
-              - $env:SCRIPT1='TestRunParameters.Parameter(name=\\\"url\\\", value=\\\"'+$env:TestUrl+'\\\")'
+              - $env:SCRIPT0='TestRunParameters.Parameter(name=\\\"url\\\", value=\\\"'+$env:TestUrl+'\\\")'
+              - $env:SCRIPT1='TestRunParameters.Parameter(name=\\\"host\\\", value=\\\"'+$env:TestHost+'\\\")'
               - $env:SCRIPT2='TestRunParameters.Parameter(name=\\\"useIntegratedSecurity\\\", value=\\\"'+$env:IntegratedSecurity+'\\\")'
               - $env:SCRIPT3='TestRunParameters.Parameter(name=\\\"dbname\\\", value=\\\"'+$env:DbName+'\\\")'
               - $env:SCRIPT4='TestRunParameters.Parameter(name=\\\"dbusername\\\", value=\\\"'+$env:DbUser+'\\\")'
               - $env:SCRIPT5='TestRunParameters.Parameter(name=\\\"dbpassword\\\", value=\\\"'+$env:DbPass+'\\\")'
+              - echo $env:SCRIPT0
               - echo $env:SCRIPT1
               - echo $env:SCRIPT2
               - echo $env:SCRIPT3
@@ -117,7 +120,7 @@ pipelines:
               - dotnet restore
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
-              - dotnet test --filter Name~TC_95_business_unit_group --logger:"junit" --settings test.runsettings -- "$env:SCRIPT1" -- "$env:SCRIPT2" -- "$env:SCRIPT3" -- "$env:SCRIPT4" -- "$env:SCRIPT5"
+              - dotnet test --filter Name~TC_95_business_unit_group --logger:"junit" --settings test.runsettings -- "$env:SCRIPT0" -- "$env:SCRIPT1" -- "$env:SCRIPT2" -- "$env:SCRIPT3" -- "$env:SCRIPT4" -- "$env:SCRIPT5"
             artifacts:
               - '*/TestResults/Screenshots/*.png'
               

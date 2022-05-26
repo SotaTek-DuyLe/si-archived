@@ -15,26 +15,26 @@ namespace si_automated_tests.Source.Core
             new WebUrl();
             try
             {
+                string host = TestContext.Parameters.Get("host");
+                string useIntegratedSecurity = TestContext.Parameters.Get("useIntegratedSecurity");
                 string db = TestContext.Parameters.Get("dbname");
-                string userId = TestContext.Parameters.Get("dbusername");
-                string password = TestContext.Parameters.Get("dbpassword");
-                var useIntegratedSecurity = TestContext.Parameters.Get("useIntegratedSecurity");
                 if (useIntegratedSecurity.Equals("true", StringComparison.InvariantCultureIgnoreCase))
                 {
                     DatabaseContext = new DatabaseContext(db);
                 }
                 else
                 {
+                    string userId = TestContext.Parameters.Get("dbusername");
+                    string password = TestContext.Parameters.Get("dbpassword");
                     DatabaseContext = new DatabaseContext(db, userId, password);
                 }
             }
             catch(Exception e)
             {
                 Logger.Get().Info(e.StackTrace);
-                Logger.Get().Info("SQL details not specified, using default details");
+                Logger.Get().Info("SQL details not specified correctly, using default details");
                 DatabaseContext = new DatabaseContext();
             }
-            Logger.Get().Info("Using Connection string: " + DatabaseContext.Conection.ConnectionString);
             
         }
 
@@ -42,6 +42,7 @@ namespace si_automated_tests.Source.Core
         public virtual void Setup()
         {
             OnSetup();
+            Logger.Get().Info("Using Connection string: " + DatabaseContext.Conection.ConnectionString);
             //DatabaseContext = new DatabaseContext();
         }
 
