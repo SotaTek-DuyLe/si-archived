@@ -42,7 +42,6 @@ namespace si_automated_tests.Source.Core
         public virtual void Setup()
         {
             OnSetup();
-            Logger.Get().Info("Using Connection string: " + DatabaseContext.Conection.ConnectionString);
             //DatabaseContext = new DatabaseContext();
         }
 
