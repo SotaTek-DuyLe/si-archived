@@ -120,7 +120,7 @@ pipelines:
               - dotnet restore
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
-              - dotnet test --filter Name~TC_95_business_unit_group --logger:"junit" --settings test.runsettings -- "$env:SCRIPT0" -- "$env:SCRIPT1" -- "$env:SCRIPT2" -- "$env:SCRIPT3" -- "$env:SCRIPT4" -- "$env:SCRIPT5"
+              - dotnet test --logger:"junit" --settings test.runsettings -- "$env:SCRIPT0" -- "$env:SCRIPT1" -- "$env:SCRIPT2" -- "$env:SCRIPT3" -- "$env:SCRIPT4" -- "$env:SCRIPT5"
             artifacts:
               - '*/TestResults/Screenshots/*.png'
               
