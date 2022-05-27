@@ -32,5 +32,9 @@ namespace si_automated_tests.Source.Main.Constants
             MainPageUrl = url;
             MainPageUrlIE = url + "echo2/echo2extra/mainframe.aspx";
         }
+        public static string GetDBName()
+        {
+            return MainPageUrl.Replace("https://", "").Replace(".echoweb.co.uk/", "");
+        }
     }
 }
