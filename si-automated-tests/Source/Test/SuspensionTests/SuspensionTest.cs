@@ -28,7 +28,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         public override void Setup()
         {
             base.Setup();
-            finder = new CommonFinder(DatabaseContext);
+            finder = new CommonFinder(DbContext);
             Login();
         }
 

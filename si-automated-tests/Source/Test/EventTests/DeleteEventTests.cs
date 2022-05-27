@@ -21,7 +21,7 @@ namespace si_automated_tests.Source.Test.EventTests
         [Test(Description = "Delete event")]
         public void TC_106_Delete_event()
         {
-            CommonFinder finder = new CommonFinder(DatabaseContext);
+            CommonFinder finder = new CommonFinder(DbContext);
             string eventIdWithServiceUnit = "3";
 
             //DB get data with eventID = 3

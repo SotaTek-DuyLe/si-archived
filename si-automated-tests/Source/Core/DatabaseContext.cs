@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using NUnit.Framework;
 using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Core
@@ -10,11 +11,11 @@ namespace si_automated_tests.Source.Core
     {
         public SqlConnection Conection { get; private set; }
 
-        public DatabaseContext(string dataSource, string initCatalog, string userId, string password)
+        public DatabaseContext(string host, string dbName, string userId, string password)
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = dataSource;
-            builder.InitialCatalog = initCatalog;
+            builder.DataSource = host;
+            builder.InitialCatalog = dbName;
             builder.UserID = userId;
             builder.Password = password;
             Conection = new SqlConnection(builder.ConnectionString);
@@ -33,26 +34,10 @@ namespace si_automated_tests.Source.Core
             Conection = new SqlConnection(builder.ConnectionString);
             Conection.Open();
         }
-        public DatabaseContext(string dbName, string userId, string pass)
+        public DatabaseContext(string host, string dbName)
         {
-            IConfigurationRoot config = ConfigManager.InitConfiguration();
-            var mSConfiguration = new MSConfiguration();
-            config.Bind("ConnectionStrings", mSConfiguration);
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = mSConfiguration.Host;
-            builder.InitialCatalog = dbName;
-            builder.UserID = userId;
-            builder.Password = pass;
-            Conection = new SqlConnection(builder.ConnectionString);
-            Conection.Open();
-        }
-        public DatabaseContext(string dbName)
-        {
-            IConfigurationRoot config = ConfigManager.InitConfiguration();
-            var mSConfiguration = new MSConfiguration();
-            config.Bind("ConnectionStrings", mSConfiguration);
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = mSConfiguration.Host;
+            builder.DataSource = host;
             builder.InitialCatalog = dbName;
             builder.IntegratedSecurity = true;
             Conection = new SqlConnection(builder.ConnectionString);
