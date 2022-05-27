@@ -501,6 +501,20 @@ namespace si_automated_tests.Source.Core
             Assert.AreEqual(message, GetToastMessage());
             return this;
         }
+        public BasePage VerifyDisplayToastMessage(string message)
+        {
+            Assert.IsTrue(IsControlDisplayed("//*[contains(text(),'{0}')]", message));
+            return this;
+        }
+
+        public BasePage VerifyToastMessages(List<string> messages)
+        {
+            WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']");
+            var notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
+            Assert.AreEqual(messages, notifyMsgs);
+            return this;
+        }
+
         public BasePage WaitUntilToastMessageInvisible(string message)
         {
             WaitUtil.WaitForElementInvisible(string.Format("//div[text()='{0}']", message));
