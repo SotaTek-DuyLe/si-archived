@@ -104,12 +104,12 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .Replace(WebUrl.MainPageUrl + "web/inspections/", ""));
             //Query to verify
             string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
-            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
+            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<InspectionQueryModel> inspections = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection);
             readerInspection.Close();
             string query_2 = "select u.username from inspections inspec join users u on inspec.userID = u.userID where inspectionID =" + inspectionId + "; ";
-            SqlCommand commandInspection_2 = new SqlCommand(query_2, DatabaseContext.Conection);
+            SqlCommand commandInspection_2 = new SqlCommand(query_2, DbContext.Conection);
             SqlDataReader readerInspection_2 = commandInspection_2.ExecuteReader();
             List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
             readerInspection_2.Close();
@@ -171,7 +171,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .VerifyStateInspection("Expired");
             //Get sourceId
             string querySourceId = "select * from inspections where inspectionID=" + inspectionId_2 + ";";
-            SqlCommand commandSource = new SqlCommand(querySourceId, DatabaseContext.Conection);
+            SqlCommand commandSource = new SqlCommand(querySourceId, DbContext.Conection);
             SqlDataReader readerSource = commandSource.ExecuteReader();
             List<InspectionDBModel> inspectionNew = ObjectExtention.DataReaderMapToList<InspectionDBModel>(readerSource);
             readerSource.Close();
@@ -286,12 +286,12 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .Replace(WebUrl.MainPageUrl + "web/inspections/", ""));
             //Query to verify
             string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
-            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
+            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<InspectionQueryModel> inspections = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection);
             readerInspection.Close();
             string query_2 = "select u.username from inspections inspec join users u on inspec.userID = u.userID where inspectionID =" + inspectionId + "; ";
-            SqlCommand commandInspection_2 = new SqlCommand(query_2, DatabaseContext.Conection);
+            SqlCommand commandInspection_2 = new SqlCommand(query_2, DbContext.Conection);
             SqlDataReader readerInspection_2 = commandInspection_2.ExecuteReader();
             List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
             readerInspection_2.Close();
@@ -325,7 +325,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .VerifyStateInspection("Pending");
             //Query
             string querySourceId = "select * from inspections where inspectionID=" + inspectionId + ";";
-            SqlCommand commandSource = new SqlCommand(querySourceId, DatabaseContext.Conection);
+            SqlCommand commandSource = new SqlCommand(querySourceId, DbContext.Conection);
             SqlDataReader readerSource = commandSource.ExecuteReader();
             List<InspectionDBModel> inspectionNew = ObjectExtention.DataReaderMapToList<InspectionDBModel>(readerSource);
             readerSource.Close();
@@ -544,12 +544,12 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1));
             //Query to verify
             string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
-            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
+            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<InspectionQueryModel> inspections = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection);
             readerInspection.Close();
             string query_2 = "select u.username from inspections inspec join users u on inspec.userID = u.userID where inspectionID =" + inspectionId + "; ";
-            SqlCommand commandInspection_2 = new SqlCommand(query_2, DatabaseContext.Conection);
+            SqlCommand commandInspection_2 = new SqlCommand(query_2, DbContext.Conection);
             SqlDataReader readerInspection_2 = commandInspection_2.ExecuteReader();
             List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
             readerInspection_2.Close();
@@ -688,12 +688,12 @@ namespace si_automated_tests.Source.Test.InspectionTests
             //Get data in DB to verify
             //Query to verify
             string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
-            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
+            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<InspectionQueryModel> inspections = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection);
             readerInspection.Close();
             string query_2 = "select u.username from inspections inspec join users u on inspec.userID = u.userID where inspectionID =" + inspectionId + "; ";
-            SqlCommand commandInspection_2 = new SqlCommand(query_2, DatabaseContext.Conection);
+            SqlCommand commandInspection_2 = new SqlCommand(query_2, DbContext.Conection);
             SqlDataReader readerInspection_2 = commandInspection_2.ExecuteReader();
             List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
             readerInspection_2.Close();
@@ -828,12 +828,12 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1));
             //Query to verify
             string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
-            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
+            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<InspectionQueryModel> inspections = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection);
             readerInspection.Close();
             string query_2 = "select u.username from inspections inspec join users u on inspec.userID = u.userID where inspectionID =" + inspectionId + "; ";
-            SqlCommand commandInspection_2 = new SqlCommand(query_2, DatabaseContext.Conection);
+            SqlCommand commandInspection_2 = new SqlCommand(query_2, DbContext.Conection);
             SqlDataReader readerInspection_2 = commandInspection_2.ExecuteReader();
             List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
             readerInspection_2.Close();
@@ -965,12 +965,12 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .VerifyDataInHistoryTab(AutoUser45.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1));
             //Query to verify
             string query_1 = "select u.username , c.contractunit , inspec.note , inspec.inspectioninstance, inspec.inspectionvaliddate, inspec.inspectionexpirydate from inspections inspec join users u on inspec.inspectioncreateduserID = u.userID join contractunits c on inspec.contractunitID = c.contractunitID where inspectionID = " + inspectionId + "; ";
-            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
+            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<InspectionQueryModel> inspections = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection);
             readerInspection.Close();
             string query_2 = "select u.username from inspections inspec join users u on inspec.userID = u.userID where inspectionID =" + inspectionId + "; ";
-            SqlCommand commandInspection_2 = new SqlCommand(query_2, DatabaseContext.Conection);
+            SqlCommand commandInspection_2 = new SqlCommand(query_2, DbContext.Conection);
             SqlDataReader readerInspection_2 = commandInspection_2.ExecuteReader();
             List<InspectionQueryModel> inspections_2 = ObjectExtention.DataReaderMapToList<InspectionQueryModel>(readerInspection_2);
             readerInspection_2.Close();

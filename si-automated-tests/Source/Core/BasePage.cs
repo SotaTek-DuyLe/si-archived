@@ -377,6 +377,15 @@ namespace si_automated_tests.Source.Core
             js.ExecuteScript(scriptText);
             return this;
         }
+        public BasePage ScrollDownInElement(By by)
+        {
+            WaitUtil.WaitForPageLoaded();
+            Thread.Sleep(2000);
+            IWebElement e = GetElement(by);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollTop = arguments[0].scrollHeight;", e);
+            return this;
+        }
 
         public BasePage ScrollDownToElement(By by)
         {
@@ -385,6 +394,16 @@ namespace si_automated_tests.Source.Core
             IWebElement e = GetElement(by);
             IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
             js.ExecuteScript("arguments[0].scrollIntoView(true);", e);
+
+            return this;
+        }
+        public BasePage ScrollLeftt(By by)
+        {
+            WaitUtil.WaitForPageLoaded();
+            Thread.Sleep(2000);
+            IWebElement e = GetElement(by);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollLeft += 250", e);
 
             return this;
         }
@@ -482,6 +501,14 @@ namespace si_automated_tests.Source.Core
             Assert.AreEqual(message, GetToastMessage());
             return this;
         }
+<<<<<<< HEAD
+=======
+        public BasePage VerifyDisplayToastMessage(string message)
+        {
+            Assert.IsTrue(IsControlDisplayed("//*[contains(text(),'{0}')]", message));
+            return this;
+        }
+>>>>>>> 2fc2b84c04070d7e2b05754433e77e2e368e758e
 
         public BasePage VerifyToastMessages(List<string> messages)
         {
