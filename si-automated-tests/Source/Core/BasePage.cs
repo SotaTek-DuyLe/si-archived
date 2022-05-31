@@ -506,7 +506,6 @@ namespace si_automated_tests.Source.Core
             Assert.IsTrue(IsControlDisplayed("//*[contains(text(),'{0}')]", message));
             return this;
         }
-
         public BasePage VerifyToastMessages(List<string> messages)
         {
             WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']");
