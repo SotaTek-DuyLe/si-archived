@@ -387,5 +387,56 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<RoundInstancePage>()
                 .VerifyAllocateResourceContainType("Van", "PK2 NST");
         }
+
+        [Category("115_Retire Default Resource on a Round ")]
+        [Test]
+        public void TC_115_Retire_Default_Resource_On_A_Round()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star")
+                .ExpandOption("Streets")
+                .ExpandOption("Street Cleansing")
+                .ExpandOption("Round Groups")
+                .ExpandOption("East Zone 1")
+                .OpenOption("Tuesday MOR")
+                .SwitchNewIFrame();
+
+            PageFactoryManager.Get<RoundGroupPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickDefaultResourceTab()
+                .WaitForLoadingIconToDisappear();
+            int index = PageFactoryManager.Get<RoundGroupPage>().GetIndexResourceRowByType("Sweeper");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickExpandButton(index);
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyResourceDetailRow(index, "Liz Tudor", false, "", "15/12/2021", "01/01/2050", true, false)
+                .ClickRetireDefaultResourceButton("Liz Tudor")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Success");
+            index = PageFactoryManager.Get<RoundGroupPage>().GetIndexResourceRowByType("Sweeper");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickExpandButton(index);
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyDetailDefaultResourceIsInVisible("Sweeper", "Liz Tudor")
+                .ClickRetireButton("Sweeper")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Success");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyDefaultResourceIsInVisible("Sweeper");
+        }
     }
 }
