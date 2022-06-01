@@ -438,5 +438,49 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<RoundGroupPage>()
                 .VerifyDefaultResourceIsInVisible("Sweeper");
         }
+
+        [Category("119_Add and Remove Round Sites on a Round")]
+        [Test]
+        public void TC_119_Add_and_Remove_Round_Sites_on_a_Round()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star Commercial")
+                .ExpandOption("Collections")
+                .ExpandOption("Commercial Collections")
+                .ExpandOption("Round Groups")
+                .ExpandOption("REF1-AM")
+                .OpenOption("Monday ")
+                .SwitchNewIFrame();
+
+            PageFactoryManager.Get<RoundGroupPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickSiteTab()
+                .IsOnSiteTab()
+                .ClickRemoveRightSite("Kingston Tip");
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .CheckRightSiteVisibility("Kingston Tip", false)
+                .CheckLeftSiteVisibility("Kingston Tip", true)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Success");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickAddLeftSite("Kingston Tip")
+                .CheckRightSiteVisibility("Kingston Tip", true)
+                .CheckLeftSiteVisibility("Kingston Tip", false)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Success");
+        }
     }
 }
