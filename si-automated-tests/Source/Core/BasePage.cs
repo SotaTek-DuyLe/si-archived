@@ -481,6 +481,15 @@ namespace si_automated_tests.Source.Core
             WaitForLoadingIconToDisappear();
             return this;
         }
+
+        public BasePage SelectValueFromDropDown(IWebElement comboBox, string _value)
+        {
+            SelectElement selectedValue = new SelectElement(comboBox);
+            selectedValue.SelectByValue(_value);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
         public BasePage SelectIndexFromDropDown(By by, int index)
         {
             IWebElement comboBox = WaitUtil.WaitForElementVisible(by);

@@ -186,7 +186,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             Random rnd = new Random();
             int index = rnd.Next(0, countOpt);
             PageFactoryManager.Get<RoundGroupPage>()
-                .SelectRandomResource(newRow, index)
+                .SelectResourceType(newRow, index)
                 .ClickHasSchedule(newRow)
                 .VerifyRightPanelTitle("Round Group Resource Allocation")
                 .VerifyPatternStartDateContainString(dateNow)
@@ -299,6 +299,93 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyToastMessage("Success");
             PageFactoryManager.Get<RoundGroupPage>()
                 .VerifyDefaultResourceIsInVisible("Driver");
+        }
+
+        [Category("114_Add Default Resource on Round")]
+        [Test]
+        public void TC_114_Add_Default_Resource_on_a_Round()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star")
+                .ExpandOption("Streets")
+                .ExpandOption("Street Cleansing")
+                .ExpandOption("Round Groups")
+                .ExpandOption("East Zone 1")
+                .OpenOption("Monday RIC")
+                .SwitchNewIFrame();
+
+            PageFactoryManager.Get<RoundGroupPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickDefaultResourceTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyDefaultResourceRowsIsVisible()
+                .ClickAddNewItemOnResourceTab();
+            Thread.Sleep(300);
+            string dateNow = DateTime.Now.ToString("dd/MM/yyyy");
+            DateTime startDate = DateTime.Now.AddDays(7);
+            DateTime endDate = DateTime.Now.AddYears(1);
+            int newRow = PageFactoryManager.Get<RoundGroupPage>().GetIndexNewResourceRow();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyDropDownTypeIsPresent(newRow)
+                .VerifyInputQuantityIsPresent(newRow)
+                .VerifyRetireButtonIsPresent(newRow)
+                .VerifyStartDateInput(newRow, dateNow)
+                .VerifyEndDateInput(newRow, "01/01/2050")
+                .SelectType(newRow, "Van")
+                .EnterQuantity(newRow, "1")
+                .EnterStartDate(newRow, startDate.ToString("dd/MM/yyyy"))
+                .EnterEndDate(newRow, endDate.ToString("dd/MM/yyyy"))
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Success");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyDropDownTypeIsDisable(newRow)
+                .VerifyStartDateInputIsDisable(newRow)
+                .ClickExpandButton(newRow);
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickAddResource(newRow);
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .SelectResourceType(newRow, "PK2 NST")
+                .ClickHasSchedule(newRow)
+                .VerifyRightPanelTitle("Round Resource Allocation")
+                .VerifyPatternStartDateContainString(dateNow)
+                .VerifyAllPeriodTimeOptions(new System.Collections.Generic.List<string>() { "Daily", "Weekly", "Monthly", "Yearly" })
+                .ClickPeriodTimeButton("Weekly")
+                .SelectWeeklyFrequency("Every week")
+                .ClickDayButtonOnWeekly("Mon")
+                .ClickDayButtonOnWeekly("Tue")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Success");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickExpandButton(newRow);
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyResourceDetailRow(newRow, "PK2 NST", true, $"Every Monday and Tuesday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", startDate.ToString("dd/MM/yyyy"), endDate.ToString("dd/MM/yyyy"), true, true)
+                .ClickCalendarTab()
+                .DoubleClickRoundGroup(startDate, endDate, new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday })
+                .SwitchToChildWindow(2);
+
+            PageFactoryManager.Get<RoundInstancePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundInstancePage>()
+                .ClickAllocatedResourcesTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundInstancePage>()
+                .VerifyAllocateResourceContainType("Van", "PK2 NST");
         }
     }
 }
