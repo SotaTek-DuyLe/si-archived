@@ -50,6 +50,12 @@ namespace si_automated_tests.Source.Core
         {
             return DateTime.UtcNow.ToString(format).Replace('-', '/');
         }
+
+        public static string GetUtcTimeNowMinusHour(int hour, string format)
+        {
+            return DateTime.UtcNow.AddHours(hour).ToString(format).Replace('-', '/');
+        }
+
         public static string GetTimeMinusHour(string time, string format, int hour)
         {
             return DateTime.ParseExact(time, format, CultureInfo.InvariantCulture).AddHours(hour).ToString(format).Replace('-', '/');

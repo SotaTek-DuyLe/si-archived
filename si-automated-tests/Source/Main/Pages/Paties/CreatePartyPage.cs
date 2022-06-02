@@ -20,7 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         //DYNAMIC LOCATOR
         private const string ContractOption = "//label[text()='Contract']/following-sibling::div/select/option[{0}]";
         private const string PartyTypeValue = "//label[text()='All Party Types']/following-sibling::div/div[{0}]//span";
-        private const string AnyDay = "//td[@class = 'day' and text()='{0}']";
+        private const string AnyDay = "//td[contains(@class, 'day') and text()='{0}']";
         private const string AnyMessage = "//div[text()='{0}']";
 
         public CreatePartyPage IsCreatePartiesPopup(string contractDefault)
