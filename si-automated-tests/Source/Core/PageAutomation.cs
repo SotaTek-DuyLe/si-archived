@@ -260,6 +260,30 @@ namespace si_automated_tests.Source.Core
             return webElement.FindElements(By.XPath("./li")).Select(x => x.Text).ToList();
         }
 
+        public PageAutomation SelectByDisplayValueOnUlElement(string ulXpath, string selectValue)
+        {
+            return SelectByDisplayValueOnUlElement(GetElement(ulXpath), selectValue);
+        }
+
+        public PageAutomation SelectByDisplayValueOnUlElement(By ulXpath, string selectValue)
+        {
+            return SelectByDisplayValueOnUlElement(GetElement(ulXpath), selectValue);
+        }
+
+        public PageAutomation SelectByDisplayValueOnUlElement(IWebElement webElement, string selectValue)
+        {
+            List<IWebElement> options = webElement.FindElements(By.XPath("./li")).ToList();
+            foreach (var item in options)
+            {
+                if (item.Text == selectValue)
+                {
+                    ClickOnElement(item);
+                    break;
+                }
+            }
+            return this;
+        }
+
         public PageAutomation VerifyUlContainDisplayValue(string ulXpath, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ?
