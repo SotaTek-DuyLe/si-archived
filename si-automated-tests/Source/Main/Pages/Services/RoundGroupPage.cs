@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
-    public class RoundGroupPage : BasePage
+    public class RoundGroupPage : PageAutomation
     {
         private readonly By roundGroupInput = By.XPath("//div[@id='details-tab']//input[@name='roundGroup']");
         private readonly By sortOrderInput = By.XPath("//div[@id='details-tab']//input[@name='sortOrder']");
@@ -631,10 +631,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         public RoundGroupPage IsOnSiteTab()
         {
-            Assert.IsTrue(IsControlDisplayed(leftSiteColumn));
-            Assert.IsTrue(IsControlDisplayed(rightSiteColumn));
-            Assert.IsTrue(IsControlDisplayed(addSiteButton));
-            Assert.IsTrue(IsControlDisplayed(removeSiteButton));
+            VerifyElementVisibility(leftSiteColumn, true);
+            VerifyElementVisibility(rightSiteColumn, true);
+            VerifyElementVisibility(addSiteButton, true);
+            VerifyElementVisibility(removeSiteButton, true);
             return this;
         }
 
