@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using si_automated_tests.Source.Core.WebElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -343,6 +344,39 @@ namespace si_automated_tests.Source.Core
             else
             {
                 Assert.AreNotEqual(expectedValues, GetUlDisplayValues(webElement));
+            }
+            return this;
+        }
+
+        public PageAutomation VerifyCellValue(TableElement tableElement, int rowIdx, int cellIdx, object expectedValue, bool checkEqual = true)
+        {
+            if (checkEqual)
+            {
+                Assert.AreEqual(expectedValue, tableElement.GetCellValue(rowIdx, cellIdx));
+            }
+            else
+            {
+                Assert.AreNotEqual(expectedValue, tableElement.GetCellValue(rowIdx, cellIdx));
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// VerifyRowValue
+        /// </summary>
+        /// <param name="tableElement"></param>
+        /// <param name="rowIdx"></param>
+        /// <param name="expectedValues">ordered list</param>
+        /// <returns></returns>
+        public PageAutomation VerifyRowValue(TableElement tableElement, int rowIdx, List<object> expectedValues, bool checkEqual = true)
+        {
+            if (checkEqual)
+            {
+                Assert.AreEqual(expectedValues, tableElement.GetRowValue(rowIdx));
+            }
+            else
+            {
+                Assert.AreNotEqual(expectedValues, tableElement.GetRowValue(rowIdx));
             }
             return this;
         }
