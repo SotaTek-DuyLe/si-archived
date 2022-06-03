@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
@@ -70,6 +71,13 @@ namespace si_automated_tests.Source.Core
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(60));
             driverWait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath(xpath)));
         }
+
+        public static void WaitForAllElementsInvisible60(string xpath)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(60));
+            driverWait.Until(webDriver => IWebDriverManager.GetDriver().FindElements(By.XPath(xpath)).FirstOrDefault(x => x.Displayed) == null);
+        }
+
         public static void WaitForElementInvisible(By by)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
