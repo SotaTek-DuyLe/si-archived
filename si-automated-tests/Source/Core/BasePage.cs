@@ -434,6 +434,13 @@ namespace si_automated_tests.Source.Core
             SelectElement selectedValue = new SelectElement(comboBox);
             return selectedValue.SelectedOption.Text;
         }
+
+        public string GetFirstSelectedItemInDropdown(IWebElement comboBox)
+        {
+            SelectElement selectedValue = new SelectElement(comboBox);
+            return selectedValue.SelectedOption.Text;
+        }
+
         public string GetFirstSelectedItemInDropdown(By by)
         {
             IWebElement comboBox = driver.FindElement(by);
@@ -474,6 +481,17 @@ namespace si_automated_tests.Source.Core
             WaitForLoadingIconToDisappear();
             return this;
         }
+
+        public BasePage SelectTextFromDropDown(IWebElement webElement, string _text)
+        {
+            Thread.Sleep(1000);
+            WaitUtil.WaitForElementClickable(webElement);
+            SelectElement selectedValue = new SelectElement(webElement);
+            selectedValue.SelectByText(_text);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
         public BasePage SelectValueFromDropDown(By by, string _value)
         {
             IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
@@ -482,6 +500,15 @@ namespace si_automated_tests.Source.Core
             WaitForLoadingIconToDisappear();
             return this;
         }
+
+        public BasePage SelectValueFromDropDown(IWebElement comboBox, string _value)
+        {
+            SelectElement selectedValue = new SelectElement(comboBox);
+            selectedValue.SelectByValue(_value);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
         public BasePage SelectIndexFromDropDown(By by, int index)
         {
             IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
@@ -490,6 +517,15 @@ namespace si_automated_tests.Source.Core
             WaitForLoadingIconToDisappear();
             return this;
         }
+
+        public BasePage SelectIndexFromDropDown(IWebElement webElement, int index)
+        {
+            SelectElement selectedValue = new SelectElement(webElement);
+            selectedValue.SelectByIndex(index);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
         //GET WARNING TEXT
         public string GetToastMessage()
         {
