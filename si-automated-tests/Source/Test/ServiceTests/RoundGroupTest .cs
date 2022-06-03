@@ -154,7 +154,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<RoundGroupListPage>()
                 .DoubleClickRoundGroup("SKIP2 Daily")
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(2);
             PageFactoryManager.Get<RoundGroupPage>()
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(1000);
@@ -227,7 +227,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundGroupPage>()
                 .DoubleClickRound("Daily")
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(3);
             PageFactoryManager.Get<RoundDetailPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundDetailPage>()
@@ -235,7 +235,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundDetailPage>()
                 .CloseCurrentWindow()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(2);
 
             PageFactoryManager.Get<RoundGroupPage>()
                 .ClickDefaultResourceTab()
@@ -282,7 +282,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<RoundGroupListPage>()
                 .DoubleClickRoundGroup("SKIP2 Daily")
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(2);
             PageFactoryManager.Get<RoundGroupPage>()
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(1000);

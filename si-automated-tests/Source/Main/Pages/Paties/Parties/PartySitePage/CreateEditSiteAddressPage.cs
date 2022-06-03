@@ -11,6 +11,15 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
         private readonly By CreateSiteAddressTitle = By.XPath("//h1[text()='Create/Edit Site Address']");
         private readonly By CancelBtn = By.XPath("//button[text()='Cancel']");
         private readonly By NextBtn = By.XPath("//button[text()='Next']");
+        private readonly By SearchInput = By.Id("search");
+        private readonly By SearchBtn = By.XPath("//button[@type='submit']");
+        private readonly string btnNamed = "//div[@style='display: block;']//button[contains(text(),'{0}')]";
+
+        //First screen
+        private readonly By searchResultScreen1 = By.XPath("//div[@id='screen1']//div[@data-bind='foreach: geocodedAddresses']/div");
+
+        //Second Screen
+        private readonly By searchResultScreen2 = By.XPath("//div[@id='screen2']//div[@data-bind='foreach: existingAddresses']/div");
 
         private readonly By SiteNameInput = By.XPath("//label[text()='Site Name']/following-sibling::input");
         private readonly By SelectAddressNextBtn = By.XPath("//button[text()='Next' and contains(@data-bind,'selectedExistingAddress')]");
@@ -110,6 +119,40 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
             ClickOnElement(string.Format(AnySite, site));
             //verify after selected
             Assert.AreEqual(GetFirstSelectedItemInDropdown(siteDd), site);
+            return this;
+        }
+        public CreateEditSiteAddressPage SearchForSite(string siteName)
+        {
+            SendKeys(SearchInput, siteName);
+            ClickOnElement(SearchBtn);
+            return this;
+        }
+        public CreateEditSiteAddressPage SelectResultInScreen1(string value)
+        {
+            IList<IWebElement> list = WaitUtil.WaitForAllElementsVisible(searchResultScreen1);
+            foreach (var result in list)
+            {
+                if (GetElementText(result).Contains(value))
+                {
+                    ClickOnElement(result);
+                    break;
+                }
+            }
+            ClickOnElement(btnNamed, "Next");
+            return this;
+        }
+        public CreateEditSiteAddressPage SelectResultInScreen2(string value)
+        {
+            IList<IWebElement> list = WaitUtil.WaitForAllElementsVisible(searchResultScreen2);
+            foreach (var result in list)
+            {
+                if (GetElementText(result).Contains(value))
+                {
+                    ClickOnElement(result);
+                    break;
+                }
+            }
+            ClickOnElement(btnNamed, "Next");
             return this;
         }
     }

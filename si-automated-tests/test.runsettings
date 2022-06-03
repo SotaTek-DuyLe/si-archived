@@ -27,6 +27,11 @@
 	<TestRunParameters>
 		<Parameter name="browser" value="hchrome" />
 		<Parameter name="url" value="https://test.echoweb.co.uk/" />
+		<Parameter name="host" value="172.26.115.195" />
+		<Parameter name="useIntegratedSecurity" value="false" />
+		<Parameter name="dbname" value="test" />
+		<Parameter name="dbusername" value="dee" />
+		<Parameter name="dbpassword" value="yd`4N^92" />
 	</TestRunParameters>
 	<!-- Configuration for loggers -->
 	<LoggerRunSettings>
