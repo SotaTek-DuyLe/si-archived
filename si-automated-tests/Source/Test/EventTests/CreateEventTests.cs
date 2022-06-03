@@ -29,7 +29,7 @@ namespace si_automated_tests.Source.Test.EventTests
         [Test(Description = "Creating event from point address with service unit")]
         public void TC_094_Create_event_from_point_address_with_service_unit()
         {
-            CommonFinder finder = new CommonFinder(DatabaseContext);
+            CommonFinder finder = new CommonFinder(DbContext);
             string searchForAddresses = "Addresses";
             string eventOption = "Standard - Complaint";
             string pointAddressId = "483986";
@@ -39,7 +39,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
 
             //Check SP
-            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DatabaseContext.Conection);
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@PointID", SqlDbType.Int).Value = 483986;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
@@ -137,7 +137,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyNotDisplayErrorMessage();
             //DB - Get servicegroup with contractID = 2
             string query_servicegroup = "SELECT * FROM services s join servicegroups s2 on s.servicegroupID = s2.servicegroupID  WHERE s2.contractID = 2;";
-            SqlCommand commandService = new SqlCommand(query_servicegroup, DatabaseContext.Conection);
+            SqlCommand commandService = new SqlCommand(query_servicegroup, DbContext.Conection);
             SqlDataReader readerService = commandService.ExecuteReader();
             List<ServiceDBModel> serviceInDB = ObjectExtention.DataReaderMapToList<ServiceDBModel>(readerService);
             readerService.Close();
@@ -179,7 +179,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
                 .VerifyDisplayTabsAfterSaveEvent();
             string query_1 = "select * from events where eventid=" + eventId + "; ";
-            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
+            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<EventDBModel> eventModels = ObjectExtention.DataReaderMapToList<EventDBModel>(readerInspection);
             readerInspection.Close();
@@ -335,7 +335,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
                 .VerifyDisplayTabsAfterSaveEvent();
             string query_1 = "select * from events where eventid=" + eventId + "; ";
-            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
+            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<EventDBModel> eventModels = ObjectExtention.DataReaderMapToList<EventDBModel>(readerInspection);
             readerInspection.Close();
@@ -370,7 +370,7 @@ namespace si_automated_tests.Source.Test.EventTests
         [Test(Description = "Creating event from point segment with service unit")]
         public void TC_096_Create_event_from_point_segment_with_service_unit()
         {
-            CommonFinder finder = new CommonFinder(DatabaseContext);
+            CommonFinder finder = new CommonFinder(DbContext);
             string searchForSegments = "Segments";
             string idSegmentWithServiceUnit = "32839";
             string eventOption = "Standard - Complaint";
@@ -381,7 +381,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
 
             //Check SP
-            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DatabaseContext.Conection);
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@PointID", SqlDbType.Int).Value = 32839;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 2;
@@ -548,7 +548,7 @@ namespace si_automated_tests.Source.Test.EventTests
         [Test(Description = "Creating event from point segment without service unit")]
         public void TC_096_Create_event_from_point_segment_without_service_unit()
         {
-            CommonFinder finder = new CommonFinder(DatabaseContext);
+            CommonFinder finder = new CommonFinder(DbContext);
             string searchForSegments = "Segments";
             string idSegmentWithoutServiceUnit = "32844";
             string eventOption = "Standard - Clear Flytip";
@@ -559,7 +559,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
 
             //Check SP
-            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DatabaseContext.Conection);
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@PointID", SqlDbType.Int).Value = 32844;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 2;
@@ -709,7 +709,7 @@ namespace si_automated_tests.Source.Test.EventTests
         [Test(Description = "Creating event from point node with service unit")]
         public void TC_097_Create_event_from_point_node_with_service_unit()
         {
-            CommonFinder finder = new CommonFinder(DatabaseContext);
+            CommonFinder finder = new CommonFinder(DbContext);
             string searchForNodes = "Nodes";
             string eventOption = "Standard - Additional Service Request";
             string pointNodeId = "6";
@@ -718,7 +718,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
             //Check SP
-            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DatabaseContext.Conection);
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@PointID", SqlDbType.Int).Value = 6;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 4;
@@ -883,7 +883,7 @@ namespace si_automated_tests.Source.Test.EventTests
         [Test(Description = "Creating event from point area with service unit")]
         public void TC_098_Create_event_from_point_area_with_service_unit()
         {
-            CommonFinder finder = new CommonFinder(DatabaseContext);
+            CommonFinder finder = new CommonFinder(DbContext);
             string searchForAreas = "Areas";
             string eventOption = "Standard - Complaint";
             string pointAreaId = "10";
@@ -892,7 +892,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
             //Check SP
-            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DatabaseContext.Conection);
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@PointID", SqlDbType.Int).Value = 10;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 3;
@@ -1058,7 +1058,7 @@ namespace si_automated_tests.Source.Test.EventTests
         [Test(Description = "Creating event from event with service unit")]
         public void TC_105_Create_event_from_event_with_service_unit()
         {
-            CommonFinder finder = new CommonFinder(DatabaseContext);
+            CommonFinder finder = new CommonFinder(DbContext);
             string eventIdWithServiceUnit = "2";
             string eventOption = "Standard - Additional Service Request";
             string eventType = "Additional Service Request";
@@ -1072,7 +1072,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
             List<PointHistoryDBModel> pointHistoryDBModels = new List<PointHistoryDBModel>();
             //Get Service from SP
-            SqlCommand command_Service = new SqlCommand("EW_GetServicesInfoForPoint", DatabaseContext.Conection);
+            SqlCommand command_Service = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
             command_Service.CommandType = CommandType.StoredProcedure;
             command_Service.Parameters.Add("@PointID", SqlDbType.Int).Value = pointID;
             command_Service.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
@@ -1093,7 +1093,7 @@ namespace si_automated_tests.Source.Test.EventTests
             }
 
             //Get Point History from SP
-            SqlCommand command_PointHistory = new SqlCommand("GetPointHistory", DatabaseContext.Conection);
+            SqlCommand command_PointHistory = new SqlCommand("GetPointHistory", DbContext.Conection);
             command_PointHistory.CommandType = CommandType.StoredProcedure;
             command_PointHistory.Parameters.Add("@EventID", SqlDbType.Int).Value = 0;
             command_PointHistory.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
@@ -1240,7 +1240,7 @@ namespace si_automated_tests.Source.Test.EventTests
         [Test(Description = "Creating event from event without service unit")]
         public void TC_105_Create_event_from_event_without_service_unit()
         {
-            CommonFinder finder = new CommonFinder(DatabaseContext);
+            CommonFinder finder = new CommonFinder(DbContext);
             string eventIdWithServiceUnit = "2";
             List<EventDBModel> eventDBModels = finder.GetEvent(int.Parse(eventIdWithServiceUnit));
             int pointID = eventDBModels[0].eventpointID;
@@ -1250,7 +1250,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
             List<PointHistoryDBModel> pointHistoryDBModels = new List<PointHistoryDBModel>();
             //Get Service from SP
-            SqlCommand command_Service = new SqlCommand("EW_GetServicesInfoForPoint", DatabaseContext.Conection);
+            SqlCommand command_Service = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
             command_Service.CommandType = CommandType.StoredProcedure;
             command_Service.Parameters.Add("@PointID", SqlDbType.Int).Value = pointID;
             command_Service.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
@@ -1271,7 +1271,7 @@ namespace si_automated_tests.Source.Test.EventTests
             }
 
             //Get Point History from SP
-            SqlCommand command_PointHistory = new SqlCommand("GetPointHistory", DatabaseContext.Conection);
+            SqlCommand command_PointHistory = new SqlCommand("GetPointHistory", DbContext.Conection);
             command_PointHistory.CommandType = CommandType.StoredProcedure;
             command_PointHistory.Parameters.Add("@EventID", SqlDbType.Int).Value = 0;
             command_PointHistory.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
@@ -1383,7 +1383,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
                 .VerifyDisplayTabsAfterSaveEvent();
             string query_1 = "select * from events where eventid=" + eventId + "; ";
-            SqlCommand commandInspection = new SqlCommand(query_1, DatabaseContext.Conection);
+            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Conection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<EventDBModel> eventModels = ObjectExtention.DataReaderMapToList<EventDBModel>(readerInspection);
             readerInspection.Close();

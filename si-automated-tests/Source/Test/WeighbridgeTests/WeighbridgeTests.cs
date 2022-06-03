@@ -638,6 +638,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
             siteDetailPage
                 .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
+                //Station tab
                 .ClickStationTab()
                 .WaitForLoadingIconToDisappear();
             siteDetailPage
@@ -674,7 +675,12 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
                 .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveSiteSuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveSiteSuccessMessage);
+            //Get siteID
+            string siteID = siteDetailPage
+                .GetCurrentUrl()
+                .Replace(WebUrl.MainPageUrl + "web/sites/", "");
+            siteDetailPage
                 .ClickSaveAndCloseBtn()
                 .SwitchToChildWindow(2);
             detailPartyPage
@@ -687,6 +693,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ExpandOption("North Star Commercial")
                 .OpenOption("Sites")
                 .SwitchNewIFrame();
+            siteListingPage
+                .FilterSiteById(siteID)
+                .WaitForLoadingIconToDisappear();
             List<SiteModel> siteModelsNew = siteListingPage
                 .GetAllSiteDisplayed();
             siteListingPage
@@ -797,12 +806,13 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAddNewVehicleBtn()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<AddVehiclePage>()
+            AddVehiclePage addVehiclePage = PageFactoryManager.Get<AddVehiclePage>();
+            addVehiclePage
                 .IsCreateVehicleCustomerHaulierPage()
                 .VerifyDefaultMandatoryFieldAndDefaultValue(partyName045)
                 .ClickDefaultCustomerAddressDropdownAndVerify(addressAdded45)
                 .ClickSaveBtn();
-            PageFactoryManager.Get<AddVehiclePage>()
+            addVehiclePage
                 .VerifyDisplayResourceRequiredMessage()
                 .InputResourceName(vehicleNotActiveName)
                 .VerifyNotDisplaySuggestionInResourceInput()
@@ -849,6 +859,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ExpandOption("North Star Commercial")
                 .OpenOption("Vehicle_Customer_Haulier")
                 .SwitchNewIFrame();
+            //Filter vehicleID
+            PageFactoryManager.Get<VehicleCustomerHaulierPage>()
+                .FilterVehicleById(allVehiclePartyHaulier[0].Id);
             List<VehicleModel> allVehicleCustomerHaulier = PageFactoryManager.Get<VehicleCustomerHaulierPage>()
                 .VerifyVehicleCustomerHaulierPageDisplayed()
                 .GetAllVehicleModel();
@@ -1035,8 +1048,12 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Test(Description = "WB Site product 1"), Order(10)]
         public void TC_054_WB_Site_product_1()
         {
-            string product = "Food";
             string ticketType = "Incoming";
+            string neutralTicketType = "Neutral";
+            string outboundTicketType = "Outbound";
+            string product = "Food";
+            string neutralProduct = "Glass";
+            string outboundProduct = "General Recycling";
 
             //Find party - Customer: TC045
             PageFactoryManager.Get<NavigationBase>()
@@ -1086,6 +1103,61 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
+            //==> Add new product with ticketType = Neutral
+            siteDetailPage
+                .ClickProductTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .VerifyDisplayColumnInProductTabGrid()
+                .ClickAddNewProductItem()
+                .SwitchToLastWindow();
+            addProductPage
+                .WaitForAddProductPageDisplayed()
+                .IsAddProductPage()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageRequiredFieldConstants.ProductRequiredMessage);
+            //Select any product
+            addProductPage
+                .ClickAnyProduct(neutralProduct)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageRequiredFieldConstants.TicketTypeRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.TicketTypeRequiredMessage);
+            //Select any ticket Type
+            addProductPage
+                .ClickAnyTicketType(neutralTicketType)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            //==> Add new product with ticketType = Outbound
+            siteDetailPage
+                .ClickProductTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .VerifyDisplayColumnInProductTabGrid()
+                .ClickAddNewProductItem()
+                .SwitchToLastWindow();
+            addProductPage
+                .WaitForAddProductPageDisplayed()
+                .IsAddProductPage()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageRequiredFieldConstants.ProductRequiredMessage);
+            //Select any product
+            addProductPage
+                .ClickAnyProduct(outboundProduct)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageRequiredFieldConstants.TicketTypeRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.TicketTypeRequiredMessage);
+            //Select any ticket Type
+            addProductPage
+                .ClickAnyTicketType(outboundTicketType)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+
             siteDetailPage
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
@@ -1127,6 +1199,36 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickTicketType()
                 .VerifyValueInTicketTypeDd()
                 //Select Ticket Type is the same with TicketType of the product
+                //===> TC063 - Select ticketType = Neutral and verify product displayed
+                .ClickAnyTicketType(neutralTicketType)
+                //Verify Haulie field displayed
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyName047)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                //Select Product created
+                .ClickProductDd()
+                .ClickAnyProductValue(neutralProduct)
+                .VerifyNoLocationIsPrepolulated()
+                .VerifyActiveLocationIsDisplayed(locationNameActive)
+                //===> TC063 - Select ticketType = Outbound and verify product displayed
+                .ClickTicketType()
+                .VerifyValueInTicketTypeDd()
+                .ClickAnyTicketType(outboundTicketType)
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyName047)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                //Select Product created
+                .ClickProductDd()
+                .ClickAnyProductValue(outboundProduct)
+                .VerifyNoLocationIsPrepolulated()
+                .VerifyActiveLocationIsDisplayed(locationNameActive)
+                //===> TC063 - Select ticketType = Incoming and verify product displayed
+                .ClickTicketType()
+                .VerifyValueInTicketTypeDd()
                 .ClickAnyTicketType(ticketType)
                 //Verify Haulie field displayed
                 .VerifyDisplayHaulierDd()

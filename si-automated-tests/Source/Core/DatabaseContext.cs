@@ -2,6 +2,8 @@
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using NUnit.Framework;
+using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Core
 {
@@ -9,11 +11,11 @@ namespace si_automated_tests.Source.Core
     {
         public SqlConnection Conection { get; private set; }
 
-        public DatabaseContext(string dataSource, string initCatalog, string userId, string password)
+        public DatabaseContext(string host, string dbName, string userId, string password)
         {
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-            builder.DataSource = dataSource;
-            builder.InitialCatalog = initCatalog;
+            builder.DataSource = host;
+            builder.InitialCatalog = dbName;
             builder.UserID = userId;
             builder.Password = password;
             Conection = new SqlConnection(builder.ConnectionString);
@@ -29,6 +31,15 @@ namespace si_automated_tests.Source.Core
             builder.InitialCatalog = mSConfiguration.DBName;
             builder.UserID = mSConfiguration.UserId;
             builder.Password = mSConfiguration.Password;
+            Conection = new SqlConnection(builder.ConnectionString);
+            Conection.Open();
+        }
+        public DatabaseContext(string host, string dbName)
+        {
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            builder.DataSource = host;
+            builder.InitialCatalog = dbName;
+            builder.IntegratedSecurity = true;
             Conection = new SqlConnection(builder.ConnectionString);
             Conection.Open();
         }

@@ -14,6 +14,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
         private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
         private readonly By filterInput = By.CssSelector("input[title='Select/Deselect up to 100 records']");
         private const string TotalSiteRow = "//div[@class='grid-canvas']/div";
+        private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
+        private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
 
         //DYNAMIC
         private const string Column = "//span[text()='{0}']/parent::div";
@@ -27,6 +29,16 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             {
                 Assert.IsTrue(IsControlDisplayed(Column, column));
             }
+            return this;
+        }
+
+        public VehicleCustomerHaulierPage FilterVehicleById(string id)
+        {
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(addNewItemBtn);
+            SendKeys(filterInputById, id);
+            ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
             return this;
         }
 
