@@ -11,6 +11,8 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
     {
         public readonly By siteRow = By.XPath("//div[@class='grid-canvas']/div");
         public readonly By idRow = By.XPath("//div[@class='grid-canvas']/div/div[2]");
+        private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
+        private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
 
         //DYNAMIC
         public const string columnOfRow = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
@@ -59,6 +61,14 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
             Assert.AreEqual(siteModelInput.SiteType, siteModelNew.SiteType);
             Assert.AreEqual(siteModelInput.StartDate, siteModelNew.StartDate + " 00:00");
             Assert.AreEqual(siteModelInput.EndDate, siteModelNew.EndDate + " 00:00");
+            return this;
+        }
+
+        public SiteListingPage FilterSiteById(string id)
+        {
+            WaitForLoadingIconToDisappear();
+            SendKeys(filterInputById, id);
+            ClickOnElement(applyBtn);
             return this;
         }
     }

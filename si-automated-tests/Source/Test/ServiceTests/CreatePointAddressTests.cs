@@ -41,7 +41,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         [Test]
         public void TC_101_Create_point_address()
         {
-            CommonFinder finder = new CommonFinder(DatabaseContext);
+            CommonFinder finder = new CommonFinder(DbContext);
             string postCode = "TW9 1DN";
             string postCodeOption = "The Quadrant, Richmond TW9 1DN";
             string location = "35 THE QUADRANT, RICHMOND, TW9 1DN";
