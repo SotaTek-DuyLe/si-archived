@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
-    public class RoundGroupPage : BasePage
+    public class RoundGroupPage : BasePageCommonActions
     {
         private readonly By roundGroupInput = By.XPath("//div[@id='details-tab']//input[@name='roundGroup']");
         private readonly By sortOrderInput = By.XPath("//div[@id='details-tab']//input[@name='sortOrder']");
@@ -26,6 +26,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By nextMonthBtn = By.XPath("//button[@title='Next month']");
         private readonly By optimiseBtn = By.XPath("//button[@title='Optimise']");
         private readonly By roundTab = By.XPath("//a[@aria-controls='rounds-tab']");
+        private readonly By sitesTab = By.XPath("//a[@aria-controls='sites-tab']");
         private readonly By defaultResourcesTab = By.XPath("//a[@aria-controls='defaultResources-tab']");
         private readonly By calendarTab = By.XPath("//a[@aria-controls='calendar-tab']");
         private readonly By addNewItemBtnOnRoundTab = By.XPath("//div[@id='rounds-tab']//button");
@@ -53,6 +54,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By dailyFrequencySelect = By.XPath("//div[@id='defaultResources-tab']//div[@id='rightPanel']//select[@id='daily-frequency']");
         private readonly By dateHeaderCells = By.XPath("//div[@id='calendar-tab']//table//tbody//div[contains(@class, 'fc-row')]//div[@class='fc-bg']//tbody//td");
         private readonly By dateDetailCells = By.XPath("//div[@id='calendar-tab']//table//tbody//div[contains(@class, 'fc-row')]//div[@class='fc-content-skeleton']//tbody//td");
+        private readonly By leftSiteColumn = By.XPath("//div[@id='sites-tab']//ul[@data-bind='foreach: allSites']");
+        private readonly By rightSiteColumn = By.XPath("//div[@id='sites-tab']//ul[@data-bind='foreach: addedSites']");
+        private readonly By addSiteButton = By.XPath("//div[@id='sites-tab']//button[@data-bind='click: addSites']");
+        private readonly By removeSiteButton = By.XPath("//div[@id='sites-tab']//button[@data-bind='click: removeSites']");
 
         public RoundGroupPage VerifyDefaultDataOnAddForm()
         {
@@ -615,6 +620,69 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 WaitForLoadingIconToDisappear();
                 Thread.Sleep(300);
             }
+            return this;
+        }
+
+        public RoundGroupPage ClickSiteTab()
+        {
+            ClickOnElement(sitesTab);
+            return this;
+        }
+
+        public RoundGroupPage IsOnSiteTab()
+        {
+            VerifyElementVisibility(leftSiteColumn, true);
+            VerifyElementVisibility(rightSiteColumn, true);
+            VerifyElementVisibility(addSiteButton, true);
+            VerifyElementVisibility(removeSiteButton, true);
+            return this;
+        }
+
+        public RoundGroupPage CheckRightSiteVisibility(string selectSite, bool isVisible)
+        {
+            IWebElement webElement = GetElement(rightSiteColumn);
+            List<IWebElement> options = webElement.FindElements(By.XPath("./li")).ToList();
+            Assert.IsTrue(isVisible ? options.FirstOrDefault(x => x.Text == selectSite) != null: options.FirstOrDefault(x => x.Text == selectSite) == null);
+            return this;
+        }
+
+        public RoundGroupPage CheckLeftSiteVisibility(string selectSite, bool isVisible)
+        {
+            IWebElement webElement = GetElement(leftSiteColumn);
+            List<IWebElement> options = webElement.FindElements(By.XPath("./li")).ToList();
+            Assert.IsTrue(isVisible ? options.FirstOrDefault(x => x.Text == selectSite) != null : options.FirstOrDefault(x => x.Text == selectSite) == null);
+            return this;
+        }
+
+        public RoundGroupPage ClickRemoveRightSite(string selectSite)
+        {
+            IWebElement webElement = GetElement(rightSiteColumn);
+            List<IWebElement> options = webElement.FindElements(By.XPath("./li")).ToList();
+            foreach (var item in options)
+            {
+                if (item.Text == selectSite)
+                {
+                    ClickOnElement(item);
+                    break;
+                }
+            }
+            ClickOnElement(removeSiteButton);
+            return this;
+        }
+
+        public RoundGroupPage ClickAddLeftSite(string selectSite)
+        {
+            IWebElement webElement = GetElement(leftSiteColumn);
+            List<IWebElement> options = webElement.FindElements(By.XPath("./li")).ToList();
+            foreach (var item in options)
+            {
+                if (item.Text == selectSite)
+                {
+                    ClickOnElement(item);
+                    break;
+                }
+            }
+            ClickOnElement(addSiteButton);
             return this;
         }
     }
