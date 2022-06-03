@@ -20,7 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
         private const string titleContainsId = "//p[text()='Agreement ID {0}']";
         private const string anyTab = "//a[text()='{0}']";
 
-        public AgreementLinePage GoToAllTabAndConfirmNoError()
+        public new AgreementLinePage GoToAllTabAndConfirmNoError()
         {
             IList<IWebElement> elements = WaitUtil.WaitForAllElementsVisible(allTabs);
             foreach (IWebElement element in elements)
