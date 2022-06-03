@@ -9,39 +9,39 @@ using System.Text;
 
 namespace si_automated_tests.Source.Core
 {
-    public class PageAutomation : BasePage
+    public class BasePageCommonActions : BasePage
     {
-        public PageAutomation VerifyElementVisibility(string xpath, bool isVisible)
+        public BasePageCommonActions VerifyElementVisibility(string xpath, bool isVisible)
         {
             VerifyElementVisibility(GetElement(xpath), isVisible);
             return this;
         }
 
-        public PageAutomation VerifyElementVisibility(By xpath, bool isVisible)
+        public BasePageCommonActions VerifyElementVisibility(By xpath, bool isVisible)
         {
             VerifyElementVisibility(GetElement(xpath), isVisible);
             return this;
         }
 
-        public PageAutomation VerifyElementVisibility(IWebElement webElement, bool isVisible)
+        public BasePageCommonActions VerifyElementVisibility(IWebElement webElement, bool isVisible)
         {
             Assert.IsTrue(isVisible ? webElement.Displayed : !webElement.Displayed);
             return this;
         }
 
-        public PageAutomation VerifyElementEnable(string xpath, bool isEnable)
+        public BasePageCommonActions VerifyElementEnable(string xpath, bool isEnable)
         {
             VerifyElementEnable(GetElement(xpath), isEnable);
             return this;
         }
 
-        public PageAutomation VerifyElementEnable(By xpath, bool isEnable)
+        public BasePageCommonActions VerifyElementEnable(By xpath, bool isEnable)
         {
             VerifyElementEnable(GetElement(xpath), isEnable);
             return this;
         }
 
-        public PageAutomation VerifyElementEnable(IWebElement webElement, bool isEnable)
+        public BasePageCommonActions VerifyElementEnable(IWebElement webElement, bool isEnable)
         {
             Assert.IsTrue(isEnable ? webElement.Enabled : !webElement.Enabled);
             return this;
@@ -62,19 +62,19 @@ namespace si_automated_tests.Source.Core
             return webElement.Selected;
         }
 
-        public PageAutomation VerifyCheckboxIsSelected(string xpath, bool isSelected)
+        public BasePageCommonActions VerifyCheckboxIsSelected(string xpath, bool isSelected)
         {
             Assert.IsTrue(isSelected ? GetCheckboxValue(xpath) : !GetCheckboxValue(xpath));
             return this;
         }
 
-        public PageAutomation VerifyCheckboxIsSelected(By xpath, bool isSelected)
+        public BasePageCommonActions VerifyCheckboxIsSelected(By xpath, bool isSelected)
         {
             Assert.IsTrue(isSelected ? GetCheckboxValue(xpath) : !GetCheckboxValue(xpath));
             return this;
         }
 
-        public PageAutomation VerifyCheckboxIsSelected(IWebElement webElement, bool isSelected)
+        public BasePageCommonActions VerifyCheckboxIsSelected(IWebElement webElement, bool isSelected)
         {
             Assert.IsTrue(isSelected ? GetCheckboxValue(webElement) : !GetCheckboxValue(webElement));
             return this;
@@ -95,55 +95,55 @@ namespace si_automated_tests.Source.Core
             return webElement.GetAttribute("value");
         }
 
-        public PageAutomation SetInputValue(By xpath, string value)
+        public BasePageCommonActions SetInputValue(By xpath, string value)
         {
             SendKeys(xpath, value);
             return this;
         }
 
-        public PageAutomation SetInputValue(string xpath, string value)
+        public BasePageCommonActions SetInputValue(string xpath, string value)
         {
             SendKeys(xpath, value);
             return this;
         }
 
-        public PageAutomation SetInputValue(IWebElement webElement, string value)
+        public BasePageCommonActions SetInputValue(IWebElement webElement, string value)
         {
             SendKeys(webElement, value);
             return this;
         }
 
-        public PageAutomation VerifyInputValue(string xpath, string expectedValue)
+        public BasePageCommonActions VerifyInputValue(string xpath, string expectedValue)
         {
             Assert.IsTrue(GetInputValue(xpath) == expectedValue);
             return this;
         }
 
-        public PageAutomation VerifyInputValue(By xpath, string expectedValue)
+        public BasePageCommonActions VerifyInputValue(By xpath, string expectedValue)
         {
             Assert.IsTrue(GetInputValue(xpath) == expectedValue);
             return this;
         }
 
-        public PageAutomation VerifyInputValue(IWebElement webElement, string expectedValue)
+        public BasePageCommonActions VerifyInputValue(IWebElement webElement, string expectedValue)
         {
             Assert.IsTrue(GetInputValue(webElement) == expectedValue);
             return this;
         }
 
-        public PageAutomation VerifyElementText(string xpath, string expectedValue, bool ignoreEmpty = false)
+        public BasePageCommonActions VerifyElementText(string xpath, string expectedValue, bool ignoreEmpty = false)
         {
             Assert.IsTrue((ignoreEmpty ? GetElementText(xpath).Trim() : GetElementText(xpath)) == expectedValue);
             return this;
         }
 
-        public PageAutomation VerifyElementText(By xpath, string expectedValue, bool ignoreEmpty = false)
+        public BasePageCommonActions VerifyElementText(By xpath, string expectedValue, bool ignoreEmpty = false)
         {
             Assert.IsTrue((ignoreEmpty ? GetElementText(xpath).Trim() : GetElementText(xpath)) == expectedValue);
             return this;
         }
 
-        public PageAutomation VerifyElementText(IWebElement webElement, string expectedValue, bool ignoreEmpty = false)
+        public BasePageCommonActions VerifyElementText(IWebElement webElement, string expectedValue, bool ignoreEmpty = false)
         {
             Assert.IsTrue((ignoreEmpty ? GetElementText(webElement).Trim() : GetElementText(webElement)) == expectedValue);
             return this;
@@ -165,7 +165,7 @@ namespace si_automated_tests.Source.Core
             return select.Options.Select(x => x.Text).ToList();
         }
 
-        public PageAutomation VerifySelectContainDisplayValue(string selectXpath, string expectedValue, bool checkContain = true)
+        public BasePageCommonActions VerifySelectContainDisplayValue(string selectXpath, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ? 
                 GetSelectDisplayValues(selectXpath).FirstOrDefault(x => x == expectedValue) != null : 
@@ -173,7 +173,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public PageAutomation VerifySelectContainDisplayValue(By selectXpath, string expectedValue, bool checkContain = true)
+        public BasePageCommonActions VerifySelectContainDisplayValue(By selectXpath, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ?
                 GetSelectDisplayValues(selectXpath).FirstOrDefault(x => x == expectedValue) != null :
@@ -181,7 +181,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public PageAutomation VerifySelectContainDisplayValue(IWebElement webElement, string expectedValue, bool checkContain = true)
+        public BasePageCommonActions VerifySelectContainDisplayValue(IWebElement webElement, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ?
                 GetSelectDisplayValues(webElement).FirstOrDefault(x => x == expectedValue) != null :
@@ -189,7 +189,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public PageAutomation VerifySelectContainDisplayValues(string selectXpath, List<string> expectedValues, bool checkContain = true)
+        public BasePageCommonActions VerifySelectContainDisplayValues(string selectXpath, List<string> expectedValues, bool checkContain = true)
         {
             if (checkContain)
             {
@@ -202,7 +202,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public PageAutomation VerifySelectContainDisplayValues(By selectXpath, List<string> expectedValues, bool checkContain = true)
+        public BasePageCommonActions VerifySelectContainDisplayValues(By selectXpath, List<string> expectedValues, bool checkContain = true)
         {
             if (checkContain)
             {
@@ -215,7 +215,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public PageAutomation VerifySelectContainDisplayValues(IWebElement webElement, List<string> expectedValues, bool checkContain = true)
+        public BasePageCommonActions VerifySelectContainDisplayValues(IWebElement webElement, List<string> expectedValues, bool checkContain = true)
         {
             if (checkContain)
             {
@@ -228,19 +228,19 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public PageAutomation VerifyElementContainAttributeValue(string xpath, string attribute, string expectedValue, bool checkContain = true)
+        public BasePageCommonActions VerifyElementContainAttributeValue(string xpath, string attribute, string expectedValue, bool checkContain = true)
         {
             VerifyElementContainAttributeValue(GetElement(xpath), attribute, expectedValue, checkContain);
             return this;
         }
 
-        public PageAutomation VerifyElementContainAttributeValue(By xpath, string attribute, string expectedValue, bool checkContain = true)
+        public BasePageCommonActions VerifyElementContainAttributeValue(By xpath, string attribute, string expectedValue, bool checkContain = true)
         {
             VerifyElementContainAttributeValue(GetElement(xpath), attribute, expectedValue, checkContain);
             return this;
         }
 
-        public PageAutomation VerifyElementContainAttributeValue(IWebElement webElement, string attribute, string expectedValue, bool checkContain = true)
+        public BasePageCommonActions VerifyElementContainAttributeValue(IWebElement webElement, string attribute, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ? webElement.GetAttribute(attribute).Contains(expectedValue) : !webElement.GetAttribute(attribute).Contains(expectedValue));
             return this;
@@ -261,17 +261,17 @@ namespace si_automated_tests.Source.Core
             return webElement.FindElements(By.XPath("./li")).Select(x => x.Text).ToList();
         }
 
-        public PageAutomation SelectByDisplayValueOnUlElement(string ulXpath, string selectValue)
+        public BasePageCommonActions SelectByDisplayValueOnUlElement(string ulXpath, string selectValue)
         {
             return SelectByDisplayValueOnUlElement(GetElement(ulXpath), selectValue);
         }
 
-        public PageAutomation SelectByDisplayValueOnUlElement(By ulXpath, string selectValue)
+        public BasePageCommonActions SelectByDisplayValueOnUlElement(By ulXpath, string selectValue)
         {
             return SelectByDisplayValueOnUlElement(GetElement(ulXpath), selectValue);
         }
 
-        public PageAutomation SelectByDisplayValueOnUlElement(IWebElement webElement, string selectValue)
+        public BasePageCommonActions SelectByDisplayValueOnUlElement(IWebElement webElement, string selectValue)
         {
             List<IWebElement> options = webElement.FindElements(By.XPath("./li")).ToList();
             foreach (var item in options)
@@ -285,7 +285,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public PageAutomation VerifyUlContainDisplayValue(string ulXpath, string expectedValue, bool checkContain = true)
+        public BasePageCommonActions VerifyUlContainDisplayValue(string ulXpath, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ?
                 GetUlDisplayValues(ulXpath).FirstOrDefault(x => x == expectedValue) != null :
@@ -293,7 +293,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public PageAutomation VerifyUlContainDisplayValue(By ulXpath, string expectedValue, bool checkContain = true)
+        public BasePageCommonActions VerifyUlContainDisplayValue(By ulXpath, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ?
                 GetUlDisplayValues(ulXpath).FirstOrDefault(x => x == expectedValue) != null :
@@ -301,7 +301,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public PageAutomation VerifyUlContainDisplayValue(IWebElement webElement, string expectedValue, bool checkContain = true)
+        public BasePageCommonActions VerifyUlContainDisplayValue(IWebElement webElement, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ?
                 GetUlDisplayValues(webElement).FirstOrDefault(x => x == expectedValue) != null :
@@ -309,7 +309,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public PageAutomation VerifyUlContainDisplayValues(string ulXpath, List<string> expectedValues, bool checkContain = true)
+        public BasePageCommonActions VerifyUlContainDisplayValues(string ulXpath, List<string> expectedValues, bool checkContain = true)
         {
             if (checkContain)
             {
@@ -322,7 +322,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public PageAutomation VerifyUlContainDisplayValues(By ulXpath, List<string> expectedValues, bool checkContain = true)
+        public BasePageCommonActions VerifyUlContainDisplayValues(By ulXpath, List<string> expectedValues, bool checkContain = true)
         {
             if (checkContain)
             {
@@ -335,7 +335,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public PageAutomation VerifyUlContainDisplayValues(IWebElement webElement, List<string> expectedValues, bool checkContain = true)
+        public BasePageCommonActions VerifyUlContainDisplayValues(IWebElement webElement, List<string> expectedValues, bool checkContain = true)
         {
             if (checkContain)
             {
@@ -348,7 +348,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public PageAutomation VerifyCellValue(TableElement tableElement, int rowIdx, int cellIdx, object expectedValue, bool checkEqual = true)
+        public BasePageCommonActions VerifyCellValue(TableElement tableElement, int rowIdx, int cellIdx, object expectedValue, bool checkEqual = true)
         {
             if (checkEqual)
             {
@@ -368,7 +368,7 @@ namespace si_automated_tests.Source.Core
         /// <param name="rowIdx"></param>
         /// <param name="expectedValues">ordered list</param>
         /// <returns></returns>
-        public PageAutomation VerifyRowValue(TableElement tableElement, int rowIdx, List<object> expectedValues, bool checkEqual = true)
+        public BasePageCommonActions VerifyRowValue(TableElement tableElement, int rowIdx, List<object> expectedValues, bool checkEqual = true)
         {
             if (checkEqual)
             {

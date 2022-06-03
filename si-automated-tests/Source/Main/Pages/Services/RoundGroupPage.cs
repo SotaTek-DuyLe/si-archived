@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
-    public class RoundGroupPage : PageAutomation
+    public class RoundGroupPage : BasePageCommonActions
     {
         private readonly By roundGroupInput = By.XPath("//div[@id='details-tab']//input[@name='roundGroup']");
         private readonly By sortOrderInput = By.XPath("//div[@id='details-tab']//input[@name='sortOrder']");
