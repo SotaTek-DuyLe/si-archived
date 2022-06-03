@@ -253,6 +253,19 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        public int GetIndexResourceRowByType(string type)
+        {
+            List<IWebElement> webElements = GetAllElements(resourceRows);
+            for (int i = 0; i < webElements.Count; i++)
+            {
+                if (GetFirstSelectedItemInDropdown(webElements[i].FindElement(typeSelect)) == type)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
         public RoundGroupPage ClickAddResource(int rowIdx)
         {
             IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
@@ -493,12 +506,49 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        public RoundGroupPage ClickRetireDefaultResourceButton(string resource)
+        {
+            List<IWebElement> webElements = this.driver.FindElements(resourceDetailRows).ToList();
+            for (int i = 0; i < webElements.Count; i++)
+            {
+                if (GetFirstSelectedItemInDropdown(webElements[i].FindElement(resourceSelect)) == resource)
+                {
+                    ClickOnElement(webElements[i].FindElement(retireBtn));
+                    break;
+                }
+            }
+            return this;
+        }
+
         public RoundGroupPage VerifyDefaultResourceIsInVisible(string driverType)
         {
             List<IWebElement> webElements = GetAllElements(resourceRows);
             for (int i = 0; i < webElements.Count; i++)
             {
                 Assert.IsFalse(GetFirstSelectedItemInDropdown(webElements[i].FindElement(typeSelect)) == driverType);
+            }
+            return this;
+        }
+
+        public RoundGroupPage VerifyDetailDefaultResourceIsInVisible(string driverType, string resource)
+        {
+            List<IWebElement> webElements = GetAllElements(resourceRows);
+            List<IWebElement> detailWebElements = this.driver.FindElements(resourceDetailRows).ToList();
+            for (int i = 0; i < webElements.Count; i++)
+            {
+                if (GetFirstSelectedItemInDropdown(webElements[i].FindElement(typeSelect)) == driverType)
+                {
+                    bool containDetail = detailWebElements[i].FindElements(resourceSelect).Count != 0;
+                    if (containDetail)
+                    {
+                        if (!detailWebElements[i].Displayed)
+                        {
+                            ClickExpandButton(i);
+                            Thread.Sleep(300);
+                        }
+                        Assert.IsFalse(GetFirstSelectedItemInDropdown(detailWebElements[i].FindElement(resourceSelect)) == resource);
+                    }
+                }
             }
             return this;
         }
