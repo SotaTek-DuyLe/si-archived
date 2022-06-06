@@ -77,10 +77,24 @@ namespace si_automated_tests.Source.Main.Pages.Services
             get => new TableElement(ScheduleTable, ScheduleRows, new List<string>() { ScheduleIdCell, ScheduleDetailCell, ScheduleStartDateCell, ScheduleEndDateCell, ScheduleSeasonCell, ScheduleEditCell });
         }
 
+        public RoundGroupPage ClickScheduleDetail(string id)
+        {
+            int rowIdx = ScheduleTableElement.GetRows().IndexOf(ScheduleTableElement.GetRowByCellValue(0, id));
+            ScheduleTableElement.ClickCell(rowIdx, 1);
+            return this;
+        }
+
         public RoundGroupPage EditPatternEnd(string id, string patternEnd)
         {
             int rowIdx = ScheduleTableElement.GetRows().IndexOf(ScheduleTableElement.GetRowByCellValue(0, id));
             ScheduleTableElement.SetCellValue(rowIdx, 3, patternEnd);
+            return this;
+        }
+
+        public RoundGroupPage VerifyPatternEnd(string id, string patternEnd)
+        {
+            int rowIdx = ScheduleTableElement.GetRows().IndexOf(ScheduleTableElement.GetRowByCellValue(0, id));
+            VerifyCellValue(ScheduleTableElement, rowIdx, 3, patternEnd);
             return this;
         }
 
@@ -651,6 +665,28 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 {
                     break;
                 }
+                ClickOnElement(nextMonthBtn);
+                WaitForLoadingIconToDisappear();
+                Thread.Sleep(300);
+            }
+            return this;
+        }
+
+        public RoundGroupPage RoundInstancesNotDisplayAfterEnddate(DateTime endDate)
+        {
+            int retry = 0;
+            while (retry < 2)
+            {
+                List<IWebElement> headerCells = GetAllElements(dateHeaderCells);
+                List<IWebElement> detailCells = this.driver.FindElements(dateDetailCells).ToList();
+                for (int i = 0; i < headerCells.Count; i++)
+                {
+                    DateTime dateTime = DateTime.ParseExact(headerCells[i].GetAttribute("data-date"), "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    IWebElement webElement = detailCells[i];
+                    bool isRoundGroup = webElement.FindElements(By.XPath("./a")).Count != 0;
+                    if(dateTime > endDate) Assert.IsTrue(!isRoundGroup);
+                }
+                retry++;
                 ClickOnElement(nextMonthBtn);
                 WaitForLoadingIconToDisappear();
                 Thread.Sleep(300);
