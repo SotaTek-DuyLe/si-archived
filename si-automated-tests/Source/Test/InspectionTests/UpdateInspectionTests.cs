@@ -784,6 +784,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             IWebDriverManager.SetDriver("chrome");
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.InspectionTypeUrlIE);
+
             PageFactoryManager.Get<SettingInspectionTypePage>()
                 .WaitForInpsectionTypeSettingDisplayed("Street Cleansing Assessment")
                 .ClickRolesTab()
