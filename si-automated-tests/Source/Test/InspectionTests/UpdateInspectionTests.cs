@@ -26,7 +26,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string inspectionTypeValue = "Repeat Missed Assessment";
             string inpectionAddress = "4 RALEIGH ROAD, RICHMOND, TW9 2DX";
             string allocatedUnitValue = "Ancillary";
-            string assignedUserValue = "josie";
 
             PageFactoryManager.Get<LoginPage>()
                     .GoToURL(WebUrl.MainPageUrl);
@@ -70,7 +69,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .VerifyDefaultSourceDd(locationValue)
                 .ClickAndSelectInspectionType(inspectionTypeValue)
                 .ClickAndSelectAllocatedUnit(allocatedUnitValue)
-                .ClickAndSelectAssignedUser(assignedUserValue)
                 .InputNote(noteValue)
                 .ClickCreateBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
@@ -87,7 +85,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
-               .IsDetailInspectionPage(allocatedUnitValue, assignedUserValue, noteValue)
                .VerifyStateInspection("Unallocated")
                .InputNote(noteUpdate)
                .ClickSaveBtn()
@@ -147,7 +144,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string inspectionTypeValue = "Repeat Missed Assessment";
             string inpectionAddress = "4 RALEIGH ROAD, RICHMOND, TW9 2DX";
             string allocatedUnitValue = "Ancillary";
-            string assignedUserValue = "josie";
 
             PageFactoryManager.Get<LoginPage>()
                     .GoToURL(WebUrl.MainPageUrl);
@@ -191,7 +187,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .VerifyDefaultSourceDd(locationValue)
                 .ClickAndSelectInspectionType(inspectionTypeValue)
                 .ClickAndSelectAllocatedUnit(allocatedUnitValue)
-                .ClickAndSelectAssignedUser(assignedUserValue)
                 .InputNote(noteValue)
                 .ClickCreateBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
@@ -207,7 +202,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
-               .IsDetailInspectionPage(allocatedUnitValue, assignedUserValue, noteValue)
                .VerifyStateInspection("Unallocated")
                .ClickOnDataTab()
                .WaitForLoadingIconToDisappear();
