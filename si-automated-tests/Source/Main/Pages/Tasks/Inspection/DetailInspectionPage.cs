@@ -72,7 +72,14 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
         }
 
-        public DetailInspectionPage IsDetailInspectionPage(string allocatedUnitValue, string assignedUserValue, string noteValue)
+        public DetailInspectionPage WaitForInspectionDetailDisplayed()
+        {
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(title);
+            return this;
+        }
+
+            public DetailInspectionPage IsDetailInspectionPage(string allocatedUnitValue, string assignedUserValue, string noteValue)
         {
             WaitUtil.WaitForElementVisible(allocatedUnitLabel);
             Assert.IsTrue(IsControlEnabled(completeBtn));
@@ -453,6 +460,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         {
             Assert.AreEqual(validToValue, GetAttributeValue(validToInput, "value"));
             return this;
+        }
+
+        //Open inpectionDetail with Id
+        public DetailInspectionPage OpenDetailInspectionWithId(string inspectionId)
+        {
+            GoToURL(WebUrl.MainPageUrl + "inspections/" + inspectionId);
+            return PageFactoryManager.Get<DetailInspectionPage>();
         }
     }
 }
