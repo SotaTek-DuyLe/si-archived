@@ -34,5 +34,9 @@ namespace si_automated_tests.Source.Main.Constants
             MainPageUrlIE = url + "echo2/echo2extra/mainframe.aspx";
             InspectionTypeUrlIE = url + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=InspectionType&ObjectID=2#";
         }
+        public static string GetDBName()
+        {
+            return MainPageUrl.Replace("https://", "").Replace(".echoweb.co.uk/", "");
+        }
     }
 }

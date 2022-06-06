@@ -2384,7 +2384,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         public void TC_063_WB_Site_product_9()
         {
             string query = "select * from wb_siteproducts where siteID=1174 and tickettypeid=1";
-            SqlCommand command = new SqlCommand(query, DatabaseContext.Conection);
+            SqlCommand command = new SqlCommand(query, DbContext.Conection);
             SqlDataReader reader = command.ExecuteReader();
             List<WBSiteProduct> products = ObjectExtention.DataReaderMapToList<WBSiteProduct>(reader);
 
