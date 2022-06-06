@@ -58,6 +58,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly string group = "//table[@groupkey='t']/descendant::span";
         private readonly string groupExpand = "//table[@groupkey='t']/descendant::img";
         private readonly string userNameValue = "//span[contains(text(),'{0}')]";
+        private readonly string anyGroupUser = "//table[@groupkey='{0}']/descendant::span";
 
         public HomePage IsOnHomePage(User user)
         {
@@ -143,6 +144,12 @@ namespace si_automated_tests.Source.Main.Pages
         {
             ClickOnElement(String.Format(userNameValue, userName));
             return PageFactoryManager.Get<UserDetailPage>();
+        }
+
+        public UserPage ClickAnyGroup(string groupName)
+        {
+            ClickOnElement(anyGroupUser, groupName);
+            return PageFactoryManager.Get<UserPage>();
         }
 
         //SEARCH MODEL

@@ -30,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         //DETAIL TAB
         private readonly By detailTab = By.XPath("//a[text()='Details']");
         private readonly By endDateAndTimeCalender = By.XPath("//input[@id='end-date-and-time']/following-sibling::span");
+        private readonly By cancelledDateCalender = By.XPath("//input[@id='cancelled-date']/following-sibling::span");
 
         //DATA TAB
         private readonly By dataTab = By.XPath("//a[text()='Data']");
@@ -92,6 +93,19 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         {
             ClickOnElement(endDateAndTimeCalender);
             ClickOnElement(title);
+            return this;
+        }
+
+        public DetailInspectionPage JustClickCalenderCancelledDate()
+        {
+            ClickOnElement(cancelledDateCalender);
+            ClickOnElement(title);
+            return this;
+        }
+
+        public DetailInspectionPage VerifyValueInCancelledDate(string cancelledDateValue)
+        {
+            Assert.AreEqual(cancelledDateValue, GetAttributeValue(cancelledDateInput, "value"));
             return this;
         }
 
@@ -338,6 +352,12 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
         }
 
+        public DetailInspectionPage VerifyNotesFieldInDataTabReadOnly()
+        {
+            Assert.AreEqual(GetAttributeValue(notesInputInDataTab, "disabled"), "true");
+            return this;
+        }
+
         //COMPLETE
         public DetailInspectionPage ClickCompleteBtn()
         {
@@ -427,6 +447,12 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(userName, GetElementText(userFirstRow));
             return this;
 
+        }
+
+        public DetailInspectionPage VerifyValueInValidToField(string validToValue)
+        {
+            Assert.AreEqual(validToValue, GetAttributeValue(validToInput, "value"));
+            return this;
         }
     }
 }

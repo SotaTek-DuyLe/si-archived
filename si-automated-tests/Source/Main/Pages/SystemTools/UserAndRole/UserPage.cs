@@ -1,8 +1,5 @@
 ﻿using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace si_automated_tests.Source.Main.Pages.UserAndRole
 {
@@ -11,6 +8,8 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
         private readonly By actionBtn = By.XPath("//span[contains(text(),'Actions')]");
         private readonly By newAction = By.XPath("//td[@id='mo_0']");
         private readonly By rightFrame = By.XPath("//iframe[@id='RightFrame']");
+        private readonly By moveNextBtn = By.XPath("//img[@title='Move Next']/parent::td");
+        private const string anyUserInList = "//span[text()='{0}']/parent::div";
 
         public UserPage IsOnUserScreen()
         {
@@ -28,6 +27,18 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
         {
             ClickOnElement(newAction);
             return this;
+        }
+
+        public UserPage ClickMoveNextBtn()
+        {
+            ClickOnElement(moveNextBtn);
+            return this;
+        }
+
+        public UserDetailPage ClickAnyUserShowDetail(string userName)
+        {
+            DoubleClickOnElement(anyUserInList, userName);
+            return PageFactoryManager.Get<UserDetailPage>();
         }
     }
 }
