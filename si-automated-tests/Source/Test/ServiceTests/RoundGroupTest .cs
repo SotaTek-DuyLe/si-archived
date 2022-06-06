@@ -439,6 +439,66 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyDefaultResourceIsInVisible("Sweeper");
         }
 
+        [Category("116_Add Schedule on Round")]
+        [Test]
+        public void TC_116_Add_Schedule_On_A_Round()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star")
+                .ExpandOption("Streets")
+                .ExpandOption("Street Cleansing")
+                .ExpandOption("Round Groups")
+                .ExpandOption("East Zone 1")
+                .OpenOption("Wednesday BAR")
+                .SwitchNewIFrame();
+
+            RoundGroupPage roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            string tomorrow = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            string endDate = DateTime.Now.AddDays(1).AddYears(1).ToString("dd/MM/yyyy");
+            roundGroupPage
+                .EditPatternEnd("179", tomorrow)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Success");
+            roundGroupPage.ClickOnElement(roundGroupPage.AddNewScheduleBtn);
+            roundGroupPage.SwitchToLastWindow();
+            RoundSchedulePage roundSchedulePage = PageFactoryManager.Get<RoundSchedulePage>();
+            roundSchedulePage.WaitForLoadingIconToDisappear();
+            roundSchedulePage.ClickOnElement(roundSchedulePage.DetailTab);
+            roundSchedulePage
+                .VerifyInputValue(roundSchedulePage.StartDateInput, DateTime.Now.ToString("dd/MM/yyyy"))
+                .VerifyInputValue(roundSchedulePage.EndDateInput, "01/01/2050")
+                .VerifyElementVisibility(roundSchedulePage.SeasonSelect, true)
+                .SendKeys(roundSchedulePage.StartDateInput, tomorrow);
+            roundSchedulePage.SendKeys(roundSchedulePage.EndDateInput, endDate);
+            roundSchedulePage.ClickOnElement(roundSchedulePage.ScheduleTab);
+            roundSchedulePage.ClickPeriodTimeButton("Weekly")
+                .SelectTextFromDropDown(roundSchedulePage.weeklyFrequencySelect, "Every fortnight");
+            roundSchedulePage.ClickDayButtonOnWeekly("Wed")
+                .ClickSaveBtn()
+                .VerifyToastMessage("Success");
+            string detail = $"Every Wednesday fortnightly commencing {DateTime.Now.AddDays(1).ToString("dddd dd MMMM yyyy")}";
+            roundSchedulePage
+                .VerifyElementText(roundSchedulePage.RoundScheduleTitle, detail, true)
+                .VerifyElementText(roundSchedulePage.RoundScheduleStatus, "INACTIVE")
+                .CloseCurrentWindow()
+                .SwitchToFirstWindow();
+            roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.VerifyNewSchedule(detail, tomorrow, endDate);
+        }
+
         [Category("119_Add and Remove Round Sites on a Round")]
         [Test]
         public void TC_119_Add_and_Remove_Round_Sites_on_a_Round()

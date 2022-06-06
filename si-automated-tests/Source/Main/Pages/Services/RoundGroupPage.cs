@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models.Services;
 using System;
@@ -59,6 +60,40 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By addSiteButton = By.XPath("//div[@id='sites-tab']//button[@data-bind='click: addSites']");
         private readonly By removeSiteButton = By.XPath("//div[@id='sites-tab']//button[@data-bind='click: removeSites']");
 
+        #region Schedule Tab
+        public readonly By ScheduleTab = By.XPath("//a[@aria-controls='schedules-tab']");
+        public readonly string AddNewScheduleBtn = "//div[@id='schedules-tab']//button[contains(string(), ' Add New Schedule')]";
+        private readonly string ScheduleTable = "//div[@id='schedules-tab']//table";
+        private readonly string ScheduleRows = "./tbody//tr";
+        private readonly string ScheduleIdCell = "./td[1]";
+        private readonly string ScheduleDetailCell = "./td//a";
+        private readonly string ScheduleStartDateCell = "./td//input[@id='startDate.id']";
+        private readonly string ScheduleEndDateCell = "./td//input[@id='endDate.id']";
+        private readonly string ScheduleSeasonCell = "./td//select[@id='season.id']";
+        private readonly string ScheduleEditCell = "./td//button[contains(string(), 'Edit')]";
+
+        public TableElement ScheduleTableElement
+        {
+            get => new TableElement(ScheduleTable, ScheduleRows, new List<string>() { ScheduleIdCell, ScheduleDetailCell, ScheduleStartDateCell, ScheduleEndDateCell, ScheduleSeasonCell, ScheduleEditCell });
+        }
+
+        public RoundGroupPage EditPatternEnd(string id, string patternEnd)
+        {
+            int rowIdx = ScheduleTableElement.GetRows().IndexOf(ScheduleTableElement.GetRowByCellValue(0, id));
+            ScheduleTableElement.SetCellValue(rowIdx, 3, patternEnd);
+            return this;
+        }
+
+        public RoundGroupPage VerifyNewSchedule(string scheduleDetail, string startDate, string endDate)
+        {
+            int rowCount = ScheduleTableElement.GetRows().Count;
+            List<object> rowValues = ScheduleTableElement.GetRowValue(rowCount - 1);
+            Assert.IsTrue(rowValues[1].AsString() == scheduleDetail);
+            Assert.IsTrue(rowValues[2].AsString() == startDate);
+            Assert.IsTrue(rowValues[3].AsString() == endDate);
+            return this;
+        }
+        #endregion
         public RoundGroupPage VerifyDefaultDataOnAddForm()
         {
             Assert.IsEmpty(GetElement(roundGroupInput).GetAttribute("value"));
