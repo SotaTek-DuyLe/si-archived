@@ -646,7 +646,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             List<MobilizationModel> allAdhoc = PageFactoryManager.Get<DetailTab>()
                 .GetAllInfoAdhoc();
             PageFactoryManager.Get<DetailTab>()
-                .VerifyAdhocInfo(allAdhoc, adhocListInput);
+                .VerifyAdhocInfo(allAdhoc, adhoc, 2);
 
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickTaskTabBtn()
@@ -746,8 +746,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickOnTaskLineTab();
             PageFactoryManager.Get<ServiceTaskLineTab>()
                 .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<ServiceTaskLineTab>()
-            //    .verifyTaskLineStartDate(tommorowDate);
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .verifyTaskLineStartDate(tommorowDate);
             PageFactoryManager.Get<ServicesTaskPage>()
                 .ClickOnScheduleTask();
             PageFactoryManager.Get<ServiceScheduleTab>()
@@ -769,8 +769,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickOnTaskLineTab();
             PageFactoryManager.Get<ServiceTaskLineTab>()
                 .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<ServiceTaskLineTab>()
-            //    .verifyTaskLineEndDate(tommorowDate);
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .verifyTaskLineEndDate(tommorowDate);
             PageFactoryManager.Get<ServicesTaskPage>()
                 .ClickOnScheduleTask();
             PageFactoryManager.Get<ServiceScheduleTab>()
