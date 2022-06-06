@@ -8,6 +8,7 @@ namespace si_automated_tests.Source.Main.Constants
     {
         public static string MainPageUrl;
         public static string MainPageUrlIE;
+        public static string InspectionTypeUrlIE;
 
         public WebUrl()
         {
@@ -31,6 +32,7 @@ namespace si_automated_tests.Source.Main.Constants
             }
             MainPageUrl = url;
             MainPageUrlIE = url + "echo2/echo2extra/mainframe.aspx";
+            InspectionTypeUrlIE = url + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=InspectionType&ObjectID=2#";
         }
         public static string GetDBName()
         {

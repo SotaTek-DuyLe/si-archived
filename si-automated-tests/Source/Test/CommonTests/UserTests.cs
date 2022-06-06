@@ -77,7 +77,7 @@ namespace si_automated_tests.Source.Test
                 .ClickDataAccessRoles()
                 .ChooseAccessRole("")
                 .ClickAdminRoles()
-                .ChooseAdminRole("")
+                .ChooseAdminRole("System Administrator")
                 .ClickSaveAndClose()
                 .IsOnUserScreen();
 

@@ -5,6 +5,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Pages.PointAddress;
+using si_automated_tests.Source.Main.Pages.Search.PointSegment;
 
 namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
 {
@@ -28,18 +29,40 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
 
         //DETAIL TAB
         private readonly By detailTab = By.XPath("//a[text()='Details']");
+        private readonly By endDateAndTimeCalender = By.XPath("//input[@id='end-date-and-time']/following-sibling::span");
+        private readonly By cancelledDateCalender = By.XPath("//input[@id='cancelled-date']/following-sibling::span");
 
         //DATA TAB
         private readonly By dataTab = By.XPath("//a[text()='Data']");
+        private readonly By notesInputInDataTab = By.XPath("//label[text()='Notes']/following-sibling::input");
+        private readonly By issueFoundCheckbox = By.XPath("//label[text()='Issue found?']/following-sibling::input");
+        private readonly By addNewBtnImage = By.XPath("//label[text()='Image']/following-sibling::div/button");
+        private readonly By imageData = By.XPath("//label[text()='Image']/following-sibling::div");
+        private readonly By inputImage = By.XPath("//label[text()='Image']/following-sibling::div//div[@class='img-thumbnail']");
+        private readonly By streetGradeDd = By.XPath("//label[text()='Street Grade']/following-sibling::select");
+        private readonly By accessPointInputInDataTab = By.XPath("//label[text()='Access Point']/following-sibling::input");
 
         //HISTORY TAB
         private readonly By historyTab = By.XPath("//a[text()='History']");
         private readonly By userNameText = By.XPath("//strong[text()='User: ']/following-sibling::span");
+        private readonly By actionUpdateTextFirstRow = By.XPath("(//strong[text()='Action: ']/following-sibling::span[text()='Update - Inspection'])[1]");
+        private readonly By actionUpdateTextSecondRow = By.XPath("(//strong[text()='Action: ']/following-sibling::span[text()='Update - Inspection'])[2]");
+        private readonly By streetGradeFirstRow = By.XPath("//span[text()='Street Grade']/following-sibling::span[1]");
+        private readonly By userFirstRow = By.XPath("//div[contains(@class, 'panel-default')][1]//strong[text()='User: ']/following-sibling::span[1]");
+        private readonly By notesSecondRow = By.XPath("//div[contains(@class, 'panel-default')][2]//span[text()='Notes']/following-sibling::span[1]");
+        private readonly By notesFirstRow = By.XPath("//div[contains(@class, 'panel-default')][1]//span[text()='Notes']/following-sibling::span[1]");
+        private readonly By userSecondRow = By.XPath("//div[contains(@class, 'panel-default')][2]//strong[text()='User: ']/following-sibling::span[1]");
+        private readonly By accessPointFirstRow = By.XPath("//div[contains(@class, 'panel-default')][1]//span[text()='Access Point']/following-sibling::span[1]");
+        private readonly By completedDate = By.XPath("//span[text()='Completed date']/following-sibling::span[1]");
+        private readonly By cancelledDate = By.XPath("//span[text()='Cancelled date']/following-sibling::span[1]");
+        private readonly By expiredDate = By.XPath("//span[text()='Update - Inspection']/parent::div/parent::div/following-sibling::div//span[text()='Inspection expiry date']/following-sibling::span[1]");
+        private readonly By issueFound = By.XPath("//span[text()='Issue found?']/following-sibling::span[1]");
 
         //DYNAMIC
         private const string inspectionAddress = "//p[text()='{0}']";
         private const string historyItem = "//span[text()='{0}']/following-sibling::span[1]";
         private const string inspectionType = "//p[text()='{0}']";
+        private const string streetGradeOption = "//label[text()='Street Grade']/following-sibling::select/option[text()='{0}']";
 
         public DetailInspectionPage WaitForInspectionDetailDisplayed(string inspectionTypeValue)
         {
@@ -63,6 +86,26 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         public DetailInspectionPage ClickOnDetailTab()
         {
             ClickOnElement(detailTab);
+            return this;
+        }
+
+        public DetailInspectionPage JustClickCalenderEndDateAndTime()
+        {
+            ClickOnElement(endDateAndTimeCalender);
+            ClickOnElement(title);
+            return this;
+        }
+
+        public DetailInspectionPage JustClickCalenderCancelledDate()
+        {
+            ClickOnElement(cancelledDateCalender);
+            ClickOnElement(title);
+            return this;
+        }
+
+        public DetailInspectionPage VerifyValueInCancelledDate(string cancelledDateValue)
+        {
+            Assert.AreEqual(cancelledDateValue, GetAttributeValue(cancelledDateInput, "value"));
             return this;
         }
 
@@ -90,6 +133,18 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         public DetailInspectionPage VerifyStateInspection(string stateExpected)
         {
             Assert.AreEqual(GetElementText(inspectionState), stateExpected);
+            return this;
+        }
+
+        public DetailInspectionPage InputNote(string noteValue)
+        {
+            SendKeys(noteInput, noteValue);
+            return this;
+        }
+
+        public DetailInspectionPage VerifyNoteValue(string noteValueExp)
+        {
+            Assert.AreEqual(GetAttributeValue(noteInput, "value"), noteValueExp);
             return this;
         }
 
@@ -148,6 +203,12 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
         }
 
+        public DetailInspectionPage VerifyStreetGradeMandatory()
+        {
+            Assert.AreEqual(GetCssValue(streetGradeDd, "border-color"), CommonConstants.BoderColorMandatory);
+            return this;
+        }
+
         public DetailInspectionPage VerifyDataDisplayedWithDB(InspectionDBModel inspection, string note, int contractUnitId, int instance, int userId, string validDateValue, string expDateValue)
         {
             Assert.AreEqual(inspection.note, note);
@@ -198,5 +259,200 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
         }
 
+        public PointSegmentDetailPage ClickAddressLinkShowPointSegmentDetail(string address)
+        {
+            ClickOnElement(inspectionAddress, address);
+
+            return PageFactoryManager.Get<PointSegmentDetailPage>();
+        }
+
+        public DetailInspectionPage VerifyRecordAfterUpdateAction(string firstNote, string userValue, string secondNote, string accessPoint)
+        {
+            Assert.IsTrue(IsControlDisplayed(actionUpdateTextFirstRow));
+            Assert.IsTrue(IsControlDisplayed(actionUpdateTextSecondRow));
+            //verify value
+            Assert.AreEqual(GetElementText(firstNote + "."), firstNote);
+            Assert.AreEqual(GetElementText(userFirstRow), userValue);
+            Assert.AreEqual(GetElementText(userSecondRow), userValue);
+            Assert.AreEqual(GetElementText(notesSecondRow + "."), secondNote);
+            Assert.AreEqual(GetElementText(accessPointFirstRow + "."), accessPoint);
+            return this;
+        }
+
+        public DetailInspectionPage InputValidTo(string validToValue)
+        {
+            SendKeys(validToInput, validToValue);
+            return this;
+        }
+
+        //DATA TAB
+        public DetailInspectionPage AddNotesInDataTab(string notesInput)
+        {
+            SendKeys(notesInputInDataTab, notesInput);
+            return this;
+        }
+
+        public DetailInspectionPage VerifyValueInNoteInputDataTab(string noteValueExp)
+        {
+            Assert.AreEqual(noteValueExp, GetAttributeValue(notesInputInDataTab, "value"));
+            return this;
+        }
+
+        public DetailInspectionPage ClickIssueFoundCheckbox()
+        {
+            ClickOnElement(issueFoundCheckbox);
+            return this;
+        }
+
+        public DetailInspectionPage VerifyIssueFoundCheckboxChecked()
+        {
+            Assert.IsTrue(IsCheckboxChecked(issueFoundCheckbox));
+            return this;
+        }
+
+        public DetailInspectionPage UploadImage(string urlImage)
+        {
+            ClickOnElement(addNewBtnImage);
+            SendKeys(inputImage, urlImage);
+            return this;
+        }
+
+        public DetailInspectionPage SelectStreetGrade(string streetGradeValue)
+        {
+            ClickOnElement(streetGradeDd);
+            ClickOnElement(streetGradeOption, streetGradeValue);
+            return this;
+        }
+
+        public DetailInspectionPage AddAccessPointInDataTab(string accessPointValue)
+        {
+            SendKeys(accessPointInputInDataTab, accessPointValue);
+            return this;
+        }
+
+        public DetailInspectionPage VerifyValueInAccessPointInput(string accessPointValue)
+        {
+            Assert.AreEqual(accessPointValue, GetAttributeValue(accessPointInputInDataTab, "value"));
+            return this;
+        }
+
+
+        public DetailInspectionPage VerifyValueInStreetGradeDd(string optionSelected)
+        {
+            Assert.AreEqual(optionSelected, GetFirstSelectedItemInDropdown(streetGradeDd));
+            return this;
+        }
+
+        public DetailInspectionPage VerifyFieldsInDataTabDisabled(string streetGradeExp)
+        {
+            Assert.AreEqual(GetAttributeValue(addNewBtnImage, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(issueFoundCheckbox, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(streetGradeDd, "disabled"), "true");
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(streetGradeDd), streetGradeExp);
+            return this;
+        }
+
+        public DetailInspectionPage VerifyNotesFieldInDataTabReadOnly()
+        {
+            Assert.AreEqual(GetAttributeValue(notesInputInDataTab, "disabled"), "true");
+            return this;
+        }
+
+        //COMPLETE
+        public DetailInspectionPage ClickCompleteBtn()
+        {
+            ClickOnElement(completeBtn);
+            return this;
+        }
+
+        public DetailInspectionPage VerifyAllFieldsInPopupDisabled()
+        {
+            //Disabled
+            Assert.AreEqual(GetAttributeValue(allocatedUnitDd, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(assignedUserDd, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(validFromInput, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(validToInput, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(startDateInput, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(endDateInput, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(noteInput, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(cancelledDateInput, "disabled"), "true");
+            Assert.IsTrue(IsControlDisplayed(cancelBtnDisabled));
+            Assert.IsTrue(IsControlDisplayed(completeBtnDisabled));
+            return this;
+        }
+
+        public DetailInspectionPage VerifyAllFieldsInDataTabDisabled()
+        {
+            Assert.IsTrue(GetAttributeValue(imageData, "class").Contains("disabled"));
+            Assert.AreEqual(GetAttributeValue(accessPointInputInDataTab, "disabled"), "true");
+            Assert.AreEqual(GetAttributeValue(notesInputInDataTab, "disabled"), "true");
+            return this;
+        }
+
+        public DetailInspectionPage VerifyHistoryAfterCompleted(string userName, string timeCompleted)
+        {
+            Assert.IsTrue(IsControlDisplayed(actionUpdateTextFirstRow));
+            Assert.AreEqual(timeCompleted + ".", GetElementText(completedDate));
+            Assert.AreEqual(userName, GetElementText(userFirstRow));
+            return this;
+
+        }
+
+        public DetailInspectionPage VerifyStreetGradeInHistory(string streetGradeValue)
+        {
+            Assert.AreEqual(streetGradeValue + ".", GetElementText(streetGradeFirstRow));
+            return this;
+        }
+
+        public DetailInspectionPage VerifyIssueFound(string issueFoundValue)
+        {
+            Assert.AreEqual(issueFoundValue + ".", GetElementText(issueFound));
+            return this;
+        }
+
+        public DetailInspectionPage VerifyFirstNoteInHistoryTab(string noteExp)
+        {
+            Assert.AreEqual(noteExp + ".", GetElementText(notesFirstRow));
+            return this;
+        }
+
+
+        public DetailInspectionPage VerifyTimeInEndDateAndTimeField(string timeNow)
+        {
+            Assert.AreEqual(timeNow, GetAttributeValue(endDateInput, "value"));
+            return this;
+        }
+
+        //CANCEL
+        public DetailInspectionPage ClickCancelBtn()
+        {
+            ClickOnElement(cancelBtn);
+            return this;
+        }
+
+        public DetailInspectionPage VerifyHistoryAfterCancelled(string userName, string timeCancelled)
+        {
+            Assert.IsTrue(IsControlDisplayed(actionUpdateTextFirstRow));
+            Assert.AreEqual(timeCancelled + ".", GetElementText(cancelledDate));
+            Assert.AreEqual(userName, GetElementText(userFirstRow));
+            return this;
+
+        }
+
+        //EXPIRE
+        public DetailInspectionPage VerifyHistoryAfterExpired(string userName, string timeExpired)
+        {
+            Assert.IsTrue(IsControlDisplayed(actionUpdateTextFirstRow));
+            Assert.AreEqual(timeExpired + ".", GetElementText(expiredDate));
+            Assert.AreEqual(userName, GetElementText(userFirstRow));
+            return this;
+
+        }
+
+        public DetailInspectionPage VerifyValueInValidToField(string validToValue)
+        {
+            Assert.AreEqual(validToValue, GetAttributeValue(validToInput, "value"));
+            return this;
+        }
     }
 }
