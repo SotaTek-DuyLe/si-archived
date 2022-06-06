@@ -13,6 +13,9 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
     {
         private readonly By allRowInInspectionTabel = By.XPath("//div[@class='grid-canvas']/div");
         private readonly By firstInspectionRow= By.XPath("//div[@class='grid-canvas']/div[not(contains(@style, 'display: none;'))][1]");
+        private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
+        private readonly By clearBtn = By.CssSelector("button[title='Clear Filters']");
+
 
         //DYNAMIC LOCATOR
         private const string columnInRowInspection = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
@@ -101,6 +104,19 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
         {
             DoubleClickOnElement(firstInspectionRow);
             return PageFactoryManager.Get<DetailInspectionPage>();
+        }
+
+        public AllInspectionListingPage FilterInspectionById(string id)
+        {
+            WaitForLoadingIconToDisappear();
+            SendKeys(filterInputById, id);
+            return this;
+        }
+
+        public AllInspectionListingPage ClickClearInInspectionListingBtn()
+        {
+            ClickOnElement(clearBtn);
+            return this;
         }
 
     }

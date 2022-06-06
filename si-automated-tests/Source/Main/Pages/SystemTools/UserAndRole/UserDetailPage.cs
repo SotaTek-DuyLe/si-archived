@@ -22,7 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
 
 
         private readonly By accessRoleOption = By.XPath("//span[text()='North Star Commercial']/ancestor::td/following-sibling::td"); 
-        private readonly By adminRoleOption = By.XPath("//span[text()='System Administrator']/ancestor::td/following-sibling::td");
+        private const string adminRoleOption = "//span[text()='{0}']/parent::td/following-sibling::td/input";
 
         private readonly By rightFrame = By.XPath("//iframe[@id='RightFrame']");
 
@@ -76,9 +76,9 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
             ClickOnElement(adminRoleTab);
             return this;
         }
-        public UserDetailPage ChooseAdminRole(String role)
+        public UserDetailPage ChooseAdminRole(string role)
         {
-            ClickOnElement(adminRoleOption);
+            ClickOnElement(adminRoleOption, role);
             return this;
         }
         public UserDetailPage ClickSave()
