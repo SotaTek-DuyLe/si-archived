@@ -493,7 +493,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyElementText(roundSchedulePage.RoundScheduleTitle, detail, true)
                 .VerifyElementText(roundSchedulePage.RoundScheduleStatus, "INACTIVE")
                 .CloseCurrentWindow()
-                .SwitchToFirstWindow();
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
             roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
             roundGroupPage.WaitForLoadingIconToDisappear();
             roundGroupPage.VerifyNewSchedule(detail, tomorrow, endDate);
