@@ -397,6 +397,17 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
+
+        public BasePage ScrollDownToElement(IWebElement e)
+        {
+            WaitUtil.WaitForPageLoaded();
+            Thread.Sleep(2000);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", e);
+
+            return this;
+        }
+
         public BasePage ScrollLeftt(By by)
         {
             WaitUtil.WaitForPageLoaded();
@@ -573,6 +584,7 @@ namespace si_automated_tests.Source.Core
         {
             Thread.Sleep(750);
             WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
+            WaitUtil.WaitForAllElementsInvisible60("//div[@data-bind='shield: loading']");
             WaitUtil.WaitForElementInvisible60("//div[@id='loading-shield']");
             WaitUtil.WaitForElementInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
             WaitUtil.WaitForPageLoaded();

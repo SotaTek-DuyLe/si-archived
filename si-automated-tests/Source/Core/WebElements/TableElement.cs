@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace si_automated_tests.Source.Core.WebElements
 {
@@ -13,6 +14,8 @@ namespace si_automated_tests.Source.Core.WebElements
         private string TableXpath;
         private string RowXpath;
         private List<string> CellXpaths;
+        public delegate List<IWebElement> GetDataViewHandler(List<IWebElement> originSource);
+        public event GetDataViewHandler GetDataView;
         public TableElement(string tableXPath, string rowXpath, List<string> cellXpaths)
         {
             TableXpath = tableXPath;
@@ -27,6 +30,23 @@ namespace si_automated_tests.Source.Core.WebElements
 
         public List<IWebElement> GetRows()
         {
+            int retryCount = 0;
+            if (GetTable().FindElements(By.XPath(RowXpath)).Count == 0)
+            {
+                while (retryCount < 60)
+                {
+                    Thread.Sleep(500);
+                    if (GetTable().FindElements(By.XPath(RowXpath)).Count != 0)
+                    {
+                        break;
+                    }
+                }
+            }
+            
+            if (GetDataView != null)
+            {
+                return GetDataView?.Invoke(GetTable().FindElements(By.XPath(RowXpath)).ToList());
+            }
             return GetTable().FindElements(By.XPath(RowXpath)).ToList();
         }
 
@@ -120,6 +140,38 @@ namespace si_automated_tests.Source.Core.WebElements
             return values;
         }
 
+        public List<object> GetRowValue(IWebElement row)
+        {
+            List<object> values = new List<object>();
+            foreach (var cellXpath in CellXpaths)
+            {
+                IWebElement webElement = row.FindElement(By.XPath(cellXpath));
+                string elementType = webElement.TagName;
+                switch (elementType)
+                {
+                    case "select":
+                        SelectElement selectedValue = new SelectElement(webElement);
+                        values.Add(selectedValue.SelectedOption.Text);
+                        break;
+                    case "input":
+                        string type = webElement.GetAttribute("type");
+                        if (type == "checkbox")
+                        {
+                            values.Add(webElement.Selected);
+                        }
+                        else
+                        {
+                            values.Add(webElement.GetAttribute("value"));
+                        }
+                        break;
+                    default:
+                        values.Add(webElement.Text);
+                        break;
+                }
+            }
+            return values;
+        }
+
         public bool GetCellVisibility(int rowIdx, int cellIdx)
         {
             return GetCell(rowIdx, cellIdx).Displayed;
@@ -133,6 +185,11 @@ namespace si_automated_tests.Source.Core.WebElements
         public string GetCellAttribute(int rowIdx, int cellIdx, string attribute)
         {
             return GetCell(rowIdx, cellIdx).GetAttribute(attribute);
+        }
+
+        public string GetCellCss(int rowIdx, int cellIdx, string attribute)
+        {
+            return GetCell(rowIdx, cellIdx).GetCssValue(attribute);
         }
 
 

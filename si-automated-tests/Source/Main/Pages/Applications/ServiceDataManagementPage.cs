@@ -1,9 +1,11 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 
@@ -16,6 +18,11 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By PreviousButton = By.XPath("//div[@id='screen2']//button[contains(string(), 'Previous')]");
         public readonly By ApplyButton = By.XPath("//div[@id='screen2']//button[contains(string(), 'Apply')]");
         public readonly By TotalSpan = By.XPath("//div[@id='screen2']//div[contains(@class, 'south-panel2')]//span");
+        public readonly By OkButton = By.XPath("//div[@class='modal-dialog']//button[contains(string(), 'OK')]");
+        public readonly By StatusExpandButton = By.XPath("//div[@id='screen1']//div[contains(@class, 'slick-headerrow-column l6')]//button");
+        public readonly By StatusSelect = By.XPath("//div[contains(@class, 'bs-container')]//ul");
+        public readonly By ApplyFilterBtn = By.XPath("//div[@id='screen1']//button[@id='filter-button']");
+        public readonly By ClearFilterBtn = By.XPath("//div[@id='screen1']//button[@id='clear-filters-button']");
         /// <summary>
         /// SDM: Service Data Management
         /// </summary>
@@ -29,16 +36,65 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string SDMStreetXPath = "./div[contains(@class, 'slick-cell l5')]";
         private readonly string SDMStatusXPath = "./div[contains(@class, 'slick-cell l6')]";
 
+        private readonly string SDMDescriptioinTableXPath = "//div[@id='screen2']//table[@id='description-table']";
+        private readonly string SDMDescriptioinRowXPath = "./tbody//tr[@data-bind]";
+        private readonly string SDMDescriptioinCheckboxCellXPath = "./td//input[@type='checkbox']";
+        private readonly string SDMDescriptioinRecordStatusCellXPath = "./td//img";
+        private readonly string SDMDescriptioinDetailCellXPath = "./td[3]";
 
+        private readonly string SDMMasterTableXPath = "//div[@id='screen2']//table[@id='master-table']";
+        private readonly string SDMMasterRowXPath = "./tbody//tr";
+        private readonly string SDMMasterServiceUnitCellXPath = "./td//img";
+        private readonly string SDMMasterServiceTaskCellXPath = "./td[2]//span";
+
+        private TableElement serviceDataManagementTableElement;
         public TableElement ServiceDataManagementTableElement
         {
             get
             {
-                return new TableElement(
+                if (serviceDataManagementTableElement == null)
+                {
+                    serviceDataManagementTableElement = new TableElement(
                         SDMTableXPath,
-                        SDMRowXPath, 
-                        new List<string>(){ SDMCheckboxXPath, SDMPointAddressXPath, SDMTypeXPath, SDMDescriptionXPath, SDMPostcodeXPath, SDMStreetXPath, SDMStatusXPath });
+                        SDMRowXPath,
+                        new List<string>() { SDMCheckboxXPath, SDMPointAddressXPath, SDMTypeXPath, SDMDescriptionXPath, SDMPostcodeXPath, SDMStreetXPath, SDMStatusXPath });
+                    serviceDataManagementTableElement.GetDataView += ServiceDataManagementTableElement_GetDataView;
+                }
+                return serviceDataManagementTableElement;
             }
+        }
+
+        private List<IWebElement> ServiceDataManagementTableElement_GetDataView(List<IWebElement> originSource)
+        {
+            return originSource.OrderBy(x => 
+            {
+                string top = x.GetCssValue("top").Replace("px", "");
+                return top.AsInteger();
+            }).ToList();
+        }
+
+        public ServiceDataManagementPage SelectStatusOption(string status)
+        {
+            List<IWebElement> options = GetElement(StatusSelect).FindElements(By.XPath("option")).ToList();
+            foreach (var item in options)
+            {
+                if (item.Text.Trim() == status)
+                {
+                    item.Click();
+                    break;
+                }
+            }
+            return this;
+        }
+
+        public TableElement DescriptionTableElement
+        {
+            get => new TableElement(SDMDescriptioinTableXPath, SDMDescriptioinRowXPath, new List<string>() { SDMDescriptioinCheckboxCellXPath, SDMDescriptioinRecordStatusCellXPath, SDMDescriptioinDetailCellXPath });
+        }
+
+        public TableElement MasterTableElement
+        {
+            get => new TableElement(SDMMasterTableXPath, SDMMasterRowXPath, new List<string>() { SDMMasterServiceUnitCellXPath, SDMMasterServiceTaskCellXPath });
         }
 
         public ServiceDataManagementPage ClickPointAddress(string poinAddress)
@@ -47,13 +103,88 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
-        public ServiceDataManagementPage ClickMultiPointAddress(int rowCount)
+        public Dictionary<int, List<object>> ClickMultiPointAddress(int rowCount)
         {
+            Dictionary<int, List<object>> rows = new Dictionary<int, List<object>>();
             for (int i = 0; i < rowCount; i++)
             {
-                ServiceDataManagementTableElement.ClickCell(i, 0);
+                List<IWebElement> unselectedRows = ServiceDataManagementTableElement.GetRows().Where(x => !x.FindElement(By.XPath(SDMCheckboxXPath)).Selected).ToList();
+                if (unselectedRows.Count == 0)
+                {
+                    int retry = 0;
+                    while (retry <= 3)
+                    {
+                        retry++;
+                        Thread.Sleep(500);
+                        unselectedRows = ServiceDataManagementTableElement.GetRows().Where(x => !x.FindElement(By.XPath(SDMCheckboxXPath)).Selected).ToList();
+                        if (unselectedRows.Count != 0)
+                        {
+                            break;
+                        }
+                        else if (retry == 3)
+                        {
+                            return rows;
+                        }
+                    }
+                }
+                if (unselectedRows.Count != 0)
+                { 
+                    rows.Add(i, ServiceDataManagementTableElement.GetRowValue(unselectedRows[0]));
+                    unselectedRows[0].FindElement(By.XPath(SDMCheckboxXPath)).Click();
+                }
+            }
+            return rows;
+        }
+
+        public List<object> GetPointAddressCellValues(string pointAddress)
+        {
+            IWebElement rowEle = ServiceDataManagementTableElement.GetRowByCellValue(1, pointAddress);
+            int rowIdx = ServiceDataManagementTableElement.GetRows().IndexOf(rowEle);
+            return ServiceDataManagementTableElement.GetRowValue(rowIdx);
+        }
+
+        public ServiceDataManagementPage VerifyDescriptionLayout(List<object> pointValues, int selectedRowIdx = 0, bool checkMaster = false)
+        {
+            ScrollDownToElement(DescriptionTableElement.GetRow(selectedRowIdx));
+            Assert.IsTrue(DescriptionTableElement.GetCellVisibility(selectedRowIdx, 0));
+            Assert.IsTrue(DescriptionTableElement.GetCellValue(selectedRowIdx, 2).AsString() == pointValues[3].AsString());
+            Assert.IsTrue(GetDescriptionStatus(DescriptionTableElement.GetCellAttribute(selectedRowIdx, 1, "src")).Contains(pointValues[6].AsString()));
+            if (checkMaster)
+            {
+                Assert.IsTrue(MasterTableElement.GetCellAttribute(selectedRowIdx, 0, "src").Contains("service-unit.png"));
+                Assert.IsTrue(MasterTableElement.GetCellCss(selectedRowIdx, 1, "background-color") == "rgba(153, 204, 204, 1)");
             }
             return this;
+        }
+
+        public ServiceDataManagementPage VerifyDescriptionLayout(List<object> pointValues, string imgName, int selectedRowIdx = 0)
+        {
+            ScrollDownToElement(DescriptionTableElement.GetRow(selectedRowIdx));
+            Assert.IsTrue(DescriptionTableElement.GetCellVisibility(selectedRowIdx, 0));
+            Assert.IsTrue(DescriptionTableElement.GetCellValue(selectedRowIdx, 2).AsString() == pointValues[3].AsString());
+            Assert.IsTrue(DescriptionTableElement.GetCellAttribute(selectedRowIdx, 1, "src").Contains(imgName));
+            return this;
+        }
+
+        private List<string> GetDescriptionStatus(string imgPath)
+        {
+            if (imgPath.Contains("yellow"))
+            {
+                return new List<string>() { "New", "Updated" };
+            }
+            else if (imgPath.Contains("red"))
+            {
+                return new List<string>() { "Retired" };
+            }
+            else if (imgPath.Contains("green"))
+            {
+                return new List<string>() { "Verified" };
+            }
+            else if (imgPath.Contains("transparent"))
+            {
+                return new List<string>() { "" };
+            }
+            return new List<string>() {};
         }
     }
 }
