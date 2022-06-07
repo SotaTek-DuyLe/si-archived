@@ -798,8 +798,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickRemoveBtn()
                 .ClickSaveBtnToUpdateRole();
             PageFactoryManager.Get<SettingInspectionTypePage>()
-                // .OpenDetailInspectionWithId(inspectionIdExpried)
-                .OpenDetailInspectionWithId("1168")
+                .OpenDetailInspectionWithId(inspectionIdExpried)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailInspectionPage>()
                 .WaitForInspectionDetailDisplayed()
