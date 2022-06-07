@@ -768,29 +768,40 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .IsOnUserScreen()
                 .ClickMoveNextBtn()
                 .ClickAnyUserShowDetail(AutoUser59.UserName);
+            PageFactoryManager.Get<BasePage>()
+               .SwitchToLastWindow();
             PageFactoryManager.Get<UserDetailPage>()
                 .IsOnUserDetailPage()
                 .ClickAdminRoles()
-                .ChooseAdminRole("Inspection")
+                .ChooseAdminRole("Inspections")
                 .ClickSaveAndClose();
 
             IWebDriverManager.GetDriver().Quit();
             IWebDriverManager.SetDriver("chrome");
+
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .SendKeyToUsername(AutoUser59.UserName)
+                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser59);
+
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.InspectionTypeUrlIE);
-
             PageFactoryManager.Get<SettingInspectionTypePage>()
                 .WaitForInpsectionTypeSettingDisplayed("Street Cleansing Assessment")
                 .ClickRolesTab()
                 .SelectAllRoleInRightColumn()
                 .ClickRemoveBtn()
-                .ClickSaveBtnToUpdateRole()
-                .WaitForLoadingIconDisappear();
+                .ClickSaveBtnToUpdateRole();
             PageFactoryManager.Get<SettingInspectionTypePage>()
                 .OpenDetailInspectionWithId(inspectionIdExpried)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailInspectionPage>()
-                .WaitForInspectionDetailDisplayed(inspectionTypeValue)
+                .WaitForInspectionDetailDisplayed()
                 .ClickOnDataTab()
                 .WaitForLoadingIconToDisappear();
             //Line 67 => Expired

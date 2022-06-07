@@ -1,6 +1,8 @@
 ﻿
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
@@ -31,18 +33,30 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             return this;
         }
 
+        //public SettingInspectionTypePage SelectAllRoleInRightColumn()
+        //{
+        //    ClickOnElement(firstRoleInRightColumn);
+        //    if(RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        //    {
+        //        SendKeys(allRoleInRightColumn, Keys.Command + "a");
+        //    } else
+        //    {
+        //        SendKeys(allRoleInRightColumn, Keys.Control + "a");
+        //    }
+        //    return this;
+            
+        //}
+
         public SettingInspectionTypePage SelectAllRoleInRightColumn()
         {
-            ClickOnElement(firstRoleInRightColumn);
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            SelectElement oSelect = new SelectElement(driver.FindElement(allRoleInRightColumn));
+            IList<IWebElement> elementCount = oSelect.Options;
+            for (int i = 0; i < elementCount.Count; i++)
             {
-                SendKeys(allRoleInRightColumn, Keys.Command + "a");
-            } else
-            {
-                SendKeys(allRoleInRightColumn, Keys.Control + "a");
+                oSelect.SelectByText(GetElementText(elementCount[i]));
             }
+            //Select all
             return this;
-            
         }
 
         public SettingInspectionTypePage ClickRemoveBtn()
@@ -67,7 +81,7 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
 
         public DetailInspectionPage OpenDetailInspectionWithId(string inspectionId)
         {
-            GoToURL(WebUrl.MainPageUrl + "inspections/" + inspectionId);
+            GoToURL(WebUrl.MainPageUrl + "web/inspections/" + inspectionId);
             return PageFactoryManager.Get<DetailInspectionPage>();
         }
     }
