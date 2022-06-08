@@ -583,6 +583,28 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             return this;
         }
 
+        public DetailTab VerifyAdhocInfo(List<MobilizationModel> mobilizationModelList, MobilizationModel input, int num)
+        {
+            int n = 0;
+            for (int i = 0; i < mobilizationModelList.Count; i++)
+            {
+                if(mobilizationModelList[i].TaskLineType == input.TaskLineType && mobilizationModelList[i].StartDateCover == input.StartDateCover)
+                {
+                    Assert.AreEqual(mobilizationModelList[i].TaskLineType, input.TaskLineType);
+                    Assert.AreEqual(mobilizationModelList[i].AssetType, input.AssetType);
+                    Assert.AreEqual(mobilizationModelList[i].AssetQuantity, input.AssetQuantity);
+                    Assert.AreEqual(mobilizationModelList[i].Product, input.Product);
+                    Assert.AreEqual(mobilizationModelList[i].AmountOfProduct, input.AmountOfProduct);
+                    Assert.AreEqual(mobilizationModelList[i].Unit, input.Unit);
+                    Assert.AreEqual(mobilizationModelList[i].StartDateCover, input.StartDateCover);
+                    n++;
+                }
+                
+            }
+            Assert.AreEqual(n, num);
+            return this;
+        }
+
         public DetailTab VerifyCreateAdhocButtonsAreEnabled()
         {
             IList<IWebElement> createAdhocBtns = WaitUtil.WaitForAllElementsVisible(createAdhocBtn);
