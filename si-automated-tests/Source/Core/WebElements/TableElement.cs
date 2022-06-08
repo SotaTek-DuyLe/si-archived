@@ -54,7 +54,7 @@ namespace si_automated_tests.Source.Core.WebElements
             var rowCount = GetRows().Count;
             while (rowIdx < rowCount)
             {
-                if (GetRowValue(rowIdx)[cellIdx] == value)
+                if (GetRowValue(rowIdx)[cellIdx].AsString().Trim() == value.AsString().Trim())
                 {
                     webElement = GetCell(rowIdx, cellIdx);
                     break;
@@ -71,7 +71,7 @@ namespace si_automated_tests.Source.Core.WebElements
             var rowCount = GetRows().Count;
             while (rowIdx < rowCount)
             {
-                if (GetRowValue(rowIdx)[cellIdx] == value)
+                if (GetRowValue(rowIdx)[cellIdx].AsString().Trim() == value.AsString().Trim())
                 {
                     webElement = GetRow(rowIdx);
                     break;

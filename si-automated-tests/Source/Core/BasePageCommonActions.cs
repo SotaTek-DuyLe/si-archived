@@ -80,18 +80,21 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public string GetInputValue(By xpath)
+        public string GetInputValue(By xpath, string text)
         {
+            WaitUtil.TextToBePresentInElementValue(GetElement(xpath), text);
             return GetElement(xpath).GetAttribute("value");
         }
 
-        public string GetInputValue(string xpath)
+        public string GetInputValue(string xpath, string text)
         {
+            WaitUtil.TextToBePresentInElementValue(GetElement(xpath), text);
             return GetElement(xpath).GetAttribute("value");
         }
 
-        public string GetInputValue(IWebElement webElement)
+        public string GetInputValue(IWebElement webElement, string text)
         {
+            WaitUtil.TextToBePresentInElementValue(webElement, text);
             return webElement.GetAttribute("value");
         }
 
@@ -115,19 +118,19 @@ namespace si_automated_tests.Source.Core
 
         public BasePageCommonActions VerifyInputValue(string xpath, string expectedValue)
         {
-            Assert.IsTrue(GetInputValue(xpath) == expectedValue);
+            Assert.IsTrue(GetInputValue(xpath, expectedValue) == expectedValue);
             return this;
         }
 
         public BasePageCommonActions VerifyInputValue(By xpath, string expectedValue)
         {
-            Assert.IsTrue(GetInputValue(xpath) == expectedValue);
+            Assert.IsTrue(GetInputValue(xpath, expectedValue) == expectedValue);
             return this;
         }
 
         public BasePageCommonActions VerifyInputValue(IWebElement webElement, string expectedValue)
         {
-            Assert.IsTrue(GetInputValue(webElement) == expectedValue);
+            Assert.IsTrue(GetInputValue(webElement, expectedValue) == expectedValue);
             return this;
         }
 
