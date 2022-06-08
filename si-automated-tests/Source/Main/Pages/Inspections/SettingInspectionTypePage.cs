@@ -73,7 +73,7 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
 
         public SettingInspectionTypePage WaitForLoadingIconDisappear()
         {
-            WaitUtil.WaitForElementVisible(loadingIconDisappear);
+            WaitUtil.WaitForAllElementsPresent(loadingIconDisappear);
             WaitUtil.WaitForPageLoaded();
             return this;
 
