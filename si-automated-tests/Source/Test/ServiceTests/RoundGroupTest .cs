@@ -500,6 +500,54 @@ namespace si_automated_tests.Source.Test.ServiceTests
             roundGroupPage.VerifyNewSchedule(detail, tomorrow, endDate);
         }
 
+        [Category("117_Retire existing Round schedule")]
+        [Test]
+        public void TC_117_Retire_Existing_Round_Schedule()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star")
+                .ExpandOption("Streets")
+                .ExpandOption("Street Cleansing")
+                .ExpandOption("Round Groups")
+                .ExpandOption("East Zone 1")
+                .OpenOption("Friday MOR")
+                .SwitchNewIFrame();
+
+            RoundGroupPage roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.ClickScheduleDetail("181")
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            RoundSchedulePage roundSchedulePage = PageFactoryManager.Get<RoundSchedulePage>();
+            roundSchedulePage.ClickOnElement(roundSchedulePage.RetireButton);
+            roundSchedulePage.VerifyElementText(roundSchedulePage.RetireConfirmTitle, "Are you sure you want to retire this Round Schedule?")
+                .ClickOnElement(roundSchedulePage.OKButton);
+            roundSchedulePage.WaitForLoadingIconToDisappear();
+            string tomorrow = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            roundSchedulePage.VerifyInputValue(roundSchedulePage.EndDateInput, tomorrow)
+                .CloseCurrentWindow()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
+            roundGroupPage.WaitForLoadingIconToDisappear()
+                .ClickRefreshBtn();
+            roundGroupPage.VerifyPatternEnd("181", tomorrow)
+                .ClickCalendarTab()
+                .WaitForLoadingIconToDisappear();
+            roundGroupPage.RoundInstancesNotDisplayAfterEnddate(DateTime.Now.AddDays(1));
+        }
+
         [Category("119_Add and Remove Round Sites on a Round")]
         [Test]
         public void TC_119_Add_and_Remove_Round_Sites_on_a_Round()

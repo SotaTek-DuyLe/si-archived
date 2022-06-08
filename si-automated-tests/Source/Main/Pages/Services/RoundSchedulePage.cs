@@ -24,6 +24,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By weeklyFrequencySelect = By.XPath("//div[@id='schedule-tab']//select[@id='weekly-frequency']");
         public readonly By RoundScheduleTitle = By.XPath("//h5[@data-bind='text: roundSchedule']");
         public readonly By RoundScheduleStatus = By.XPath("//h5[@id='header-status']//span[contains(@data-bind, \"visible: displayedStatusType() === 'status'\")]");
+        public readonly By RetireButton = By.XPath("//button[@title='Retire']");
+        public readonly By OKButton = By.XPath("//div[@class='modal-dialog']//button[contains(string(), 'OK')]");
+        public readonly By RetireConfirmTitle = By.XPath("//div[@class='modal-dialog']//h4");
 
         public RoundSchedulePage ClickPeriodTimeButton(string period)
         {
