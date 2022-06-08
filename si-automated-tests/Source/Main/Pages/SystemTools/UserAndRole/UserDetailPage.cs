@@ -21,8 +21,9 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
         private readonly By resetPasswordBtn = By.XPath("//span[text()='Reset Password']");
 
 
-        private readonly By accessRoleOption = By.XPath("//span[text()='North Star Commercial']/ancestor::td/following-sibling::td"); 
-        private const string adminRoleOption = "(//span[contains(text(), '{0}')])[2]/parent::td/following-sibling::td/input";
+        private readonly By accessRoleOption = By.XPath("//span[text()='North Star Commercial']/ancestor::td/following-sibling::td");
+        private const string adminRoleOption = "//span[text(), '{0}')]/parent::td/following-sibling::td/input";
+        private readonly By inpectionsAdminRole = By.XPath("(//span[contains(text(), 'Inspections')])[2]/parent::td/following-sibling::td/input");
 
         private readonly By rightFrame = By.XPath("//iframe[@id='RightFrame']");
 
@@ -79,6 +80,11 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
         public UserDetailPage ChooseAdminRole(string role)
         {
             ClickOnElement(adminRoleOption, role);
+            return this;
+        }
+        public UserDetailPage ChooseInspectionAdminRole()
+        {
+            ClickOnElement(inpectionsAdminRole);
             return this;
         }
         public UserDetailPage ClickSave()

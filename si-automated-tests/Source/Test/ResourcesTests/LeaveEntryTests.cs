@@ -426,7 +426,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .EnterDates(currentDate)
                 .EnterDetails(details)
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry");
+                .VerifyToastMessage("Successfully saved Leave Entry")
+                .WaitUntilToastMessageInvisible("Successfully saved Leave Entry");
             //VERIFY
             PageFactoryManager.Get<LeaveEntryPage>()
                 .VerifyNewButtonsDisplayed()
