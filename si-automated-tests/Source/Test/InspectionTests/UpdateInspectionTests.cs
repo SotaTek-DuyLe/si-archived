@@ -229,7 +229,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .WaitForLoadingIconToDisappear();
             //Line 39 => Verify History tab
             detailInspectionPage
-                .VerifyHistoryAfterCancelled(timeCancelled, AutoUser59.DisplayName);
+                .VerifyHistoryAfterCancelled(AutoUser59.DisplayName, timeCancelled);
         }
 
         [Category("UpdateInspection")]
@@ -383,7 +383,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
-                .IsDetailInspectionPage(allocatedUnitValue, "", noteValue)
                 .VerifyStateInspection("Unallocated")
                 .ClickCompleteBtn()
                 .VerifyDisplayToastMessage(MessageRequiredFieldConstants.FieldStreetGradeRequiredMessage);
@@ -393,7 +392,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .WaitForLoadingIconToDisappear();
             inspectionIdCompleteType2 = detailInspectionPage
                 .GetCurrentUrl()
-                .Replace(WebUrl.MainPageUrl + "inspections/", "");
+                .Replace(WebUrl.MainPageUrl + "web/inspections/", "");
             detailInspectionPage
                 .VerifyStreetGradeMandatory()
                 //Line 47 => Complete
@@ -604,7 +603,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .WaitForLoadingIconToDisappear();
             inspectionIdCancelledType2 = detailInspectionPage
                 .GetCurrentUrl()
-                .Replace(WebUrl.MainPageUrl + "inspections/", "");
+                .Replace(WebUrl.MainPageUrl + "web/inspections/", "");
             detailInspectionPage
                 .JustClickCalenderCancelledDate();
             string timeCancelled = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
@@ -712,7 +711,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             //Get inspectionId
             string inspectionIdExpried = detailInspectionPage
                 .GetCurrentUrl()
-                .Replace(WebUrl.MainPageUrl + "inspections/", "");
+                .Replace(WebUrl.MainPageUrl + "web/inspections/", "");
             string validToValue = CommonUtil.GetUtcTimeNowMinusHour(-2, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             detailInspectionPage
                .VerifyStateInspection("Unallocated")
@@ -748,46 +747,26 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
                 .VerifyHistoryAfterExpired(AutoUser59.DisplayName, validToValue)
-                .VerifyStreetGradeInHistory("D");
+                .VerifyStreetGradeInHistory("D")
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            pointSegmentDetailPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<DetailInspectionPage>()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
 
-            IWebDriverManager.GetDriver().Quit();
-            IWebDriverManager.SetDriver("ie");
-            //Login IE and config
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrlIE);
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
-            PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser59)
-                .ClickSystemTool()
-                .ClickUserAndRole()
-                .ClickUser()
-                .ClickAnyGroup("a")
-                .IsOnUserScreen()
-                .ClickMoveNextBtn()
-                .ClickAnyUserShowDetail(AutoUser59.UserName);
+            //Config
             PageFactoryManager.Get<BasePage>()
-               .SwitchToLastWindow();
+                .GoToURL(WebUrl.InpectionAdminRoleUser59UrlIE);
+            
             PageFactoryManager.Get<UserDetailPage>()
                 .IsOnUserDetailPage()
                 .ClickAdminRoles()
                 .ChooseAdminRole("Inspections")
-                .ClickSaveAndClose();
-
-            IWebDriverManager.GetDriver().Quit();
-            IWebDriverManager.SetDriver("chrome");
-
-            PageFactoryManager.Get<BasePage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            //Login
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
-            PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser59);
+                .ClickSave()
+                .WaitForLoadingIconDisappear();
 
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.InspectionTypeUrlIE);

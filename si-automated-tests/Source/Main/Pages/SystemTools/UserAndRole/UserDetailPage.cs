@@ -1,9 +1,6 @@
 ﻿using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.UserAndRole
 {
@@ -19,6 +16,7 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
         private readonly By accessRoleTab = By.XPath("//a[text()='Data Access Roles']");
         private readonly By adminRoleTab = By.XPath("//a[text()='Admin Roles']");
         private readonly By resetPasswordBtn = By.XPath("//span[text()='Reset Password']");
+        private readonly By loadingIconHidden = By.XPath("//div[@id='Progress' and contains(@style, 'visibility: hidden')]");
 
 
         private readonly By accessRoleOption = By.XPath("//span[text()='North Star Commercial']/ancestor::td/following-sibling::td"); 
@@ -94,6 +92,11 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
         public UserDetailPage ClickResetPassword()
         {
             ClickOnElement(resetPasswordBtn);
+            return this;
+        }
+        public UserDetailPage WaitForLoadingIconDisappear()
+        {
+            WaitUtil.WaitForAllElementsPresent(loadingIconHidden);
             return this;
         }
 
