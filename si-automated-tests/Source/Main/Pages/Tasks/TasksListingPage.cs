@@ -24,6 +24,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             SendKeys(filterInputById, taskId);
             ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
             return this;
         }
 
@@ -32,6 +33,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             DoubleClickOnElement(firstRecordRow);
             return PageFactoryManager.Get<DetailTaskPage>();
         }
+
 
     }
 }
