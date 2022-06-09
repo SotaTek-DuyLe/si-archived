@@ -91,6 +91,7 @@
     <None Remove="Source\Main\DBModels\GetServiceInfoForPoint\" />
     <None Remove="Source\Main\DBModels\GetPointHistory\" />
     <None Remove="Source\Test\TaskTests\" />
+    <None Remove="Source\Main\Pages\Services\ServiceTask\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -123,6 +124,7 @@
     <Folder Include="Source\Main\DBModels\GetServiceInfoForPoint\" />
     <Folder Include="Source\Main\DBModels\GetPointHistory\" />
     <Folder Include="Source\Test\TaskTests\" />
+    <Folder Include="Source\Main\Pages\Services\ServiceTask\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
