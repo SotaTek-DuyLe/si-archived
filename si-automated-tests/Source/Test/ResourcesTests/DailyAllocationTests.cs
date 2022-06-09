@@ -226,6 +226,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectState("Training")
                 .SelectResolutionCode("Paid")
                 .SaveDetail()
+                .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifyStateAbbreviation(resourceName, "T")
@@ -297,7 +298,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //Create vehicle
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceDetailTab>()
                 .IsOnDetailTab()
                 .InputResourceName(vehicleResourceName)

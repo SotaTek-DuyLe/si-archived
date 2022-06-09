@@ -111,6 +111,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
                     return this;
                 }
             }
+            WaitForLoadingIconToDisappear();
             return this;
         }
         public ResourceAllocationPage VerifyFirstResultValue(string field, string expected)
@@ -122,7 +123,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
                 if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
                 {
                     //Temporary comment because of unfixed bug: Assert.AreEqual(expected, _firstResultFields[i].Text);
-                    Assert.IsTrue(_firstResultFields[i].Text.Contains(expected));
+                    Assert.IsTrue(_firstResultFields[i].Text.Contains(expected),"expected " + expected + " but found " + _firstResultFields[i].Text);
                 }
             }
             return this;
