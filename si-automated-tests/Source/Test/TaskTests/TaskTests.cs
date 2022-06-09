@@ -6,6 +6,7 @@ using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
+using si_automated_tests.Source.Main.Pages.Services.ServiceTask;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
@@ -36,7 +37,7 @@ namespace si_automated_tests.Source.Test.TaskTests
         [Test(Description = "Tasks/tasklines - Detail Tasks - Source - sevice task")]
         public void TC_125_Detail_tasks()
         {
-            string taskIDWithSourceServiceTask = "3857";
+            string taskIDWithSourceServiceTask = "3957";
             //Run query to get task's information
             List<TaskDBModel> taskInfoById = finder.GetTask(int.Parse(taskIDWithSourceServiceTask));
 
@@ -61,7 +62,10 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickHyperlinkNextToTask()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
-
+            ServiceTaskDetailPage serviceTaskDetailPage = PageFactoryManager.Get<ServiceTaskDetailPage>();
+            serviceTaskDetailPage
+                .WaitForServiceTaskDetailPageDisplayed()
+                .VerifyCurrentUrlServiceTaskDetail(taskInfoById[0].servicetaskID.ToString());
 
         }
     }
