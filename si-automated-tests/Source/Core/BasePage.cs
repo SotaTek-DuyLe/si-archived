@@ -621,6 +621,7 @@ namespace si_automated_tests.Source.Core
         //SWITCH TAB
         public BasePage SwitchToTab(string tabName)
         {
+            WaitForLoadingIconToDisappear();
             ClickOnElement(String.Format(tab, tabName));
             WaitForLoadingIconToDisappear();
             return this;
