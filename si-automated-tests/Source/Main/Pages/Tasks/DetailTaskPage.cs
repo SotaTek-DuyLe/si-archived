@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By inspectionBtn = By.XPath("//button[@title='Inspect']");
         private readonly By locationName = By.CssSelector("a[class='typeUrl']");
         private readonly By serviceName = By.XPath("//div[text()='Service']/following-sibling::div");
+        private readonly By hyperlinkNextToTask = By.XPath("//span[text()='Task']/following-sibling::span");
 
         //INSPECTION POPUP
         private readonly By inspectionPopupTitle = By.XPath("//h4[text()='Create ']");
@@ -46,6 +47,18 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             WaitUtil.WaitForPageLoaded();
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(taskTitle);
+            return this;
+        }
+
+        public DetailTaskPage VerifyCurrentUrlOfDetailTaskPage(string taskId)
+        {
+            Assert.AreEqual(WebUrl.MainPageUrl + "web/tasks/" + taskId, GetCurrentUrl());
+            return this;
+        }
+
+        public DetailTaskPage ClickHyperlinkNextToTask()
+        {
+            ClickOnElement(hyperlinkNextToTask);
             return this;
         }
 

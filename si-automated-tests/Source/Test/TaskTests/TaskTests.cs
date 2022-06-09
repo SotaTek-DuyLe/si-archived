@@ -40,6 +40,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             //Run query to get task's information
             List<TaskDBModel> taskInfoById = finder.GetTask(int.Parse(taskIDWithSourceServiceTask));
 
+            //Login ECHO and check the detail of the task
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Tasks")
                 .OpenOption("North Star")
@@ -52,8 +53,14 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchToLastWindow();
             DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
             detailTaskPage
-                .IsDetailTaskPage();
-            detailTaskPage
+                .IsDetailTaskPage()
+                .VerifyCurrentUrlOfDetailTaskPage(taskIDWithSourceServiceTask)
+                //Verify response returned from DB
+
+                //Line 9: Click on the hyperlink next to Task
+                .ClickHyperlinkNextToTask()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
 
 
         }
