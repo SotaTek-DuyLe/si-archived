@@ -499,19 +499,19 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .verifyTaskLineEndDate(tommorowDate);
 
             string serviceTaskQuery = SQLConstants.SQL_ServiceTask + serviceTaskId;
-            SqlCommand commandServiceTask = new SqlCommand(serviceTaskQuery, DbContext.Conection);
+            SqlCommand commandServiceTask = new SqlCommand(serviceTaskQuery, DbContext.Connection);
             SqlDataReader readerServiceTask = commandServiceTask.ExecuteReader();
             List<ServiceTaskLineDBModel> serviceTasks = ObjectExtention.DataReaderMapToList<ServiceTaskLineDBModel>(readerServiceTask);
             readerServiceTask.Close();
 
             string serviceUnitAssetQuery = SQLConstants.SQL_ServiceUnitAssets + agreementId017;
-            SqlCommand commandServiceUnitAsset = new SqlCommand(serviceUnitAssetQuery, DbContext.Conection);
+            SqlCommand commandServiceUnitAsset = new SqlCommand(serviceUnitAssetQuery, DbContext.Connection);
             SqlDataReader readerServiceUnitAsset = commandServiceUnitAsset.ExecuteReader();
             List<ServiceUnitAssetsDBModel> serviceUnitAsset = ObjectExtention.DataReaderMapToList<ServiceUnitAssetsDBModel>(readerServiceUnitAsset);
             readerServiceUnitAsset.Close();
 
             string serviceTaskAgreementQuery = SQLConstants.SQL_ServiceTaskForAgreement + agreementId017;
-            SqlCommand commandServiceTaskAgreement = new SqlCommand(serviceTaskAgreementQuery, DbContext.Conection);
+            SqlCommand commandServiceTaskAgreement = new SqlCommand(serviceTaskAgreementQuery, DbContext.Connection);
             SqlDataReader readerServiceTaskAgreement = commandServiceTaskAgreement.ExecuteReader();
             List<ServiceTaskForAgreementDBModel> serviceTaskAgreement = ObjectExtention.DataReaderMapToList<ServiceTaskForAgreementDBModel>(readerServiceTaskAgreement);
             readerServiceTaskAgreement.Close();
@@ -780,7 +780,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             //Verify in DB
             string serviceUnitAssetQuery = SQLConstants.SQL_ServiceUnitAssets + agreementId;
-            SqlCommand commandServiceUnitAsset = new SqlCommand(serviceUnitAssetQuery, DbContext.Conection);
+            SqlCommand commandServiceUnitAsset = new SqlCommand(serviceUnitAssetQuery, DbContext.Connection);
             SqlDataReader readerServiceUnitAsset = commandServiceUnitAsset.ExecuteReader();
             List<ServiceUnitAssetsDBModel> serviceUnitAsset = ObjectExtention.DataReaderMapToList<ServiceUnitAssetsDBModel>(readerServiceUnitAsset);
             readerServiceUnitAsset.Close();
@@ -1085,7 +1085,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .verifyScheduleEndDate(tommorowDate);
             //Verify in DB
             string serviceUnitAssetQuery = SQLConstants.SQL_ServiceUnitAssets + "28";
-            SqlCommand commandServiceUnitAsset = new SqlCommand(serviceUnitAssetQuery, DbContext.Conection);
+            SqlCommand commandServiceUnitAsset = new SqlCommand(serviceUnitAssetQuery, DbContext.Connection);
             SqlDataReader readerServiceUnitAsset = commandServiceUnitAsset.ExecuteReader();
             List<ServiceUnitAssetsDBModel> serviceUnitAsset = ObjectExtention.DataReaderMapToList<ServiceUnitAssetsDBModel>(readerServiceUnitAsset);
             readerServiceUnitAsset.Close();
