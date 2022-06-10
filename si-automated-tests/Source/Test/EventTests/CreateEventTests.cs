@@ -39,7 +39,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
 
             //Check SP
-            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Connection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@PointID", SqlDbType.Int).Value = 483986;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
@@ -137,7 +137,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyNotDisplayErrorMessage();
             //DB - Get servicegroup with contractID = 2
             string query_servicegroup = "SELECT * FROM services s join servicegroups s2 on s.servicegroupID = s2.servicegroupID  WHERE s2.contractID = 2;";
-            SqlCommand commandService = new SqlCommand(query_servicegroup, DbContext.Conection);
+            SqlCommand commandService = new SqlCommand(query_servicegroup, DbContext.Connection);
             SqlDataReader readerService = commandService.ExecuteReader();
             List<ServiceDBModel> serviceInDB = ObjectExtention.DataReaderMapToList<ServiceDBModel>(readerService);
             readerService.Close();
@@ -179,7 +179,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
                 .VerifyDisplayTabsAfterSaveEvent();
             string query_1 = "select * from events where eventid=" + eventId + "; ";
-            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Conection);
+            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Connection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<EventDBModel> eventModels = ObjectExtention.DataReaderMapToList<EventDBModel>(readerInspection);
             readerInspection.Close();
@@ -335,7 +335,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
                 .VerifyDisplayTabsAfterSaveEvent();
             string query_1 = "select * from events where eventid=" + eventId + "; ";
-            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Conection);
+            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Connection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<EventDBModel> eventModels = ObjectExtention.DataReaderMapToList<EventDBModel>(readerInspection);
             readerInspection.Close();
@@ -381,7 +381,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
 
             //Check SP
-            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Connection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@PointID", SqlDbType.Int).Value = 32839;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 2;
@@ -559,7 +559,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
 
             //Check SP
-            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Connection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@PointID", SqlDbType.Int).Value = 32844;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 2;
@@ -718,7 +718,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
             //Check SP
-            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Connection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@PointID", SqlDbType.Int).Value = 6;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 4;
@@ -892,7 +892,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
             //Check SP
-            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
+            SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Connection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@PointID", SqlDbType.Int).Value = 10;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 3;
@@ -1072,7 +1072,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
             List<PointHistoryDBModel> pointHistoryDBModels = new List<PointHistoryDBModel>();
             //Get Service from SP
-            SqlCommand command_Service = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
+            SqlCommand command_Service = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Connection);
             command_Service.CommandType = CommandType.StoredProcedure;
             command_Service.Parameters.Add("@PointID", SqlDbType.Int).Value = pointID;
             command_Service.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
@@ -1093,7 +1093,7 @@ namespace si_automated_tests.Source.Test.EventTests
             }
 
             //Get Point History from SP
-            SqlCommand command_PointHistory = new SqlCommand("GetPointHistory", DbContext.Conection);
+            SqlCommand command_PointHistory = new SqlCommand("GetPointHistory", DbContext.Connection);
             command_PointHistory.CommandType = CommandType.StoredProcedure;
             command_PointHistory.Parameters.Add("@EventID", SqlDbType.Int).Value = 0;
             command_PointHistory.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
@@ -1250,7 +1250,7 @@ namespace si_automated_tests.Source.Test.EventTests
             List<CommonServiceForPointDBModel> commonService = new List<CommonServiceForPointDBModel>();
             List<PointHistoryDBModel> pointHistoryDBModels = new List<PointHistoryDBModel>();
             //Get Service from SP
-            SqlCommand command_Service = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Conection);
+            SqlCommand command_Service = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Connection);
             command_Service.CommandType = CommandType.StoredProcedure;
             command_Service.Parameters.Add("@PointID", SqlDbType.Int).Value = pointID;
             command_Service.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
@@ -1271,7 +1271,7 @@ namespace si_automated_tests.Source.Test.EventTests
             }
 
             //Get Point History from SP
-            SqlCommand command_PointHistory = new SqlCommand("GetPointHistory", DbContext.Conection);
+            SqlCommand command_PointHistory = new SqlCommand("GetPointHistory", DbContext.Connection);
             command_PointHistory.CommandType = CommandType.StoredProcedure;
             command_PointHistory.Parameters.Add("@EventID", SqlDbType.Int).Value = 0;
             command_PointHistory.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
@@ -1383,7 +1383,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
                 .VerifyDisplayTabsAfterSaveEvent();
             string query_1 = "select * from events where eventid=" + eventId + "; ";
-            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Conection);
+            SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Connection);
             SqlDataReader readerInspection = commandInspection.ExecuteReader();
             List<EventDBModel> eventModels = ObjectExtention.DataReaderMapToList<EventDBModel>(readerInspection);
             readerInspection.Close();
