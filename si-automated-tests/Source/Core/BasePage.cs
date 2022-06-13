@@ -333,6 +333,18 @@ namespace si_automated_tests.Source.Core
             }
         }
 
+        public void HoverElement(string xpath)
+        {
+            Actions action = new Actions(driver);
+            action.MoveToElement(GetElement(xpath)).Perform();
+        }
+
+        public void HoverElement(IWebElement webElement)
+        {
+            Actions action = new Actions(driver);
+            action.MoveToElement(webElement).Perform();
+        }
+
         //ALERT
         public String GetAlertText()
         {

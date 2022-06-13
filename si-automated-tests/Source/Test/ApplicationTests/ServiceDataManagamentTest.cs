@@ -253,5 +253,44 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 serviceDataManagementPage.VerifyDescriptionLayout(item.Value, "green", item.Key);
             }
         }
+
+        [Category("TC_122_6 Verify that the Points with Status 'Retired' are appear correctly")]
+        [Test]
+        public void TC_122_6_Verify_that_the_Points_with_Status_Retired_are_appear_correctly()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser38.UserName, AutoUser38.Password)
+                .IsOnHomePage(AutoUser38);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Applications")
+                .OpenOption("Service Data Management")
+                .SwitchNewIFrame();
+
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                 .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                    .SelectTextFromDropDown(serviceDataManagementPage.ServiceLocationTypeSelect, "Address")
+                    .ClickOnElement(serviceDataManagementPage.StatusExpandButton);
+            serviceDataManagementPage
+                .SelectByDisplayValueOnUlElement(serviceDataManagementPage.StatusSelect, "Retired")
+                .ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
+            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.OkButton);
+            serviceDataManagementPage.WaitForLoadingIconToDisappear();
+
+            Thread.Sleep(1000);
+            Dictionary<int, List<object>> rowDatas = serviceDataManagementPage.ClickMultiPointAddress(20);
+            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.NextButton);
+            serviceDataManagementPage.WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .VerifyElementText(serviceDataManagementPage.TotalSpan, $"Total = {rowDatas.Count}", true);
+            foreach (var item in rowDatas)
+            {
+                serviceDataManagementPage.VerifyDescriptionLayout(item.Value, "red", item.Key);
+            }
+        }
     }
 }
