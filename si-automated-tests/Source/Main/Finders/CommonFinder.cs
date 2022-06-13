@@ -46,5 +46,41 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from tasks where tasks.taskID = " + taskId + ";";
             return FindList<TaskDBModel>(query);
         }
+
+        public List<ServiceUnitDBModel> GetServiceUnit(int serviceunitID)
+        {
+            string query = "select * from serviceunits s2 where s2.serviceunitID = " + serviceunitID + ";";
+            return FindList<ServiceUnitDBModel>(query);
+        }
+
+        public List<PiorityDBModel> GetPriority(int priorityID)
+        {
+            string query = "SELECT * FROM test.dbo.priorities p WHERE p.priorityID = " + priorityID + ";";
+            return FindList<PiorityDBModel>(query);
+        }
+
+        public List<TaskLineDBModel> GetTaskLine(int taskId)
+        {
+            string query = "SELECT * FROM test.dbo.tasklines WHERE taskid = " + taskId + ";";
+            return FindList<TaskLineDBModel>(query);
+        }
+
+        public List<TaskLineTypeDBModel> GetTaskLineType(int tasklinetypeId)
+        {
+            string query = "SELECT * from test.dbo.tasklinetypes where tasklinetypeId = " + tasklinetypeId + ";";
+            return FindList<TaskLineTypeDBModel>(query);
+        }
+
+        public List<AssetTypeDBModel> GetAssetType(int assettypeId)
+        {
+            string query = "SELECT * from test.dbo.assettypes a where a.assettypeID =" + assettypeId + ";";
+            return FindList<AssetTypeDBModel>(query);
+        }
+
+        public List<ProductDBModel> GetProduct(int productId)
+        {
+            string query = "SELECT * FROM test.dbo.products p  WHERE p.productID  =" + productId + ";";
+            return FindList<ProductDBModel>(query);
+        }
     }
 }

@@ -15,6 +15,8 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string ContactDetailsWarningMessage =  "Please enter at least one of the contact details.";
         public static readonly string WBMapTabWarningMessage = "No Service Unit(s) associated to this Site ";
         public static readonly string NoEventsAvailableWarningMessage = "No Events Available";
+        public static readonly string AssetTypeOrProductMustBeSelected = "Asset Type or Product must be selected";
+        public static readonly string TaskLineTypeRequired = "Task Line Type is required";
 
     }
 }

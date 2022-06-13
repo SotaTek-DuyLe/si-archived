@@ -6,15 +6,29 @@ using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Constants;
 using CanlendarServiceTask = si_automated_tests.Source.Main.Models.Suspension.ServiceTaskModel;
 
 namespace si_automated_tests.Source.Main.Pages.Sites
 {
     public class DetailSitePage : BasePage
     {
+        private readonly By servicedSiteTitle = By.XPath("//span[text()='Serviced Site']");
         private readonly By nextCalendarBtn = By.XPath("//div[@class='fc-left']//button[contains(@class,'fc-next-button')]");
         private readonly By canlendarTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='calendar-tab']");
         private readonly By rowsCalendarTableInMonth = By.XPath("//div[@class='fc-content-skeleton']//table//tbody//tr");
+
+        public DetailSitePage WaitForSiteDetailPageDisplayed()
+        {
+            WaitUtil.WaitForElementVisible(servicedSiteTitle);
+            return this;
+        }
+
+        public DetailSitePage VerifyCurrentUrlSitePage(string siteId)
+        {
+            Assert.AreEqual(WebUrl.MainPageUrl + "web/sites/" + siteId, GetCurrentUrl());
+            return this;
+        }
 
         public DetailSitePage ClickCalendarTab()
         {

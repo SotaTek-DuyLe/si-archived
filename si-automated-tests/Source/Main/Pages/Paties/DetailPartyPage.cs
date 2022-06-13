@@ -142,6 +142,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
 
+        public DetailPartyPage VerifyCurrentUrlPartyDetailPage(string partyId)
+        {
+            Assert.AreEqual(WebUrl.MainPageUrl + "web/parties/" + partyId, GetCurrentUrl());
+            return this;
+        }
+
         //TAB
         public DetailPartyPage ClickTabDropDown()
         {
