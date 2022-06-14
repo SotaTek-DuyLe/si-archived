@@ -175,7 +175,31 @@ namespace si_automated_tests.Source.Test.TaskTests
             //Line 26: Click on add new item -> Select type, product and enter scheduled qty = 80 -> Save
             detailTaskPage
                 .ClickAddNewItemTaskLineBtn()
-                .SelectType(3);
+                .SelectType(3)
+                .SelectGeneralRecyclingProductAtAnyRow(3)
+                .InputSheduledProductQuantiAtAnyRow(3, "80")
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+            allTaskLinesAfter = detailTaskPage
+                .GetAllTaskLineInTaskLineTab();
+            detailTaskPage
+                .VerifyTaskLineCreated(allTaskLinesAfter[2], "Service", "General Recycling", 80);
+            //Line 28: Double click on first task line
+            detailTaskPage
+                .DoublelickFirstTaskLine()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            //Line 29: Verify all fields display correctly
+            DetailTaskLinePage detailTaskLinePage = PageFactoryManager.Get<DetailTaskLinePage>();
+            int taskLineId = detailTaskLinePage
+                .WaitForTaskLineDetailDisplayed()
+                .GetTaskLineId();
+            detailTaskLinePage
+                .VerifyTaskLineInfo(allTaskLines[0]);
+            //Line 30: Run query to get taskline detail and verify
+            List<TaskLineDBModel> taskLineDBModelsDetail = finder.GetTaskLine(taskLineId);
+            
+
 
         }
     }

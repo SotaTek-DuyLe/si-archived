@@ -271,10 +271,14 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         //DYNAMIC
         private const string taskLineTypeAtAnyRows = "//tr[{0}]//select[@id='taskLineType.id']";
+        private const string productGeneralRecyclingAtAnyRows = "//tr[{0}]/td[8]//select//option[text()='General Recycling']";
+        private const string productDdAtAnyRows = "//tr[{0}]/td[8]//select";
+        private const string scheduledProductQuantityAnyRow = "//tr[{0}]//input[@id='scheduledProductQuantity.id']";
         private const string optionServiceTaskLineTypeAtAnyRows = "//tr[{0}]//select[@id='taskLineType.id']/option[text()='Service']";
         private const string assetTypeAtAnyRows = "//tr[{0}]/td[3]//select";
         private const string option1100LAssetTypeAtAnyRows = "//tr[{0}]/td[3]//select//option[text()='1100L']";
         private const string scheduleAssetQtyAtAnyRows = "//tr[{0}]//input[@id='scheduledAssetQuantity.id']";
+        private const string anyRowTaskLine = "//div[@id='taskLines-tab']//tbody//tr[{0}]";
 
 
         public List<TaskLineModel> GetAllTaskLineInTaskLineTab()
@@ -356,6 +360,19 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        public DetailTaskPage SelectGeneralRecyclingProductAtAnyRow(int row)
+        {
+            ClickOnElement(productDdAtAnyRows, row.ToString());
+            ClickOnElement(productGeneralRecyclingAtAnyRows, row.ToString());
+            return this;
+        }
+
+        public DetailTaskPage InputSheduledProductQuantiAtAnyRow(int row, string value)
+        {
+            SendKeys(string.Format(scheduledProductQuantityAnyRow, row.ToString()), value);
+            return this;
+        }
+
         public DetailTaskPage SelectType(int row)
         {
             ClickOnElement(taskLineTypeAtAnyRows, row.ToString());
@@ -383,6 +400,20 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(taskLineModel.assetType, assetType, "Wrong asset type");
             Assert.AreEqual(taskLineModel.scheduledAssetQty, scheduledAssetQty, "Wrong schedule asset quantity");
             return this;
+        }
+
+        public DetailTaskPage VerifyTaskLineCreated(TaskLineModel taskLineModel, string typeInput, string product, int scheduledProductQty)
+        {
+            Assert.AreEqual(taskLineModel.type, typeInput, "Wrong type input");
+            Assert.AreEqual(taskLineModel.product, product, "Wrong product");
+            Assert.AreEqual(int.Parse(taskLineModel.scheduledProductQuantity), scheduledProductQty, "Wrong schedule product Qty");
+            return this;
+        }
+
+        public DetailTaskLinePage DoublelickFirstTaskLine()
+        {
+            DoubleClickOnElement(anyRowTaskLine, "1");
+            return PageFactoryManager.Get<DetailTaskLinePage>();
         }
 
         //INSPECTION POPUP
