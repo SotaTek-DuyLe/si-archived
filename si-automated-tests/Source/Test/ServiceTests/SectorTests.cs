@@ -36,6 +36,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Richmond Commercial");
         }
         [Category("PointNode")]
+        [Category("Dee")]
         [Test]
         public void TC_103_Create_point_node()
         {
@@ -56,6 +57,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .GoToAllTabAndConfirmNoError();
         }
         [Category("PointArea")]
+        [Category("Dee")]
         [Test]
         public void TC_104_Create_point_area()
         {
@@ -76,6 +78,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .GoToAllTabAndConfirmNoError();
         }
         [Category("PointArea")]
+        [Category("Dee")]
         [Test]
         public void TC_107_Create_announcement()
         {

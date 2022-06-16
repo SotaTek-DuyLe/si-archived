@@ -35,6 +35,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchNewIFrame();
         }
         [Category("BusinessUnit")]
+        [Category("Dee")]
         [Test]
         public void TC_95_business_unit_group()
         {

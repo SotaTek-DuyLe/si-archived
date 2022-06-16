@@ -35,6 +35,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("North Star Commercial");
         }
         [Category("Create Contract And Unit Site")]
+        [Category("Dee")]
         [Test]
         public void TC_121_A_create_contract_and_unit_site()
         {
@@ -79,6 +80,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SleepTimeInMiliseconds(5000);
         }
         [Category("Create Contract And Unit Site")]
+        [Category("Dee")]
         [Test]
         public void TC_121_B_create_contract_and_unit_site()
         {
@@ -99,6 +101,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SleepTimeInMiliseconds(5000);
         }
         [Category("Create Contract And Unit Site")]
+        [Category("Dee")]
         [Test]
         public void TC_121_C_create_contract_and_unit_site()
         {

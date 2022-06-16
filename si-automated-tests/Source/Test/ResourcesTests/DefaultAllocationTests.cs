@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
     class DefaultAllocationTests : BaseTest
     {
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_64_Allocation_Deallocation_Default_Resource_Type()
         {
@@ -112,6 +113,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyToastMessage("Default resource-type cleared");
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_65_Allocation_Deallocation_Default_Resource()
         {
@@ -236,6 +238,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyToastMessage("Default resource-type cleared");
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_66_Allocation_Deallocation_Verify_Corresponding_Date()
         {

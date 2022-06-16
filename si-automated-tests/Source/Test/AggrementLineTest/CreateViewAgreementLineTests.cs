@@ -23,6 +23,7 @@ namespace si_automated_tests.Source.Test
     public class CreateViewAgreementLineTests : BaseTest
     {
         [Category("CreateAgreement")]
+        [Category("Dee")]
         [Test]
         public void TC_012_Create_Agreement_Line_With_Start_Date_In_The_Past()
         {
@@ -182,6 +183,7 @@ namespace si_automated_tests.Source.Test
         }
 
         [Category("CreateAgreement")]
+        [Category("Dee")]
         [Test]
         public void TC_013_Create_Agreement_Line_With_Start_Date_In_The_Future()
         {
@@ -353,6 +355,7 @@ namespace si_automated_tests.Source.Test
         }
 
         [Category("CreateAgreement")]
+        [Category("Dee")]
         [Test]
         public void TC_014_Create_Agreement_Line_With_Start_Date_Is_Current_Date()
         {
@@ -525,6 +528,7 @@ namespace si_automated_tests.Source.Test
 
         //View Agreement Line test 
         [Category("CreateAgreement")]
+        [Category("Dee")]
         [Test]
         public void TC_015_navigate_to_active_agreement_line_and_view_all_the_tabs_and_phases()
         {

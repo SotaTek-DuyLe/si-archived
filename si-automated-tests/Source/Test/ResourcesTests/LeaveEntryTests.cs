@@ -42,6 +42,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         }
 
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_67_68_create_and_approve_leave_entry_descision_false()
         {
@@ -122,6 +123,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Verdict", "Approved");
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_69_deny_leave_entry()
         {
@@ -198,6 +200,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Verdict", "Declined");
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_70_delete_leave_entry()
         {
@@ -275,6 +278,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Verdict", "Cancelled");
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_71_create_leave_entry_decision_false()
         {
@@ -348,6 +352,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Verdict", "Cancelled");
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_77_default_resource_count_leave_entry()
         {
