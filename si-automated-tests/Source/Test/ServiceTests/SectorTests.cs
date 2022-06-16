@@ -86,7 +86,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("North Star Commercial")
                 .SwitchNewIFrame()
-                .SwitchToTab("Announcements");
+                .SwitchToTab("Announcements")
+                .WaitForLoadingIconToDisappear();
             CreateAnnouncementAndVerify();
             //VERIFY ON GROUP AND SERVICES
             PageFactoryManager.Get<NavigationBase>()
@@ -179,8 +180,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string from = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             string to = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT, 1);
             PageFactoryManager.Get<CommonBrowsePage>()
-               .ClickAddNewItem()
-               .SwitchToLastWindow();
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
             PageFactoryManager.Get<AnnouncementDetailPage>()
                 .IsOnDetailPage()
                 .InputDetails(type, text, impact, from, to)
