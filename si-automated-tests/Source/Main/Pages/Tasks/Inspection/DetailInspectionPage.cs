@@ -49,6 +49,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private readonly By actionUpdateTextSecondRow = By.XPath("(//strong[text()='Action: ']/following-sibling::span[text()='Update - Inspection'])[2]");
         private readonly By streetGradeFirstRow = By.XPath("//span[text()='Street Grade']/following-sibling::span[1]");
         private readonly By userFirstRow = By.XPath("//div[contains(@class, 'panel-default')][1]//strong[text()='User: ']/following-sibling::span[1]");
+        private readonly By firstNoteRow = By.XPath("//div[contains(@class, 'panel-default')][1]//span[text()='Notes']/following-sibling::span[1]");
         private readonly By notesSecondRow = By.XPath("//div[contains(@class, 'panel-default')][2]//span[text()='Notes']/following-sibling::span[1]");
         private readonly By notesFirstRow = By.XPath("//div[contains(@class, 'panel-default')][1]//span[text()='Notes']/following-sibling::span[1]");
         private readonly By userSecondRow = By.XPath("//div[contains(@class, 'panel-default')][2]//strong[text()='User: ']/following-sibling::span[1]");

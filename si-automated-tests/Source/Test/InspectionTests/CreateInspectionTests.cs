@@ -41,8 +41,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .Login(AutoUser14.UserName, AutoUser14.Password)
                 .IsOnHomePage(AutoUser14);
             string inspectionTypeValue = "Site Inspection";
-            string allocatedUnitValue_2 = "East Waste";
-            string allocatedUserValue_2 = "User";
+            string allocatedUnitValue_2 = "West Waste";
+            string allocatedUserValue_2 = "";
             string noteValue = "AutoNote" + CommonUtil.GetRandomString(5);
             string validFromInThePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -2);
             string validToInThePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -1);
@@ -133,7 +133,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickAndVerifySourceDd(sourceNameList)
                 .ClickInspectionTypeDdAndSelectValue(inspectionTypeValue)
                 .ClickAllocatedUnitAndSelectValue(allocatedUnitValue_2)
-                .ClickAllocatedUserAndSelectValue(allocatedUserValue_2)
+                //.ClickAllocatedUserAndSelectValue(allocatedUserValue_2)
                 //Valid From and Valid To are the past
                 .InputValidFrom(validFromInThePast)
                 .InputValidTo(validToInThePast)
@@ -150,7 +150,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .GetCurrentUrl()
                 .Replace(WebUrl.MainPageUrl + "web/inspections/", ""));
             PageFactoryManager.Get<DetailInspectionPage>()
-                .IsDetailInspectionPage(allocatedUnitValue_2, allocatedUserValue_2, noteValue)
+                //.IsDetailInspectionPage(allocatedUnitValue_2, allocatedUserValue_2, noteValue)
+                .IsDetailInspectionPage(allocatedUnitValue_2, "Select...", noteValue)
                 .VerifyStateInspection("Expired")
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
@@ -167,7 +168,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyAllFieldsInPopupAndDisabled(allocatedUnitValue_2, allocatedUserValue_2, noteValue, validFromInThePast + " 00:00", validToInThePast + " 00:00")
+                //.VerifyAllFieldsInPopupAndDisabled(allocatedUnitValue_2, allocatedUserValue_2, noteValue, validFromInThePast + " 00:00", validToInThePast + " 00:00")
+                .VerifyAllFieldsInPopupAndDisabled(allocatedUnitValue_2, "Select...", noteValue, validFromInThePast + " 00:00", validToInThePast + " 00:00")
                 .VerifyStateInspection("Expired");
             //Get sourceId
             string querySourceId = "select * from inspections where inspectionID=" + inspectionId_2 + ";";
