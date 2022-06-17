@@ -102,6 +102,9 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
                 if (serviceForPointDB[i].last.Equals("Today"))
                 {
                     Assert.AreEqual(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), activeSeviceModelsDisplayed[i].lastService);
+                } else if (serviceForPointDB[i].last.Equals("Yesterday"))
+                {
+                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -1), activeSeviceModelsDisplayed[i].lastService);
                 }
                 else
                 {

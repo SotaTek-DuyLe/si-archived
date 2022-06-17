@@ -601,6 +601,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveAndCloseBtn();
         }
 
+        //This TC depends on the TC-045, TC-046 and TC-047
         [Category("WB")]
         [Test(Description = "WB Station"), Order(5)]
         public void TC_048_WB_Station()
@@ -706,7 +707,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Test(Description = "WB VCH Human"), Order(6)]
         public void TC_050_WB_VCH_Human()
         {
-            string resourceName = "Auto WB " + CommonUtil.GetRandomNumber(2);
+            string resourceName = "Auto WB50 " + CommonUtil.GetRandomNumber(2);
             string resourceType = "Driver";
 
             PageFactoryManager.Get<NavigationBase>()
@@ -755,6 +756,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         }
 
+        //This TC depends on the TC-45, TC-47
         [Category("WB")]
         [Test(Description = "WB VCH Vehicle"), Order(7)]
         public void TC_051_WB_VCH_Vehicle()
@@ -869,6 +871,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyVehicleCreated(allVehicleCustomerHaulier[0], resourceName, partyName045, partyName047, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonConstants.EndDateAgreement);
         }
 
+        //This TC depends on TC-45, TC-48
         [Category("WB")]
         [Test(Description = "WB Location"), Order(8)]
         public void TC_052_WB_Location()
@@ -1044,6 +1047,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayTicketTypeInput();
         }
 
+
+        //This TC depends on the TC-045 and TC-48, TC-047, TC-051
+
         [Category("WB")]
         [Test(Description = "WB Site product 1"), Order(10)]
         public void TC_054_WB_Site_product_1()
@@ -1114,16 +1120,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             addProductPage
                 .WaitForAddProductPageDisplayed()
                 .IsAddProductPage()
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageRequiredFieldConstants.ProductRequiredMessage);
-            //Select any product
-            addProductPage
+                //Select any product
                 .ClickAnyProduct(neutralProduct)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageRequiredFieldConstants.TicketTypeRequiredMessage)
-                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.TicketTypeRequiredMessage);
-            //Select any ticket Type
-            addProductPage
+                //Select any ticket Type
                 .ClickAnyTicketType(neutralTicketType)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
@@ -1141,16 +1140,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             addProductPage
                 .WaitForAddProductPageDisplayed()
                 .IsAddProductPage()
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageRequiredFieldConstants.ProductRequiredMessage);
-            //Select any product
-            addProductPage
+                //Select any product
                 .ClickAnyProduct(outboundProduct)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageRequiredFieldConstants.TicketTypeRequiredMessage)
-                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.TicketTypeRequiredMessage);
-            //Select any ticket Type
-            addProductPage
+                //Select any ticket Type
                 .ClickAnyTicketType(outboundTicketType)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
@@ -1187,6 +1179,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsCreateNewTicketPage()
                 .ClickStationDdAndSelectStation(stationNameTC48)
                 .WaitForLoadingIconToDisappear();
+            //Input resource name TC-051
             createNewTicketPage
                 .VerifyDisplayVehicleRegInput()
                 .InputVehicleRegInput(resourceName)

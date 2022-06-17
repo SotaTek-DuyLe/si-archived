@@ -58,9 +58,11 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private const string allserviceUnitDynamic = "//div[@class='parent-row'][{0}]//span[@title='Open Service Task' or @title='0']";
         private const string statusDescParentRow = "//div[@class='parent-row'][{0}]//b";
         private const string scheduleParentRow = "//div[@id='toggle-actions']//label";
+        private const string scheduleRow = "//div[@class='service-text']/div[@data-bind='text: $data']";
         private const string lastParentRow = "//div[@class='parent-row'][{0}]//div[@title='Open Service Unit']//following-sibling::div//span[@data-bind='text: ew.formatDateForUser($data.lastDate)']";
         private const string nextParentRow = "//div[@class='parent-row'][{0}]//div[@title='Open Service Unit']//following-sibling::div//span[@data-bind='text: ew.formatDateForUser($data.nextDate)']";
-        private const string assetTypeParentRow = "//div[@class='parent-row'][{0}]//div[@title='Open Service Unit']//following-sibling::div//div[@data-bind='text: $data']";
+        private const string assetTypeParentRow = "//div[@class='parent-row'][{0}]//div[@data-bind='foreach: $data.asset']//div[@data-bind='text: $data']";
+        private readonly By allocationRow = By.CssSelector("span[title='Open Round Instance']");
         //Chrild row
         private const string numberOfChirdRow = "//div[@class='services-grid--row'][{0}]//div[@class='child-row' and not(contains(@style,'display: none;'))]";
         private const string roundChirdRow = "//div[@class='services-grid--row'][{0}]//div[@class='child-row' and not(contains(@style,'display: none;'))]//div[@data-bind='text: $data']";
@@ -102,6 +104,33 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             }
             return activeSeviceModels;
         }
+
+        public List<ActiveSeviceModel> GetAllActiveService483995()
+        {
+            List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
+
+            List<IWebElement> allScheduleParentRow = GetAllElements(scheduleRow);
+            List<IWebElement> allActiveRow = GetAllElements(allActiveServiceWithServiceUnitRow);
+            for (int i = 0; i < allActiveRow.Count; i++)
+            {
+                string eventLocator = string.Format(eventDynamicLocator, (i + 1).ToString());
+                string serviceUnitValue = GetElementText(serviceUnitDynamic, (i + 1).ToString());
+                string serviceValue = GetElementText(serviceWithServiceUnitDynamic, (i + 1).ToString());
+                string statusDescParentValue = GetElementText(statusDescParentRow, (i + 1).ToString());
+                string scheduleParentValue = GetElementText(allScheduleParentRow[i]);
+                string lastParentValue = GetElementText(lastParentRow, (i + 1).ToString());
+                string nextParentValue = GetElementText(nextParentRow, (i + 1).ToString());
+                string assetTypeParentValue = GetElementText(assetTypeParentRow, (i + 1).ToString());
+                string allocationValue = GetElementText(GetAllElements(allocationRow)[i]);
+                ActiveSeviceModel activeSeviceModel = new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleParentValue, lastParentValue, nextParentValue, assetTypeParentValue, allocationValue);
+                activeSeviceModel.status = statusDescParentValue;
+                activeSeviceModel.eventLocator = eventLocator;
+
+                activeSeviceModels.Add(activeSeviceModel);
+            }
+            return activeSeviceModels;
+        }
+
         public List<ServiceForPointDBModel> GetServiceWithoutServiceUnitDB(List<ServiceForPointDBModel> serviceForPoint)
         {
             return serviceForPoint.FindAll(x => x.serviceunit.Equals("No Service Unit"));
@@ -115,6 +144,48 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             {
                 Assert.AreEqual(allServiceWithoutServiceUnitDB[i].serviceunit, activeSeviceWithoutServiceUnitModels[i].serviceUnit);
                 Assert.AreEqual(allServiceWithoutServiceUnitDB[i].service, activeSeviceWithoutServiceUnitModels[i].service);
+            }
+            return this;
+        }
+
+        public PointAddressDetailPage VerifyDataInActiveServicesTab483995(List<ActiveSeviceModel> activeSeviceWithServiceUnitModels, List<ServiceForPointDBModel> serviceForPoint)
+        {
+            for (int i = 0; i < activeSeviceWithServiceUnitModels.Count; i++)
+            {
+                Assert.AreEqual(serviceForPoint[i].serviceunit, activeSeviceWithServiceUnitModels[i].serviceUnit);
+                Assert.AreEqual(serviceForPoint[i].statusdesc, activeSeviceWithServiceUnitModels[i].status);
+                Assert.AreEqual(serviceForPoint[i].service, activeSeviceWithServiceUnitModels[i].service);
+                Assert.AreEqual("Every " + serviceForPoint[i].round, activeSeviceWithServiceUnitModels[i].schedule);
+                if (serviceForPoint[i].next.Equals("Tomorrow"))
+                {
+                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, 1), activeSeviceWithServiceUnitModels[i].nextService);
+                }
+                else if (serviceForPoint[i].next.Equals("Yesterday"))
+                {
+                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, -1), activeSeviceWithServiceUnitModels[i].nextService);
+                }
+                else
+                {
+                    Assert.AreEqual(serviceForPoint[i].next.Replace("-", "/"), activeSeviceWithServiceUnitModels[i].nextService);
+                }
+                if (serviceForPoint[i].last.Equals("Tomorrow"))
+                {
+                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, 1), activeSeviceWithServiceUnitModels[i].lastService);
+                }
+                else if (serviceForPoint[i].last.Equals("Today"))
+                {
+                    Assert.AreEqual(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB), activeSeviceWithServiceUnitModels[i].lastService);
+                }
+                else if (serviceForPoint[i].last.Equals("Yesterday"))
+                {
+                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, -1), activeSeviceWithServiceUnitModels[i].lastService);
+                }
+                else
+                {
+                    Assert.AreEqual(serviceForPoint[i].last.Replace("-", "/"), activeSeviceWithServiceUnitModels[i].lastService);
+                }
+
+                Assert.AreEqual(serviceForPoint[i].assets, activeSeviceWithServiceUnitModels[i].assetTypeService);
             }
             return this;
         }
