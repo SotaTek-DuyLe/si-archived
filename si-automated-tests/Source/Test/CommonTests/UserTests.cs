@@ -32,6 +32,7 @@ namespace si_automated_tests.Source.Test
             IWebDriverManager.GetDriver().Quit();
         }
         [Category("User")]
+        [Category("Dee")]
         [Test]
         public void TC_002_Create_User_Test([Random(1, 999999, 1)] int random)
         {
@@ -112,6 +113,7 @@ namespace si_automated_tests.Source.Test
         }
 
         [Category("User")]
+        [Category("Dee")]
         [Test]
         public void TC_003_Reset_Password_Test([Random(1, 999999, 1)] int random)
         {

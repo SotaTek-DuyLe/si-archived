@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
     public class DailyAllocationTests : BaseTest
     {
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_41_42_43_Create_Resource_And_Daily_Allocation()
         {
@@ -128,6 +129,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Status", "Available");
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_44_1_Create_Resource_And_Daily_Allocation()
         {
@@ -253,6 +255,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_44_2_Create_Resource_And_Daily_Allocation()
         {

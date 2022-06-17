@@ -32,6 +32,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .SwitchNewIFrame();
         }
         [Category("BusinessUnit")]
+        [Category("Dee")]
         [Test]
         public void TC_108_master_round_management()
         {
