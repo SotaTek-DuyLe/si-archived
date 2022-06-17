@@ -617,7 +617,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .GetAllSiteDisplayed();
             siteListingPage
                 .VerifySiteCreatedIsNotDisplayed(siteModelsAfter, allSiteModel, siteModelBefore)
-            Back to the party customer in TC045
+            //Back to the party customer in TC045
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
