@@ -94,6 +94,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Ancillary")
                 .OpenOption("Skips")
+                .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame()
                 .SwitchToTab("Announcements");
             CreateAnnouncementAndVerify();
