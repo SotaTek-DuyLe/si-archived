@@ -19,7 +19,7 @@ namespace si_automated_tests.Source.Main.Pages.SystemTools.SystemMonitoring
         
         public EmailDetailPage IsOnEmailDetailPage()
         {
-            Thread.Sleep(500);
+            Thread.Sleep(1500);
             SwitchToLastWindow();
             WaitUtil.WaitForElementVisible(mailBody);
             WaitUtil.WaitForElementVisible(bodyView);
