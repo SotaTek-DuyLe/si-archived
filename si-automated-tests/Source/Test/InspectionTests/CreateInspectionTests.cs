@@ -661,9 +661,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .InputValidTo(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .ClickAndSelectAssignedUser(assignedUserValue)
                 .InputNote(noteValue)
-                .ClickCreateBtn();
-            //Bug wrong message
-            //.VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
+                .ClickCreateBtn()
+                //Bug wrong message
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
+
             PageFactoryManager.Get<PointSegmentDetailPage>()
                 .ClickOnInspectionCreatedLink()
                 .SwitchToLastWindow();
