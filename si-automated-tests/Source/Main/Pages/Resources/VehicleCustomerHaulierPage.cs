@@ -37,7 +37,6 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(addNewItemBtn);
             SendKeys(filterInputById, id);
-            ClickOnElement(applyBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }

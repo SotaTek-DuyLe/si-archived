@@ -764,7 +764,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             PageFactoryManager.Get<UserDetailPage>()
                 .IsOnUserDetailPage()
                 .ClickAdminRoles()
-                .ChooseAdminRole("Inspections")
+                .ChooseInspectionAdminRole()
                 .ClickSave()
                 .WaitForLoadingIconDisappear();
 
