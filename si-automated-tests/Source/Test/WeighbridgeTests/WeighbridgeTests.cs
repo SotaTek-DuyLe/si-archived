@@ -513,9 +513,97 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             allSiteModel.Add(siteModel[0]);
         }
 
+        //This TC depends on TC-45, Failed 
         [Category("WB")]
         [Test(Description = "WB create party haulier"), Order(4)]
         public void TC_047_WB_Create_party_haulier()
+        {
+            //Create new party
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .ClickAddNewItem()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<CreatePartyPage>()
+                .IsCreatePartiesPopup("North Star Commercial")
+                .SendKeyToThePartyInput(partyName047 + CommonUtil.GetRandomNumber(3))
+                .SelectPartyType(2)
+                .ClickSaveBtn();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .VerifyDisplaySuccessfullyMessage()
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .VerifyDisplayYellowMesInLicenceNumberExField()
+                .VerifyForcusOnLicenceNumberExField()
+                .VerifyDisplayGreenBoderInLicenceNumberExField()
+                .InputLienceNumberExField(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2))
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .VerifyDisplayYellowMesInLicenceNumberField()
+                .VerifyForcusOnLicenceNumberField()
+                .VerifyDisplayGreenBoderInLicenceNumberField()
+                //Verify search Btn (waiting to confirm) => Bug
+                .ClickDownloadBtnAndVerify()
+                //Input LicenceNumber
+                .InputLicenceNumber(CommonUtil.GetRandomNumber(5))
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .VerifyDisplayMesInCorresspondenAddressField()
+                .ClickAddCorrespondenceAddress()
+                .SwitchToLastWindow();
+            //Test 7
+            PartySiteAddressPage partySiteAddressPage = PageFactoryManager.Get<PartySiteAddressPage>();
+            partySiteAddressPage.WaitForLoadingIconToDisappear();
+            partySiteAddressPage.IsOnPartySiteAddressPage()
+                .InputTextToSearchBar(address)
+                .ClickSearchBtn()
+                .VerifySearchedAddressAppear(address)
+                .ClickOnSearchedAddress(address)
+                .ClickOnNextButton()
+                .SwitchToLastWindow();
+            CreateEditSiteAddressPage createEditSiteAddressPage = PageFactoryManager.Get<CreateEditSiteAddressPage>();
+            createEditSiteAddressPage
+                .WaitForLoadingIconToDisappear();
+            string addressAdded = createEditSiteAddressPage.SelectRandomSiteAddress();
+            createEditSiteAddressPage.SelectAddressClickNextBtn()
+                .InsertSiteName(addressSite1)
+                .ClickAnySiteInDd(siteName)
+                .ClickCreateBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
+                .ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            List<SiteModel> siteModel = detailPartyPage
+                .GetAllSiteInList();
+            allSiteModel.Add(siteModel[0]);
+            detailPartyPage
+                .OpenFirstSiteRow()
+                .SwitchToLastWindow();
+            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
+            siteDetailPage
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, addressSite1 + " / " + addressAdded)
+                .VerifyDisplayAllTab(CommonConstants.AllSiteTabCase47)
+                .ClickDetailTab()
+                .ClickSomeTabAndVerifyNoErrorMessage()
+                .ClickMapTabAndVerifyMessage(MessageRequiredFieldConstants.WBMapTabWarningMessage)
+                .ClickSaveAndCloseBtn();
+        }
+
+        //This TC depends on TC-45
+        [Category("WB")]
+        [Test(Description = "WB create party haulier"), Order(5)]
+        public void TC_047_WB_Create_party_haulier_other()
         {
             //Create new party
             PageFactoryManager.Get<NavigationBase>()
@@ -549,7 +637,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayYellowMesInLicenceNumberField()
                 .VerifyForcusOnLicenceNumberField()
                 .VerifyDisplayGreenBoderInLicenceNumberField()
-                //Verify search Btn (waiting to confirm)
+                //Verify search Btn (waiting to confirm) => Bug
                 //.ClickDownloadBtnAndVerify()
                 //Input LicenceNumber
                 .InputLicenceNumber(CommonUtil.GetRandomNumber(5))
@@ -603,7 +691,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         //This TC depends on the TC-045, TC-046 and TC-047
         [Category("WB")]
-        [Test(Description = "WB Station"), Order(5)]
+        [Test(Description = "WB Station"), Order(6)]
         public void TC_048_WB_Station()
         {
             //Verify data in TC45, 46, 47 not apprear in WB Site
@@ -704,7 +792,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
-        [Test(Description = "WB VCH Human"), Order(6)]
+        [Test(Description = "WB VCH Human"), Order(7)]
         public void TC_050_WB_VCH_Human()
         {
             string resourceName = "Auto WB50 " + CommonUtil.GetRandomNumber(2);
@@ -758,7 +846,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         //This TC depends on the TC-45, TC-47
         [Category("WB")]
-        [Test(Description = "WB VCH Vehicle"), Order(7)]
+        [Test(Description = "WB VCH Vehicle"), Order(8)]
         public void TC_051_WB_VCH_Vehicle()
         {
             resourceName = "Auto WB Van" + CommonUtil.GetRandomNumber(2);
@@ -873,7 +961,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         //This TC depends on TC-45, TC-48
         [Category("WB")]
-        [Test(Description = "WB Location"), Order(8)]
+        [Test(Description = "WB Location"), Order(9)]
         public void TC_052_WB_Location()
         {
             string locationNameNotActive = "Location52WBNotActive" + CommonUtil.GetRandomNumber(2);
@@ -965,7 +1053,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
-        [Test(Description = "WB Station No ticket type"), Order(9)]
+        [Test(Description = "WB Station No ticket type"), Order(10)]
         public void TC_053_WB_Station_No_ticket_type()
         {
             string stationName = "AutoStation" + CommonUtil.GetRandomNumber(2);
@@ -1048,10 +1136,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
 
-        //This TC depends on the TC-045 and TC-48, TC-047, TC-051
-
+        //This TC depends on the TC-045 and TC-47, TC-048, TC-051, TC-052
         [Category("WB")]
-        [Test(Description = "WB Site product 1"), Order(10)]
+        [Test(Description = "WB Site product 1"), Order(11)]
         public void TC_054_WB_Site_product_1()
         {
             string ticketType = "Incoming";
@@ -1082,7 +1169,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
             siteDetailPage
                 .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
-                //Create new product TC54
+                //==> Create new product TC54 - ticketType = Incomming
                 .ClickProductTab()
                 .WaitForLoadingIconToDisappear();
             siteDetailPage
