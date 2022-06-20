@@ -37,7 +37,7 @@ namespace si_automated_tests.Source.Test
         public void TC_002_Create_User_Test([Random(1, 999999, 1)] int random)
         {
             User user = new User();
-            user.UserName = "userName" + random;
+            user.UserName = CommonUtil.GetRandomString(5) + " userName " + random;
             user.DisplayName = "displayname" + random;
             user.Email = "userEmail" + random + "@gmail.com";
             user.Password = "newPassword" + random + "@#_";
