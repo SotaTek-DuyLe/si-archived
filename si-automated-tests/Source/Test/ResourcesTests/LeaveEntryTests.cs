@@ -488,13 +488,13 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyToastMessage("Default resource cleared")
                 .WaitUntilToastMessageInvisible("Default resource cleared");
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .DeallocateResourceFromRoundGroup(2, resourceType)
-                .VerifyToastMessage("Default resource-type cleared")
-                .WaitUntilToastMessageInvisible("Default resource-type cleared");
-            PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceNameB)
                 .VerifyToastMessage("Default resource cleared")
                 .WaitUntilToastMessageInvisible("Default resource cleared");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DeallocateResourceFromRoundGroup(2, resourceType)
+                .VerifyToastMessage("Default resource-type cleared")
+                .WaitUntilToastMessageInvisible("Default resource-type cleared");
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceType)
                 .VerifyToastMessage("Default resource-type cleared")
