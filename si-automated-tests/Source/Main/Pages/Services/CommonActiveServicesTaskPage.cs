@@ -34,41 +34,59 @@ namespace si_automated_tests.Source.Main.Pages.Services
         //date type are STARTDATE or ENDDATE
         public ServicesTaskPage OpenTaskWithPartyNameAndDate(string name, string date, string dateType)
         {
-            int n = 5;
-            int j = 0;
+            int n = 10;
+            int j = 5;
             while(n > 0)
             {
-                List<IWebElement> allRowsList = GetAllElements(allRows);
-                List<IWebElement> partyNameList = GetAllElements(partyNameColumns);
+                List<IWebElement> allRowsList = GetAllElementsNotWait(allRows);
+                List<IWebElement> partyNameList = GetAllElementsNotWait(partyNameColumns);
                 List<IWebElement> dateList = new List<IWebElement>();
-                if (dateType.Equals("STARTDATE"))
-                {
-                    dateList = GetAllElements(startDateColumns);
-                }
-                else
-                {
-                    dateList = GetAllElements(endDateColumns);
-                }
-                
-                for (int i = 0; i < allRowsList.Count; i++)
-                {
-                    if (GetElementText(partyNameList[i]) == name && GetElementText(dateList[i]) == date)
-                    {
-                        DoubleClickOnElement(allRowsList[i]);
-                        j = 1;
-                        return new ServicesTaskPage();
-                    }
-                }
-                if(j == 0)
+                if (allRowsList.Count == 0)
                 {
                     ClickRefreshBtn();
                     WaitForLoadingIconToDisappear();
-                    SleepTimeInMiliseconds(5000);
+                    SleepTimeInMiliseconds(10000);
                     n--;
                     allRowsList.Clear();
                     dateList.Clear();
                     partyNameList.Clear();
                 }
+                else
+                {
+                    while(j > 0)
+                    {
+                        if (dateType.Equals("STARTDATE"))
+                        {
+                            dateList = GetAllElements(startDateColumns);
+                        }
+                        else
+                        {
+                            dateList = GetAllElements(endDateColumns);
+                        }
+
+                        for (int i = 0; i < allRowsList.Count; i++)
+                        {
+                            if (GetElementText(partyNameList[i]) == name && GetElementText(dateList[i]) == date)
+                            {
+                                DoubleClickOnElement(allRowsList[i]);
+                                j = 0;
+                                return new ServicesTaskPage();
+                            }
+                        }
+                        if (j > 0)
+                        {
+                            ClickRefreshBtn();
+                            WaitForLoadingIconToDisappear();
+                            SleepTimeInMiliseconds(5000);
+                            j--;
+                            allRowsList.Clear();
+                            dateList.Clear();
+                            partyNameList.Clear();
+                        }
+                    }
+      
+                }
+                
             }
             return new ServicesTaskPage();
         }
