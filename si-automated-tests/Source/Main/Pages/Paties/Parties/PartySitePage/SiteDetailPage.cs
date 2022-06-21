@@ -32,6 +32,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private readonly By addNewItemLocationBtn = By.XPath("//div[@id='weighbridgeSiteLocations-tab']//button[text()='Add New Item']");
         private const string columnInRowLocations = "//div[@id='weighbridgeSiteLocations-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private const string selectAndDeSelectCheckboxLocations = "//div[@id='weighbridgeSiteLocations-tab']//div[@class='grid-canvas']/div//input[{0}]";
+        private const string activeColumn = "//div[@id='weighbridgeSiteLocations-tab']//div[contains(@class, 'l3 r3')]/div";
 
         //PRODUCT TAB
         private readonly By productTab = By.XPath("//a[text()='Products']");
@@ -200,7 +201,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             List<IWebElement> allRow = GetAllElements(allRowInTabel);
             List<IWebElement> allIdSite = GetAllElements(string.Format(columnInRowLocations, CommonConstants.LocationTabColumn[0]));
             List<IWebElement> allLocation = GetAllElements(string.Format(columnInRowLocations, CommonConstants.LocationTabColumn[1]));
-            List<IWebElement> allActive = GetAllElements(string.Format(columnInRowLocations, CommonConstants.LocationTabColumn[2]));
+            List<IWebElement> allActive = GetAllElements(activeColumn);
             List<IWebElement> allClient = GetAllElements(string.Format(columnInRowLocations, CommonConstants.LocationTabColumn[3]));
             for(int i = 0; i < allRow.Count; i++)
             {

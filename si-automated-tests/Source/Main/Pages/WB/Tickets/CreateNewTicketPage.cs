@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         private readonly By ticketTypeInput = By.CssSelector("select#ticket-type");
         private readonly By vehicleTypeInput = By.CssSelector("input#resource-type");
         private readonly By ticketTypeDd = By.CssSelector("select[id='ticket-type']");
+        private readonly By ticketTypeLabel = By.XPath("//label[text()='Ticket Type']");
         private readonly By haulierDd = By.CssSelector("select[id='haulier']");
         private readonly By addTicketLineBtn = By.XPath("//button[text()='Add']");
         private readonly By licenceNumberExpDate = By.CssSelector("input[id='licence-number-expiry']");
@@ -105,6 +106,8 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         public CreateNewTicketPage ClickAnyTicketType(string ticketType)
         {
             ClickOnElement(ticketTypeOption, ticketType);
+            //Click out of dropdown
+            ClickOnElement(ticketTypeLabel);
             return this;
         }
 
@@ -119,6 +122,8 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         public CreateNewTicketPage ClickAnyHaulier(string haulierName)
         {
             ClickOnElement(haulierOption, haulierName);
+            //Click out of dropdown
+            ClickOnElement(ticketTypeLabel);
             return this;
         }
 
