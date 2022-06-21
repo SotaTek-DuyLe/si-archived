@@ -279,7 +279,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.IsTrue(IsControlDisplayed(actionUpdateTextFirstRow));
             Assert.IsTrue(IsControlDisplayed(actionUpdateTextSecondRow));
             //verify value
-            Assert.AreEqual(GetElementText(firstNote + "."), firstNote);
+            Assert.AreEqual(GetElementText(firstNoteRow + "."), firstNote);
             Assert.AreEqual(GetElementText(userFirstRow), userValue);
             Assert.AreEqual(GetElementText(userSecondRow), userValue);
             Assert.AreEqual(GetElementText(notesSecondRow + "."), secondNote);

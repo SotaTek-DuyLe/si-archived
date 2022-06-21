@@ -101,7 +101,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 //.UploadImage("")
                 .AddAccessPointInDataTab(accessPointDataTab)
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
+                .WaitForLoadingIconToDisappear();
             detailInspectionPage
                 .VerifyValueInNoteInputDataTab(noteInDataTab)
                 .VerifyValueInAccessPointInput(accessPointDataTab);
