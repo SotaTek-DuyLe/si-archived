@@ -901,9 +901,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsCreateVehicleCustomerHaulierPage()
                 .VerifyDefaultMandatoryFieldAndDefaultValue(partyName045)
                 .ClickDefaultCustomerAddressDropdownAndVerify(addressAdded45)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageRequiredFieldConstants.ResourceRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.ResourceRequiredMessage);
             addVehiclePage
-                .VerifyDisplayResourceRequiredMessage()
                 .InputResourceName(vehicleNotActiveName)
                 .VerifyNotDisplaySuggestionInResourceInput()
                 .InputResourceName(resourceName)

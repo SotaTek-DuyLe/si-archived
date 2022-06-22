@@ -74,13 +74,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage
             return this;
         }
 
-        public AddVehiclePage VerifyDisplayResourceRequiredMessage()
-        {
-            Assert.IsTrue(IsControlDisplayed(messageHumanResourceRequired));
-            WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.ResourceRequiredMessage);
-            return this;
-        }
-
         public AddVehiclePage InputResourceName(string resourceValue)
         {
             SendKeys(resourceInput, resourceValue);

@@ -122,8 +122,6 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         public CreateNewTicketPage ClickAnyHaulier(string haulierName)
         {
             ClickOnElement(haulierOption, haulierName);
-            //Click out of dropdown
-            ClickOnElement(ticketTypeLabel);
             return this;
         }
 
