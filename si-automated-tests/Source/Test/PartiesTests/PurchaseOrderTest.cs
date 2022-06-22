@@ -25,7 +25,7 @@ namespace si_automated_tests.Source.Test.PartyTests
     public class PurchaseOrderTest : BaseTest
     {
         [Category("EditAgreement")]
-        [Test]
+        [Test, Order(1)]
         public void TC_028A()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
@@ -167,7 +167,7 @@ namespace si_automated_tests.Source.Test.PartyTests
             }
         }
         [Category("EditAgreement")]
-        [Test]
+        [Test, Order(2)]
         public void TC_028B()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
@@ -222,7 +222,7 @@ namespace si_automated_tests.Source.Test.PartyTests
         }
 
         [Category("PurchaseOrder")]
-        [Test]
+        [Test, Order(3)]
         public void TC_074_Add_Purchase_Order()
         {
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
@@ -313,7 +313,7 @@ namespace si_automated_tests.Source.Test.PartyTests
             }
         }
         [Category("PurchaseOrder")]
-        [Test]
+        [Test, Order(4)]
         public void TC_075_Remove_Purchase_Order()
         {
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
@@ -403,7 +403,7 @@ namespace si_automated_tests.Source.Test.PartyTests
            
         }
         [Category("PurchaseOrder")]
-        [Test]
+        [Test, Order(5)]
         public void TC_076_PO_Number_Require_Is_True()
         {
             string todayUTCDate = CommonUtil.GetUtcTimeNow("dd/MM/yyyy");
