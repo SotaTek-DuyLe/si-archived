@@ -550,9 +550,9 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public BasePage WaitUntilToastMessageInvisible(string message)
+        public BasePage WaitUntilToastMessageInvisible(string toastMessage)
         {
-            WaitUtil.WaitForElementInvisible(string.Format("//div[text()='{0}']", message));
+            WaitUtil.WaitForElementInvisibleWithText("//div[@data-notify-html='title']", toastMessage);
             return this;
         }
         public BasePage ClickOnSuccessLink()
