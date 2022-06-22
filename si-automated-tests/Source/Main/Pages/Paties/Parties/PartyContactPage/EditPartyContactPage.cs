@@ -37,6 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
 
         //DYNAMIC LOCATOR
         private const string fullName = "//p[text()='{0}']";
+        private const string anyContactGroup = "//span[text()='{0}']/parent::a/parent::li";
 
         public EditPartyContactPage IsEditPartyContactPage(ContactModel contactModel)
         {
@@ -74,6 +75,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
                 ClickOnElement(receivedEmail);
             }
             SendKeys(startDate, CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2));
+            //Select contact group
+            ClickOnElement(contactGroups);
+            ClickOnElement(anyContactGroup, contactModel.ContactGroups);
             return this;
         }
 
