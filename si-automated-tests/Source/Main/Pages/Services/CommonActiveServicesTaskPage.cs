@@ -63,6 +63,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
                         {
                             dateList = GetAllElements(endDateColumns);
                         }
+                        allRowsList = GetAllElementsNotWait(allRows);
+                        partyNameList = GetAllElementsNotWait(partyNameColumns);
 
                         for (int i = 0; i < allRowsList.Count; i++)
                         {
@@ -70,6 +72,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
                             {
                                 DoubleClickOnElement(allRowsList[i]);
                                 j = 0;
+                                n = 0;
                                 return new ServicesTaskPage();
                             }
                         }
@@ -84,9 +87,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
                             partyNameList.Clear();
                         }
                     }
-      
+                    n = 0;
                 }
-                
             }
             return new ServicesTaskPage();
         }
