@@ -14,6 +14,15 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private string taskLineTab = "//a[@aria-controls='tasklines-tab']";
         private string scheduleTab = "//a[@aria-controls='schedules-tab']";
 
+        private string serviceTaskName = "//span[text()='Service Task']/following-sibling::span[contains(text(),'{0}')]";
+        private string headerPartyName = "//div[@class='headers-container']//a[contains(text(), '{0}')]";
+
+        public ServicesTaskPage WaitForTaskPageLoadedSuccessfully(String service, String partyname)
+        {
+            WaitUtil.WaitForElementVisible(serviceTaskName, service);
+            WaitUtil.WaitForElementVisible(headerPartyName, partyname);
+            return this;
+        }
         public ServicesTaskPage ClickOnTaskLineTab()
         {
             ClickOnElement(taskLineTab);

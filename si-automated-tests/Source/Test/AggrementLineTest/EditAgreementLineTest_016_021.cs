@@ -1051,6 +1051,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<ServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForTaskPageLoadedSuccessfully("Commercial Collection", "La Plata Steakhouse");
+            
+            PageFactoryManager.Get<ServicesTaskPage>()
                 .ClickOnTaskLineTab();
             PageFactoryManager.Get<ServiceTaskLineTab>()
                 .WaitForLoadingIconToDisappear();
@@ -1062,15 +1065,20 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceScheduleTab>()
                 .verifyScheduleStartDate(tommorowDate)
+                .CloseCurrentWindow()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
 
             //open task with enddate is tommorow and verify 
             PageFactoryManager.Get<CommonActiveServicesTaskPage>()
-                .OpenTaskWithPartyNameAndDate("La Plata Steakhouse", tommorowDate, "ENDDATE")
-                .SwitchToLastWindow();
+               .InputPartyNameToFilter("La Plata Steakhouse")
+               .ClickApplyBtn()
+               .OpenTaskWithPartyNameAndDate("La Plata Steakhouse", tommorowDate, "ENDDATE")
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServicesTaskPage>()
-                .WaitForLoadingIconToDisappear();
+                .WaitForTaskPageLoadedSuccessfully("Commercial Collection", "La Plata Steakhouse");
+
             PageFactoryManager.Get<ServicesTaskPage>()
                 .ClickOnTaskLineTab();
             PageFactoryManager.Get<ServiceTaskLineTab>()
