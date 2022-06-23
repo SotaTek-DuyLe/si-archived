@@ -134,20 +134,35 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public BasePageCommonActions VerifyElementText(string xpath, string expectedValue, bool ignoreEmpty = false)
+        public BasePageCommonActions VerifyElementText(string xpath, string expectedValue, bool ignoreEmpty = false, bool toLowerCase = false)
         {
+            if (toLowerCase)
+            {
+                Assert.IsTrue((ignoreEmpty ? GetElementText(xpath).Trim() : GetElementText(xpath)).ToLower() == expectedValue.ToLower());
+                return this;
+            }
             Assert.IsTrue((ignoreEmpty ? GetElementText(xpath).Trim() : GetElementText(xpath)) == expectedValue);
             return this;
         }
 
-        public BasePageCommonActions VerifyElementText(By xpath, string expectedValue, bool ignoreEmpty = false)
+        public BasePageCommonActions VerifyElementText(By xpath, string expectedValue, bool ignoreEmpty = false, bool toLowerCase = false)
         {
+            if (toLowerCase)
+            {
+                Assert.IsTrue((ignoreEmpty ? GetElementText(xpath).Trim() : GetElementText(xpath)).ToLower() == expectedValue.ToLower());
+                return this;
+            }
             Assert.IsTrue((ignoreEmpty ? GetElementText(xpath).Trim() : GetElementText(xpath)) == expectedValue);
             return this;
         }
 
-        public BasePageCommonActions VerifyElementText(IWebElement webElement, string expectedValue, bool ignoreEmpty = false)
+        public BasePageCommonActions VerifyElementText(IWebElement webElement, string expectedValue, bool ignoreEmpty = false, bool toLowerCase = false)
         {
+            if (toLowerCase)
+            {
+                Assert.IsTrue((ignoreEmpty ? GetElementText(webElement).Trim() : GetElementText(webElement)).ToLower() == expectedValue.ToLower());
+                return this;
+            }
             Assert.IsTrue((ignoreEmpty ? GetElementText(webElement).Trim() : GetElementText(webElement)) == expectedValue);
             return this;
         }
