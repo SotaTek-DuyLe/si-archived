@@ -32,20 +32,99 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
         //date type are STARTDATE or ENDDATE
+        //public ServicesTaskPage OpenTaskWithPartyNameAndDate(string name, string date, string dateType)
+        //{
+        //    int n = 10;
+        //    int j = 5;
+        //    while(n > 0)
+        //    {
+        //        List<IWebElement> allRowsList = GetAllElementsNotWait(allRows);
+        //        List<IWebElement> partyNameList = GetAllElementsNotWait(partyNameColumns);
+        //        List<IWebElement> dateList = new List<IWebElement>();
+        //        if (allRowsList.Count == 0)
+        //        {
+        //            ClickRefreshBtn();
+        //            WaitForLoadingIconToDisappear();
+        //            SleepTimeInMiliseconds(10000);
+        //            n--;
+        //            allRowsList.Clear();
+        //            dateList.Clear();
+        //            partyNameList.Clear();
+        //        }
+        //        else
+        //        {
+        //            while(j > 0)
+        //            {
+        //                if (dateType.Equals("STARTDATE"))
+        //                {
+        //                    dateList = GetAllElements(startDateColumns);
+        //                }
+        //                else
+        //                {
+        //                    dateList = GetAllElements(endDateColumns);
+        //                }
+        //                allRowsList = GetAllElementsNotWait(allRows);
+        //                partyNameList = GetAllElementsNotWait(partyNameColumns);
+
+        //                for (int i = 0; i < allRowsList.Count; i++)
+        //                {
+        //                    if (GetElementText(partyNameList[i]) == name && GetElementText(dateList[i]) == date)
+        //                    {
+        //                        DoubleClickOnElement(allRowsList[i]);
+        //                        j = 0;
+        //                        n = 0;
+        //                        return new ServicesTaskPage();
+        //                    }
+        //                }
+        //                if (j > 0)
+        //                {
+        //                    ClickRefreshBtn();
+        //                    WaitForLoadingIconToDisappear();
+        //                    SleepTimeInMiliseconds(5000);
+        //                    j--;
+        //                    allRowsList.Clear();
+        //                    dateList.Clear();
+        //                    partyNameList.Clear();
+        //                }
+        //            }
+        //            n = 0;
+        //        }
+        //    }
+        //    return new ServicesTaskPage();
+        //}
+
         public ServicesTaskPage OpenTaskWithPartyNameAndDate(string name, string date, string dateType)
         {
             int n = 10;
-            int j = 5;
-            while(n > 0)
+            List<IWebElement> allRowsList = new List<IWebElement>();
+            List<IWebElement> partyNameList = new List<IWebElement>();
+            List<IWebElement> dateList = new List<IWebElement>();
+            while (n > 0)
             {
-                List<IWebElement> allRowsList = GetAllElementsNotWait(allRows);
-                List<IWebElement> partyNameList = GetAllElementsNotWait(partyNameColumns);
-                List<IWebElement> dateList = new List<IWebElement>();
-                if (allRowsList.Count == 0)
+                allRowsList = GetAllElementsNotWait(allRows);
+                partyNameList = GetAllElementsNotWait(partyNameColumns);
+                
+                if (dateType.Equals("STARTDATE"))
+                {
+                    dateList = GetAllElementsNotWait(startDateColumns);
+                }
+                else
+                {
+                    dateList = GetAllElementsNotWait(endDateColumns);
+                }
+                for (int i = 0; i < allRowsList.Count; i++)
+                {
+                    if (GetElementText(partyNameList[i]) == name && GetElementText(dateList[i]) == date)
+                    {
+                        DoubleClickOnElement(allRowsList[i]);
+                        n = 0;
+                    }
+                }
+                if (n > 0)
                 {
                     ClickRefreshBtn();
                     WaitForLoadingIconToDisappear();
-                    SleepTimeInMiliseconds(10000);
+                    SleepTimeInMiliseconds(7000);
                     n--;
                     allRowsList.Clear();
                     dateList.Clear();
@@ -53,41 +132,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 }
                 else
                 {
-                    while(j > 0)
-                    {
-                        if (dateType.Equals("STARTDATE"))
-                        {
-                            dateList = GetAllElements(startDateColumns);
-                        }
-                        else
-                        {
-                            dateList = GetAllElements(endDateColumns);
-                        }
-                        allRowsList = GetAllElementsNotWait(allRows);
-                        partyNameList = GetAllElementsNotWait(partyNameColumns);
-
-                        for (int i = 0; i < allRowsList.Count; i++)
-                        {
-                            if (GetElementText(partyNameList[i]) == name && GetElementText(dateList[i]) == date)
-                            {
-                                DoubleClickOnElement(allRowsList[i]);
-                                j = 0;
-                                n = 0;
-                                return new ServicesTaskPage();
-                            }
-                        }
-                        if (j > 0)
-                        {
-                            ClickRefreshBtn();
-                            WaitForLoadingIconToDisappear();
-                            SleepTimeInMiliseconds(5000);
-                            j--;
-                            allRowsList.Clear();
-                            dateList.Clear();
-                            partyNameList.Clear();
-                        }
-                    }
-                    n = 0;
+                    break;
                 }
             }
             return new ServicesTaskPage();
