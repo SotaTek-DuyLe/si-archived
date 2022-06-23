@@ -476,6 +476,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             RoundSchedulePage roundSchedulePage = PageFactoryManager.Get<RoundSchedulePage>();
             roundSchedulePage.WaitForLoadingIconToDisappear();
             roundSchedulePage.ClickOnElement(roundSchedulePage.DetailTab);
+            roundSchedulePage.WaitForLoadingIconToDisappear();
             roundSchedulePage
                 .VerifyInputValue(roundSchedulePage.StartDateInput, DateTime.Now.ToString("dd/MM/yyyy"))
                 .VerifyInputValue(roundSchedulePage.EndDateInput, "01/01/2050")
@@ -490,8 +491,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyToastMessage("Success");
             string detail = $"Every Wednesday fortnightly commencing {DateTime.Now.AddDays(1).ToString("dddd dd MMMM yyyy")}";
             roundSchedulePage
-                .VerifyElementText(roundSchedulePage.RoundScheduleTitle, detail, true)
-                .VerifyElementText(roundSchedulePage.RoundScheduleStatus, "INACTIVE")
+                .VerifyElementText(roundSchedulePage.RoundScheduleTitle, detail, true, true)
+                .VerifyElementText(roundSchedulePage.RoundScheduleStatus, "INACTIVE", toLowerCase: true)
                 .CloseCurrentWindow()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
