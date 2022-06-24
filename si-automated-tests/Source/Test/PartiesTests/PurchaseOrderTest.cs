@@ -6,6 +6,7 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
@@ -13,6 +14,7 @@ using si_automated_tests.Source.Main.Pages.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyPurchaseOrder;
+using si_automated_tests.Source.Main.Pages.Services;
 using si_automated_tests.Source.Main.Pages.Task;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
@@ -201,8 +203,9 @@ namespace si_automated_tests.Source.Test.PartyTests
                     .CloseCurrentWindow()
                     .SwitchToChildWindow(3);
             }
-           
+
         }
+
         [Category("PurchaseOrder")]
         [Test]
         public void TC_076_PO_Number_Require_Is_True()

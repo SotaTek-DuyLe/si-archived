@@ -59,6 +59,10 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForAllElementsVisible(by);
             return driver.FindElements(by).ToList();
         }
+        public List<IWebElement> GetAllElementsNotWait(By by)
+        {
+            return driver.FindElements(by).ToList();
+        }
 
         //SEND KEYS
         public void SendKeys(IWebElement element, string value)
