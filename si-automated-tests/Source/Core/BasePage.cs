@@ -401,6 +401,14 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
+        public BasePage ScrollDownToElement(IWebElement e)
+        {
+            WaitUtil.WaitForPageLoaded();
+            Thread.Sleep(2000);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", e);
+            return this;
+        }
         public BasePage ScrollLeftt(By by)
         {
             WaitUtil.WaitForPageLoaded();

@@ -616,7 +616,9 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         }
         public IList<IWebElement> GetCreateAdhocBtnList()
         {
+            ScrollDownToElement(createAdhocBtn);
             IList<IWebElement> createAdhocBtns = WaitUtil.WaitForAllElementsVisible(createAdhocBtn);
+            Console.WriteLine("count:" + createAdhocBtns.Count);
             return createAdhocBtns;
         }
         public AgreementTaskDetailsPage ClickAdHocBtn(IWebElement e)

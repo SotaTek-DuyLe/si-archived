@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Main.Pages
         private string taskTypeName = "//span[text()='Task']/following-sibling::span";
 
         private readonly By taskRefInput = By.XPath("//label[contains(text(),'Task Reference')]/following-sibling::input");
+        private readonly By taskRefText = By.XPath("//label[contains(text(),'Task Reference')]");
 
         private readonly By dueDate = By.Id("dueDate.id");
         private readonly By completionDate = By.Id("completionDate.id");
@@ -25,7 +26,7 @@ namespace si_automated_tests.Source.Main.Pages
 
         private string detailsTaskStateOption = "//select[@name='taskState']//option[text()='{0}']";
 
-        private string purchaseOrderValue = "//div[contains(@data-bind, 'purchaseOrderNumberBadge') and text()='{0}']";
+        private string purchaseOrderValue = "//div[text()='Purchase Order #']/following-sibling::div[text()='{0}']";
         
         public TaskDetailTab IsOnTaskDetailTab()
         {
@@ -95,6 +96,7 @@ namespace si_automated_tests.Source.Main.Pages
         public TaskDetailTab InputReferenceValue(string value)
         {
             SendKeys(taskRefInput, value);
+            ClickOnElement(taskRefText);
             return this;
         }
         public TaskDetailTab VerifyReferenceValue(string value)
