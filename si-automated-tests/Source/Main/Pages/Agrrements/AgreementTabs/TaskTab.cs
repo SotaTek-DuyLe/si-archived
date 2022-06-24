@@ -35,6 +35,10 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         private string taskId = "//div[contains(@class,'r5')]/div[text()='{0}']";
         private string taskIdCheckBox = "//div[text()='{0}']/parent::div/preceding-sibling::div[contains(@class,'r0')]/input";
         private string retiredTaskWithId = "//div[text()='{0}']/parent::div/parent::div[contains(@class,'retired')]";
+
+        private string firstTaskId = "(//div[contains(@class, 'r5')])[4]/div";
+        private string secondTaskId = "(//div[contains(@class, 'r5')])[5]/div";
+
         public TaskTab VerifyFirstTaskType(string expected)
         {
             IList<IWebElement> listTaskType = WaitUtil.WaitForAllElementsVisible(taskType);
@@ -432,7 +436,20 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         //Verify Retired Task
         public TaskTab VerifyRetiredTaskWithId(int id)
         {
-            WaitUtil.WaitForElementVisible(retiredTaskWithId, id.ToString());
+            int i = 5;
+            while (i > 0)
+            {
+                if(IsControlUnDisplayed(retiredTaskWithId, id.ToString())){
+                    ClickRefreshBtn();
+                    WaitForLoadingIconToDisappear();
+                    SleepTimeInMiliseconds(5000);
+                    i--;
+                }
+                else
+                {
+                    break;
+                }
+            }
             Assert.IsTrue(IsControlDisplayed(retiredTaskWithId, id.ToString()));
             return this;
         }
@@ -448,11 +465,11 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         {
             List<AgreementTaskModel> listTasks = this.GetAllTaskInList();
             int n = 0;
-            for(int j = 0; j < idList.Length; j++)
-            { 
-                
+            for (int j = 0; j < idList.Length; j++)
+            {
+
                 int id = idList[j];
-                for(int i = 0; i < listTasks.Count; i++)
+                for (int i = 0; i < listTasks.Count; i++)
                 {
                     if ((listTasks[i].Id).Equals(id.ToString()))
                     {
@@ -465,6 +482,17 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             Assert.AreEqual(n, idList.Length);
             return this;
+        }
+
+        public int getFirstTaskId()
+        {
+            int firstId = int.Parse(GetElementText(firstTaskId));
+            return firstId;
+        }
+        public int getSecondTaskId()
+        {
+            int firstId = int.Parse(GetElementText(secondTaskId));
+            return firstId;
         }
     }
 
