@@ -68,12 +68,13 @@ namespace si_automated_tests.Source.Test.PartyTests
             PageFactoryManager.Get<AddPurchaseOrderPage>()
                 .IsOnAddPurchaseOrderPage()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Number is required");
+                .VerifyToastMessage("Number is required")
+                .WaitUntilToastMessageInvisible("Number is required");
             PageFactoryManager.Get<AddPurchaseOrderPage>()
                 .InputPONumber(PO_Number)
                 .InputFirstDay(todayDate)
                 .InputLastDay(datePlus)
-                .SelectAgreement("41 (Active from 21/03/2022 until 01/01/2050)")
+                .SelectAgreement("41 - Richmond (Active from 21/03/2022 until 01/01/2050)")
                 .ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved Purchase Order")
                 .CloseCurrentWindow()
@@ -88,6 +89,8 @@ namespace si_automated_tests.Source.Test.PartyTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully("COMMERCIAL COLLECTIONS", "GREGGS");
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
                 .WaitForLoadingIconToDisappear();
@@ -109,7 +112,6 @@ namespace si_automated_tests.Source.Test.PartyTests
                 PageFactoryManager.Get<TaskDetailTab>()
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<TaskDetailTab>()
-                    .IsOnTaskDetailTab()
                     .VerifyPurchaseOrderValue(PO_Number)
                     .CloseCurrentWindow()
                     .SwitchToChildWindow(3);
@@ -168,7 +170,7 @@ namespace si_automated_tests.Source.Test.PartyTests
             PageFactoryManager.Get<RemovePurchaseOrderPage>()
                 .IsOnRemovePurchaseOrderPage()
                 .ClickYesBtn()
-                //.VerifyToastMessage("Success")
+                .VerifyToastMessage("Success")
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<PartyPurchaseOrderPage>()
                 .VerifyPurchaseOrderDisappear(PO_Number);
@@ -220,8 +222,6 @@ namespace si_automated_tests.Source.Test.PartyTests
             string refUpdateValue1 = "Task reference: " + refValue1;
             string PONumberCreatedValue = "PurchaseOrder = " + PO_Number;
 
-            int taskId = 703;
-
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -262,6 +262,8 @@ namespace si_automated_tests.Source.Test.PartyTests
                 .ClickTabDropDown()
                 .ClickTasksTab()
                 .WaitForLoadingIconToDisappear();
+            int taskId = PageFactoryManager.Get<TaskTab>()
+                .getFirstTaskId();
             PageFactoryManager.Get<TaskTab>()
                 .GoToATaskById(taskId)
                 .SwitchToLastWindow();
@@ -273,7 +275,8 @@ namespace si_automated_tests.Source.Test.PartyTests
             PageFactoryManager.Get<TaskDetailTab>()
                 .InputReferenceValue(refValue)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Purchase Order # is required");
+                .VerifyToastMessage("Purchase Order # is required")
+                .WaitUntilToastMessageInvisible("Purchase Order # is required");
             //Input purchase order -> successfully saved the task
             PageFactoryManager.Get<TaskDetailTab>()
                 .InputPurchaseOrderValue(PO_Number);
@@ -309,6 +312,7 @@ namespace si_automated_tests.Source.Test.PartyTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName);
+
             PageFactoryManager.Get<DetailPartyPage>()
                 .GoToATab("Purchase Orders");
             PageFactoryManager.Get<PartyPurchaseOrderPage>()
