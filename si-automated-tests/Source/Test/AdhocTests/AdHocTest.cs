@@ -74,12 +74,6 @@ namespace si_automated_tests.Source.Test.AdHocTests
             string tenure = AgreementConstants.TENURE_RENTAL;
             int productQty = 1000;
 
-            //PageFactoryManager.Get<LoginPage>()
-            //   .GoToURL(WebUrl.MainPageUrl);
-            //PageFactoryManager.Get<LoginPage>()
-            //    .IsOnLoginPage()
-            //    .Login(AutoUser13.UserName, AutoUser13.Password)
-            //    .IsOnHomePage(AutoUser13);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
                 .ExpandOption("North Star Commercial")
