@@ -31,43 +31,48 @@ namespace si_automated_tests.Source.Main.Pages.Services
             SendKeys(partyNameInput, name);
             return this;
         }
+
         //date type are STARTDATE or ENDDATE
         public ServicesTaskPage OpenTaskWithPartyNameAndDate(string name, string date, string dateType)
         {
-            int n = 5;
-            int j = 0;
-            while(n > 0)
+            int n = 10;
+            List<IWebElement> allRowsList = new List<IWebElement>();
+            List<IWebElement> partyNameList = new List<IWebElement>();
+            List<IWebElement> dateList = new List<IWebElement>();
+            while (n > 0)
             {
-                List<IWebElement> allRowsList = GetAllElements(allRows);
-                List<IWebElement> partyNameList = GetAllElements(partyNameColumns);
-                List<IWebElement> dateList = new List<IWebElement>();
+                allRowsList = GetAllElementsNotWait(allRows);
+                partyNameList = GetAllElementsNotWait(partyNameColumns);
+                
                 if (dateType.Equals("STARTDATE"))
                 {
-                    dateList = GetAllElements(startDateColumns);
+                    dateList = GetAllElementsNotWait(startDateColumns);
                 }
                 else
                 {
-                    dateList = GetAllElements(endDateColumns);
+                    dateList = GetAllElementsNotWait(endDateColumns);
                 }
-                
                 for (int i = 0; i < allRowsList.Count; i++)
                 {
                     if (GetElementText(partyNameList[i]) == name && GetElementText(dateList[i]) == date)
                     {
                         DoubleClickOnElement(allRowsList[i]);
-                        j = 1;
-                        return new ServicesTaskPage();
+                        n = 0;
                     }
                 }
-                if(j == 0)
+                if (n > 0)
                 {
                     ClickRefreshBtn();
                     WaitForLoadingIconToDisappear();
-                    SleepTimeInMiliseconds(5000);
+                    SleepTimeInMiliseconds(7000);
                     n--;
                     allRowsList.Clear();
                     dateList.Clear();
                     partyNameList.Clear();
+                }
+                else
+                {
+                    break;
                 }
             }
             return new ServicesTaskPage();

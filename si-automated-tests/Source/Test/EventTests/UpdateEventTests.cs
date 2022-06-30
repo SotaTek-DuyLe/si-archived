@@ -288,7 +288,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .SelectAnyAllocatedUnit("Ancillary")
                 .ClickSaveAndCloseBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(5)
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
                 .ExpandDetailToggle()

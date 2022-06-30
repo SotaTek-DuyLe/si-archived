@@ -36,6 +36,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Richmond Commercial");
         }
         [Category("PointNode")]
+        [Category("Dee")]
         [Test]
         public void TC_103_Create_point_node()
         {
@@ -56,6 +57,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .GoToAllTabAndConfirmNoError();
         }
         [Category("PointArea")]
+        [Category("Dee")]
         [Test]
         public void TC_104_Create_point_area()
         {
@@ -76,6 +78,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .GoToAllTabAndConfirmNoError();
         }
         [Category("PointArea")]
+        [Category("Dee")]
         [Test]
         public void TC_107_Create_announcement()
         {
@@ -83,13 +86,15 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("North Star Commercial")
                 .SwitchNewIFrame()
-                .SwitchToTab("Announcements");
+                .SwitchToTab("Announcements")
+                .WaitForLoadingIconToDisappear();
             CreateAnnouncementAndVerify();
             //VERIFY ON GROUP AND SERVICES
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Ancillary")
                 .OpenOption("Skips")
+                .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame()
                 .SwitchToTab("Announcements");
             CreateAnnouncementAndVerify();
@@ -176,8 +181,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string from = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             string to = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT, 1);
             PageFactoryManager.Get<CommonBrowsePage>()
-               .ClickAddNewItem()
-               .SwitchToLastWindow();
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
             PageFactoryManager.Get<AnnouncementDetailPage>()
                 .IsOnDetailPage()
                 .InputDetails(type, text, impact, from, to)

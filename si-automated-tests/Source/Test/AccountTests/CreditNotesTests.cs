@@ -30,6 +30,7 @@ namespace si_automated_tests.Source.Test.AccountTests
         }
 
         [Category("Account")]
+        [Category("Dee")]
         [Test]
         public void TC_78_82_Create_credit_notes_and_add_to_note_batch()
         {

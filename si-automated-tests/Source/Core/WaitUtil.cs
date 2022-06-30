@@ -66,6 +66,11 @@ namespace si_automated_tests.Source.Core
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
             driverWait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.XPath(xpath)));
         }
+        public static void WaitForElementInvisibleWithText(string xpath, string text)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
+            driverWait.Until(ExpectedConditions.InvisibilityOfElementWithText(By.XPath(xpath),text));
+        }
         public static void WaitForElementInvisible60(string xpath)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(60));
@@ -75,7 +80,7 @@ namespace si_automated_tests.Source.Core
         public static void WaitForAllElementsInvisible60(string xpath)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(60));
-            driverWait.Until(webDriver => IWebDriverManager.GetDriver().FindElements(By.XPath(xpath)).FirstOrDefault(x => x.Displayed) == null);
+            driverWait.Until(webDriver => IWebDriverManager.GetDriver().FindElements(By.XPath(xpath)).Any(x => x.Displayed) == false);
         }
 
         public static void WaitForElementInvisible(By by)

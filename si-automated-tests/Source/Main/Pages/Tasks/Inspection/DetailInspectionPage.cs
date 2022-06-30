@@ -49,10 +49,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private readonly By actionUpdateTextSecondRow = By.XPath("(//strong[text()='Action: ']/following-sibling::span[text()='Update - Inspection'])[2]");
         private readonly By streetGradeFirstRow = By.XPath("//span[text()='Street Grade']/following-sibling::span[1]");
         private readonly By userFirstRow = By.XPath("//div[contains(@class, 'panel-default')][1]//strong[text()='User: ']/following-sibling::span[1]");
-        private readonly By notesSecondRow = By.XPath("//div[contains(@class, 'panel-default')][2]//span[text()='Notes']/following-sibling::span[1]");
-        private readonly By notesFirstRow = By.XPath("//div[contains(@class, 'panel-default')][1]//span[text()='Notes']/following-sibling::span[1]");
         private readonly By userSecondRow = By.XPath("//div[contains(@class, 'panel-default')][2]//strong[text()='User: ']/following-sibling::span[1]");
-        private readonly By accessPointFirstRow = By.XPath("//div[contains(@class, 'panel-default')][1]//span[text()='Access Point']/following-sibling::span[1]");
+      
         private readonly By completedDate = By.XPath("//span[text()='Completed date']/following-sibling::span[1]");
         private readonly By cancelledDate = By.XPath("//span[text()='Cancelled date']/following-sibling::span[1]");
         private readonly By expiredDate = By.XPath("//span[text()='Update - Inspection']/parent::div/parent::div/following-sibling::div//span[text()='Inspection expiry date']/following-sibling::span[1]");
@@ -63,6 +61,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private const string historyItem = "//span[text()='{0}']/following-sibling::span[1]";
         private const string inspectionType = "//p[text()='{0}']";
         private const string streetGradeOption = "//label[text()='Street Grade']/following-sibling::select/option[text()='{0}']";
+        private const string dataFirstRow = "//div[@id='history-tab']//div[contains(@class, 'panel-default')][1]//span[text()='{0}']";
+        private const string dataSecondRow = "//div[@id='history-tab']//div[contains(@class, 'panel-default')][2]//span[text()='{0}']";
 
         public DetailInspectionPage WaitForInspectionDetailDisplayed(string inspectionTypeValue)
         {
@@ -273,16 +273,15 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return PageFactoryManager.Get<PointSegmentDetailPage>();
         }
 
-        public DetailInspectionPage VerifyRecordAfterUpdateAction(string firstNote, string userValue, string secondNote, string accessPoint)
+        public DetailInspectionPage VerifyRecordAfterUpdateAction(string userValue, string secondNote, string accessPoint)
         {
             Assert.IsTrue(IsControlDisplayed(actionUpdateTextFirstRow));
             Assert.IsTrue(IsControlDisplayed(actionUpdateTextSecondRow));
             //verify value
-            Assert.AreEqual(GetElementText(firstNote + "."), firstNote);
             Assert.AreEqual(GetElementText(userFirstRow), userValue);
+            Assert.IsTrue(IsControlDisplayed(dataFirstRow, accessPoint + "."));
             Assert.AreEqual(GetElementText(userSecondRow), userValue);
-            Assert.AreEqual(GetElementText(notesSecondRow + "."), secondNote);
-            Assert.AreEqual(GetElementText(accessPointFirstRow + "."), accessPoint);
+            Assert.IsTrue(IsControlDisplayed(dataSecondRow, secondNote + "."));
             return this;
         }
 
@@ -419,7 +418,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
 
         public DetailInspectionPage VerifyFirstNoteInHistoryTab(string noteExp)
         {
-            Assert.AreEqual(noteExp + ".", GetElementText(notesFirstRow));
+            Assert.IsTrue(IsControlDisplayed(dataFirstRow, noteExp + "."));
             return this;
         }
 
@@ -465,7 +464,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         //Open inpectionDetail with Id
         public DetailInspectionPage OpenDetailInspectionWithId(string inspectionId)
         {
-            GoToURL(WebUrl.MainPageUrl + "inspections/" + inspectionId);
+            GoToURL(WebUrl.MainPageUrl + "web/inspections/" + inspectionId);
             return PageFactoryManager.Get<DetailInspectionPage>();
         }
     }

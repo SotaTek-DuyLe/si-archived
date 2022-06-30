@@ -6,6 +6,7 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
@@ -13,6 +14,7 @@ using si_automated_tests.Source.Main.Pages.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyPurchaseOrder;
+using si_automated_tests.Source.Main.Pages.Services;
 using si_automated_tests.Source.Main.Pages.Task;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
@@ -66,12 +68,13 @@ namespace si_automated_tests.Source.Test.PartyTests
             PageFactoryManager.Get<AddPurchaseOrderPage>()
                 .IsOnAddPurchaseOrderPage()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Number is required");
+                .VerifyToastMessage("Number is required")
+                .WaitUntilToastMessageInvisible("Number is required");
             PageFactoryManager.Get<AddPurchaseOrderPage>()
                 .InputPONumber(PO_Number)
                 .InputFirstDay(todayDate)
                 .InputLastDay(datePlus)
-                .SelectAgreement("41 (Active from 21/03/2022 until 01/01/2050)")
+                .SelectAgreement("41 - Richmond (Active from 21/03/2022 until 01/01/2050)")
                 .ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved Purchase Order")
                 .CloseCurrentWindow()
@@ -86,6 +89,8 @@ namespace si_automated_tests.Source.Test.PartyTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully("COMMERCIAL COLLECTIONS", "GREGGS");
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickOnDetailsTab()
                 .WaitForLoadingIconToDisappear();
@@ -107,7 +112,6 @@ namespace si_automated_tests.Source.Test.PartyTests
                 PageFactoryManager.Get<TaskDetailTab>()
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<TaskDetailTab>()
-                    .IsOnTaskDetailTab()
                     .VerifyPurchaseOrderValue(PO_Number)
                     .CloseCurrentWindow()
                     .SwitchToChildWindow(3);
@@ -166,7 +170,7 @@ namespace si_automated_tests.Source.Test.PartyTests
             PageFactoryManager.Get<RemovePurchaseOrderPage>()
                 .IsOnRemovePurchaseOrderPage()
                 .ClickYesBtn()
-                //.VerifyToastMessage("Success")
+                .VerifyToastMessage("Success")
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<PartyPurchaseOrderPage>()
                 .VerifyPurchaseOrderDisappear(PO_Number);
@@ -201,8 +205,9 @@ namespace si_automated_tests.Source.Test.PartyTests
                     .CloseCurrentWindow()
                     .SwitchToChildWindow(3);
             }
-           
+
         }
+
         [Category("PurchaseOrder")]
         [Test]
         public void TC_076_PO_Number_Require_Is_True()
@@ -216,8 +221,6 @@ namespace si_automated_tests.Source.Test.PartyTests
             string refUpdateValue = "Task reference: " + refValue;
             string refUpdateValue1 = "Task reference: " + refValue1;
             string PONumberCreatedValue = "PurchaseOrder = " + PO_Number;
-
-            int taskId = 703;
 
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -259,6 +262,8 @@ namespace si_automated_tests.Source.Test.PartyTests
                 .ClickTabDropDown()
                 .ClickTasksTab()
                 .WaitForLoadingIconToDisappear();
+            int taskId = PageFactoryManager.Get<TaskTab>()
+                .getFirstTaskId();
             PageFactoryManager.Get<TaskTab>()
                 .GoToATaskById(taskId)
                 .SwitchToLastWindow();
@@ -270,7 +275,8 @@ namespace si_automated_tests.Source.Test.PartyTests
             PageFactoryManager.Get<TaskDetailTab>()
                 .InputReferenceValue(refValue)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Purchase Order # is required");
+                .VerifyToastMessage("Purchase Order # is required")
+                .WaitUntilToastMessageInvisible("Purchase Order # is required");
             //Input purchase order -> successfully saved the task
             PageFactoryManager.Get<TaskDetailTab>()
                 .InputPurchaseOrderValue(PO_Number);
@@ -306,6 +312,7 @@ namespace si_automated_tests.Source.Test.PartyTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName);
+
             PageFactoryManager.Get<DetailPartyPage>()
                 .GoToATab("Purchase Orders");
             PageFactoryManager.Get<PartyPurchaseOrderPage>()

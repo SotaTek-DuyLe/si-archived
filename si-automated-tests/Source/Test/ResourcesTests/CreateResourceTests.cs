@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
     public class CreateResourceTests : BaseTest
     {
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_30_31_32_33_34_Create_Human_Resource()
         {
@@ -139,6 +140,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         }
 
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_35_36_Create_Vehicle_Resource_Test()
         {
@@ -199,6 +201,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToDefaultContent();
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_49_Create_Resource_In_Default_Allocation()
         {
