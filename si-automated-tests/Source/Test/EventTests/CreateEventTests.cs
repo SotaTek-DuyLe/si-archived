@@ -32,7 +32,7 @@ namespace si_automated_tests.Source.Test.EventTests
             CommonFinder finder = new CommonFinder(DbContext);
             string searchForAddresses = "Addresses";
             string eventOption = "Standard - Complaint";
-            string pointAddressId = "483986";
+            string pointAddressId = "483995";
             string eventType = "Complaint";
             List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
             List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
@@ -41,7 +41,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Check SP
             SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Connection);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add("@PointID", SqlDbType.Int).Value = 483986;
+            command.Parameters.Add("@PointID", SqlDbType.Int).Value = 483995;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
             command.Parameters.Add("@UserID", SqlDbType.Int).Value = 54;
 
@@ -94,7 +94,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetPointAddressName();
             //Get all data in [Active Services] with Service unit
             List<ActiveSeviceModel> allAServicesWithServiceUnit = pointAddressDetailPage
-                .GetAllServiceWithServiceUnitModel();
+                .GetAllActiveService483995();
             List<ActiveSeviceModel> allServices = pointAddressDetailPage
                 .GetAllServiceInTab();
             //Get all data in [Active Services] without Service unit
@@ -102,7 +102,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetAllServiceWithoutServiceUnitModel(allServices);
             //Verify data in [Active Service] tab with SP
             pointAddressDetailPage
-                .VerifyDataInActiveServicesTab(allAServicesWithServiceUnit, serviceForPoint, serviceTaskForPoint)
+                .VerifyDataInActiveServicesTab483995(allAServicesWithServiceUnit, serviceForPoint)
                 .VerifyDataInActiveServicesTab(GetAllServiceWithoutServiceUnitModel, serviceForPoint);
             List<CommonServiceForPointDBModel> FilterCommonServiceForPointWithServiceId = pointAddressDetailPage
                 .FilterCommonServiceForPointWithServiceId(commonService, serviceForPoint[0].serviceID);
@@ -222,7 +222,7 @@ namespace si_automated_tests.Source.Test.EventTests
         public void TC_094_Create_event_from_point_address_without_service_unit()
         {
             string searchForAddresses = "Addresses";
-            string pointAddressId = "483986";
+            string pointAddressId = "483995";
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -259,18 +259,18 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForPointAddressDetailDisplayed()
                 .GetPointAddressName();
             //Get all data in [Active Services]
-            List<ActiveSeviceModel> allActiveServices = PageFactoryManager.Get<PointAddressDetailPage>()
+            List<ActiveSeviceModel> allServices = PageFactoryManager.Get<PointAddressDetailPage>()
                 .GetAllServiceInTab();
             //Service = Skip
             ActiveSeviceModel activeSeviceModelWithSkip = PageFactoryManager.Get<PointAddressDetailPage>()
-                .GetActiveServiceWithSkipService(allActiveServices);
+                .GetActiveServiceWithSkipService(allServices);
             PageFactoryManager.Get<PointAddressDetailPage>()
                 .ClickAnyEventInActiveServiceRow(activeSeviceModelWithSkip.eventLocator)
                 .VerifyToastMessage(MessageRequiredFieldConstants.NoEventsAvailableWarningMessage)
                 .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.NoEventsAvailableWarningMessage);
             //Get all active service no service unit
             List<ActiveSeviceModel> allActiveServicesNoServiceUnit = PageFactoryManager.Get<PointAddressDetailPage>()
-                .GetAllServiceWithoutServiceUnitModel(allActiveServices);
+                .GetAllServiceWithoutServiceUnitModel(allServices);
             List<string> allEventTypes = PageFactoryManager.Get<PointAddressDetailPage>()
                 .ClickAnyEventInActiveServiceRow(allActiveServicesNoServiceUnit[0].eventLocator)
                 .GetAllEventTypeInDd();

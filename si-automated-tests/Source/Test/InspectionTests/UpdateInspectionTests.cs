@@ -88,7 +88,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                .VerifyStateInspection("Unallocated")
                .InputNote(noteUpdate)
                .ClickSaveBtn()
-               .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage);
+               .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
+               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveInspectionSuccessMessage);
             detailInspectionPage
                 .VerifyNoteValue(noteUpdate)
                 //Line 32
@@ -101,16 +102,18 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 //.UploadImage("")
                 .AddAccessPointInDataTab(accessPointDataTab)
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveInspectionSuccessMessage)
+                .WaitForLoadingIconToDisappear();
             detailInspectionPage
                 .VerifyValueInNoteInputDataTab(noteInDataTab)
                 .VerifyValueInAccessPointInput(accessPointDataTab);
             //Line 33: Verify history
             detailInspectionPage
-                .ClickOnHistoryTab()
-                .WaitForLoadingIconToDisappear();
+                .ClickOnHistoryTab();
             detailInspectionPage
-                .VerifyRecordAfterUpdateAction(noteUpdate, AutoUser59.DisplayName, noteInDataTab, accessPointDataTab);
+                .VerifyRecordAfterUpdateAction(AutoUser59.DisplayName, noteUpdate, accessPointDataTab)
+                .VerifyFirstNoteInHistoryTab(noteInDataTab);
             //Line 34 => Complete
             detailInspectionPage
                 .ClickOnDetailTab()
@@ -133,7 +136,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnHistoryTab()
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
-                .VerifyHistoryAfterCompleted(timeComplete, AutoUser59.DisplayName);
+                .VerifyHistoryAfterCompleted(AutoUser59.DisplayName, timeComplete);
         }
 
         [Category("UpdateInspection")]
@@ -764,7 +767,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             PageFactoryManager.Get<UserDetailPage>()
                 .IsOnUserDetailPage()
                 .ClickAdminRoles()
-                .ChooseAdminRole("Inspections")
+                .ChooseInspectionAdminRole()
                 .ClickSave()
                 .WaitForLoadingIconDisappear();
 

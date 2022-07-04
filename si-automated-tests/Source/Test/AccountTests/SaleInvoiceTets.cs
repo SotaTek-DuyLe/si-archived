@@ -31,6 +31,7 @@ namespace si_automated_tests.Source.Test.AccountTests
         }
 
         [Category("Account")]
+        [Category("Dee")]
         [Test]
         public void TC_84_Create_sales_invoice()
         {
@@ -83,6 +84,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .VerifyFirstResultValue("Status", "POSTED");
         }
         [Category("Account")]
+        [Category("Dee")]
         [Test]
         public void TC_85_Create_sales_invoice_batch()
         {

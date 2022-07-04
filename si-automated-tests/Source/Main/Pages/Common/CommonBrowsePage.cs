@@ -28,7 +28,7 @@ namespace si_automated_tests.Source.Main.Pages
         public CommonBrowsePage FilterItem(int id)
         {
             WaitForLoadingIconToDisappear();
-            WaitUtil.WaitForAllElementsVisible(addNewItemBtn);
+            //WaitUtil.WaitForAllElementsVisible(addNewItemBtn);
             SendKeys(filterInputById, id.ToString());
             ClickOnElement(applyBtn);
             return this;

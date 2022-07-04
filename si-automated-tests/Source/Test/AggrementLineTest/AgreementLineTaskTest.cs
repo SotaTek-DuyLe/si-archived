@@ -6,6 +6,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Agrrements;
+using si_automated_tests.Source.Main.Pages.Agrrements.AgreementLine;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
@@ -25,8 +26,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         public void TC_072_Delete_Agreement_Line_Task()
         {
             int agreementId = 38;
-            int taskId1 = 408;
-            int taskId2 = 415;
+            
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -48,9 +48,13 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully("COMMERCIAL COLLECTIONS", "TWISTED FISH LIMITED");
+            PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickTaskTabBtn();
             PageFactoryManager.Get<TaskTab>()
                 .WaitForLoadingIconToDisappear();
+            int taskId1 = PageFactoryManager.Get<TaskTab>()
+                .getFirstTaskId();
             PageFactoryManager.Get<TaskTab>()
                 .SelectATask(taskId1)
                 .ClickDeleteItem()
@@ -94,6 +98,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickTasksTab();
             PageFactoryManager.Get<TaskTab>()
                 .WaitForLoadingIconToDisappear();
+            int taskId2 = PageFactoryManager.Get<TaskTab>()
+                .getSecondTaskId();
             PageFactoryManager.Get<TaskTab>()
                 .SelectATask(taskId2)
                 .ClickDeleteItem()
@@ -126,7 +132,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         {
             //Verify that user can bulk update tasks from an Agreement
             int agreementId = 38;
-            int[] taskIdList = {524, 483};
+            
             String note = "test bulk update";
             String todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
 
@@ -151,10 +157,17 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully("COMMERCIAL COLLECTIONS", "TWISTED FISH LIMITED");
+            PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickTaskTabBtn();
             PageFactoryManager.Get<TaskTab>()
                 .WaitForLoadingIconToDisappear();
             //Bulk Update Task
+            int taskId1 = PageFactoryManager.Get<TaskTab>()
+                .getFirstTaskId();
+            int taskId2 = PageFactoryManager.Get<TaskTab>()
+                .getSecondTaskId();
+            int[] taskIdList = { taskId1, taskId2 };
             PageFactoryManager.Get<TaskTab>()
                 .SelectMultipleTask(taskIdList)
                 .ClickBulkUpdateItem()
@@ -179,13 +192,6 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<TaskTab>()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<TaskTab>()
-                .ClickRefreshBtn()
-                .WaitForLoadingIconToDisappear()
-                .ClickRefreshBtn()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<TaskTab>()
-                .SleepTimeInMiliseconds(2000);
             //Verify bulked update for tasks
             PageFactoryManager.Get<TaskTab>()
                 .VerifyRetiredTaskWithIds(taskIdList)
@@ -249,7 +255,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         {
             //Verify that user can bulk update tasks from an Agreement Line
             int agreementId = 38;
-            int[] taskIdList = {478, 481};
+
             String note = "test bulk update";
             String todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
 
@@ -279,6 +285,11 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<TaskTab>()
                 .WaitForLoadingIconToDisappear();
             //Bulk Update Task
+            int taskId1 = PageFactoryManager.Get<TaskTab>()
+                .getFirstTaskId();
+            int taskId2 = PageFactoryManager.Get<TaskTab>()
+                .getSecondTaskId();
+            int[] taskIdList = { taskId1, taskId2 };
             PageFactoryManager.Get<TaskTab>()
                 .SelectMultipleTask(taskIdList)
                 .ClickBulkUpdateItem()
@@ -303,13 +314,11 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<TaskTab>()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<TaskTab>()
-                .ClickRefreshBtn()
-                .ClickRefreshBtn();
             //Verify bulked update for tasks
-            PageFactoryManager.Get<TaskTab>()
-                .VerifyRetiredTaskWithIds(taskIdList)
-                .VerifyTaskStateWithIds(taskIdList, "Completed");
+            PageFactoryManager.Get<AgreementLineTaskTab>()
+                .VerifyRetiredTaskWithIds(taskIdList);
+            PageFactoryManager.Get<AgreementLineTaskTab>()
+                .VerifyTaskStateWithIdsAgreementLine(taskIdList, "Completed");
             foreach (int i in taskIdList)
             {
                 PageFactoryManager.Get<TaskTab>()

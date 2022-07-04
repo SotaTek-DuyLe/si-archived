@@ -338,7 +338,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 WaitUtil.WaitForAllElementsVisible(detailLoactorExpanded);
             }
             WaitUtil.WaitForPageLoaded();
-            
+            SleepTimeInMiliseconds(2000);
             return this;
         }
 
