@@ -15,11 +15,11 @@ namespace si_automated_tests.Source.Main.Pages.Services
 {
     public class ObjectNoticeFormPage : BasePageCommonActions
     {
-        public readonly By NoticeTypeSelect = By.XPath("//select[@id='noticeType.id']");
-        public readonly By SystemSelect = By.XPath("//select[@id='echoSystem.id']");
-        public readonly By DescriptionText = By.XPath("//textarea[@id='description.id']");
+        public readonly By NoticeTypeSelect = By.XPath("//div[@id='details-tab']//select[@id='noticeType.id']");
+        public readonly By SystemSelect = By.XPath("//div[@id='details-tab']//select[@id='echoSystem.id']");
+        public readonly By DescriptionText = By.XPath("//div[@id='details-tab']//textarea[@id='description.id']");
         public readonly By HeaderStatus = By.XPath("//h5[@id='header-status']//span");
-        public readonly By StartDateInput = By.XPath("//input[@id='startDate.id']");
-        public readonly By EndDateInput = By.XPath("//input[@id='endDate.id']");
+        public readonly By StartDateInput = By.XPath("//div[@id='details-tab']//input[@id='startDate.id']");
+        public readonly By EndDateInput = By.XPath("//div[@id='details-tab']//input[@id='endDate.id']");
     }
 }

@@ -37,12 +37,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .OpenOption("North Star Commercial")
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
+            objectNoticeTab.WaitForLoadingIconToDisappear();
             objectNoticeTab.ClickOnElement(objectNoticeTab.objectNoticeTab);
             objectNoticeTab.WaitForLoadingIconToDisappear();
 
             PageFactoryManager.Get<CommonBrowsePage>()
                .ClickAddNewItem()
-               .SwitchToLastWindow();
+               .SwitchToChildWindow(2);
 
             ObjectNoticeFormPage objectNoticeForm = PageFactoryManager.Get<ObjectNoticeFormPage>();
             string description = "Test for Object Notice for NSC contract";
@@ -51,34 +52,39 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Notice Type is required");
+                .VerifyToastMessage("Notice Type is required")
+                .WaitUntilToastMessageInvisible("Notice Type is required");
             objectNoticeForm
                 .SelectTextFromDropDown(objectNoticeForm.NoticeTypeSelect, "OnBoard")
                 .SelectTextFromDropDown(objectNoticeForm.SystemSelect, system)
                 .SendKeys(objectNoticeForm.DescriptionText, description);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "ACTIVE")
                 .ClickCloseBtn()
-                .SwitchToFirstWindow();
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
 
             objectNoticeTab
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
-            objectNoticeTab.VerifyNewObjectNotice(description, system, DateTime.Now.ToString("dd/MM/yyyy"));
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            objectNoticeTab.VerifyNewObjectNotice(description, system, londonCurrentDate.ToString("dd/MM/yyyy"));
             objectNoticeTab.DoubleClickNewObjectNotice();
-            Thread.Sleep(400);
             objectNoticeTab
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
-
-            string startDate = DateTime.Now.AddDays(3).ToString("dd/MM/yyyy");
+            string startDate = londonCurrentDate.AddDays(3).ToString("dd/MM/yyyy");
+            objectNoticeForm.ClearInputValue(objectNoticeForm.StartDateInput);
             objectNoticeForm.SendKeys(objectNoticeForm.StartDateInput, startDate);
+            objectNoticeForm.ClickOnElement(objectNoticeForm.EndDateInput);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "INACTIVE")
                 .ClickCloseBtn()
@@ -91,8 +97,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             objectNoticeTab.VerifyNewObjectNotice(description, system, startDate);
 
             //Verify DB
-            //CommonFinder finder = new CommonFinder(DbContext);
-            //finder.IsObjectNoticeExist("10", objectNoticeTab.GetIdNewObjectNotice());
+            CommonFinder finder = new CommonFinder(DbContext);
+            finder.IsObjectNoticeExist("10", objectNoticeTab.GetIdNewObjectNotice());
         }
 
         [Category("Verify if a new Object Notice can be created from Region")]
@@ -111,12 +117,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .OpenOption("London")
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
+            objectNoticeTab.WaitForLoadingIconToDisappear();
             objectNoticeTab.ClickOnElement(objectNoticeTab.objectNoticeTab);
             objectNoticeTab.WaitForLoadingIconToDisappear();
 
             PageFactoryManager.Get<CommonBrowsePage>()
                .ClickAddNewItem()
-               .SwitchToLastWindow();
+               .SwitchToChildWindow(2);
 
             ObjectNoticeFormPage objectNoticeForm = PageFactoryManager.Get<ObjectNoticeFormPage>();
             string description = "Test for Object Notice for Region";
@@ -125,34 +132,40 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Notice Type is required");
+                .VerifyToastMessage("Notice Type is required")
+                .WaitUntilToastMessageInvisible("Notice Type is required");
             objectNoticeForm
                 .SelectTextFromDropDown(objectNoticeForm.NoticeTypeSelect, "OnBoard")
                 .SelectTextFromDropDown(objectNoticeForm.SystemSelect, system)
                 .SendKeys(objectNoticeForm.DescriptionText, description);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "ACTIVE")
                 .ClickCloseBtn()
-                .SwitchToFirstWindow();
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
 
             objectNoticeTab
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
-            objectNoticeTab.VerifyNewObjectNotice(description, system, DateTime.Now.ToString("dd/MM/yyyy"));
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            objectNoticeTab.VerifyNewObjectNotice(description, system, londonCurrentDate.ToString("dd/MM/yyyy"));
             objectNoticeTab.DoubleClickNewObjectNotice();
-            Thread.Sleep(400);
             objectNoticeTab
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
 
-            string startDate = DateTime.Now.AddDays(3).ToString("dd/MM/yyyy");
+            string startDate = londonCurrentDate.AddDays(3).ToString("dd/MM/yyyy");
+            objectNoticeForm.ClearInputValue(objectNoticeForm.StartDateInput);
             objectNoticeForm.SendKeys(objectNoticeForm.StartDateInput, startDate);
+            objectNoticeForm.ClickOnElement(objectNoticeForm.EndDateInput);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "INACTIVE")
                 .ClickCloseBtn()
@@ -165,8 +178,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             objectNoticeTab.VerifyNewObjectNotice(description, system, startDate);
 
             //Verify DB
-            //CommonFinder finder = new CommonFinder(DbContext);
-            //finder.IsObjectNoticeExist("47", objectNoticeTab.GetIdNewObjectNotice());
+            CommonFinder finder = new CommonFinder(DbContext);
+            finder.IsObjectNoticeExist("47", objectNoticeTab.GetIdNewObjectNotice());
         }
 
         [Category("Verify if a new Object Notice can be created from Service Groups")]
@@ -187,12 +200,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .OpenOption("Ancillary")
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
+            objectNoticeTab.WaitForLoadingIconToDisappear();
             objectNoticeTab.ClickOnElement(objectNoticeTab.objectNoticeTab);
             objectNoticeTab.WaitForLoadingIconToDisappear();
 
             PageFactoryManager.Get<CommonBrowsePage>()
                .ClickAddNewItem()
-               .SwitchToLastWindow();
+               .SwitchToChildWindow(2);
 
             ObjectNoticeFormPage objectNoticeForm = PageFactoryManager.Get<ObjectNoticeFormPage>();
             string description = "Test for Object Notice for Service Group";
@@ -201,34 +215,40 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Notice Type is required");
+                .VerifyToastMessage("Notice Type is required")
+                .WaitUntilToastMessageInvisible("Notice Type is required");
             objectNoticeForm
                 .SelectTextFromDropDown(objectNoticeForm.NoticeTypeSelect, "OnBoard")
                 .SelectTextFromDropDown(objectNoticeForm.SystemSelect, system)
                 .SendKeys(objectNoticeForm.DescriptionText, description);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "ACTIVE")
                 .ClickCloseBtn()
-                .SwitchToFirstWindow();
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
 
             objectNoticeTab
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
-            objectNoticeTab.VerifyNewObjectNotice(description, system, DateTime.Now.ToString("dd/MM/yyyy"));
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            objectNoticeTab.VerifyNewObjectNotice(description, system, londonCurrentDate.ToString("dd/MM/yyyy"));
             objectNoticeTab.DoubleClickNewObjectNotice();
-            Thread.Sleep(400);
             objectNoticeTab
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
 
-            string startDate = DateTime.Now.AddDays(-3).ToString("dd/MM/yyyy");
+            string startDate = londonCurrentDate.AddDays(-3).ToString("dd/MM/yyyy");
+            objectNoticeForm.ClearInputValue(objectNoticeForm.StartDateInput);
             objectNoticeForm.SendKeys(objectNoticeForm.StartDateInput, startDate);
+            objectNoticeForm.ClickOnElement(objectNoticeForm.EndDateInput);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "ACTIVE")
                 .ClickCloseBtn()
@@ -241,8 +261,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             objectNoticeTab.VerifyNewObjectNotice(description, system, startDate);
 
             //Verify DB
-            //CommonFinder finder = new CommonFinder(DbContext);
-            //finder.IsObjectNoticeExist("64", objectNoticeTab.GetIdNewObjectNotice());
+            CommonFinder finder = new CommonFinder(DbContext);
+            finder.IsObjectNoticeExist("64", objectNoticeTab.GetIdNewObjectNotice());
         }
 
         [Category("Verify if a new Object Notice can be created from Service")]
@@ -264,12 +284,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .OpenOption("Skips")
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
+            objectNoticeTab.WaitForLoadingIconToDisappear();
             objectNoticeTab.ClickOnElement(objectNoticeTab.objectNoticeTab);
             objectNoticeTab.WaitForLoadingIconToDisappear();
 
             PageFactoryManager.Get<CommonBrowsePage>()
                .ClickAddNewItem()
-               .SwitchToLastWindow();
+               .SwitchToChildWindow(2);
 
             ObjectNoticeFormPage objectNoticeForm = PageFactoryManager.Get<ObjectNoticeFormPage>();
             string description = "Test for Object Notice for Service";
@@ -278,34 +299,40 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Notice Type is required");
+                .VerifyToastMessage("Notice Type is required")
+                .WaitUntilToastMessageInvisible("Notice Type is required");
             objectNoticeForm
                 .SelectTextFromDropDown(objectNoticeForm.NoticeTypeSelect, "OnBoard")
                 .SelectTextFromDropDown(objectNoticeForm.SystemSelect, system)
                 .SendKeys(objectNoticeForm.DescriptionText, description);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "ACTIVE")
                 .ClickCloseBtn()
-                .SwitchToFirstWindow();
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
 
             objectNoticeTab
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
-            objectNoticeTab.VerifyNewObjectNotice(description, system, DateTime.Now.ToString("dd/MM/yyyy"));
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            objectNoticeTab.VerifyNewObjectNotice(description, system, londonCurrentDate.ToString("dd/MM/yyyy"));
             objectNoticeTab.DoubleClickNewObjectNotice();
-            Thread.Sleep(400);
             objectNoticeTab
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
 
-            string startDate = DateTime.Now.AddDays(3).ToString("dd/MM/yyyy");
+            string startDate = londonCurrentDate.AddDays(3).ToString("dd/MM/yyyy");
+            objectNoticeForm.ClearInputValue(objectNoticeForm.StartDateInput);
             objectNoticeForm.SendKeys(objectNoticeForm.StartDateInput, startDate);
+            objectNoticeForm.ClickOnElement(objectNoticeForm.EndDateInput);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "INACTIVE")
                 .ClickCloseBtn()
@@ -318,8 +345,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             objectNoticeTab.VerifyNewObjectNotice(description, system, startDate);
 
             //Verify DB
-            //CommonFinder finder = new CommonFinder(DbContext);
-            //finder.IsObjectNoticeExist("67", objectNoticeTab.GetIdNewObjectNotice());
+            CommonFinder finder = new CommonFinder(DbContext);
+            finder.IsObjectNoticeExist("67", objectNoticeTab.GetIdNewObjectNotice());
         }
 
         [Category("Verify if a new Object Notice can be created from Round Groups")]
@@ -343,12 +370,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .OpenOption("SKIP1")
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
+            objectNoticeTab.WaitForLoadingIconToDisappear();
             objectNoticeTab.ClickOnElement(objectNoticeTab.objectNoticeTab);
             objectNoticeTab.WaitForLoadingIconToDisappear();
 
             PageFactoryManager.Get<CommonBrowsePage>()
                .ClickAddNewItem()
-               .SwitchToLastWindow();
+               .SwitchToChildWindow(2);
 
             ObjectNoticeFormPage objectNoticeForm = PageFactoryManager.Get<ObjectNoticeFormPage>();
             string description = "Test for Object Notice for Round Group";
@@ -357,34 +385,40 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Notice Type is required");
+                .VerifyToastMessage("Notice Type is required")
+                .WaitUntilToastMessageInvisible("Notice Type is required");
             objectNoticeForm
                 .SelectTextFromDropDown(objectNoticeForm.NoticeTypeSelect, "OnBoard")
                 .SelectTextFromDropDown(objectNoticeForm.SystemSelect, system)
                 .SendKeys(objectNoticeForm.DescriptionText, description);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "ACTIVE")
                 .ClickCloseBtn()
-                .SwitchToFirstWindow();
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
 
             objectNoticeTab
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
-            objectNoticeTab.VerifyNewObjectNotice(description, system, DateTime.Now.ToString("dd/MM/yyyy"));
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            objectNoticeTab.VerifyNewObjectNotice(description, system, londonCurrentDate.ToString("dd/MM/yyyy"));
             objectNoticeTab.DoubleClickNewObjectNotice();
-            Thread.Sleep(400);
             objectNoticeTab
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
 
-            string startDate = DateTime.Now.AddDays(3).ToString("dd/MM/yyyy");
+            string startDate = londonCurrentDate.AddDays(3).ToString("dd/MM/yyyy");
+            objectNoticeForm.ClearInputValue(objectNoticeForm.StartDateInput);
             objectNoticeForm.SendKeys(objectNoticeForm.StartDateInput, startDate);
+            objectNoticeForm.ClickOnElement(objectNoticeForm.EndDateInput);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "INACTIVE")
                 .ClickCloseBtn()
@@ -397,8 +431,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             objectNoticeTab.VerifyNewObjectNotice(description, system, startDate);
 
             //Verify DB
-            //CommonFinder finder = new CommonFinder(DbContext);
-            //finder.IsObjectNoticeExist("58", objectNoticeTab.GetIdNewObjectNotice());
+            CommonFinder finder = new CommonFinder(DbContext);
+            finder.IsObjectNoticeExist("58", objectNoticeTab.GetIdNewObjectNotice());
         }
 
         [Category("Verify if a new Object Notice can be created from Round")]
@@ -423,12 +457,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .OpenOption("Monday")
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
+            objectNoticeTab.WaitForLoadingIconToDisappear();
             objectNoticeTab.ClickOnElement(objectNoticeTab.objectNoticeTab);
             objectNoticeTab.WaitForLoadingIconToDisappear();
 
             PageFactoryManager.Get<CommonBrowsePage>()
                .ClickAddNewItem()
-               .SwitchToLastWindow();
+               .SwitchToChildWindow(2);
 
             ObjectNoticeFormPage objectNoticeForm = PageFactoryManager.Get<ObjectNoticeFormPage>();
             string description = "Test for Object Notice for Round";
@@ -437,34 +472,40 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Notice Type is required");
+                .VerifyToastMessage("Notice Type is required")
+                .WaitUntilToastMessageInvisible("Notice Type is required");
             objectNoticeForm
                 .SelectTextFromDropDown(objectNoticeForm.NoticeTypeSelect, "OnBoard")
                 .SelectTextFromDropDown(objectNoticeForm.SystemSelect, system)
                 .SendKeys(objectNoticeForm.DescriptionText, description);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "ACTIVE")
                 .ClickCloseBtn()
-                .SwitchToFirstWindow();
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
 
             objectNoticeTab
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
-            objectNoticeTab.VerifyNewObjectNotice(description, system, DateTime.Now.ToString("dd/MM/yyyy"));
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            objectNoticeTab.VerifyNewObjectNotice(description, system, londonCurrentDate.ToString("dd/MM/yyyy"));
             objectNoticeTab.DoubleClickNewObjectNotice();
-            Thread.Sleep(400);
             objectNoticeTab
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
 
-            string startDate = DateTime.Now.AddDays(3).ToString("dd/MM/yyyy");
+            string startDate = londonCurrentDate.AddDays(3).ToString("dd/MM/yyyy");
+            objectNoticeForm.ClearInputValue(objectNoticeForm.StartDateInput);
             objectNoticeForm.SendKeys(objectNoticeForm.StartDateInput, startDate);
+            objectNoticeForm.ClickOnElement(objectNoticeForm.EndDateInput);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "INACTIVE")
                 .ClickCloseBtn()
@@ -477,8 +518,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             objectNoticeTab.VerifyNewObjectNotice(description, system, startDate);
 
             //Verify DB
-            //CommonFinder finder = new CommonFinder(DbContext);
-            //finder.IsObjectNoticeExist("60", objectNoticeTab.GetIdNewObjectNotice());
+            CommonFinder finder = new CommonFinder(DbContext);
+            finder.IsObjectNoticeExist("60", objectNoticeTab.GetIdNewObjectNotice());
         }
 
         [Category("Verify if a new Object Notice can be created from Round Instance")]
@@ -505,8 +546,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
 
             PageFactoryManager.Get<RoundGroupPage>()
                 .WaitForLoadingIconToDisappear();
-            DateTime startDateCalendar = DateTime.Now.AddDays(7);
-            DateTime endDateCalendar = DateTime.Now.AddYears(1);
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            DateTime startDateCalendar = londonCurrentDate.AddDays(7);
+            DateTime endDateCalendar = londonCurrentDate.AddYears(1);
             PageFactoryManager.Get<RoundGroupPage>()
                 .ClickCalendarTab()
                 .DoubleClickRoundGroup(startDateCalendar, endDateCalendar, new List<DayOfWeek>() { DayOfWeek.Monday })
@@ -520,7 +562,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
 
             PageFactoryManager.Get<CommonBrowsePage>()
                .ClickAddNewItem()
-               .SwitchToLastWindow();
+               .SwitchToChildWindow(3);
 
             ObjectNoticeFormPage objectNoticeForm = PageFactoryManager.Get<ObjectNoticeFormPage>();
             string description = "Test for Object Notice for Round Instance";
@@ -529,14 +571,16 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Notice Type is required");
+                .VerifyToastMessage("Notice Type is required")
+                .WaitUntilToastMessageInvisible("Notice Type is required");
             objectNoticeForm
                 .SelectTextFromDropDown(objectNoticeForm.NoticeTypeSelect, "OnBoard")
                 .SelectTextFromDropDown(objectNoticeForm.SystemSelect, system)
                 .SendKeys(objectNoticeForm.DescriptionText, description);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "ACTIVE")
                 .ClickCloseBtn()
@@ -545,18 +589,21 @@ namespace si_automated_tests.Source.Test.ServiceTests
             objectNoticeTab
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
-            objectNoticeTab.VerifyNewObjectNotice(description, system, DateTime.Now.ToString("dd/MM/yyyy"));
+
+            objectNoticeTab.VerifyNewObjectNotice(description, system, londonCurrentDate.ToString("dd/MM/yyyy"));
             objectNoticeTab.DoubleClickNewObjectNotice();
-            Thread.Sleep(400);
             objectNoticeTab
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
 
-            string startDate = DateTime.Now.AddDays(3).ToString("dd/MM/yyyy");
+            string startDate = londonCurrentDate.AddDays(3).ToString("dd/MM/yyyy");
+            objectNoticeForm.ClearInputValue(objectNoticeForm.StartDateInput);
             objectNoticeForm.SendKeys(objectNoticeForm.StartDateInput, startDate);
+            objectNoticeForm.ClickOnElement(objectNoticeForm.EndDateInput);
             objectNoticeForm
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
             objectNoticeForm
                 .VerifyElementText(objectNoticeForm.HeaderStatus, "INACTIVE")
                 .ClickCloseBtn()
@@ -568,8 +615,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             objectNoticeTab.VerifyNewObjectNotice(description, system, startDate);
 
             //Verify DB
-            //CommonFinder finder = new CommonFinder(DbContext);
-            //finder.IsObjectNoticeExist("135", objectNoticeTab.GetIdNewObjectNotice());
+            CommonFinder finder = new CommonFinder(DbContext);
+            finder.IsObjectNoticeExist("135", objectNoticeTab.GetIdNewObjectNotice());
         }
     }
 }

@@ -44,7 +44,7 @@ namespace si_automated_tests.Source.Main.Finders
         public bool IsObjectNoticeExist(string echoTypeId, string id)
         {
             string query = "select * from objectnotices where echotypeID=" + echoTypeId + " and objectnoticeid=" + id;
-            return true;
+            return FindList<ObjectNoticeModel>(query).Count != 0;
         }
     }
 }
