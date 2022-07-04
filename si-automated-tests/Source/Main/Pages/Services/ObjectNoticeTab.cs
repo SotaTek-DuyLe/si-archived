@@ -31,23 +31,20 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         public BasePageCommonActions VerifyNewObjectNotice(string description, string system, string startDate)
         {
-            int rowIdx = ObjectNoticeTableEle.GetRows().Count - 1;
-            Assert.IsTrue(ObjectNoticeTableEle.GetCellValue(rowIdx, 1).AsString() == description);
-            Assert.IsTrue(ObjectNoticeTableEle.GetCellValue(rowIdx, 2).AsString() == startDate);
-            Assert.IsTrue(ObjectNoticeTableEle.GetCellValue(rowIdx, 4).AsString() == system);
+            Assert.IsTrue(ObjectNoticeTableEle.GetCellValue(0, 1).AsString() == description);
+            Assert.IsTrue(ObjectNoticeTableEle.GetCellValue(0, 2).AsString() == startDate);
+            Assert.IsTrue(ObjectNoticeTableEle.GetCellValue(0, 4).AsString() == system);
             return this;
         }
 
         public string GetIdNewObjectNotice()
         {
-            int rowIdx = ObjectNoticeTableEle.GetRows().Count - 1;
-            return ObjectNoticeTableEle.GetCellValue(rowIdx, 0).AsString();
+            return ObjectNoticeTableEle.GetCellValue(0, 0).AsString();
         }
 
         public BasePageCommonActions DoubleClickNewObjectNotice()
         {
-            int rowIdx = ObjectNoticeTableEle.GetRows().Count - 1;
-            ObjectNoticeTableEle.DoubleClickRow(rowIdx);
+            ObjectNoticeTableEle.DoubleClickRow(0);
             return this;
         }
     }
