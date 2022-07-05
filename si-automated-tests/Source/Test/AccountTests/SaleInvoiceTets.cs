@@ -79,7 +79,9 @@ namespace si_automated_tests.Source.Test.AccountTests
             PageFactoryManager.Get<PostConfirmationPage>()
                 .ClickConfirm()
                 .VerifyToastMessage("Success")
-                .SleepTimeInMiliseconds(1500);
+                .SleepTimeInMiliseconds(2500)
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValue("Status", "POSTED");
         }
