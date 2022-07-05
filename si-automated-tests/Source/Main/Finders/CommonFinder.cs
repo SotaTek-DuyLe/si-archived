@@ -40,5 +40,11 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from pointaddresses where pointaddressID="+id+";";
             return FindList<PointAddressModel>(query);
         }
+
+        public bool IsObjectNoticeExist(string echoTypeId, string id)
+        {
+            string query = "select * from objectnotices where echotypeID=" + echoTypeId + " and objectnoticeid=" + id;
+            return FindList<ObjectNoticeModel>(query).Count != 0;
+        }
     }
 }

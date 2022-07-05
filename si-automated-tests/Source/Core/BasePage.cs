@@ -83,6 +83,13 @@ namespace si_automated_tests.Source.Core
             element.SendKeys(value);
         }
 
+        public void ClearInputValue(By by)
+        {
+            IWebElement element = WaitUtil.WaitForElementVisible(by);
+            element.SendKeys(Keys.Control + "a");
+            element.SendKeys(Keys.Delete);
+        }
+
         public void EditSendKeys(By by, string value)
         {
             IWebElement element = WaitUtil.WaitForElementClickable(by);
@@ -581,16 +588,18 @@ namespace si_automated_tests.Source.Core
             xpath = String.Format(xpath, value);
             return WaitUtil.WaitForElementVisible(xpath).Selected;
         }
-        public BasePage WaitForLoadingIconToDisappear()
+        public BasePage WaitForLoadingIconToDisappear(bool implicitSleep = true)
         {
-            Thread.Sleep(750);
+            if(implicitSleep) Thread.Sleep(750);
             WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
-            WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: $root.isLoading')]");
             WaitUtil.WaitForAllElementsInvisible60("//div[@id='loading-shield']");
             WaitUtil.WaitForAllElementsInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
+            WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'loadingDefinition')]");
+            WaitUtil.WaitForAllElementsInvisible60("//div[@class='ui-widget-overlay shield' and contains(@data-bind,'shield: $root.isLoading')]");
             WaitUtil.WaitForPageLoaded();
             return this;
         }
+
         public BasePage VerifyToastMessageNotAppear(string message)
         {
             string xpath = "//div[@data-notify-html='title' and text()='{0}']";
