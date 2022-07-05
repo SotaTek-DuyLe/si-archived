@@ -588,7 +588,7 @@ namespace si_automated_tests.Source.Core
             xpath = String.Format(xpath, value);
             return WaitUtil.WaitForElementVisible(xpath).Selected;
         }
-        public BasePage WaitForLoadingIconToDisappear(bool implicitSleep = true)
+        public BasePage WaitForLoadingIconToDisappear(bool implicitSleep = false)
         {
             if(implicitSleep) Thread.Sleep(750);
             WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
