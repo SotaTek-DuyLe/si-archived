@@ -28,21 +28,96 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Applications")
                 .OpenOption("Round Calendar")
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<NavigationBase>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
         }
 
         [Category("RoundCalendarTests")]
         [Test(Description = "Verify that Round Calendar displays correctly")]
-        public void TC_135_1_Verify_that_Round_Calendar_displays_correctly()
+        public void TC_135_Verify_that_Round_Calendar_displays_correctly()
         {
             RoundCalendarPage roundCalendarPage = PageFactoryManager.Get<RoundCalendarPage>();
-            roundCalendarPage.ClickOnElement(roundCalendarPage.InputService);
+            roundCalendarPage.SelectTextFromDropDown(roundCalendarPage.SelectContact, "North Star");
             roundCalendarPage
+                .ClickInputService()
                 .SelectNode("North Star")
                 .SelectNode("Recycling")
-                .SelectNode("Domestic Recycling");
+                .SelectNode("Domestic Recycling")
+                .SelectTextFromDropDown(roundCalendarPage.SelectShiftGroup, "AM")
+                .ClickOnElement(roundCalendarPage.ButtonGo);
+            roundCalendarPage.WaitForLoadingIconToDisappear();
+            roundCalendarPage.ClickOnElement(roundCalendarPage.ButtonMonth);
+            roundCalendarPage
+                .ClickMoreButton(true)
+                .IsListOfRoundInstanceScheduleDisplayed()
+                .ClickMoreButton(false)
+                .IsListOfRoundInstanceScheduleDisplayed()
+                .ClickRoundInstance(true)
+                .VerifyToastMessage("Cannot reschedule rounds more than a week in the past")
+                .WaitUntilToastMessageInvisible("Cannot reschedule rounds more than a week in the past");
+            roundCalendarPage
+                .ClickRoundInstance(false)
+                .VerifyToastMessagesIsUnDisplayed();
+
+            RoundInstanceForm roundInstanceForm = PageFactoryManager.Get<RoundInstanceForm>();
+            roundCalendarPage
+                .DoubleClickRoundInstance(true)
+                .VerifyToastMessage("Cannot reschedule rounds more than a week in the past")
+                .WaitUntilToastMessageInvisible("Cannot reschedule rounds more than a week in the past")
+                .SwitchToChildWindow(2);
+            roundInstanceForm
+                .WaitForLoadingIconToDisappear()
+                .ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+
+            roundCalendarPage
+                .DoubleClickRoundInstance(false)
+                .VerifyToastMessagesIsUnDisplayed()
+                .SwitchToChildWindow(2);
+            roundCalendarPage.SwitchToChildWindow(2);
+            roundInstanceForm
+                .WaitForLoadingIconToDisappear()
+                .ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+
+            roundCalendarPage.ClickOnElement(roundCalendarPage.ButtonWeek);
+            roundCalendarPage.IsRoundCalendarInWeekDisplayed();
+            roundCalendarPage.ClickOnElement(roundCalendarPage.ButtonDay);
+            roundCalendarPage.IsRoundCalendarInDayDisplayed();
+
+            roundCalendarPage.ClickOnElement(roundCalendarPage.ButtonLegend);
+            roundCalendarPage.IsCalendarScheduleDisplayed();
+            roundCalendarPage.ClickOnElement(roundCalendarPage.ButtonLegend);
+            roundCalendarPage.IsCanlendarScheduleUnDisplayed();
+
+            roundCalendarPage.ClickOnElement(roundCalendarPage.ButtonMonth);
+            roundCalendarPage
+                .ClickRoundInstance(DateTime.Now)
+                .VerifyRoundInstanceBackground(DateTime.Now, "rgba(194, 219, 255, 1)")
+                .VerifyElementEnable(roundCalendarPage.ButtonSchedule, true);
+            roundCalendarPage
+                .ClickRoundInstance(DateTime.Now)
+                .VerifyRoundInstanceBackground(DateTime.Now, "rgba(255, 255, 255, 1)")
+                .VerifyElementEnable(roundCalendarPage.ButtonSchedule, false);
+
+            roundCalendarPage
+                .ClickRoundInstance(DateTime.Now)
+                .ClickOnElement(roundCalendarPage.ButtonSchedule);
+
+            RescheduleModal rescheduleModal = PageFactoryManager.Get<RescheduleModal>();
+            DateTime scheduleDay = DateTime.Now.AddDays(3);
+            rescheduleModal
+                .IsRescheduleModelDisplayedCorrectly()
+                .SendKeys(rescheduleModal.InputRescheduleDate, scheduleDay.ToString("dd/MM/yyyy"));
+            rescheduleModal.ClickOnElement(rescheduleModal.ButtonOk);
+            rescheduleModal
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Selected Round Instance(s) have been rescheduled")
+                .WaitUntilToastMessageInvisible("Selected Round Instance(s) have been rescheduled");
+            roundCalendarPage.RoundInstanceHasGreenBackground(scheduleDay);
         }
     }
 }

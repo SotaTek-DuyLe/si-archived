@@ -562,6 +562,12 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        public BasePage VerifyToastMessagesIsUnDisplayed()
+        {
+            IsControlUnDisplayed(By.XPath("//div[@data-notify-html='title']"));
+            return this;
+        }
+
         public BasePage WaitUntilToastMessageInvisible(string toastMessage)
         {
             WaitUtil.WaitForElementInvisibleWithText("//div[@data-notify-html='title']", toastMessage);
@@ -586,6 +592,7 @@ namespace si_automated_tests.Source.Core
             Thread.Sleep(750);
             WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
             WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: $root.isLoading')]");
+            WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: loading')]");
             WaitUtil.WaitForAllElementsInvisible60("//div[@id='loading-shield']");
             WaitUtil.WaitForAllElementsInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
             WaitUtil.WaitForPageLoaded();

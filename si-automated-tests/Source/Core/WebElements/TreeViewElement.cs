@@ -11,12 +11,14 @@ namespace si_automated_tests.Source.Core.WebElements
     {
         private string TreeViewXPath;
         private string TreeViewItemXpath;
+        private string TreeViewItemTextElementXpath;
         private string HierarchicalXpath;
 
-        public TreeViewElement(string treeViewXpath, string treeViewItemXpath, string hierarchicalXpath)
+        public TreeViewElement(string treeViewXpath, string treeViewItemXpath, string treeViewItemTextElementXpath, string hierarchicalXpath)
         {
             TreeViewXPath = treeViewXpath;
             TreeViewItemXpath = treeViewItemXpath;
+            TreeViewItemTextElementXpath = treeViewItemTextElementXpath;
             HierarchicalXpath = hierarchicalXpath;
         }
 
@@ -37,14 +39,18 @@ namespace si_automated_tests.Source.Core.WebElements
                     Thread.Sleep(100);
                     HierarchicalTemplates = SelectedNode.FindElements(By.XPath(HierarchicalXpath)).ToList();
                 }
-                List<IWebElement> treeViewItems = HierarchicalTemplates.FirstOrDefault().FindElements(By.XPath(TreeViewItemXpath)).ToList();
-                foreach (var item in treeViewItems)
+                foreach (var HierarchicalTemplate in HierarchicalTemplates)
                 {
-                    if (item.Text == nodeName)
+                    List<IWebElement> treeViewItems = HierarchicalTemplate.FindElements(By.XPath(TreeViewItemXpath)).ToList();
+                    foreach (var item in treeViewItems)
                     {
-                        SelectedNode = item;
-                        SelectedNode.Click();
-                        return;
+                        IWebElement textElement = item.FindElement(By.XPath(TreeViewItemTextElementXpath));
+                        if (textElement != null && textElement.Text == nodeName)
+                        {
+                            SelectedNode = item;
+                            SelectedNode.Click();
+                            return;
+                        }
                     }
                 }
             }
@@ -62,7 +68,8 @@ namespace si_automated_tests.Source.Core.WebElements
                     List<IWebElement> treeViewItems = HierarchicalTemplate.FindElements(By.XPath(TreeViewItemXpath)).ToList();
                     foreach (var item in treeViewItems)
                     {
-                        if (item.Text == nodeName)
+                        IWebElement textElement = item.FindElement(By.XPath(TreeViewItemTextElementXpath));
+                        if (textElement != null && textElement.Text == nodeName)
                         {
                             SelectedNode = item;
                             SelectedNode.Click();

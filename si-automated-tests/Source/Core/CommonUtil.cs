@@ -73,6 +73,16 @@ namespace si_automated_tests.Source.Core
         {
             return DateTime.Now.AddDays(day).Day.ToString();
         }
+
+        public static DateTime StringToDateTime(string str, string format)
+        {
+            return DateTime.ParseExact(str, format, System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        public static int DateTimeToInt(DateTime dateTime, string format)
+        {
+            return dateTime.ToString(format).AsInteger();
+        }
         
         public int GetRandomNumberBetweenRange(int min, int max)
         {
