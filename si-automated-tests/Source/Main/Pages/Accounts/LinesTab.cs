@@ -28,7 +28,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             CommonBrowsePage browsePage = PageFactoryManager.Get<CommonBrowsePage>();
             browsePage.VerifyFirstResultValue("Site", _site);
             browsePage.VerifyFirstResultValue("Product", _product);
-            browsePage.VerifyFirstResultValue("Description", _description);
+            browsePage.VerifyFirstResultValue("Description", _description + " {AssetType.LedgerCode},");
             browsePage.VerifyFirstResultValue("Quantity", _quantity);
             browsePage.VerifyFirstResultValue("Price", "£" + _price);
             browsePage.VerifyFirstResultValue("Posted Status", "NEW");

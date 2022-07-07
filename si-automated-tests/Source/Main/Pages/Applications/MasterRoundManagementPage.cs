@@ -18,16 +18,21 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         //private readonly string serviceExpandIcon = "//a[contains(@class,'jstree-anchor') and text()='{0}']/preceding-sibling::i";
 
         //unalocated task tab
+        private readonly By tabContainer = By.XPath("//div[@id='tabs-container']/ul");
         private readonly By unallocatedHeaders = By.XPath("//div[@id='unallocated']//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
         private readonly By firstUnallocatedTask = By.XPath("//div[@id='unallocated']//div[@class='grid-canvas']/div[1]");
         private readonly By activeUnallocatedTask = By.XPath("//div[@id='unallocated']//div[@class='grid-canvas']/div[contains(@class,'active')]");
         private readonly By activeUnallocatedTaskField = By.XPath("//div[@id='unallocated']//div[@class='grid-canvas']/div[contains(@class,'active')]/div");
         
         //round tab
-        private readonly By roundTabHeaders = By.XPath("//div[contains(@id,'round-tab')]//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
-        private readonly String roundFilterHeader = "//div[contains(@id,'round-tab')]//div[contains(@class,'slick-headerrow-columns')]/div[{0}]//input[@class='value form-control']";
-        private readonly By lastTask = By.XPath("(//div[contains(@id,'round-tab')]//div[@class='grid-canvas']/div[contains(@class,'content slick-row')])[last()]");
-        private readonly String lastTaskField = "(//div[contains(@id,'round-tab')]//div[@class='grid-canvas']/div[contains(@class,'content slick-row')])[last()]/div[contains(@class,'{0}')]";
+        private readonly By roundTabHeaders = By.XPath("//div[contains(@id,'round-tab') and contains(@class,'active')]//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
+        private readonly String roundFilterHeader = "//div[contains(@id,'round-tab') and contains(@class,'active')]//div[contains(@class,'slick-headerrow-columns')]/div[{0}]//input[@class='value form-control']";
+        private readonly By lastTask = By.XPath("(//div[contains(@id,'round-tab') and contains(@class,'active')]//div[@class='grid-canvas']/div[contains(@class,'content slick-row')])[last()]");
+        private readonly By firstAllocatedTask = By.XPath("(//div[contains(@id,'round-tab') and contains(@class,'active')]//div[@class='grid-canvas']/div[contains(@class,'content slick-row')])");
+        private readonly By firstAllocatedTaskField = By.XPath("(//div[contains(@id,'round-tab') and contains(@class,'active')]//div[@class='grid-canvas']/div[contains(@class,'content slick-row')]/div)");
+        private readonly By selectedAllocatedTask = By.XPath("(//div[contains(@id,'round-tab') and contains(@class,'active')]//div[@class='grid-canvas']/div[contains(@class,'content slick-row active')])");
+        private readonly String lastTaskField = "(//div[contains(@id,'round-tab') and contains(@class,'active')]//div[@class='grid-canvas']/div[contains(@class,'content slick-row')])[last()]/div[contains(@class,'{0}')]";
+        private readonly String taskField = "//div[contains(@id,'round-tab') and contains(@class,'active')]//div[@class='grid-canvas']/div[contains(@class,'content slick-row')]/div[contains(@class,'{0}')]";
         private readonly By slickViewport = By.XPath("(//div[@class='slick-viewport'])[last()]");
 
         //round grid
@@ -54,9 +59,22 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             WaitUtil.WaitForPageLoaded();
             return this;
         }
+        public MasterRoundManagementPage InputSearchDetails(string date)
+        {
+            SendKeys(dateInput, date);
+            ClickOnElement(goBtn);
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForPageLoaded();
+            return this;
+        }
         public MasterRoundManagementPage ClickFirstUnallocatedTask()
         {
             ClickOnElement(firstUnallocatedTask);
+            return this;
+        }
+        public MasterRoundManagementPage ClickFirstAllocatedTask()
+        {
+            ClickOnElement(firstAllocatedTask);
             return this;
         }
         public MasterRoundManagementPage DragAndDropFirstUnallocatedTaskToFirstRound()
@@ -66,10 +84,24 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DragAndDrop(newSource, target);
             return this;
         }
+        public MasterRoundManagementPage DragAndDropSelectedAllocatedTaskToSecondRound()
+        {
+            var newSource = GetElement(selectedAllocatedTask);
+            var target = GetAllElements(rounds)[1];
+            AlternativeDragAndDrop(newSource, target);
+            return this;
+        }
         public MasterRoundManagementPage DragAndDropFirstRoundToGrid()
         {
-            var target = GetElement(activeUnallocatedTask);
+            var target = GetElement(tabContainer);
             var source = GetAllElements(rounds)[0];
+            DragAndDrop(source, target);
+            return this;
+        }
+        public MasterRoundManagementPage DragAndDropSecondRoundToGrid()
+        {
+            var target = GetElement(tabContainer);
+            var source = GetAllElements(rounds)[1];
             DragAndDrop(source, target);
             return this;
         }
@@ -93,6 +125,26 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return temp;
         }
+        public TaskModel GetFirstTaskDetailsInActiveRoundTab()
+        {
+            TaskModel temp = new TaskModel();
+            IList<IWebElement> hds = WaitUtil.WaitForAllElementsPresent(roundTabHeaders);
+            for (int i = 0; i < hds.Count; i++)
+            {
+                if (hds[i].Text.Equals("Description", StringComparison.OrdinalIgnoreCase))
+                {
+                    IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstAllocatedTaskField);
+                    temp.Description = _firstResultFields[i].Text;
+                }
+                else if (hds[i].Text.Equals("Start Date", StringComparison.OrdinalIgnoreCase))
+                {
+                    IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstAllocatedTaskField);
+                    temp.StartDate = _firstResultFields[i].Text;
+                    break;
+                }
+            }
+            return temp;
+        }
         public MasterRoundManagementPage FilterRoundBy(string fieldName, string valueToInput)
         {
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsPresent(roundTabHeaders);
@@ -107,8 +159,9 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
-        public MasterRoundManagementPage VerifyTaskModel(TaskModel expected)
+        public MasterRoundManagementPage VerifyTaskModelDescriptionAndStartDate(TaskModel expected)
         {
+            //verify last task in grid
             ScrollDownInElement(slickViewport);
             TaskModel actual = new TaskModel();
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsPresent(roundTabHeaders);
@@ -131,6 +184,33 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             Assert.AreEqual(expected.Description, actual.Description);
             Assert.AreEqual(actual.StartDate.Contains(expected.StartDate),true);
+            return this;
+        }
+        public MasterRoundManagementPage VerifyTaskModelDescriptionAndEndDate(TaskModel expected)
+        {
+            //Verify first task in grid
+            //ScrollDownInElement(slickViewport);
+            TaskModel actual = new TaskModel();
+            IList<IWebElement> hds = WaitUtil.WaitForAllElementsPresent(roundTabHeaders);
+            for (int i = 0; i < hds.Count; i++)
+            {
+
+                if (hds[i].Text.Equals("Description", StringComparison.OrdinalIgnoreCase))
+                {
+                    IWebElement e = GetElement(String.Format(taskField, i.ToString()));
+                    actual.Description = e.Text;
+                    ScrollLeftt(slickViewport);
+                    continue;
+                }
+                else if (hds[i].Text.Equals("End Date", StringComparison.OrdinalIgnoreCase))
+                {
+                    IWebElement e = GetElement(String.Format(taskField, i.ToString()));
+                    actual.EndDate = e.Text;
+                    break;
+                }
+            }
+            Assert.AreEqual(expected.Description, actual.Description);
+            Assert.AreEqual(actual.EndDate.Contains(expected.EndDate), true);
             return this;
         }
     }
