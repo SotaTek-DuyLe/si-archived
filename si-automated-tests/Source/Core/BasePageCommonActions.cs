@@ -276,6 +276,24 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        public BasePageCommonActions VerifyElementContainCssAttributeValue(string xpath, string attribute, string expectedValue, bool checkContain = true)
+        {
+            VerifyElementContainCssAttributeValue(GetElement(xpath), attribute, expectedValue, checkContain);
+            return this;
+        }
+
+        public BasePageCommonActions VerifyElementContainCssAttributeValue(By xpath, string attribute, string expectedValue, bool checkContain = true)
+        {
+            VerifyElementContainCssAttributeValue(GetElement(xpath), attribute, expectedValue, checkContain);
+            return this;
+        }
+
+        public BasePageCommonActions VerifyElementContainCssAttributeValue(IWebElement webElement, string attribute, string expectedValue, bool checkContain = true)
+        {
+            Assert.IsTrue(checkContain ? webElement.GetCssValue(attribute).Contains(expectedValue) : !webElement.GetCssValue(attribute).Contains(expectedValue));
+            return this;
+        }
+
         public List<string> GetUlDisplayValues(string ulXpath)
         {
             return GetUlDisplayValues(GetElement(ulXpath));

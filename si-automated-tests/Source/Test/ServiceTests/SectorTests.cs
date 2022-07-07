@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Finders;
@@ -329,11 +330,22 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifySelectedValue(sectorPage.SelectSectorType, sectorType);
 
             //Details tab
+            //Verify that mandatory fields are highlighted in red and warning message is displayed
             sectorPage.SendKeys(sectorPage.InputSector, "");
+            sectorPage.SendKeys(sectorPage.InputSector, Keys.Enter);
+            sectorPage.VerifyElementContainCssAttributeValue(sectorPage.InputSector, "border-color", "rgb(169, 68, 66)");
             sectorPage.ClickOnElement(sectorPage.ButtonSave);
             sectorPage.WaitForLoadingIconToDisappear();
             sectorPage.VerifyToastMessage("Sector is required")
                 .WaitUntilToastMessageInvisible("Sector is required");
+            sectorPage.SendKeys(sectorPage.InputSector, sector);
+
+            sectorPage.SelectTextFromDropDown(sectorPage.SelectSectorType, "");
+            sectorPage.ClickOnElement(sectorPage.ButtonSave);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyToastMessage("SectorType is required")
+                .WaitUntilToastMessageInvisible("SectorType is required");
+            sectorPage.VerifyElementContainCssAttributeValue(sectorPage.SelectSectorType, "border-color", "rgb(169, 68, 66)");
         }
     }
 }
