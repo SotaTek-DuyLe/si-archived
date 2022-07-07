@@ -17,6 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By InputRescheduleDate = By.XPath("//div[@id='reschedule-modal']//input[@id='selectedRescheduleDate']");
         public readonly By ButtonCancel = By.XPath("//div[@id='reschedule-modal']//button[text()='Cancel']");
         public readonly By ButtonOk = By.XPath("//div[@id='reschedule-modal']//button[text()='OK']");
+        public readonly By ButtonReschedule = By.XPath("//button[text()='Reschedule']");
 
         public RescheduleModal IsRescheduleModelDisplayedCorrectly()
         {

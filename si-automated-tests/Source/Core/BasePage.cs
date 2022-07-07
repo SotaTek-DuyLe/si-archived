@@ -83,6 +83,12 @@ namespace si_automated_tests.Source.Core
             element.SendKeys(value);
         }
 
+        public void SendKeysWithoutClear(By by, string value)
+        {
+            IWebElement element = WaitUtil.WaitForElementVisible(by);
+            element.SendKeys(value);
+        }
+
         public void EditSendKeys(By by, string value)
         {
             IWebElement element = WaitUtil.WaitForElementClickable(by);

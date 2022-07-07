@@ -8,6 +8,7 @@ using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.ApplicationTests
@@ -35,15 +36,15 @@ namespace si_automated_tests.Source.Test.ApplicationTests
 
         [Category("RoundCalendarTests")]
         [Test(Description = "Verify that Round Calendar displays correctly")]
-        public void TC_135_Verify_that_Round_Calendar_displays_correctly()
+        public void TC_135_1_Verify_that_Round_Calendar_displays_correctly()
         {
             RoundCalendarPage roundCalendarPage = PageFactoryManager.Get<RoundCalendarPage>();
             roundCalendarPage.SelectTextFromDropDown(roundCalendarPage.SelectContact, "North Star");
             roundCalendarPage
                 .ClickInputService()
-                .SelectNode("North Star")
-                .SelectNode("Recycling")
-                .SelectNode("Domestic Recycling")
+                .SelectServiceNode("North Star")
+                .SelectServiceNode("Recycling")
+                .SelectServiceNode("Domestic Recycling")
                 .SelectTextFromDropDown(roundCalendarPage.SelectShiftGroup, "AM")
                 .ClickOnElement(roundCalendarPage.ButtonGo);
             roundCalendarPage.WaitForLoadingIconToDisappear();
@@ -112,6 +113,51 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             rescheduleModal
                 .IsRescheduleModelDisplayedCorrectly()
                 .SendKeys(rescheduleModal.InputRescheduleDate, scheduleDay.ToString("dd/MM/yyyy"));
+            rescheduleModal.ClickOnElement(rescheduleModal.ButtonOk);
+            rescheduleModal
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Selected Round Instance(s) have been rescheduled")
+                .WaitUntilToastMessageInvisible("Selected Round Instance(s) have been rescheduled");
+            roundCalendarPage.RoundInstanceHasGreenBackground(scheduleDay);
+        }
+
+        [Category("RoundCalendarTests")]
+        [Test(Description = "Verify that user can find a Round using 'Round Finder' option")]
+        public void TC_135_2_Verify_that_user_can_find_a_Round_using_Round_Finder_option()
+        {
+            RoundCalendarPage roundCalendarPage = PageFactoryManager.Get<RoundCalendarPage>();
+            roundCalendarPage.SelectTextFromDropDown(roundCalendarPage.SelectContact, "North Star Commercial");
+            roundCalendarPage
+                .ClickInputService()
+                .SelectServiceNode("North Star Commercial")
+                .SelectServiceNode("Collections")
+                .SelectServiceNode("Commercial Collections")
+                .SelectTextFromDropDown(roundCalendarPage.SelectShiftGroup, "AM")
+                .ClickOnElement(roundCalendarPage.ButtonGo);
+            roundCalendarPage.WaitForLoadingIconToDisappear();
+            roundCalendarPage.ClickOnElement(roundCalendarPage.ButtonMonth);
+            roundCalendarPage.WaitForLoadingIconToDisappear();
+            roundCalendarPage.ClickOnElement(roundCalendarPage.ButtonRoundFinder);
+            DateTime tomorrow = DateTime.Now.AddDays(1);
+            roundCalendarPage
+                .ClickInputRound()
+                .ExpandRoundNode("Commercial Collections")
+                .ExpandRoundNode("REC1-AM")
+                .SelectRoundNode(tomorrow.DayOfWeek.ToString())
+                .ClickButtonFind()
+                .VerifyToastMessage("Original date is required")
+                .WaitUntilToastMessageInvisible("Original date is required");
+            roundCalendarPage
+                .SendInputOriginDate(tomorrow.ToString("dd/MM/yyyy"));
+            roundCalendarPage.ClickButtonFind();
+            roundCalendarPage.WaitForLoadingIconToDisappear();
+            RescheduleModal rescheduleModal = PageFactoryManager.Get<RescheduleModal>();
+            rescheduleModal.ClickOnElement(rescheduleModal.ButtonReschedule);
+            DateTime scheduleDay = DateTime.Now.AddDays(2);
+            rescheduleModal
+                .SendKeys(rescheduleModal.InputRescheduleDate, scheduleDay.ToString("dd/MM/yyyy"));
+            rescheduleModal
+                .SendKeysWithoutClear(rescheduleModal.InputRescheduleDate, OpenQA.Selenium.Keys.Enter);
             rescheduleModal.ClickOnElement(rescheduleModal.ButtonOk);
             rescheduleModal
                 .WaitForLoadingIconToDisappear()

@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+
 namespace si_automated_tests.Source.Main.Pages.Applications
 {
     public class RoundCalendarPage : BasePageCommonActions
@@ -21,11 +23,21 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By ButtonMonth = By.XPath("//button[text()='Month']");
         public readonly By ButtonLegend = By.XPath("//button[@id='calendarLegend']");
         public readonly By ButtonSchedule = By.XPath("//a[@class='header-link pull-right' and text()=' Reschedule']");
+        public readonly By ButtonRoundFinder = By.XPath("//a[@id='round-finder']");
+        public readonly By ButtonFind = By.XPath("//button[text()='Find']");
+        public readonly By InputRound = By.XPath("//div[@id='services-finder']//input");
+        public readonly By InputOriginDate = By.XPath("//input[@id='date']");
 
         private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-1')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]");
         private TreeViewElement ServicesTreeView
         {
             get => _treeViewElement;
+        }
+
+        private TreeViewElement _searchRoundtreeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-2')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]", "./i[contains(@class, 'jstree-ocl')][1]");
+        private TreeViewElement SearchRoundTreeView
+        {
+            get => _searchRoundtreeViewElement;
         }
 
         public RoundCalendarPage ClickInputService()
@@ -35,9 +47,42 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
-        public RoundCalendarPage SelectNode(string nodeName)
+        public RoundCalendarPage ClickInputRound()
+        {
+            IWebElement element = this.driver.FindElements(InputRound).FirstOrDefault(x => x.Displayed);
+            element?.Click();
+            return this;
+        }
+
+        public RoundCalendarPage SendInputOriginDate(string value)
+        {
+            IWebElement element = this.driver.FindElements(InputOriginDate).FirstOrDefault(x => x.Displayed);
+            SendKeys(element, value);
+            return this;
+        }
+
+        public RoundCalendarPage ClickButtonFind()
+        {
+            IWebElement element = this.driver.FindElements(ButtonFind).FirstOrDefault(x => x.Displayed);
+            element?.Click();
+            return this;
+        }
+
+        public RoundCalendarPage SelectServiceNode(string nodeName)
         {
             ServicesTreeView.ClickItem(nodeName);
+            return this;
+        }
+
+        public RoundCalendarPage SelectRoundNode(string nodeName)
+        {
+            SearchRoundTreeView.ClickItem(nodeName);
+            return this;
+        }
+
+        public RoundCalendarPage ExpandRoundNode(string nodeName)
+        {
+            SearchRoundTreeView.ExpandNode(nodeName);
             return this;
         }
 
