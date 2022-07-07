@@ -17,7 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private readonly By titleDetail = By.XPath("//h4[text()='Point Address']");
         private readonly By pointAddressName = By.XPath("//span[@class='object-name']");
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
-
+        private readonly By allAservicesTab = By.CssSelector("a[aria-controls='allServices - tab']");
 
         //DETAILS TAB
         //private readonly By propertyName = By.Id("propertyName");
@@ -70,6 +70,11 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private const string nextChrirdRow = "//div[@class='services-grid--row'][{0}]//div[@class='child-row' and not(contains(@style,'display: none;'))]//div[@data-bind='text: $data.next']";
         private const string assetTypeChildRow = "//div[@class='services-grid--row'][{0}]//div[@class='child-row' and not(contains(@style,'display: none;'))]//div[@data-bind='$data']";
         private const string allocationChildRow = "//div[@class='services-grid--row'][{0}]//div[@class='child-row' and not(contains(@style,'display: none;'))]//span[contains(@data-bind, '$data.allocation')]";
+
+        //ACTION
+        private const string actionBtnAtRow = "//tr[{0}]//label[@id='btndropdown']";
+        private const string addServiceUnitBtnAtRow = "//tr[{0}]//button[contains(string(), 'Add Service Unit')]";
+        private const string findServiceUnitBtnAtRow = "//tr[{0}]//button[contains(string(), 'Find Service Unit')]";
 
         public List<ActiveSeviceModel> GetAllServiceWithServiceUnitModel()
         {
@@ -555,5 +560,34 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             Assert.AreEqual(_pointAddType, GetFirstSelectedItemInDropdown(pointAddressTypeSelect));
             return this;
         }
+
+        //Click on the [All Services] tab
+        public PointAddressDetailPage ClickOnAllServicesTab()
+        {
+            ClickOnElement(allAservicesTab);
+            return this;
+        }
+
+        //Click on any [Action]
+        public PointAddressDetailPage ClickOnAnyActionBtn(int index)
+        {
+            ClickOnElement(actionBtnAtRow, index.ToString());
+            return this;
+        }
+
+        //Click on any [Add Service Unit] btn
+        public PointAddressDetailPage ClickOnAnyAddServiceUnitBtn(int index)
+        {
+            ClickOnElement(addServiceUnitBtnAtRow, index.ToString());
+            return this;
+        }
+
+        //Click on any [Find Service Unit] btn
+        public PointAddressDetailPage ClickOnAnyFindServiceUnitBtn(int index)
+        {
+            ClickOnElement(findServiceUnitBtnAtRow, index.ToString());
+            return this;
+        }
     }
+}
 }

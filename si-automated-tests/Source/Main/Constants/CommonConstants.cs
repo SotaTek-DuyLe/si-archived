@@ -39,6 +39,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string UpdateEventTitle = "Update Event - Event";
         public static readonly string AddNoteEventTitle = "Add Note - Event";
         public static readonly string CancelEventTitle = "Cancel - Event";
+        public static readonly string[] ColumnInFindServiceUnitWindow = { "ID", "Service Unit", "Point Count", "Select" };
 
         //DATE
         public static readonly string DATE_DD_MM_YYYY_FORMAT = "dd/MM/yyyy";

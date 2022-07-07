@@ -503,6 +503,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             detailInspectionPage
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveInspectionSuccessMessage)
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
                 .VerifyStateInspection("Complete")

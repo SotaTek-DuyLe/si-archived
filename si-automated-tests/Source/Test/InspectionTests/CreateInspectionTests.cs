@@ -411,9 +411,9 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickAndSelectAssignedUser(assignedUserValue)
                 .InputNote(noteValue)
                 .ClickCreateBtn()
-                .VerifyToastMessage("Success")
+                //.VerifyToastMessage("Success")
             //    //Bug: not display link
-            //    //.VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage)
             //    .ClickOnSuccessLink()
             //    .SwitchToLastWindow();
             //PageFactoryManager.Get<DetailInspectionPage>()
