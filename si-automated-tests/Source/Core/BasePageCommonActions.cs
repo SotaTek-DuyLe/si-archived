@@ -191,6 +191,18 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        public BasePageCommonActions VerifySelectedValue(string selectXpath, string expectedValue)
+        {
+            Assert.IsTrue(GetFirstSelectedItemInDropdown(selectXpath) == expectedValue);
+            return this;
+        }
+
+        public BasePageCommonActions VerifySelectedValue(By selectXpath, string expectedValue)
+        {
+            Assert.IsTrue(GetFirstSelectedItemInDropdown(selectXpath) == expectedValue);
+            return this;
+        }
+
         public BasePageCommonActions VerifySelectContainDisplayValue(By selectXpath, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ?
