@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using System;
@@ -23,5 +24,16 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By TitleSectorType = By.XPath("//div[@class='headers-container']//h4");
         public readonly By TitleSectorName = By.XPath("//div[@class='headers-container']//h5");
         public readonly By SectorId = By.XPath("//h4[@class='id']");
+
+        public SectorPage VerifyBorderColorIsRed(By element)
+        {
+            string rgb = GetCssValue(element, "border-color");
+            string[] colorsOnly = rgb.Replace("rgb", "").Replace("(", "").Replace(")", "").Split(',');
+            int R = colorsOnly[0].AsInteger();
+            int G = colorsOnly[1].AsInteger();
+            int B = colorsOnly[2].AsInteger();
+            Assert.IsTrue(R > 100 && R > G * 2 && R > B * 2);
+            return this;
+        }
     }
 }

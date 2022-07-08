@@ -230,6 +230,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
         [Test(Description = "Verify that a new sector form is opened ")]
         public void TC_129_Verify_that_a_new_sector_form_is_opened()
         {
+            PageFactoryManager.Get<NavigationBase>()
+                   .OpenOption("Richmond Commercial");
             SectorPage sectorPage = PageFactoryManager.Get<SectorPage>();
             sectorPage.WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
@@ -250,9 +252,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyElementVisibility(sectorPage.ButtonRefresh, true)
                 .VerifyElementVisibility(sectorPage.ButtonHistory, true)
                 .VerifyElementVisibility(sectorPage.ButtonHelp, true);
-
-            //Test the buttons functionality
             sectorPage.VerifyElementEnable(sectorPage.ButtonSave, false);
+            //Test the buttons functionality
+            sectorPage.ClickOnElement(sectorPage.DetailTab);
+            sectorPage.WaitForLoadingIconToDisappear();
             string sector = "Richmond Commercial123";
             sectorPage.SendKeys(sectorPage.InputSector, sector);
             sectorPage.ClickOnElement(sectorPage.ButtonSave);
@@ -278,7 +281,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             sectorPage.VerifyElementText(sectorPage.TitleSectorName, sectorPage.GetInputValue(sectorPage.InputSector))
                 .VerifyElementVisibility(sectorPage.SectorId, true)
                 .VerifyElementVisibility(sectorPage.IconSector, true)
-                .VerifyElementText(sectorPage.TitleSectorType, "Sector - " + sectorPage.GetFirstSelectedItemInDropdown(sectorPage.SelectSectorType));
+                .VerifyElementText(sectorPage.TitleSectorType, "Sector - " + sectorPage.GetFirstSelectedItemInDropdown(sectorPage.SelectSectorType), toLowerCase: true);
 
             //Verify  that a last tab selected is remembered for the user
             sectorPage.ClickOnElement(sectorPage.MapTab);
@@ -288,7 +291,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Regions")
                 .ExpandOption("London")
                 .ExpandOption("North Star Commercial")
-                .ExpandOption("Richmond Commercial")
+                .OpenOption("Richmond Commercial")
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             sectorPage.VerifyElementVisibility(sectorPage.DivMap, true);
@@ -300,7 +303,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Regions")
                 .ExpandOption("London")
                 .ExpandOption("North Star Commercial")
-                .ExpandOption("Richmond Commercial")
+                .OpenOption("Richmond Commercial")
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             sectorPage.VerifyElementVisibility(sectorPage.InputSector, true)
@@ -309,7 +312,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyElementVisibility(sectorPage.SelectParentSector, true);
 
             //can update
-            sector = "Richmond Commercial12";
+            sector = "Richmond Commercial";
             string contract = "North Star";
             string parentSector = "Hampton Tip (West)";
             string sectorType = "Ward";
@@ -333,7 +336,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             //Verify that mandatory fields are highlighted in red and warning message is displayed
             sectorPage.SendKeys(sectorPage.InputSector, "");
             sectorPage.SendKeys(sectorPage.InputSector, Keys.Enter);
-            sectorPage.VerifyElementContainCssAttributeValue(sectorPage.InputSector, "border-color", "rgb(169, 68, 66)");
+            sectorPage.SleepTimeInMiliseconds(200);
+            sectorPage.VerifyBorderColorIsRed(sectorPage.InputSector);
             sectorPage.ClickOnElement(sectorPage.ButtonSave);
             sectorPage.WaitForLoadingIconToDisappear();
             sectorPage.VerifyToastMessage("Sector is required")
@@ -345,7 +349,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             sectorPage.WaitForLoadingIconToDisappear();
             sectorPage.VerifyToastMessage("SectorType is required")
                 .WaitUntilToastMessageInvisible("SectorType is required");
-            sectorPage.VerifyElementContainCssAttributeValue(sectorPage.SelectSectorType, "border-color", "rgb(169, 68, 66)");
+            sectorPage.SleepTimeInMiliseconds(200);
+            sectorPage.VerifyBorderColorIsRed(sectorPage.SelectSectorType);
         }
     }
 }
