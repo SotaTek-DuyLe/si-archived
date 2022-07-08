@@ -20,6 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         private readonly By ewc = By.XPath("//select[@id='product' and contains(@data-bind,'productCodes')]");
         private readonly By productQuantity = By.Id("product-quantity");
         private readonly By totalProductQuantity = By.Id("total-product-quantity");
+        private readonly By unitSelect = By.Id("unit");
         private readonly By doneBtn = By.XPath("//button[text()='Done']");
         private readonly By summaryText = By.XPath("//span[@data-bind='text: description']");
         private readonly By assetOnSiteCheckBox = By.Id("asset-on-site");
@@ -123,6 +124,11 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         public AssetAndProducTab InputAssetOnSiteNum(int value)
         {
             SendKeys(numberOfAssetOnSite, value.ToString());
+            return this;
+        }
+        public AssetAndProducTab SelectKiloGramAsUnit()
+        {
+            SelectTextFromDropDown(unitSelect, "Kilograms");
             return this;
         }
         public AssetAndProducTab ClickDoneBtn()

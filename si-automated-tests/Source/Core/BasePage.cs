@@ -590,13 +590,21 @@ namespace si_automated_tests.Source.Core
         }
         public BasePage WaitForLoadingIconToDisappear(bool implicitSleep = true)
         {
-            if(implicitSleep) Thread.Sleep(750);
-            WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
-            WaitUtil.WaitForAllElementsInvisible60("//div[@id='loading-shield']");
-            WaitUtil.WaitForAllElementsInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
-            WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'loadingDefinition')]");
-            WaitUtil.WaitForAllElementsInvisible60("//div[@class='ui-widget-overlay shield' and contains(@data-bind,'shield: $root.isLoading')]");
-            WaitUtil.WaitForPageLoaded();
+            try
+            {
+                if (implicitSleep) Thread.Sleep(750);
+                WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
+                WaitUtil.WaitForAllElementsInvisible60("//div[@id='loading-shield']");
+                WaitUtil.WaitForAllElementsInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
+                WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'loadingDefinition')]");
+                WaitUtil.WaitForAllElementsInvisible60("//div[@class='ui-widget-overlay shield' and contains(@data-bind,'shield: $root.isLoading')]");
+                WaitUtil.WaitForPageLoaded();
+            }
+            catch (WebDriverTimeoutException)
+            {
+                Assert.Fail("Loading icon doesn't disappear after 60 seconds");
+            }
+            
             return this;
         }
 
