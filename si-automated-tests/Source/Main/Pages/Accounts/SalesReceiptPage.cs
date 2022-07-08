@@ -31,8 +31,12 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             Thread.Sleep(200);
             IWebElement input = GetElement(inputPartyName);
-            string borderColor = input.GetCssValue("border-color");
-            Assert.AreEqual("rgb(169, 68, 66)", borderColor);
+            string rgb = input.GetCssValue("border-color");
+            string[] colorsOnly = rgb.Replace("rgb", "").Replace("(", "").Replace(")", "").Split(',');
+            int R = colorsOnly[0].AsInteger();
+            int G = colorsOnly[1].AsInteger();
+            int B = colorsOnly[2].AsInteger();
+            Assert.IsTrue(R > 100 && R > G * 2 && R > B * 2);
             return this;
         }
 
