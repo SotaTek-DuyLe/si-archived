@@ -2,15 +2,11 @@
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
-using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Search.PointAreas;
 using si_automated_tests.Source.Main.Pages.Search.PointNodes;
 using si_automated_tests.Source.Main.Pages.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.ServiceTests
@@ -345,12 +341,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
             sectorPage.SendKeys(sectorPage.InputSector, sector);
 
             sectorPage.SelectTextFromDropDown(sectorPage.SelectSectorType, "");
+            sectorPage.ClickOnElement(sectorPage.InputSector);
+            sectorPage.SleepTimeInMiliseconds(200);
+            sectorPage.VerifyBorderColorIsRed(sectorPage.SelectSectorType);
             sectorPage.ClickOnElement(sectorPage.ButtonSave);
             sectorPage.WaitForLoadingIconToDisappear();
             sectorPage.VerifyToastMessage("SectorType is required")
                 .WaitUntilToastMessageInvisible("SectorType is required");
-            sectorPage.SleepTimeInMiliseconds(200);
-            sectorPage.VerifyBorderColorIsRed(sectorPage.SelectSectorType);
         }
     }
 }
