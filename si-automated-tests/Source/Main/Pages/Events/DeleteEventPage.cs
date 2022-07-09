@@ -8,7 +8,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
     public class DeleteEventPage : BasePage
     {
         private readonly By title = By.XPath("//h4[text()='Warning']");
-        private readonly By content = By.XPath("//div[text()='Do you wish to remove this event? ']");
+        private readonly By content = By.XPath("//div[text()='Are you sure you want to delete this Event?']");
         private readonly By yesBtn = By.CssSelector("button[data-bb-handler='Confirm']");
         private readonly By noBtn = By.CssSelector("button[data-bb-handler='Cancel']");
         private readonly By closeBtn = By.XPath("//button[text()='×']");

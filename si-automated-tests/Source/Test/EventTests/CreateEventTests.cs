@@ -25,6 +25,7 @@ namespace si_automated_tests.Source.Test.EventTests
     [TestFixture]
     public class CreateEventTests : BaseTest
     {
+        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Test(Description = "Creating event from point address with service unit")]
         public void TC_094_Create_event_from_point_address_with_service_unit()
@@ -94,7 +95,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetPointAddressName();
             //Get all data in [Active Services] with Service unit
             List<ActiveSeviceModel> allAServicesWithServiceUnit = pointAddressDetailPage
-                .GetAllActiveService483995();
+                .GetAllServiceWithServiceUnitModel();
             List<ActiveSeviceModel> allServices = pointAddressDetailPage
                 .GetAllServiceInTab();
             //Get all data in [Active Services] without Service unit
@@ -195,7 +196,7 @@ namespace si_automated_tests.Source.Test.EventTests
             eventDetailPage
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
                 .ExpandDetailToggle()
-                //Verify Source in Detail toggle
+                //Step 21: Verify Source in Detail toggle => Bug, cannot click on [Source] field
                 .ClickOnSourceInputInDetailToggle()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
@@ -217,6 +218,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseBtn();
         }
 
+        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Test(Description = "Creating event from point address without service unit")]
         public void TC_094_Create_event_from_point_address_without_service_unit()
@@ -355,7 +357,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VeriryDisplayPopupLinkEventToServiceUnit("Richmond")
                 .ClickCloseEventPopupBtn()
                 .ExpandDetailToggle()
-                //Verify Source in Detail toggle
+                //Verify Source in Detail toggle => cannot click source input
                 .ClickOnSourceInputInDetailToggle()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
@@ -366,6 +368,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .SwitchToChildWindow(3);
         }
 
+        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Test(Description = "Creating event from point segment with service unit")]
         public void TC_096_Create_event_from_point_segment_with_service_unit()
@@ -438,7 +441,7 @@ namespace si_automated_tests.Source.Test.EventTests
             string locationValue = pointSegmentDetailPage
                 .GetPointSegmentName();
             List<ActiveSeviceModel> activeSeviceModelsDisplayed = pointSegmentDetailPage
-                .GetAllActiveServiceInTab();
+                .GetAllActiveServiceInTab32839();
             //Verify Active service displayed with SPs
             pointSegmentDetailPage
                 .VerifyActiveServiceDisplayedWithDB(activeSeviceModelsDisplayed, serviceForPoint);
@@ -474,7 +477,7 @@ namespace si_automated_tests.Source.Test.EventTests
             eventDetailPage
                 .VerifyNotDisplayErrorMessage();
             List<ActiveSeviceModel> activeSeviceModelsFullInfoSubTab = eventDetailPage
-                .GetAllActiveServiceInTabFullInfo();
+                .GetAllActiveServiceInTabFullInfo32839();
 
             eventDetailPage
                 .VerifyDataInServiceSubTab(activeSeviceModelsDisplayed, activeSeviceModelsFullInfoSubTab)
@@ -522,7 +525,7 @@ namespace si_automated_tests.Source.Test.EventTests
             eventDetailPage
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
                 .ExpandDetailToggle()
-                //Verify Source in Detail toggle
+                //Verify Source in Detail toggle => Bug: Cannot Click [Source] input
                 .ClickOnSourceInputInDetailToggle()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
@@ -544,6 +547,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseBtn();
         }
 
+        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Test(Description = "Creating event from point segment without service unit")]
         public void TC_096_Create_event_from_point_segment_without_service_unit()
@@ -689,7 +693,7 @@ namespace si_automated_tests.Source.Test.EventTests
             eventDetailPage
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
                 .ExpandDetailToggle()
-                //Verify Source in Detail toggle
+                //Verify Source in Detail toggle => Bug: Cannot click on Source input
                 .ClickOnSourceInputInDetailToggle()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
@@ -705,6 +709,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseEventPopupBtn();
         }
 
+        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Test(Description = "Creating event from point node with service unit")]
         public void TC_097_Create_event_from_point_node_with_service_unit()
@@ -857,7 +862,7 @@ namespace si_automated_tests.Source.Test.EventTests
             eventDetailPage
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
                 .ExpandDetailToggle()
-                //Verify Source in Detail toggle
+                //Verify Source in Detail toggle => Bug Cannot click Source Input
                 .ClickOnSourceInputInDetailToggle()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
@@ -879,6 +884,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseBtn();
         }
 
+        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Test(Description = "Creating event from point area with service unit")]
         public void TC_098_Create_event_from_point_area_with_service_unit()
@@ -1032,7 +1038,7 @@ namespace si_automated_tests.Source.Test.EventTests
             eventDetailPage
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
                 .ExpandDetailToggle()
-                //Verify Source in Detail toggle
+                //Verify Source in Detail toggle => Bug: Cannot click Source Input
                 .ClickOnSourceInputInDetailToggle()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
@@ -1054,6 +1060,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseBtn();
         }
 
+        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Test(Description = "Creating event from event with service unit")]
         public void TC_105_Create_event_from_event_with_service_unit()
@@ -1214,7 +1221,7 @@ namespace si_automated_tests.Source.Test.EventTests
             eventDetailPage
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
                 .ExpandDetailToggle()
-                //Verify Source in Detail toggle
+                //Verify Source in Detail toggle => Bug: Cannot Click on Source input
                 .ClickOnSourceInputInDetailToggle()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
@@ -1236,6 +1243,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseBtn();
         }
 
+        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Test(Description = "Creating event from event without service unit")]
         public void TC_105_Create_event_from_event_without_service_unit()
@@ -1403,7 +1411,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VeriryDisplayPopupLinkEventToServiceUnit("Richmond")
                 .ClickCloseEventPopupBtn()
                 .ExpandDetailToggle()
-                //Verify Source in Detail toggle
+                //Verify Source in Detail toggle => Bug: Cannot Click on [Source input]
                 .ClickOnSourceInputInDetailToggle()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();

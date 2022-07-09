@@ -48,6 +48,18 @@ namespace si_automated_tests.Source.Main.Models
             this.allocationService = allocationValue;
         }
 
+        public ActiveSeviceModel(string serviceUnitValue, string serviceValue, string scheduleValue, string lastValue, string nextValue, string assetTypeValue, string allocationValue, List<ChildSchedule> listChildSchedule)
+        {
+            this.serviceUnit = serviceUnitValue;
+            this.service = serviceValue;
+            this.schedule = scheduleValue;
+            this.lastService = lastValue;
+            this.nextService = nextValue;
+            this.assetTypeService = assetTypeValue;
+            this.allocationService = allocationValue;
+            this.listChildSchedule = listChildSchedule;
+        }
+
         public ActiveSeviceModel(string serviceUnitValue, string serviceValue, string scheduleValue, string lastValue, string nextValue, string assetTypeValue, string allocationValue, string locator, string nextReScheduled)
         {
             this.serviceUnit = serviceUnitValue;
@@ -90,6 +102,14 @@ namespace si_automated_tests.Source.Main.Models
                 this.allocationRound = allocationChildValue;
             }
 
+            public ChildSchedule(string scheludeChild, string lastChild, string nextChild, string allocationChild)
+            {
+                this.scheduleRound = scheludeChild;
+                this.lastRound = lastChild;
+                this.nextRound = nextChild;
+                this.allocationRound = allocationChild;
+            }
+
             public string round { get; set; }
             public string stateRound { get; set; }
             public string lastRound { get; set; }
@@ -99,6 +119,7 @@ namespace si_automated_tests.Source.Main.Models
             public string timeBandRound { get; set; }
             public string assuredTaskRound { get; set; }
             public string clientRefRound { get; set; }
+            public string scheduleRound { get; set; }
         }
     }
 }

@@ -170,7 +170,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             string currentUrl = GetCurrentUrl();
             Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "web/service-units/" + serviceUnitId);
             ClickCloseBtn();
-            SwitchToChildWindow(3);
             return this;
         }
 
