@@ -10,6 +10,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string CorrespondenceAddressRequiredMessage = "Correspondence Address is required";
         public static readonly string FieldStreetGradeRequiredMessage = "Field Street Grade is required";
         public static readonly string ResourceRequiredMessage = "Resource is required";
+        public static readonly string MissingTimezoneMessage = "Time Zone is required";
 
         //WARNING MESSAGES
         public static readonly string LocationRestrictWarningMessage = "Default location must be selected as a restricted location.";

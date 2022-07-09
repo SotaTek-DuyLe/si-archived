@@ -46,5 +46,11 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from objectnotices where echotypeID=" + echoTypeId + " and objectnoticeid=" + id;
             return FindList<ObjectNoticeModel>(query).Count != 0;
         }
+
+        public List<InspectionDBModel> GetInspectionById(int inspectionId)
+        {
+            string query = "select * from inspections where inspectionID=" + inspectionId + ";";
+            return FindList<InspectionDBModel>(query);
+        }
     }
 }

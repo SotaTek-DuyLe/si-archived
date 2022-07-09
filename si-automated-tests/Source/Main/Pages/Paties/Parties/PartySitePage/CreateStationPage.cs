@@ -15,7 +15,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private readonly By prefixInput = By.CssSelector("input#station-prefix");
         private readonly By partyInput = By.CssSelector("input#station-party");
         private readonly By pinInput = By.CssSelector("input#station-pin");
-        private readonly By timeZoneTitle = By.XPath("//label[text()='Timezone']");
+        private readonly By timeZoneTitle = By.XPath("//label[text()='Time Zone']");
         private readonly By timeZoneDd = By.CssSelector("select#time-zone");
         private readonly By allowAddNewVehicleCheckbox = By.XPath("//label[text()='Allow Add New Vehicle']/following-sibling::div/input");
         private readonly By allowAddNewCustomerCheckbox = By.XPath("//label[text()='Allow Add New Customer']/following-sibling::div/input");
@@ -23,7 +23,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private readonly By allowStotedTareCheckbox = By.CssSelector("input#allowStoredTare");
         private readonly By useAssetTypeCheckbox = By.CssSelector("input#useAssetType");
         private readonly By tarePromtDayInput = By.CssSelector("input#tarePromptDays");
-        private readonly By errorMesRequiredTimeZone = By.XPath("//div[text()='[MISSING TRANSLATION Field_TimeZone] is required']/parent::div");
 
         //DYNAMIC
         private const string title = "//h4[text()='{0}']";
@@ -72,9 +71,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
 
         public CreateStationPage VerifyDisplayErrorMesMissingTimezone()
         {
-            Assert.IsTrue(IsControlDisplayed(errorMesRequiredTimeZone));
+            VerifyDisplayToastMessage(MessageRequiredFieldConstants.MissingTimezoneMessage);
             //Verify color
-            Assert.AreEqual(GetCssValue(errorMesRequiredTimeZone, "color"), "rgba(159, 139, 64, 1)");
+            //Assert.AreEqual(GetCssValue(errorMesRequiredTimeZone, "color"), "rgba(159, 139, 64, 1)");
             return this;
         }
 

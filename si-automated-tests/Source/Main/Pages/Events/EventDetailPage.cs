@@ -10,6 +10,7 @@ using si_automated_tests.Source.Main.DBModels.GetPointHistory;
 using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.PointAddress;
+using static si_automated_tests.Source.Main.Models.ActiveSeviceModel;
 
 namespace si_automated_tests.Source.Main.Pages.Events
 {
@@ -57,11 +58,17 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By emailInput = By.CssSelector("input[type='email']");
         private readonly By allActiveServiceRows = By.XPath("//span[@title='Open Service Task' or @title='0']");
         private const string allserviceUnitDynamic = "//div[@class='parent-row'][{0}]//span[@title='Open Service Task' or @title='0']";
-        private readonly By schedule = By.CssSelector("div.parent-row div[data-bind='text: $data']");
+        private readonly By schedule = By.XPath("//div[@data-bind=\"template: { name: 'service-grid-schedule' }\"]");
         private readonly By last = By.CssSelector("div.parent-row span[data-bind='text: ew.formatDateForUser($data.lastDate)']");
         private readonly By next = By.CssSelector("div.parent-row span[data-bind='text: ew.formatDateForUser($data.nextDate)']");
         private readonly By assetType = By.CssSelector("div.parent-row div[data-bind='foreach: $data.asset']");
         private readonly By allocation = By.XPath("//div[@class='parent-row']//span[contains(@data-bind, 'text: $parents[0].getParentAllocationText($data)')]");
+
+        //CHRILD
+        private readonly By scheduleChildRow = By.XPath("//div[@class='services-grid--root']/div[@class='services-grid--row']//div[@class='child-row' and not(contains(@style, 'display: none'))]//div[@data-bind='text: $data']");
+        private readonly By lastChildRow = By.XPath("//div[@class='services-grid--root']/div[@class='services-grid--row']//div[@class='child-row' and not(contains(@style, 'display: none'))]//span[@data-bind='text: ew.formatDateForUser($data.lastDate)']");
+        private readonly By nextChildRow = By.XPath("//div[@class='services-grid--root']/div[@class='services-grid--row']//div[@class='child-row' and not(contains(@style, 'display: none'))]//div[@data-bind='text: $data.next']");
+        private readonly By allocationChildRow = By.XPath("//div[@class='services-grid--root']/div[@class='services-grid--row']//div[@class='child-row' and not(contains(@style, 'display: none'))]//span[contains(@data-bind,'text: $data.allocation')]");
 
         //MAP TAB
         private readonly By typeInMapTab = By.CssSelector("td[data-bind='text: pointType']");
@@ -199,7 +206,32 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return activeSeviceModels;
         }
 
-
+        public List<ActiveSeviceModel> GetAllActiveServiceInTabFullInfo32839()
+        {
+            List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
+            List<IWebElement> allRow = GetAllElements(allActiveServiceRow);
+            for (int i = 0; i < allRow.Count; i++)
+            {
+                string serviceUnitValue = GetElementText(serviceUnitDynamic, (i + 1).ToString());
+                string serviceValue = GetElementText(serviceWithServiceUnitDynamic, (i+1).ToString());
+                string scheduleValue = GetElementText(GetAllElements(schedule)[i]);
+                string lastValue = GetElementText(GetAllElements(last)[i]);
+                string nextValue = GetElementText(GetAllElements(next)[i]);
+                string assetTypeValue = GetElementText(GetAllElements(assetType)[i]);
+                string allocationValue = GetElementText(GetAllElements(allocation)[i]);
+                List<ChildSchedule> listSchedule = new List<ChildSchedule>();
+                if (i == 1)
+                {
+                    string scheludeChild = GetElementText(scheduleChildRow);
+                    string lastChild = GetElementText(lastChildRow);
+                    string nextChild = GetElementText(nextChildRow);
+                    string allocationChild = GetElementText(allocationChildRow);
+                    listSchedule.Add(new ChildSchedule(scheludeChild, lastChild, nextChild, allocationChild));
+                }
+                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue, listSchedule));
+            }
+            return activeSeviceModels;
+        }
 
 
         public EventDetailPage VerifyActiveServiceDisplayedWithDB(List<ActiveSeviceModel> activeSeviceModelsDisplayed, List<ServiceForPointDBModel> serviceForPointDB, List<ServiceTaskForPointDBModel> serviceTaskForPointDBModels)
