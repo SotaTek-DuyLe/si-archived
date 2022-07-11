@@ -191,6 +191,18 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        public BasePageCommonActions VerifySelectedValue(string selectXpath, string expectedValue)
+        {
+            Assert.IsTrue(GetFirstSelectedItemInDropdown(selectXpath) == expectedValue);
+            return this;
+        }
+
+        public BasePageCommonActions VerifySelectedValue(By selectXpath, string expectedValue)
+        {
+            Assert.IsTrue(GetFirstSelectedItemInDropdown(selectXpath) == expectedValue);
+            return this;
+        }
+
         public BasePageCommonActions VerifySelectContainDisplayValue(By selectXpath, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ?
@@ -261,6 +273,24 @@ namespace si_automated_tests.Source.Core
         public BasePageCommonActions VerifyElementContainAttributeValue(IWebElement webElement, string attribute, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ? webElement.GetAttribute(attribute).Contains(expectedValue) : !webElement.GetAttribute(attribute).Contains(expectedValue));
+            return this;
+        }
+
+        public BasePageCommonActions VerifyElementContainCssAttributeValue(string xpath, string attribute, string expectedValue, bool checkContain = true)
+        {
+            VerifyElementContainCssAttributeValue(GetElement(xpath), attribute, expectedValue, checkContain);
+            return this;
+        }
+
+        public BasePageCommonActions VerifyElementContainCssAttributeValue(By xpath, string attribute, string expectedValue, bool checkContain = true)
+        {
+            VerifyElementContainCssAttributeValue(GetElement(xpath), attribute, expectedValue, checkContain);
+            return this;
+        }
+
+        public BasePageCommonActions VerifyElementContainCssAttributeValue(IWebElement webElement, string attribute, string expectedValue, bool checkContain = true)
+        {
+            Assert.IsTrue(checkContain ? webElement.GetCssValue(attribute).Contains(expectedValue) : !webElement.GetCssValue(attribute).Contains(expectedValue));
             return this;
         }
 
