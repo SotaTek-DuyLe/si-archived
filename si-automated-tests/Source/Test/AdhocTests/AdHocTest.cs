@@ -117,6 +117,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
                 .ChooseProduct(product)
                 .ChooseEwcCode("150106")
                 .InputProductQuantity(productQty)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .ClickNext();
             PageFactoryManager.Get<ScheduleServiceTab>()

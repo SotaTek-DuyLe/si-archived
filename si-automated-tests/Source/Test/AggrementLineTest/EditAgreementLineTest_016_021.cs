@@ -245,6 +245,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ChooseProduct("General Recycling")
                 .ChooseEwcCode("150106")
                 .InputProductQuantity(600)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .ClickNext();
             PageFactoryManager.Get<ScheduleServiceTab>()
@@ -450,7 +451,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             List<MobilizationModel> allAdhoc = PageFactoryManager.Get<DetailTab>()
                 .GetAllInfoAdhoc();
             PageFactoryManager.Get<DetailTab>()
-                .VerifyAdhocInfo(allAdhoc, adhocListInput);
+                .VerifyAdhocInfo(allAdhoc, adhoc, 3);
 
             //Go to task tab and verify 
             PageFactoryManager.Get<PartyAgreementPage>()
@@ -470,7 +471,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .ClickToTaskLinesTab()
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                    .VerifyTaskLine1("Remove", "660L", "1", "General Recycling", "600", "Kilograms", "Unallocated")
+                    .VerifyTaskLine("Remove", "660L", "1", "General Recycling", "600", "Kilograms", "Unallocated")
                     .ClickCloseWithoutSaving()
                     .SwitchToChildWindow(3);
             }
@@ -586,6 +587,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ChooseProduct("Paper & Cardboard")
                 .ChooseEwcCode("150101")
                 .InputProductQuantity(100)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .ClickNext();
             PageFactoryManager.Get<ScheduleServiceTab>()
@@ -646,7 +648,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             List<MobilizationModel> allAdhoc = PageFactoryManager.Get<DetailTab>()
                 .GetAllInfoAdhoc();
             PageFactoryManager.Get<DetailTab>()
-                .VerifyAdhocInfo(allAdhoc, adhoc, 2);
+                .VerifyAdhocInfo(allAdhoc, adhoc, 3);
 
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickTaskTabBtn()
@@ -665,7 +667,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .ClickToTaskLinesTab()
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                    .VerifyTaskLine1("Remove", "660L", "1", "General Refuse", "60", "Kilograms", "Unallocated")
+                    .VerifyTaskLine("Remove", "660L", "1", "General Refuse", "60", "Kilograms", "Unallocated")
                     .ClickCloseWithoutSaving()
                     .SwitchToChildWindow(2);
             }
@@ -849,6 +851,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ChooseTenure("Owned")
                 .ChooseProduct("Wood")
                 .InputProductQuantity(3)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .VerifySummaryOfStep("1 x Mini (1.53m3)(Owned), 3kg Wood")
                 .ClickNext();
