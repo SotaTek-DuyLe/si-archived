@@ -69,7 +69,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<LinesTab>()
                 .IsOnLinesTab()
-                .VerifyLineInfo(partyName, product, product, quantity, price)
+                .VerifyLineInfo(partyName, product, product + " {AssetType.LedgerCode},", quantity, price)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();

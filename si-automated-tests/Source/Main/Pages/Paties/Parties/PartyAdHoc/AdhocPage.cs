@@ -34,7 +34,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
                 adhocModel.Service = cells.Count > i + 2 ? GetElementText(cells[i + 2]) : "";
                 adhocModel.TaskType = cells.Count > i + 3 ? GetElementText(cells[i + 3]) : "";
                 adhocModel.TaskLines = cells.Count > i + 4 ? GetElementText(cells[i + 4]) : "";
-                adhocModel.CreateAdHocBtn = cells.Count > i + 5 ? cells[i + 5].FindElement(By.XPath("//button[text()='Create Ad-hoc Task']")) : null;
+                adhocModel.CreateAdHocBtn = cells.Count > i + 5 ? cells[i + 5].FindElement(By.XPath("//button[text()='Create Ad-Hoc Task']")) : null;
                 adhocs.Add(adhocModel);
             }
             return adhocs;
