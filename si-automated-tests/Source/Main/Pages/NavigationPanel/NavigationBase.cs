@@ -18,6 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
         private readonly string dropdownOption = "//span[text()='{0}']/parent::a/preceding-sibling::span[2]";
         private readonly string dropdownOptionLast = "(//span[text()='{0}']/parent::a/preceding-sibling::span[2])[last()]";
         private readonly string option = "//span[text()='{0}']/parent::a";
+        private readonly string optionLast = "(//span[text()='{0}']/parent::a)[last()]";
 
         public NavigationBase()
         {
@@ -54,6 +55,14 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
         {
             Thread.Sleep(500);
             ClickOnElement(String.Format(option, optionName));
+            AcceptAlertIfAny();
+            ExitNavigation();
+            return this;
+        }
+        public NavigationBase OpenLastOption(string optionName)
+        {
+            Thread.Sleep(500);
+            ClickOnElement(String.Format(optionLast, optionName));
             AcceptAlertIfAny();
             ExitNavigation();
             return this;

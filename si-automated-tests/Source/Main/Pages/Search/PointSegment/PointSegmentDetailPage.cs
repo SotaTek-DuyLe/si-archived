@@ -7,6 +7,7 @@ using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Events;
+using static si_automated_tests.Source.Main.Models.ActiveSeviceModel;
 
 namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
 {
@@ -37,22 +38,56 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
 
         //ALL SERVICES TAB
         private readonly By activeServicesTab = By.CssSelector("a[aria-controls='activeServices-tab']");
-        private readonly By allActiveServiceRow = By.CssSelector("div.parent-row");
-        private readonly By serviceUnit = By.XPath("//div[@class='parent-row']//div[@title='Open Service Unit']");
         private readonly By serviceWithoutServiceUnit = By.XPath("//div[@class='parent-row']//span[@title='0']");
-        private readonly By service = By.XPath("//div[@class='parent-row']//span[@title='Open Service Task']");
-        private readonly By schedule = By.CssSelector("div.parent-row div[data-bind='text: $data']");
-        private readonly By last = By.CssSelector("div.parent-row span[data-bind='text: ew.formatDateForUser($data.lastDate)']");
-        private readonly By next = By.CssSelector("div.parent-row span[data-bind='text: ew.formatDateForUser($data.nextDate)']");
-        private readonly By assetType = By.CssSelector("div.parent-row div[data-bind='foreach: $data.asset']");
-        private readonly By allocation = By.XPath("//div[@class='parent-row']//span[contains(@data-bind, 'text: $parents[0].getParentAllocationText($data)')]");
-        private const string eventDynamicLocator = "//div[@class='parent-row'][{0}]//div[text()='Event']";
-        private const string eventOptions = "//div[@id='create-event-dropdown']//li[text()='{0}']";
+
+        private readonly By allActiveServiceParentRow = By.CssSelector("div.parent-row");
+        private readonly By serviceUnitParent = By.XPath("//div[@class='parent-row']//div[@title='Open Service Unit']");
+        private readonly By serviceParent = By.XPath("//div[@class='parent-row']//span[@title='Open Service Task']");
+        private readonly By scheduleParent = By.XPath("//div[@data-bind=\"template: { name: 'service-grid-schedule' }\"]");
+        private readonly By lastParent = By.CssSelector("div.parent-row span[data-bind='text: ew.formatDateForUser($data.lastDate)']");
+        private readonly By nextPrent = By.CssSelector("div.parent-row span[data-bind='text: ew.formatDateForUser($data.nextDate)']");
+        private readonly By assetTypeParent = By.CssSelector("div.parent-row div[data-bind='foreach: $data.asset']");
+        private readonly By allocationParent = By.XPath("//div[@class='parent-row']//span[contains(@data-bind, 'text: $parents[0].getParentAllocationText($data)')]");
+        //CHRILD
+        private readonly By scheduleChildRow = By.XPath("//div[@class='services-grid--root']/div[@class='services-grid--row']//div[@class='child-row' and not(contains(@style, 'display: none'))]//div[@data-bind='text: $data']");
+        private readonly By lastChildRow = By.XPath("//div[@class='services-grid--root']/div[@class='services-grid--row']//div[@class='child-row' and not(contains(@style, 'display: none'))]//span[@data-bind='text: ew.formatDateForUser($data.lastDate)']");
+        private readonly By nextChildRow = By.XPath("//div[@class='services-grid--root']/div[@class='services-grid--row']//div[@class='child-row' and not(contains(@style, 'display: none'))]//div[@data-bind='text: $data.next']");
+        private readonly By allocationChildRow = By.XPath("//div[@class='services-grid--root']/div[@class='services-grid--row']//div[@class='child-row' and not(contains(@style, 'display: none'))]//span[contains(@data-bind,'text: $data.allocation')]");
 
         //DYNAMIC LOCATOR
         private const string inspectionTypeOption = "//div[@id='inspection-modal']//select[@id='inspection-type']/option[text()='{0}']";
         private const string allocatedUnitOption = "//label[text()=' Allocated Unit']/following-sibling::div/select/option[text()='{0}']";
         private const string assignedUserOption = "//div[@id='inspection-modal']//label[text()='Assigned User']/following-sibling::div/select/option[text()='{0}']";
+        private const string eventDynamicLocator = "//div[@class='parent-row'][{0}]//div[text()='Event']";
+        private const string eventOptions = "//div[@id='create-event-dropdown']//li[text()='{0}']";
+
+        //Get all active service with service unit
+        public List<ActiveSeviceModel> GetAllActiveServiceInTab32839()
+        {
+            List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
+            List<IWebElement> allRow = GetAllElements(allActiveServiceParentRow);
+            for (int i = 0; i < allRow.Count; i++)
+            {
+                string serviceUnitValue = GetElementText(GetAllElements(serviceUnitParent)[i]);
+                string serviceValue = GetElementText(GetAllElements(serviceParent)[i]);
+                string scheduleValue = GetElementText(GetAllElements(scheduleParent)[i]);
+                string lastValue = GetElementText(GetAllElements(lastParent)[i]);
+                string nextValue = GetElementText(GetAllElements(nextPrent)[i]);
+                string assetTypeValue = GetElementText(GetAllElements(assetTypeParent)[i]);
+                string allocationValue = GetElementText(GetAllElements(allocationParent)[i]);
+                List<ChildSchedule> listSchedule = new List<ChildSchedule>();
+                if (i == 1)
+                {
+                    string scheludeChild = GetElementText(scheduleChildRow);
+                    string lastChild = GetElementText(lastChildRow);
+                    string nextChild = GetElementText(nextChildRow);
+                    string allocationChild = GetElementText(allocationChildRow);
+                    listSchedule.Add(new ChildSchedule(scheludeChild, lastChild, nextChild, allocationChild));
+                }
+                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue, listSchedule));
+            }
+            return activeSeviceModels;
+        }
 
         public PointSegmentDetailPage WaitForPointSegmentDetailPageDisplayed()
         {
@@ -85,31 +120,13 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
             return this;
         }
 
-        public List<ActiveSeviceModel> GetAllActiveServiceInTab()
-        {
-            List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
-            List<IWebElement> allRow = GetAllElements(allActiveServiceRow);
-            for(int i = 0; i < allRow.Count; i++)
-            {
-                string serviceUnitValue = GetElementText(GetAllElements(serviceUnit)[i]);
-                string serviceValue = GetElementText(GetAllElements(service)[i]);
-                string scheduleValue = GetElementText(GetAllElements(schedule)[i]);
-                string lastValue = GetElementText(GetAllElements(last)[i]);
-                string nextValue = GetElementText(GetAllElements(next)[i]);
-                string assetTypeValue = GetElementText(GetAllElements(assetType)[i]);
-                string allocationValue = GetElementText(GetAllElements(allocation)[i]);
-                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue));
-            }
-            return activeSeviceModels;
-        }
-
         public List<ActiveSeviceModel> GetAllActiveServiceWithoutServiceUnit()
         {
             List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
-            List<IWebElement> allRow = GetAllElements(allActiveServiceRow);
+            List<IWebElement> allRow = GetAllElements(allActiveServiceParentRow);
             for (int i = 0; i < allRow.Count; i++)
             {
-                string serviceUnitValue = GetElementText(GetAllElements(serviceUnit)[i]);
+                string serviceUnitValue = GetElementText(GetAllElements(serviceUnitParent)[i]);
                 string serviceValue = GetElementText(GetAllElements(serviceWithoutServiceUnit)[i]);
                 activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue));
             }
@@ -120,14 +137,11 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
         {
             for(int i = 0; i < activeSeviceModelsDisplayed.Count; i++)
             {
+                //Service
                 Assert.AreEqual(serviceForPointDB[i].service, activeSeviceModelsDisplayed[i].service);
+                //Service Unit
                 Assert.AreEqual(serviceForPointDB[i].serviceunit, activeSeviceModelsDisplayed[i].serviceUnit);
-                if (serviceForPointDB[i].patterndesc.Contains("every week"))
-                {
-                    Assert.AreEqual("Every " + serviceForPointDB[i].patterndesc.Replace("every week", "").Trim(), activeSeviceModelsDisplayed[i].schedule);
-                } else {
-                    Assert.AreEqual(serviceForPointDB[i].patterndesc, activeSeviceModelsDisplayed[i].schedule);
-                }
+                //Next parent
                 if(serviceForPointDB[i].next.Equals("Tomorrow"))
                 {
                     Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), activeSeviceModelsDisplayed[i].nextService);
@@ -135,14 +149,64 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
                 {
                     Assert.AreEqual(serviceForPointDB[i].next.Replace("-", "/"), activeSeviceModelsDisplayed[i].nextService);
                 }
-                if(serviceForPointDB[i].last.Equals("Today"))
+                //Last parent
+                if (serviceForPointDB[i].last.Equals("Today"))
                 {
                     Assert.AreEqual(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), activeSeviceModelsDisplayed[i].lastService);
-                } else
+                }
+                else
                 {
                     Assert.AreEqual(serviceForPointDB[i].last.Replace("-", "/"), activeSeviceModelsDisplayed[i].lastService);
                 }
-                Assert.AreEqual(serviceForPointDB[i].roundgroup + " - " + serviceForPointDB[i].round.Trim(), activeSeviceModelsDisplayed[i].allocationService);
+                if (i == 1)
+                {
+                    //Allocation child
+                    Assert.AreEqual(serviceForPointDB[i].roundgroup + " - " + serviceForPointDB[i].round.Trim(), activeSeviceModelsDisplayed[1].listChildSchedule[0].allocationRound);
+                    //Schedule child
+                    if (serviceForPointDB[i].patterndesc.Contains("every week"))
+                    {
+                        Assert.AreEqual("Every " + serviceForPointDB[i].patterndesc.Replace("every week", "").Trim(), activeSeviceModelsDisplayed[1].listChildSchedule[0].scheduleRound);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(serviceForPointDB[i].patterndesc, activeSeviceModelsDisplayed[i].listChildSchedule[0].scheduleRound);
+                    }
+                    //Last child
+                    if (serviceForPointDB[i].last.Equals("Today"))
+                    {
+                        Assert.AreEqual(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), activeSeviceModelsDisplayed[i].listChildSchedule[0].lastRound);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(serviceForPointDB[i].last.Replace("-", "/"), activeSeviceModelsDisplayed[i].listChildSchedule[0].lastRound);
+                    }
+                    //Next child
+                    //if (serviceForPointDB[i].next.Equals("Tomorrow"))
+                    //{
+                    //    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), activeSeviceModelsDisplayed[i].nextService);
+                    //}
+                    //else
+                    //{
+                    //    Assert.AreEqual(serviceForPointDB[i].next.Replace("-", "/"), activeSeviceModelsDisplayed[i].nextService);
+                    //}
+
+                    //Schedule parent
+                    Assert.AreEqual("Multiple", activeSeviceModelsDisplayed[1].schedule);
+                }
+                else
+                {
+                    //Allocation parent
+                    Assert.AreEqual(serviceForPointDB[i].roundgroup + " - " + serviceForPointDB[i].round.Trim(), activeSeviceModelsDisplayed[i].allocationService);
+                    if (serviceForPointDB[i].patterndesc.Contains("every week"))
+                    {
+                        Assert.AreEqual("Every " + serviceForPointDB[i].patterndesc.Replace("every week", "").Trim(), activeSeviceModelsDisplayed[i].schedule);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(serviceForPointDB[i].patterndesc, activeSeviceModelsDisplayed[i].schedule);
+                    }
+                }
+                
             }
             return this;
         }

@@ -25,7 +25,7 @@ namespace si_automated_tests.Source.Test.AccountTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Accounts")
                 .ExpandOption("North Star Commercial")
-                .OpenOption("Credit Notes")
+                .OpenLastOption("Credit Notes")
                 .SwitchNewIFrame();
         }
 

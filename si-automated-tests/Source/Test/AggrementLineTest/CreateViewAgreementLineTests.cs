@@ -109,6 +109,7 @@ namespace si_automated_tests.Source.Test
                 .ChooseEwcCode("150106")
                 .InputProductQuantity(600)
                 .VerifyTotalProductQuantity(2 * 600)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .VerifyAssetSummary(2, "660L", "Rental", 600, "General Recycling")
                 .ClickBack();
@@ -264,6 +265,7 @@ namespace si_automated_tests.Source.Test
                 .ChooseEwcCode("150106")
                 .InputProductQuantity(600)
                 .VerifyTotalProductQuantity(2 * 600)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .VerifyAssetSummary(2, "660L", "Rental", 600, "General Recycling")
                 .ClickBack();
@@ -437,6 +439,7 @@ namespace si_automated_tests.Source.Test
                 .ChooseEwcCode("200139")
                 .InputProductQuantity(1000)
                 .VerifyTotalProductQuantity(3 * 1000)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .VerifyAssetSummary(3, "1100L", "Rental", 1000, "Plastic")
                 .ClickBack();

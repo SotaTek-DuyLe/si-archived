@@ -1,15 +1,12 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
-using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Search.PointAreas;
 using si_automated_tests.Source.Main.Pages.Search.PointNodes;
 using si_automated_tests.Source.Main.Pages.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.ServiceTests
@@ -223,6 +220,134 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyFirstResultValueInTab("Valid From", from)
                 .VerifyFirstResultValueInTab("Valid To", to)
                 .SwitchToDefaultContent();
+        }
+
+        [Category("Sectors")]
+        [Test(Description = "Verify that a new sector form is opened ")]
+        public void TC_129_Verify_that_a_new_sector_form_is_opened()
+        {
+            PageFactoryManager.Get<NavigationBase>()
+                   .OpenOption("Richmond Commercial");
+            SectorPage sectorPage = PageFactoryManager.Get<SectorPage>();
+            sectorPage.WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+
+            sectorPage.ClickOnElement(sectorPage.DetailTab);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyElementVisibility(sectorPage.InputSector, true)
+                .VerifyElementVisibility(sectorPage.SelectContract, true)
+                .VerifyElementVisibility(sectorPage.SelectSectorType, true)
+                .VerifyElementVisibility(sectorPage.SelectParentSector, true);
+
+            sectorPage.ClickOnElement(sectorPage.MapTab);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyElementVisibility(sectorPage.DivMap, true);
+
+            //Verify that the top bar actions display and correctly
+            sectorPage.VerifyElementVisibility(sectorPage.ButtonSave, true)
+                .VerifyElementVisibility(sectorPage.ButtonRefresh, true)
+                .VerifyElementVisibility(sectorPage.ButtonHistory, true)
+                .VerifyElementVisibility(sectorPage.ButtonHelp, true);
+            sectorPage.VerifyElementEnable(sectorPage.ButtonSave, false);
+            //Test the buttons functionality
+            sectorPage.ClickOnElement(sectorPage.DetailTab);
+            sectorPage.WaitForLoadingIconToDisappear();
+            string sector = "Richmond Commercial123";
+            sectorPage.SendKeys(sectorPage.InputSector, sector);
+            sectorPage.ClickOnElement(sectorPage.ButtonSave);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
+
+            sectorPage.ClickOnElement(sectorPage.ButtonRefresh);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyInputValue(sectorPage.InputSector, sector);
+
+            sectorPage.ClickOnElement(sectorPage.ButtonHelp);
+            sectorPage.SwitchToChildWindow(2);
+            HelpPage helpPage = PageFactoryManager.Get<HelpPage>();
+            helpPage.VerifyElementVisibility(helpPage.HelpTitle, true)
+                .VerifyElementVisibility(helpPage.EchoWikiLink, true)
+                .VerifyElementVisibility(helpPage.ButtonClose, true)
+                .ClickOnElement(helpPage.ButtonClose);
+            helpPage.SwitchToFirstWindow()
+                .SwitchNewIFrame();
+
+            //Object header
+            sectorPage.VerifyElementText(sectorPage.TitleSectorName, sectorPage.GetInputValue(sectorPage.InputSector))
+                .VerifyElementVisibility(sectorPage.SectorId, true)
+                .VerifyElementVisibility(sectorPage.IconSector, true)
+                .VerifyElementText(sectorPage.TitleSectorType, "Sector - " + sectorPage.GetFirstSelectedItemInDropdown(sectorPage.SelectSectorType), toLowerCase: true);
+
+            //Verify  that a last tab selected is remembered for the user
+            sectorPage.ClickOnElement(sectorPage.MapTab);
+            sectorPage.WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Richmond Commercial")
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            sectorPage.VerifyElementVisibility(sectorPage.DivMap, true);
+
+            sectorPage.ClickOnElement(sectorPage.DetailTab);
+            sectorPage.WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Richmond Commercial")
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            sectorPage.VerifyElementVisibility(sectorPage.InputSector, true)
+                .VerifyElementVisibility(sectorPage.SelectContract, true)
+                .VerifyElementVisibility(sectorPage.SelectSectorType, true)
+                .VerifyElementVisibility(sectorPage.SelectParentSector, true);
+
+            //can update
+            sector = "Richmond Commercial";
+            string contract = "North Star";
+            string parentSector = "Hampton Tip (West)";
+            string sectorType = "Ward";
+            sectorPage.SendKeys(sectorPage.InputSector, sector);
+            sectorPage.SelectTextFromDropDown(sectorPage.SelectContract, contract)
+                .SelectTextFromDropDown(sectorPage.SelectParentSector, parentSector)
+                .SelectTextFromDropDown(sectorPage.SelectSectorType, sectorType)
+                .ClickOnElement(sectorPage.ButtonSave);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
+
+            sectorPage.ClickOnElement(sectorPage.ButtonRefresh);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyInputValue(sectorPage.InputSector, sector)
+                .VerifySelectedValue(sectorPage.SelectContract, contract)
+                .VerifySelectedValue(sectorPage.SelectParentSector, parentSector)
+                .VerifySelectedValue(sectorPage.SelectSectorType, sectorType);
+
+            //Details tab
+            //Verify that mandatory fields are highlighted in red and warning message is displayed
+            sectorPage.SendKeys(sectorPage.InputSector, "");
+            sectorPage.SendKeys(sectorPage.InputSector, Keys.Enter);
+            sectorPage.SleepTimeInMiliseconds(200);
+            sectorPage.VerifyBorderColorIsRed(sectorPage.InputSector);
+            sectorPage.ClickOnElement(sectorPage.ButtonSave);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyToastMessage("Sector is required")
+                .WaitUntilToastMessageInvisible("Sector is required");
+            sectorPage.SendKeys(sectorPage.InputSector, sector);
+
+            sectorPage.SelectTextFromDropDown(sectorPage.SelectSectorType, "");
+            sectorPage.ClickOnElement(sectorPage.InputSector);
+            sectorPage.SleepTimeInMiliseconds(200);
+            sectorPage.VerifyBorderColorIsRed(sectorPage.SelectSectorType);
+            sectorPage.ClickOnElement(sectorPage.ButtonSave);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyToastMessage("SectorType is required")
+                .WaitUntilToastMessageInvisible("SectorType is required");
         }
     }
 }

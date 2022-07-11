@@ -230,10 +230,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
             //TC52: Create new active location
             siteDetailPage
                 .ClickOnLocationTab()
@@ -316,10 +312,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToChildWindow(3);
 
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
@@ -558,10 +551,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
             //TC52: Create new active location
             siteDetailPage
                 .ClickOnLocationTab()
@@ -609,10 +598,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
@@ -829,10 +815,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
+            //siteDetailPage
+            //    .ClickSaveBtn()
+            //    .WaitForLoadingIconToDisappear()
+            //    .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
             //TC52: Create new active location
             siteDetailPage
                 .ClickOnLocationTab()
@@ -882,10 +868,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                //.ClickSaveBtn()
+                //.WaitForLoadingIconToDisappear()
+                //.VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                //.ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
@@ -1100,10 +1087,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
+            //siteDetailPage
+            //    .ClickSaveBtn()
+            //    .WaitForLoadingIconToDisappear()
+            //    .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
             //TC52: Create new active location 1
             siteDetailPage
                 .ClickOnLocationTab()
@@ -1243,10 +1230,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                //.ClickSaveBtn()
+                //.WaitForLoadingIconToDisappear()
+                //.VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                //.ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
@@ -1520,10 +1508,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
             //TC52: Create new active location 1
             siteDetailPage
                 .ClickOnLocationTab()
@@ -1624,10 +1608,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                //.ClickSaveBtn()
+                //.WaitForLoadingIconToDisappear()
+                //.VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                //.ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
@@ -1873,10 +1858,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
+            
             //TC52: Create new active location 1
             siteDetailPage
                 .ClickOnLocationTab()
@@ -1957,10 +1939,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                //.ClickSaveBtn()
+                //.WaitForLoadingIconToDisappear()
+                //.VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                //.ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
@@ -2206,10 +2189,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
+            
             //TC52: Create new active location 1
             siteDetailPage
                 .ClickOnLocationTab()
@@ -2313,10 +2293,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                //.ClickSaveBtn()
+                //.WaitForLoadingIconToDisappear()
+                //.VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                //.ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
