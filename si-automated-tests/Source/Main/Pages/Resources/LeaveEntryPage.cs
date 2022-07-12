@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -127,10 +128,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public LeaveEntryPage VerifyResourceNamesArePresent(string[] names)
         {
             List<IWebElement> headers = GetAllElements(tableHeaders);
+            List<String> allNames = new List<String>();
             for(int i = 2; i < headers.Count; i++)
             {
-                Assert.AreEqual(names[i-2], GetElementText(headers[i]));
+                allNames.Add(GetElementText(headers[i]));
             }
+            bool isMatch = names.All(name => allNames.Contains(name));
+            Assert.IsTrue(isMatch, "Not every name are present");
             return this;
         }
         public LeaveEntryPage VerifyTotalUnavailableNumberIs(int num)
