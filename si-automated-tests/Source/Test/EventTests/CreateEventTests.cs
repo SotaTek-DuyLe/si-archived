@@ -196,15 +196,9 @@ namespace si_automated_tests.Source.Test.EventTests
             eventDetailPage
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
                 .ExpandDetailToggle()
-                //Step 21: Verify Source in Detail toggle => Bug, cannot click on [Source] field
-                .ClickOnSourceInputInDetailToggle()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PointAddressDetailPage>()
-                .WaitForPointAddressDetailDisplayed()
-                .VerifyPointAddressId(eventModels[0].eventpointID.ToString())
-                .ClickCloseBtn()
-                .SwitchToLastWindow();
+                //Step 22: Verify Source Desc in Detail toggle => [Source] field read only
+                .VerifySourceInputReadOnly();
+                
             //Check service unit link
             PageFactoryManager.Get<EventDetailPage>()
                 .ClickOnLocation()
@@ -358,14 +352,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseEventPopupBtn()
                 .ExpandDetailToggle()
                 //Verify Source in Detail toggle => cannot click source input
-                .ClickOnSourceInputInDetailToggle()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PointAddressDetailPage>()
-                .WaitForPointAddressDetailDisplayed()
-                .VerifyPointAddressId(eventModels[0].eventpointID.ToString())
-                .ClickCloseBtn()
-                .SwitchToChildWindow(3);
+                .VerifySourceInputReadOnly();
+                
         }
 
         //Done Bug: Cannot Click on [Source input]
@@ -526,14 +514,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
                 .ExpandDetailToggle()
                 //Verify Source in Detail toggle => Bug: Cannot Click [Source] input
-                .ClickOnSourceInputInDetailToggle()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PointSegmentDetailPage>()
-                .WaitForPointSegmentDetailPageDisplayed()
-                .VerifyPointSegmentId(eventModels[0].eventpointID.ToString())
-                .ClickCloseBtn()
-                .SwitchToLastWindow();
+                .VerifySourceInputReadOnly();
+                
             //Check service unit link
             PageFactoryManager.Get<EventDetailPage>()
                 .ClickOnLocation()
@@ -694,16 +676,9 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
                 .ExpandDetailToggle()
                 //Verify Source in Detail toggle => Bug: Cannot click on Source input
-                .ClickOnSourceInputInDetailToggle()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PointSegmentDetailPage>()
-                .WaitForPointSegmentDetailPageDisplayed()
-                .VerifyPointSegmentId(eventModels[0].eventpointID.ToString())
-                .ClickCloseBtn()
-                .SwitchToLastWindow();
+                .VerifySourceInputReadOnly();
             //Check service unit link
-            PageFactoryManager.Get<EventDetailPage>()
+            eventDetailPage
                 .ClickOnLocationShowPopup()
                 .VeriryDisplayPopupLinkEventToServiceUnit("Richmond")
                 .ClickCloseEventPopupBtn();
@@ -863,14 +838,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
                 .ExpandDetailToggle()
                 //Verify Source in Detail toggle => Bug Cannot click Source Input
-                .ClickOnSourceInputInDetailToggle()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PointNodeDetailPage>()
-                .WaitForPointNodeDetailDisplayed()
-                .VerifyPointNodeId(eventModels[0].eventpointID.ToString())
-                .ClickCloseBtn()
-                .SwitchToLastWindow();
+                .VerifySourceInputReadOnly();
+                
             //Check service unit link
             PageFactoryManager.Get<EventDetailPage>()
                 .ClickOnLocation()
@@ -1039,14 +1008,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
                 .ExpandDetailToggle()
                 //Verify Source in Detail toggle => Bug: Cannot click Source Input
-                .ClickOnSourceInputInDetailToggle()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PointAreaDetailPage>()
-                .WaitForAreaDetailDisplayed()
-                .VerifyPointAreaId(eventModels[0].eventpointID.ToString())
-                .ClickCloseBtn()
-                .SwitchToLastWindow();
+                .VerifySourceInputReadOnly();
+                
             //Check service unit link
             PageFactoryManager.Get<EventDetailPage>()
                 .ClickOnLocation()
@@ -1222,14 +1185,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
                 .ExpandDetailToggle()
                 //Verify Source in Detail toggle => Bug: Cannot Click on Source input
-                .ClickOnSourceInputInDetailToggle()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PointAddressDetailPage>()
-                .WaitForPointAddressDetailDisplayed()
-                .VerifyPointAddressId(eventModels[0].eventpointID.ToString())
-                .ClickCloseBtn()
-                .SwitchToLastWindow();
+                .VerifySourceInputReadOnly();
+                
             //Check service unit link
             PageFactoryManager.Get<EventDetailPage>()
                 .ClickOnLocation()
@@ -1412,14 +1369,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseEventPopupBtn()
                 .ExpandDetailToggle()
                 //Verify Source in Detail toggle => Bug: Cannot Click on [Source input]
-                .ClickOnSourceInputInDetailToggle()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PointAddressDetailPage>()
-                .WaitForPointAddressDetailDisplayed()
-                .VerifyPointAddressId(eventModels[0].eventpointID.ToString())
-                .ClickCloseBtn()
-                .SwitchToChildWindow(3);
+                .VerifySourceInputReadOnly();
+                
         }
     }
 }
