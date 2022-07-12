@@ -146,7 +146,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
                 .InputNameInDataTab(newEventName)
-                //Click [Accept] btn
+                //Line 18: Click [Accept] btn => Bug: Just one message displayed
                 .ClickAcceptInEventActionsPanel()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SaveEventMessage)
                 .VerifyDisplayToastMessage(MessageSuccessConstants.ActionSuccessMessage)

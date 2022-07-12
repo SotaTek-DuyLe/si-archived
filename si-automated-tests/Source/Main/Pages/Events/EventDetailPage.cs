@@ -33,7 +33,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
         //DETAIL - Expanded
         private readonly By sourceInput = By.CssSelector("div#details-content input#source");
-        private readonly By parentSourceInput = By.XPath("//input[@id='source']/parent::div/parent::div");
+        private readonly By parentSourceInput = By.XPath("//input[@id='source']");
         private readonly By statusDd = By.CssSelector("div#details-content select#status");
         private readonly By eventDateInput = By.CssSelector("div#details-content input#event-date");
         private readonly By allocatedUnitDetailDd = By.CssSelector("div#details-content select#allocated-unit");
@@ -416,10 +416,11 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
-        public PointAddressDetailPage ClickOnSourceInputInDetailToggle()
+
+        public EventDetailPage VerifySourceInputReadOnly()
         {
-            ClickOnElement(parentSourceInput);
-            return PageFactoryManager.Get<PointAddressDetailPage>();
+            Assert.AreEqual(GetAttributeValue(parentSourceInput, "disabled"), "true");
+            return this;
         }
 
         public EventDetailPage VerifyDueDate(string dueDateValue)

@@ -18,6 +18,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         private string inspectionIdCompleteType2;
         private string inspectionIdCancelledType2;
 
+        //Need to confirm
         [Category("UpdateInspection"), Order(1)]
         [Test(Description = "Inspection Update and states - Complete - InspectionType = 4")]
         public void TC_120_Inspection_update_and_states_complete_inspection_inspection_type_4()

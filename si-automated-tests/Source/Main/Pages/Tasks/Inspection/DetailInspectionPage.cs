@@ -221,8 +221,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(inspection.contractunitID, contractUnitId);
             Assert.AreEqual(inspection.inspectioninstance, instance);
             Assert.AreEqual(inspection.userID, userId);
-            Assert.AreEqual(inspection.inspectionvaliddate.ToString().Replace("-", "/"), validDateValue + " 00:00:00");
-            Assert.AreEqual(inspection.inspectionexpirydate.ToString().Replace("-", "/"), expDateValue + " 00:00:00");
+            Assert.AreEqual(inspection.inspectionvaliddate.ToString().Replace("-", "/"), validDateValue + " 00:00:00", "Wrong inpsection valid Date");
+            Assert.AreEqual(inspection.inspectionexpirydate.ToString().Replace("-", "/"), expDateValue + " 00:00:00", "Wrong inpsection expiry Date");
             return this;
         }
 
@@ -233,8 +233,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(inspection.inspectioninstance, instance);
             Assert.AreEqual(inspection.username, userNameCreatedInspec);
             Assert.AreEqual(allocatedUserInModel, allocatedUserDisplayed);
-            Assert.AreEqual(inspection.inspectionvaliddate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), validDateValue);
-            Assert.AreEqual(inspection.inspectionexpirydate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), expDateValue);
+            Assert.AreEqual(inspection.inspectionvaliddate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), validDateValue, "Wrong inpsection valid Date");
+            Assert.AreEqual(inspection.inspectionexpirydate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), expDateValue, "Wrong inpsection expiry Date");
             return this;
         }
 
@@ -260,8 +260,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(userValue + ".", GetElementText(historyItem, "User"));
             Assert.AreEqual(instanceValue + ".", GetElementText(historyItem, "Instance"));
             //Date
-            Assert.AreEqual(validDate + " 00:00.", GetElementText(historyItem, "Inspection valid date"));
-            Assert.AreEqual(expDate + " 00:00.", GetElementText(historyItem, "Inspection expiry date"));
+            Assert.AreEqual(validDate + " 00:00.", GetElementText(historyItem, "Inspection valid date"), "Wrong inpsection valid Date in History tab");
+            Assert.AreEqual(expDate + " 00:00.", GetElementText(historyItem, "Inspection expiry date"), "Wrong inpsection expiry Date in History tab");
             return this;
         }
 
