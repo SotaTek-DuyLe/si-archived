@@ -111,7 +111,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By newAllocatedUserInHistoryTab = By.XPath("//strong[text()='Allocate Event - Event']/following-sibling::div/span[text()='Allocated user']/following-sibling::span[1]");
         private readonly By newContractUnitInHistoryTab = By.XPath("//strong[text()='Allocate Event - Event']/following-sibling::div/span[text()='Contract unit']/following-sibling::span[1]");
         private readonly By createdByUserNewRecord = By.XPath("//strong[text()='Allocate Event - Event']/parent::div/following-sibling::div/strong[1]");
-        private readonly By nameAfterUpdateInHistoryTab = By.XPath("//strong[text()='Update Event - Event']/following-sibling::div/span[text()='Name']/following-sibling::span[1]");
+        private readonly By nameAfterUpdateInHistoryTab = By.XPath("//strong[text()='Accept - Event']/following-sibling::div/span[text()='Name']/following-sibling::span[1]");
         private readonly By createdByUserAfterUpdate = By.XPath("//strong[text()='Update Event - Event']/parent::div/following-sibling::div/strong[1]");
         private readonly By stateAfterAcceptInHistoryTab = By.XPath("//strong[text()='Accept - Event']/following-sibling::div/span[text()='State']/following-sibling::span[1]");
         private readonly By createdByUserAfterAccept = By.XPath("//strong[text()='Accept - Event']/parent::div/following-sibling::div/strong[1]");

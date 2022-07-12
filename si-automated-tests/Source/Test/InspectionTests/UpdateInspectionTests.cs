@@ -508,7 +508,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .VerifyTimeInEndDateAndTimeField(timeCompleted)
                 .VerifyAllFieldsInPopupDisabled();
             string newNoteDataTab = "New Note Data tab" + CommonUtil.GetRandomString(5);
-            //Line 52 => Verify Data tab
+            //Line 52 => Verify Data tab => Bug (Failed)
             detailInspectionPage
                 .ClickOnDataTab()
                 .WaitForLoadingIconToDisappear();
