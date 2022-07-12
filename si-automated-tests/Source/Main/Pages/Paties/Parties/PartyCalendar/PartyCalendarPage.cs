@@ -52,13 +52,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
 
         public List<CanlendarServiceTask> GetAllDataInMonth(DateTime fromDateTime, DateTime toDateTime)
         {
-            int GetStartDate()
+            DateTime GetStartDate()
             {
                 string startDateXpath = $"//div[@class='fc-content-skeleton']//table//thead//tr/td[1]";
                 IWebElement cell = GetAllElements(startDateXpath).FirstOrDefault();
                 string dataDate = cell.GetAttribute("data-date");
                 DateTime startDateTime = DateTime.ParseExact(dataDate, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
-                return startDateTime.ToString("ddMMyyyy").AsInteger();
+                return startDateTime;
             }
             List<CanlendarServiceTask> serviceTasks = new List<CanlendarServiceTask>();
             int dayOfWeek = 7;
@@ -73,7 +73,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
                 }
                 step++;
                 Thread.Sleep(1000);
-                int startDate = GetStartDate();
+                DateTime startDate = GetStartDate();
                 var rows = driver.FindElements(rowsCalendarTableInMonth);
                 foreach (var row in rows)
                 {
@@ -85,7 +85,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
                             IWebElement cell = row.FindElement(By.XPath(cellXpath));
                             CanlendarServiceTask serviceTask = new CanlendarServiceTask();
                             serviceTask.Date = startDate;
-                            startDate++;
+                            startDate.AddDays(1);
                             serviceTask.Content = GetElementText(cell);
                             serviceTask.ImagePath = cell.GetCssValue("background");
                             serviceTasks.Add(serviceTask);
@@ -95,7 +95,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
                             //Empty cell
                             CanlendarServiceTask serviceTask = new CanlendarServiceTask();
                             serviceTask.Date = startDate;
-                            startDate++;
+                            startDate.AddDays(1);
                             serviceTasks.Add(serviceTask);
                         }
                     }

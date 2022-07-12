@@ -83,6 +83,12 @@ namespace si_automated_tests.Source.Core
             element.SendKeys(value);
         }
 
+        public void SendKeysWithoutClear(By by, string value)
+        {
+            IWebElement element = WaitUtil.WaitForElementVisible(by);
+            element.SendKeys(value);
+        }
+
         public void ClearInputValue(By by)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(by);
@@ -569,6 +575,12 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        public BasePage VerifyToastMessagesIsUnDisplayed()
+        {
+            IsControlUnDisplayed(By.XPath("//div[@data-notify-html='title']"));
+            return this;
+        }
+
         public BasePage WaitUntilToastMessageInvisible(string toastMessage)
         {
             WaitUtil.WaitForElementInvisibleWithText("//div[@data-notify-html='title']", toastMessage);
@@ -604,7 +616,6 @@ namespace si_automated_tests.Source.Core
             {
                 Assert.Fail("Loading icon doesn't disappear after 60 seconds");
             }
-            
             return this;
         }
 
