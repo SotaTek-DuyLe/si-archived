@@ -99,7 +99,9 @@ namespace si_automated_tests.Source.Core
             else if (browser.Equals("firefox", StringComparison.OrdinalIgnoreCase))
             {
                 new DriverManager().SetUpDriver(new FirefoxConfig());
-                Drivers.Value = new FirefoxDriver();
+                FirefoxOptions options = new FirefoxOptions();
+                options.AcceptInsecureCertificates = true;
+                Drivers.Value = new FirefoxDriver(options);
             }
             else if (browser.Equals("hchrome", StringComparison.OrdinalIgnoreCase))
             {
