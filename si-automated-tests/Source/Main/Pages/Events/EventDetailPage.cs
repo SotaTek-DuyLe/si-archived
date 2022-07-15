@@ -33,7 +33,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
         //DETAIL - Expanded
         private readonly By sourceInput = By.CssSelector("div#details-content input#source");
-        private readonly By parentSourceInput = By.XPath("//input[@id='source']/parent::div/parent::div");
+        private readonly By parentSourceInput = By.XPath("//input[@id='source']");
         private readonly By statusDd = By.CssSelector("div#details-content select#status");
         private readonly By eventDateInput = By.CssSelector("div#details-content input#event-date");
         private readonly By allocatedUnitDetailDd = By.CssSelector("div#details-content select#allocated-unit");
@@ -111,7 +111,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By newAllocatedUserInHistoryTab = By.XPath("//strong[text()='Allocate Event - Event']/following-sibling::div/span[text()='Allocated user']/following-sibling::span[1]");
         private readonly By newContractUnitInHistoryTab = By.XPath("//strong[text()='Allocate Event - Event']/following-sibling::div/span[text()='Contract unit']/following-sibling::span[1]");
         private readonly By createdByUserNewRecord = By.XPath("//strong[text()='Allocate Event - Event']/parent::div/following-sibling::div/strong[1]");
-        private readonly By nameAfterUpdateInHistoryTab = By.XPath("//strong[text()='Update Event - Event']/following-sibling::div/span[text()='Name']/following-sibling::span[1]");
+        private readonly By nameAfterUpdateInHistoryTab = By.XPath("//strong[text()='Accept - Event']/following-sibling::div/span[text()='Name']/following-sibling::span[1]");
         private readonly By createdByUserAfterUpdate = By.XPath("//strong[text()='Update Event - Event']/parent::div/following-sibling::div/strong[1]");
         private readonly By stateAfterAcceptInHistoryTab = By.XPath("//strong[text()='Accept - Event']/following-sibling::div/span[text()='State']/following-sibling::span[1]");
         private readonly By createdByUserAfterAccept = By.XPath("//strong[text()='Accept - Event']/parent::div/following-sibling::div/strong[1]");
@@ -416,10 +416,11 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
-        public PointAddressDetailPage ClickOnSourceInputInDetailToggle()
+
+        public EventDetailPage VerifySourceInputReadOnly()
         {
-            ClickOnElement(parentSourceInput);
-            return PageFactoryManager.Get<PointAddressDetailPage>();
+            Assert.AreEqual(GetAttributeValue(parentSourceInput, "disabled"), "true");
+            return this;
         }
 
         public EventDetailPage VerifyDueDate(string dueDateValue)
