@@ -13,12 +13,22 @@ namespace si_automated_tests.Source.Core
     {
         public BasePageCommonActions VerifyElementVisibility(string xpath, bool isVisible)
         {
+            if(!isVisible)
+            {
+                Assert.IsTrue(IsControlUnDisplayed(xpath));
+                return this;
+            }
             VerifyElementVisibility(GetElement(xpath), isVisible);
             return this;
         }
 
         public BasePageCommonActions VerifyElementVisibility(By xpath, bool isVisible)
         {
+            if (!isVisible)
+            {
+                Assert.IsTrue(IsControlUnDisplayed(xpath));
+                return this;
+            }
             VerifyElementVisibility(GetElement(xpath), isVisible);
             return this;
         }
@@ -427,6 +437,18 @@ namespace si_automated_tests.Source.Core
                 Assert.AreNotEqual(expectedValues, tableElement.GetRowValue(rowIdx));
             }
             return this;
+        }
+
+        public BasePageCommonActions VerifyInputIsReadOnly(By xpath)
+        {
+            IWebElement webElement = GetElement(xpath);
+            Assert.IsFalse(webElement.Enabled);
+            return this;
+        }
+
+        public BasePageCommonActions VerifyInputIsReadOnly(string xpath)
+        {
+            return VerifyInputIsReadOnly(By.XPath(xpath));
         }
     }
 }
