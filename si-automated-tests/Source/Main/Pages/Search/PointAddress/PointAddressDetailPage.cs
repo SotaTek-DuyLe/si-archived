@@ -225,40 +225,40 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         {
             for (int i = 0; i < activeSeviceWithServiceUnitModels.Count; i++)
             {
-                Assert.AreEqual(serviceForPoint[i].serviceunit, activeSeviceWithServiceUnitModels[i].serviceUnit);
-                Assert.AreEqual(serviceForPoint[i].statusdesc, activeSeviceWithServiceUnitModels[i].status);
-                Assert.AreEqual(serviceForPoint[i].service, activeSeviceWithServiceUnitModels[i].service);
-                Assert.AreEqual("Every " + serviceForPoint[i].round, activeSeviceWithServiceUnitModels[i].schedule);
+                Assert.AreEqual(serviceForPoint[i].serviceunit, activeSeviceWithServiceUnitModels[i].serviceUnit, "Wrong service unit " + i);
+                Assert.AreEqual(serviceForPoint[i].statusdesc, activeSeviceWithServiceUnitModels[i].status, "Wrong status " + i);
+                Assert.AreEqual(serviceForPoint[i].service, activeSeviceWithServiceUnitModels[i].service, "Wrong service " + i);
+                Assert.AreEqual("Multiple", activeSeviceWithServiceUnitModels[i].schedule, "Wrong schedule " + i);
                 if (serviceForPoint[i].next.Equals("Tomorrow"))
                 {
-                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, 1), activeSeviceWithServiceUnitModels[i].nextService);
+                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, 1), activeSeviceWithServiceUnitModels[i].nextService, "Wrong next service " + i);
                 }
                 else if (serviceForPoint[i].next.Equals("Yesterday"))
                 {
-                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, -1), activeSeviceWithServiceUnitModels[i].nextService);
+                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, -1), activeSeviceWithServiceUnitModels[i].nextService, "Wrong next service " + i);
                 }
                 else
                 {
-                    Assert.AreEqual(serviceForPoint[i].next.Replace("-", "/"), activeSeviceWithServiceUnitModels[i].nextService);
+                    Assert.AreEqual(serviceForPoint[i].next.Replace("-", "/"), activeSeviceWithServiceUnitModels[i].nextService, "Wrong next service " + i);
                 }
                 if (serviceForPoint[i].last.Equals("Tomorrow"))
                 {
-                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, 1), activeSeviceWithServiceUnitModels[i].lastService);
+                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, 1), activeSeviceWithServiceUnitModels[i].lastService, "Wrong last service " + i);
                 }
                 else if (serviceForPoint[i].last.Equals("Today"))
                 {
-                    Assert.AreEqual(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB), activeSeviceWithServiceUnitModels[i].lastService);
+                    Assert.AreEqual(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB), activeSeviceWithServiceUnitModels[i].lastService, "Wrong last service " + i);
                 }
                 else if (serviceForPoint[i].last.Equals("Yesterday"))
                 {
-                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, -1), activeSeviceWithServiceUnitModels[i].lastService);
+                    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, -1), activeSeviceWithServiceUnitModels[i].lastService, "Wrong last service " + i);
                 }
                 else
                 {
-                    Assert.AreEqual(serviceForPoint[i].last.Replace("-", "/"), activeSeviceWithServiceUnitModels[i].lastService);
+                    Assert.AreEqual(serviceForPoint[i].last.Replace("-", "/"), activeSeviceWithServiceUnitModels[i].lastService, "Wrong last service " + i);
                 }
 
-                Assert.AreEqual(serviceForPoint[i].assets, activeSeviceWithServiceUnitModels[i].assetTypeService);
+                Assert.AreEqual(serviceForPoint[i].assets, activeSeviceWithServiceUnitModels[i].assetTypeService, "Wrong asset type service " + i);
             }
             return this;
         }

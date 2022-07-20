@@ -191,19 +191,19 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             string style = WaitUtil.WaitForElementVisible(allocatedResourceContainer, _resourceName).GetAttribute("style");
             if (_color == "white")
             {
-                Assert.AreEqual(whiteBackground, style);
+                Assert.IsTrue(style.Contains(whiteBackground), "Incorrect color: Expected " + whiteBackground + " but found: " + style);
             }
             else if (_color == "green")
             {
-                Assert.AreEqual(greenBackground, style);
+                Assert.IsTrue(style.Contains(greenBackground), "Incorrect color: Expected " + greenBackground + " but found: " + style);
             }
             else if (_color == "purple")
             {
-                Assert.AreEqual(purpleBackground, style);
+                Assert.IsTrue(style.Contains(purpleBackground), "Incorrect color: Expected " + purpleBackground + " but found: " + style);
             }
             else if (_color == "red")
             {
-                Assert.AreEqual(redBackground, style);
+                Assert.IsTrue(style.Contains(redBackground), "Incorrect color: Expected " + redBackground + " but found: " + style);
             }
             else
             {

@@ -83,5 +83,17 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "SELECT T0.* FROM [serviceunitpoints] AS T0 WITH (NOLOCK)  WHERE T0.[serviceunitID] = " + serviceunitID + ";";
             return FindList<ServiceUnitPointDBModel>(query);
         }
+
+        public bool IsObjectNoticeExist(string echoTypeId, string id)
+        {
+            string query = "select * from objectnotices where echotypeID=" + echoTypeId + " and objectnoticeid=" + id;
+            return FindList<ObjectNoticeModel>(query).Count != 0;
+        }
+
+        public List<InspectionDBModel> GetInspectionById(int inspectionId)
+        {
+            string query = "select * from inspections where inspectionID=" + inspectionId + ";";
+            return FindList<InspectionDBModel>(query);
+        }
     }
 }

@@ -38,7 +38,9 @@ namespace si_automated_tests.Source.Core
                 else if (browser.Equals("firefox", StringComparison.OrdinalIgnoreCase))
                 {
                     new DriverManager().SetUpDriver(new FirefoxConfig());
-                    Drivers.Value = new FirefoxDriver();
+                    FirefoxOptions options = new FirefoxOptions();
+                    options.AcceptInsecureCertificates = true;
+                    Drivers.Value = new FirefoxDriver(options);
                 }
                 else if (browser.Equals("hchrome", StringComparison.OrdinalIgnoreCase))
                 {
@@ -53,8 +55,11 @@ namespace si_automated_tests.Source.Core
                 }
                 else if (browser.Equals("ie", StringComparison.OrdinalIgnoreCase))
                 {
-                    new DriverManager().SetUpDriver(new InternetExplorerConfig());
-                    Drivers.Value = new InternetExplorerDriver();
+                    InternetExplorerConfig config = new InternetExplorerConfig();
+                    new DriverManager().SetUpDriver(config, config.GetLatestVersion(), WebDriverManager.Helpers.Architecture.X32);
+                    InternetExplorerOptions ieOptions = new InternetExplorerOptions();
+                    ieOptions.PageLoadStrategy = PageLoadStrategy.None;
+                    Drivers.Value = new InternetExplorerDriver(ieOptions);
                 }
                 else
                 {
@@ -68,10 +73,15 @@ namespace si_automated_tests.Source.Core
             {
                 Logger.Get().Info("Browser not specified, setting up for Chrome");
                 new DriverManager().SetUpDriver(new ChromeConfig());
-                Drivers.Value = new ChromeDriver();
+                ChromeOptions options = new ChromeOptions();
+                options.AddArgument("--incognito");
+                options.AddArgument("--disable-extensions");
+                options.AddArgument("--disable-infobars");
+                Drivers.Value = new ChromeDriver(options);
                 Brw.Value = "chrome";
             }
             Drivers.Value.Manage().Window.Maximize();
+            Drivers.Value.Manage().Cookies.DeleteAllCookies();
         }
 
         public static void SetDriver(string browser)
@@ -80,24 +90,34 @@ namespace si_automated_tests.Source.Core
             if (browser.Equals("chrome", StringComparison.OrdinalIgnoreCase))
             {
                 new DriverManager().SetUpDriver(new ChromeConfig());
-                Drivers.Value = new ChromeDriver();
+                ChromeOptions options = new ChromeOptions();
+                options.AddArgument("--incognito");
+                options.AddArgument("--disable-extensions");
+                options.AddArgument("--disable-infobars");
+                Drivers.Value = new ChromeDriver(options);
             }
             else if (browser.Equals("firefox", StringComparison.OrdinalIgnoreCase))
             {
                 new DriverManager().SetUpDriver(new FirefoxConfig());
-                Drivers.Value = new FirefoxDriver();
+                FirefoxOptions options = new FirefoxOptions();
+                options.AcceptInsecureCertificates = true;
+                Drivers.Value = new FirefoxDriver(options);
             }
             else if (browser.Equals("hchrome", StringComparison.OrdinalIgnoreCase))
             {
                 new DriverManager().SetUpDriver(new ChromeConfig());
                 ChromeOptions options = new ChromeOptions();
                 options.AddArgument("--headless");
+                options.AddArgument("--incognito");
+                options.AddArgument("--disable-extensions");
+                options.AddArgument("--disable-infobars");
+                options.AddArgument("window-size=1920,1080");
                 Drivers.Value = new ChromeDriver(options);
             }
             else if (browser.Equals("ie", StringComparison.OrdinalIgnoreCase))
             {
                 InternetExplorerConfig config = new InternetExplorerConfig();
-                new DriverManager().SetUpDriver(config,config.GetLatestVersion(),WebDriverManager.Helpers.Architecture.X32);
+                new DriverManager().SetUpDriver(config, config.GetLatestVersion(), WebDriverManager.Helpers.Architecture.X32);
                 InternetExplorerOptions ieOptions = new InternetExplorerOptions();
                 ieOptions.PageLoadStrategy = PageLoadStrategy.None;
                 Drivers.Value = new InternetExplorerDriver(ieOptions);

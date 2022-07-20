@@ -18,6 +18,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         private string inspectionIdCompleteType2;
         private string inspectionIdCancelledType2;
 
+        //Need to confirm
         [Category("UpdateInspection"), Order(1)]
         [Test(Description = "Inspection Update and states - Complete - InspectionType = 4")]
         public void TC_120_Inspection_update_and_states_complete_inspection_inspection_type_4()
@@ -374,8 +375,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .InputNote(noteValue)
                 .ClickCreateBtn()
                 //Bug message
-                //.VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
-                .VerifyToastMessage(MessageSuccessConstants.SavePointSegmentSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
             //Click success link and execute line 45 - Complete
             pointSegmentDetailPage
                 .ClickOnInspectionCreatedLink()
@@ -480,8 +480,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .InputNote(noteValue)
                 .ClickCreateBtn()
                 //Bug message
-                //.VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
-                .VerifyToastMessage(MessageSuccessConstants.SavePointSegmentSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
             //Click success link and execute line 51 - Fill all fields in Data tab
             pointSegmentDetailPage
                 .ClickOnInspectionCreatedLink()
@@ -510,7 +509,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .VerifyTimeInEndDateAndTimeField(timeCompleted)
                 .VerifyAllFieldsInPopupDisabled();
             string newNoteDataTab = "New Note Data tab" + CommonUtil.GetRandomString(5);
-            //Line 52 => Verify Data tab
+            //Line 52 => Verify Data tab => Bug (Failed)
             detailInspectionPage
                 .ClickOnDataTab()
                 .WaitForLoadingIconToDisappear();
@@ -592,9 +591,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickAndSelectAllocatedUnit(allocatedUnitValue)
                 .InputNote(noteValue)
                 .ClickCreateBtn()
-                //Bug message
-                //.VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
-                .VerifyToastMessage(MessageSuccessConstants.SavePointSegmentSuccessMessage);
+                //Bug message => Fix (07/07/2022)
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
             //Click success link and execute line 56 - Click Detail tab and click cancelled date calendar icon
             pointSegmentDetailPage
                 .ClickOnInspectionCreatedLink()
@@ -700,8 +698,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .InputNote(noteValue)
                 .ClickCreateBtn()
                 //Bug message
-                //.VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
-                .VerifyToastMessage(MessageSuccessConstants.SavePointSegmentSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
             //Click success link and execute line 59 - Update Valid to = now (UTC) - 2hours
             pointSegmentDetailPage
                 .ClickOnInspectionCreatedLink()

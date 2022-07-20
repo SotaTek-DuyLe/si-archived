@@ -93,6 +93,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ChooseTenure("Owned")
                 .ChooseProduct("General Refuse")
                 .InputProductQuantity(500)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .ClickNext();
             PageFactoryManager.Get<ScheduleServiceTab>()
@@ -783,6 +784,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ChooseTenure(tenure)
                 .ChooseProduct(product)
                 .InputProductQuantity(productQty)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .ClickNext();
             PageFactoryManager.Get<ScheduleServiceTab>()
@@ -1021,6 +1023,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ChooseProduct(product)
                 .ChooseEwcCode("150106")
                 .InputProductQuantity(productQty)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .ClickNext();
             PageFactoryManager.Get<ScheduleServiceTab>()
@@ -1484,6 +1487,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ChooseProduct(product)
                 .ChooseEwcCode("150106")
                 .InputProductQuantity(productQty)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .ClickNext();
             PageFactoryManager.Get<ScheduleServiceTab>()
@@ -1740,8 +1744,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickToTaskLinesTab()
                     .WaitForLoadingIconToDisappear();
-                //PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                //    .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, productQty.ToString(), unit, "Unallocated");
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, productQty.ToString(), unit, "Unallocated");
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickCloseWithoutSaving()
                     .SwitchToChildWindow(3);
@@ -1770,7 +1774,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             List<MobilizationModel> allAdhoc1 = PageFactoryManager.Get<DetailTab>()
                 .GetAllInfoAdhoc();
             PageFactoryManager.Get<DetailTab>()
-                .VerifyAdhocInfo(allAdhoc1, adhocListInput);
+               .VerifyAdhocInfo(allAdhoc1, adhoc, 3);
             PageFactoryManager.Get<DetailTab>()
                 .SwitchToFirstWindow();
 

@@ -50,7 +50,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private readonly By streetGradeFirstRow = By.XPath("//span[text()='Street Grade']/following-sibling::span[1]");
         private readonly By userFirstRow = By.XPath("//div[contains(@class, 'panel-default')][1]//strong[text()='User: ']/following-sibling::span[1]");
         private readonly By userSecondRow = By.XPath("//div[contains(@class, 'panel-default')][2]//strong[text()='User: ']/following-sibling::span[1]");
-      
+
         private readonly By completedDate = By.XPath("//span[text()='Completed date']/following-sibling::span[1]");
         private readonly By cancelledDate = By.XPath("//span[text()='Cancelled date']/following-sibling::span[1]");
         private readonly By expiredDate = By.XPath("//span[text()='Update - Inspection']/parent::div/parent::div/following-sibling::div//span[text()='Inspection expiry date']/following-sibling::span[1]");
@@ -62,7 +62,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private const string inspectionType = "//p[text()='{0}']";
         private const string streetGradeOption = "//label[text()='Street Grade']/following-sibling::select/option[text()='{0}']";
         private const string dataFirstRow = "//div[@id='history-tab']//div[contains(@class, 'panel-default')][1]//span[text()='{0}']";
-        private const string dataSecondRow = "//div[@id='history-tab']//div[contains(@class, 'panel-default')][2]//span[text()='{0}']";
+        private const string dataThirdRow = "//div[@id='history-tab']//div[contains(@class, 'panel-default')][3]//span[text()='{0}']";
 
         public DetailInspectionPage WaitForInspectionDetailDisplayed(string inspectionTypeValue)
         {
@@ -79,7 +79,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
         }
 
-            public DetailInspectionPage IsDetailInspectionPage(string allocatedUnitValue, string assignedUserValue, string noteValue)
+        public DetailInspectionPage IsDetailInspectionPage(string allocatedUnitValue, string assignedUserValue, string noteValue)
         {
             WaitUtil.WaitForElementVisible(allocatedUnitLabel);
             Assert.IsTrue(IsControlEnabled(completeBtn));
@@ -170,7 +170,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             string currentUrl = GetCurrentUrl();
             Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "web/service-units/" + serviceUnitId);
             ClickCloseBtn();
-            SwitchToChildWindow(3);
             return this;
         }
 
@@ -190,7 +189,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         public PointAddressDetailPage ClickAddressLink(string address)
         {
             ClickOnElement(inspectionAddress, address);
-            
+
             return PageFactoryManager.Get<PointAddressDetailPage>();
         }
 
@@ -216,14 +215,15 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
         }
 
-        public DetailInspectionPage VerifyDataDisplayedWithDB(InspectionDBModel inspection, string note, int contractUnitId, int instance, int userId, string validDateValue, string expDateValue)
+        public DetailInspectionPage VerifyDataDisplayedWithDB(InspectionDBModel inspection, string note, int contractUnitId, int instance, int userId, string validDateValue, string expDateValue, string validDateWithNewFormat, string expDateWithNewFormat)
         {
             Assert.AreEqual(inspection.note, note);
             Assert.AreEqual(inspection.contractunitID, contractUnitId);
             Assert.AreEqual(inspection.inspectioninstance, instance);
             Assert.AreEqual(inspection.userID, userId);
-            Assert.AreEqual(inspection.inspectionvaliddate.ToString().Replace("-", "/"), validDateValue + " 00:00:00");
-            Assert.AreEqual(inspection.inspectionexpirydate.ToString().Replace("-", "/"), expDateValue + " 00:00:00");
+            Assert.IsTrue(inspection.inspectionvaliddate.ToString().Replace("-", "/").Contains(validDateValue + " 00:00:00") || inspection.inspectionvaliddate.ToString().Replace("-", "/").Contains(validDateWithNewFormat + " 00:00:00"), "Wrong inpsection valid Date");
+            Assert.IsTrue(inspection.inspectionexpirydate.ToString().Replace("-", "/").Contains(expDateValue + " 00:00:00") ||
+              inspection.inspectionexpirydate.ToString().Replace("-", "/").Contains(expDateWithNewFormat + " 00:00:00"), "Wrong inpsection expiry Date");
             return this;
         }
 
@@ -234,8 +234,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(inspection.inspectioninstance, instance);
             Assert.AreEqual(inspection.username, userNameCreatedInspec);
             Assert.AreEqual(allocatedUserInModel, allocatedUserDisplayed);
-            Assert.AreEqual(inspection.inspectionvaliddate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), validDateValue);
-            Assert.AreEqual(inspection.inspectionexpirydate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), expDateValue);
+            Assert.AreEqual(inspection.inspectionvaliddate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), validDateValue, "Wrong inpsection valid Date");
+            Assert.AreEqual(inspection.inspectionexpirydate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), expDateValue, "Wrong inpsection expiry Date");
             return this;
         }
 
@@ -261,8 +261,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(userValue + ".", GetElementText(historyItem, "User"));
             Assert.AreEqual(instanceValue + ".", GetElementText(historyItem, "Instance"));
             //Date
-            Assert.AreEqual(validDate + " 00:00.", GetElementText(historyItem, "Inspection valid date"));
-            Assert.AreEqual(expDate + " 00:00.", GetElementText(historyItem, "Inspection expiry date"));
+            Assert.AreEqual(validDate + " 00:00.", GetElementText(historyItem, "Inspection valid date"), "Wrong inpsection valid Date in History tab");
+            Assert.AreEqual(expDate + " 00:00.", GetElementText(historyItem, "Inspection expiry date"), "Wrong inpsection expiry Date in History tab");
             return this;
         }
 
@@ -281,7 +281,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(GetElementText(userFirstRow), userValue);
             Assert.IsTrue(IsControlDisplayed(dataFirstRow, accessPoint + "."));
             Assert.AreEqual(GetElementText(userSecondRow), userValue);
-            Assert.IsTrue(IsControlDisplayed(dataSecondRow, secondNote + "."));
+            Assert.IsTrue(IsControlDisplayed(dataThirdRow, secondNote + "."));
             return this;
         }
 

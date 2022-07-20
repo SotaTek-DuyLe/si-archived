@@ -472,33 +472,33 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
 
-            PageFactoryManager.Get<NavigationBase>()
-               .ClickMainOption("Resources")
-               .OpenOption("Default Allocation")
-               .SwitchNewIFrame();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract("North Star Commercial")
-                .SelectBusinessUnit("North Star Commercial")
-                .SelectShift("AM")
-                .ClickGo()
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .DeallocateResourceFromRoundGroup(2, resourceNameA)
-                .VerifyToastMessage("Default resource cleared")
-                .WaitUntilToastMessageInvisible("Default resource cleared");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .DeallocateResourceFromRoundGroup(2, resourceNameB)
-                .VerifyToastMessage("Default resource cleared")
-                .WaitUntilToastMessageInvisible("Default resource cleared");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .DeallocateResourceFromRoundGroup(2, resourceType)
-                .VerifyToastMessage("Default resource-type cleared")
-                .WaitUntilToastMessageInvisible("Default resource-type cleared");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .DeallocateResourceFromRoundGroup(2, resourceType)
-                .VerifyToastMessage("Default resource-type cleared")
-                .WaitUntilToastMessageInvisible("Default resource-type cleared");
+            //PageFactoryManager.Get<NavigationBase>()
+            //   .ClickMainOption("Resources")
+            //   .OpenOption("Default Allocation")
+            //   .SwitchNewIFrame();
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .SelectContract("North Star Commercial")
+            //    .SelectBusinessUnit("North Star Commercial")
+            //    .SelectShift("AM")
+            //    .ClickGo()
+            //    .WaitForLoadingIconToDisappear()
+            //    .SleepTimeInMiliseconds(2000);
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .DeallocateResourceFromRoundGroup(2, resourceNameA)
+            //    .VerifyToastMessage("Default resource cleared")
+            //    .WaitUntilToastMessageInvisible("Default resource cleared");
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .DeallocateResourceFromRoundGroup(2, resourceNameB)
+            //    .VerifyToastMessage("Default resource cleared")
+            //    .WaitUntilToastMessageInvisible("Default resource cleared");
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .DeallocateResourceFromRoundGroup(2, resourceType)
+            //    .VerifyToastMessage("Default resource-type cleared")
+            //    .WaitUntilToastMessageInvisible("Default resource-type cleared");
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .DeallocateResourceFromRoundGroup(2, resourceType)
+            //    .VerifyToastMessage("Default resource-type cleared")
+            //    .WaitUntilToastMessageInvisible("Default resource-type cleared");
         }
     }
 }
