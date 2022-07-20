@@ -259,5 +259,22 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(unitpointId, serviceUnitPointModel.serviceUnitPointID);
             return this;
         }
+
+        public ServiceUnitDetailPage VerifyServiceUnitPointWithDB(List<ServiceUnitPointModel> serviceUnitPointModels, List<ServiceUnitPointDBModel> serviceUnitPointAllDataDBModel, PointAddressModel pointAddressFirstRow, PointAddressModel pointAddressSecondRow)
+        {
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].serviceunitpointID, serviceUnitPointModels[0].serviceUnitPointID);
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].serviceunitpointID, serviceUnitPointModels[1].serviceUnitPointID);
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].pointID, serviceUnitPointModels[0].pointID);
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].pointID, serviceUnitPointModels[0].pointID);
+            Assert.AreEqual(pointAddressFirstRow.Sourcedescription, serviceUnitPointModels[0].desc);
+            Assert.AreEqual(pointAddressSecondRow.Sourcedescription, serviceUnitPointModels[1].desc);
+            //Start date - end date
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].startdate.ToString(), CommonUtil.ParseDateTimeStringToNewFormat(serviceUnitPointModels[0].startDate, CommonConstants.DATE_YYYY_MM_DD_FORMAT_DB) + " 00:00:00.000");
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].startdate.ToString(), CommonUtil.ParseDateTimeStringToNewFormat(serviceUnitPointModels[1].startDate, CommonConstants.DATE_YYYY_MM_DD_FORMAT_DB) + " 00:00:00.000");
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].enddate.ToString(), CommonUtil.ParseDateTimeStringToNewFormat(serviceUnitPointModels[0].endDate, CommonConstants.DATE_YYYY_MM_DD_FORMAT_DB) + " 00:00:00.000");
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].enddate.ToString(), CommonUtil.ParseDateTimeStringToNewFormat(serviceUnitPointModels[1].endDate, CommonConstants.DATE_YYYY_MM_DD_FORMAT_DB) + " 00:00:00.000");
+
+            return this;
+        }
     }
 }

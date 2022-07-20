@@ -22,9 +22,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         //DYNAMIC
         private const string columnInGrid = "//tr/th[text()='{0}']";
         private const string resultNotFoundInGrid = "//td/label[text()=\"No results found '{0}'\"]";
-        private const string idInServiceUnitGrid = "//tbody/tr[{0}]/td[1]";
-        private const string serviceUnitNameInServiceUnitGrid = "//tbody/tr[{0}]/td[2]/a";
-        private const string pointCoundInServiceUnitGrid = "//tbody/tr[{0}]/td[3]";
+        private readonly By allServiceUnitRows = By.XPath("//tbody/tr");
+        private const string idInServiceUnitGrid = "//tbody/tr[{0}]/td[@data-bind='text: id']";
+        private const string serviceUnitNameInServiceUnitGrid = "//tbody/tr[{0}]//a";
+        private const string pointCoundInServiceUnitGrid = "//tbody/tr[{0}]/td[@data-bind='text: pointCount']";
         private const string selectLocatorInServiceUnitGrid = "//tbody/tr[{0}]//button";
 
         //Verify the display of service unit page
@@ -85,6 +86,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         //Verify the display of the result after searching
         public FindServiceUnitDetailPage VerifyDisplayNoResultFound(string textSearch)
         {
+            WaitUtil.WaitForElementVisible(resultNotFoundInGrid, textSearch);
             Assert.IsTrue(IsControlDisplayed(resultNotFoundInGrid, textSearch));
             return this;
         }
@@ -92,6 +94,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         //Get All Service unit in list
         public List<FindServiceUnitModel> GetAllServiceUnit(int numberOfRow)
         {
+            WaitUtil.WaitForAllElementsPresent(allServiceUnitRows);
             List<FindServiceUnitModel> findServiceUnitModels = new List<FindServiceUnitModel>();
             for (int i = 0; i < numberOfRow; i++)
             {
@@ -103,6 +106,33 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 findServiceUnitModels.Add(new FindServiceUnitModel(id, serviceUnitName, serviceUnitLocator, pointCount, selectLocator));
             }
             return findServiceUnitModels;
+        }
+
+        public List<FindServiceUnitModel> GetAllServiceUnit()
+        {
+            WaitUtil.WaitForAllElementsPresent(allServiceUnitRows);
+            List<FindServiceUnitModel> findServiceUnitModels = new List<FindServiceUnitModel>();
+            List<IWebElement> allRows = GetAllElements(allServiceUnitRows);
+            for (int i = 0; i < allRows.Count; i++)
+            {
+                string id = GetElementText(idInServiceUnitGrid, (i + 1).ToString());
+                string serviceUnitName = GetElementText(serviceUnitNameInServiceUnitGrid, (i + 1).ToString());
+                string serviceUnitLocator = string.Format(serviceUnitNameInServiceUnitGrid, (i + 1).ToString());
+                string pointCount = GetElementText(pointCoundInServiceUnitGrid, (i + 1).ToString());
+                string selectLocator = string.Format(selectLocatorInServiceUnitGrid, (i + 1).ToString());
+                findServiceUnitModels.Add(new FindServiceUnitModel(id, serviceUnitName, serviceUnitLocator, pointCount, selectLocator));
+            }
+            return findServiceUnitModels;
+        }
+
+        //Verify [Service unit] after searching
+        public FindServiceUnitDetailPage VerifyResultAfterSearch(List<FindServiceUnitModel> findServiceUnitModels, string textSearch)
+        {
+            foreach(FindServiceUnitModel findServiceUnitModel in findServiceUnitModels)
+            {
+                Assert.IsTrue(findServiceUnitModel.serviceUnit.Contains(textSearch));
+            }
+            return this;
         }
 
         //Click any link in [Service unit]

@@ -80,7 +80,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickHelpBtnAndVerify()
                 //Step 5: Close without saving
                 .ClickCloseWithoutSavingBtn()
-                .VerifyWindowClosed(2);
+                .VerifyWindowClosed(2)
+                .SwitchToChildWindow(2);
             //Step 10: Verify that the form works correctly
             pointAddressDetailPage
                 .ClickOnAnyActionBtn(2)
@@ -94,7 +95,19 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickFindBtn()
                 .WaitForLoadingIconToDisappear();
             findServiceUnitDetailPage
-                .VerifyDisplayNoResultFound(textSearch)
+                .VerifyDisplayNoResultFound(textSearch);
+            //Step 24: SP to verify
+            string anyServiceUnitInDB = "1 ABBOTT CLOSE, HAMPTON, TW12 3XR";
+            findServiceUnitDetailPage
+                .InputKeyInSearch(anyServiceUnitInDB)
+                .ClickFindBtn()
+                .WaitForLoadingIconToDisappear();
+            List<FindServiceUnitModel> listServiceUnit = findServiceUnitDetailPage
+                .GetAllServiceUnit();
+            findServiceUnitDetailPage
+                .VerifyResultAfterSearch(listServiceUnit, anyServiceUnitInDB);
+
+            findServiceUnitDetailPage
                 .InputKeyInSearch(serviceUnit)
                 .ClickFindBtn()
                 .WaitForLoadingIconToDisappear();
@@ -107,7 +120,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceUnitDetailPage>()
-                .WaitForServiceUnitDetailPageDisplayed(findServiceUnitModel.ServiceUnitName)
+                .WaitForServiceUnitDetailPageDisplayed(findServiceUnitModel.serviceUnit)
                 .VerifyServiceUnitId(findServiceUnitModel.id)
                 .CloseCurrentWindow()
                 .SwitchToChildWindow(3);
@@ -132,8 +145,11 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceUnitPointDetailPage
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
             string serviceUnitPointId = serviceUnitPointDetailPage
-                .VerifyServiceUnitPointTypeAfter("Point of Service")
+                .VerifyServiceUnitPointTypeAfter("Serviced Point")
                 .GetServiceUnitPointId();
             //Step 16: Run query to check service unit point
             List<ServiceUnitPointDBModel> serviceUnitPointDBModels = finder.GetServiceUnitPoint(int.Parse(serviceUnitPointId));
@@ -196,6 +212,12 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifySecondServiceUnitPoint(serviceUnitPointModels[1], "423332");
             //Step 22: Run query to check
             List<ServiceUnitPointDBModel> serviceUnitPointAllData = finder.GetServiceUnitPointWithNoLock(13);
+            //Get Point address
+            List<PointAddressModel> pointAddressFirstRow = finder.GetPointAddress(serviceUnitPointAllData[0].pointID.ToString());
+            List<PointAddressModel> pointAddressSecondRow = finder.GetPointAddress(serviceUnitPointAllData[1].pointID.ToString());
+            serviceUnitDetailPage
+                .VerifyServiceUnitPointWithDB(serviceUnitPointModels, serviceUnitPointAllData, pointAddressFirstRow[0], pointAddressSecondRow[1]);
+            //Step 23: 
         }
     }
 }

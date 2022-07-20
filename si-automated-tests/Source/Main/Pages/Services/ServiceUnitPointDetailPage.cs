@@ -22,8 +22,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By serviceUnitPointTypeDd = By.CssSelector("select[name='serviceUnitPointType']");
 
         //MAP TAB
-        private readonly By typeValue = By.CssSelector("//td[text()='Address']/following-sibling::td");
-        private readonly By segmentValue = By.CssSelector("//td[text()='Segment']/following-sibling::td");
+        private readonly By typeValue = By.XPath("//td[text()='Address']/following-sibling::td");
+        private readonly By segmentValue = By.XPath("//td[text()='Segment']/following-sibling::td");
 
         public ServiceUnitPointDetailPage IsServiceUnitPointDetailPage(string serviceUnitPointNameExp)
         {
@@ -49,6 +49,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceUnitPointDetailPage ClickOnMapTab()
         {
             ClickOnElement(mapTab);
+            return this;
+        }
+
+        public ServiceUnitPointDetailPage ClickOnDetailTab()
+        {
+            ClickOnElement(detailTab);
             return this;
         }
 

@@ -11,5 +11,7 @@ namespace si_automated_tests.Source.Main.DBModels
         public DateTime enddate { get; set; }
         public int pointqualifierID { get; set; }
         public int serviceunitpointtype { get; set; }
+        public string pointqualifierdata { get; set; }
+
     }
 }

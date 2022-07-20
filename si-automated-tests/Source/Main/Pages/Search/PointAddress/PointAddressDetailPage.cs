@@ -20,7 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private readonly By titleDetail = By.XPath("//h4[text()='Point Address']");
         private readonly By pointAddressName = By.XPath("//span[@class='object-name']");
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
-        private readonly By allAservicesTab = By.CssSelector("a[aria-controls='allServices - tab']");
+        private readonly By allAservicesTab = By.CssSelector("a[aria-controls='allServices-tab']");
 
         //DETAILS TAB
         //private readonly By propertyName = By.Id("propertyName");
@@ -664,7 +664,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             Assert.AreEqual(GetElementText(scheduleCountExp, atRow), scheduleCountExp);
             Assert.AreEqual(GetElementText(statusActiveAtRow, atRow), statusExp);
             return this;
+        
         }
     }
-}
 }
