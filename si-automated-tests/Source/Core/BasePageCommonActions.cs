@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using si_automated_tests.Source.Core.WebElements;
 using System;
@@ -427,6 +428,36 @@ namespace si_automated_tests.Source.Core
                 Assert.AreNotEqual(expectedValues, tableElement.GetRowValue(rowIdx));
             }
             return this;
+        }
+
+        public BasePageCommonActions VerifyElementIsMandatory(By element, bool isMandatory = true)
+        {
+            string rgb = GetCssValue(element, "border-color");
+            string[] colorsOnly = rgb.Replace("rgb", "").Replace("(", "").Replace(")", "").Split(',');
+            int R = colorsOnly[0].AsInteger();
+            int G = colorsOnly[1].AsInteger();
+            int B = colorsOnly[2].AsInteger();
+            if (isMandatory)
+            {
+                Assert.IsTrue(R > 100 && R > G * 2 && R > B * 2);
+            }
+            else
+            {
+                Assert.IsFalse(R > 100 && R > G * 2 && R > B * 2);
+            }
+            return this;
+        }
+
+        public BasePageCommonActions DragAndDrop(IWebElement dragSource, IWebElement dropTarget)
+        {
+            Actions a = new Actions(driver);
+            a.DragAndDrop(dragSource, dropTarget).Build().Perform();
+            return this;
+        }
+
+        public BasePageCommonActions DragAndDrop(By dragSource, By dropTarget)
+        {
+            return DragAndDrop(GetElement(dragSource), GetElement(dropTarget));
         }
     }
 }

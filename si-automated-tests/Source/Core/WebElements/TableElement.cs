@@ -81,6 +81,41 @@ namespace si_automated_tests.Source.Core.WebElements
             return webElement;
         }
 
+        public IWebElement GetRowByCellValues(Dictionary<int, object> filterCells)
+        {
+            IWebElement webElement = null;
+            int rowIdx = 0;
+            var rowCount = GetRows().Count;
+            while (rowIdx < rowCount)
+            {
+                bool isMatch = false;
+                foreach (var filterCell in filterCells)
+                {
+                    if (GetRowValue(rowIdx)[filterCell.Key].AsString().Trim() != filterCell.Value.AsString().Trim())
+                    {
+                        isMatch = false;
+                        break;
+                    }
+                    else
+                    {
+                        isMatch = true;
+                    }
+                }
+                if (isMatch)
+                {
+                    return GetRow(rowIdx);
+                }
+                rowIdx++;
+            }
+            return webElement;
+        }
+
+        public IWebElement GetCellByCellValues(int cellIdx, Dictionary<int, object> filterCells)
+        {
+            IWebElement row = GetRowByCellValues(filterCells);
+            return row.FindElement(By.XPath(CellXpaths[cellIdx]));
+        }
+
         public object GetCellValue(int rowIdx, int cellIdx)
         {
             return GetRowValue(rowIdx)[cellIdx];
@@ -169,6 +204,21 @@ namespace si_automated_tests.Source.Core.WebElements
         public void ClickCell(int rowIdx, int cellIdx)
         {
             WaitUtil.WaitForElementClickable(GetCell(rowIdx, cellIdx)).Click();
+        }
+
+        public void ClickCellOnCellValue(int clickCellidx, int filterCellIdx, object value)
+        {
+            IWebElement row = GetRowByCellValue(filterCellIdx, value);
+            IWebElement cell = row.FindElement(By.XPath(CellXpaths[clickCellidx]));
+            WaitUtil.WaitForElementClickable(cell).Click();
+        }
+
+        public void DoubleClickCellOnCellValue(int clickCellidx, int filterCellIdx, object value)
+        {
+            IWebElement row = GetRowByCellValue(filterCellIdx, value);
+            IWebElement cell = row.FindElement(By.XPath(CellXpaths[clickCellidx]));
+            Actions act = new Actions(IWebDriverManager.GetDriver());
+            act.DoubleClick(cell).Perform();
         }
 
         public void DoubleClickCell(int rowIdx, int cellIdx)

@@ -1,7 +1,7 @@
 ﻿using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.DBModels;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace si_automated_tests.Source.Main.Finders
 {
@@ -106,6 +106,11 @@ namespace si_automated_tests.Source.Main.Finders
         {
             string query = "SELECT * FROM pointnodes p WHERE p.pointnodeID = " + pointNodeId + ";";
             return FindList<PointNodeDBModel>(query);
+        }
+
+        public ServiceUnitModel GetServiceUnitById(int serviceId)
+        {
+            return FindList<ServiceUnitModel>("select * from serviceunits where serviceunitID=" + serviceId + ";").FirstOrDefault();
         }
     }
 }
