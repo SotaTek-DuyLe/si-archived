@@ -706,7 +706,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             ServiceUnitPointDetailPage serviceUnitPointDetailPage = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
             serviceUnitPointDetailPage
                 .IsServiceUnitPointDetailPage(pointAreaName)
-                .VerifyValuesInDetailTab(idNode, "Point Note");
+                .VerifyValuesInDetailTab(idNode, "Point Node");
             //Step 14: Verify [Map] tab
             serviceUnitPointDetailPage
                 .ClickOnMapTab()
