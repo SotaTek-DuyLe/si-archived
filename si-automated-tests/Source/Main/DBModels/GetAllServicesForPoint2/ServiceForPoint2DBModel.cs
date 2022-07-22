@@ -4,7 +4,7 @@ namespace si_automated_tests.Source.Main.DBModels.GetAllServicesForPoint2
     public class ServiceForPoint2DBModel
     {
         public string Contract { get; set; }
-        public string ContractID { get; set; }
+        public int ContractID { get; set; }
         public string ServiceGroup { get; set; }
         public int ServiceID { get; set; }
         public int ServiceUnitTypeID { get; set; }

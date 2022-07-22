@@ -78,10 +78,11 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         public ServiceUnitPointDetailPage VerifyUIWithDB(ServiceUnitPointDBModel serviceUnitPointDBModel, PointTypeDBModel pointTypeDBModel)
         {
-            Assert.AreEqual(serviceUnitPointDBModel.pointID, GetAttributeValue(pointIdInput, "value"));
-            Assert.AreEqual(pointTypeDBModel.pointtype, GetAttributeValue(pointIdInput, "value"));
-            Assert.AreEqual(serviceUnitPointDBModel.startdate.ToString(), GetAttributeValue(startDateInput, "value").Replace("-", "/") + "00:00:00.000");
-            Assert.AreEqual(serviceUnitPointDBModel.enddate.ToString(), GetAttributeValue(endDateInput, "value").Replace("-", "/") + "00:00:00.000");
+            Assert.AreEqual(serviceUnitPointDBModel.pointID.ToString(), GetAttributeValue(pointIdInput, "value"));
+            Assert.AreEqual(pointTypeDBModel.pointtype.ToString(), GetFirstSelectedItemInDropdown(pointTypeSelect));
+            Assert.IsTrue(serviceUnitPointDBModel.startdate.ToString().Replace("-", "/").Contains(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT) + " 00:00:00") || serviceUnitPointDBModel.startdate.ToString().Replace("-", "/").Contains(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT) + " 00:00:00"), "Wrong inpsection valid Date");
+            Console.WriteLine(serviceUnitPointDBModel.enddate.ToString());
+            Assert.IsTrue(serviceUnitPointDBModel.enddate.ToString().Contains("01/01/2050 00:00:00"));
             return this;
         }
     }

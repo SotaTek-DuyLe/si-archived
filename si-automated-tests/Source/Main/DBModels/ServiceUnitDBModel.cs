@@ -12,7 +12,7 @@ namespace si_automated_tests.Source.Main.DBModels
         public int streetID { get; set; }
         public int pointsegmentID { get; set; }
         public string clientreference { get; set; }
-        public int islocked { get; set; }
+        public bool islocked { get; set; }
         public int servicelevelID { get; set; }
 
         public ServiceUnitDBModel()

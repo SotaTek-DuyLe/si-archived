@@ -18,7 +18,7 @@ namespace si_automated_tests.Source.Main.Models.Services
         public ServiceUnitPointModel(string id, string pointId, string desc, string type, string qualifier, string startDate, string endDate)
         {
             this.serviceUnitPointID = id;
-            this.pointID = pointID;
+            this.pointID = pointId;
             this.desc = desc;
             this.type = type;
             this.qualifier = qualifier;

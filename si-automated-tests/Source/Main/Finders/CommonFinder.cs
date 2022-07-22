@@ -95,5 +95,17 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from inspections where inspectionID=" + inspectionId + ";";
             return FindList<InspectionDBModel>(query);
         }
+
+        public List<PointAreaDBModel> GetPointArea(int pointAreaId)
+        {
+            string query = "SELECT * FROM pointareas p WHERE p.pointareaID = " + pointAreaId + ";";
+            return FindList<PointAreaDBModel>(query);
+        }
+
+        public List<PointNodeDBModel> GetPointNode(int pointNodeId)
+        {
+            string query = "SELECT * FROM pointnodes p WHERE p.pointnodeID = " + pointNodeId + ";";
+            return FindList<PointNodeDBModel>(query);
+        }
     }
 }

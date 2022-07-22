@@ -601,6 +601,13 @@ namespace si_automated_tests.Source.Core
             xpath = String.Format(xpath, value);
             return WaitUtil.WaitForElementVisible(xpath).Selected;
         }
+
+        public BasePage WaitForLoadingIconToAppear()
+        {
+            WaitUtil.WaitForElementVisible("//*[contains(@data-bind,'shield: isLoading')]");
+            return this;
+        }
+
         public BasePage WaitForLoadingIconToDisappear(bool implicitSleep = true)
         {
             try

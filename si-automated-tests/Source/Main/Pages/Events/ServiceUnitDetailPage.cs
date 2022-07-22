@@ -187,12 +187,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 Assert.AreEqual(serviceUnitDBModel.clientreference, GetAttributeValue(clientRefInput, "value"));
             }
             //Start + end date
-            Assert.AreEqual(serviceUnitDBModel.startdate.ToString(), GetAttributeValue(startDateInput, "value").Replace("/", "-") + "00:00:00.000");
-            Assert.AreEqual(serviceUnitDBModel.endDate.ToString(), GetAttributeValue(endDateInput, "value").Replace("/", "-") + "00:00:00.000");
+            Assert.IsTrue(serviceUnitDBModel.startdate.ToString("dd/MM/yyyy").Contains(GetAttributeValue(startDateInput, "value")) || serviceUnitDBModel.startdate.ToString("MM/dd/yyyy").Contains(GetAttributeValue(startDateInput, "value")));
+            Assert.IsTrue(serviceUnitDBModel.endDate.ToString("dd/MM/yyyy").Contains(GetAttributeValue(endDateInput, "value")) ||serviceUnitDBModel.endDate.ToString("MM/dd/yyyy").Contains(GetAttributeValue(endDateInput, "value")));
             //Point segment
             Assert.AreEqual(pointSegmentDBModel.pointsegment, GetAttributeValue(pointSegmentInput, "value"));
             //Clocked
-            if(serviceUnitDBModel.islocked == 0)
+            if(!serviceUnitDBModel.islocked)
             {
                 Assert.IsFalse(IsCheckboxChecked(lockCheckbox));
             } else
@@ -236,20 +236,18 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 string desc = GetElementText(descRow, (i + 1).ToString());
                 string type = GetFirstSelectedItemInDropdown(string.Format(typeRow, (i + 1).ToString()));
                 string qualifier = GetFirstSelectedItemInDropdown(string.Format(qualifierRow, (i + 1).ToString()));
-                string startDate = GetElementText(startDateRow, (i + 1).ToString());
-                string endDate = GetElementText(endDateRow, (i + 1).ToString());
+                string startDate = GetAttributeValue(string.Format(startDateRow, (i + 1).ToString()), "value");
+                string endDate = GetAttributeValue(string.Format(endDateRow, (i + 1).ToString()), "value");
                 result.Add(new ServiceUnitPointModel(id, pointId, desc, type, qualifier, startDate, endDate));
             }
             return result;
         }
 
-        public ServiceUnitDetailPage VerifyFirstServiceUnitPoint(ServiceUnitPointModel serviceUnitPointModel, string unitpointId, string pointId, string desc, string type, string startDate, string endDate)
+        public ServiceUnitDetailPage VerifyFirstServiceUnitPoint(ServiceUnitPointModel serviceUnitPointModel, string unitpointId, string desc, string type, string endDate)
         {
             Assert.AreEqual(unitpointId, serviceUnitPointModel.serviceUnitPointID);
-            Assert.AreEqual(pointId, serviceUnitPointModel.pointID);
             Assert.AreEqual(desc, serviceUnitPointModel.desc);
             Assert.AreEqual(type, serviceUnitPointModel.type);
-            Assert.AreEqual(startDate, serviceUnitPointModel.startDate);
             Assert.AreEqual(endDate, serviceUnitPointModel.endDate);
             return this;
         }
@@ -260,19 +258,86 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
-        public ServiceUnitDetailPage VerifyServiceUnitPointWithDB(List<ServiceUnitPointModel> serviceUnitPointModels, List<ServiceUnitPointDBModel> serviceUnitPointAllDataDBModel, PointAddressModel pointAddressFirstRow, PointAddressModel pointAddressSecondRow)
+        public ServiceUnitDetailPage VerifyServiceUnitPointAddressWithDB(List<ServiceUnitPointModel> serviceUnitPointModels, List<ServiceUnitPointDBModel> serviceUnitPointAllDataDBModel, PointAddressModel pointAddressFirstRow, string pointAddressSecondRow)
         {
-            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].serviceunitpointID, serviceUnitPointModels[0].serviceUnitPointID);
-            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].serviceunitpointID, serviceUnitPointModels[1].serviceUnitPointID);
-            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].pointID, serviceUnitPointModels[0].pointID);
-            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].pointID, serviceUnitPointModels[0].pointID);
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].serviceunitpointID.ToString(), serviceUnitPointModels[0].serviceUnitPointID);
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].serviceunitpointID.ToString(), serviceUnitPointModels[1].serviceUnitPointID);
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].pointID.ToString(), serviceUnitPointModels[0].pointID);
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].pointID.ToString(), serviceUnitPointModels[1].pointID);
             Assert.AreEqual(pointAddressFirstRow.Sourcedescription, serviceUnitPointModels[0].desc);
-            Assert.AreEqual(pointAddressSecondRow.Sourcedescription, serviceUnitPointModels[1].desc);
+            Assert.AreEqual(pointAddressSecondRow, serviceUnitPointModels[1].desc);
             //Start date - end date
-            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].startdate.ToString(), CommonUtil.ParseDateTimeStringToNewFormat(serviceUnitPointModels[0].startDate, CommonConstants.DATE_YYYY_MM_DD_FORMAT_DB) + " 00:00:00.000");
-            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].startdate.ToString(), CommonUtil.ParseDateTimeStringToNewFormat(serviceUnitPointModels[1].startDate, CommonConstants.DATE_YYYY_MM_DD_FORMAT_DB) + " 00:00:00.000");
-            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].enddate.ToString(), CommonUtil.ParseDateTimeStringToNewFormat(serviceUnitPointModels[0].endDate, CommonConstants.DATE_YYYY_MM_DD_FORMAT_DB) + " 00:00:00.000");
-            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].enddate.ToString(), CommonUtil.ParseDateTimeStringToNewFormat(serviceUnitPointModels[1].endDate, CommonConstants.DATE_YYYY_MM_DD_FORMAT_DB) + " 00:00:00.000");
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[0].startdate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[0].startDate) ||
+            serviceUnitPointAllDataDBModel[0].startdate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[0].startDate));
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[1].startdate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[1].startDate) ||
+            serviceUnitPointAllDataDBModel[1].startdate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[1].startDate));
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[0].enddate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[0].endDate) ||
+            serviceUnitPointAllDataDBModel[0].enddate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[0].endDate));
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[1].enddate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[1].endDate) ||
+            serviceUnitPointAllDataDBModel[1].enddate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[1].endDate));
+
+            return this;
+        }
+
+        public ServiceUnitDetailPage VerifyServiceUnitPointSegmentWithDB(List<ServiceUnitPointModel> serviceUnitPointModels, List<ServiceUnitPointDBModel> serviceUnitPointAllDataDBModel, PointSegmentDBModel pointSegmentDBModelFirstRow, string addressSecondRow)
+        {
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].serviceunitpointID.ToString(), serviceUnitPointModels[0].serviceUnitPointID, "Wrong serviceUnitPointID");
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].serviceunitpointID.ToString(), serviceUnitPointModels[1].serviceUnitPointID, "Wrong serviceUnitPointID");
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].pointID.ToString(), serviceUnitPointModels[0].pointID, "Wrong pointId");
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].pointID.ToString(), serviceUnitPointModels[1].pointID, "Wrong pointId");
+            Assert.AreEqual(pointSegmentDBModelFirstRow.pointsegment, serviceUnitPointModels[0].desc, "Wrong desc");
+            Assert.AreEqual(addressSecondRow, serviceUnitPointModels[1].desc, "Wrong desc");
+            //Start date - end date
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[0].startdate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[0].startDate) ||
+            serviceUnitPointAllDataDBModel[0].startdate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[0].startDate));
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[1].startdate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[1].startDate) ||
+            serviceUnitPointAllDataDBModel[1].startdate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[1].startDate));
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[0].enddate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[0].endDate) ||
+            serviceUnitPointAllDataDBModel[0].enddate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[0].endDate));
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[1].enddate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[1].endDate) ||
+            serviceUnitPointAllDataDBModel[1].startdate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[1].endDate));
+
+            return this;
+        }
+
+        public ServiceUnitDetailPage VerifyServiceUnitPointAreaWithDB(List<ServiceUnitPointModel> serviceUnitPointModels, List<ServiceUnitPointDBModel> serviceUnitPointAllDataDBModel, PointAreaDBModel pointAreaDBModel, string addressSecondRow)
+        {
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].serviceunitpointID.ToString(), serviceUnitPointModels[0].serviceUnitPointID, "Wrong serviceUnitPointID");
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].serviceunitpointID.ToString(), serviceUnitPointModels[1].serviceUnitPointID, "Wrong serviceUnitPointID");
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].pointID.ToString(), serviceUnitPointModels[0].pointID, "Wrong pointId");
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].pointID.ToString(), serviceUnitPointModels[1].pointID, "Wrong pointId");
+            Assert.AreEqual(pointAreaDBModel.areaname, serviceUnitPointModels[0].desc, "Wrong desc");
+            Assert.AreEqual(addressSecondRow, serviceUnitPointModels[1].desc, "Wrong desc");
+            //Start date - end date
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[0].startdate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[0].startDate) ||
+            serviceUnitPointAllDataDBModel[0].startdate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[0].startDate));
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[1].startdate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[1].startDate) ||
+            serviceUnitPointAllDataDBModel[1].startdate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[1].startDate));
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[0].enddate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[0].endDate) ||
+            serviceUnitPointAllDataDBModel[0].enddate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[0].endDate));
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[1].enddate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[1].endDate) ||
+            serviceUnitPointAllDataDBModel[1].startdate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[1].endDate));
+
+            return this;
+        }
+
+        public ServiceUnitDetailPage VerifyServiceUnitPointNodeWithDB(List<ServiceUnitPointModel> serviceUnitPointModels, List<ServiceUnitPointDBModel> serviceUnitPointAllDataDBModel, PointNodeDBModel pointNodeDBModel, string addressSecondRow)
+        {
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].serviceunitpointID.ToString(), serviceUnitPointModels[0].serviceUnitPointID, "Wrong serviceUnitPointID");
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].serviceunitpointID.ToString(), serviceUnitPointModels[1].serviceUnitPointID, "Wrong serviceUnitPointID");
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[0].pointID.ToString(), serviceUnitPointModels[0].pointID, "Wrong pointId");
+            Assert.AreEqual(serviceUnitPointAllDataDBModel[1].pointID.ToString(), serviceUnitPointModels[1].pointID, "Wrong pointId");
+            Assert.AreEqual(pointNodeDBModel.pointnode, serviceUnitPointModels[0].desc, "Wrong desc");
+            Assert.AreEqual(addressSecondRow, serviceUnitPointModels[1].desc, "Wrong desc");
+            //Start date - end date
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[0].startdate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[0].startDate) ||
+            serviceUnitPointAllDataDBModel[0].startdate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[0].startDate));
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[1].startdate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[1].startDate) ||
+            serviceUnitPointAllDataDBModel[1].startdate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[1].startDate));
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[0].enddate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[0].endDate) ||
+            serviceUnitPointAllDataDBModel[0].enddate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[0].endDate));
+            Assert.IsTrue(serviceUnitPointAllDataDBModel[1].enddate.ToString("dd/MM/yyyy").Contains(serviceUnitPointModels[1].endDate) ||
+            serviceUnitPointAllDataDBModel[1].startdate.ToString("MM/dd/yyyy").Contains(serviceUnitPointModels[1].endDate));
 
             return this;
         }

@@ -87,14 +87,15 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private readonly By totalServicesRows = By.CssSelector("tbody[data-bind='foreach: allServices']>tr");
         private readonly By allContractRows = By.CssSelector("tbody td[data-bind='text: $data.contract']");
         private readonly By allServiceRows = By.CssSelector("tbody td[data-bind='text: $data.service']");
-        private readonly By allServiceUnitRows = By.CssSelector("tbody a[title='Open Service Unit']");
+        private readonly By allServiceUnitRows = By.CssSelector("tbody[data-bind='foreach: allServices']>tr>td:nth-child(3)");
         private readonly By allTaskCountRows = By.CssSelector("tbody td[data-bind='text: $data.taskCount']");
-        private readonly By allScheduledCountRows = By.CssSelector("tbody td[data-bind='text: $data.scheduleCount']");
-        private readonly By allStatusRows = By.CssSelector("tbody td:nth-child(6)>div:nth-child(1)");
-        private const string serviceUnitLink = "//tbody/tr[{0}]//a[@title='Open Service Unit']";
+        private readonly By allScheduledCountRows = By.CssSelector("tbody[data-bind='foreach: allServices'] td[data-bind='text: $data.scheduleCount']");
+        private readonly By allStatusRows = By.CssSelector("tbody[data-bind='foreach: allServices'] td:nth-child(6)");
+        private const string serviceUnitLink = "//tbody/tr[{0}]//a[@title='Open Service Unit' and not(contains(@style, 'display: none;'))]";
 
         public List<AllServiceInPointAddressModel> GetAllServicesInAllServicesTab()
         {
+            WaitUtil.WaitForAllElementsPresent(totalServicesRows);
             List<AllServiceInPointAddressModel> result = new List<AllServiceInPointAddressModel>();
             List<IWebElement> allRows = GetAllElements(totalServicesRows);
             for(int i = 0; i < allRows.Count; i++)
@@ -105,7 +106,10 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                 string taskCount = GetElementText(GetAllElements(allTaskCountRows)[i]);
                 string scheduleCount = GetElementText(GetAllElements(allScheduledCountRows)[i]);
                 string status = GetElementText(GetAllElements(allStatusRows)[i]);
-                string serviceUnitLinkToDetail = string.Format(serviceUnitLink, (i + 1).ToString());
+                string serviceUnitLinkToDetail = "";
+                if (IsControlDisplayedNotThrowEx(string.Format(serviceUnitLink, (i + 1).ToString()))) {
+                    serviceUnitLinkToDetail = string.Format(serviceUnitLink, (i + 1).ToString());
+                }
                 result.Add(new AllServiceInPointAddressModel(contract, service, serviceUnit, taskCount, scheduleCount, status, serviceUnitLinkToDetail));
             }
             return result;
@@ -125,7 +129,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                 Assert.AreEqual(serviceForPoint2DBModels[i].Service, allServiceInPointAddresses[i].service, "Wrong Service");
                 if(serviceForPoint2DBModels[i].ServiceUnit == null)
                 {
-                    Assert.AreEqual("", allServiceInPointAddresses[i].contract, "Wrong Service Unit");
+                    Assert.AreEqual("", allServiceInPointAddresses[i].serviceUnit, "Wrong Service Unit");
                 } else
                 {
                     Assert.AreEqual(serviceForPoint2DBModels[i].ServiceUnit, allServiceInPointAddresses[i].serviceUnit, "Wrong Service Unit");
@@ -134,7 +138,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                 Assert.AreEqual(serviceForPoint2DBModels[i].STSCount.ToString(), allServiceInPointAddresses[i].scheduleCount, "Wrong schedule count");
                 if(serviceForPoint2DBModels[i].ActiveState == 0)
                 {
-                    Assert.AreEqual("", allServiceInPointAddresses[i].taskCount, "Wrong task count");
+                    Assert.AreEqual("", allServiceInPointAddresses[i].status, "Wrong task count");
                 } else
                 {
                     Assert.AreEqual("Active", allServiceInPointAddresses[i].status, "Wrong state");
@@ -661,7 +665,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         {
             Assert.AreEqual(GetElementText(serviceUnitAtRow, atRow), serviceUnitAdded);
             Assert.AreEqual(GetElementText(taskCountAtRow, atRow), taskCountExp);
-            Assert.AreEqual(GetElementText(scheduleCountExp, atRow), scheduleCountExp);
+            Assert.AreEqual(GetElementText(scheduleCountAtRow, atRow), scheduleCountExp);
             Assert.AreEqual(GetElementText(statusActiveAtRow, atRow), statusExp);
             return this;
         
