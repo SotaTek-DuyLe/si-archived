@@ -13,6 +13,7 @@ namespace si_automated_tests.Source.Core.WebElements
         private string TableXpath;
         private string RowXpath;
         private List<string> CellXpaths;
+        public Func<IEnumerable<IWebElement>, List<IWebElement>> GetDataView;
         public TableElement(string tableXPath, string rowXpath, List<string> cellXpaths)
         {
             TableXpath = tableXPath;
@@ -27,7 +28,8 @@ namespace si_automated_tests.Source.Core.WebElements
 
         public List<IWebElement> GetRows()
         {
-            return GetTable().FindElements(By.XPath(RowXpath)).ToList();
+            var rows = GetTable().FindElements(By.XPath(RowXpath));
+            return GetDataView?.Invoke(rows) ?? rows.ToList();
         }
 
         public List<IWebElement> GetCells(int rowIdx)
