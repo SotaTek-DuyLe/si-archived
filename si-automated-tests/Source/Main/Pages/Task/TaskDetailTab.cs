@@ -59,6 +59,10 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.IsTrue(GetElementText(dueDate).Contains(expected));
             return this;
         }
+        public string GetDueDate()
+        {
+            return GetAttributeValue(dueDate, "value").Substring(0,9);
+        }
         public TaskDetailTab VerifyCompletionDate(string date)
         {
             Assert.IsTrue(GetAttributeValue(completionDate,"value").Contains(date));
