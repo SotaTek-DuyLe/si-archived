@@ -28,6 +28,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By optimiseBtn = By.XPath("//button[@title='Optimise']");
         private readonly By roundTab = By.XPath("//a[@aria-controls='rounds-tab']");
         private readonly By sitesTab = By.XPath("//a[@aria-controls='sites-tab']");
+        public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']");
         private readonly By defaultResourcesTab = By.XPath("//a[@aria-controls='defaultResources-tab']");
         private readonly By calendarTab = By.XPath("//a[@aria-controls='calendar-tab']");
         private readonly By addNewItemBtnOnRoundTab = By.XPath("//div[@id='rounds-tab']//button");

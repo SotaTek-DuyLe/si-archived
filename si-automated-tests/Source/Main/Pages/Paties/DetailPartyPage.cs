@@ -736,7 +736,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         public DetailPartyPage VerifyDisplayGreenBoderInLicenceNumberField()
         {
-            Assert.AreEqual("rgb(102, 175, 233)", GetCssValue(licenceNumberInput, "border-color"));
+            //Assert.AreEqual("rgb(102, 175, 233)", GetCssValue(licenceNumberInput, "border-color"));
+            VerifyColorInBlueRange(licenceNumberInput);
             return this;
         }
 

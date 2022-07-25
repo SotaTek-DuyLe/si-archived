@@ -88,10 +88,10 @@ namespace si_automated_tests.Source.Test.PartiesTests
             serviceUnitPage.ClickSaveBtn()
                 .VerifyToastMessage("Success");
             //Verify DB
-            //CommonFinder finder = new CommonFinder(DbContext);
-            //var serviceUnit = finder.GetServiceUnitById(230015);
-            //Assert.IsTrue(serviceUnit.islocked == 1);
-            //Assert.IsTrue(serviceUnit.lockedreference == lockedreference);
+            CommonFinder finder = new CommonFinder(DbContext);
+            var serviceUnit = finder.GetServiceUnitById(230015);
+            Assert.IsTrue(serviceUnit.islocked == 1);
+            Assert.IsTrue(serviceUnit.lockedreference == lockedreference);
         }
 
         [Category("140_Task_Locked Tasks")]
@@ -123,10 +123,10 @@ namespace si_automated_tests.Source.Test.PartiesTests
             sitePage.ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved Site");
             //Verify DB
-            //CommonFinder finder = new CommonFinder(DbContext);
-            //var serviceUnit = finder.GetServiceUnitById(25);
-            //Assert.IsTrue(serviceUnit.islocked == 1);
-            //Assert.IsTrue(serviceUnit.lockedreference == lockedreference);
+            CommonFinder finder = new CommonFinder(DbContext);
+            var serviceUnit = finder.GetServiceUnitById(25);
+            Assert.IsTrue(serviceUnit.islocked == 1);
+            Assert.IsTrue(serviceUnit.lockedreference == lockedreference);
             sitePage.ClickOnElement(sitePage.SiteAddressTitle);
             sitePage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
@@ -185,10 +185,10 @@ namespace si_automated_tests.Source.Test.PartiesTests
             sitePage.ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved Site");
             //Verify DB
-            //CommonFinder finder = new CommonFinder(DbContext);
-            //var serviceUnit = finder.GetServiceUnitById(24);
-            //Assert.IsTrue(serviceUnit.islocked == 1);
-            //Assert.IsTrue(serviceUnit.lockedreference == lockedreference);
+            CommonFinder finder = new CommonFinder(DbContext);
+            var serviceUnit = finder.GetServiceUnitById(24);
+            Assert.IsTrue(serviceUnit.islocked == 1);
+            Assert.IsTrue(serviceUnit.lockedreference == lockedreference);
             sitePage.ClickOnElement(sitePage.SiteAddressTitle);
             sitePage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
