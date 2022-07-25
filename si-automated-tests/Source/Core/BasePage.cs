@@ -690,7 +690,7 @@ namespace si_automated_tests.Source.Core
 
         public BasePage VerifyWindowClosed(int numberCurrentWindow)
         {
-            Assert.AreEqual(GetNumberOfWindowHandle(), numberCurrentWindow);
+            Assert.AreEqual(numberCurrentWindow, GetNumberOfWindowHandle());
             return this;
         }
 
