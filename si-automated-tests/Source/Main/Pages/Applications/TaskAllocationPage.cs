@@ -279,9 +279,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 
         public TaskAllocationPage ScrollToFirstRow()
         {
-            while (true)
+            int count = 0;
+            while (count < maxRetryCount)
             {
+                count++;
                 IWebElement row = UnallocatedTableEle.GetRows().FirstOrDefault();
+                if (row == null) break;
                 if (row.GetCssValue("top") == "0px")
                 {
                     Actions actions = new Actions(this.driver);
