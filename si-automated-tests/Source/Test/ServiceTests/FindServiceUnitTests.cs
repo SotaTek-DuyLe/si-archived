@@ -31,7 +31,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
             CommonFinder finder = new CommonFinder(DbContext);
             string searchForAddresses = "Addresses";
             string pointAddressId = "363507";
-            string serviceUnit = "richmond";
             string address = "SHEARWATER HOUSE, 21 THE GREEN, RICHMOND, TW9 1PX";
             string segment = "The Green 1 To 32 Between Duke Street And Old Palace Terrace";
 
@@ -83,8 +82,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickHelpBtnAndVerify()
                 //Step 5: Close without saving
                 .ClickCloseWithoutSavingBtn()
-                .VerifyWindowClosed(2)
-                .SwitchToChildWindow(2);
+                .SwitchToChildWindow(2)
+                .VerifyWindowClosed(2);
             //Step 10: Verify that the form works correctly
             pointAddressDetailPage
                 .ClickOnAnyActionBtn(2)
@@ -109,14 +108,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .GetAllServiceUnit();
             findServiceUnitDetailPage
                 .VerifyResultAfterSearch(listServiceUnit, anyServiceUnitInDB);
-
-            findServiceUnitDetailPage
-                .InputKeyInSearch(serviceUnit)
-                .ClickFindBtn()
-                .WaitForLoadingIconToDisappear();
-            List<FindServiceUnitModel> list = findServiceUnitDetailPage
-                .GetAllServiceUnit(5);
-            FindServiceUnitModel findServiceUnitModel = list.Find(x => x.id == "13");
+            FindServiceUnitModel findServiceUnitModel = listServiceUnit.Find(x => x.id == "5");
             //Step 12: Click on the hyperlink 
             findServiceUnitDetailPage
                 .ClickAnyLinkInServiceUnit(findServiceUnitModel.serviceUnitLocator)
@@ -133,6 +125,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             ServiceUnitPointDetailPage serviceUnitPointDetailPage = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
+            serviceUnitPointDetailPage
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
             serviceUnitPointDetailPage
                 .IsServiceUnitPointDetailPage(pointAddressName)
                 .VerifyValuesInDetailTab(pointAddressId, "Point Address");
@@ -197,9 +192,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
             ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
             serviceUnitDetailPage
                 .WaitForServiceUnitDetailPageDisplayed(allService[1].serviceUnit)
-                .VerifyServiceUnitId("13");
+                .VerifyServiceUnitId("5");
             //Step 20: Run query to check service unit detail
-            List<ServiceUnitDBModel> serviceUnitDBModels = finder.GetServiceUnit(13);
+            List<ServiceUnitDBModel> serviceUnitDBModels = finder.GetServiceUnit(5);
             List<ServiceUnitTypeDBModel> serviceUnitTypeDBModels = finder.GetServiceUnitType(serviceUnitDBModels[0].serviceunittypeID);
             List<PointSegmentDBModel> pointSegmentDBModels = finder.GetPointSegment(serviceUnitDBModels[0].pointsegmentID);
             List<StreetDBModel> streetDBModels = finder.GetStreet(serviceUnitDBModels[0].streetID);
@@ -212,9 +207,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             List<ServiceUnitPointModel> serviceUnitPointModels = serviceUnitDetailPage.GetAllServiceUnitPointInTab();
             serviceUnitDetailPage
-                .VerifyFirstServiceUnitPoint(serviceUnitPointModels[0], "13", allService[1].serviceUnit, "Both Serviced and Point of Service", "01/01/2050");
+                .VerifyFirstServiceUnitPoint(serviceUnitPointModels[0], "5", allService[1].serviceUnit, "Both Serviced and Point of Service", "01/01/2050");
             //Step 22: Run query to check
-            List<ServiceUnitPointDBModel> serviceUnitPointAllData = finder.GetServiceUnitPointWithNoLock(13);
+            List<ServiceUnitPointDBModel> serviceUnitPointAllData = finder.GetServiceUnitPointWithNoLock(5);
             //Get Point address
             List<PointAddressModel> pointAddressFirstRow = finder.GetPointAddress(serviceUnitPointAllData[0].pointID.ToString());
             List<PointAddressModel> pointAddressSecondRow = finder.GetPointAddress(serviceUnitPointAllData[1].pointID.ToString());
@@ -280,8 +275,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickHelpBtnAndVerify()
                 //Step 5: Close without saving
                 .ClickCloseWithoutSavingBtn()
-                .VerifyWindowClosed(2)
-                .SwitchToChildWindow(2);
+                .SwitchToChildWindow(2)
+                .VerifyWindowClosed(2);
             //Step 10: Verify that the form works correctly
             pointSegmentDetailPage
                 .ClickOnAnyActionBtn(2)
@@ -323,6 +318,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             ServiceUnitPointDetailPage serviceUnitPointDetailPage = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
+            serviceUnitPointDetailPage
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
             serviceUnitPointDetailPage
                 .IsServiceUnitPointDetailPage(pointSegmentName)
                 .VerifyValuesInDetailTab(idSegment, "Point Segment");
@@ -469,8 +467,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickHelpBtnAndVerify()
                 //Step 5: Close without saving
                 .ClickCloseWithoutSavingBtn()
-                .VerifyWindowClosed(2)
-                .SwitchToChildWindow(2);
+                .SwitchToChildWindow(2)
+                .VerifyWindowClosed(2);
             //Step 10: Verify that the form works correctly
             pointAreaDetailPage
                 .ClickOnAnyActionBtn(2)
@@ -513,6 +511,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             ServiceUnitPointDetailPage serviceUnitPointDetailPage = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
+            serviceUnitPointDetailPage
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
             serviceUnitPointDetailPage
                 .IsServiceUnitPointDetailPage(pointAreaName)
                 .VerifyValuesInDetailTab(idArea, "Point Area");
@@ -660,8 +661,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickHelpBtnAndVerify()
                 //Step 5: Close without saving
                 .ClickCloseWithoutSavingBtn()
-                .VerifyWindowClosed(2)
-                .SwitchToChildWindow(2);
+                .SwitchToChildWindow(2)
+                .VerifyWindowClosed(2);
             //Step 10: Verify that the form works correctly
             pointNodeDetailPage
                 .ClickOnAnyActionBtn(2)
@@ -704,6 +705,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             ServiceUnitPointDetailPage serviceUnitPointDetailPage = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
+            serviceUnitPointDetailPage
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
             serviceUnitPointDetailPage
                 .IsServiceUnitPointDetailPage(pointAreaName)
                 .VerifyValuesInDetailTab(idNode, "Point Node");
