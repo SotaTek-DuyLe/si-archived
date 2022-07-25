@@ -21,6 +21,7 @@ using si_automated_tests.Source.Main.Pages.Paties.Sites;
 using TaskAllocationPage = si_automated_tests.Source.Main.Pages.Applications.TaskAllocationPage;
 using RoundInstanceForm = si_automated_tests.Source.Main.Pages.Applications.RoundInstanceForm;
 using OpenQA.Selenium;
+using si_automated_tests.Source.Main.Models.Applications;
 
 namespace si_automated_tests.Source.Test.PartiesTests
 {
@@ -274,6 +275,145 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickOnElement(taskAllocationPage.AllocationConfirmReasonButton);
             taskAllocationPage.WaitForLoadingIconToDisappear();
             taskAllocationPage.VerifyTaskAllocated("REC1-AM", "Saturday");
+        }
+
+        [Category("143_1_Task Allocation_Rellocation of Round Legs and Tasks")]
+        [Test(Description = "Verify that Round Legs are successfully reallocated to a new Round Instance")]
+        public void TC_143_1_Verify_that_Round_Legs_are_successfully_reallocated_to_a_new_Round_Instance()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser34.UserName, AutoUser34.Password)
+                .IsOnHomePage(AutoUser34);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Applications")
+                .OpenOption("Task Allocation")
+                .WaitForLoadingIconToDisappear(false);
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+            TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
+            string from = "14/07/2022";
+            string to = "15/07/2022";
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, "North Star");
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
+            taskAllocationPage.ExpandRoundNode("North Star")
+                .ExpandRoundNode("Recycling")
+                .SelectRoundNode("Communal Recycling");
+            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.ClearInputValue(taskAllocationPage.FromInput);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
+            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
+            taskAllocationPage.WaitForLoadingIconToDisappear(false);
+            taskAllocationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday");
+            taskAllocationPage.WaitForLoadingIconToDisappear(false);
+            List<RoundInstanceModel> roundInstanceDetails = taskAllocationPage.ExpandRoundInstance(3);
+            taskAllocationPage.ScrollToFirstRow();
+            List<RoundInstanceModel> roundInstances = taskAllocationPage.SelectExpandedUnallocated(3);
+            taskAllocationPage.DragUnallocatedRowToRoundInstance("WCREC1", "Friday")
+                .VerifyElementVisibility(taskAllocationPage.GetAllocatingConfirmMsg(roundInstanceDetails.Count), true)
+                .ClickOnElement(taskAllocationPage.AllocateAllButton);
+            taskAllocationPage.WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Allocated 3 round leg(s)");
+            taskAllocationPage.DragRoundInstanceToRoundGrid("WCREC1", "Friday", 4);
+            taskAllocationPage.WaitForLoadingIconToDisappear(false);
+            List<RoundInstanceModel> reAllocatedRoundInstanceDetails = taskAllocationPage.ExpandRoundInstance(roundInstances);
+            taskAllocationPage.VerifyReAllocatedRows(roundInstanceDetails, reAllocatedRoundInstanceDetails);
+        }
+
+        [Category("143_2_Task Allocation_Rellocation of Round Legs and Tasks")]
+        [Test(Description = "Verify that Tasks are successfully reallocated to a new Round Instance")]
+        public void TC_143_2_Verify_that_Tasks_are_successfully_reallocated_to_a_new_Round_Instance()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser34.UserName, AutoUser34.Password)
+                .IsOnHomePage(AutoUser34);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Applications")
+                .OpenOption("Task Allocation")
+                .WaitForLoadingIconToDisappear(false);
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+            TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
+            string from = "14/07/2022";
+            string to = "15/07/2022";
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, "North Star");
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
+            taskAllocationPage.ExpandRoundNode("North Star")
+                .ExpandRoundNode("Recycling")
+                .SelectRoundNode("Communal Recycling");
+            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.ClearInputValue(taskAllocationPage.FromInput);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
+            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
+            taskAllocationPage.WaitForLoadingIconToDisappear(false);
+            taskAllocationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday");
+            taskAllocationPage.WaitForLoadingIconToDisappear(false);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ToggleRoundLegsButton);
+            taskAllocationPage.SleepTimeInMiliseconds(300);
+            List<RoundInstanceModel> roundInstanceDetails = taskAllocationPage.SelectRoundLegs(4);
+            taskAllocationPage.DragRoundLegRowToRoundInstance("WCREC1", "Friday")
+                .VerifyElementVisibility(taskAllocationPage.GetAllocatingConfirmMsg(roundInstanceDetails.Count), true)
+                .ClickOnElement(taskAllocationPage.AllocateAllButton);
+            taskAllocationPage.WaitForLoadingIconToDisappear()
+                .VerifyToastMessages(new List<string>() { "Allocated 1 round leg(s)", "Task(s) Allocated" });
+            taskAllocationPage.DragRoundInstanceToRoundGrid("WCREC1", "Friday", 4);
+            taskAllocationPage.WaitForLoadingIconToDisappear(false);
+            taskAllocationPage.VerifyRoundLegIsAllocated(roundInstanceDetails);
+        }
+
+        [Category("143_3_Task Allocation_Rellocation of Round Legs and Tasks")]
+        [Test(Description = "Verify that Round Leg Instance will be reallocated if ALL Tasks under this RLI are reallocated ")]
+        public void TC_143_3_Verify_that_Round_Leg_Instance_will_be_reallocated_if_ALL_Tasks_under_this_RLI_are_reallocated()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser34.UserName, AutoUser34.Password)
+                .IsOnHomePage(AutoUser34);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Applications")
+                .OpenOption("Task Allocation")
+                .WaitForLoadingIconToDisappear(false);
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+            TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
+            string from = "14/07/2022";
+            string to = "15/07/2022";
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, "North Star");
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
+            taskAllocationPage.ExpandRoundNode("North Star")
+                .ExpandRoundNode("Recycling")
+                .SelectRoundNode("Communal Recycling");
+            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.ClearInputValue(taskAllocationPage.FromInput);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
+            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
+            taskAllocationPage.WaitForLoadingIconToDisappear(false);
+            taskAllocationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday");
+            taskAllocationPage.WaitForLoadingIconToDisappear(false);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ToggleRoundLegsButton);
+            taskAllocationPage.SleepTimeInMiliseconds(300);
+            List<RoundInstanceModel> roundInstanceDetails = taskAllocationPage.SelectRoundLegs(4);
+            taskAllocationPage.DragRoundLegRowToRoundInstance("WCREC1", "Friday")
+                .VerifyElementVisibility(taskAllocationPage.GetAllocatingConfirmMsg(roundInstanceDetails.Count), true)
+                .ClickOnElement(taskAllocationPage.AllocateAllButton);
+            taskAllocationPage.WaitForLoadingIconToDisappear()
+                .VerifyToastMessages(new List<string>() { "Task(s) Allocated" });
+            taskAllocationPage.DragRoundInstanceToRoundGrid("WCREC1", "Friday", 4);
+            taskAllocationPage.WaitForLoadingIconToDisappear(false);
+            taskAllocationPage.VerifyRoundLegIsAllocated(roundInstanceDetails);
         }
     }
 }
