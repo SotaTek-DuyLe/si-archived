@@ -115,7 +115,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                             { 
                                 Instance = cellInstances[i],
                                 IsGrey = bgColor == "rgba(245, 245, 245, 1)",
-                                IsGreen = bgColor == "rgba(225, 254, 226, 1)",
+                                IsGreen = ColorHelper.IsGreenColor(bgColor),
                             });
                         }
                         List<IWebElement> cellButtonMores = instanceOfWeek.FindElements(By.XPath("./td[@class='fc-more-cell']//a")).ToList();
