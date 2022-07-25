@@ -34,6 +34,23 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             browsePage.VerifyFirstResultValue("Posted Status", "NEW");
             return this;
         }
+        public LinesTab VerifyLineInfo(string _site, string _product, string _description, string _quantity, string vatRate, string _price)
+        {
+            var vatRateValue = Double.Parse(vatRate);
+            var priceValue = Double.Parse(_price);
+            var vatValue = priceValue * vatRateValue / 100;
+            var totalValue = priceValue + vatValue;
+            CommonBrowsePage browsePage = PageFactoryManager.Get<CommonBrowsePage>();
+            browsePage.VerifyFirstResultValue("Site", _site);
+            browsePage.VerifyFirstResultValue("Product", _product);
+            browsePage.VerifyFirstResultValue("Description", _description);
+            browsePage.VerifyFirstResultValue("Quantity", _quantity);
+            browsePage.VerifyFirstResultValue("Price", "£" + _price);
+            browsePage.VerifyFirstResultValue("VAT", "£" + vatValue.ToString() + ".00");
+            browsePage.VerifyFirstResultValue("Total", "£" + totalValue.ToString() + ".00");
+            browsePage.VerifyFirstResultValue("Posted Status", "NEW");
+            return this;
+        }
         public LinesTab VerifyNumberOfLineIsOne()
         {
             Assert.AreEqual(WaitUtil.WaitForAllElementsVisible(numberOfLines).Count, 1);

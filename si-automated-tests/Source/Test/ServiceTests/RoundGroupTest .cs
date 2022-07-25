@@ -42,8 +42,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<CommonBrowsePage>()
                .ClickAddNewItem()
                .SwitchToLastWindow();
-            PageFactoryManager.Get<RoundGroupPage>()
-                .VerifyDefaultDataOnAddForm()
+            var roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.ClickOnElement(roundGroupPage.DetailTab);
+            roundGroupPage.VerifyDefaultDataOnAddForm()
                 .ClickSaveBtn()
                 .VerifyToastMessage("Field is required")
                 .WaitUntilToastMessageInvisible("Field is required");
@@ -116,11 +117,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .DoubleClickRound(newRowIdx)
                 .SwitchToLastWindow();
 
-            PageFactoryManager.Get<RoundDetailPage>()
-                .WaitForLoadingIconToDisappear();
-
-            PageFactoryManager.Get<RoundDetailPage>()
-                .VerifyRoundInput("Test Round")
+            var roundDetailPage = PageFactoryManager.Get<RoundDetailPage>();
+            roundDetailPage.WaitForLoadingIconToDisappear();
+            roundDetailPage.ClickOnElement(roundDetailPage.DetailTab);
+            roundDetailPage.VerifyRoundInput("Test Round")
                 .VerifyRoundType("Skips")
                 .VerifyDispatchSite("Townmead Tip & Depot (East)")
                 .VerifyShift("PM: 14.00 - 21.30")

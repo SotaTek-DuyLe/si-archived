@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using NUnit.Framework;
@@ -600,6 +601,13 @@ namespace si_automated_tests.Source.Core
             xpath = String.Format(xpath, value);
             return WaitUtil.WaitForElementVisible(xpath).Selected;
         }
+
+        public BasePage WaitForLoadingIconToAppear()
+        {
+            WaitUtil.WaitForElementVisible("//*[contains(@data-bind,'shield: isLoading')]");
+            return this;
+        }
+
         public BasePage WaitForLoadingIconToDisappear(bool implicitSleep = true)
         {
             try
@@ -745,6 +753,41 @@ namespace si_automated_tests.Source.Core
                 Assert.IsFalse(IsControlDisplayedNotThrowEx(frameMessage));
             }
             return this;
+        }
+
+        //BODER COLOR IN RANGE
+        public BasePage VerifyColorInRedRange(By by)
+        {
+            //Verify field is highlighted in red
+            string hexStr = GetCssValue(by, "border-color");
+            Color color = ToColor(hexStr.ToLower().Replace("rgb(", "").Replace(")", ""));
+            float hueColor = color.GetHue();
+            Assert.IsTrue(hueColor < 15 || hueColor > 345);
+            return this;
+        }
+
+        public BasePage VerifyColorInBlueRange(By by)
+        {
+            string hexStr = GetCssValue(by, "border-color");
+            Color color = ToColor(hexStr.ToLower().Replace("rgb(", "").Replace(")", ""));
+            float hueColor = color.GetHue();
+            Assert.IsTrue(hueColor > 180 || hueColor < 300);
+            return this;
+        }
+
+        private Color ToColor(string color)
+        {
+            var arrColorFragments = color?.Split(',').Select(sFragment => { int.TryParse(sFragment, out int fragment); return fragment; }).ToArray();
+
+            switch (arrColorFragments?.Length)
+            {
+                case 3:
+                    return Color.FromArgb(arrColorFragments[0], arrColorFragments[1], arrColorFragments[2]);
+                case 4:
+                    return Color.FromArgb(arrColorFragments[0], arrColorFragments[1], arrColorFragments[2], arrColorFragments[3]);
+                default:
+                    return Color.Transparent;
+            }
         }
     }
 }
