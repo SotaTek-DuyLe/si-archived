@@ -187,7 +187,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .VerifyTaskEndDateValue(todayDate)
                 .InputNote(note)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Task")
+                .VerifyToastMessage("Success")
                 .CloseCurrentWindow()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<TaskTab>()
@@ -208,8 +208,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 PageFactoryManager.Get<TaskDetailTab>()
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<TaskDetailTab>()
-                    .VerifyCompletionDate(todayDate)
-                    .VerifyEndDate(todayDate)
+                    .VerifyCompletionDate(todayDate);
+                String endDate = PageFactoryManager.Get<TaskDetailTab>().GetDueDate();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .VerifyEndDate(endDate)
                     .VerifyTaskState("Completed")
                     .VerifyNote(note)
                     .CloseCurrentWindow()
@@ -239,8 +241,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 PageFactoryManager.Get<TaskDetailTab>()
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<TaskDetailTab>()
-                    .VerifyCompletionDate(todayDate)
-                    .VerifyEndDate(todayDate)
+                    .VerifyCompletionDate(todayDate);
+                String endDate1 = PageFactoryManager.Get<TaskDetailTab>().GetDueDate();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .VerifyEndDate(endDate1)
                     .VerifyTaskState("Completed")
                     .VerifyNote(note)
                     .CloseCurrentWindow()
@@ -309,7 +313,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .VerifyTaskEndDateValue(todayDate)
                 .InputNote(note)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Task")
+                .VerifyToastMessage("Success")
                 .CloseCurrentWindow()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<TaskTab>()
@@ -331,8 +335,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 PageFactoryManager.Get<TaskDetailTab>()
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<TaskDetailTab>()
-                    .VerifyCompletionDate(todayDate)
-                    .VerifyEndDate(todayDate)
+                    .VerifyCompletionDate(todayDate);
+                String endDate = PageFactoryManager.Get<TaskDetailTab>().GetDueDate();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .VerifyEndDate(endDate)
                     .VerifyTaskState("Completed")
                     .VerifyNote(note)
                     .CloseCurrentWindow()
@@ -362,8 +368,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 PageFactoryManager.Get<TaskDetailTab>()
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<TaskDetailTab>()
-                    .VerifyCompletionDate(todayDate)
-                    .VerifyEndDate(todayDate)
+                    .VerifyCompletionDate(todayDate);
+                String endDate1 = PageFactoryManager.Get<TaskDetailTab>().GetDueDate();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .VerifyEndDate(endDate1)
                     .VerifyTaskState("Completed")
                     .VerifyNote(note)
                     .CloseCurrentWindow()
