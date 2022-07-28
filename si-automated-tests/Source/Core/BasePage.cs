@@ -365,7 +365,25 @@ namespace si_automated_tests.Source.Core
         public BasePage AcceptAlert()
         {
             WaitUtil.WaitForAlert();
-            IWebDriverManager.GetDriver().SwitchTo().Alert().Accept();
+            IAlert alert = IWebDriverManager.GetDriver().SwitchTo().Alert();
+            Thread.Sleep(5000);
+            alert.Accept();
+            return this;
+        }
+
+        public BasePage CancelAlert()
+        {
+            WaitUtil.WaitForAlert();
+            IAlert alert = IWebDriverManager.GetDriver().SwitchTo().Alert();
+            Thread.Sleep(5000);
+            alert.Dismiss();
+            return this;
+        }
+
+        public BasePage DissmissAlert()
+        {
+            WaitUtil.WaitForAlert();
+            IWebDriverManager.GetDriver().SwitchTo().Alert().Dismiss();
             return this;
         }
 
@@ -789,5 +807,7 @@ namespace si_automated_tests.Source.Core
                     return Color.Transparent;
             }
         }
+        
+
     }
 }

@@ -10,6 +10,9 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By deleteItem = By.XPath("//button[text()='Delete Item']");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
         private readonly By filterInputById = By.XPath("//div[contains(@class, 'l5 r5')]/descendant::input");
+        private readonly By firstCheckboxTask = By.XPath("//div[@class='grid-canvas']//div[contains(@class, 'l0 r0')]/input");
+        private readonly By bulkUpdateBtn = By.XPath("//button[text()='Bulk Update']");
+        private readonly By allRecordCheckbox = By.XPath("//div[@title='Select/Deselect All']//input");
 
         public TasksListingPage WaitForTaskListinPageDisplayed()
         {
@@ -24,6 +27,15 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             SendKeys(filterInputById, taskId);
             ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public TasksListingPage FilterMultipleTaskId(string firstTaskId, string secondTaskId)
+        {
+            SendKeys(filterInputById, firstTaskId + "," + secondTaskId);
+            ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
             return this;
         }
 
@@ -31,6 +43,25 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             DoubleClickOnElement(firstRecordRow);
             return PageFactoryManager.Get<DetailTaskPage>();
+        }
+
+        public TasksListingPage ClickCheckboxFirstTaskInList()
+        {
+            ClickOnElement(firstCheckboxTask);
+            return this;
+        }
+
+        public TasksListingPage ClickCheckboxMultipleTaskInList()
+        {
+            ClickOnElement(allRecordCheckbox);
+            return this;
+        }
+
+        public TasksBulkUpdatePage ClickOnBulkUpdateBtn()
+        {
+            WaitUtil.WaitForElementVisible(bulkUpdateBtn);
+            ClickOnElement(bulkUpdateBtn);
+            return PageFactoryManager.Get<TasksBulkUpdatePage>();
         }
 
     }
