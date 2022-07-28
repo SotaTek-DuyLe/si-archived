@@ -366,7 +366,6 @@ namespace si_automated_tests.Source.Core
         {
             WaitUtil.WaitForAlert();
             IAlert alert = IWebDriverManager.GetDriver().SwitchTo().Alert();
-            Thread.Sleep(5000);
             alert.Accept();
             return this;
         }
