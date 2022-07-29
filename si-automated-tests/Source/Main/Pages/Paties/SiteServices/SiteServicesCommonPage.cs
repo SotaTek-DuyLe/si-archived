@@ -19,6 +19,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.SiteServices
 
         private readonly By allAgrementResult = By.XPath("//div[@class='grid-canvas']/div");
         private string aggrementByDate = "//div[text()='{0}']";
+        private string siteId = "//div[contains(@class, 'slick-cell')]/div[text()='{0}']";
 
         public SiteServicesCommonPage FilterId(int id)
         {
@@ -61,6 +62,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.SiteServices
         public SiteServicesCommonPage OpenAgreementWithDate(string date)
         {
             DoubleClickOnElement(aggrementByDate, date);
+            return this;
+        }
+
+        public SiteServicesCommonPage OpenAgreementBySiteID(int id)
+        {
+            WaitUtil.WaitForElementVisible(siteId, id.ToString());
+            DoubleClickOnElement(siteId, id.ToString());
             return this;
         }
     }
