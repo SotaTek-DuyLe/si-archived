@@ -119,7 +119,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<CreatePartyPage>()
                 .IsCreatePartiesPopup("North Star Commercial")
                 .SendKeyToThePartyInput("Auto" + CommonUtil.GetRandomString(2))
-                .SelectStartDate(1)
+                .SelectStartDatePlusOneDay()
                 .SelectPartyType(1)
                 .ClickSaveBtn();
             PageFactoryManager.Get<CreatePartyPage>()
