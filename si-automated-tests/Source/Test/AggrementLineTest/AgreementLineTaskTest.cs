@@ -210,7 +210,6 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 PageFactoryManager.Get<TaskDetailTab>()
                     .VerifyEndDate(todayDate);
                 String dueDate = PageFactoryManager.Get<TaskDetailTab>().GetDueDate();
-                Console.WriteLine("end date" + dueDate);
                 PageFactoryManager.Get<TaskDetailTab>()
                     .VerifyCompletionDate(dueDate)
                     .VerifyTaskState("Completed")
