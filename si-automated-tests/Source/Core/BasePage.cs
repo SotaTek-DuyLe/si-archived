@@ -368,6 +368,12 @@ namespace si_automated_tests.Source.Core
             IWebDriverManager.GetDriver().SwitchTo().Alert().Accept();
             return this;
         }
+        public BasePage DismissAlert()
+        {
+            WaitUtil.WaitForAlert();
+            IWebDriverManager.GetDriver().SwitchTo().Alert().Dismiss();
+            return this;
+        }
 
         //REFRESH
         public BasePage Refresh()
