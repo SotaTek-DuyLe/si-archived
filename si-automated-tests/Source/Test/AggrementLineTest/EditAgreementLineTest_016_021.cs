@@ -36,9 +36,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Test]
         public void TC_016()
         {
-            int agreementId = 27;
+            int agreementId = 65;
             string agreementType = "COMMERCIAL COLLECTIONS";
-            string agreementName = "LA PLATA STEAKHOUSE";
+            string agreementName = "DALEMEAD CARE HOME";
             string tomorrowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
 
             PageFactoryManager.Get<LoginPage>()
@@ -70,13 +70,17 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AssetAndProducTab>()
                 .IsOnAssetTab()
+                .VerifySummaryOfStep("1 x 1100L(Rental), 95kg General Recycling")
                 .ClickOnEditAsset()
                 .EditAssetQuantity(3)
-                .ClickOnTenureText()
-                .EditAssertClickDoneBtn()
-                .VerifySummaryOfStep("3 x 1100L(Rental), 100kg Paper & Cardboard")
-                .ClickNext()
-                .WaitForLoadingIconToDisappear();
+                .ClickOnTenureText();
+            String deliveryDate = PageFactoryManager.Get<AssetAndProducTab>()
+                .GetDeliveryDate();
+            PageFactoryManager.Get<AssetAndProducTab>()
+            .EditAssertClickDoneBtn()
+            .VerifySummaryOfStep("3 x 1100L(Rental), 95kg General Recycling")
+            .ClickNext()
+            .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ScheduleServiceTab>()
                 .IsOnScheduleTab()
                 .ClickAddService()
@@ -88,7 +92,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
                 .IsOnPriceTab()
-                .RemoveAllRedundantPrices()
+                .RemoveAllRedundantPrice()
                 .ClickNext()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
@@ -104,12 +108,12 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SleepTimeInMiliseconds(10000);
 
             //Step 18 Go to task tab to verify editition
-            
+
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickTaskTabBtn();
             List<IWebElement> newTasks = PageFactoryManager.Get<TaskTab>()
-                .VerifyNewDeliverCommercialBin(tomorrowDate, 2);
-            foreach(IWebElement task in newTasks)
+                .VerifyNewDeliverCommercialBin(deliveryDate, 2);
+            foreach (IWebElement task in newTasks)
             {
                 PageFactoryManager.Get<TaskTab>()
                     .GoToATask(task)
@@ -122,7 +126,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .ClickToTaskLinesTab()
                .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                    .VerifyTaskLine("Deliver", "1100L", "1", "Paper & Cardboard", "100", "Kilograms", "Unallocated")
+                    .VerifyTaskLine("Deliver", "1100L", "1", "General Recycling", "95", "Kilograms", "Unallocated")
                     .InputActuaAssetQuantity(1)
                     .ClickOnAcualAssetQuantityText()
                     .SelectCompletedState()
@@ -134,7 +138,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .ClickCloseWithoutSaving()
                     .SwitchToChildWindow(2);
             }
-            
+
             //Verify date in expand is tomorrow 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
@@ -156,9 +160,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SiteServicesCommonPage>()
-                .FilterAgreementId(27)
-                .VerifyFirstLineAgreementResult(54, 27)
-                .OpenFirstResult()
+                .FilterAgreementId(agreementId)
+                .OpenAgreementBySiteID(118)
                 .SwitchToLastWindow();
             PageFactoryManager.Get<AgreementLinePage>()
                 .WaitForLoadingIconToDisappear();
