@@ -120,6 +120,7 @@ namespace si_automated_tests.Source.Core
                 new DriverManager().SetUpDriver(config, config.GetLatestVersion(), WebDriverManager.Helpers.Architecture.X32);
                 InternetExplorerOptions ieOptions = new InternetExplorerOptions();
                 ieOptions.PageLoadStrategy = PageLoadStrategy.None;
+                ieOptions.IgnoreZoomLevel = true;
                 Drivers.Value = new InternetExplorerDriver(ieOptions);
             }
             else
