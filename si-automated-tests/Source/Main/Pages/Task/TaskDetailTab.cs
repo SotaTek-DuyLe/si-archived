@@ -20,7 +20,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By dueDate = By.Id("dueDate.id");
         private readonly By completionDate = By.Id("completionDate.id");
         private readonly By endDate = By.Id("endDate.id");
-        private readonly By detailTaskState = By.Id("taskState.id");
+        public readonly By detailTaskState = By.Id("taskState.id");
         private readonly By taskNote = By.Id("taskNotes.id");
         private readonly By purchaseOrderNumberInput = By.Id("purchaseOrderNumber");
 

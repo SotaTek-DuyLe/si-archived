@@ -4,6 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Models;
 
 namespace si_automated_tests.Source.Main.Pages.Services
@@ -11,13 +12,15 @@ namespace si_automated_tests.Source.Main.Pages.Services
     public class CommonActiveServicesTaskPage : BasePage
     {
         private readonly By partyNameInput = By.XPath("//div[@class='slick-headerrow-columns']/div[count(//span[text()='Party']/parent::div/preceding-sibling::div) + 1]//input");
+        public readonly By startDateInput = By.XPath("//div[@class='slick-headerrow-columns']/div[count(//span[text()='Start Date']/parent::div/preceding-sibling::div) + 1]//input");
+        public readonly By endDateInput = By.XPath("//div[@class='slick-headerrow-columns']/div[count(//span[text()='End Date']/parent::div/preceding-sibling::div) + 1]//input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
 
         private readonly By allRows = By.XPath("//div[@class='grid-canvas']/div");
         private readonly By taskIDColumns = By.XPath("//div[@class='grid-canvas']/div/div[count(//span[text()='ID']/parent::div/preceding-sibling::div) + 1]/div");
         private readonly By partyNameColumns = By.XPath("//div[@class='grid-canvas']/div/div[count(//span[text()='Party']/parent::div/preceding-sibling::div) + 1]");
-        private readonly By startDateColumns = By.XPath("//div[@class='grid-canvas']/div/div[count(//span[text()='Start Date']/parent::div/preceding-sibling::div) + 1]/div");
-        private readonly By endDateColumns = By.XPath("//div[@class='grid-canvas']/div/div[count(//span[text()='End Date']/parent::div/preceding-sibling::div) + 1]/div");
+        public readonly By startDateColumns = By.XPath("//div[@class='grid-canvas']/div/div[count(//span[text()='Start Date']/parent::div/preceding-sibling::div) + 1]/div");
+        public readonly By endDateColumns = By.XPath("//div[@class='grid-canvas']/div/div[count(//span[text()='End Date']/parent::div/preceding-sibling::div) + 1]/div");
 
         //DYNAMIC LOCATOR
         private string tribeYarnsWithDate = "//div[text()='Tribe Yarns']/following-sibling::div/div[text()='{0}']";
@@ -25,7 +28,28 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private string sidraTeddingtontribeYarnsEndDate = "//div[text()='Sidra - Teddington']/following-sibling::div[contains(@class, 'r6') and contains(.,'{0}')]";
         private static string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
         private string startDateTommorowPartyName = "//div[text()='" + tommorowDate + "']/parent::div/preceding-sibling::div[text()='{0}']";
-        
+
+        private string ServiceTaskLineTable = "//div[@class='grid-canvas']";
+        private string ServieTaskLineRow = "./div[contains(@class, 'slick-row')]";
+        private string ServieTaskLineCheckboxCell = "./div[contains(@class, 'l0')]";
+        private string ServieTaskLineIdCell = "./div[contains(@class, 'l1')]";
+        private string ServieTaskLinePartyCell = "./div[contains(@class, 'l2')]";
+        private string ServieTaskLineTaskTypeCell = "./div[contains(@class, 'l3')]";
+        private string ServieTaskLineDescriptionCell = "./div[contains(@class, 'l4')]";
+        private string ServieTaskLineStartDateCell = "./div[contains(@class, 'l5')]";
+        private string ServieTaskLineEndDateCell = "./div[contains(@class, 'l6')]";
+
+        public TableElement ServiceTaskLineTableEle
+        {
+            get => new TableElement(ServiceTaskLineTable, ServieTaskLineRow, new List<string>() { ServieTaskLineCheckboxCell, ServieTaskLineIdCell, ServieTaskLinePartyCell, ServieTaskLineTaskTypeCell, ServieTaskLineDescriptionCell, ServieTaskLineStartDateCell, ServieTaskLineEndDateCell });
+        }
+
+        public CommonActiveServicesTaskPage DoubleClickServiceTaskLine(int rowIdx)
+        {
+            ServiceTaskLineTableEle.DoubleClickRow(rowIdx);
+            return this;
+        }
+
         public CommonActiveServicesTaskPage InputPartyNameToFilter(string name)
         {
             SendKeys(partyNameInput, name);
