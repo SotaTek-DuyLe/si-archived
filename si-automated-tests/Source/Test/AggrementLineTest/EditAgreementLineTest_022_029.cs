@@ -1320,8 +1320,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Ad-hoc
             List<MobilizationModel> allAdhoc1 = PageFactoryManager.Get<DetailTab>()
                 .GetAllInfoAdhoc();
+
             PageFactoryManager.Get<DetailTab>()
-                .VerifyAdhocInfo(allAdhoc1, adhocListInput);
+                .VerifyAdhocInfo(allAdhoc1, adhoc, 3);
             PageFactoryManager.Get<DetailTab>()
                 .SwitchToFirstWindow();
 
@@ -1364,7 +1365,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             List<MobilizationModel> allAdhoc = PageFactoryManager.Get<DetailTab>()
                 .GetAllInfoAdhoc();
             PageFactoryManager.Get<DetailTab>()
-                .VerifyAdhocInfo(allAdhoc, adhocListInput);
+                .VerifyAdhocInfo(allAdhoc, adhoc, 3);
             PageFactoryManager.Get<DetailTab>()
                 .SwitchToFirstWindow();
 
@@ -1817,7 +1818,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             List<MobilizationModel> allAdhoc = PageFactoryManager.Get<DetailTab>()
                 .GetAllInfoAdhoc();
             PageFactoryManager.Get<DetailTab>()
-                .VerifyAdhocInfo(allAdhoc, adhocListInput);
+                .VerifyAdhocInfo(allAdhoc, adhoc, 3);
             PageFactoryManager.Get<DetailTab>()
                 .SwitchToFirstWindow();
 

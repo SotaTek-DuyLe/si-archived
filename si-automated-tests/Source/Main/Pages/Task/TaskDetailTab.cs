@@ -61,7 +61,7 @@ namespace si_automated_tests.Source.Main.Pages
         }
         public string GetDueDate()
         {
-            return GetAttributeValue(dueDate, "value").Substring(0,9);
+            return GetAttributeValue(dueDate, "value").Substring(0,10);
         }
         public TaskDetailTab VerifyCompletionDate(string date)
         {
