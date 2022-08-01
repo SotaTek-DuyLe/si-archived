@@ -1448,7 +1448,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .ClickCloseBtn()
                     .SwitchToChildWindow(2);
             }
-            PageFactoryManager.Get<BasePage>().SwitchToDefaultContent();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToFirstWindow()
+                .SwitchToDefaultContent();
             //Navigate to the Agreement and edit
             int partyId = 73;
             string partyName = "Greggs";
