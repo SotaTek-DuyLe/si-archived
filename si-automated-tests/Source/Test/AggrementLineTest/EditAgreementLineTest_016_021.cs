@@ -73,11 +73,14 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .VerifySummaryOfStep("1 x 1100L(Rental), 95kg General Recycling")
                 .ClickOnEditAsset()
                 .EditAssetQuantity(3)
-                .ClickOnTenureText()
-                .EditAssertClickDoneBtn()
-                .VerifySummaryOfStep("3 x 1100L(Rental), 95kg General Recycling")
-                .ClickNext()
-                .WaitForLoadingIconToDisappear();
+                .ClickOnTenureText();
+            String deliveryDate = PageFactoryManager.Get<AssetAndProducTab>()
+                .GetDeliveryDate();
+            PageFactoryManager.Get<AssetAndProducTab>()
+            .EditAssertClickDoneBtn()
+            .VerifySummaryOfStep("3 x 1100L(Rental), 95kg General Recycling")
+            .ClickNext()
+            .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ScheduleServiceTab>()
                 .IsOnScheduleTab()
                 .ClickAddService()
@@ -105,12 +108,12 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SleepTimeInMiliseconds(10000);
 
             //Step 18 Go to task tab to verify editition
-            
+
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickTaskTabBtn();
             List<IWebElement> newTasks = PageFactoryManager.Get<TaskTab>()
-                .VerifyNewDeliverCommercialBin(tomorrowDate, 2);
-            foreach(IWebElement task in newTasks)
+                .VerifyNewDeliverCommercialBin(deliveryDate, 2);
+            foreach (IWebElement task in newTasks)
             {
                 PageFactoryManager.Get<TaskTab>()
                     .GoToATask(task)
@@ -135,7 +138,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .ClickCloseWithoutSaving()
                     .SwitchToChildWindow(2);
             }
-            
+
             //Verify date in expand is tomorrow 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
@@ -158,8 +161,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .FilterAgreementId(agreementId)
-                .VerifyFirstLineAgreementResult(118, agreementId)
-                .OpenFirstResult()
+                .OpenAgreementBySiteID(118)
                 .SwitchToLastWindow();
             PageFactoryManager.Get<AgreementLinePage>()
                 .WaitForLoadingIconToDisappear();

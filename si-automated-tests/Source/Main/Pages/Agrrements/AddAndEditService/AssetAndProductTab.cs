@@ -75,6 +75,12 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             Assert.AreEqual(GetAttributeValue(deliveryDate, "value"), date);
             return this;
         }
+
+        public String GetDeliveryDate()
+        {
+            WaitUtil.WaitForElementVisible(deliveryDate);
+            return GetAttributeValue(deliveryDate, "value");
+        }
          
         public AssetAndProducTab ChooseProduct(string value)
         {

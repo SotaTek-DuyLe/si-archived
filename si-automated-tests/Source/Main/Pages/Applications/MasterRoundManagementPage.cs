@@ -15,7 +15,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By dateInput = By.Id("effective-date");
         private readonly By goBtn = By.Id("button-go");
         private readonly string serviceOption = "//a[contains(@class,'jstree-anchor') and text()='{0}']";
-        //private readonly string serviceExpandIcon = "//a[contains(@class,'jstree-anchor') and text()='{0}']/preceding-sibling::i";
+        private readonly string serviceExpandIcon = "//a[contains(@class,'jstree-anchor') and text()='{0}']/preceding-sibling::i";
 
         //unalocated task tab
         private readonly By tabContainer = By.XPath("//div[@id='tabs-container']/ul");
@@ -53,6 +53,18 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             SelectTextFromDropDown(contractSelect, contract);
             ClickOnElement(servicesInput);
             ClickOnElement(serviceOption, service);
+            SendKeys(dateInput, date);
+            ClickOnElement(goBtn);
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForPageLoaded();
+            return this;
+        }
+        public MasterRoundManagementPage InputSearchDetails(string contract, string service, string subService, string date)
+        {
+            SelectTextFromDropDown(contractSelect, contract);
+            ClickOnElement(servicesInput);
+            ClickOnElement(serviceExpandIcon, service);
+            ClickOnElement(serviceOption, subService);
             SendKeys(dateInput, date);
             ClickOnElement(goBtn);
             WaitForLoadingIconToDisappear();
@@ -97,6 +109,10 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             var source = GetAllElements(rounds)[0];
             DragAndDrop(source, target);
             return this;
+        }
+        public String GetFirstRoundName()
+        {
+            return GetAllElements(rounds)[0].Text;
         }
         public MasterRoundManagementPage DragAndDropSecondRoundToGrid()
         {

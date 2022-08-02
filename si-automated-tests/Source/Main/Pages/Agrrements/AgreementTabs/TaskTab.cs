@@ -39,6 +39,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 
         private string firstTaskId = "(//div[contains(@class, 'r5')])[4]/div";
         private string secondTaskId = "(//div[contains(@class, 'r5')])[5]/div";
+        private string thirdTaskId = "(//div[contains(@class, 'r5')])[6]/div";
+        private string fourthTaskId = "(//div[contains(@class, 'r5')])[7]/div";
 
         private string TaskTable = "//div[@id='tasks-tab']//div[@class='grid-canvas']";
         private string TaskRow = "./div[contains(@class, 'slick-row')]";
@@ -539,6 +541,18 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         {
             TaskTableEle.DoubleClickRow(rowIdx);
             return this;
+        }
+
+        public int getThirdTaskId()
+        {
+            int firstId = int.Parse(GetElementText(thirdTaskId));
+            return firstId;
+        }
+
+        public int getFourthTaskId()
+        {
+            int firstId = int.Parse(GetElementText(fourthTaskId));
+            return firstId;
         }
     }
 
