@@ -112,5 +112,17 @@ namespace si_automated_tests.Source.Main.Finders
         {
             return FindList<ServiceUnitModel>("select * from serviceunits where serviceunitID=" + serviceId + ";").FirstOrDefault();
         }
+
+        public List<TaskDBModel> GetMultipleTask(int firstTaskId, int secondTaskId)
+        {
+            string query = "select * from tasks where taskID in (" + firstTaskId + "," + secondTaskId + ");";
+            return FindList<TaskDBModel>(query);
+        }
+
+        public List<TaskDBModel> GetTask(int taskId)
+        {
+            string query = "select * from tasks where taskID = " + taskId + ";";
+            return FindList<TaskDBModel>(query);
+        }
     }
 }

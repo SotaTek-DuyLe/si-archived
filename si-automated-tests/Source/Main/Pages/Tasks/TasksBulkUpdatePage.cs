@@ -3,6 +3,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.DBModels;
 
 namespace si_automated_tests.Source.Main.Pages.Tasks
 {
@@ -26,21 +27,24 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private const string detailTitle = "//label[contains(string(), 'Update {0} Selected Tasks')]";
 
         //Toggle arrow
-        private const string anyTaskStateSelect = "(div[@id='task-type-content-tab']//select[@id='taskStates.id'])[{0}]";
+        private const string anyTaskStateSelect = "(//div[@id='task-type-content-tab']//select[@id='taskStates.id'])[{0}]";
         private const string anyResolutionCodeSelect = "(//label[contains(string(), 'Resolution Code')]/following-sibling::echo-select/select)[{0}]";
-        private const string anyCompletedDateToggleInput = "(div[@id='task-type-content-tab']//input[@id='completedDate.id'])[{0}]";
+        private const string anyCompletedDateToggleInput = "(//div[@id='task-type-content-tab']//input[@id='completedDate.id'])[{0}]";
         private const string anyEndDateToggleInput = "(//div[@id='task-type-content-tab']//input[@id='endDate.id'])[{0}]";
         private const string anyNotesToggleInput = "(//div[@id='task-type-content-tab']//textarea[@id='notes.id'])[{0}]";
+        private const string optionTaskState = "(//div[@id='task-type-content-tab']//select[@id='taskStates.id'])[{0}]//option[text()='{1}']";
+        private const string anyResolutionCode = "(//label[contains(string(), 'Resolution Code')])[{0}]/following-sibling::echo-select/select";
+        private const string optionResolutionCode = "(//label[contains(string(), 'Resolution Code')])[{0}]/following-sibling::echo-select/select//option[text()='{1}']";
 
         public TasksBulkUpdatePage IsTaskBulkUpdatePage(string toggleTitle, string numberOfTask)
         {
             WaitUtil.WaitForElementVisible(title);
             Assert.IsTrue(IsControlDisplayed(title));
-            Assert.IsTrue(IsControlDisplayed(detailTitle, numberOfTask));
             Assert.IsTrue(IsControlDisplayed(completedDateInput));
             Assert.IsTrue(IsControlDisplayed(endDateInput));
             Assert.IsTrue(IsControlDisplayed(notesInput));
             Assert.IsTrue(IsControlDisplayed(useBackgroundTransactionCheckbox));
+            Assert.IsTrue(IsControlDisplayed(detailTitle, numberOfTask));
             Assert.IsTrue(IsControlDisplayed(toggleStandardCommercialTransaction, toggleTitle));
 
             return this;
@@ -134,6 +138,85 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public TasksBulkUpdatePage VerifyTaskStatePopulated(string stateExp, string numberOfToggle)
         {
             Assert.AreEqual(stateExp, GetFirstSelectedItemInDropdown(string.Format(anyTaskStateSelect, numberOfToggle)), "Task state is not populated");
+            return this;
+        }
+
+        //Click on Completed Date input
+        public TasksBulkUpdatePage ClickOnCompletedDateInput()
+        {
+            ClickOnElement(completedDateInput);
+            return this;
+        }
+
+        public TasksBulkUpdatePage SendKeyInCompletedDate(string value)
+        {
+            SendKeys(completedDateInput, value);
+            return this;
+        }
+
+        //Click on End Date input
+        public TasksBulkUpdatePage ClickOnEndDateInput()
+        {
+            ClickOnElement(endDateInput);
+            return this;
+        }
+
+        public TasksBulkUpdatePage SendKeyInEndDate(string value)
+        {
+            SendKeys(endDateInput, value);
+            return this;
+        }
+
+        //Verify [task] after updating
+        public TasksBulkUpdatePage VerifyTaskAfterBulkUpdating(TaskDBModel taskDBModel, string note, string taskCompletedDate, string taskEndDate)
+        {
+            Assert.AreEqual(note, taskDBModel.tasknotes);
+            Assert.AreEqual(taskCompletedDate, taskDBModel.taskcompleteddate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT));
+            Assert.AreEqual(taskEndDate, taskDBModel.taskenddate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT));
+            return this;
+        }
+
+        public TasksBulkUpdatePage VerifyTaskCompletedDateAndEndDateNotUpdated(TaskDBModel taskDBModel)
+        {
+            Assert.AreEqual(null, taskDBModel.taskcompleteddate);
+            Assert.AreEqual(null, taskDBModel.taskenddate);
+            return this;
+        }
+
+        //Change [Task State]
+        public TasksBulkUpdatePage ChangeTaskStateBottomPage(string stateValue, string indexOfTask)
+        {
+            ClickOnElement(anyTaskStateSelect, indexOfTask);
+            ClickOnElement(string.Format(optionTaskState, indexOfTask, stateValue));
+            return this;
+        }
+
+        //Change [Completed Date]
+        public TasksBulkUpdatePage ChangeCompletedDateBottomPage(string completedDateValue, string indexOfTask)
+        {
+            SendKeys(string.Format(anyCompletedDateToggleInput, indexOfTask), completedDateValue);
+            return this;
+        }
+
+        //Change [End Date]
+        public TasksBulkUpdatePage ChangeEndDateBottomPage(string endDateValue, string indexOfTask)
+        {
+            SendKeys(string.Format(anyEndDateToggleInput, indexOfTask), endDateValue);
+            return this;
+        }
+
+        //Change [Notes]
+        public TasksBulkUpdatePage ChangeNotesBottomPage(string noteValue, string indexOfTask)
+        {
+            SendKeys(string.Format(anyNotesToggleInput, indexOfTask), noteValue);
+            return this;
+        }
+
+        //Change [Resolution Code]
+        public TasksBulkUpdatePage ChangeResolutionCode(string resolutionCodeValue, string indexOfTask)
+        {
+            ClickOnElement(anyResolutionCode, indexOfTask);
+            ClickOnElement(string.Format(optionResolutionCode, indexOfTask, resolutionCodeValue));
             return this;
         }
     }

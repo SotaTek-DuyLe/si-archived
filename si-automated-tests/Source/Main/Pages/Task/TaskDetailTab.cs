@@ -3,7 +3,6 @@ using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
-using si_automated_tests.Source.Main.Pages.Task;
 
 namespace si_automated_tests.Source.Main.Pages
 {
