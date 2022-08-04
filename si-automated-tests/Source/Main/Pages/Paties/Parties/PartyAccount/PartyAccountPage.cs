@@ -48,5 +48,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount
             Assert.IsFalse(IsElementSelected(accountCheckBox, account));
             return this;
         }
+        public PartyAccountPage VerifyAccountReferenceEnabled(bool isEnabled)
+        {
+            Assert.AreEqual(isEnabled, GetElement(accountRefInput).Enabled);
+            return this;
+        }
+        public PartyAccountPage SelectAccountType(string accountType)
+        {
+            SelectTextFromDropDown(accountTypeInput, accountType);
+            return this;
+        }
     }
 }

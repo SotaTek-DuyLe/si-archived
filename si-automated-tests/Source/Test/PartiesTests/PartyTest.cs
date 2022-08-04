@@ -4,9 +4,13 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.Accounts;
+using si_automated_tests.Source.Main.Pages.IE_Configuration;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccountStatement;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test
@@ -507,6 +511,95 @@ namespace si_automated_tests.Source.Test
                 .VerifyValueDefaultInInvoiceAddress()
                 .ClickInvoiceAddressDd()
                 .VerifyDisplayNewSiteAddressInInvoiceAddress(addressDetailModel, true);
+        }
+
+        [Category("Accounting Reference")]
+        [Category("Dee")]
+        [Test]
+        public void TC_134_the_setting_of_accounting_refference()
+        {
+            string accountTypeSettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=AccountType&ObjectID=6";
+            string accountSettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=AccountType&ObjectID=6";
+            PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
+            string overrideValue = "Account reference value " + CommonUtil.GetRandomString(12);
+            //login
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(accountTypeSettingUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .SendKeyToUsername(AutoUser6.UserName)
+                .SendKeyToPassword(AutoUser6.Password)
+                .ClickOnSignIn();
+            PageFactoryManager.Get<AccountTypeDetailPage>()
+                .inputOverrideValue(overrideValue)
+                .TickOverrideCheckbox()
+                .clickOnSaveButton()
+                .WaitForLoadingIconToDisappear()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser6);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
+                .SwitchNewIFrame();
+            //create new party 
+            PageFactoryManager.Get<PartyCommonPage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreatePartyPage>()
+                .IsCreatePartiesPopup("North Star Commercial")
+                .VerifyContractDropdownVlues()
+                .VerifyAllPartyTypes()
+                .SendKeyToThePartyInput(partyModel.PartyName)
+                .SelectStartDate(-1)
+                .SelectPartyType(1)
+                .ClickSaveBtn();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifyDisplaySuccessfullyMessage()
+                .SwitchToTab("Account");
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .SelectAccountType("Charity")
+                .VerifyAccountReferenceEnabled(false)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItem(73)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickTabDropDown()
+                .ClickOnAccountStatement();
+            PageFactoryManager.Get<AccountStatementPage>()
+                .ClickCreateCreditNote()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreditNotePage>()
+                .ClickYesBtn()
+                .VerifyAccountReferenceIsReadonly()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+
+            PageFactoryManager.Get<AccountStatementPage>()
+               .ClickTakePayment()
+               .SwitchToLastWindow();
+            PageFactoryManager.Get<SalesReceiptPage>()
+                .IsAccountRefReadOnly()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+
+            PageFactoryManager.Get<AccountStatementPage>()
+               .ClickCreateSaleInvoice()
+               .SwitchToLastWindow();
+            PageFactoryManager.Get<CreateInvoicePage>()
+                .VerifyAccountReferenceIsReadonly()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+
+            //.MergeAllTabInDetailPartyAndVerify()
+            //.ClickAllTabAndVerify()
+            //.ClickAllTabInDropdownAndVerify();
+
         }
     }
 }
