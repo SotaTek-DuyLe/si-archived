@@ -41,7 +41,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             //Verify that user is unable to update sections of the forms when the restrict edit is set in the service
             sectorRecycling.SelectRandomPointType()
                 .ClickOnElement(sectorRecycling.RestrictEditCheckbox);
-            sectorRecycling.ClickSaveBtn()
+            sectorRecycling
+                .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
                 .VerifyToastMessage("Success");
             sectorRecycling.VerifyCheckboxIsSelected(sectorRecycling.RestrictEditCheckbox, true);
@@ -58,7 +59,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
             ServiceUnitPage serviceUnit = PageFactoryManager.Get<ServiceUnitPage>();
             serviceUnit.WaitForLoadingIconToDisappear(false)
                 .SwitchNewIFrame();
-            serviceUnit.DoubleClickServiceUnit()
+            string serviceUnitId = "223695";
+            serviceUnit
+                .FindServiceUnitWithId(serviceUnitId)
+                .DoubleClickServiceUnit()
                 .SwitchToChildWindow(2);
 
             ServiceUnitDetailPage serviceUnitDetail = PageFactoryManager.Get<ServiceUnitDetailPage>();
@@ -68,15 +72,16 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyInputIsReadOnly(serviceUnitDetail.EndDateInput);
 
             //Details: Update description, client reference, point segment, street, colour, service level->Save
+            //Description
             string valueServiceUnitInput = serviceUnitDetail.GetInputValue(serviceUnitDetail.ServiceUnitInput) + serviceUnitDetail.RandomString(3);
             serviceUnitDetail.SendKeys(serviceUnitDetail.ServiceUnitInput, valueServiceUnitInput);
-
+            //Client ref
             string valueClientReferenceInput = serviceUnitDetail.GetInputValue(serviceUnitDetail.ClientReferenceInput) + serviceUnitDetail.RandomString(3);
             serviceUnitDetail.SendKeys(serviceUnitDetail.ClientReferenceInput, valueClientReferenceInput);
-
+            //point segment
             string valuePointSegmentInput = serviceUnitDetail.GetInputValue(serviceUnitDetail.PointSegmentInput);
             serviceUnitDetail.SendKeys(serviceUnitDetail.PointSegmentInput, valuePointSegmentInput);
-
+            //street
             string valueStreetInput = "BEAUMONT AVENUE";
             serviceUnitDetail.SendKeys(serviceUnitDetail.StreetInput, valueStreetInput);
 

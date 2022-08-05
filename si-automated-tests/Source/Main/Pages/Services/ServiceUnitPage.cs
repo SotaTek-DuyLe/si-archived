@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string ServiceUnitRow = "./div[contains(@class, 'slick-row')]";
         private readonly string IdCell = "./div[contains(@class, 'l1 r1')]";
         private readonly string NameCell = "./div[contains(@class, 'l2 r2')]";
+        private readonly By applyFilterBtn = By.CssSelector("button[title='Apply Filters']");
 
         public TableElement ServiceUnitTableEle
         {
@@ -24,6 +25,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceUnitPage DoubleClickServiceUnit()
         {
             ServiceUnitTableEle.DoubleClickRow(0);
+            return this;
+        }
+
+        public ServiceUnitPage FindServiceUnitWithId(string serviceUnitId)
+        {
+            SendKeys(IdCell, serviceUnitId);
+            ClickOnElement(applyFilterBtn);
+            WaitForLoadingIconToDisappear(false);
             return this;
         }
     }
