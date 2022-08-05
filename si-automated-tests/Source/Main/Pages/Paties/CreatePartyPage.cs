@@ -94,11 +94,5 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.IsTrue(IsControlDisplayed(String.Format(AnyMessage, errorMessage)));
             return this;
         }
-        public CreatePartyPage SelectStartDatePlusOneDay()
-        {
-            string nowPlusOneDay = CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
-            SendKeys(StartDateInput, nowPlusOneDay);
-            return this;
-        }
     }
 }
