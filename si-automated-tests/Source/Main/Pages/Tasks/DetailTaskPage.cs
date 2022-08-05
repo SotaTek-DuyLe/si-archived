@@ -4,6 +4,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
 
@@ -15,6 +16,9 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By inspectionBtn = By.XPath("//button[@title='Inspect']");
         private readonly By locationName = By.CssSelector("a[class='typeUrl']");
         private readonly By serviceName = By.XPath("//div[text()='Service']/following-sibling::div");
+        private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
+        private readonly By historyTab = By.CssSelector("a[aria-controls='history-tab']");
+        private readonly By verdictTab = By.CssSelector("a[aria-controls='verdict-tab']");
 
         //INSPECTION POPUP
         private readonly By inspectionPopupTitle = By.XPath("//h4[text()='Create ']");
@@ -34,6 +38,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By allRowInInspectionTabel = By.XPath("//div[@id='taskInspections-tab']//div[@class='grid-canvas']/div");
         private readonly By firstInspectionRow = By.XPath("//div[@id='taskInspections-tab']//div[@class='grid-canvas']/div[1]");
         private const string columnInRowInspectionTab = "//div[@id='taskInspections-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
+
+        //DETAIL TAB
+        private readonly By taskNotesInput = By.CssSelector("textarea[id='taskNotes.id']");
+        private readonly By taskStateDd = By.CssSelector("select[id='taskState.id']");
+        private readonly By completionDateInput = By.CssSelector("input[id='completionDate.id']");
+        private readonly By endDateInput = By.CssSelector("input[id='endDate.id']");
+        private readonly By resolutionCode = By.CssSelector("select[id='resolutionCode.id']");
 
         //DYNAMIC LOCATOR
         private const string sourceName = "//select[@id='source']/option[text()='{0}']";
@@ -217,5 +228,220 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             DoubleClickOnElement(firstInspectionRow);
             return PageFactoryManager.Get<DetailInspectionPage>();
         }
+
+        //DETAIL TAB
+        public DetailTaskPage ClickOnDetailTab()
+        {
+            ClickOnElement(detailTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public DetailTaskPage VerifyFieldAfterBulkUpdate(string noteValue, string endDateValue, string taskStateValue, string completionDateValue, string resolutionCodeValue)
+        {
+            Assert.AreEqual(GetAttributeValue(taskNotesInput, "value"), noteValue);
+            Assert.AreEqual(GetAttributeValue(endDateInput, "value"), endDateValue);
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(taskStateDd), taskStateValue);
+            Assert.AreEqual(GetAttributeValue(completionDateInput, "value"), completionDateValue);
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(resolutionCode), resolutionCodeValue);
+            return this;
+        }
+
+        //HISTORY TAB
+        private readonly By titleTaskLineFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]");
+        private readonly By titleTaskLineSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[2]");
+        private readonly By userFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]/parent::div/following-sibling::div/strong[1]");
+        private readonly By timeFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]/parent::div/following-sibling::div/strong[2]");
+
+        private readonly By userSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[2]/parent::div/following-sibling::div/strong[1]");
+        private readonly By timeSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[2]/parent::div/following-sibling::div/strong[2]");
+
+        private readonly By contentFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')]/following-sibling::div)[1]");
+        private readonly By contentSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')]/following-sibling::div)[2]");
+        private readonly By updateTitle = By.XPath("//strong[text()='Update']");
+        private readonly By userUpdate = By.XPath("//strong[text()='Update']/parent::div/following-sibling::div/strong[1]");
+        private readonly By timeUpdate = By.XPath("//strong[text()='Update']/parent::div/following-sibling::div/strong[2]");
+        private readonly By contentUpdate = By.XPath("//strong[text()='Update']/following-sibling::div");
+
+        public DetailTaskPage ClickOnHistoryTab()
+        {
+            ClickOnElement(historyTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public DetailTaskPage VerifyTitleTaskLineFirstServiceUpdate()
+        {
+            Assert.IsTrue(IsControlDisplayed(titleTaskLineFirstServiceUpdate));
+            return this;
+        }
+
+        public DetailTaskPage VerifyTitleTaskLineSecondServiceUpdate()
+        {
+            Assert.IsTrue(IsControlDisplayed(titleTaskLineSecondServiceUpdate));
+            return this;
+        }
+
+        public DetailTaskPage VerifyTitleUpdate()
+        {
+            Assert.IsTrue(IsControlDisplayed(updateTitle));
+            return this;
+        }
+
+        public DetailTaskPage VerifyHistoryTabFirstAfterBulkUpdating(string userUpdatedExp, string timeUpdatedExp, string[] fieldInServiceUpdate, string[] valueExpected)
+        {
+            Assert.AreEqual(GetElementText(userFirstServiceUpdate), userUpdatedExp);
+            Console.WriteLine(timeUpdatedExp);
+            Console.WriteLine(timeFirstServiceUpdate);
+            Assert.IsTrue(timeUpdatedExp.Contains(GetElementText(timeFirstServiceUpdate)));
+            string[] allInfoDisplayed = GetElementText(contentFirstServiceUpdate).Split("\n");
+            for(int i = 0; i < allInfoDisplayed.Length; i++)
+            {
+                Assert.AreEqual(fieldInServiceUpdate[i] + ": " + valueExpected[i] + ".", allInfoDisplayed[i]);
+            }
+            return this;
+        }
+
+        public DetailTaskPage VerifyHistoryTabSecondAfterBulkUpdating(string userUpdatedExp, string timeUpdatedExp, string[] fieldInServiceUpdate, string[] valueExpected)
+        {
+            Assert.AreEqual(userUpdatedExp, GetElementText(userSecondServiceUpdate));
+            Assert.AreEqual(timeUpdatedExp, GetElementText(timeSecondServiceUpdate));
+            string[] allInfoDisplayed = GetElementText(contentSecondServiceUpdate).Split("\n");
+            for (int i = 0; i < allInfoDisplayed.Length; i++)
+            {
+                Assert.AreEqual(fieldInServiceUpdate[i] + ": " + valueExpected[i] + ".", allInfoDisplayed[i]);
+            }
+            return this;
+        }
+
+        public DetailTaskPage VerifyHistoryTabUpdate(string userUpdatedExp, string timeUpdatedExp, string[] fieldInServiceUpdate, string[] valueExpected)
+        {
+            Assert.AreEqual(userUpdatedExp, GetElementText(userUpdate));
+            Assert.AreEqual(timeUpdatedExp, GetElementText(timeUpdate));
+            string[] allInfoDisplayed = GetElementText(contentUpdate).Split("\n");
+            for (int i = 0; i < allInfoDisplayed.Length; i++)
+            {
+                Assert.AreEqual(fieldInServiceUpdate[i] + ": " + valueExpected[i] + ".", allInfoDisplayed[i]);
+            }
+            return this;
+        }
+
+        //VERDICT TAB
+        private readonly By taskInformationVerdictTab = By.CssSelector("a[aria-controls='verdictInformation-tab']");
+        private readonly By completionDateVerdictInput = By.XPath("//label[text()='Completion Date']/following-sibling::textarea");
+        private readonly By confirmationMethodVerdictInput = By.XPath("//label[text()='Confirmation Method']/following-sibling::textarea");
+        private readonly By taskStateVerdictInput = By.XPath("//label[text()='Task State']/following-sibling::textarea");
+        private readonly By resolutionCodeVerdictInput = By.XPath("//label[text()='Resolution Code']/following-sibling::textarea");
+        private readonly By taskLineVerdictTab = By.CssSelector("a[aria-controls='verdictTasklines-tab']");
+        private readonly By dateTimeFirstLineVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(1)");
+        private readonly By tasklineStateFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(8)");
+        private readonly By confirmationMethodFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(10)");
+        private readonly By productFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(4)");
+
+        private readonly By dateTimeSecondLineVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(2)>td:nth-child(1)");
+        private readonly By tasklineStateSecondVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(2)>td:nth-child(8)");
+        private readonly By confirmationMethodSecondVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(2)>td:nth-child(10)");
+        private readonly By productSecondVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(2)>td:nth-child(4)");
+
+        public DetailTaskPage ClickOnVerdictTab()
+        {
+            ClickOnElement(verdictTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        //==> Verdict tab -> Information
+        public DetailTaskPage ClickOnTaskInformation()
+        {
+            ClickOnElement(taskInformationVerdictTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public DetailTaskPage VerifyTaskInformationAfterBulkUpdating(string completionDateExp, string taskStateExp, string resolutionCodeExp, string confirmationMethodExp)
+        {
+            Assert.AreEqual(completionDateExp, GetAttributeValue(completionDateVerdictInput, "value"), "Completion Date is not correct");
+            Assert.AreEqual(taskStateExp, GetAttributeValue(taskStateVerdictInput, "value"), "Task State is not correct");
+            Assert.AreEqual(resolutionCodeExp, GetAttributeValue(resolutionCodeVerdictInput, "value"), "Resolution Code is not correct");
+            Assert.AreEqual(confirmationMethodExp, GetAttributeValue(confirmationMethodVerdictInput, "value"), "Confirmation method is not correct");
+            return this;
+        }
+
+        //==> Verdict tab -> Task line
+        public DetailTaskPage ClickOnTaskLineVerdictTab()
+        {
+            ClickOnElement(taskLineVerdictTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public DetailTaskPage VerifyFirstTaskLineStateVerdictTab(string dateTimeExp, string stateExp, string confirmMethodExp, string productExp)
+        {
+            Assert.AreEqual(dateTimeExp, GetElementText(dateTimeFirstLineVerdictTab));
+            Assert.AreEqual(stateExp, GetElementText(tasklineStateFirstVerdictTab));
+            Assert.AreEqual(confirmMethodExp, GetElementText(confirmationMethodFirstVerdictTab));
+            Assert.AreEqual(productExp, GetElementText(productFirstVerdictTab));
+            return this;
+        }
+
+        public DetailTaskPage VerifySecondTaskLineStateVerdictTab(string dateTimeExp, string stateExp, string confirmMethodExp, string productExp)
+        {
+            Assert.AreEqual(dateTimeExp, GetElementText(dateTimeSecondLineVerdictTab));
+            Assert.AreEqual(stateExp, GetElementText(tasklineStateSecondVerdictTab));
+            Assert.AreEqual(confirmMethodExp, GetElementText(confirmationMethodSecondVerdictTab));
+            Assert.AreEqual(productExp, GetElementText(productSecondVerdictTab));
+            return this;
+        }
+
+        public string CompareDueDateWithTimeNow(TaskDBModel taskDBModel, string timeCompleted)
+        {
+            DateTime dateTime = CommonUtil.GetLocalTimeNow();
+            if(DateTime.Compare(taskDBModel.taskduedate, dateTime) < 0) 
+            {
+                return taskDBModel.taskduedate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+            }
+            return timeCompleted;
+        }
+
+        //TASK LINE TAB
+        private readonly By taskLineTab = By.CssSelector("a[aria-controls='taskLines-tab']");
+        private readonly By firstStateTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='itemState.id']");
+        private readonly By firstProductTaskLine = By.XPath("//tbody/tr[1]//echo-select[contains(@params, 'name: product')]/select");
+        private readonly By firstResolutionCodeTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='resCode.id']");
+        private readonly By secondStateTaskLine = By.CssSelector("tbody>tr:nth-child(2) select[id='itemState.id']");
+        private readonly By secondProductTaskLine = By.XPath("//tbody/tr[2]//echo-select[contains(@params, 'name: product')]/select");
+        private readonly By secondResolutionCodeTaskLine = By.CssSelector("tbody>tr:nth-child(2) select[id='resCode.id']");
+
+        public DetailTaskPage ClickOnTaskLineTab()
+        {
+            ClickOnElement(taskLineTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public DetailTaskPage VerifyFirstTaskLineAfterBulkUpdate(string productExp, string stateExp, string resolutionCodeExp)
+        {
+            Assert.AreEqual(productExp, GetFirstSelectedItemInDropdown(firstProductTaskLine));
+            Assert.AreEqual(stateExp, GetFirstSelectedItemInDropdown(firstStateTaskLine));
+            Assert.AreEqual(resolutionCodeExp, GetFirstSelectedItemInDropdown(firstResolutionCodeTaskLine));
+            //Disabled
+            Assert.AreEqual("true", GetAttributeValue(firstProductTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstStateTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstResolutionCodeTaskLine, "disabled"));
+            return this;
+        }
+
+        public DetailTaskPage VerifySecondTaskLineAfterBulkUpdate(string productExp, string stateExp, string resolutionCodeExp)
+        {
+            Assert.AreEqual(productExp, GetFirstSelectedItemInDropdown(secondProductTaskLine));
+            Assert.AreEqual(stateExp, GetFirstSelectedItemInDropdown(secondStateTaskLine));
+            Assert.AreEqual(resolutionCodeExp, GetFirstSelectedItemInDropdown(secondResolutionCodeTaskLine));
+            //Disabled
+            Assert.AreEqual("true", GetAttributeValue(secondProductTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(secondStateTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(secondResolutionCodeTaskLine, "disabled"));
+            return this;
+        }
+
     }
 }
