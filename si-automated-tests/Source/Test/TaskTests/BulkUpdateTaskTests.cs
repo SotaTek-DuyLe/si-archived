@@ -77,7 +77,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 //Verify [State of the task type is auto populated]
                 .VerifyTaskStatePopulated("In Progress", "1")
                 .SendKeyInNoteInput(newNote)
-                //.ClickUserBackgroundTransactionCheckbox()
+                .ClickUserBackgroundTransactionCheckbox()
                 .ClickCloseWithoutSavingBtn()
                 .AcceptAlert()
                 .SwitchToLastWindow()
