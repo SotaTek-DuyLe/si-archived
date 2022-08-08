@@ -237,9 +237,22 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
-        public DetailTaskPage VerifyFieldAfterBulkUpdate(string noteValue, string endDateValue, string taskStateValue, string completionDateValue, string resolutionCodeValue)
+        public DetailTaskPage VerifyFieldAfterBulkUpdate(string topNoteValue, string commonNoteValue, string endDateValue, string taskStateValue, string completionDateValue, string resolutionCodeValue)
         {
-            Assert.AreEqual(noteValue, GetAttributeValue(taskNotesInput, "value"));
+            string firstNote = GetAttributeValue(taskNotesInput, "value").Split(Environment.NewLine)[0];
+            string commonNote = GetAttributeValue(taskNotesInput, "value").Split(Environment.NewLine)[1];
+            Assert.AreEqual(topNoteValue, firstNote);
+            Assert.AreEqual(commonNoteValue, commonNote);
+            Assert.AreEqual(endDateValue, GetAttributeValue(endDateInput, "value"));
+            Assert.AreEqual(taskStateValue, GetFirstSelectedItemInDropdown(taskStateDd));
+            Assert.AreEqual(completionDateValue, GetAttributeValue(completionDateInput, "value"));
+            Assert.AreEqual(resolutionCodeValue, GetFirstSelectedItemInDropdown(resolutionCode));
+            return this;
+        }
+
+        public DetailTaskPage VerifyFieldAfterBulkUpdate(string topNoteValue, string endDateValue, string taskStateValue, string completionDateValue, string resolutionCodeValue)
+        {
+            Assert.AreEqual(topNoteValue, GetAttributeValue(taskNotesInput, "value"));
             Assert.AreEqual(endDateValue, GetAttributeValue(endDateInput, "value"));
             Assert.AreEqual(taskStateValue, GetFirstSelectedItemInDropdown(taskStateDd));
             Assert.AreEqual(completionDateValue, GetAttributeValue(completionDateInput, "value"));
