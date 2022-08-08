@@ -539,7 +539,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage
                 .IsDetailTaskPage()
                 .ClickOnDetailTab()
-                .VerifyFieldAfterBulkUpdate(topNote + "\n" + noteSecondTask, completedDateEndDateSecondTask, "Completed", completionDateSecondTask, "")
+                .VerifyFieldAfterBulkUpdate(topNote, noteSecondTask, completedDateEndDateSecondTask, "Completed", completionDateSecondTask, "")
                 //History tab
                 .ClickOnHistoryTab()
                 .VerifyTitleTaskLineFirstServiceUpdate()
@@ -573,7 +573,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage
                 .IsDetailTaskPage()
                 .ClickOnDetailTab()
-                .VerifyFieldAfterBulkUpdate(topNote + "\n" + noteFirstTask, completedDateEndDateFirstTask, "Completed", completionDateFirstTask, "")
+                .VerifyFieldAfterBulkUpdate(topNote, noteFirstTask, completedDateEndDateFirstTask, "Completed", completionDateFirstTask, "")
                 //Step 4: Line 56 - History tab
                 .ClickOnHistoryTab()
                 .VerifyTitleTaskLineFirstServiceUpdate()
