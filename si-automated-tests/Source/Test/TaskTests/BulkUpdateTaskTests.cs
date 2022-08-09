@@ -21,6 +21,7 @@ namespace si_automated_tests.Source.Test.TaskTests
     {
         //Check for one task from North Star Commercial
         [Category("Bulk update Task form")]
+        [Category("Chang")]
         [Test(Description = "Verify that a bulk update form can be opened from Tasks step 1 and 2")]
         public void TC_126_Verify_bulk_update_form_can_be_opened_from_Tasks_step_1_2()
         {
@@ -101,6 +102,7 @@ namespace si_automated_tests.Source.Test.TaskTests
 
         //Two tasks with state = Completed 
         [Category("Bulk update Task form")]
+        [Category("Chang")]
         [Test(Description = "Step 4 - 1 Selecting date/time in top panel. No values in bottom panel")]
         public void TC_126_step_4_1_selecting_date_time_in_top_panel_no_values_in_bottom_panel()
         {
@@ -198,6 +200,7 @@ namespace si_automated_tests.Source.Test.TaskTests
         //Bug found => Failed
         //Two tasks with state = Inprogress 
         [Category("Bulk update Task form")]
+        [Category("Chang")]
         [Test(Description = "Step 4 - 2 Verify that user can update tasks (status/resolution code) based on their task type")]
         public void TC_126_step_4_2_update_status_resolution_code_based_on_their_task_type()
         {
@@ -286,6 +289,7 @@ namespace si_automated_tests.Source.Test.TaskTests
 
         //Two tasks with state = Cancelled 
         [Category("Bulk update Task form")]
+        [Category("Chang")]
         [Test(Description = "Step 4 - 3 Selecting Status/Resoulution code in bottom panel, but date/time in top panel")]
         public void TC_126_step_4_3_update_top_panel_in_progress_state() 
         {
@@ -435,6 +439,7 @@ namespace si_automated_tests.Source.Test.TaskTests
 
         //Two tasks with state = Unallocated 
         [Category("Bulk update Task form")]
+        [Category("Chang")]
         [Test(Description = "Step 4 - 4 Selecting 'Task Completed Date'/'Task End Date' /'Task Notes' in top panel and 'Completion Date'/ 'Task End Date'/'Task Notes' in bottom panel")]
         public void TC_126_step_4_4_update_top_panel_in_progress_state()
         {
@@ -575,6 +580,7 @@ namespace si_automated_tests.Source.Test.TaskTests
         }
 
         [Category("Bulk update Task form")]
+        [Category("Chang")]
         [Test(Description = "Step 6 - Verify that the task can be deleted")]
         public void TC_126_step_6_verify_the_task_can_be_deleted()
         {
@@ -657,6 +663,7 @@ namespace si_automated_tests.Source.Test.TaskTests
         }
 
         [Category("Bulk update Task form")]
+        [Category("Chang")]
         [Test(Description = "Verify that a bulk update form can be opened from Parties")]
         public void TC_126_Verify_bulk_update_form_can_be_opened_from_Paties()
         {
