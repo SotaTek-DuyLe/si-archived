@@ -12,6 +12,7 @@ using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
+using si_automated_tests.Source.Main.Pages.Tasks;
 using si_automated_tests.Source.Main.Pages.WB.Tickets;
 using CanlendarServiceTask = si_automated_tests.Source.Main.Models.Suspension.ServiceTaskModel;
 
@@ -872,6 +873,33 @@ namespace si_automated_tests.Source.Main.Pages.Paties
                 }
             }
             return this;
+        }
+
+        //TASK TAB
+        private readonly By taskIdInput = By.XPath("//div[@id='tasks-tab']//div[contains(@class, 'l5 r5')]//input");
+        private readonly By applyTaskBtn = By.XPath("//div[@id='tasks-tab']//button[@title='Apply Filters']");
+        private readonly By firstCheckbox = By.XPath("//div[@id='tasks-tab']//div[contains(@class, 'l0 r0')]//input");
+        private readonly By bulkUpdateBtn = By.XPath("//div[@id='tasks-tab']//button[text()='Bulk Update']");
+
+        public DetailPartyPage FilterTaskId(string taskId)
+        {
+            SendKeys(taskIdInput, taskId);
+            ClickOnElement(applyTaskBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public DetailPartyPage ClickFirstTaskCheckbox()
+        {
+            ClickOnElement(firstCheckbox);
+            return this;
+        }
+
+        public TasksBulkUpdatePage ClickBulkUpdateBtn()
+        {
+            WaitUtil.WaitForElementClickable(bulkUpdateBtn);
+            ClickOnElement(bulkUpdateBtn);
+            return PageFactoryManager.Get<TasksBulkUpdatePage>();
         }
         public DetailPartyPage ClickOnAccountStatement()
         {

@@ -5,12 +5,13 @@ using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Models.Agreement;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 
 namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 {
-    public class TaskTab : BasePage
+    public class TaskTab : BasePageCommonActions
     {
         private readonly By deleteItemBtn = By.XPath("//button[text()='Delete Item']");
         private readonly By bulkUpdateItemBtn = By.XPath("//button[text()='Bulk Update']");
@@ -40,6 +41,35 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         private string secondTaskId = "(//div[contains(@class, 'r5')])[5]/div";
         private string thirdTaskId = "(//div[contains(@class, 'r5')])[6]/div";
         private string fourthTaskId = "(//div[contains(@class, 'r5')])[7]/div";
+
+        private string TaskTable = "//div[@id='tasks-tab']//div[@class='grid-canvas']";
+        private string TaskRow = "./div[contains(@class, 'slick-row')]";
+        private string TaskCheckboxCell = "./div[contains(@class, 'l0')]//input[@type='checkbox']";
+        private string TaskULCell = "./div[contains(@class, 'l1')]//img";
+        private string TaskStateImgCell = "./div[contains(@class, 'l2')]//img";
+        private string TaskCreateDateCell = "./div[contains(@class, 'l3')]";
+        private string TaskPartyCell = "./div[contains(@class, 'l4')]";
+        private string TaskIDCell = "./div[contains(@class, 'l5')]";
+        private string TaskStateCell = "./div[contains(@class, 'l6')]";
+        private string TaskTypeCell = "./div[contains(@class, 'l11')]";
+
+        public readonly By TaskTypeSearch = By.XPath("//div[@id='tasks-tab']//div[contains(@class, 'slick-headerrow-column l11 r1')]//input");
+        public readonly By ApplyBtn = By.XPath("//div[@id='tasks-tab']//button[@title='Apply Filters']");
+
+        private TableElement taskTableEle;
+        public TableElement TaskTableEle
+        {
+            get => taskTableEle;
+        }
+
+        public TaskTab()
+        {
+            taskTableEle = new TableElement(TaskTable, TaskRow, new List<string>() { TaskCheckboxCell, TaskULCell, TaskStateImgCell, TaskCreateDateCell, TaskPartyCell, TaskIDCell, TaskStateCell, TaskTypeCell });
+            taskTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+        }
 
         public TaskTab VerifyFirstTaskType(string expected)
         {
@@ -496,6 +526,23 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             int firstId = int.Parse(GetElementText(secondTaskId));
             return firstId;
         }
+
+        public TaskTab VerifyTaskDataType(string taskType)
+        {
+            List<IWebElement> rows = TaskTableEle.GetRows();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                VerifyCellValue(TaskTableEle, i, 7, taskType);
+            }
+            return this;
+        }
+
+        public TaskTab DoubleClickTask(int rowIdx)
+        {
+            TaskTableEle.DoubleClickRow(rowIdx);
+            return this;
+        }
+
         public int getThirdTaskId()
         {
             int firstId = int.Parse(GetElementText(thirdTaskId));

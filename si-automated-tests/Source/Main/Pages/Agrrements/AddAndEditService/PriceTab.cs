@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using NUnit.Framework;
@@ -20,6 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         private string redundantPrice = "(//div[@id='step-4']//input[@placeholder='Price £' and contains(@class, 'has-error')])[1]/parent::td/following-sibling::td//button[@title='Retire/Remove']";
         private string redundantPriceAll = "//div[@id='step-4']//input[@placeholder='Price £' and contains(@class, 'has-error')]";
         private string redundantPrices = "//div[@id='step-4']//tr[contains(@data-bind, 'openPriceForm') and not(contains(@style, 'display: none;'))]//input[contains(@class,'price-text has-error')]/parent::td[1]/following-sibling::td/button[@title='Retire/Remove']";
+        public readonly By PriceTable = By.XPath("(//div[@id='step-4']//table)[1]/tbody");
         public PriceTab ClosePriceRecords()
         {
             int count = 0;
@@ -115,5 +117,28 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             return this;
         }
 
+        public PriceTab ClickOnRemoveButton(List<string> commercialCustomers)
+        {
+            foreach (var commercialCustomer in commercialCustomers)
+            {
+                IWebElement table = GetElement(PriceTable);
+                List<IWebElement> rows = table.FindElements(By.XPath("./tr")).ToList();
+                for (int i = 0; i < rows.Count; i++)
+                {
+                    IWebElement title = rows[i].FindElements(By.XPath("./td//div[@class='price-list']//span[@data-bind='text: name']")).FirstOrDefault();
+                    if (title == null || title.Text != commercialCustomer) continue;
+                    if(i + 2 < rows.Count)
+                    {
+                        IWebElement detailRow = rows[i + 2];
+                        IWebElement buttonCell = detailRow.FindElement(By.XPath("./td[@class='buttons']"));
+                        IWebElement removeBtn = buttonCell.FindElement(By.XPath("./button[@title='Retire/Remove']"));
+                        WaitUtil.WaitForElementClickable(removeBtn).Click();
+                        SleepTimeInMiliseconds(300);
+                        break;
+                    }
+                }
+            }
+            return this;
+        }
     }
 }

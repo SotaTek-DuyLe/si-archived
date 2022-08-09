@@ -83,15 +83,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             ClickOnElement(String.Format(AnyDay, nowSubDay));
             return this;
         }
-        public CreatePartyPage VerifyDisplayErrorMessage(string errorMessage)
-        {
-            Assert.IsTrue(IsControlDisplayed(String.Format(AnyMessage, errorMessage)));
-            return this;
-        }
         public CreatePartyPage SelectStartDatePlusOneDay()
         {
             string nowPlusOneDay = CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
             SendKeys(StartDateInput, nowPlusOneDay);
+            return this;
+        }
+        public CreatePartyPage VerifyDisplayErrorMessage(string errorMessage)
+        {
+            Assert.IsTrue(IsControlDisplayed(String.Format(AnyMessage, errorMessage)));
             return this;
         }
     }

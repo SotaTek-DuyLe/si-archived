@@ -17,6 +17,6 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string ContactDetailsWarningMessage =  "Please enter at least one of the contact details.";
         public static readonly string WBMapTabWarningMessage = "No Service Unit(s) associated to this Site ";
         public static readonly string NoEventsAvailableWarningMessage = "No Events Available";
-
+        public static readonly string TooManyTaskItemsSelectedDeletedMessage = "Too many items selected. Please select exactly 1 item.";
     }
 }

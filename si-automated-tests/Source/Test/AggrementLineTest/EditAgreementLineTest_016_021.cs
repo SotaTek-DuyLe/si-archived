@@ -1229,5 +1229,357 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //    .ClickRemoveAgreementBtn()
             //    .VerifyAgreementLineDisappear();
         }
+
+        [Category("Agreement")]
+        [Test(Description = "Verify that Agreement with multiple agreement lines for the same Site/Service/Asset Types/ Products creates correct Mobilization and when retired then it creates correct Demobilization tasks")]
+        public void TC_149_A_Verify_that_Agreement_with_multiple_agreement_lines()
+        {
+            void AddNewAgreementLine(string partyName)
+            {
+                PageFactoryManager.Get<AgreementTab>()
+                    .IsOnAgreementTab()
+                    .ClickAddNewItem()
+                    .SwitchToLastWindow();
+                PageFactoryManager.Get<PartyAgreementPage>()
+                    .WaitForLoadingIconToDisappear();
+                var partyAgreementPage = PageFactoryManager.Get<PartyAgreementPage>();
+                string selectedValue = "Use Customer";
+                string agreementType = "COMMERCIAL COLLECTIONS";
+                partyAgreementPage.VerifyElementIsMandatory(partyAgreementPage.agreementTypeInput);
+                partyAgreementPage.VerifyInputValue(partyAgreementPage.startDateInput, DateTime.Now.ToString(CommonConstants.DATE_DD_MM_YYYY_FORMAT));
+                partyAgreementPage.VerifyInputValue(partyAgreementPage.endDateInput, "01/01/2050");
+                partyAgreementPage.VerifySelectedValue(partyAgreementPage.primaryContract, selectedValue);
+                partyAgreementPage.VerifySelectedValue(partyAgreementPage.invoiceContact, selectedValue);
+                partyAgreementPage.VerifySelectedValue(partyAgreementPage.correspondenceAddressInput, selectedValue);
+                partyAgreementPage.VerifySelectedValue(partyAgreementPage.invoiceAddressInput, selectedValue);
+                partyAgreementPage.VerifySelectedValue(partyAgreementPage.invoiceScheduleInput, selectedValue);
+                partyAgreementPage
+                    .SelectAgreementType("Commercial Collections")
+                    .ClickSaveBtn()
+                    .VerifyToastMessage("Successfully saved agreement")
+                    .WaitForLoadingIconToDisappear();
+                partyAgreementPage
+                    .WaitForAgreementPageLoadedSuccessfully(agreementType, partyName)
+                    .VerifyAgreementStatus("New")
+                    .VerifyElementVisibility(partyAgreementPage.addServiceBtn, true)
+                    .VerifyElementVisibility(partyAgreementPage.approveBtn, true)
+                    .VerifyElementVisibility(partyAgreementPage.cancelBtn, true);
+                partyAgreementPage
+                    .ClickAddService()
+                    .IsOnAddServicePage();
+                PageFactoryManager.Get<SiteAndServiceTab>()
+                     .IsOnSiteServiceTab()
+                     .SelectServiceSite("Greggs - 8 KING STREET, TWICKENHAM, TW1 3SN")
+                     .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<SiteAndServiceTab>()
+                    .SelectService("Commercial")
+                    .ClickNext();
+                PageFactoryManager.Get<AssetAndProducTab>()
+                    .WaitForLoadingIconToDisappear();
+                string assetType = AgreementConstants.ASSET_TYPE_1100L;
+                int assetQty = 3;
+                string product = AgreementConstants.GENERAL_RECYCLING;
+                string tenure = AgreementConstants.TENURE_RENTAL;
+                int productQty = 1000;
+                PageFactoryManager.Get<AssetAndProducTab>()
+                    .IsOnAssetTab()
+                    .ClickAddAsset()
+                    .SelectAssetType(assetType)
+                    .InputAssetQuantity(assetQty)
+                    .ChooseTenure(tenure)
+                    .TickAssetOnSite()
+                    .InputAssetOnSiteNum(1)
+                    .ChooseProduct(product)
+                    .ChooseEwcCode("150106")
+                    .InputProductQuantity(productQty)
+                    .SelectKiloGramAsUnit()
+                    .ClickDoneBtn()
+                    .ClickBack();
+                PageFactoryManager.Get<SiteAndServiceTab>()
+                    .IsOnSiteServiceTab()
+                    .ClickNext();
+                PageFactoryManager.Get<AssetAndProducTab>()
+                    .ClickNext();
+                PageFactoryManager.Get<ScheduleServiceTab>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<ScheduleServiceTab>()
+                   .IsOnScheduleTab()
+                   .ClickAddService()
+                   .ClickDoneScheduleBtn()
+                   .ClickOnNotSetLink()
+                   .ClickOnWeeklyBtn()
+                   .UntickAnyDayOption()
+                   .SelectDayOfWeek("Mon")
+                   .ClickDoneRequirementBtn()
+                   .VerifyScheduleSummary("Once Every week on any Monday")
+                   .ClickNext();
+                var priceTab = PageFactoryManager.Get<PriceTab>();
+                priceTab.WaitForLoadingIconToDisappear();
+                priceTab.VerifyElementEnable(priceTab.nextBtn, false);
+                priceTab.ClickOnRemoveButton(new List<string>() { "Commercial Customers: Collection", "Commercial Customers: Bin Removal", "Commercial Customers: Bin Delivery" })
+                    .VerifyElementEnable(priceTab.nextBtn, true);
+                priceTab.ClickNext();
+                PageFactoryManager.Get<InvoiceDetailTab>()
+                    .VerifyInvoiceOptions("Use Agreement")
+                    .ClickFinish();
+                partyAgreementPage
+                    .VerifyServicePanelPresent()
+                    .VerifyAgreementLineFormHasGreenBorder()
+                    .ClickSaveBtn()
+                    .VerifyToastMessage("Successfully saved agreement")
+                    .WaitForLoadingIconToDisappear();
+                partyAgreementPage
+                    .VerifyServiceStartDate(DateTime.Now.ToString(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
+                    .VerifyElementText(partyAgreementPage.SiteName, "Greggs");
+            }
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser33.UserName, AutoUser33.Password)
+                .IsOnHomePage(AutoUser33);
+            int partyId = 73;
+            string partyName = "Greggs";
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(partyId)
+                .OpenFirstResult();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
+                .OpenAgreementTab();
+            var partyAgreementPage = PageFactoryManager.Get<PartyAgreementPage>();
+            AddNewAgreementLine(partyName);
+            partyAgreementPage
+                .ClickApproveAgreement()
+                .ConfirmApproveBtn()
+                .VerifyAgreementStatus("Active")
+                .ClosePartyAgreementPage();
+            PageFactoryManager.Get<BasePage>().SwitchToChildWindow(2);
+            AddNewAgreementLine(partyName);
+            partyAgreementPage
+                .ClosePartyAgreementPage()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickTabDropDown()
+                .ClickTasksTab()
+                .WaitForLoadingIconToDisappear();
+            var taskTab = PageFactoryManager.Get<TaskTab>();
+            taskTab.SendKeys(taskTab.TaskTypeSearch, "Deliver Commercial Bin");
+            taskTab.ClickOnElement(taskTab.ApplyBtn);
+            taskTab.VerifyTaskDataType("Deliver Commercial Bin");
+            var rows = PageFactoryManager.Get<TaskTab>().TaskTableEle.GetRows();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                PageFactoryManager.Get<TaskTab>()
+                    .DoubleClickTask(i)
+                    .SwitchToLastWindow();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .WaitingForTaskDetailsPageLoadedSuccessfully()
+                    .ClickToDetailsTab();
+                var taskDetailTab = PageFactoryManager.Get<TaskDetailTab>();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .SelectTextFromDropDown(taskDetailTab.detailTaskState, "Completed")
+                    .ClickSaveBtn()
+                    .VerifyToastMessage("Success")
+                    .WaitUntilToastMessageInvisible("Success")
+                    .ClickCloseBtn()
+                    .SwitchToChildWindow(2);
+            }
+        }
+
+        [Category("Agreement")]
+        [Test(Description = "Verify that Service tasks were created correctly as result of creating Agreement with 2 Agreement Lines in TC 149A")]
+        public void TC_149_B_Verify_that_Service_tasks_were_created_correctly_as_result_of_creating_Agreement_with_2_Agreement_Lines_in_TC_149A()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser33.UserName, AutoUser33.Password)
+                .IsOnHomePage(AutoUser33);
+            //Go to Services and verify 
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Services")
+                .ExpandOption("Regions")
+                .ExpandOption("London")
+                .ExpandOption("North Star Commercial")
+                .ExpandOption("Collections")
+                .ExpandOption("Commercial Collections")
+                .OpenOption("Active Service Tasks")
+                .SwitchNewIFrame();
+            var commonActiveServicesTaskPage = PageFactoryManager.Get<CommonActiveServicesTaskPage>();
+            commonActiveServicesTaskPage
+                .WaitForLoadingIconToDisappear();
+            commonActiveServicesTaskPage
+                .InputPartyNameToFilter("Greggs")
+                .SendKeys(commonActiveServicesTaskPage.startDateInput, DateTime.Now.ToString(CommonConstants.DATE_DD_MM_YYYY_FORMAT));
+            commonActiveServicesTaskPage.ClickOnElement(commonActiveServicesTaskPage.endDateInput);
+            commonActiveServicesTaskPage.SleepTimeInMiliseconds(300);
+            commonActiveServicesTaskPage.ClearInputValue(commonActiveServicesTaskPage.endDateInput);
+            commonActiveServicesTaskPage.SendKeysWithoutClear(commonActiveServicesTaskPage.endDateInput, "01/01/2050");
+            commonActiveServicesTaskPage.ClickApplyBtn()
+                .WaitForLoadingIconToDisappear();
+            int rowCount = commonActiveServicesTaskPage.ServiceTaskLineTableEle.GetRows().Count;
+            for (int i = 0; i < rowCount; i++)
+            {
+                commonActiveServicesTaskPage
+                    .DoubleClickServiceTaskLine(i)
+                    .SwitchToLastWindow();
+                var servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
+                servicesTaskPage
+                    .WaitForLoadingIconToDisappear();
+                servicesTaskPage
+                     .ClickOnTaskLineTab();
+                PageFactoryManager.Get<ServiceTaskLineTab>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<ServiceTaskLineTab>()
+                    .VerifyTaskLine("Service", "1100L", "3", "General Recycling", "1000", "Kilograms", DateTime.Now.ToString(CommonConstants.DATE_DD_MM_YYYY_FORMAT), DateTime.Now.AddDays(1).ToString(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
+                    .ClickCloseBtn()
+                    .SwitchToChildWindow(2);
+            }
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToFirstWindow()
+                .SwitchToDefaultContent();
+            //Navigate to the Agreement and edit
+            int partyId = 73;
+            string partyName = "Greggs";
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(partyId)
+                .OpenFirstResult();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
+                .OpenAgreementTab();
+            var partyAgreementPage = PageFactoryManager.Get<PartyAgreementPage>();
+            partyAgreementPage.DoubleClickAgreement(0)
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            partyAgreementPage.ClickEditAgreementBtn();
+            PageFactoryManager.Get<SiteAndServiceTab>()
+                .ClickNext();
+            PageFactoryManager.Get<AssetAndProducTab>()
+                .WaitForLoadingIconToDisappear();
+            string assetType = AgreementConstants.ASSET_TYPE_660L;
+            PageFactoryManager.Get<AssetAndProducTab>()
+                .IsOnAssetTab()
+                .ClickOnEditAsset()
+                .SelectAssetType(assetType)
+                .ClickDoneBtn()
+                .ClickNext();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+                   .IsOnScheduleTab()
+                   .ClickAddService()
+                   .ClickDoneCurrentScheduleBtn()
+                   .ClickOnNotSetLink()
+                   .ClickOnWeeklyBtn()
+                   .UntickAnyDayOption()
+                   .SelectDayOfWeek("Tue")
+                   .ClickDoneRequirementBtn()
+                   .VerifyScheduleSummary("Once Every week on any Tuesday")
+                   .ClickNext();
+            var priceTab = PageFactoryManager.Get<PriceTab>();
+            priceTab.WaitForLoadingIconToDisappear();
+            priceTab.VerifyElementEnable(priceTab.nextBtn, false);
+            priceTab.ClickOnRemoveButton(new List<string>() { "Commercial Customers: Collection", "Commercial Customers: Collection", "Commercial Customers: Bin Removal", "Commercial Customers: Bin Delivery" })
+                     .VerifyElementEnable(priceTab.nextBtn, true);
+            priceTab.ClickNext();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+                .VerifyInvoiceOptions("Use Agreement")
+                .ClickFinish();
+            partyAgreementPage
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved agreement")
+                .WaitForLoadingIconToDisappear();
+            partyAgreementPage
+                .ClosePartyAgreementPage()
+                .SwitchToChildWindow(2);
+
+            partyAgreementPage
+                .DoubleClickAgreement(1)
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            partyAgreementPage
+                .ClickRemoveAgreementBtn()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved agreement")
+                .WaitForLoadingIconToDisappear();
+            partyAgreementPage.VerifyServicePanelUnDisplay();
+        }
+
+        [Category("Agreement")]
+        [Test(Description = "Verify that Demobilization tasks were created correctly as result of editing Agreement with 2 Agreement Lines in TC 149B")]
+        public void TC_149_C_Verify_that_Demobilization_tasks_were_created_correctly_as_result_of_editing_Agreement_with_2_Agreement_Lines_in_TC_149B()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser33.UserName, AutoUser33.Password)
+                .IsOnHomePage(AutoUser33);
+            int partyId = 73;
+            string partyName = "Greggs";
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Parties")
+                .ExpandOption("North Star Commercial")
+                .OpenOption("Parties")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(partyId)
+                .OpenFirstResult();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName);
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickTabDropDown()
+                .ClickTasksTab()
+                .WaitForLoadingIconToDisappear();
+            var taskTab = PageFactoryManager.Get<TaskTab>();
+            taskTab.SendKeys(taskTab.TaskTypeSearch, "Remove Commercial Bin");
+            taskTab.ClickOnElement(taskTab.ApplyBtn);
+            var rows = PageFactoryManager.Get<TaskTab>().TaskTableEle.GetRows();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                if (i > 4) break;
+                PageFactoryManager.Get<TaskTab>()
+                    .DoubleClickTask(i)
+                    .SwitchToLastWindow();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .ClickToTaskLinesTab()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                   .VerifyTaskLine("Remove", "1100L", "1", "General Recycling", "1000", "Kilograms", "Unallocated")
+                   .ClickCloseWithoutSaving()
+                   .SwitchToChildWindow(2);
+            }
+        }
     }
 }

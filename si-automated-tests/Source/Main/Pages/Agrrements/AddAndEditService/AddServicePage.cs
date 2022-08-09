@@ -8,13 +8,13 @@ using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
 {
-    public class AddServicePage : BasePage
+    public class AddServicePage : BasePageCommonActions
     {
         private readonly By serviceTabs = By.XPath("//span[contains(@class,'btn btn-circle')]");
         private readonly By saveBtn = By.XPath("//button[text()='Next']");
         private readonly By finishBtn = By.XPath("//button[text()='Finish']");
         private readonly By backBtn = By.XPath("//button[text()='Back']");
-        private readonly By nextBtn = By.XPath("//button[text()='Next']");
+        public readonly By nextBtn = By.XPath("//button[text()='Next']");
 
         public AddServicePage IsOnAddServicePage()
         {
