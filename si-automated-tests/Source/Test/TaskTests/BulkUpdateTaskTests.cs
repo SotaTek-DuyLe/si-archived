@@ -449,6 +449,9 @@ namespace si_automated_tests.Source.Test.TaskTests
             string firstTaskTypeName = "Collect Domestic Recycling";
             string secondTaskTypeName = "Collect Bulky";
 
+            //API
+            TaskDBModel firstTaskDB = finder.GetTask(int.Parse(firstTaskId))[0];
+
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
