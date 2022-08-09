@@ -42,6 +42,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 2")]
         public void TC_056_WB_Site_product_2()
         {
@@ -402,6 +403,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 3")]
         public void TC_057_WB_Site_product_3()
         {
@@ -665,6 +667,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 4")]
         public void TC_058_WB_Site_product_4()
         {
@@ -933,6 +936,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 5")]
         public void TC_059_WB_Site_product_5()
         {
@@ -1322,6 +1326,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 6")]
         public void TC_060_WB_Site_product_6()
         {
@@ -1673,6 +1678,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 7")]
         public void TC_061_WB_Site_product_7()
         {
@@ -2003,6 +2009,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 8")]
         public void TC_062_WB_Site_product_8()
         {
@@ -2361,6 +2368,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 9")]
         public void TC_063_WB_Site_product_9()
         {

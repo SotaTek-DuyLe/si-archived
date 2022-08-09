@@ -25,6 +25,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
     public class FindServiceUnitTests : BaseTest
     {
         [Category("Find Service Unit")]
+        [Category("Chang")]
         [Test(Description = "Find Service unit from Point Address")]
         public void TC_127_Find_service_unit_from_point_address()
         {
@@ -218,6 +219,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Find Service Unit")]
+        [Category("Chang")]
         [Test(Description = "Find Service unit from Point Segment")]
         public void TC_127_Find_service_unit_from_point_segment()
         {
@@ -409,6 +411,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Find Service Unit")]
+        [Category("Chang")]
         [Test(Description = "Find Service unit from Point Area")]
         public void TC_127_Find_service_unit_from_point_area()
         {
@@ -603,6 +606,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Find Service Unit")]
+        [Category("Chang")]
         [Test(Description = "Find Service unit from Point Note")]
         public void TC_127_Find_service_unit_from_point_note()
         {

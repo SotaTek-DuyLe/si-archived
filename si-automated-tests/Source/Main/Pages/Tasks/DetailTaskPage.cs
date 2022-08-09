@@ -271,10 +271,10 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         private readonly By contentFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')]/following-sibling::div)[1]");
         private readonly By contentSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')]/following-sibling::div)[2]");
-        private readonly By updateTitle = By.XPath("//strong[text()='Update']");
-        private readonly By userUpdate = By.XPath("//strong[text()='Update']/parent::div/following-sibling::div/strong[1]");
-        private readonly By timeUpdate = By.XPath("//strong[text()='Update']/parent::div/following-sibling::div/strong[2]");
-        private readonly By contentUpdate = By.XPath("//strong[text()='Update']/following-sibling::div");
+        private readonly By updateTitle = By.XPath("(//strong[text()='Update'])[1]");
+        private readonly By userUpdate = By.XPath("(//strong[text()='Update']/parent::div/following-sibling::div/strong[1])[1]");
+        private readonly By timeUpdate = By.XPath("(//strong[text()='Update']/parent::div/following-sibling::div/strong[2])[1]");
+        private readonly By contentUpdate = By.XPath("(//strong[text()='Update']/following-sibling::div)[1]");
 
         public DetailTaskPage ClickOnHistoryTab()
         {

@@ -27,6 +27,7 @@ namespace si_automated_tests.Source.Test.EventTests
     {
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from point address with service unit")]
         public void TC_094_Create_event_from_point_address_with_service_unit()
         {
@@ -214,6 +215,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from point address without service unit")]
         public void TC_094_Create_event_from_point_address_without_service_unit()
         {
@@ -358,6 +360,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from point segment with service unit")]
         public void TC_096_Create_event_from_point_segment_with_service_unit()
         {
@@ -531,6 +534,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from point segment without service unit")]
         public void TC_096_Create_event_from_point_segment_without_service_unit()
         {
@@ -686,6 +690,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from point node with service unit")]
         public void TC_097_Create_event_from_point_node_with_service_unit()
         {
@@ -855,6 +860,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from point area with service unit")]
         public void TC_098_Create_event_from_point_area_with_service_unit()
         {
@@ -1025,6 +1031,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from event with service unit")]
         public void TC_105_Create_event_from_event_with_service_unit()
         {
@@ -1202,6 +1209,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from event without service unit")]
         public void TC_105_Create_event_from_event_without_service_unit()
         {
