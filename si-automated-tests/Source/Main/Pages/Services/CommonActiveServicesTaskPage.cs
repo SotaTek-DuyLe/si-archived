@@ -4,6 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Models;
 
 namespace si_automated_tests.Source.Main.Pages.Services
@@ -25,7 +26,26 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private string sidraTeddingtontribeYarnsEndDate = "//div[text()='Sidra - Teddington']/following-sibling::div[contains(@class, 'r6') and contains(.,'{0}')]";
         private static string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
         private string startDateTommorowPartyName = "//div[text()='" + tommorowDate + "']/parent::div/preceding-sibling::div[text()='{0}']";
-        
+
+        private string serviceTaskTable = "//div[@class='grid-canvas']";
+        private string serviceTaskRow = "./div[contains(@class, 'slick-row')]";
+        private string serviceTaskCheckboxCell = "./div[contains(@class, 'l0')]//input[@type='checkbox']";
+        private string serviceTaskIdCell = "./div[contains(@class, 'l1')]";
+        private string serviceTaskPartyCell = "./div[contains(@class, 'l2')]";
+        private string serviceTaskTypeCell = "./div[contains(@class, 'l3')]";
+        private string serviceTaskDescriptionCell = "./div[contains(@class, 'l4')]";
+
+        public TableElement ServiceTaskTableEle
+        {
+            get => new TableElement(serviceTaskTable, serviceTaskRow, new List<string>() { serviceTaskCheckboxCell, serviceTaskIdCell, serviceTaskPartyCell, serviceTaskTypeCell, serviceTaskDescriptionCell });
+        } 
+
+        public CommonActiveServicesTaskPage DoubleClicServiceTask(int rowIdx)
+        {
+            ServiceTaskTableEle.DoubleClickRow(rowIdx);
+            return this;
+        }
+
         public CommonActiveServicesTaskPage InputPartyNameToFilter(string name)
         {
             SendKeys(partyNameInput, name);
