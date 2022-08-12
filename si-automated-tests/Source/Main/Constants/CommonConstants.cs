@@ -43,6 +43,9 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] ServiceUpdateColumnNotCompletedHistoryTab = { "ActualAssetQuantity", "ActualProductQuantity", "State", "Completed Date", "Auto Confirmed" };        public static readonly string[] UpdateColumnHistoryTabFirst = { "Task notes", "Completed date", "State", "End date", "Resolution code" };
         public static readonly string[] UpdateColumnHistoryTabSecond = { "Task notes", "Completed date", "State", "End date" };
 
+        //ICON IMAGE
+        public static readonly string StreetIconUrl = "web/content/images/street.svg";
+
         //DATE
         public static readonly string DATE_DD_MM_YYYY_FORMAT = "dd/MM/yyyy";
         public static readonly string DATE_DD_MM_YYYY_FORMAT_DB = "dd-MM-yyyy";

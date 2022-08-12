@@ -124,5 +124,36 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from tasks where taskID = " + taskId + ";";
             return FindList<TaskDBModel>(query);
         }
+
+        public List<StreetTypeDBModel> GetStreetWithDate()
+        {
+            string query = "select * from streettypes where startdate <= GETDATE() and enddate > GETDATE()";
+            return FindList<StreetTypeDBModel>(query);
+        }
+
+        public List<RoadTypeDBModel> GetRoadTypeWithDate()
+        {
+            string query = "select roadtype from roadtypes where startdate <= GETDATE() and enddate > GETDATE()";
+            return FindList<RoadTypeDBModel>(query);
+        }
+
+        public List<PostCodeOutWardDBModel> GetStreetPostCodeOutWardsByStreetId(int streetId)
+        {
+            string query = "select * from streetpostcodeoutwards SP inner join postcodeoutwards P on P.postcodeoutwardID = SP.postcodeoutwardID where SP.streetID = " + streetId + ";";
+            return FindList<PostCodeOutWardDBModel>(query);
+        }
+
+        public List<SectorDBModel> GetSectorByStreetId(int streetId)
+        {
+            string query = "select * from streetsbysector_v ST inner join sectors S on S.sectorID = ST.sectorID where streetID = " + streetId + "; ";
+            return FindList<SectorDBModel>(query);
+        }
+
+        public List<PointSegmentDBModel> GetPointSegmentByStreetId(int streetId)
+        {
+            string query = "select * from streetpointsegments SS inner join pointsegments S on SS.pointsegmentID = S.pointsegmentID where streetID = " + streetId + "; ";
+            return FindList<PointSegmentDBModel>(query);
+        }
     }
+
 }

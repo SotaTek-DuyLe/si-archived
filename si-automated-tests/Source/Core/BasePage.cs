@@ -93,8 +93,13 @@ namespace si_automated_tests.Source.Core
         public void ClearInputValue(By by)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(by);
-            element.SendKeys(Keys.Control + "a");
-            element.SendKeys(Keys.Delete);
+            element.Clear();
+        }
+
+        public void ClearInputValue(string locator)
+        {
+            IWebElement element = WaitUtil.WaitForElementVisible(locator);
+            element.Clear();
         }
 
         public void EditSendKeys(By by, string value)
@@ -266,6 +271,11 @@ namespace si_automated_tests.Source.Core
             return this.driver.FindElement(by).Enabled;
         }
 
+        public bool IsControlEnabled(string locator)
+        {
+            return this.driver.FindElement(By.XPath(locator)).Enabled;
+        }
+
         //RETURN ELEMENT'S TEXT
         public string GetElementText(string xpath)
         {
@@ -305,6 +315,14 @@ namespace si_automated_tests.Source.Core
         public BasePage SwitchNewIFrame()
         {
             IWebElement iframe = WaitUtil.WaitForElementVisible(By.TagName("iframe"));
+            driver.SwitchTo().Frame(iframe);
+            Thread.Sleep(1000);
+            return this;
+        }
+
+        public BasePage SwitchNewIFrame(By by)
+        {
+            IWebElement iframe = WaitUtil.WaitForElementVisible(by);
             driver.SwitchTo().Frame(iframe);
             Thread.Sleep(1000);
             return this;
