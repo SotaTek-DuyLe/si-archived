@@ -42,10 +42,10 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] ColumnInFindServiceUnitWindow = { "ID", "Service Unit", "Point Count", "Select" };        public static readonly string[] ServiceUpdateColumnHistoryTab = { "ActualAssetQuantity", "ActualProductQuantity", "State", "Resolution Code", "Completed Date", "Auto Confirmed" };
         public static readonly string[] ServiceUpdateColumnNotCompletedHistoryTab = { "ActualAssetQuantity", "ActualProductQuantity", "State", "Completed Date", "Auto Confirmed" };        public static readonly string[] UpdateColumnHistoryTabFirst = { "Task notes", "Completed date", "State", "End date", "Resolution code" };
         public static readonly string[] UpdateColumnHistoryTabSecond = { "Task notes", "Completed date", "State", "End date" };
+        public static readonly string[] ServiceUpdateTaskLineFromCancelledToNotCompleted = { "State", "Completed Date", "Auto Confirmed" };
 
         //ICON IMAGE
-        public static readonly string StreetIconUrl = "web/content/images/street.svg";
-
+        public static readonly string StreetIconUrl = "web/content/images/street.svg";        
         //DATE
         public static readonly string DATE_DD_MM_YYYY_FORMAT = "dd/MM/yyyy";
         public static readonly string DATE_DD_MM_YYYY_FORMAT_DB = "dd-MM-yyyy";

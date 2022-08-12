@@ -18,6 +18,7 @@ namespace si_automated_tests.Source.Test.EventTests
     {
         //BUG
         [Category("DeleteEvent")]
+        [Category("Chang")]
         [Test(Description = "Delete event")]
         public void TC_106_Delete_event()
         {

@@ -12,6 +12,7 @@ namespace si_automated_tests.Source.Test
     public class LoginTests : BaseTest
     {
         [Category("User")]
+        [Category("Chang")]
         [Test]
         public void TC_001_login()
         {

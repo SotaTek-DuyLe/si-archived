@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Test
     public class PartyTest : BaseTest
     {
         [Category("Create party")]
+        [Category("Chang")]
         [Test]
         public void TC_004_Create_a_party_customer_type_form_grid()
         {
@@ -56,6 +57,7 @@ namespace si_automated_tests.Source.Test
         }
 
         [Category("Create party")]
+        [Category("Chang")]
         [Test]
         public void TC_005_Create_party_customer_type_from_action_dropdown()
         {
@@ -93,6 +95,7 @@ namespace si_automated_tests.Source.Test
         }
 
         [Category("Create party")]
+        [Category("Chang")]
         [Test]
         public void TC_006_Dont_Create_a_party_customer_type_from_parties_grid_with_future_start_date()
         {
@@ -374,6 +377,7 @@ namespace si_automated_tests.Source.Test
         }
 
         [Category("SiteAddress")]
+        [Category("Chang")]
         [Test]
         public void TC_010_Create_manual_site()
         {
@@ -441,6 +445,7 @@ namespace si_automated_tests.Source.Test
         }
 
         [Category("SiteAddress")]
+        [Category("Chang")]
         [Test]
         public void TC_011_Create_Non_Georgaphical_address()
         {
