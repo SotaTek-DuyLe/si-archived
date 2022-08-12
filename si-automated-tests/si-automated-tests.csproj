@@ -92,6 +92,9 @@
     <None Remove="Source\Main\DBModels\GetPointHistory\" />
     <None Remove="Source\Main\DBModels\GetAllServicesForPoint2\" />
     <None Remove="Source\Test\TaskTests\" />
+    <None Remove="Source\Test\RiskTests\" />
+    <None Remove="Source\Main\Pages\Applications\RiskRegister\" />
+    <None Remove="Source\Main\Pages\Streets\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -124,6 +127,9 @@
     <Folder Include="Source\Main\DBModels\GetPointHistory\" />
     <Folder Include="Source\Main\DBModels\GetAllServicesForPoint2\" />
     <Folder Include="Source\Test\TaskTests\" />
+    <Folder Include="Source\Test\RiskTests\" />
+    <Folder Include="Source\Main\Pages\Applications\RiskRegister\" />
+    <Folder Include="Source\Main\Pages\Streets\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
