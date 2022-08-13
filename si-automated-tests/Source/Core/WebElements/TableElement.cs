@@ -115,7 +115,7 @@ namespace si_automated_tests.Source.Core.WebElements
         public IWebElement GetCellByCellValues(int cellIdx, Dictionary<int, object> filterCells)
         {
             IWebElement row = GetRowByCellValues(filterCells);
-            return row.FindElement(By.XPath(CellXpaths[cellIdx]));
+            return row?.FindElement(By.XPath(CellXpaths[cellIdx]));
         }
 
         public object GetCellValue(int rowIdx, int cellIdx)
