@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -55,6 +54,27 @@ namespace si_automated_tests.Source.Test.RiskTests
                 .IsStreetDetailPage(riskDesc)
                 //Step 4: Verify that a top bar actions are displayed and working correctly
                 .VerifyTopBarActionDisplayed()
+                //=> History btn
+                .ClicHistoryBtnAndVerify(streetId)
+                //=> Refresh btn
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            //=> Help btn
+            streetDetailPage
+                .ClickAndVerifyHelp();
+                
+            streetDetailPage
+                .IsStreetDetailPage(riskDesc)
+                //=> Close btn
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .VerifyWindowClosed(2);
+            PageFactoryManager.Get<RiskDetailPage>()
+                .ClickOnAddressHeader(riskDesc)
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            streetDetailPage
+                .IsStreetDetailPage(riskDesc)
                 //Step 5: Object header
                 .VerifyObjectHeader(CommonConstants.StreetIconUrl, streetId)
                 //Step 6: Verify that last tab selected is remembered for the user

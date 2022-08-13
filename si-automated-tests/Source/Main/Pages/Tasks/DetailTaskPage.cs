@@ -285,7 +285,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         public DetailTaskPage VerifyTitleTaskLineFirstServiceUpdate()
         {
-            Assert.IsTrue(IsControlDisplayed(titleTaskLineFirstServiceUpdate));
+            Assert.IsTrue(IsControlDisplayed(titleTaskLineFirstServiceUpdate), "Title Task Line is not displayed");
             return this;
         }
 
@@ -416,6 +416,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         //TASK LINE TAB
         private readonly By taskLineTab = By.CssSelector("a[aria-controls='taskLines-tab']");
+        private readonly By numberOfTaskLine = By.XPath("//tbody//tr[contains(@data-bind,'with: $data.getFields()')]");
         private readonly By firstStateTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='itemState.id']");
         private readonly By firstProductTaskLine = By.XPath("//tbody/tr[1]//echo-select[contains(@params, 'name: product')]/select");
         private readonly By firstResolutionCodeTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='resCode.id']");
@@ -451,6 +452,12 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual("true", GetAttributeValue(secondProductTaskLine, "disabled"));
             Assert.AreEqual("true", GetAttributeValue(secondStateTaskLine, "disabled"));
             Assert.AreEqual("true", GetAttributeValue(secondResolutionCodeTaskLine, "disabled"));
+            return this;
+        }
+
+        public DetailTaskPage VerifyDisplayNoRecordDisplayed()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(numberOfTaskLine));
             return this;
         }
 

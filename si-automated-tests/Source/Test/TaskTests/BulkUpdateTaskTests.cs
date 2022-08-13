@@ -443,14 +443,10 @@ namespace si_automated_tests.Source.Test.TaskTests
         [Test(Description = "Step 4 - 4 Selecting 'Task Completed Date'/'Task End Date' /'Task Notes' in top panel and 'Completion Date'/ 'Task End Date'/'Task Notes' in bottom panel")]
         public void TC_126_step_4_4_update_top_panel_in_progress_state()
         {
-            CommonFinder finder = new CommonFinder(DbContext);
             string firstTaskId = "12";
             string secondTaskId = "11";
             string firstTaskTypeName = "Collect Domestic Recycling";
             string secondTaskTypeName = "Collect Bulky";
-
-            //API
-            TaskDBModel firstTaskDB = finder.GetTask(int.Parse(firstTaskId))[0];
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -527,7 +523,6 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
-            string[] valueExpInServiceUpdateSecondTask = { "1", "1", "Completed", "", completedDateDDMMYYYY, "Manually Confirmed on Web" };
             string[] valueExpUpdateSecondTask = { topNote + " " + noteSecondTask, completedDateEndDateSecondTask, "Completed", completedDateEndDateSecondTask};
 
             detailTaskPage
@@ -536,10 +531,6 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .VerifyFieldAfterBulkUpdate(topNote, noteSecondTask, completedDateEndDateSecondTask, "Completed", completedDateEndDateSecondTask, "")
                 //History tab
                 .ClickOnHistoryTab()
-                .VerifyTitleTaskLineFirstServiceUpdate()
-                .VerifyHistoryTabFirstAfterBulkUpdating(AutoUser55.DisplayName, completedDateDisplayed, CommonConstants.ServiceUpdateColumnHistoryTab, valueExpInServiceUpdateSecondTask)
-                .VerifyTitleTaskLineSecondServiceUpdate()
-                .VerifyHistoryTabSecondAfterBulkUpdating(AutoUser55.DisplayName, completedDateDisplayed, CommonConstants.ServiceUpdateColumnHistoryTab, valueExpInServiceUpdateSecondTask)
                 .VerifyTitleUpdate()
                 .VerifyHistoryTabUpdate(AutoUser55.DisplayName, completedDateDisplayed, CommonConstants.UpdateColumnHistoryTabSecond, valueExpUpdateSecondTask)
                 //Step 4: Line 56 - Verdict tab
@@ -547,12 +538,9 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnTaskInformation()
                 .VerifyTaskInformationAfterBulkUpdating(completedDateEndDateSecondTask, "Completed", "", "Manually Confirmed on Web")
                 .ClickOnTaskLineVerdictTab()
-                .VerifyFirstTaskLineStateVerdictTab(completedDateDisplayed, "Completed", "Manually Confirmed on Web", "Plastic")
-                .VerifySecondTaskLineStateVerdictTab(completedDateDisplayed, "Completed", "Manually Confirmed on Web", "Paper & Cardboard")
                 //Step 4: Line 56 - Task line tab
                 .ClickOnTaskLineTab()
-                .VerifyFirstTaskLineAfterBulkUpdate("Plastic", "Completed", "")
-                .VerifySecondTaskLineAfterBulkUpdate("Paper & Cardboard", "Completed", "")
+                .VerifyDisplayNoRecordDisplayed()
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1)
                 .SwitchNewIFrame();
@@ -560,8 +548,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<TasksListingPage>()
                 .ClickClearBtn()
                 .WaitForLoadingIconToDisappear();
-            string completionDateFirstTask = detailTaskPage.CompareDueDateWithTimeNow(firstTaskDB, completedDateEndDateSecondTask);
-            string[] valueExpUpdateFirstTask = { topNote + " " + noteFirstTask, completionDateFirstTask, "Completed", completedDateEndDateFirstTask };
+            string[] valueExpUpdateFirstTask = { topNote + " " + noteFirstTask, completedDateEndDateFirstTask, "Completed", completedDateEndDateFirstTask };
             PageFactoryManager.Get<TasksListingPage>()
                 .FilterByTaskId(firstTaskId)
                 .ClickOnFirstRecord()
@@ -570,7 +557,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage
                 .IsDetailTaskPage()
                 .ClickOnDetailTab()
-                .VerifyFieldAfterBulkUpdate(topNote, noteFirstTask, completedDateEndDateFirstTask, "Completed", completionDateFirstTask, "")
+                .VerifyFieldAfterBulkUpdate(topNote, noteFirstTask, completedDateEndDateFirstTask, "Completed", completedDateEndDateFirstTask, "")
                 //Step 4: Line 56 - History tab
                 .ClickOnHistoryTab()
                 .VerifyTitleUpdate()
@@ -579,7 +566,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage
                 .ClickOnVerdictTab()
                 .ClickOnTaskInformation()
-                .VerifyTaskInformationAfterBulkUpdating(completionDateFirstTask, "Completed", "", "Manually Confirmed on Web");
+                .VerifyTaskInformationAfterBulkUpdating(completedDateEndDateFirstTask, "Completed", "", "Manually Confirmed on Web");
         }
 
         [Category("Bulk update Task form")]
