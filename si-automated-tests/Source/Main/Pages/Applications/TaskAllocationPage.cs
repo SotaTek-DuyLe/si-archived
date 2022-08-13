@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
+using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Models.Applications;
 using System;
@@ -41,6 +42,9 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly string UnallocatedDescription = "./div[contains(@class, 'slick-cell l4 r4')]";
         public readonly string UnallocatedService = "./div[contains(@class, 'slick-cell l5 r5')]";
 
+        public readonly By ShowOutstandingTaskButton = By.XPath("//div[@id='tabs-container']//button[@id='t-outstanding']");
+        public readonly By OutstandingTab = By.XPath("//div[@id='tabs-container']//li//a[@aria-controls='outstanding']");
+
         private TableElement unallocatedTableEle;
         public TableElement UnallocatedTableEle
         {
@@ -65,6 +69,30 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             get => new TableElement(RoundInstanceTable, RoundInstanceRow, new List<string>() { RoundInstanceServiceCell, RoundInstanceRoundGroupCell, RoundInstanceRoundCell, RoundInstanceFromCell, RoundInstanceToCell });
         }
+
+        #region Outstanding Table
+        private readonly string OutStandingTable = "//div[@id='outstanding']//div[@class='grid-canvas']";
+        private readonly string OutStandingRow = "./div[contains(@class, 'slick-row')]";
+        private readonly string OutStandingCheckbox = "./div[contains(@class, 'slick-cell l1 r1')]//input";
+        private readonly string OutStandingId = "./div[contains(@class, 'slick-cell l2 r2')]";
+        private readonly string OutStandingDescription = "./div[contains(@class, 'slick-cell l3 r3')]";
+        private readonly string OutStandingService = "./div[contains(@class, 'slick-cell l4 r4')]";
+        private readonly string OutStandingScheduledDate = "./div[contains(@class, 'slick-cell l5 r5')]";
+
+        public TableElement OutstandingTableEle
+        {
+            get => new TableElement(OutStandingTable, OutStandingRow, new List<string>() { OutStandingCheckbox, OutStandingId, OutStandingDescription, OutStandingService, OutStandingScheduledDate });
+        }
+
+        public TaskAllocationPage VerifyOutStandingData(List<OutstandingTaskModel> dataFromDbs)
+        {
+            foreach (var item in dataFromDbs)
+            {
+                Assert.IsNotNull(OutstandingTableEle.GetCellByValue(1, item.ID));
+            }
+            return this;
+        }
+        #endregion
 
         public readonly By AllocatingConfirmMsg = By.XPath("//div[text()='Allocating 1 Task(s) onto Round Instance for a different day!']");
         public readonly By AllocatingConfirmMsg2 = By.XPath("//div[text()='Allocating 1 locked Tasks from/to dispatched round. Ensure that new Crew can attempt service']");
