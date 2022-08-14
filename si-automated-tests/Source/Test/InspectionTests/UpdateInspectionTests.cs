@@ -20,6 +20,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
 
         //Need to confirm
         [Category("UpdateInspection"), Order(1)]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Complete - InspectionType = 4")]
         public void TC_120_Inspection_update_and_states_complete_inspection_inspection_type_4()
         {
@@ -141,6 +142,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("UpdateInspection")]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Cancel - InspectionType = 4"), Order(2)]
         public void TC_120_Inspection_update_and_states_cancel_inspection_inspection_type_4()
         {
@@ -237,6 +239,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("UpdateInspection")]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Expire - InspectionType = 4"), Order(3)]
         public void TC_120_Inspection_update_and_states_Expire_inspection_inspection_type_4()
         {
@@ -322,6 +325,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("UpdateInspection")]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Complete - 1"), Order(4)]
         public void TC_120_Inspection_update_and_states_Complete_1_inspection_inspection_type_2()
         {
@@ -427,6 +431,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("UpdateInspection")]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Complete - 2"), Order(5)]
         public void TC_120_Inspection_update_and_states_Complete_2_inspection_inspection_type_2()
         {
@@ -502,6 +507,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             detailInspectionPage
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveInspectionSuccessMessage)
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
                 .VerifyStateInspection("Complete")
@@ -538,6 +544,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("UpdateInspection")]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Cancel"), Order(6)]
         public void TC_120_Inspection_update_and_states_Cancel_inspection_inspection_type_2()
         {
@@ -644,6 +651,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("UpdateInspection")]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Expired"), Order(7)]
         public void TC_120_Inspection_update_and_states_Expired_inspection_inspection_type_2()
         {

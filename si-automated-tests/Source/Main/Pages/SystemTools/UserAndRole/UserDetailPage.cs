@@ -13,13 +13,13 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
         private readonly By saveBtn = By.XPath("//img[@title='Save']");
         private readonly By saveCloseBtn = By.XPath("//img[@title='Save and close']");
         private readonly By detailTab = By.XPath("//a[text()='Details']");
-        private readonly By accessRoleTab = By.XPath("//a[text()='Data Access Roles']");
+        private readonly By accessRoleTab = By.XPath("//a[text()='Data Access Roles']/parent::li");
         private readonly By adminRoleTab = By.XPath("//a[text()='Admin Roles']");
         private readonly By resetPasswordBtn = By.XPath("//span[text()='Reset Password']");
         private readonly By loadingIconHidden = By.XPath("//div[@id='Progress' and contains(@style, 'visibility: hidden')]");
 
 
-        private readonly By accessRoleOption = By.XPath("//span[text()='North Star Commercial']/ancestor::td/following-sibling::td");
+        private readonly By accessRoleOption = By.XPath("//span[contains(text(),'North Star Commercial')]/ancestor::td/following-sibling::td");
         private const string adminRoleOption = "//span[contains(text(), '{0}')]/parent::td/following-sibling::td/input";
         private readonly By inpectionsAdminRole = By.XPath("(//span[contains(text(), 'Inspections')])[2]/parent::td/following-sibling::td/input");
 
@@ -65,7 +65,7 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
             ClickOnElement(accessRoleTab);
             return this;
         }
-        public UserDetailPage ChooseAccessRole(String role)
+        public UserDetailPage ChooseNorthStarCommercialAsAccessRole(String role)
         {
             ClickOnElement(accessRoleOption);
             return this;

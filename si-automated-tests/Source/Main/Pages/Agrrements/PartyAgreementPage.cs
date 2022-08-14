@@ -13,13 +13,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Linq;
+using si_automated_tests.Source.Core.WebElements;
 
 namespace si_automated_tests.Source.Main.Pages.PartyAgreement
 {
     //Agreement Detail Page
     //Can be opened through Party Detail Page -> Agreement Tab -> Double click one agreement
     //Or Agreements Main Page -> Double click one agreement
-    public class PartyAgreementPage : BasePage
+    public class PartyAgreementPage : BasePageCommonActions
     {
         private readonly By agreementId = By.XPath("//h4[@title='Id']");
         private readonly By detailsTabBtn = By.XPath("//a[@aria-controls='details-tab']");
@@ -33,25 +34,25 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
 
         private readonly By retireBtn = By.XPath("//button[@title='Retire']");
 
-        private readonly By agreementTypeInput = By.Id("agreement-type");
-        private readonly By startDateInput = By.Id("start-date");
-        private readonly By endDateInput = By.Id("end-date");
-        private readonly By primaryContract = By.Id("primary-contact");
-        private readonly By invoiceContact = By.Id("invoice-contact");
-        private readonly By correspondenceAddressInput = By.Id("correspondence-address");
-        private readonly By invoiceAddressInput = By.Id("invoice-address");
-        private readonly By invoiceScheduleInput = By.Id("invoice-schedule");
+        public readonly By agreementTypeInput = By.Id("agreement-type");
+        public readonly By startDateInput = By.Id("start-date");
+        public readonly By endDateInput = By.Id("end-date");
+        public readonly By primaryContract = By.Id("primary-contact");
+        public readonly By invoiceContact = By.Id("invoice-contact");
+        public readonly By correspondenceAddressInput = By.Id("correspondence-address");
+        public readonly By invoiceAddressInput = By.Id("invoice-address");
+        public readonly By invoiceScheduleInput = By.Id("invoice-schedule");
         private readonly By paymentMethodInput = By.Id("payment-method");
         private readonly By vatCodeInput = By.Id("vat-code");
         private readonly By serviceInput = By.Id("search");
 
-        private readonly By addServiceBtn = By.XPath("//button[text()='Add Services']");
-        private readonly By approveBtn = By.XPath("//button[text()='Approve']");
-        private readonly By cancelBtn = By.XPath("//button[text()='Cancel']");
+        public readonly By addServiceBtn = By.XPath("//button[text()='Add Services']");
+        public readonly By approveBtn = By.XPath("//button[text()='Approve']");
+        public readonly By cancelBtn = By.XPath("//button[text()='Cancel']");
         private readonly By confirmApproveBtn = By.XPath("//button[@data-bb-handler='confirm']");
 
         //Agreement line panel
-        private readonly By serviceAgreementPanel = By.XPath("//div[@class='panel panel-default' and contains(@data-bind,'agreementLines')]");
+        public readonly By serviceAgreementPanel = By.XPath("//div[@class='panel panel-default' and contains(@data-bind,'agreementLines')]");
         private readonly By serviceStartDate = By.XPath("//div[@class='panel panel-default' and contains(@data-bind,'agreementLines')]/descendant::span[contains(@data-bind,'displayStartDate')]");
         private readonly By panelSiteAddress = By.XPath("//p[contains(@data-bind,'siteAddress')]");
         private readonly By expandBtn = By.XPath("//button[@title='Expand/close agreement line']");
@@ -94,6 +95,42 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
 
         private string agreementType = "//h4[contains(.,'{0}')]";
         private string agreementName = "//p[text()='{0}']";
+        public readonly By SiteName = By.XPath("//div[@id='details-tab']//div[@class='panel-heading']//span[@data-bind='text: siteName']");
+
+        private string AgreementTable = "//div[@id='agreements-tab']//div[@class='grid-canvas']";
+        private string AgreementRow = "./div[contains(@class, 'slick-row')]";
+        private string AgreementCheckboxCell = "./div[contains(@class, 'l0')]//input[@type='checkbox']";
+        private string AgreementIdCell = "./div[contains(@class, 'l1')]";
+        private string AgreementNameCell = "./div[contains(@class, 'l2')]";
+        private string AgreementRefCell = "./div[contains(@class, 'l3')]";
+
+        private TableElement agreementTableEle;
+        public TableElement AgreementTableEle
+        {
+            get => agreementTableEle;
+        }
+
+        public PartyAgreementPage()
+        {
+            agreementTableEle = new TableElement(AgreementTable, AgreementRow, new List<string>() { AgreementCheckboxCell, AgreementIdCell, AgreementNameCell, AgreementRefCell });
+            agreementTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+        }
+
+        public PartyAgreementPage VerifyServicePanelUnDisplay()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(serviceAgreementPanel));
+            return this;
+        }
+
+        public PartyAgreementPage DoubleClickAgreement(int rowIdx)
+        {
+            agreementTableEle.DoubleClickRow(rowIdx);
+            return this;
+        }
+
         public PartyAgreementPage WaitForAgreementPageLoadedSuccessfully(string type, string name)
         {
             WaitUtil.WaitForElementVisible(agreementType, type.ToUpper());
@@ -284,6 +321,13 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             return this;
         }
 
+        public PartyAgreementPage VerifyAgreementLineFormHasGreenBorder()
+        {
+            string borderColor = GetElement(By.XPath("//div[@id='details-tab']//div[@class='panel-heading']")).GetCssValue("border-color");
+            Assert.IsTrue(ColorHelper.IsGreenColor(borderColor));
+            return this;
+        }
+
         public PartyAgreementPage CreateAdhocTaskBtnInAgreementLine(string taskType)
         {
             List<IWebElement> rows = GetAllElements("(//div[@id='details-tab']//table[@class='table'])[4]//tbody//tr");
@@ -389,6 +433,14 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         public PartyAgreementPage OpenAnAgreementWithDate(string date)
         {
             DoubleClickOnElement(agreementWithDate, date);
+            return this;
+        }
+
+        public PartyAgreementPage VerifyElementIsMandatory(By by)
+        {
+            IWebElement webEle = GetElement(by);
+            string cssColor = webEle.GetCssValue("border-color");
+            Assert.IsTrue(ColorHelper.IsRedColor(cssColor));
             return this;
         }
 

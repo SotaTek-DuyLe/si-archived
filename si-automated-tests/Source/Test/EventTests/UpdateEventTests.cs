@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Test.EventTests
     public class UpdateEventTests : BaseTest
     {
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Event actions, event updates")]
         public void TC_112_Event_actions_event_updates()
         {

@@ -11,12 +11,13 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string FieldStreetGradeRequiredMessage = "Field Street Grade is required";
         public static readonly string ResourceRequiredMessage = "Resource is required";
         public static readonly string MissingTimezoneMessage = "Time Zone is required";
+        public static readonly string StreetNameRequiredMessage = "Street Name requried";
 
         //WARNING MESSAGES
         public static readonly string LocationRestrictWarningMessage = "Default location must be selected as a restricted location.";
         public static readonly string ContactDetailsWarningMessage =  "Please enter at least one of the contact details.";
         public static readonly string WBMapTabWarningMessage = "No Service Unit(s) associated to this Site ";
         public static readonly string NoEventsAvailableWarningMessage = "No Events Available";
-
+        public static readonly string TooManyTaskItemsSelectedDeletedMessage = "Too many items selected. Please select exactly 1 item.";
     }
 }

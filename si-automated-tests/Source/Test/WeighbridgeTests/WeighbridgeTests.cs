@@ -59,6 +59,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Test(Description = "WB Site location delete")]
+        [Category("Chang")]
         public void TC_055_WB_Site_location_delete()
         {
             string partyNameCustomer = "Auto55Customer" + CommonUtil.GetRandomString(2);
@@ -326,6 +327,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB create party customer"), Order(1)]
         public void GetAllSiteInWBBefore()
         {
@@ -341,6 +343,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB create party customer"), Order(2)]
         public void TC_045_WB_Create_party_customer()
         {
@@ -434,6 +437,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB create party customer and haulier"), Order(3)]
         public void TC_046_WB_Create_party_customer_and_haulier()
         {
@@ -511,6 +515,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         //This TC depends on TC-45
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB create party haulier"), Order(5)]
         public void TC_047_WB_Create_party_haulier()
         {
@@ -599,6 +604,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         //This TC depends on the TC-045, TC-046 and TC-047
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Station"), Order(6)]
         public void TC_048_WB_Station()
         {
@@ -699,6 +705,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB VCH Human"), Order(7)]
         public void TC_050_WB_VCH_Human()
         {
@@ -753,6 +760,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         //This TC depends on the TC-45, TC-47
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB VCH Vehicle"), Order(8)]
         public void TC_051_WB_VCH_Vehicle()
         {
@@ -869,6 +877,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         //This TC depends on TC-45, TC-48
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Location"), Order(9)]
         public void TC_052_WB_Location()
         {
@@ -961,6 +970,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Station No ticket type"), Order(10)]
         public void TC_053_WB_Station_No_ticket_type()
         {
@@ -1042,6 +1052,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         //This TC depends on the TC-045 and TC-47, TC-048, TC-051, TC-052
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 1"), Order(11)]
         public void TC_054_WB_Site_product_1()
         {

@@ -20,6 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private const string AllTabDisplayed = "//li[@role='presentation' and not(contains(@style, 'visibility: collapse'))]/a";
         private const string FrameMessage = "//div[@class='notifyjs-corner']/div";
         private readonly By defaultResourceTab = By.XPath("//a[@aria-controls='defaultResources-tab']");
+        public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']");
         private readonly By toggleBtn = By.XPath("./td//div[@id='toggle-actions']");
         private readonly By defaultResourceRows = By.XPath("//div[@id='defaultResources-tab']//table//tbody//tr[contains(@data-bind, 'with: $data.getFields()')][not(ancestor::tr)]");
         private readonly By resourceDetailRows = By.XPath("//div[@id='defaultResources-tab']//table//tbody//tr[contains(@class, 'child-container-row')]");

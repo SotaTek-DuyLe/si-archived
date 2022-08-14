@@ -36,12 +36,13 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         [Test]
         public void TC_108_master_round_management()
         {
-            string contract = "North Star Commercial";
-            string service = "Collections";
+            string contract = "North Star";
+            string service = "Waste";
+            string subService = "Domestic Refuse";
             string date = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
             TaskModel model = PageFactoryManager.Get<MasterRoundManagementPage>()
                 .IsOnPage()
-                .InputSearchDetails(contract, service, date)
+                .InputSearchDetails(contract, service, subService, date)
                 .ClickFirstUnallocatedTask()
                 .GetFirstTaskDetails();
 
@@ -49,11 +50,13 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .DragAndDropFirstUnallocatedTaskToFirstRound()
                 .VerifyToastMessage("1 Task allocated")
                 .WaitUntilToastMessageInvisible("1 Task allocated");
+            string firstRound = PageFactoryManager.Get<MasterRoundManagementPage>()
+                .GetFirstRoundName();
             PageFactoryManager.Get<MasterRoundManagementPage>()
                 .DragAndDropFirstRoundToGrid()
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(5000)
-                .SwitchToTab("REC1-AM Friday");
+                .SwitchToTab(firstRound);
             TaskModel expectedModel = new TaskModel();
             expectedModel.Description = model.Description;
             expectedModel.StartDate = date;

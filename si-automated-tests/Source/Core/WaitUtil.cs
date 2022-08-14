@@ -150,5 +150,27 @@ namespace si_automated_tests.Source.Core
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
             driverWait.Until(ExpectedConditions.TextToBePresentInElementValue(by, text));
         }
+
+        public static void WaitAttributeChange(By by, string attribute, string originalValue)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
+            driverWait.Until((driver) => 
+            {
+                IWebElement webElement = driver.FindElement(by);
+                string attributeValue = webElement.GetAttribute(attribute);
+                return attributeValue != originalValue;
+            });
+        }
+
+        public static void WaitCssAttributeChange(By by, string attribute, string originalValue)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
+            driverWait.Until((driver) =>
+            {
+                IWebElement webElement = driver.FindElement(by);
+                string attributeValue = webElement.GetCssValue(attribute);
+                return attributeValue != originalValue;
+            });
+        }
     }
 }

@@ -46,5 +46,10 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             SleepTimeInMiliseconds(1000);
             return this;
         }
+        public CreditNoteLinePage SelectVatRate(string vat)
+        {
+            SelectTextFromDropDown(vatRate, vat);
+            return this;
+        }
     }
 }
