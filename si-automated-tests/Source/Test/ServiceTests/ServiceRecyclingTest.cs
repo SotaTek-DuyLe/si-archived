@@ -42,7 +42,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickOnElement(sectorRecycling.RestrictEditCheckbox);
             sectorRecycling
                 .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
+                .WaitForLoadingIconToDisappear(false)
                 .VerifyToastMessage("Success");
             sectorRecycling.VerifyCheckboxIsSelected(sectorRecycling.RestrictEditCheckbox, true);
 
@@ -57,7 +57,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .OpenOption("Service Units");
             ServiceUnitPage serviceUnit = PageFactoryManager.Get<ServiceUnitPage>();
             serviceUnit.WaitForLoadingIconToDisappear(false)
-                .SwitchNewIFrame();
+                .SwitchToFrame(serviceUnit.UnitIframe);
             string serviceUnitId = "223695";
             serviceUnit
                 .FindServiceUnitWithId(serviceUnitId)

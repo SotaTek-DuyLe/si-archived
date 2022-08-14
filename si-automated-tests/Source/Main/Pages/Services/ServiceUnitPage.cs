@@ -11,6 +11,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
 {
     public class ServiceUnitPage : BasePageCommonActions
     {
+        public readonly By UnitIframe = By.XPath("//div[@id='iframe-container']//iframe");
         private readonly string ServiceUnitTable = "//div[@class='echo-grid']//div[@class='grid-canvas']";
         private readonly string ServiceUnitRow = "./div[contains(@class, 'slick-row')]";
         private readonly string IdCell = "./div[contains(@class, 'l1 r1')]";
@@ -30,7 +31,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         public ServiceUnitPage FindServiceUnitWithId(string serviceUnitId)
         {
-            SendKeys(IdCell, serviceUnitId);
+            SendKeys(By.XPath("//div[contains(@class, 'slick-headerrow-column l1 r1')]//input"), serviceUnitId);
             ClickOnElement(applyFilterBtn);
             WaitForLoadingIconToDisappear(false);
             return this;
