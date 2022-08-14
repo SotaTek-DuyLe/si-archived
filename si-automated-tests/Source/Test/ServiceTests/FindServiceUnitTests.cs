@@ -16,6 +16,7 @@ using si_automated_tests.Source.Main.Pages.Search.PointNodes;
 using si_automated_tests.Source.Main.Pages.Search.PointSegment;
 using si_automated_tests.Source.Main.Pages.Services;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+using ServiceUnitDetailPage = si_automated_tests.Source.Main.Pages.Events.ServiceUnitDetailPage;
 
 namespace si_automated_tests.Source.Test.ServiceTests
 {

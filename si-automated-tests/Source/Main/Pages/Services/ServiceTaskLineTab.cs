@@ -76,26 +76,6 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
-        private string TaskLineTable = "//div[@id='tasklines-tab']//table//tbody";
-        private string TaskLineRow = "./tr";
-        private string TaskLineOrderCell = "./td//input[@id='order.id']";
-        private string TaskLineTypeCell = "./td//select[@id='taskLineType.id']";
-        private string TaskLineAssetTypeCell = "./td//echo-select[contains(@params, 'assetType')]//select";
-        private string TaskLineScheduleAssetQtyCell = "./td//input[@id='assetQuantityScheduled.id']";
-        private string TaskLineMinAssetQtyCell = "./td//input[@id='minAssetQty.id']";
-        private string TaskLineMaxAssetQtyCell = "./td//input[@id='maxAssetQty.id']";
-        private string TaskLineProductCell = "./td//echo-select[contains(@params, 'product')]//select";
-        private string TaskLineSheduleProductQtyCell = "./td//input[@id='productQuantityScheduled.id']";
-        private string TaskLineUnitCell = "./td//echo-select[contains(@params, 'pUnit')]//select";
-        private string TaskLineStartDate = "./td[@data-bind='text: startDate.value']";
-        private string TaskLineEndDate = "./td[@data-bind='text: endDate.value']";
-
-        public TableElement TaskLineTableEle
-        {
-            get => new TableElement(TaskLineTable, TaskLineRow, new List<string>() { TaskLineOrderCell, TaskLineTypeCell, TaskLineAssetTypeCell, TaskLineScheduleAssetQtyCell, 
-                TaskLineMinAssetQtyCell, TaskLineMaxAssetQtyCell, TaskLineProductCell, TaskLineSheduleProductQtyCell, TaskLineUnitCell, TaskLineStartDate, TaskLineEndDate});
-        }
-
         public ServiceTaskLineTab VerifyTaskLine(string type, string assetType, string scheduleAssetQty, string product, string sheduleProductQty, string unit, string startDate, string endDate)
         {
             VerifyCellValue(TaskLineTableEle, 0, 1, type);
