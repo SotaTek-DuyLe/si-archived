@@ -223,6 +223,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Sectors")]
+        [Category("Chang")]
         [Test(Description = "Verify that a new sector form is opened ")]
         public void TC_129_Verify_that_a_new_sector_form_is_opened()
         {

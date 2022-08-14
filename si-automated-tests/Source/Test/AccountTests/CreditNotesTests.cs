@@ -24,9 +24,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .IsOnHomePage(AutoUser21);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Accounts")
-                .ExpandOption("North Star Commercial")
-                .OpenLastOption("Credit Notes")
-                .SwitchNewIFrame();
+                .ExpandOption("North Star Commercial");
         }
 
         [Category("Account")]
@@ -43,7 +41,9 @@ namespace si_automated_tests.Source.Test.AccountTests
             string quantity = "1";
             string price = "100.00";
             string notes = "test note" + CommonUtil.GetRandomString(5);
-
+            PageFactoryManager.Get<NavigationBase>()
+                .OpenLastOption("Credit Notes")
+                .SwitchNewIFrame();
             //Create credit note 1
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
@@ -147,6 +147,57 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchToCreditNotesTab()
                 .VerifyFirstCreditNoteId(secondCreditId)
                 .VerifySecondCreditNoteId(firstCreditId);
+
+        }
+        [Category("Account")]
+        [Category("Dee")]
+        [Test]
+        public void TC_144_()
+        {
+            string partyName = "Greggs";
+            string lineType = "Commercial Line Type";
+            string site = "Greggs - 35 THE QUADRANT, RICHMOND, TW9 1DN";
+            string product = "General Refuse";
+            string priceElement = "Revenue";
+            string description = "test description no." + CommonUtil.GetRandomNumber(5);
+            string quantity = "1";
+            string price = "100.00";
+            string vat = "20";
+            string notes = "test note" + CommonUtil.GetRandomString(5);
+            PageFactoryManager.Get<NavigationBase>()
+                .OpenOption("Credit Notes")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            //Create credit note 1
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreditNotePage>()
+                .IsOnCreditNotePage()
+                .SearchForParty(partyName)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved Credit Note");
+            PageFactoryManager.Get<CreditNotePage>()
+                .VerifyNewTabsArePresent()
+                .SwitchToTab("Lines");
+            PageFactoryManager.Get<LinesTab>()
+                .IsOnLinesTab()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreditNoteLinePage>()
+                .IsOnCreditNoteLinePage()
+                .InputInfo(lineType, site, product, priceElement, description, quantity, price)
+                .SelectVatRate(vat)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved Credit Note Line")
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<LinesTab>()
+                .IsOnLinesTab()
+                .VerifyLineInfo(partyName, product, description, quantity, vat, price)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
 
         }
     }

@@ -31,6 +31,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         private string assignedUserValue = "josie";
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from task")]
         public void TC_079_Create_inspection_from_task()
         {
@@ -199,6 +200,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from event")]
         public void TC_080_Create_inspection_from_event()
         {
@@ -352,6 +354,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from service unit")]
         public void TC_081_Create_inspection_from_service_unit()
         {
@@ -474,6 +477,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from point address")]
         public void TC_083_Create_inspection_from_point_address()
         {
@@ -613,6 +617,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from point segment")]
         public void TC_086_Create_inspection_from_point_segment()
         {
@@ -758,6 +763,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from point area")]
         public void TC_087_Create_inspection_from_point_area()
         {
@@ -899,6 +905,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from point node")]
         public void TC_088_Create_inspection_from_point_node()
         {

@@ -5,8 +5,10 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.DBModels.GetAllServicesForPoint2;
 using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
 using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Models.Services;
 using si_automated_tests.Source.Main.Pages.Events;
 
 namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
@@ -16,6 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         private readonly By titleDetail = By.XPath("//h4[text()='Point Area']");
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
         private readonly By areaName = By.XPath("//p[@class='object-name']");
+        private readonly By allAservicesTab = By.CssSelector("a[aria-controls='allServices-tab']");
 
         //DETAILS PAGE
         private readonly By areaNameInput = By.Id("area-name"); 
@@ -52,6 +55,25 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         private readonly By allocation = By.XPath("//div[@class='parent-row']//span[contains(@data-bind, 'text: $parents[0].getParentAllocationText($data)')]");
         private const string eventDynamicLocator = "//div[@class='parent-row'][{0}]//div[text()='Event']";
         private const string eventOptions = "//div[@id='create-event-dropdown']//li[text()='{0}']";
+
+        //ACTION
+        private const string actionBtnAtRow = "//tr[{0}]//label[@id='btndropdown']";
+        private const string addServiceUnitBtnAtRow = "//tr[{0}]//button[contains(string(), 'Add Service Unit')]";
+        private const string findServiceUnitBtnAtRow = "//tr[{0}]//button[contains(string(), 'Find Service Unit')]";
+        private const string serviceUnitAtRow = "//tr[{0}]//a[@title='Open Service Unit']";
+        private const string statusActiveAtRow = "//tr[{0}]//div[@data-bind='visible: $data.active']";
+        private const string taskCountAtRow = "//tr[{0}]//td[@data-bind='text: $data.taskCount']";
+        private const string scheduleCountAtRow = "//tr[{0}]//td[@data-bind='text: $data.scheduleCount']";
+
+        //ALL SERVICES
+        private readonly By totalServicesRows = By.CssSelector("tbody[data-bind='foreach: allServices']>tr");
+        private readonly By allContractRows = By.CssSelector("tbody td[data-bind='text: $data.contract']");
+        private readonly By allServiceRows = By.CssSelector("tbody td[data-bind='text: $data.service']");
+        private readonly By allServiceUnitRows = By.CssSelector("tbody[data-bind='foreach: allServices']>tr>td:nth-child(3)");
+        private readonly By allTaskCountRows = By.CssSelector("tbody td[data-bind='text: $data.taskCount']");
+        private readonly By allScheduledCountRows = By.CssSelector("tbody[data-bind='foreach: allServices'] td[data-bind='text: $data.scheduleCount']");
+        private readonly By allStatusRows = By.CssSelector("tbody[data-bind='foreach: allServices'] td:nth-child(6)");
+        private const string serviceUnitLink = "//tbody/tr[{0}]//a[@title='Open Service Unit' and not(contains(@style, 'display: none;'))]";
 
         public PointAreaDetailPage ClickOnActiveServicesTab()
         {
@@ -341,6 +363,101 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         public PointAreaDetailPage InputLatLong(string value)
         {
             SendKeys(latLongInput, value);
+            return this;
+        }
+
+        //Click on the [All Services] tab
+        public PointAreaDetailPage ClickOnAllServicesTab()
+        {
+            ClickOnElement(allAservicesTab);
+            return this;
+        }
+
+        //Click on any [Action]
+        public PointAreaDetailPage ClickOnAnyActionBtn(int index)
+        {
+            ClickOnElement(actionBtnAtRow, index.ToString());
+            return this;
+        }
+
+        //Click on any [Add Service Unit] btn
+        public PointAreaDetailPage ClickOnAnyAddServiceUnitBtn(int index)
+        {
+            ClickOnElement(addServiceUnitBtnAtRow, index.ToString());
+            return this;
+        }
+
+        //Click on any [Find Service Unit] btn
+        public PointAreaDetailPage ClickOnAnyFindServiceUnitBtn(int index)
+        {
+            ClickOnElement(findServiceUnitBtnAtRow, index.ToString());
+            return this;
+        }
+
+        public PointAreaDetailPage VerifyServiceRowAfterRefreshing(string atRow, string serviceUnitAdded, string taskCountExp, string scheduleCountExp, string statusExp)
+        {
+            Assert.AreEqual(GetElementText(serviceUnitAtRow, atRow), serviceUnitAdded);
+            Assert.AreEqual(GetElementText(taskCountAtRow, atRow), taskCountExp);
+            Assert.AreEqual(GetElementText(scheduleCountAtRow, atRow), scheduleCountExp);
+            Assert.AreEqual(GetElementText(statusActiveAtRow, atRow), statusExp);
+            return this;
+        }
+
+        public List<AllServiceInPointAddressModel> GetAllServicesInAllServicesTab()
+        {
+            WaitUtil.WaitForAllElementsPresent(totalServicesRows);
+            List<AllServiceInPointAddressModel> result = new List<AllServiceInPointAddressModel>();
+            List<IWebElement> allRows = GetAllElements(totalServicesRows);
+            for (int i = 0; i < allRows.Count; i++)
+            {
+                string contract = GetElementText(GetAllElements(allContractRows)[i]);
+                string service = GetElementText(GetAllElements(allServiceRows)[i]);
+                string serviceUnit = GetElementText(GetAllElements(allServiceUnitRows)[i]);
+                string taskCount = GetElementText(GetAllElements(allTaskCountRows)[i]);
+                string scheduleCount = GetElementText(GetAllElements(allScheduledCountRows)[i]);
+                string status = GetElementText(GetAllElements(allStatusRows)[i]);
+                string serviceUnitLinkToDetail = "";
+                if (IsControlDisplayedNotThrowEx(string.Format(serviceUnitLink, (i + 1).ToString())))
+                {
+                    serviceUnitLinkToDetail = string.Format(serviceUnitLink, (i + 1).ToString());
+                }
+                result.Add(new AllServiceInPointAddressModel(contract, service, serviceUnit, taskCount, scheduleCount, status, serviceUnitLinkToDetail));
+            }
+            return result;
+        }
+
+        public ServiceUnitDetailPage ClickServiceUnitLinkAdded(string locatorToDetail)
+        {
+            ClickOnElement(locatorToDetail);
+            return PageFactoryManager.Get<ServiceUnitDetailPage>();
+        }
+
+        public PointAreaDetailPage VerifyDBWithUI(List<AllServiceInPointAddressModel> allServiceInPointAddresses, List<ServiceForPoint2DBModel> serviceForPoint2DBModels)
+        {
+            for (int i = 0; i < allServiceInPointAddresses.Count; i++)
+            {
+                Assert.AreEqual(serviceForPoint2DBModels[i].Contract, allServiceInPointAddresses[i].contract, "Wrong Contract");
+                Assert.AreEqual(serviceForPoint2DBModels[i].Service, allServiceInPointAddresses[i].service, "Wrong Service");
+                if (serviceForPoint2DBModels[i].ServiceUnit == null)
+                {
+                    Assert.AreEqual("", allServiceInPointAddresses[i].serviceUnit, "Wrong Service Unit");
+                }
+                else
+                {
+                    Assert.AreEqual(serviceForPoint2DBModels[i].ServiceUnit, allServiceInPointAddresses[i].serviceUnit, "Wrong Service Unit");
+                }
+                Assert.AreEqual(serviceForPoint2DBModels[i].STCount.ToString(), allServiceInPointAddresses[i].taskCount, "Wrong task count");
+                Assert.AreEqual(serviceForPoint2DBModels[i].STSCount.ToString(), allServiceInPointAddresses[i].scheduleCount, "Wrong schedule count");
+                if (serviceForPoint2DBModels[i].ActiveState == 0)
+                {
+                    Assert.AreEqual("", allServiceInPointAddresses[i].status, "Wrong task count");
+                }
+                else
+                {
+                    Assert.AreEqual("Active", allServiceInPointAddresses[i].status, "Wrong state");
+                }
+            }
+
             return this;
         }
     }

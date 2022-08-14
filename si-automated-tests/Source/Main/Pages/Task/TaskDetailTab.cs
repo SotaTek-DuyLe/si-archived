@@ -3,7 +3,6 @@ using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
-using si_automated_tests.Source.Main.Pages.Task;
 
 namespace si_automated_tests.Source.Main.Pages
 {
@@ -20,7 +19,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By dueDate = By.Id("dueDate.id");
         private readonly By completionDate = By.Id("completionDate.id");
         private readonly By endDate = By.Id("endDate.id");
-        private readonly By detailTaskState = By.Id("taskState.id");
+        public readonly By detailTaskState = By.Id("taskState.id");
         private readonly By taskNote = By.Id("taskNotes.id");
         private readonly By purchaseOrderNumberInput = By.Id("purchaseOrderNumber");
 
@@ -58,6 +57,10 @@ namespace si_automated_tests.Source.Main.Pages
             //Not usable because text is hidden in DOM
             Assert.IsTrue(GetElementText(dueDate).Contains(expected));
             return this;
+        }
+        public string GetDueDate()
+        {
+            return GetAttributeValue(dueDate, "value").Substring(0,10);
         }
         public TaskDetailTab VerifyCompletionDate(string date)
         {

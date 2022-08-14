@@ -81,26 +81,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         {
             Assert.IsTrue(IsControlUnDisplayed(suggestionResource));
             //Verify field is highlighted in red
-            string hexStr = GetCssValue(resourceInput, "border-color");
-            Color color = ToColor(hexStr.ToLower().Replace("rgb(", "").Replace(")", ""));
-            float hueColor = color.GetHue();
-            Assert.IsTrue(hueColor < 15 || hueColor > 345);
+            VerifyColorInRedRange(resourceInput);
             return this;
-        }
-
-        private System.Drawing.Color ToColor(string color)
-        {
-            var arrColorFragments = color?.Split(',').Select(sFragment => { int.TryParse(sFragment, out int fragment); return fragment; }).ToArray();
-
-            switch (arrColorFragments?.Length)
-            {
-                case 3:
-                    return System.Drawing.Color.FromArgb(arrColorFragments[0], arrColorFragments[1], arrColorFragments[2]);
-                case 4:
-                    return System.Drawing.Color.FromArgb(arrColorFragments[0], arrColorFragments[1], arrColorFragments[2], arrColorFragments[3]);
-                default:
-                    return System.Drawing.Color.Transparent;
-            }
         }
 
         public CreateVehicleCustomerHaulierPage VerifyDisplayResourceRequiredMessage()
