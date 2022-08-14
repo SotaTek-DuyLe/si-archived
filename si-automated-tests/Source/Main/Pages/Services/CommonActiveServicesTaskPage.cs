@@ -45,6 +45,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public CommonActiveServicesTaskPage DoubleClicServiceTask(int rowIdx)
         {
             ServiceTaskTableEle.DoubleClickRow(rowIdx);
+            return this;
         }
 
         private string ServiceTaskLineTable = "//div[@class='grid-canvas']";
