@@ -89,6 +89,33 @@ namespace si_automated_tests.Source.Main.Pages.Streets
             Assert.IsTrue(IsControlDisplayed(refreshBtn), "Refresh button is not displayed");
             Assert.IsTrue(IsControlDisplayed(historyBtn), "History button is not displayed");
             Assert.IsTrue(IsControlDisplayed(helpBtn), "Help button is not displayed");
+            //Disabled
+            Assert.AreEqual("true", GetAttributeValue(saveBtn, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(saveAndCloseBtn, "disabled"));
+            return this;
+        }
+
+        public StreetDetailPage ClicHistoryBtnAndVerify(string streetId)
+        {
+            ClickOnElement(historyBtn);
+            SwitchToLastWindow();
+            WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<HistoryStreetPage>()
+                .IsHistoryStreetPage()
+                .VerifyCurrentUrlHistoryStreet(streetId)
+                .CloseCurrentWindow()
+                .SwitchToChildWindow(3);
+            return this;
+        }
+
+        public StreetDetailPage ClickAndVerifyHelp()
+        {
+            ClickOnElement(helpBtn);
+            SwitchToLastWindow();
+            WaitForLoadingIconToDisappear();
+            Assert.AreEqual(WebUrl.MainPageUrl + "web/help", GetCurrentUrl());
+            CloseCurrentWindow();
+            SwitchToChildWindow(3);
             return this;
         }
 

@@ -43,6 +43,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] ServiceUpdateColumnNotCompletedHistoryTab = { "ActualAssetQuantity", "ActualProductQuantity", "State", "Completed Date", "Auto Confirmed" };        public static readonly string[] UpdateColumnHistoryTabFirst = { "Task notes", "Completed date", "State", "End date", "Resolution code" };
         public static readonly string[] UpdateColumnHistoryTabSecond = { "Task notes", "Completed date", "State", "End date" };
         public static readonly string[] ServiceUpdateTaskLineFromCancelledToNotCompleted = { "State", "Completed Date", "Auto Confirmed" };
+        public static readonly string[] HistoryStreetColumn = { "ID", "Date", "Update Type", "User", "Object Type", "Object ID" };
 
         //ICON IMAGE
         public static readonly string StreetIconUrl = "web/content/images/street.svg";        
