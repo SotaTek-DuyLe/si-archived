@@ -3,7 +3,9 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Models.Applications;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Applications;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
@@ -11,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
@@ -70,6 +73,156 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             {
                 var outstandingTasks = ObjectExtention.DataReaderMapToList<OutstandingTaskModel>(reader);
                 taskAllocationPage.VerifyOutStandingData(outstandingTasks);
+            }
+        }
+
+        [Category("TaskAllocationTests")]
+        [Test(Description = "156_Reallocation Reasons-Round Legs and Tasks")]
+        public void TC_156_1_Verify_that_Reallocation_reasons_display_correctly_and_are_set_when_user_reallocates_item_by_dragging_abd_dropping_them_TASKS()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser39.UserName, AutoUser39.Password)
+                .IsOnHomePage(AutoUser39);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Applications")
+                .OpenOption("Task Allocation")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+
+            TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
+            string from = "02/08/2022";
+            string to = "03/08/2022";
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, "North Star Commercial");
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
+            taskAllocationPage.ExpandRoundNode("North Star Commercial")
+                .ExpandRoundNode("Collections")
+                .SelectRoundNode("Commercial Collections");
+            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.SleepTimeInMiliseconds(1000);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Control + "a");
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Delete);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
+            taskAllocationPage.SleepTimeInMiliseconds(3000);
+            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ContractSelect);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
+            taskAllocationPage.WaitForLoadingIconToDisappear(false);
+            taskAllocationPage.DragRoundInstanceToUnlocattedGrid("REC1-AM", "Tuesday")
+                .WaitForLoadingIconToDisappear(false);
+            taskAllocationPage.ClickUnallocatedRow();
+            taskAllocationPage.SleepTimeInMiliseconds(200);
+            taskAllocationPage.ClickUnallocatedRow(1);
+            taskAllocationPage.SleepTimeInMiliseconds(200);
+            taskAllocationPage.ClickUnallocatedRow(2);
+            taskAllocationPage.SleepTimeInMiliseconds(200);
+            taskAllocationPage.DragUnallocatedRowToRoundInstance("REC1-AM", "Wednesday")
+                .VerifyElementVisibility(taskAllocationPage.GetAllocatingConfirmMsg(3), true)
+                .ClickOnElement(taskAllocationPage.AllocateAllButton);
+            taskAllocationPage.WaitForLoadingIconToDisappear();
+            List<string> reasons = new List<string>() { "Select...", "Bad Weather", "Breakdown", "Roadworks", "Out of Time", "Incident" };
+            taskAllocationPage.VerifyElementVisibility(taskAllocationPage.ReasonConfirmMsg, true)
+                .VerifySelectContainDisplayValues(taskAllocationPage.ReasonSelect, reasons)
+                .SelectTextFromDropDown(taskAllocationPage.ReasonSelect, "Breakdown")
+                .ClickOnElement(taskAllocationPage.ReasonConfirmButton);
+            taskAllocationPage.WaitForLoadingIconToDisappear();
+            taskAllocationPage.VerifyToastMessage("Task(s) Allocated");
+
+            //Verify DB
+            CommonFinder finder = new CommonFinder(DbContext);
+            var taskReallocations = finder.GetTaskReAllocationModels(new List<int>() { 9174, 9173, 9175 });
+            Assert.IsTrue(taskReallocations.Count == 3);
+            foreach (var taskReallocation in taskReallocations)
+            {
+                Assert.IsNotNull(finder.GetResolutionCodeModels(taskReallocation.reason_resolutioncodeID).FirstOrDefault(x => x.resolutioncode == "Breakdown"));
+            }
+        }
+
+        [Category("TaskAllocationTests")]
+        [Test(Description = "156_Reallocation Reasons-Round Legs and Tasks")]
+        public void TC_156_2_Verify_that_Reallocation_reasons_display_correctly_and_are_set_when_user_reallocates_item_by_using_REALLOCATE_button()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser39.UserName, AutoUser39.Password)
+                .IsOnHomePage(AutoUser39);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption("Applications")
+                .OpenOption("Task Allocation")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+
+            TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
+            string from = "02/08/2022";
+            string to = "02/08/2022";
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, "North Star");
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
+            taskAllocationPage.ExpandRoundNode("North Star")
+                .ExpandRoundNode("Recycling")
+                .SelectRoundNode("Communal Recycling");
+            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.SleepTimeInMiliseconds(1000);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Control + "a");
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Delete);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
+            taskAllocationPage.SleepTimeInMiliseconds(3000);
+            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ContractSelect);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
+            taskAllocationPage.WaitForLoadingIconToDisappear(false);
+            taskAllocationPage.DoubleClickRI("ECREC1", "Tuesday")
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            RoundInstanceForm roundInstanceForm = PageFactoryManager.Get<RoundInstanceForm>();
+            roundInstanceForm.ClickOnElement(roundInstanceForm.WorksheetTab);
+            roundInstanceForm.SwitchToFrame(roundInstanceForm.WorkSheetIframe);
+            roundInstanceForm.WaitForLoadingIconToDisappear();
+            roundInstanceForm.ClickOnElement(roundInstanceForm.ToggleRoundButton);
+            roundInstanceForm.SleepTimeInMiliseconds(1000);
+            var descriptions = roundInstanceForm.SelectRLI(new List<string>() { "-4764", "-4813", "-4814" });
+            roundInstanceForm.ClickOnElement(roundInstanceForm.ReallocateButton);
+            roundInstanceForm.SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.SleepTimeInMiliseconds(1000);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Control + "a");
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Delete);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
+            taskAllocationPage.SleepTimeInMiliseconds(3000);
+            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ContractSelect);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
+            taskAllocationPage.WaitForLoadingIconToDisappear(false);
+            List<RoundInstanceModel> roundInstances = taskAllocationPage.SelectExpandedUnallocated(3);
+            taskAllocationPage.DragUnallocatedRowToRoundInstance("ECREC1", "Wednesday")
+                .VerifyElementVisibility(taskAllocationPage.GetAllocatingConfirmMsg(5), true)
+                .ClickOnElement(taskAllocationPage.AllocateAllButton);
+            taskAllocationPage.WaitForLoadingIconToDisappear();
+            List<string> reasons = new List<string>() { "Select...", "Breakdown", "Bad Weather", "Incident", "Parked Cars", "Out of Time" };
+            taskAllocationPage.VerifyElementVisibility(taskAllocationPage.ReasonConfirmMsg, true)
+                .VerifySelectContainDisplayValues(taskAllocationPage.ReasonSelect, reasons)
+                .SelectTextFromDropDown(taskAllocationPage.ReasonSelect, "Bad Weather")
+                .ClickOnElement(taskAllocationPage.ReasonConfirmButton);
+            taskAllocationPage.WaitForLoadingIconToDisappear();
+            taskAllocationPage.VerifyToastMessage("Allocated 3 round leg(s) (with 5 service task(s))")
+                .WaitUntilToastMessageInvisible("Allocated 3 round leg(s) (with 5 service task(s))")
+                .SleepTimeInMiliseconds(300);
+            taskAllocationPage.DragRoundInstanceToReallocattedGrid("ECREC1", "Wednesday", 4)
+                .WaitForLoadingIconToDisappear(false);
+            var RLIIds = taskAllocationPage.GetRoundLegInstanceIds(descriptions);
+            //Verify DB
+            CommonFinder finder = new CommonFinder(DbContext);
+            var RLIReallocations = finder.GetRoundLegInstanceReallocationsModel(RLIIds);
+            Assert.IsTrue(RLIReallocations.Count == 3);
+            foreach (var RLIReallocation in RLIReallocations)
+            {
+                Assert.IsNotNull(finder.GetResolutionCodeModels(RLIReallocation.reason_resolutioncodeID).FirstOrDefault(x => x.resolutioncode == "Bad Weather"));
             }
         }
     }
