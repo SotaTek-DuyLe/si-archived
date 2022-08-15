@@ -32,7 +32,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .ExpandOption("Richmond Commercial")
                 .OpenOption("Point Addresses")
                 .SwitchNewIFrame();

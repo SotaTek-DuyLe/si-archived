@@ -29,7 +29,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .ExpandOption("Richmond Commercial");
         }
         [Category("PointNode")]
@@ -81,7 +81,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         {
             //VERIFY ON CONTRACTS
             PageFactoryManager.Get<NavigationBase>()
-                .OpenOption("North Star Commercial")
+                .OpenOption(Contract.NSC)
                 .SwitchNewIFrame()
                 .SwitchToTab("Announcements")
                 .WaitForLoadingIconToDisappear();
@@ -287,7 +287,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Richmond Commercial")
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
@@ -299,7 +299,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Richmond Commercial")
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
@@ -310,7 +310,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
 
             //can update
             sector = "Richmond Commercial";
-            string contract = "North Star";
+            string contract = Contract.NS;
             string parentSector = "Hampton Tip (West)";
             string sectorType = "Ward";
             sectorPage.SendKeys(sectorPage.InputSector, sector);

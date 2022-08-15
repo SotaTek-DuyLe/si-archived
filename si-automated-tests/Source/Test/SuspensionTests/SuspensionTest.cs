@@ -52,7 +52,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
             SuspensionInputData inputData = new SuspensionInputData();
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -160,7 +160,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
             SuspensionInputData inputData = new SuspensionInputData();
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()

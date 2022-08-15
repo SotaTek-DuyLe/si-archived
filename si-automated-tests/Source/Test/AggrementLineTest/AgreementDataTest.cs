@@ -38,7 +38,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser31);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             //Go to agreement
@@ -96,7 +96,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser31);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             //Go to agreement

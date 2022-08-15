@@ -24,7 +24,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .IsOnHomePage(AutoUser21);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Accounts")
-                .ExpandOption("North Star Commercial");
+                .ExpandOption(Contract.NSC);
         }
 
         [Category("Account")]

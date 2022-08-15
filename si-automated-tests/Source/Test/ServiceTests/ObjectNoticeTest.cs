@@ -34,7 +34,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
-                .OpenOption("North Star Commercial")
+                .OpenOption(Contract.NSC)
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
             objectNoticeTab.WaitForLoadingIconToDisappear(false);
@@ -196,7 +196,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Ancillary")
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
@@ -279,7 +279,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .ExpandOption("Ancillary")
                 .OpenOption("Skips")
                 .SwitchNewIFrame();
@@ -363,7 +363,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
                 .ExpandOption("Round Groups")
@@ -449,7 +449,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
                 .ExpandOption("Round Groups")
@@ -536,7 +536,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
                 .ExpandOption("Round Groups")

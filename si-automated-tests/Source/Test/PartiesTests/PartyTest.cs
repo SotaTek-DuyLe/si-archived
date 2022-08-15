@@ -20,7 +20,7 @@ namespace si_automated_tests.Source.Test
         [Test]
         public void TC_004_Create_a_party_customer_type_form_grid()
         {
-            PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
+            PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), Contract.NSC, CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
 
             //login
             PageFactoryManager.Get<LoginPage>()
@@ -33,7 +33,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             //create new party 
@@ -41,7 +41,7 @@ namespace si_automated_tests.Source.Test
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.NSC)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -61,7 +61,7 @@ namespace si_automated_tests.Source.Test
         [Test]
         public void TC_005_Create_party_customer_type_from_action_dropdown()
         {
-            PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(5), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
+            PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(5), Contract.NSC, CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
 
             //login
             PageFactoryManager.Get<LoginPage>()
@@ -76,7 +76,7 @@ namespace si_automated_tests.Source.Test
                 .GoToThePatiesByCreateEvenDropdown()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star")
+                .IsCreatePartiesPopup(Contract.NS)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -112,7 +112,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             //create new party 
@@ -120,7 +120,7 @@ namespace si_automated_tests.Source.Test
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.NSC)
                 .SendKeyToThePartyInput("Auto" + CommonUtil.GetRandomString(2))
                 .SelectStartDatePlusOneDay()
                 .SelectPartyType(1)
@@ -141,7 +141,7 @@ namespace si_automated_tests.Source.Test
             CreatePartyPage createPartyPage = new CreatePartyPage();
             DetailPartyPage detailPartyPage = new DetailPartyPage();
             string PartyName = "AutoPartyy " + CommonUtil.GetRandomNumber(4);
-            PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
+            PartyModel partyModel = new PartyModel(PartyName, Contract.NSC, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
             string address = "Twickenham";
             string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
             //login
@@ -154,7 +154,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             //create new party 
@@ -164,7 +164,7 @@ namespace si_automated_tests.Source.Test
                 .SwitchToChildWindow(2);
             createPartyPage.WaitForLoadingIconToDisappear();
             createPartyPage
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.NSC)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -219,7 +219,7 @@ namespace si_automated_tests.Source.Test
             CreatePartyPage createPartyPage = new CreatePartyPage();
             DetailPartyPage detailPartyPage = new DetailPartyPage();
             string PartyName = "AutoPartyy " + CommonUtil.GetRandomNumber(4);
-            PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
+            PartyModel partyModel = new PartyModel(PartyName, Contract.NSC, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
             string address = "Twickenham";
             string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
             //login
@@ -233,7 +233,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             //create new party 
@@ -242,7 +242,7 @@ namespace si_automated_tests.Source.Test
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             createPartyPage
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.NSC)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -293,7 +293,7 @@ namespace si_automated_tests.Source.Test
             CreatePartyPage createPartyPage = new CreatePartyPage();
             DetailPartyPage detailPartyPage = new DetailPartyPage();
             string PartyName = "AutoPartyy " + CommonUtil.GetRandomNumber(4);
-            PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
+            PartyModel partyModel = new PartyModel(PartyName, Contract.NSC, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
             string address = "Twickenham";
             string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
             string addressSite2 = "Site Twickenham 2" + CommonUtil.GetRandomNumber(4);
@@ -308,7 +308,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             //create new party
@@ -317,7 +317,7 @@ namespace si_automated_tests.Source.Test
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             createPartyPage
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.NSC)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -382,7 +382,7 @@ namespace si_automated_tests.Source.Test
         public void TC_010_Create_manual_site()
         {
             string PartyName = "AutoPartyTC10 " + CommonUtil.GetRandomNumber(4);
-            PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
+            PartyModel partyModel = new PartyModel(PartyName, Contract.NSC, CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             //login
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -394,7 +394,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             //create new party 
@@ -402,7 +402,7 @@ namespace si_automated_tests.Source.Test
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.NSC)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -454,7 +454,7 @@ namespace si_automated_tests.Source.Test
             AddressDetailModel addressDetailModel = new AddressDetailModel(siteName, postCode);
 
             string PartyName = "AutoPartyTC11 " + CommonUtil.GetRandomNumber(4);
-            PartyModel partyModel = new PartyModel(PartyName, "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
+            PartyModel partyModel = new PartyModel(PartyName, Contract.NSC, CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             //login
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -466,7 +466,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             //create new party 
@@ -474,7 +474,7 @@ namespace si_automated_tests.Source.Test
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.NSC)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)

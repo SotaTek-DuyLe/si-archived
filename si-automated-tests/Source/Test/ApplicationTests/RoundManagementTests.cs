@@ -36,7 +36,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         [Test]
         public void TC_108_master_round_management()
         {
-            string contract = "North Star";
+            string contract = Contract.NS;
             string service = "Waste";
             string subService = "Domestic Refuse";
             string date = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
@@ -68,7 +68,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         [Test]
         public void TC_124_master_round_management()
         {
-            string contract = "North Star Commercial";
+            string contract = Contract.NSC;
             string service = "Collections";
             string initDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
             string date = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);

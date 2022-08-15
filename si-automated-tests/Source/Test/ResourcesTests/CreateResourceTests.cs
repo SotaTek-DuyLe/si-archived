@@ -33,7 +33,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnHomePage(AutoUser23);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .OpenOption("North Star")
+                .OpenOption(Contract.NS)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
@@ -61,7 +61,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
-                .ExpandOption("North Star")
+                .ExpandOption(Contract.NS)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Clinical Waste")
                 .ExpandOption("Round Groups")
@@ -80,7 +80,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //TC-32-33
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .OpenOption("North Star")
+                .OpenOption(Contract.NS)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .OpenFirstResult()
@@ -117,7 +117,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //TC-34
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .OpenOption("North Star")
+                .OpenOption(Contract.NS)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .OpenFirstResult()
@@ -159,7 +159,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnHomePage(AutoUser23);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .OpenOption("North Star")
+                .OpenOption(Contract.NS)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
@@ -185,7 +185,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
-                .ExpandOption("North Star")
+                .ExpandOption(Contract.NS)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Clinical Waste")
                 .ExpandOption("Round Groups")
@@ -220,8 +220,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Default Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract("North Star Commercial")
-                .SelectBusinessUnit("North Star Commercial")
+                .SelectContract(Contract.NSC)
+                .SelectBusinessUnit(Contract.NSC)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -246,7 +246,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Resrouce", resourceName)
                 .VerifyFirstResultValue("Class", "Human")
                 .VerifyFirstResultValue("Type", resourceType)
-                .VerifyFirstResultValue("Contract", "North Star Commercial");
+                .VerifyFirstResultValue("Contract", Contract.NSC);
         }
     }
 }

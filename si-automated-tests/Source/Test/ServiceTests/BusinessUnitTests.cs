@@ -28,7 +28,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .ExpandOption("Business Unit Groups")
                 .ExpandOptionLast("Collections")
                 .OpenOption("Business Units")
@@ -55,7 +55,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract("North Star Commercial")
+                .SelectContract(Contract.NSC)
                 .ExpandBusinessUnitOption("Collections")
                 .VerifyBusinessUnitsAre(expectedUnits);
         }

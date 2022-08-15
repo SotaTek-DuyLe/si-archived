@@ -30,7 +30,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnHomePage(AutoUser30);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()

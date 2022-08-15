@@ -35,7 +35,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             //Verify that user can delete a task from an Agreement
@@ -144,7 +144,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             //Filter Agreement
@@ -224,7 +224,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Go to Task Page and Verify
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Tasks")
-                .OpenOption("North Star Commercial")
+                .OpenOption(Contract.NSC)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -271,7 +271,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             //Filter Agreement
@@ -351,7 +351,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Go to Task Page and Verify
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Tasks")
-                .OpenOption("North Star Commercial")
+                .OpenOption(Contract.NSC)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();

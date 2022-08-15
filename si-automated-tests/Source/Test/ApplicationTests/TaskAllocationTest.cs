@@ -45,9 +45,9 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
             string from = "18/05/2022";
             string to = "20/05/2022";
-            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, "North Star");
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.NS);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
-            taskAllocationPage.ExpandRoundNode("North Star")
+            taskAllocationPage.ExpandRoundNode(Contract.NS)
                 .SelectRoundNode("Recycling");
             taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
             taskAllocationPage.SleepTimeInMiliseconds(1000);
@@ -96,9 +96,9 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
             string from = "02/08/2022";
             string to = "03/08/2022";
-            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, "North Star Commercial");
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.NSC);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
-            taskAllocationPage.ExpandRoundNode("North Star Commercial")
+            taskAllocationPage.ExpandRoundNode(Contract.NSC)
                 .ExpandRoundNode("Collections")
                 .SelectRoundNode("Commercial Collections");
             taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
@@ -161,9 +161,9 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
             string from = "02/08/2022";
             string to = "02/08/2022";
-            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, "North Star");
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.NS);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
-            taskAllocationPage.ExpandRoundNode("North Star")
+            taskAllocationPage.ExpandRoundNode(Contract.NS)
                 .ExpandRoundNode("Recycling")
                 .SelectRoundNode("Communal Recycling");
             taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
