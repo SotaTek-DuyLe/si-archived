@@ -62,7 +62,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private const string inspectionType = "//p[text()='{0}']";
         private const string streetGradeOption = "//label[text()='Street Grade']/following-sibling::select/option[text()='{0}']";
         private const string dataFirstRow = "//div[@id='history-tab']//div[contains(@class, 'panel-default')][1]//span[text()='{0}']";
-        private const string dataThirdRow = "//div[@id='history-tab']//div[contains(@class, 'panel-default')][3]//span[text()='{0}']";
+        private const string dataSecondRow = "//div[@id='history-tab']//div[contains(@class, 'panel-default')][2]//span[text()='{0}']";
 
         public DetailInspectionPage WaitForInspectionDetailDisplayed(string inspectionTypeValue)
         {
@@ -281,7 +281,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(GetElementText(userFirstRow), userValue);
             Assert.IsTrue(IsControlDisplayed(dataFirstRow, accessPoint + "."));
             Assert.AreEqual(GetElementText(userSecondRow), userValue);
-            Assert.IsTrue(IsControlDisplayed(dataThirdRow, secondNote + "."));
+            Assert.IsTrue(IsControlDisplayed(dataSecondRow, secondNote + "."));
             return this;
         }
 

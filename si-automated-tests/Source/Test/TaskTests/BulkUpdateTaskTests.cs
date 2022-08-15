@@ -387,7 +387,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .VerifyTaskInformationAfterBulkUpdating(completedDateDisplayed, "Not Completed", "Not Out", "Manually Confirmed on Web")
                 .ClickOnTaskLineVerdictTab()
                 .VerifyFirstTaskLineStateVerdictTab(completedDateDisplayed, "Not Completed", "Manually Confirmed on Web", "General Refuse");
-            //Step 4: Line 53 - Task line tab
+            //Step 4: Line 53 - Task line tab => Failed
             detailTaskPage
                 .ClickOnTaskLineTab()
                 .VerifyFirstTaskLineAfterBulkUpdate("General Refuse", "Not Completed", "")

@@ -655,6 +655,7 @@ namespace si_automated_tests.Source.Core
             {
                 if (implicitSleep) Thread.Sleep(750);
                 WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
+                WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: loading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@id='loading-shield']");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'loadingDefinition')]");

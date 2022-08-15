@@ -66,6 +66,17 @@ namespace si_automated_tests.Source.Core.WebElements
             return webElement;
         }
 
+        public List<object> GetColumnValues(int columnIdx)
+        {
+            var rows = GetRows();
+            List<object> values = new List<object>();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                values.Add(GetCellValue(i, columnIdx));
+            }
+            return values;
+        }
+
         public IWebElement GetRowByCellValue(int cellIdx, object value)
         {
             IWebElement webElement = null;

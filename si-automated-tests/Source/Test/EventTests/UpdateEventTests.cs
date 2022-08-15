@@ -147,7 +147,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
                 .InputNameInDataTab(newEventName)
-                //Line 18: Click [Accept] btn => Bug: Just one message displayed
+                //Line 18: Click [Accept] btn 
                 .ClickAcceptInEventActionsPanel()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.ActionSuccessMessage)
                 .WaitForLoadingIconToDisappear();
@@ -160,8 +160,7 @@ namespace si_automated_tests.Source.Test.EventTests
                .ClickHistoryTab()
                .WaitForLoadingIconToDisappear();
             eventDetailPage
-                .VerifyRecordInHistoryTabAfterUpdate(newEventName, AutoUser60.DisplayName)
-                .VerifyRecordInHistoryTabAfterAccept("Under Investigation.", AutoUser60.DisplayName);
+                .VerifyRecordInHistoryTabAfterAccept("Under Investigation.", AutoUser60.DisplayName, newEventName);
             //Click [Add Note] btn
             eventDetailPage
                 .ClickAddNoteInEventsActionsPanel()

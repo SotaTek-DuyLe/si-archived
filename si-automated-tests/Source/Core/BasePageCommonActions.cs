@@ -14,12 +14,22 @@ namespace si_automated_tests.Source.Core
     {
         public BasePageCommonActions VerifyElementVisibility(string xpath, bool isVisible)
         {
+            if (!isVisible)
+            {
+                Assert.IsTrue(IsControlUnDisplayed(xpath));
+                return this;
+            }
             VerifyElementVisibility(GetElement(xpath), isVisible);
             return this;
         }
 
         public BasePageCommonActions VerifyElementVisibility(By xpath, bool isVisible)
         {
+            if (!isVisible)
+            {
+                Assert.IsTrue(IsControlUnDisplayed(xpath));
+                return this;
+            }
             VerifyElementVisibility(GetElement(xpath), isVisible);
             return this;
         }
@@ -186,8 +196,8 @@ namespace si_automated_tests.Source.Core
 
         public BasePageCommonActions VerifySelectContainDisplayValue(string selectXpath, string expectedValue, bool checkContain = true)
         {
-            Assert.IsTrue(checkContain ? 
-                GetSelectDisplayValues(selectXpath).FirstOrDefault(x => x == expectedValue) != null : 
+            Assert.IsTrue(checkContain ?
+                GetSelectDisplayValues(selectXpath).FirstOrDefault(x => x == expectedValue) != null :
                 GetSelectDisplayValues(selectXpath).FirstOrDefault(x => x == expectedValue) == null);
             return this;
         }
@@ -429,6 +439,18 @@ namespace si_automated_tests.Source.Core
             }
             return this;
         }
+
+        public BasePageCommonActions VerifyInputIsReadOnly(By xpath)
+        {
+            IWebElement webElement = GetElement(xpath);
+            Assert.IsFalse(webElement.Enabled);
+            return this;
+        }
+
+        public BasePageCommonActions VerifyInputIsReadOnly(string xpath)
+        {
+            return VerifyInputIsReadOnly(By.XPath(xpath));
+        } 
 
         public BasePageCommonActions VerifyElementIsMandatory(By element, bool isMandatory = true)
         {
