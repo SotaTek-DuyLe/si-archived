@@ -114,6 +114,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By nameAfterUpdateInHistoryTab = By.XPath("//strong[text()='Accept - Event']/following-sibling::div/span[text()='Name']/following-sibling::span[1]");
         private readonly By createdByUserAfterUpdate = By.XPath("//strong[text()='Update Event - Event']/parent::div/following-sibling::div/strong[1]");
         private readonly By stateAfterAcceptInHistoryTab = By.XPath("//strong[text()='Accept - Event']/following-sibling::div/span[text()='State']/following-sibling::span[1]");
+        private readonly By firstNameAfterAccept = By.XPath("//strong[text()='Accept - Event']/following-sibling::div//span[text()='Name']/following-sibling::span[1]");
         private readonly By createdByUserAfterAccept = By.XPath("//strong[text()='Accept - Event']/parent::div/following-sibling::div/strong[1]");
         private readonly By createdByUserAfterAddNote = By.XPath("//strong[text()='Add Note - Event']/parent::div/following-sibling::div/strong[1]");
         private readonly By clientRefAfterUpdateInHistoryTab = By.XPath("//strong[text()='Update Event - Event']/following-sibling::div/span[text()='Client reference']/following-sibling::span[1]");
@@ -543,10 +544,11 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
-        public EventDetailPage VerifyRecordInHistoryTabAfterAccept(string newStateValue, string user)
+        public EventDetailPage VerifyRecordInHistoryTabAfterAccept(string newStateValue, string user, string newName)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.AcceptEventTitle));
             Assert.AreEqual(newStateValue, GetElementText(stateAfterAcceptInHistoryTab));
+            Assert.AreEqual(newName + ".", GetElementText(firstNameAfterAccept));
             Assert.AreEqual(user, GetElementText(createdByUserAfterAccept));
             return this;
         }
