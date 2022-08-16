@@ -29,9 +29,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .Login(AutoUser30.UserName, AutoUser30.Password)
                 .IsOnHomePage(AutoUser30);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .WaitForLoadingIconToDisappear();

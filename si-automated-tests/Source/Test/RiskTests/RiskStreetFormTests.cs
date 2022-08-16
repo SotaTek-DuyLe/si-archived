@@ -34,7 +34,7 @@ namespace si_automated_tests.Source.Test.RiskTests
                 .Login(AutoUser54.UserName, AutoUser54.Password)
                 .IsOnHomePage(AutoUser54);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Applications")
+                .ClickMainOption(MainOption.Applications)
                 .OpenOption("Risk Register")
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();

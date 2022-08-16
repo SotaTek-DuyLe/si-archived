@@ -27,7 +27,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .Login(AutoUser28.UserName, AutoUser28.Password)
                 .IsOnHomePage(AutoUser28);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Applications")
+                .ClickMainOption(MainOption.Applications)
                 .OpenOption("Master Round Management")
                 .SwitchNewIFrame();
         }

@@ -26,7 +26,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser27.UserName, AutoUser27.Password)
                 .IsOnHomePage(AutoUser27);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
@@ -88,7 +88,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             CreateAnnouncementAndVerify();
             //VERIFY ON GROUP AND SERVICES
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Ancillary")
                 .OpenOption("Skips")
                 .WaitForLoadingIconToDisappear()
@@ -97,7 +97,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             CreateAnnouncementAndVerify();
             //VERIFY ON ROUND GROUPS AND ROUND
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Skips")
                 .ExpandOption("Round Groups")
                 .OpenOption("SKIP1")
@@ -106,7 +106,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             CreateAnnouncementAndVerify();
             //VERIFY ON CONTRACT UNIT
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Contract Units")
                 .OpenOption("Commercial")
                 .SwitchNewIFrame()
@@ -114,7 +114,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             CreateAnnouncementAndVerify();
             //VERIFY ON POINT ADDRESS
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .OpenOption("Point Addresses")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -128,7 +128,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToLastWindow();
             //VERIFY ON POINT Segments
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .OpenOption("Point Segments")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -142,7 +142,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToLastWindow();
             //VERIFY ON POINT Nodes
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .OpenOption("Point Nodes")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -156,7 +156,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToLastWindow();
             //VERIFY ON POINT Nodes
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .OpenOption("Point Areas")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -284,7 +284,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             sectorPage.ClickOnElement(sectorPage.MapTab);
             sectorPage.WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
@@ -296,7 +296,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             sectorPage.ClickOnElement(sectorPage.DetailTab);
             sectorPage.WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)

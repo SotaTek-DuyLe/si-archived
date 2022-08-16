@@ -28,7 +28,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .Login(AutoUser21.UserName, AutoUser21.Password)
                 .IsOnHomePage(AutoUser21);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .OpenOption("Default Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
@@ -69,7 +69,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
@@ -150,7 +150,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
@@ -227,7 +227,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
@@ -304,7 +304,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
@@ -415,7 +415,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //CREATE LEAVE ENTRY
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
@@ -473,7 +473,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
 
             //PageFactoryManager.Get<NavigationBase>()
-            //   .ClickMainOption("Resources")
+            //   .ClickMainOption(MainOption.Resources)
             //   .OpenOption("Default Allocation")
             //   .SwitchNewIFrame();
             //PageFactoryManager.Get<ResourceAllocationPage>()

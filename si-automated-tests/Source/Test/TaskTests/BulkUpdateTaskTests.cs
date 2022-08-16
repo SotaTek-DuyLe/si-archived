@@ -33,7 +33,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .Login(AutoUser55.UserName, AutoUser55.Password)
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Tasks")
+                .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.RMC)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
@@ -121,7 +121,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .Login(AutoUser55.UserName, AutoUser55.Password)
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Tasks")
+                .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.RM)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
@@ -220,7 +220,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .Login(AutoUser55.UserName, AutoUser55.Password)
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Tasks")
+                .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.RM)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
@@ -309,7 +309,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .Login(AutoUser55.UserName, AutoUser55.Password)
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Tasks")
+                .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.RM)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
@@ -456,7 +456,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .Login(AutoUser55.UserName, AutoUser55.Password)
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Tasks")
+                .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.RM)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
@@ -585,7 +585,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .Login(AutoUser55.UserName, AutoUser55.Password)
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Tasks")
+                .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.RM)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
@@ -668,9 +668,9 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .Login(AutoUser55.UserName, AutoUser55.Password)
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .WaitForLoadingIconToDisappear();

@@ -23,7 +23,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .Login(AutoUser21.UserName, AutoUser21.Password)
                 .IsOnHomePage(AutoUser21);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Accounts")
+                .ClickMainOption(MainOption.Accounts)
                 .ExpandOption(Contract.RMC);
         }
 
@@ -136,7 +136,7 @@ namespace si_automated_tests.Source.Test.AccountTests
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValue("Credit Note Batch #", batchId);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Accounts")
+                .ClickMainOption(MainOption.Accounts)
                 .OpenOption("Credit Note Batches")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()

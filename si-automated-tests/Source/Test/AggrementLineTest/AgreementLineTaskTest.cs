@@ -34,7 +34,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser12.UserName, AutoUser12.Password)
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
@@ -83,7 +83,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             //Verify that user can delete a task from an Agreement Line
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
@@ -143,7 +143,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser12.UserName, AutoUser12.Password)
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
@@ -223,7 +223,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             //Go to Task Page and Verify
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Tasks")
+                .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.RMC)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
@@ -270,7 +270,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser12.UserName, AutoUser12.Password)
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
@@ -350,7 +350,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             //Go to Task Page and Verify
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Tasks")
+                .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.RMC)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()

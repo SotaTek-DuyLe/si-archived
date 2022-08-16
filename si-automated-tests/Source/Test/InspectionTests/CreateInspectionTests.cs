@@ -58,7 +58,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             //Get data in DB to verify
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Tasks")
+                .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
@@ -189,7 +189,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
@@ -221,7 +221,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .Login(AutoUser14.UserName, AutoUser14.Password)
                 .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Events")
+                .ClickMainOption(MainOption.Events)
                 .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
@@ -344,7 +344,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
@@ -371,7 +371,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .Login(AutoUser14.UserName, AutoUser14.Password)
                 .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Events")
+                .ClickMainOption(MainOption.Events)
                 .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
@@ -458,7 +458,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchToDefaultContent();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
@@ -573,7 +573,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchToDefaultContent();
             //Verify in [All Inspections]
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
@@ -719,7 +719,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchToDefaultContent();
             //Verify in [All Inspections]
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
@@ -860,7 +860,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
 
             //Verify in [All Inspections]
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
@@ -998,7 +998,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
 
             //Verify in [All Inspections]
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
