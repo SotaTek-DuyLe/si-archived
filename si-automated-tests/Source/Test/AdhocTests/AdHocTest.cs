@@ -75,7 +75,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
             int productQty = 1000;
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
@@ -216,7 +216,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
             //    .Login(AutoUser13.UserName, AutoUser13.Password)
             //    .IsOnHomePage(AutoUser13);
             PageFactoryManager.Get<NavigationBase>()
-               .ClickMainOption("Services")
+               .ClickMainOption(MainOption.Services)
                .ExpandOption("Regions")
                .ExpandOption(Region.UK)
                .ExpandOption(Contract.RMC)
@@ -257,9 +257,9 @@ namespace si_automated_tests.Source.Test.AdHocTests
             string partyName = "Greggs";
             string inputPO = "PO ad hoc task 1";
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -319,9 +319,9 @@ namespace si_automated_tests.Source.Test.AdHocTests
             string partyName = "Greggs";
             string inputPO = "PO ad hoc task 2";
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .WaitForLoadingIconToDisappear();

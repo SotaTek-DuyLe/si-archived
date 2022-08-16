@@ -35,9 +35,9 @@ namespace si_automated_tests.Source.Test
                 .Login(AutoUser5.UserName, AutoUser5.Password)
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -79,7 +79,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -159,8 +159,8 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -197,9 +197,9 @@ namespace si_automated_tests.Source.Test
                 .Login(AutoUser5.UserName, AutoUser5.Password)
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -237,7 +237,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -317,8 +317,8 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -371,9 +371,9 @@ namespace si_automated_tests.Source.Test
                 .Login(AutoUser5.UserName, AutoUser5.Password)
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -411,7 +411,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -491,8 +491,8 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -547,7 +547,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser5);
             //Filter id
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame()

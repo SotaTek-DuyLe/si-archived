@@ -75,7 +75,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Create new Resource with type = Van in TC51
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .OpenOption(Contract.RMC)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
@@ -96,9 +96,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //TC45+48+51
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //Create new party Haulier TC047
             PageFactoryManager.Get<PartyCommonPage>()
@@ -282,7 +282,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
+                .ClickMainOption(MainOption.Weighbridge)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Tickets")
                 .SwitchNewIFrame();
@@ -333,7 +333,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         {
             //Verify data in TC45, 46, 47 not apprear in WB Site
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
+                .ClickMainOption(MainOption.Weighbridge)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Sites")
                 .SwitchNewIFrame();
@@ -349,9 +349,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         {
             //Create new party
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
@@ -443,9 +443,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         {
             //Create new party
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
@@ -521,9 +521,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         {
             //Create new party
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
@@ -610,7 +610,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         {
             //Verify data in TC45, 46, 47 not apprear in WB Site
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
+                .ClickMainOption(MainOption.Weighbridge)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Sites")
                 .SwitchNewIFrame();
@@ -622,9 +622,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Back to the party customer in TC045
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(Int32.Parse(partyIdCustomer))
@@ -691,7 +691,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
+                .ClickMainOption(MainOption.Weighbridge)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Sites")
                 .SwitchNewIFrame();
@@ -713,7 +713,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             string resourceType = "Driver";
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .OpenOption(Contract.RMC)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -732,7 +732,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Vehicle_Customer_Haulier")
                 .SwitchNewIFrame();
@@ -769,7 +769,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             string vehicleNotActiveName = "COM7 NST";
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .OpenOption(Contract.RMC)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
@@ -790,9 +790,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToDefaultContent();
             //Navigate to party detail in TC045
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -861,7 +861,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToDefaultContent();
             //Verify in Vehicle_Customer_Haulier
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Vehicle_Customer_Haulier")
                 .SwitchNewIFrame();
@@ -886,9 +886,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Navigate to party detail in TC048
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -977,9 +977,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             string stationName = "AutoStation" + CommonUtil.GetRandomNumber(2);
             //Back to the party customer in TC45
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(Int32.Parse(partyIdCustomer))
@@ -1024,7 +1024,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
+                .ClickMainOption(MainOption.Weighbridge)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Tickets")
                 .SwitchNewIFrame();
@@ -1065,9 +1065,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Find party - Customer: TC045
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(Int32.Parse(partyIdCustomer))
@@ -1162,7 +1162,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
+                .ClickMainOption(MainOption.Weighbridge)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Tickets")
                 .SwitchNewIFrame();

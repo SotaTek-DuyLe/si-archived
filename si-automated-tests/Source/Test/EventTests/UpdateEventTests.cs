@@ -32,7 +32,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .Login(AutoUser60.UserName, AutoUser60.Password)
                 .IsOnHomePage(AutoUser60);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Events")
+                .ClickMainOption(MainOption.Events)
                 .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();

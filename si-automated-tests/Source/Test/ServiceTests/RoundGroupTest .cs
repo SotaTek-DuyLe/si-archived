@@ -31,7 +31,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
@@ -80,7 +80,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
@@ -144,7 +144,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
@@ -272,7 +272,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
@@ -312,7 +312,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RM)
@@ -399,7 +399,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RM)
@@ -450,7 +450,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RM)
@@ -512,7 +512,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RM)
@@ -560,7 +560,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)

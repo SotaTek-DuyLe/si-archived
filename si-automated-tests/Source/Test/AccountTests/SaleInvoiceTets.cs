@@ -26,7 +26,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .Login(AutoUser24.UserName, AutoUser24.Password)
                 .IsOnHomePage(AutoUser24);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Accounts")
+                .ClickMainOption(MainOption.Accounts)
                 .ExpandOption(Contract.RMC);
         }
 

@@ -27,7 +27,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .Login(AutoUser39.UserName, AutoUser39.Password)
                 .IsOnHomePage(AutoUser39);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Applications")
+                .ClickMainOption(MainOption.Applications)
                 .OpenOption("Round Calendar")
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()

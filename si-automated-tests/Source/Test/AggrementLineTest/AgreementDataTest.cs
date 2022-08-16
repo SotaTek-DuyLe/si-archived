@@ -37,7 +37,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser31.UserName, AutoUser31.Password)
                 .IsOnHomePage(AutoUser31);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
@@ -95,7 +95,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser31.UserName, AutoUser31.Password)
                 .IsOnHomePage(AutoUser31);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();

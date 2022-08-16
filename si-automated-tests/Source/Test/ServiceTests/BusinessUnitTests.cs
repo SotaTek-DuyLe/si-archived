@@ -25,7 +25,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser25.UserName, AutoUser25.Password)
                 .IsOnHomePage(AutoUser25);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
@@ -51,7 +51,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             var expectedUnits = PageFactoryManager.Get<CommonBrowsePage>()
                 .GetListOfValueFilterBy("Name");
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
