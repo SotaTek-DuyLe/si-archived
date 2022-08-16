@@ -40,6 +40,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By siteTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='sites-tab']");
         private readonly By accountTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='account-tab']");
         private readonly By accountStatementTab = By.XPath("//span[text()='Account Statement']/parent::a");
+        private readonly By historyTab = By.XPath("//span[text()='History']/parent::a");
 
         //COMMON DYNAMIC LOCATOR
         private const string partyName = "//p[text()='{0}']";
@@ -904,6 +905,11 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnAccountStatement()
         {
             ClickOnElement(accountStatementTab);
+            return this;
+        }
+        public DetailPartyPage ClickOnHistoryTab()
+        {
+            ClickOnElement(historyTab);
             return this;
         }
     }

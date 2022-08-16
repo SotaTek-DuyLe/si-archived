@@ -11,6 +11,7 @@ using si_automated_tests.Source.Main.Pages.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccountStatement;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyHistory;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test
@@ -516,15 +517,18 @@ namespace si_automated_tests.Source.Test
         [Category("Accounting Reference")]
         [Category("Dee")]
         [Test]
-        public void TC_134_the_setting_of_accounting_refference()
+        public void TC_134_the_setting_of_accounting_referrence()
         {
-            string accountTypeSettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=AccountType&ObjectID=6";
+            string charityAccountTypeSettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=AccountType&ObjectID=6";
+            string creditAccountTypeSettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=AccountType&ObjectID=5";
             string accountSettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=AccountType&ObjectID=6";
             PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             string overrideValue = "Account reference value " + CommonUtil.GetRandomString(12);
+            int partyId = 73;
+            string partyUrl = "https://test.echoweb.co.uk/web/parties/" + partyId;
             //login
             PageFactoryManager.Get<LoginPage>()
-                .GoToURL(accountTypeSettingUrl);
+                .GoToURL(charityAccountTypeSettingUrl);
             PageFactoryManager.Get<LoginPage>()
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
@@ -569,6 +573,17 @@ namespace si_automated_tests.Source.Test
                 .OpenFirstResult()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<DetailPartyPage>()
+                .SwitchToTab("Account");
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .SelectAccountType("Charity")
+                .SelectAccountType("Credit")
+                .ClickSaveBtn();
+            PageFactoryManager.Get<PartyAccountPage>()
+                .SelectAccountType("Charity")
+                .ClickSaveBtn();
+            PageFactoryManager.Get<DetailPartyPage>()
+                //.VerifyDisplaySuccessfullyMessage()
                 .ClickTabDropDown()
                 .ClickOnAccountStatement();
             PageFactoryManager.Get<AccountStatementPage>()
@@ -595,10 +610,40 @@ namespace si_automated_tests.Source.Test
                 .VerifyAccountReferenceIsReadonly()
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickTabDropDown()
+                .ClickOnHistoryTab()
+                .ClickRefreshBtn();
+            PageFactoryManager.Get<PartyHistoryPage>()
+                .VerifyNewestAccountingReference(overrideValue);
 
-            //.MergeAllTabInDetailPartyAndVerify()
-            //.ClickAllTabAndVerify()
-            //.ClickAllTabInDropdownAndVerify();
+            //Set override value to null
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(charityAccountTypeSettingUrl);
+            PageFactoryManager.Get<AccountTypeDetailPage>()
+                .inputOverrideValue("")
+                .TickOverrideCheckbox()
+                .clickOnSaveButton()
+                .WaitForLoadingIconToDisappear()
+                .GoToURL(partyUrl);
+            PageFactoryManager.Get<DetailPartyPage>()
+                .SwitchToTab("Account");
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .SelectAccountType("Charity")
+                .SelectAccountType("Credit")
+                .ClickSaveBtn();
+            PageFactoryManager.Get<PartyAccountPage>()
+                .SelectAccountType("Charity")
+                .VerifyAccountReferenceEnabled(false)
+                .ClickSaveBtn();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickTabDropDown()
+                .ClickOnHistoryTab()
+                .ClickRefreshBtn();
+
+            PageFactoryManager.Get<PartyHistoryPage>()
+                .VerifyNewestAccountingReference("");
 
         }
     }
