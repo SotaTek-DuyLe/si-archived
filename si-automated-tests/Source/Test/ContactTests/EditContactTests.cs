@@ -30,7 +30,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .IsOnHomePage(AutoUser57);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
@@ -91,7 +91,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .IsOnHomePage(AutoUser57);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();

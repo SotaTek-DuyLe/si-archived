@@ -30,7 +30,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.NS)
+                .ExpandOption(Contract.RM)
                 .ExpandOption("Recycling")
                 .OpenOption("Communal Recycling");
             ServiceRecyclingPage sectorRecycling = PageFactoryManager.Get<ServiceRecyclingPage>();
@@ -51,7 +51,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.NS)
+                .ExpandOption(Contract.RM)
                 .ExpandOption("Recycling")
                 .ExpandOption("Communal Recycling")
                 .OpenOption("Service Units");
@@ -295,7 +295,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.NS)
+                .ExpandOption(Contract.RM)
                 .ExpandOption("Recycling")
                 .ExpandOption("Communal Recycling")
                 .OpenOption("Active Service Tasks")

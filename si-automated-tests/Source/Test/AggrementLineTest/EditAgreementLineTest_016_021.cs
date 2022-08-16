@@ -49,7 +49,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -196,7 +196,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -349,7 +349,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Collections")
                 .ExpandOption("Commercial Collections")
                 .OpenOption("Active Service Tasks")
@@ -556,7 +556,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -733,7 +733,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .ClickMainOption("Services")
                .ExpandOption("Regions")
                .ExpandOption(Region.UK)
-               .ExpandOption(Contract.NSC)
+               .ExpandOption(Contract.RMC)
                .ExpandOption("Collections")
                .ExpandOption("Commercial Collections")
                .OpenOption("Active Service Tasks")
@@ -812,7 +812,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -931,7 +931,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -1042,7 +1042,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .ClickMainOption("Services")
                .ExpandOption("Regions")
                .ExpandOption(Region.UK)
-               .ExpandOption(Contract.NSC)
+               .ExpandOption(Contract.RMC)
                .ExpandOption("Collections")
                .ExpandOption("Commercial Collections")
                .OpenOption("Active Service Tasks")
@@ -1343,7 +1343,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -1415,7 +1415,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Collections")
                 .ExpandOption("Commercial Collections")
                 .OpenOption("Active Service Tasks")
@@ -1458,7 +1458,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -1543,7 +1543,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()

@@ -32,8 +32,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.NSC)
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Point Addresses")
                 .SwitchNewIFrame();
         }

@@ -35,7 +35,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             //Verify that user can delete a task from an Agreement
@@ -144,7 +144,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             //Filter Agreement
@@ -224,7 +224,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Go to Task Page and Verify
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Tasks")
-                .OpenOption(Contract.NSC)
+                .OpenOption(Contract.RMC)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -271,7 +271,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             //Filter Agreement
@@ -351,7 +351,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Go to Task Page and Verify
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Tasks")
-                .OpenOption(Contract.NSC)
+                .OpenOption(Contract.RMC)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();

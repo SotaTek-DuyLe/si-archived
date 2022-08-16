@@ -29,8 +29,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.NSC)
-                .ExpandOption(Contract.NSC);
+                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.RMC);
         }
         [Category("PointNode")]
         [Category("Dee")]
@@ -81,7 +81,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         {
             //VERIFY ON CONTRACTS
             PageFactoryManager.Get<NavigationBase>()
-                .OpenOption(Contract.NSC)
+                .OpenOption(Contract.RMC)
                 .SwitchNewIFrame()
                 .SwitchToTab("Announcements")
                 .WaitForLoadingIconToDisappear();
@@ -228,7 +228,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         public void TC_129_Verify_that_a_new_sector_form_is_opened()
         {
             PageFactoryManager.Get<NavigationBase>()
-                   .OpenOption(Contract.NSC);
+                   .OpenOption(Contract.RMC);
             SectorPage sectorPage = PageFactoryManager.Get<SectorPage>();
             sectorPage.WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
@@ -287,8 +287,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.NSC)
-                .OpenOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(Contract.RMC)
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             sectorPage.VerifyElementVisibility(sectorPage.DivMap, true);
@@ -299,8 +299,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.NSC)
-                .OpenOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(Contract.RMC)
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             sectorPage.VerifyElementVisibility(sectorPage.InputSector, true)
@@ -309,8 +309,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyElementVisibility(sectorPage.SelectParentSector, true);
 
             //can update
-            sector = Contract.NSC;
-            string contract = Contract.NS;
+            sector = Contract.RMC;
+            string contract = Contract.RM;
             string parentSector = "Hampton Tip (West)";
             string sectorType = "Ward";
             sectorPage.SendKeys(sectorPage.InputSector, sector);

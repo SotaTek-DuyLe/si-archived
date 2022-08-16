@@ -32,8 +32,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Default Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.NSC)
-                .SelectBusinessUnit(Contract.NSC)
+                .SelectContract(Contract.RMC)
+                .SelectBusinessUnit(Contract.RMC)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -70,7 +70,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -151,7 +151,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -228,7 +228,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -305,7 +305,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -416,7 +416,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Resources")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()

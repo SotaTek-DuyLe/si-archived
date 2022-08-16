@@ -30,7 +30,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnHomePage(AutoUser30);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()

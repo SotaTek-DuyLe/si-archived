@@ -28,7 +28,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.NSC)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Business Unit Groups")
                 .ExpandOptionLast("Collections")
                 .OpenOption("Business Units")
@@ -55,7 +55,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.NSC)
+                .SelectContract(Contract.RMC)
                 .ExpandBusinessUnitOption("Collections")
                 .VerifyBusinessUnitsAre(expectedUnits);
         }

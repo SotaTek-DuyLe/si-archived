@@ -36,8 +36,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.NS)
-                .SelectBusinessUnit(Contract.NS)
+                .SelectContract(Contract.RM)
+                .SelectBusinessUnit(Contract.RM)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -149,8 +149,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.NS)
-                .SelectBusinessUnit(Contract.NS)
+                .SelectContract(Contract.RM)
+                .SelectBusinessUnit(Contract.RM)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -278,8 +278,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.NS)
-                .SelectBusinessUnit(Contract.NS)
+                .SelectContract(Contract.RM)
+                .SelectBusinessUnit(Contract.RM)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()

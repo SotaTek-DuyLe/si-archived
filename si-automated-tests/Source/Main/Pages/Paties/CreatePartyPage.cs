@@ -49,8 +49,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public CreatePartyPage VerifyContractDropdownVlues()
         {
             Assert.AreEqual(GetElementText(String.Format(ContractOption, 1)), "Select...");
-            Assert.AreEqual(GetElementText(String.Format(ContractOption, 2)), Contract.NS);
-            Assert.AreEqual(GetElementText(String.Format(ContractOption, 3)), Contract.NSC);
+            Assert.AreEqual(GetElementText(String.Format(ContractOption, 2)), Contract.RM);
+            Assert.AreEqual(GetElementText(String.Format(ContractOption, 3)), Contract.RMC);
             return this;
         }
         public CreatePartyPage VerifyAllPartyTypes()
