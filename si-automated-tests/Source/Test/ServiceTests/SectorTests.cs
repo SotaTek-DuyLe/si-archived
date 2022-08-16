@@ -30,7 +30,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
-                .ExpandOption(Contract.RMC);
+                .ExpandOptionLast(Contract.RMC);
         }
         [Category("PointNode")]
         [Category("Dee")]
@@ -228,7 +228,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         public void TC_129_Verify_that_a_new_sector_form_is_opened()
         {
             PageFactoryManager.Get<NavigationBase>()
-                   .OpenOption(Contract.RMC);
+                   .OpenLastOption(Contract.RMC);
             SectorPage sectorPage = PageFactoryManager.Get<SectorPage>();
             sectorPage.WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
@@ -288,7 +288,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
-                .OpenOption(Contract.RMC)
+                .OpenLastOption(Contract.RMC)
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             sectorPage.VerifyElementVisibility(sectorPage.DivMap, true);
@@ -300,7 +300,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
-                .OpenOption(Contract.RMC)
+                .OpenLastOption(Contract.RMC)
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             sectorPage.VerifyElementVisibility(sectorPage.InputSector, true)
