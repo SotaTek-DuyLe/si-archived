@@ -218,7 +218,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
             PageFactoryManager.Get<NavigationBase>()
                .ClickMainOption("Services")
                .ExpandOption("Regions")
-               .ExpandOption("London")
+               .ExpandOption(Region.UK)
                .ExpandOption(Contract.NSC)
                .ExpandOption("Collections")
                .ExpandOption("Commercial Collections")

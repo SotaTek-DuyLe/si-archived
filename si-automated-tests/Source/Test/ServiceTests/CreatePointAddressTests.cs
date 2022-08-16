@@ -31,9 +31,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
+                .ExpandOption(Region.UK)
                 .ExpandOption(Contract.NSC)
-                .ExpandOption("Richmond Commercial")
+                .ExpandOption(Contract.NSC)
                 .OpenOption("Point Addresses")
                 .SwitchNewIFrame();
         }

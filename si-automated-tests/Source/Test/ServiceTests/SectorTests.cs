@@ -28,9 +28,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
+                .ExpandOption(Region.UK)
                 .ExpandOption(Contract.NSC)
-                .ExpandOption("Richmond Commercial");
+                .ExpandOption(Contract.NSC);
         }
         [Category("PointNode")]
         [Category("Dee")]
@@ -228,7 +228,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         public void TC_129_Verify_that_a_new_sector_form_is_opened()
         {
             PageFactoryManager.Get<NavigationBase>()
-                   .OpenOption("Richmond Commercial");
+                   .OpenOption(Contract.NSC);
             SectorPage sectorPage = PageFactoryManager.Get<SectorPage>();
             sectorPage.WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
@@ -286,9 +286,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
+                .ExpandOption(Region.UK)
                 .ExpandOption(Contract.NSC)
-                .OpenOption("Richmond Commercial")
+                .OpenOption(Contract.NSC)
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             sectorPage.VerifyElementVisibility(sectorPage.DivMap, true);
@@ -298,9 +298,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
+                .ExpandOption(Region.UK)
                 .ExpandOption(Contract.NSC)
-                .OpenOption("Richmond Commercial")
+                .OpenOption(Contract.NSC)
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             sectorPage.VerifyElementVisibility(sectorPage.InputSector, true)
@@ -309,7 +309,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyElementVisibility(sectorPage.SelectParentSector, true);
 
             //can update
-            sector = "Richmond Commercial";
+            sector = Contract.NSC;
             string contract = Contract.NS;
             string parentSector = "Hampton Tip (West)";
             string sectorType = "Ward";

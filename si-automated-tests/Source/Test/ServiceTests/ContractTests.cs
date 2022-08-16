@@ -31,7 +31,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
+                .ExpandOption(Region.UK)
                 .ExpandOption(Contract.NSC);
         }
         [Category("Create Contract And Unit Site")]

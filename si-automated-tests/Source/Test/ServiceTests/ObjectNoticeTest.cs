@@ -33,7 +33,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
+                .ExpandOption(Region.UK)
                 .OpenOption(Contract.NSC)
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
@@ -114,7 +114,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .OpenOption("London")
+                .OpenOption(Region.UK)
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
             objectNoticeTab.WaitForLoadingIconToDisappear(false);
@@ -195,7 +195,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
+                .ExpandOption(Region.UK)
                 .ExpandOption(Contract.NSC)
                 .OpenOption("Ancillary")
                 .SwitchNewIFrame();
@@ -278,7 +278,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
+                .ExpandOption(Region.UK)
                 .ExpandOption(Contract.NSC)
                 .ExpandOption("Ancillary")
                 .OpenOption("Skips")
@@ -362,7 +362,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
+                .ExpandOption(Region.UK)
                 .ExpandOption(Contract.NSC)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
@@ -448,7 +448,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
+                .ExpandOption(Region.UK)
                 .ExpandOption(Contract.NSC)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
@@ -535,7 +535,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
+                .ExpandOption(Region.UK)
                 .ExpandOption(Contract.NSC)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
