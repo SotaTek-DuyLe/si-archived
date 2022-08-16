@@ -1,4 +1,6 @@
 ﻿using System;
+using si_automated_tests.Source.Main.Constants;
+
 namespace si_automated_tests.Source.Main.Models
 {
     public class AddressDetailModel
@@ -16,7 +18,7 @@ namespace si_automated_tests.Source.Main.Models
             this.SiteName = siteName;
             this.Property = 47;
             this.Street = "Sandy Ln";
-            this.Town = "London";
+            this.Town = Region.UK;
             this.PostCode = postCode;
             this.Country = "UK";
             this.Address = "101 Unknown Street";

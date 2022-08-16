@@ -36,7 +36,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -198,7 +198,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -372,7 +372,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -548,7 +548,7 @@ namespace si_automated_tests.Source.Test
             //Filter id
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();

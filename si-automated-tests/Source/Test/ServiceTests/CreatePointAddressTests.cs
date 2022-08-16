@@ -31,9 +31,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
-                .ExpandOption("Richmond Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Point Addresses")
                 .SwitchNewIFrame();
         }

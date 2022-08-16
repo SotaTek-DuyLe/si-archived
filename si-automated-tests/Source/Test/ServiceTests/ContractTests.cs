@@ -31,8 +31,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial");
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC);
         }
         [Category("Create Contract And Unit Site")]
         [Category("Dee")]

@@ -38,7 +38,7 @@ namespace si_automated_tests.Source.Test.ReceiptTests
            
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Accounts")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Receipts")
                 .SwitchNewIFrame();
 
@@ -102,7 +102,7 @@ namespace si_automated_tests.Source.Test.ReceiptTests
                 .SwitchToFirstWindow();
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Accounts")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Sales Invoice Batches")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SalesInvoiceBatchesPage>()
@@ -140,7 +140,7 @@ namespace si_automated_tests.Source.Test.ReceiptTests
 
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Accounts")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Receipts")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<DetailReceiptPage>()

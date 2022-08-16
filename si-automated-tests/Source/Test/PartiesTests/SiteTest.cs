@@ -233,9 +233,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
             TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
             string from = "15/07/2022";
             string to = "15/07/2022";
-            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, "North Star Commercial");
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.RMC);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
-            taskAllocationPage.ExpandRoundNode("North Star Commercial")
+            taskAllocationPage.ExpandRoundNode(Contract.RMC)
                 .ExpandRoundNode("Collections")
                 .SelectRoundNode("Commercial Collections");
             taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
@@ -296,9 +296,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
             TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
             string from = "14/07/2022";
             string to = "15/07/2022";
-            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, "North Star");
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.RM);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
-            taskAllocationPage.ExpandRoundNode("North Star")
+            taskAllocationPage.ExpandRoundNode(Contract.RM)
                 .ExpandRoundNode("Recycling")
                 .SelectRoundNode("Communal Recycling");
             taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
@@ -343,9 +343,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
             TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
             string from = "14/07/2022";
             string to = "15/07/2022";
-            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, "North Star");
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.RM);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
-            taskAllocationPage.ExpandRoundNode("North Star")
+            taskAllocationPage.ExpandRoundNode(Contract.RM)
                 .ExpandRoundNode("Recycling")
                 .SelectRoundNode("Communal Recycling");
             taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
@@ -389,9 +389,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
             TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
             string from = "14/07/2022";
             string to = "15/07/2022";
-            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, "North Star");
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.RM);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
-            taskAllocationPage.ExpandRoundNode("North Star")
+            taskAllocationPage.ExpandRoundNode(Contract.RM)
                 .ExpandRoundNode("Recycling")
                 .SelectRoundNode("Communal Recycling");
             taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);

@@ -49,7 +49,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -196,7 +196,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -348,8 +348,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Collections")
                 .ExpandOption("Commercial Collections")
                 .OpenOption("Active Service Tasks")
@@ -556,7 +556,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -732,8 +732,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                .ClickMainOption("Services")
                .ExpandOption("Regions")
-               .ExpandOption("London")
-               .ExpandOption("North Star Commercial")
+               .ExpandOption(Region.UK)
+               .ExpandOption(Contract.RMC)
                .ExpandOption("Collections")
                .ExpandOption("Commercial Collections")
                .OpenOption("Active Service Tasks")
@@ -812,7 +812,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -931,7 +931,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -1041,8 +1041,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                .ClickMainOption("Services")
                .ExpandOption("Regions")
-               .ExpandOption("London")
-               .ExpandOption("North Star Commercial")
+               .ExpandOption(Region.UK)
+               .ExpandOption(Contract.RMC)
                .ExpandOption("Collections")
                .ExpandOption("Commercial Collections")
                .OpenOption("Active Service Tasks")
@@ -1124,7 +1124,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //    .IsOnHomePage(AutoUser33);
             //PageFactoryManager.Get<NavigationBase>()
             //    .ClickMainOption("Parties")
-            //    .ExpandOption("North Star Commercial")
+            //    .ExpandOption(Contract.NSC)
             //    .OpenOption("Agreements")
             //    .SwitchNewIFrame();
             //PageFactoryManager.Get<CommonBrowsePage>()
@@ -1186,8 +1186,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //PageFactoryManager.Get<NavigationBase>()
             //   .ClickMainOption("Services")
             //   .ExpandOption("Regions")
-            //   .ExpandOption("London")
-            //   .ExpandOption("North Star Commercial")
+            //   .ExpandOption(Region.UK)
+            //   .ExpandOption(Contract.NSC)
             //   .ExpandOption("Collections")
             //   .ExpandOption("Commercial Collections")
             //   .OpenOption("Active Service Tasks")
@@ -1343,7 +1343,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -1414,8 +1414,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Collections")
                 .ExpandOption("Commercial Collections")
                 .OpenOption("Active Service Tasks")
@@ -1458,7 +1458,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -1543,7 +1543,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()

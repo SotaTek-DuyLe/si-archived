@@ -34,7 +34,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Tasks")
-                .OpenOption("North Star Commercial")
+                .OpenOption(Contract.RMC)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
@@ -122,7 +122,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Tasks")
-                .OpenOption("North Star")
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
@@ -221,7 +221,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Tasks")
-                .OpenOption("North Star")
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
@@ -310,7 +310,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Tasks")
-                .OpenOption("North Star")
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
@@ -457,7 +457,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Tasks")
-                .OpenOption("North Star")
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
@@ -586,7 +586,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Tasks")
-                .OpenOption("North Star")
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
@@ -669,7 +669,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnHomePage(AutoUser55);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Parties")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
