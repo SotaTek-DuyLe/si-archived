@@ -32,7 +32,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .Login(AutoUser20.UserName, AutoUser20.Password)
                 .IsOnHomePage(AutoUser20);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .OpenOption("Default Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
@@ -131,7 +131,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .Login(AutoUser20.UserName, AutoUser20.Password)
                 .IsOnHomePage(AutoUser20);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .OpenOption("Default Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
@@ -257,7 +257,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .Login(AutoUser20.UserName, AutoUser20.Password)
                 .IsOnHomePage(AutoUser20);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .OpenOption("Default Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()

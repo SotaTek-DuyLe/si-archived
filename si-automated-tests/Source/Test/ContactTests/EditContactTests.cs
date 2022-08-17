@@ -29,9 +29,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser57.UserName, AutoUser57.Password)
                 .IsOnHomePage(AutoUser57);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
@@ -90,9 +90,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser57.UserName, AutoUser57.Password)
                 .IsOnHomePage(AutoUser57);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage

@@ -29,7 +29,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser29.UserName, AutoUser29.Password)
                 .IsOnHomePage(AutoUser29);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC);

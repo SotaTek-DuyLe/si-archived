@@ -31,7 +31,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .OpenOption(Contract.RMC)
@@ -112,7 +112,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .OpenOption(Region.UK)
                 .SwitchNewIFrame();
@@ -193,7 +193,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
@@ -276,7 +276,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
@@ -360,7 +360,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
@@ -446,7 +446,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
@@ -533,7 +533,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)

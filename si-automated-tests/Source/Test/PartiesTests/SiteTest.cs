@@ -225,7 +225,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .Login(AutoUser34.UserName, AutoUser34.Password)
                 .IsOnHomePage(AutoUser34);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Applications")
+                .ClickMainOption(MainOption.Applications)
                 .OpenOption("Task Allocation")
                 .WaitForLoadingIconToDisappear(false);
             PageFactoryManager.Get<NavigationBase>()
@@ -288,7 +288,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .Login(AutoUser34.UserName, AutoUser34.Password)
                 .IsOnHomePage(AutoUser34);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Applications")
+                .ClickMainOption(MainOption.Applications)
                 .OpenOption("Task Allocation")
                 .WaitForLoadingIconToDisappear(false);
             PageFactoryManager.Get<NavigationBase>()
@@ -335,7 +335,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .Login(AutoUser34.UserName, AutoUser34.Password)
                 .IsOnHomePage(AutoUser34);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Applications")
+                .ClickMainOption(MainOption.Applications)
                 .OpenOption("Task Allocation")
                 .WaitForLoadingIconToDisappear(false);
             PageFactoryManager.Get<NavigationBase>()
@@ -381,7 +381,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .Login(AutoUser34.UserName, AutoUser34.Password)
                 .IsOnHomePage(AutoUser34);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Applications")
+                .ClickMainOption(MainOption.Applications)
                 .OpenOption("Task Allocation")
                 .WaitForLoadingIconToDisappear(false);
             PageFactoryManager.Get<NavigationBase>()

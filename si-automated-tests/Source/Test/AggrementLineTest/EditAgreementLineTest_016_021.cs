@@ -48,7 +48,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser33.UserName, AutoUser33.Password)
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
@@ -154,7 +154,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             //Back to Site Service and verify
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
@@ -195,9 +195,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser33.UserName, AutoUser33.Password)
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
-                .OpenOption("Parties")
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -346,7 +346,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             //Go to Services and verify 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RMC)
@@ -555,7 +555,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser33.UserName, AutoUser33.Password)
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
@@ -710,7 +710,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
@@ -730,7 +730,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
-               .ClickMainOption("Services")
+               .ClickMainOption(MainOption.Services)
                .ExpandOption("Regions")
                .ExpandOption(Region.UK)
                .ExpandOption(Contract.RMC)
@@ -811,7 +811,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser33.UserName, AutoUser33.Password)
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
@@ -898,7 +898,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToFirstWindow();
             //Go to site service and verify
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
@@ -930,7 +930,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser33.UserName, AutoUser33.Password)
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
@@ -1039,7 +1039,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
-               .ClickMainOption("Services")
+               .ClickMainOption(MainOption.Services)
                .ExpandOption("Regions")
                .ExpandOption(Region.UK)
                .ExpandOption(Contract.RMC)
@@ -1123,7 +1123,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //    .Login(AutoUser33.UserName, AutoUser33.Password)
             //    .IsOnHomePage(AutoUser33);
             //PageFactoryManager.Get<NavigationBase>()
-            //    .ClickMainOption("Parties")
+            //    .ClickMainOption(MainOption.Parties)
             //    .ExpandOption(Contract.NSC)
             //    .OpenOption("Agreements")
             //    .SwitchNewIFrame();
@@ -1184,7 +1184,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //PageFactoryManager.Get<NavigationBase>()
             //    .WaitForLoadingIconToDisappear();
             //PageFactoryManager.Get<NavigationBase>()
-            //   .ClickMainOption("Services")
+            //   .ClickMainOption(MainOption.Services)
             //   .ExpandOption("Regions")
             //   .ExpandOption(Region.UK)
             //   .ExpandOption(Contract.NSC)
