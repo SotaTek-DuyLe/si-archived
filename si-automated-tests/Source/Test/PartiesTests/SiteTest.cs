@@ -90,7 +90,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //Verify DB
             CommonFinder finder = new CommonFinder(DbContext);
             var serviceUnit = finder.GetServiceUnitById(230015);
-            Assert.IsTrue(serviceUnit.islocked == 1);
+            Assert.IsTrue(serviceUnit.islocked);
             Assert.IsTrue(serviceUnit.lockedreference == lockedreference);
         }
 
@@ -125,7 +125,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //Verify DB
             CommonFinder finder = new CommonFinder(DbContext);
             var serviceUnit = finder.GetServiceUnitById(25);
-            Assert.IsTrue(serviceUnit.islocked == 1);
+            Assert.IsTrue(serviceUnit.islocked);
             Assert.IsTrue(serviceUnit.lockedreference == lockedreference);
             sitePage.ClickOnElement(sitePage.SiteAddressTitle);
             sitePage.SwitchToChildWindow(2)
@@ -187,7 +187,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //Verify DB
             CommonFinder finder = new CommonFinder(DbContext);
             var serviceUnit = finder.GetServiceUnitById(24);
-            Assert.IsTrue(serviceUnit.islocked == 1);
+            Assert.IsTrue(serviceUnit.islocked);
             Assert.IsTrue(serviceUnit.lockedreference == lockedreference);
             sitePage.ClickOnElement(sitePage.SiteAddressTitle);
             sitePage.SwitchToChildWindow(2)
@@ -302,10 +302,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ExpandRoundNode("Recycling")
                 .SelectRoundNode("Communal Recycling");
             taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
-            taskAllocationPage.ClearInputValue(taskAllocationPage.FromInput);
-            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
-            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
-            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.InputCalendarDate(taskAllocationPage.FromInput, from);
+            taskAllocationPage.InputCalendarDate(taskAllocationPage.ToInput, to);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
             taskAllocationPage.WaitForLoadingIconToDisappear(false);
             taskAllocationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday");
@@ -349,10 +347,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ExpandRoundNode("Recycling")
                 .SelectRoundNode("Communal Recycling");
             taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
-            taskAllocationPage.ClearInputValue(taskAllocationPage.FromInput);
-            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
-            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
-            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.InputCalendarDate(taskAllocationPage.FromInput, from);
+            taskAllocationPage.InputCalendarDate(taskAllocationPage.ToInput, to);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
             taskAllocationPage.WaitForLoadingIconToDisappear(false);
             taskAllocationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday");
@@ -395,10 +391,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ExpandRoundNode("Recycling")
                 .SelectRoundNode("Communal Recycling");
             taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
-            taskAllocationPage.ClearInputValue(taskAllocationPage.FromInput);
-            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
-            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
-            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.InputCalendarDate(taskAllocationPage.FromInput, from);
+            taskAllocationPage.InputCalendarDate(taskAllocationPage.ToInput, to);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
             taskAllocationPage.WaitForLoadingIconToDisappear(false);
             taskAllocationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday");

@@ -113,10 +113,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             DateTime scheduleDay = DateTime.Now.AddDays(3);
             rescheduleModal
                 .IsRescheduleModelDisplayedCorrectly();
-            rescheduleModal.SendKeysWithoutClear(rescheduleModal.InputRescheduleDate, Keys.Control + "a");
-            rescheduleModal.SendKeysWithoutClear(rescheduleModal.InputRescheduleDate, Keys.Delete);
-            rescheduleModal.SendKeysWithoutClear(rescheduleModal.InputRescheduleDate, scheduleDay.ToString("dd/MM/yyyy"));
-            rescheduleModal.SendKeysWithoutClear(rescheduleModal.InputRescheduleDate, Keys.Enter);
+            rescheduleModal.InputCalendarDate(rescheduleModal.InputRescheduleDate, scheduleDay.ToString("dd/MM/yyyy"));
             rescheduleModal.ClickOnElement(rescheduleModal.ButtonOk);
             rescheduleModal
                 .WaitForLoadingIconToDisappear()
@@ -143,30 +140,27 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             roundCalendarPage.WaitForLoadingIconToDisappear();
             roundCalendarPage.ClickOnElement(roundCalendarPage.ButtonRoundFinder);
             DateTime tomorrow = DateTime.Now.AddDays(1);
-            //roundCalendarPage
-            //    .ClickInputRound()
-            //    .ExpandRoundNode("Commercial Collections")
-            //    .ExpandRoundNode("REC1-AM")
-            //    .SelectRoundNode(tomorrow.DayOfWeek.ToString())
-            //    .ClickButtonFind()
-            //    .VerifyToastMessage("Original date is required")
-            //    .WaitUntilToastMessageInvisible("Original date is required");
-            //roundCalendarPage
-            //    .SendInputOriginDate(tomorrow.ToString("dd/MM/yyyy"));
-            //roundCalendarPage.ClickButtonFind();
+            roundCalendarPage
+                .ClickInputRound()
+                .ExpandRoundNode("Commercial Collections")
+                .ExpandRoundNode("REC1-AM")
+                .SelectRoundNode(tomorrow.DayOfWeek.ToString())
+                .ClickButtonFind()
+                .VerifyToastMessage("Original date is required")
+                .WaitUntilToastMessageInvisible("Original date is required");
+            roundCalendarPage
+                .SendInputOriginDate(tomorrow.ToString("dd/MM/yyyy"));
+            roundCalendarPage.ClickButtonFind();
             roundCalendarPage.WaitForLoadingIconToDisappear();
             RescheduleModal rescheduleModal = PageFactoryManager.Get<RescheduleModal>();
-            //rescheduleModal.ClickOnElement(rescheduleModal.ButtonReschedule);
+            rescheduleModal.ClickOnElement(rescheduleModal.ButtonReschedule);
             DateTime scheduleDay = DateTime.Now.AddDays(2);
-            //rescheduleModal.SendKeysWithoutClear(rescheduleModal.InputRescheduleDate, Keys.Control + "a");
-            //rescheduleModal.SendKeysWithoutClear(rescheduleModal.InputRescheduleDate, Keys.Delete);
-            //rescheduleModal.SendKeysWithoutClear(rescheduleModal.InputRescheduleDate, scheduleDay.ToString("dd/MM/yyyy"));
-            //rescheduleModal.SendKeysWithoutClear(rescheduleModal.InputRescheduleDate, Keys.Enter);
-            //rescheduleModal.ClickOnElement(rescheduleModal.ButtonOk);
-            //rescheduleModal
-            //    .WaitForLoadingIconToDisappear()
-            //    .VerifyToastMessage("Selected Round Instance(s) have been rescheduled")
-            //    .WaitUntilToastMessageInvisible("Selected Round Instance(s) have been rescheduled");
+            rescheduleModal.InputCalendarDate(rescheduleModal.InputRescheduleDate, scheduleDay.ToString("dd/MM/yyyy"));
+            rescheduleModal.ClickOnElement(rescheduleModal.ButtonOk);
+            rescheduleModal
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Selected Round Instance(s) have been rescheduled")
+                .WaitUntilToastMessageInvisible("Selected Round Instance(s) have been rescheduled");
             roundCalendarPage.RoundInstanceHasGreenBackground(scheduleDay);
         }
     }
