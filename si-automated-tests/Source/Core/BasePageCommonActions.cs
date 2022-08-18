@@ -135,7 +135,7 @@ namespace si_automated_tests.Source.Core
 
         public BasePageCommonActions VerifyInputValue(By xpath, string expectedValue)
         {
-            Assert.IsTrue(GetInputValue(xpath, expectedValue) == expectedValue);
+            Assert.AreEqual(expectedValue, GetInputValue(xpath, expectedValue));
             return this;
         }
 

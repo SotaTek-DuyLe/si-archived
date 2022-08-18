@@ -7,7 +7,6 @@ using si_automated_tests.Source.Main.Models.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
@@ -15,10 +14,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
     {
         public readonly By StartDateInput = By.XPath("//div[@id='details-tab']//input[@id='startDate.id']");
         public readonly By EndDateInput = By.XPath("//div[@id='details-tab']//input[@id='endDate.id']");
-        public readonly By ServiceUnitInput = By.XPath("//div[@id='details-tab']//input[contains(@data-bind, 'serviceUnit.value')]");
-        public readonly By ClientReferenceInput = By.XPath("//input[contains(@data-bind, 'clientReference.value')]");
-        public readonly By ColorInput = By.XPath("//input[contains(@data-bind, 'colour.id')]");
-        public readonly By PointSegmentInput = By.XPath("//input[contains(@data-bind, 'pointSegment.value')]");
+        public readonly By ServiceUnitInput = By.XPath("//div[@id='details-tab']//input[@name='serviceUnit']");
+        public readonly By ClientReferenceInput = By.XPath("//div[@id='details-tab']//input[@name='clientReference']");
+        public readonly By ColorInput = By.XPath("//div[@id='details-tab']//input[@name='colour']");
+        public readonly By PointSegmentInput = By.CssSelector("input[name='pointSegment']");
         public readonly By StreetInput = By.XPath("//input[contains(@data-bind, 'street.value')]");
         public readonly By ServiceLevelSelect = By.XPath("//select[@id='serviceLevel.id']");
         public readonly By NoteInput = By.XPath("//input[@id='3']");
@@ -33,6 +32,114 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By AddPointButton = By.XPath("//div[@id='serviceUnitPoints-tab']//button");
         public readonly By AddServiceUnitPointDiv = By.XPath("//div[@id='add-service-unit-points']");
         public readonly By AddServiceUnitPointCloseButton = By.XPath("//div[@id='add-service-unit-points']//button[@class='close']");
+        public readonly By retireBtn = By.XPath("button[title='Retire']");
+
+        #region
+        public readonly By searchPointSegmentBtn = By.XPath("//div[@id='details-tab']//div[contains(@class,'searchButton')]/button");
+
+        //Point Segment Search popup
+        private readonly By titlePointSegmentSearch = By.XPath("//h4[text()='Point Segment Search']");
+        private readonly By sectorsPointSegmentSearchDd = By.XPath("//label[contains(string(), 'Sectors')]/following-sibling::select");
+        private readonly By streetSearchInput = By.CssSelector("div[id='searchFields.street']>input");
+        private readonly By searchInPointSegmentSearchPopupBtn = By.XPath("//button[contains(@data-bind, 'enable: searchForm.canSubmit()')]");
+        private readonly By pointSegmentsDd = By.XPath("//label[contains(string(), 'Point Segments')]/following-sibling::echo-select/select");
+        private readonly By savePointSegmentSearchBtn = By.XPath("//button[contains(string(), 'Save') and contains(@data-bind, 'segmentsForm.canSubmit()')]");
+        private readonly By refreshHeaderBtn = By.XPath("(//button[@title='Refresh'])[1]");
+        private readonly By lockReferenceInput = By.CssSelector("input[name='lockReference']");
+        private readonly By lockInput = By.XPath("//label[contains(string(), 'Lock')]/parent::span/parent::div/following-sibling::input");
+        private readonly string anyStreetOption = "//div[@id='searchFields.street']//li[text()='{0}']";
+
+
+        public ServiceUnitDetailPage ClickSearchPointSegmentBtn()
+        {
+            ClickOnElement(searchPointSegmentBtn);
+            return this;
+        }
+
+        public ServiceUnitDetailPage IsPointSegmentSearchPopup(string sectorsValueExp)
+        {
+            WaitUtil.WaitForElementVisible(titlePointSegmentSearch);
+            WaitUtil.WaitForElementVisible(sectorsPointSegmentSearchDd);
+            Assert.AreEqual(sectorsValueExp, GetFirstSelectedItemInDropdown(sectorsPointSegmentSearchDd));
+            return this;
+        }
+
+        public ServiceUnitDetailPage SendKeyInStreetInput(string valueStreet)
+        {
+            SendKeys(streetSearchInput, valueStreet);
+            //Select
+            ClickOnElement(anyStreetOption, valueStreet);
+            return this;
+        }
+
+        public ServiceUnitDetailPage ClickSearchPointSegment()
+        {
+            ClickOnElement(searchInPointSegmentSearchPopupBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public string GetValueInPointSegmentsDd()
+        {
+            SleepTimeInMiliseconds(1000);
+            return GetFirstSelectedItemInDropdown(pointSegmentsDd);
+        }
+
+        public ServiceUnitDetailPage ClickSavePointSegmentSearchBtn()
+        {
+            ClickOnElement(savePointSegmentSearchBtn);
+            return this;
+        }
+
+        public ServiceUnitDetailPage ClickRefreshHeaderBtn()
+        {
+            ClickOnElement(refreshHeaderBtn);
+            return this;
+        }
+
+        public ServiceUnitDetailPage VerifyValueInPointSegmentDetailTab(string pointSegmentExp)
+        {
+            Assert.IsTrue(pointSegmentExp.Contains(GetAttributeValue(PointSegmentInput, "value")));
+            return this;
+        }
+
+        public ServiceUnitDetailPage VerifyValueInStreetDetailTab(string streetExp)
+        {
+            Assert.IsTrue(streetExp.Contains(GetAttributeValue(StreetInput, "value")));
+            return this;
+        }
+
+        public ServiceUnitDetailPage SendKeyLockReferenceInput(string lockRefValue)
+        {
+            SendKeys(lockReferenceInput, lockRefValue);
+            return this;
+        }
+
+        public ServiceUnitDetailPage CheckLockInput()
+        {
+            ClickOnElement(lockInput);
+            return this;
+        }
+
+        public ServiceUnitDetailPage VerifyValueInServiceUnitAfterUpdating(string serviceUnitValueExp)
+        {
+            Assert.AreEqual(serviceUnitValueExp, GetAttributeValue(ServiceUnitInput, "value"));
+            return this;
+        }
+
+        public ServiceUnitDetailPage VerifyValueInClientRefAfterUpdating(string clientRefExp)
+        {
+            Assert.AreEqual(clientRefExp, GetAttributeValue(ClientReferenceInput, "value"));
+            return this;
+        }
+
+        public ServiceUnitDetailPage VerifyValueInColorAfterUpdating(string colorValueExp)
+        {
+            Assert.AreEqual(colorValueExp, GetAttributeValue(ColorInput, "value"));
+            return this;
+        }
+
+        #endregion
 
 
         #region ServiceUnitPointTable
@@ -291,5 +398,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             AssetTableEle.ClickCell(rowIdx, 0);
             return this;
         }
+
+
     }
 }
