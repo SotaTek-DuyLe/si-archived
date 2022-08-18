@@ -1080,7 +1080,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             {
                 foreach (ServiceForPointDBModel model in allServices)
                 {
-                    if (model.serviceID == serviceDBModels[i].serviceID)
+                    if (model.serviceID != serviceDBModels[i].serviceID)
                     {
                         result.Add(model);
                     }

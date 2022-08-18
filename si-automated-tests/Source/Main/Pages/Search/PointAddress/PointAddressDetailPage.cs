@@ -58,7 +58,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private const string eventDynamicLocator = "//div[@class='parent-row'][{0}]//div[text()='Event']";
         private const string serviceUnitDynamic = "//div[@class='parent-row'][{0}]//div[@title='Open Service Unit']/span";
         private const string serviceWithServiceUnitDynamic = "//div[@class='parent-row'][{0}]//span[@title='Open Service Task']";
-        private const string allserviceUnitDynamic = "//div[@class='parent-row'][{0}]//span[@title='Open Service Task' or @title='0']";
+        private const string allserviceUnitDynamic = "//div[@class='parent-row'][{0}]//div[contains(@data-bind, 'service-grid-service')]";
         private const string statusDescParentRow = "//div[@class='parent-row'][{0}]//b";
         private const string scheduleParentRow = "//div[@id='toggle-actions']//label";
         private const string scheduleRow = "//div[@class='service-text']/div[@data-bind='text: $data']";
@@ -163,8 +163,18 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                 string scheduleParentValue = GetElementText(allScheduleParentRow[i]);
                 string lastParentValue = GetElementText(lastParentRow, (i + 1).ToString());
                 string nextParentValue = GetElementText(nextParentRow, (i + 1).ToString());
-                string assetTypeParentValue = GetElementText(assetTypeParentRow, (i + 1).ToString());
-
+                string assetTypeParentValue = "";
+                List<IWebElement> allAssetTypes = GetAllElements(string.Format(assetTypeParentRow, (i + 1).ToString()));
+                if(allAssetTypes.Count > 1)
+                {
+                    for (int k = 0; k < allAssetTypes.Count; k++)
+                    {
+                        assetTypeParentValue += " " + GetElementText(allAssetTypes[k]);
+                    }
+                } else if(allAssetTypes.Count == 1)
+                {
+                    assetTypeParentValue = GetElementText(allAssetTypes[0]);
+                }
                 //Get child row info
                 List<ChildSchedule> listSchedule = new List<ChildSchedule>();
                 List<IWebElement> allChildRows = GetAllElements(numberOfChirdRow, (i + 1).ToString());
@@ -177,7 +187,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                     listSchedule.Add(new ChildSchedule(roundChildValue, lastChildValue, nextChildValue, "", allocationChildValue));
                 }
 
-                activeSeviceModels.Add(new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue, statusDescParentValue, scheduleParentValue, lastParentValue, nextParentValue, assetTypeParentValue, listSchedule));
+                activeSeviceModels.Add(new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue, statusDescParentValue, scheduleParentValue, lastParentValue, nextParentValue, assetTypeParentValue.Trim(), listSchedule));
             }
             return activeSeviceModels;
         }
@@ -225,7 +235,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             return this;
         }
 
-        public PointAddressDetailPage VerifyDataInActiveServicesTab483995(List<ActiveSeviceModel> activeSeviceWithServiceUnitModels, List<ServiceForPointDBModel> serviceForPoint)
+        public PointAddressDetailPage VerifyDataInActiveServicesTab363256(List<ActiveSeviceModel> activeSeviceWithServiceUnitModels, List<ServiceForPointDBModel> serviceForPoint)
         {
             for (int i = 0; i < activeSeviceWithServiceUnitModels.Count; i++)
             {
@@ -505,21 +515,25 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         public List<PointHistoryModel> GetAllPointHistory()
         {
             List<PointHistoryModel> allModel = new List<PointHistoryModel>();
-            List<IWebElement> allRow = GetAllElements(allRowInPointHistoryTabel);
-
-            for (int i = 0; i < allRow.Count; i++)
+            if(IsControlDisplayedNotThrowEx(allRowInPointHistoryTabel))
             {
-                string desc = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[0])[i]);
-                string ID = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[1])[i]);
-                string type = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[2])[i]);
-                string service = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[3])[i]);
-                string address = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[4])[i]);
-                string date = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[5])[i]);
-                string dueDate = GetElementText(GetAllElements(allDueDate)[i]);
-                string state = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[7])[i]);
-                string resolution = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[8])[i]);
-                allModel.Add(new PointHistoryModel(desc, ID, type, service, address, date, dueDate, state, resolution));
+                List<IWebElement> allRow = GetAllElements(allRowInPointHistoryTabel);
+
+                for (int i = 0; i < allRow.Count; i++)
+                {
+                    string desc = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[0])[i]);
+                    string ID = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[1])[i]);
+                    string type = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[2])[i]);
+                    string service = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[3])[i]);
+                    string address = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[4])[i]);
+                    string date = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[5])[i]);
+                    string dueDate = GetElementText(GetAllElements(allDueDate)[i]);
+                    string state = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[7])[i]);
+                    string resolution = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[8])[i]);
+                    allModel.Add(new PointHistoryModel(desc, ID, type, service, address, date, dueDate, state, resolution));
+                }
             }
+            
             return allModel;
         }
 
