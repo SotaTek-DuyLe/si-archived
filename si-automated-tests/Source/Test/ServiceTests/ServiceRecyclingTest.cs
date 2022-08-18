@@ -20,6 +20,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
         [Test(Description = "Restrict Edit Feature on new style forms on Service Unit tab")]
         public void TC_128_1_Restrict_Edsit_Feature_on_new_style_forms_on_Service_Unit()
         {
+            string valueStreet = "COURT CLOSE AVENUE,TW2,TWICKENHAM";
+            string serviceUnitId = "223695";
+
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -29,7 +32,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
+                .ExpandOption("UK")
                 .ExpandOption("North Star")
                 .ExpandOption("Recycling")
                 .OpenOption("Communal Recycling");
@@ -50,7 +53,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
                 .ExpandOption("Regions")
-                .ExpandOption("London")
+                .ExpandOption("UK")
                 .ExpandOption("North Star")
                 .ExpandOption("Recycling")
                 .ExpandOption("Communal Recycling")
@@ -58,7 +61,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
             ServiceUnitPage serviceUnit = PageFactoryManager.Get<ServiceUnitPage>();
             serviceUnit.SwitchToFrame(serviceUnit.UnitIframe);
             serviceUnit.WaitForLoadingIconToDisappear();
-            string serviceUnitId = "223695";
             serviceUnit
                 .FindServiceUnitWithId(serviceUnitId)
                 .DoubleClickServiceUnit()
@@ -67,37 +69,51 @@ namespace si_automated_tests.Source.Test.ServiceTests
             ServiceUnitDetailPage serviceUnitDetail = PageFactoryManager.Get<ServiceUnitDetailPage>();
             serviceUnitDetail.WaitForLoadingIconToDisappear(false);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.DetailTab);
+            //Step 2: Start and end date is read only. User is not able to reture the service unit form
             serviceUnitDetail.VerifyInputIsReadOnly(serviceUnitDetail.StartDateInput)
                 .VerifyInputIsReadOnly(serviceUnitDetail.EndDateInput);
+            serviceUnitDetail.VerifyRetireBtnHidden();
 
-            //step 3: Details: Update description, client reference, point segment, street, colour, service level->Save
+            //Step 3: Details: Update description, client reference, point segment, street, colour, service level->Save
             string valueServiceUnitInput = "service unit" + serviceUnitDetail.RandomString(3);
             serviceUnitDetail.SendKeys(serviceUnitDetail.ServiceUnitInput, valueServiceUnitInput);
             //Client ref
             string valueClientReferenceInput = "client reference" + serviceUnitDetail.RandomString(3);
             serviceUnitDetail.SendKeys(serviceUnitDetail.ClientReferenceInput, valueClientReferenceInput);
-            //point segment
-            string valuePointSegmentInput = serviceUnitDetail.GetInputValue(serviceUnitDetail.PointSegmentInput);
-            serviceUnitDetail.SendKeys(serviceUnitDetail.PointSegmentInput, valuePointSegmentInput);
-            //street
-            //BUG: can't update street input
-            string valueStreetInput = "BEAUMONT AVENUE";
-            serviceUnitDetail.SendKeys(serviceUnitDetail.StreetInput, valueStreetInput);
+            //Update point segment => Verify [Street] update automatically
+            serviceUnitDetail
+                .ClickSearchPointSegmentBtn()
+                .IsPointSegmentSearchPopup("Richmond")
+                .SendKeyInStreetInput(valueStreet);
 
+            string valuePointSegment = serviceUnitDetail
+                .ClickSearchPointSegment()
+                .GetValueInPointSegmentsDd();
+            serviceUnitDetail
+                .ClickSavePointSegmentSearchBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceUnitDetail
+                .ClickRefreshHeaderBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceUnitDetail
+                .VerifyValueInPointSegmentDetailTab(valuePointSegment)
+                .VerifyValueInStreetDetailTab(valueStreet);
+            //Color + Lock In
             serviceUnitDetail.SendKeys(serviceUnitDetail.ColorInput, "#752f75");
-            serviceUnitDetail.SelectRandomServiceLevel()
+            serviceUnitDetail
+                .SelectRandomServiceLevel()
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage("Success");
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
 
-            serviceUnitDetail.VerifyInputValue(serviceUnitDetail.ServiceUnitInput, valueServiceUnitInput)
+            serviceUnitDetail
+                .VerifyInputValue(serviceUnitDetail.ServiceUnitInput, valueServiceUnitInput)
                 .VerifyInputValue(serviceUnitDetail.ClientReferenceInput, valueClientReferenceInput)
-                .VerifyInputValue(serviceUnitDetail.PointSegmentInput, valuePointSegmentInput)
                 .VerifyInputValue(serviceUnitDetail.ColorInput, "#752f75");
 
             //step 4: Data tab: Update all data->Save
-            valueStreetInput = "BEAUMONT AVENUE1";
-            serviceUnitDetail.SendKeys(serviceUnitDetail.StreetInput, valueStreetInput);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.DataTab);
             string noteInputValue = serviceUnitDetail.RandomString(5);
             serviceUnitDetail.SendKeys(serviceUnitDetail.NoteInput, noteInputValue);

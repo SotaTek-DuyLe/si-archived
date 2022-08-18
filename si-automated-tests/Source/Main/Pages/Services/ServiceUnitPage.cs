@@ -17,6 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string IdCell = "./div[contains(@class, 'l1 r1')]";
         private readonly string NameCell = "./div[contains(@class, 'l2 r2')]";
         private readonly By applyFilterBtn = By.XPath("//button[@title='Apply Filters']");
+        private readonly By retireBtn = By.XPath("button[title='Retire']");
 
         public TableElement ServiceUnitTableEle
         {
@@ -37,5 +38,6 @@ namespace si_automated_tests.Source.Main.Pages.Services
             WaitForLoadingIconToDisappear(false);
             return this;
         }
+
     }
 }
