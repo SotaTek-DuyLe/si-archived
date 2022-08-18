@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
+using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Models.Applications;
 using System;
@@ -17,7 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
     {
         public TaskAllocationPage()
         {
-            unallocatedTableEle = new TableElement("//div[@class='tab-pane echo-grid active']//div[@class='grid-canvas']", UnallocatedRow, new List<string>() { UnallocatedCheckbox, UnallocatedDescription, UnallocatedService });
+            unallocatedTableEle = new TableElement("//div[@class='tab-pane echo-grid active']//div[@class='grid-canvas']", UnallocatedRow, new List<string>() { UnallocatedCheckbox, UnallocatedDescription, UnallocatedService, UnallocatedID });
             unallocatedTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
             {
                 return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
@@ -40,6 +41,10 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly string UnallocatedCheckbox = "./div[contains(@class, 'slick-cell l1 r1')]//input";
         public readonly string UnallocatedDescription = "./div[contains(@class, 'slick-cell l4 r4')]";
         public readonly string UnallocatedService = "./div[contains(@class, 'slick-cell l5 r5')]";
+        public readonly string UnallocatedID = "./div[contains(@class, 'slick-cell l3 r3')]";
+
+        public readonly By ShowOutstandingTaskButton = By.XPath("//div[@id='tabs-container']//button[@id='t-outstanding']");
+        public readonly By OutstandingTab = By.XPath("//div[@id='tabs-container']//li//a[@aria-controls='outstanding']");
 
         private TableElement unallocatedTableEle;
         public TableElement UnallocatedTableEle
@@ -66,11 +71,39 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             get => new TableElement(RoundInstanceTable, RoundInstanceRow, new List<string>() { RoundInstanceServiceCell, RoundInstanceRoundGroupCell, RoundInstanceRoundCell, RoundInstanceFromCell, RoundInstanceToCell });
         }
 
+        #region Outstanding Table
+        private readonly string OutStandingTable = "//div[@id='outstanding']//div[@class='grid-canvas']";
+        private readonly string OutStandingRow = "./div[contains(@class, 'slick-row')]";
+        private readonly string OutStandingCheckbox = "./div[contains(@class, 'slick-cell l1 r1')]//input";
+        private readonly string OutStandingId = "./div[contains(@class, 'slick-cell l2 r2')]";
+        private readonly string OutStandingDescription = "./div[contains(@class, 'slick-cell l3 r3')]";
+        private readonly string OutStandingService = "./div[contains(@class, 'slick-cell l4 r4')]";
+        private readonly string OutStandingScheduledDate = "./div[contains(@class, 'slick-cell l5 r5')]";
+
+        public TableElement OutstandingTableEle
+        {
+            get => new TableElement(OutStandingTable, OutStandingRow, new List<string>() { OutStandingCheckbox, OutStandingId, OutStandingDescription, OutStandingService, OutStandingScheduledDate });
+        }
+
+        public TaskAllocationPage VerifyOutStandingData(List<OutstandingTaskModel> dataFromDbs)
+        {
+            foreach (var item in dataFromDbs)
+            {
+                Assert.IsNotNull(OutstandingTableEle.GetCellByValue(1, item.ID));
+            }
+            return this;
+        }
+        #endregion
+
         public readonly By AllocatingConfirmMsg = By.XPath("//div[text()='Allocating 1 Task(s) onto Round Instance for a different day!']");
         public readonly By AllocatingConfirmMsg2 = By.XPath("//div[text()='Allocating 1 locked Tasks from/to dispatched round. Ensure that new Crew can attempt service']");
         public readonly By AllocateAllButton = By.XPath("//button[text()='Allocate All']");
         public readonly By AllocationReasonSelect = By.XPath("//select[contains(@data-bind, 'options: allocationReasons')]");
         public readonly By AllocationConfirmReasonButton = By.XPath("//button[contains(@data-bind, 'click: confirmReasonCallback')]");
+        public readonly By ReasonConfirmMsg = By.XPath("//label[contains(string(), 'Please select the reason below and confirm.')]");
+        public readonly By ReasonSelect = By.XPath("//select[contains(@data-bind, 'allocationReasons')]");
+        public readonly By ReasonConfirmButton = By.XPath("//div[@id='get-allocation-reason']//button[text()='Confirm']");
+
         public By GetAllocatingConfirmMsg(int count) 
         {
             return By.XPath($"//div[text()='Allocating {count} Task(s) onto Round Instance for a different day!']");
@@ -79,6 +112,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TaskAllocationPage DoubleClickFromCellOnRound(string round)
         {
             RoundInstanceTableEle.DoubleClickCellOnCellValue(4, 2, round);
+            return this;
+        }
+
+        public TaskAllocationPage DoubleClickRI(string roundgroup, string round)
+        {
+            IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(3, new Dictionary<int, object>()
+            {
+                { 1, roundgroup },
+                { 2, round }
+            });
+            cell.Click();
+            SleepTimeInMiliseconds(300);
+            DoubleClickOnElement(cell);
             return this;
         }
 
@@ -106,6 +152,18 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        public TaskAllocationPage DragRoundInstanceToReallocattedGrid(string roundGroup, string round, int dragcellIdx = 3)
+        {
+            IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(dragcellIdx, new Dictionary<int, object>()
+            {
+                { 1, roundGroup },
+                { 2, round }
+            });
+            IWebElement grid = GetElement(By.XPath("//div[contains(@id, 'reallocated')]//div[contains(@class, 'grid-canvas')]"));
+            DragAndDrop(cell, grid);
+            return this;
+        }
+
         public TaskAllocationPage DragRoundInstanceToRoundGrid(string roundGroup, string round, int dragcellIdx = 3)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(dragcellIdx, new Dictionary<int, object>()
@@ -118,9 +176,9 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
-        public TaskAllocationPage ClickUnallocatedRow()
+        public TaskAllocationPage ClickUnallocatedRow(int rowIdx = 0)
         {
-            UnallocatedTableEle.ClickCell(0, 0);
+            UnallocatedTableEle.ClickCell(rowIdx, 0);
             return this;
         }
 
@@ -165,6 +223,35 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Actions actions = new Actions(this.driver);
             actions.MoveToElement(e).Perform();
             return this;
+        }
+
+        public List<string> GetRoundLegInstanceIds(List<string> descriptions)
+        {
+            List<string> RLIIds = new List<string>();
+            foreach (var description in descriptions)
+            {
+                int count = 0;
+                while (true)
+                {
+                    count++;
+                    if (count > maxRetryCount) break;
+                    IWebElement cell = UnallocatedTableEle.GetCellByCellValues(3, new Dictionary<int, object>() { { 1, description } });
+                    if (cell == null)
+                    {
+                        IWebElement row = UnallocatedTableEle.GetRows().LastOrDefault();
+                        Actions actions = new Actions(this.driver);
+                        actions.MoveToElement(row).Perform();
+                        SleepTimeInMiliseconds(300);
+                    }
+                    else
+                    {
+                        RLIIds.Add(cell.Text.Trim());
+                        break;
+                    }
+                }
+                Assert.IsTrue(count < maxRetryCount);
+            }
+            return RLIIds;
         }
 
         public List<RoundInstanceModel> ExpandRoundInstance(int rowCount)

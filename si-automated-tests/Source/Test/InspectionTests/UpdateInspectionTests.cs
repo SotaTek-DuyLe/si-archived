@@ -38,7 +38,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
@@ -160,7 +160,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
@@ -257,7 +257,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
@@ -343,7 +343,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
@@ -449,7 +449,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
@@ -562,7 +562,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
@@ -669,7 +669,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()

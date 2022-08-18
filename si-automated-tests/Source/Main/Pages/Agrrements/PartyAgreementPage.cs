@@ -256,7 +256,6 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         }
         public PartyAgreementPage ConfirmApproveBtn()
         {
-            WaitUtil.WaitForElementClickable(confirmApproveBtn);
             ClickOnElement(confirmApproveBtn);
             WaitForLoadingIconToDisappear();
             return this;

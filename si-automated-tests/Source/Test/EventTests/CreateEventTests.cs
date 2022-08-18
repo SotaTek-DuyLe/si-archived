@@ -1091,8 +1091,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .Login(AutoUser12.UserName, AutoUser12.Password)
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Events")
-                .OpenOption("North Star")
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EventsListingPage>()
@@ -1268,8 +1268,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .Login(AutoUser12.UserName, AutoUser12.Password)
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Events")
-                .OpenOption("North Star")
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EventsListingPage>()

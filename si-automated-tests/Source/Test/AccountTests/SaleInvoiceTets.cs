@@ -26,8 +26,8 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .Login(AutoUser24.UserName, AutoUser24.Password)
                 .IsOnHomePage(AutoUser24);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Accounts")
-                .ExpandOption("North Star Commercial");
+                .ClickMainOption(MainOption.Accounts)
+                .ExpandOption(Contract.RMC);
         }
 
         [Category("Account")]

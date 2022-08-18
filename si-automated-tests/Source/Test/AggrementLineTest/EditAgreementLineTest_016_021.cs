@@ -48,8 +48,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser33.UserName, AutoUser33.Password)
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -154,7 +154,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             //Back to Site Service and verify
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
@@ -195,9 +195,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser33.UserName, AutoUser33.Password)
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -346,10 +346,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             //Go to Services and verify 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Collections")
                 .ExpandOption("Commercial Collections")
                 .OpenOption("Active Service Tasks")
@@ -555,8 +555,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser33.UserName, AutoUser33.Password)
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -710,7 +710,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
@@ -730,10 +730,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
-               .ClickMainOption("Services")
+               .ClickMainOption(MainOption.Services)
                .ExpandOption("Regions")
-               .ExpandOption("London")
-               .ExpandOption("North Star Commercial")
+               .ExpandOption(Region.UK)
+               .ExpandOption(Contract.RMC)
                .ExpandOption("Collections")
                .ExpandOption("Commercial Collections")
                .OpenOption("Active Service Tasks")
@@ -811,8 +811,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser33.UserName, AutoUser33.Password)
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -898,7 +898,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToFirstWindow();
             //Go to site service and verify
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
@@ -930,8 +930,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser33.UserName, AutoUser33.Password)
                 .IsOnHomePage(AutoUser33);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -1039,10 +1039,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
-               .ClickMainOption("Services")
+               .ClickMainOption(MainOption.Services)
                .ExpandOption("Regions")
-               .ExpandOption("London")
-               .ExpandOption("North Star Commercial")
+               .ExpandOption(Region.UK)
+               .ExpandOption(Contract.RMC)
                .ExpandOption("Collections")
                .ExpandOption("Commercial Collections")
                .OpenOption("Active Service Tasks")
@@ -1123,8 +1123,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //    .Login(AutoUser33.UserName, AutoUser33.Password)
             //    .IsOnHomePage(AutoUser33);
             //PageFactoryManager.Get<NavigationBase>()
-            //    .ClickMainOption("Parties")
-            //    .ExpandOption("North Star Commercial")
+            //    .ClickMainOption(MainOption.Parties)
+            //    .ExpandOption(Contract.NSC)
             //    .OpenOption("Agreements")
             //    .SwitchNewIFrame();
             //PageFactoryManager.Get<CommonBrowsePage>()
@@ -1184,10 +1184,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //PageFactoryManager.Get<NavigationBase>()
             //    .WaitForLoadingIconToDisappear();
             //PageFactoryManager.Get<NavigationBase>()
-            //   .ClickMainOption("Services")
+            //   .ClickMainOption(MainOption.Services)
             //   .ExpandOption("Regions")
-            //   .ExpandOption("London")
-            //   .ExpandOption("North Star Commercial")
+            //   .ExpandOption(Region.UK)
+            //   .ExpandOption(Contract.NSC)
             //   .ExpandOption("Collections")
             //   .ExpandOption("Commercial Collections")
             //   .OpenOption("Active Service Tasks")
@@ -1342,9 +1342,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             int partyId = 73;
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -1412,10 +1412,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser33);
             //Go to Services and verify 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Collections")
                 .ExpandOption("Commercial Collections")
                 .OpenOption("Active Service Tasks")
@@ -1457,9 +1457,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             int partyId = 73;
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -1542,9 +1542,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             int partyId = 73;
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .WaitForLoadingIconToDisappear();

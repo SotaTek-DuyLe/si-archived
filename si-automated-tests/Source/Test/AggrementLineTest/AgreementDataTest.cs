@@ -37,8 +37,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser31.UserName, AutoUser31.Password)
                 .IsOnHomePage(AutoUser31);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             //Go to agreement
@@ -95,8 +95,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser31.UserName, AutoUser31.Password)
                 .IsOnHomePage(AutoUser31);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             //Go to agreement

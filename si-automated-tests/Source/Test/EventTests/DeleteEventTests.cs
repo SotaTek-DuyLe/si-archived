@@ -36,8 +36,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .Login(AutoUser7.UserName, AutoUser7.Password)
                 .IsOnHomePage(AutoUser7);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Events")
-                .OpenOption("North Star")
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             EventsListingPage eventListingPage = PageFactoryManager.Get<EventsListingPage>();

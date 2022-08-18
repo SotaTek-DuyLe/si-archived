@@ -31,10 +31,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .OpenOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .OpenOption(Contract.RMC)
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
             objectNoticeTab.WaitForLoadingIconToDisappear(false);
@@ -112,9 +112,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .OpenOption("London")
+                .OpenOption(Region.UK)
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
             objectNoticeTab.WaitForLoadingIconToDisappear(false);
@@ -193,10 +193,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Ancillary")
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
@@ -276,10 +276,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Ancillary")
                 .OpenOption("Skips")
                 .SwitchNewIFrame();
@@ -360,10 +360,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
                 .ExpandOption("Round Groups")
@@ -446,10 +446,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
                 .ExpandOption("Round Groups")
@@ -533,10 +533,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
                 .ExpandOption("Round Groups")

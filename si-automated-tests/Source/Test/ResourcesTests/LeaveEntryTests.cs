@@ -28,12 +28,12 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .Login(AutoUser21.UserName, AutoUser21.Password)
                 .IsOnHomePage(AutoUser21);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .OpenOption("Default Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract("North Star Commercial")
-                .SelectBusinessUnit("North Star Commercial")
+                .SelectContract(Contract.RMC)
+                .SelectBusinessUnit(Contract.RMC)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -69,8 +69,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -150,8 +150,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -227,8 +227,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -304,8 +304,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -415,8 +415,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //CREATE LEAVE ENTRY
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -473,12 +473,12 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
 
             //PageFactoryManager.Get<NavigationBase>()
-            //   .ClickMainOption("Resources")
+            //   .ClickMainOption(MainOption.Resources)
             //   .OpenOption("Default Allocation")
             //   .SwitchNewIFrame();
             //PageFactoryManager.Get<ResourceAllocationPage>()
-            //    .SelectContract("North Star Commercial")
-            //    .SelectBusinessUnit("North Star Commercial")
+            //    .SelectContract(Contract.NSC)
+            //    .SelectBusinessUnit(Contract.NSC)
             //    .SelectShift("AM")
             //    .ClickGo()
             //    .WaitForLoadingIconToDisappear()

@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models.Services;
@@ -18,7 +17,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
     {
         [Category("Recycling")]
         [Test(Description = "Restrict Edit Feature on new style forms on Service Unit tab")]
-        public void TC_128_1_Restrict_Edsit_Feature_on_new_style_forms_on_Service_Unit()
+        public void TC_128_1_Restrict_Edit_Feature_on_new_style_forms_on_Service_Unit()
         {
             string valueStreet = "COURT CLOSE AVENUE,TW2,TWICKENHAM";
             string serviceUnitId = "223695";
@@ -30,10 +29,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser39.UserName, AutoUser39.Password)
                 .IsOnHomePage(AutoUser39);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("UK")
-                .ExpandOption("North Star")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RM)
                 .ExpandOption("Recycling")
                 .OpenOption("Communal Recycling");
             ServiceRecyclingPage sectorRecycling = PageFactoryManager.Get<ServiceRecyclingPage>();
@@ -41,7 +40,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
 
             //Verify that user is unable to update sections of the forms when the restrict edit is set in the service
-            sectorRecycling.SelectRandomPointType()
+            sectorRecycling
                 .ClickOnElement(sectorRecycling.RestrictEditCheckbox);
             sectorRecycling
                 .ClickSaveBtn()
@@ -51,10 +50,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
 
             //Service unit
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("UK")
-                .ExpandOption("North Star")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RM)
                 .ExpandOption("Recycling")
                 .ExpandOption("Communal Recycling")
                 .OpenOption("Service Units");
@@ -72,14 +71,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             //Step 2: Start and end date is read only. User is not able to reture the service unit form
             serviceUnitDetail.VerifyInputIsReadOnly(serviceUnitDetail.StartDateInput)
                 .VerifyInputIsReadOnly(serviceUnitDetail.EndDateInput);
-            serviceUnitDetail.VerifyRetireBtnHidden();
+            serviceUnitDetail.VerifyElementVisibility(serviceUnitDetail.retireBtn, false);
 
-            //Step 3: Details: Update description, client reference, point segment, street, colour, service level->Save
-            string valueServiceUnitInput = "service unit" + serviceUnitDetail.RandomString(3);
-            serviceUnitDetail.SendKeys(serviceUnitDetail.ServiceUnitInput, valueServiceUnitInput);
-            //Client ref
-            string valueClientReferenceInput = "client reference" + serviceUnitDetail.RandomString(3);
-            serviceUnitDetail.SendKeys(serviceUnitDetail.ClientReferenceInput, valueClientReferenceInput);
             //Update point segment => Verify [Street] update automatically
             serviceUnitDetail
                 .ClickSearchPointSegmentBtn()
@@ -99,7 +92,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitDetail
                 .VerifyValueInPointSegmentDetailTab(valuePointSegment)
                 .VerifyValueInStreetDetailTab(valueStreet);
-            //Color + Lock In
+            //Color + Client Ref
+            //Step 3: Details: Update description, client reference, point segment, street, colour, service level->Save
+            string valueServiceUnitInput = "service unit" + serviceUnitDetail.RandomString(3);
+            serviceUnitDetail.SendKeys(serviceUnitDetail.ServiceUnitInput, valueServiceUnitInput);
+            //Client ref
+            string valueClientReferenceInput = "client reference" + serviceUnitDetail.RandomString(3);
+            serviceUnitDetail.SendKeys(serviceUnitDetail.ClientReferenceInput, valueClientReferenceInput);
             serviceUnitDetail.SendKeys(serviceUnitDetail.ColorInput, "#752f75");
             serviceUnitDetail
                 .SelectRandomServiceLevel()
@@ -109,11 +108,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
 
             serviceUnitDetail
-                .VerifyInputValue(serviceUnitDetail.ServiceUnitInput, valueServiceUnitInput)
-                .VerifyInputValue(serviceUnitDetail.ClientReferenceInput, valueClientReferenceInput)
-                .VerifyInputValue(serviceUnitDetail.ColorInput, "#752f75");
+                .VerifyValueInServiceUnitAfterUpdating(valueServiceUnitInput);
+            serviceUnitDetail
+                .VerifyValueInClientRefAfterUpdating(valueClientReferenceInput);
+            serviceUnitDetail
+                .VerifyValueInColorAfterUpdating("#752f75");
 
-            //step 4: Data tab: Update all data->Save
+            //step 4: Data tab: Update all data->Save => Bug: Cannot click on [Save] button
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.DataTab);
             string noteInputValue = serviceUnitDetail.RandomString(5);
             serviceUnitDetail.SendKeys(serviceUnitDetail.NoteInput, noteInputValue);
@@ -308,10 +309,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser39.UserName, AutoUser39.Password)
                 .IsOnHomePage(AutoUser39);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RM)
                 .ExpandOption("Recycling")
                 .ExpandOption("Communal Recycling")
                 .OpenOption("Active Service Tasks")
