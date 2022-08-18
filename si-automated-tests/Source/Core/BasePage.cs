@@ -65,6 +65,14 @@ namespace si_automated_tests.Source.Core
             return driver.FindElements(by).ToList();
         }
 
+        public void InputCalendarDate(By by, string value)
+        {
+            SendKeysWithoutClear(by, Keys.Control + "a");
+            SendKeysWithoutClear(by, Keys.Delete);
+            SendKeysWithoutClear(by, value);
+            SendKeysWithoutClear(by, Keys.Enter);
+        }
+
         //SEND KEYS
         public void SendKeys(IWebElement element, string value)
         {
