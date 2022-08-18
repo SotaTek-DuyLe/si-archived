@@ -1624,19 +1624,19 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<ServicesTaskPage>()
-            //    .ClickOnTaskLineTab();
-            //PageFactoryManager.Get<ServiceTaskLineTab>()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<ServiceTaskLineTab>()
-            //    .verifyTaskInfo(assetType, assetQty1.ToString(), product, unit, futureDate, defautEndDate);
-            //PageFactoryManager.Get<ServicesTaskPage>()
-            //    .ClickOnScheduleTask();
-            //PageFactoryManager.Get<ServiceScheduleTab>()
-            //    .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .verifyTaskInfo(assetType, assetQty1.ToString(), product, unit, futureDate, defautEndDate);
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnScheduleTask();
             PageFactoryManager.Get<ServiceScheduleTab>()
-                //.verifyScheduleStartDate(futureDate)
-                //.verifyScheduleEndDate(defautEndDate)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .verifyScheduleStartDate(futureDate)
+                .verifyScheduleEndDate(defautEndDate)
                 .CloseCurrentWindow()
                 .SwitchToFirstWindow();
 
