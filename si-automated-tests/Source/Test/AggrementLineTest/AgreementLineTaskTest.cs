@@ -34,8 +34,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser12.UserName, AutoUser12.Password)
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             //Verify that user can delete a task from an Agreement
@@ -83,7 +83,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             //Verify that user can delete a task from an Agreement Line
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
+                .ClickMainOption(MainOption.Parties)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
@@ -143,8 +143,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser12.UserName, AutoUser12.Password)
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             //Filter Agreement
@@ -223,8 +223,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             //Go to Task Page and Verify
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Tasks")
-                .OpenOption("North Star Commercial")
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.RMC)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -270,8 +270,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser12.UserName, AutoUser12.Password)
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             //Filter Agreement
@@ -350,8 +350,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             //Go to Task Page and Verify
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Tasks")
-                .OpenOption("North Star Commercial")
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.RMC)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();

@@ -9,11 +9,11 @@ namespace si_automated_tests.Source.Main.Pages.Services
 {
     public class AnnouncementDetailPage : BasePage
     {
-        private readonly By announcementTypeSelect = By.Id("announcement-type");
-        private readonly By announcemenTextInput = By.Id("announcement");
-        private readonly By impactSelect = By.Id("impact-code");
-        private readonly By validFromInput = By.Id("validFrom");
-        private readonly By valiToInput = By.Id("validTo");
+        public readonly By announcementTypeSelect = By.Id("announcement-type");
+        public readonly By announcemenTextInput = By.Id("announcement");
+        public readonly By impactSelect = By.Id("impact-code");
+        public readonly By validFromInput = By.Id("validFrom");
+        public readonly By valiToInput = By.Id("validTo");
 
         public AnnouncementDetailPage IsOnDetailPage()
         {

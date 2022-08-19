@@ -25,6 +25,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
         private readonly By input = By.XPath("//div[@id='po-number-requirement-editor-modal']//input[@id='poNumber']");
         private readonly By doneBtn = By.XPath("//div[@id='po-number-requirement-editor-modal']//button[text()='Done']");
 
+        public CreateAdHocTaskPage VerifyAdHocTaskIsCreated()
+        {
+            string url = driver.Url;
+            string id = url.Split('/').LastOrDefault();
+            Assert.IsTrue(id.AsInteger() > 0);
+            return this;
+        }
+
         public CreateAdHocTaskPage VerifyTitle(string expectedTitle)
         {
             Assert.IsTrue(GetElementText(title) == expectedTitle);

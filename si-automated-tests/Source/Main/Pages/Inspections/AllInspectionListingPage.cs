@@ -110,6 +110,7 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
         {
             WaitForLoadingIconToDisappear();
             SendKeys(filterInputById, id);
+            WaitForLoadingIconToDisappear();
             return this;
         }
 

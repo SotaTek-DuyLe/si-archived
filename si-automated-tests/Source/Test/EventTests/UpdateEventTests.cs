@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Test.EventTests
     public class UpdateEventTests : BaseTest
     {
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Event actions, event updates")]
         public void TC_112_Event_actions_event_updates()
         {
@@ -31,8 +32,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .Login(AutoUser60.UserName, AutoUser60.Password)
                 .IsOnHomePage(AutoUser60);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Events")
-                .OpenOption("North Star")
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EventsListingPage>()
@@ -146,7 +147,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
                 .InputNameInDataTab(newEventName)
-                //Line 18: Click [Accept] btn => Bug: Just one message displayed
+                //Line 18: Click [Accept] btn 
                 .ClickAcceptInEventActionsPanel()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.ActionSuccessMessage)
                 .WaitForLoadingIconToDisappear();
@@ -159,8 +160,7 @@ namespace si_automated_tests.Source.Test.EventTests
                .ClickHistoryTab()
                .WaitForLoadingIconToDisappear();
             eventDetailPage
-                .VerifyRecordInHistoryTabAfterUpdate(newEventName, AutoUser60.DisplayName)
-                .VerifyRecordInHistoryTabAfterAccept("Under Investigation.", AutoUser60.DisplayName);
+                .VerifyRecordInHistoryTabAfterAccept("Under Investigation.", AutoUser60.DisplayName, newEventName);
             //Click [Add Note] btn
             eventDetailPage
                 .ClickAddNoteInEventsActionsPanel()

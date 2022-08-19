@@ -122,7 +122,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
 
         public EditPartyContactPage GetAndVerifyNoteAfterAdding(string title, string body, string userLogin)
         {
-            Assert.AreEqual(title + CommonUtil.GetUtcTimeNow("dd/MM/yyyy hh:mm"), GetElementText(headingNote));
+            Assert.IsTrue((title + CommonUtil.GetUtcTimeNow("dd/MM/yyyy hh:mm")).Contains(GetElementText(headingNote))
+                || (title + CommonUtil.GetLocalTimeNow("dd/MM/yyyy hh:mm")).Contains(GetElementText(headingNote)));
             List<IWebElement> allContent = GetAllElements(bodyNote);
             Assert.AreEqual("User " + userLogin + " wrote", GetElementText(allContent[0]));
             Assert.AreEqual(body, GetElementText(allContent[1]));

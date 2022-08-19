@@ -29,10 +29,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser29.UserName, AutoUser29.Password)
                 .IsOnHomePage(AutoUser29);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial");
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC);
         }
         [Category("Create Contract And Unit Site")]
         [Category("Dee")]

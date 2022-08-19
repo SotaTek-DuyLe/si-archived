@@ -19,6 +19,7 @@ namespace si_automated_tests.Source.Test.ContactTests
     public class CreateContactTests : BaseTest
     {
         [Category("CreateContact")]
+        [Category("Chang")]
         [Test]
         public void TC_037_01_02_03_04_05_06_07_verify_user_can_create_a_new_contact_and_set_newly_create_contact_related_on_a_party()
         {
@@ -29,9 +30,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser8.UserName, AutoUser8.Password)
                 .IsOnHomePage(AutoUser8);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
@@ -155,6 +156,7 @@ namespace si_automated_tests.Source.Test.ContactTests
         }
 
         [Category("CreateContact")]
+        [Category("Chang")]
         [Test]
         public void TC_037_08_verify_user_can_create_new_contact_using_add_button_on_party_form()
         {
@@ -165,9 +167,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser8.UserName, AutoUser8.Password)
                 .IsOnHomePage(AutoUser8);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
@@ -206,6 +208,7 @@ namespace si_automated_tests.Source.Test.ContactTests
         }
 
         [Category("CreateContact")]
+        [Category("Chang")]
         [Test]
         public void TC_037_09_verify_user_can_create_new_contact_using_add_button_on_Agreement_form()
         {
@@ -216,9 +219,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser8.UserName, AutoUser8.Password)
                 .IsOnHomePage(AutoUser8);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
@@ -272,6 +275,7 @@ namespace si_automated_tests.Source.Test.ContactTests
         }
 
         [Category("CreateContact")]
+        [Category("Chang")]
         [Test]
         public void TC_037_10_verify_user_can_create_new_contact_using_add_button_on_Site_form()
         {
@@ -282,9 +286,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser8.UserName, AutoUser8.Password)
                 .IsOnHomePage(AutoUser8);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage

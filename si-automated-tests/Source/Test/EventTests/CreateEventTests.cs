@@ -25,15 +25,15 @@ namespace si_automated_tests.Source.Test.EventTests
     [TestFixture]
     public class CreateEventTests : BaseTest
     {
-        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from point address with service unit")]
         public void TC_094_Create_event_from_point_address_with_service_unit()
         {
             CommonFinder finder = new CommonFinder(DbContext);
             string searchForAddresses = "Addresses";
             string eventOption = "Standard - Complaint";
-            string pointAddressId = "483995";
+            string pointAddressId = "363256";
             string eventType = "Complaint";
             List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
             List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
@@ -42,7 +42,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Check SP
             SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Connection);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add("@PointID", SqlDbType.Int).Value = 483995;
+            command.Parameters.Add("@PointID", SqlDbType.Int).Value = 363256;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
             command.Parameters.Add("@UserID", SqlDbType.Int).Value = 54;
 
@@ -103,7 +103,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetAllServiceWithoutServiceUnitModel(allServices);
             //Verify data in [Active Service] tab with SP
             pointAddressDetailPage
-                .VerifyDataInActiveServicesTab483995(allAServicesWithServiceUnit, serviceForPoint)
+                .VerifyDataInActiveServicesTab363256(allAServicesWithServiceUnit, serviceForPoint)
                 .VerifyDataInActiveServicesTab(GetAllServiceWithoutServiceUnitModel, serviceForPoint);
             List<CommonServiceForPointDBModel> FilterCommonServiceForPointWithServiceId = pointAddressDetailPage
                 .FilterCommonServiceForPointWithServiceId(commonService, serviceForPoint[0].serviceID);
@@ -214,6 +214,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from point address without service unit")]
         public void TC_094_Create_event_from_point_address_without_service_unit()
         {
@@ -358,6 +359,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from point segment with service unit")]
         public void TC_096_Create_event_from_point_segment_with_service_unit()
         {
@@ -531,6 +533,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from point segment without service unit")]
         public void TC_096_Create_event_from_point_segment_without_service_unit()
         {
@@ -686,6 +689,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from point node with service unit")]
         public void TC_097_Create_event_from_point_node_with_service_unit()
         {
@@ -855,6 +859,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from point area with service unit")]
         public void TC_098_Create_event_from_point_area_with_service_unit()
         {
@@ -1025,6 +1030,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from event with service unit")]
         public void TC_105_Create_event_from_event_with_service_unit()
         {
@@ -1084,8 +1090,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .Login(AutoUser12.UserName, AutoUser12.Password)
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Events")
-                .OpenOption("North Star")
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EventsListingPage>()
@@ -1202,6 +1208,7 @@ namespace si_automated_tests.Source.Test.EventTests
 
         //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Creating event from event without service unit")]
         public void TC_105_Create_event_from_event_without_service_unit()
         {
@@ -1260,8 +1267,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .Login(AutoUser12.UserName, AutoUser12.Password)
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Events")
-                .OpenOption("North Star")
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EventsListingPage>()

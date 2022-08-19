@@ -10,7 +10,7 @@ using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 
 namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 {
-    public class DetailTab : BasePage
+    public class DetailTab : BasePageCommonActions
     {
         private readonly By subExpandBtns = By.XPath("//div[contains(@class,'panel-heading clickable')]");
 
@@ -126,6 +126,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         private readonly By regularAssertTypeStartDate = By.XPath("//span[text()='Regular']/ancestor::div[1]/following-sibling::div//span[contains(@data-bind,'displayStartDate')]");
         private readonly By serviceTaskLineTypeStartDates = By.XPath("//th[text()='Task Line Type']/ancestor::thead[1]/following-sibling::tbody//span[@title='Start Date']");
 
+        public readonly By InvoiceAddressSelect = By.XPath("//div[@id='details-tab']//select[@id='invoice-address']");
+        public readonly By BillingRuleSelect = By.XPath("//div[@id='details-tab']//select[@id='billing-rule']");
 
         //AssetAndProduct
         public DetailTab ClickAssetAndProductAndVerify(string expectValue)

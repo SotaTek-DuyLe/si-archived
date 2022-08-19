@@ -237,13 +237,26 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
-        public DetailTaskPage VerifyFieldAfterBulkUpdate(string noteValue, string endDateValue, string taskStateValue, string completionDateValue, string resolutionCodeValue)
+        public DetailTaskPage VerifyFieldAfterBulkUpdate(string topNoteValue, string commonNoteValue, string endDateValue, string taskStateValue, string completionDateValue, string resolutionCodeValue)
         {
-            Assert.AreEqual(GetAttributeValue(taskNotesInput, "value"), noteValue);
-            Assert.AreEqual(GetAttributeValue(endDateInput, "value"), endDateValue);
-            Assert.AreEqual(GetFirstSelectedItemInDropdown(taskStateDd), taskStateValue);
-            Assert.AreEqual(GetAttributeValue(completionDateInput, "value"), completionDateValue);
-            Assert.AreEqual(GetFirstSelectedItemInDropdown(resolutionCode), resolutionCodeValue);
+            string firstNote = GetAttributeValue(taskNotesInput, "value").Split(Environment.NewLine)[0];
+            string commonNote = GetAttributeValue(taskNotesInput, "value").Split(Environment.NewLine)[1];
+            Assert.AreEqual(topNoteValue, firstNote);
+            Assert.AreEqual(commonNoteValue, commonNote);
+            Assert.AreEqual(endDateValue, GetAttributeValue(endDateInput, "value"));
+            Assert.AreEqual(taskStateValue, GetFirstSelectedItemInDropdown(taskStateDd));
+            Assert.AreEqual(completionDateValue, GetAttributeValue(completionDateInput, "value"));
+            Assert.AreEqual(resolutionCodeValue, GetFirstSelectedItemInDropdown(resolutionCode));
+            return this;
+        }
+
+        public DetailTaskPage VerifyFieldAfterBulkUpdate(string topNoteValue, string endDateValue, string taskStateValue, string completionDateValue, string resolutionCodeValue)
+        {
+            Assert.AreEqual(topNoteValue, GetAttributeValue(taskNotesInput, "value"));
+            Assert.AreEqual(endDateValue, GetAttributeValue(endDateInput, "value"));
+            Assert.AreEqual(taskStateValue, GetFirstSelectedItemInDropdown(taskStateDd));
+            Assert.AreEqual(completionDateValue, GetAttributeValue(completionDateInput, "value"));
+            Assert.AreEqual(resolutionCodeValue, GetFirstSelectedItemInDropdown(resolutionCode));
             return this;
         }
 
@@ -258,10 +271,10 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         private readonly By contentFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')]/following-sibling::div)[1]");
         private readonly By contentSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')]/following-sibling::div)[2]");
-        private readonly By updateTitle = By.XPath("//strong[text()='Update']");
-        private readonly By userUpdate = By.XPath("//strong[text()='Update']/parent::div/following-sibling::div/strong[1]");
-        private readonly By timeUpdate = By.XPath("//strong[text()='Update']/parent::div/following-sibling::div/strong[2]");
-        private readonly By contentUpdate = By.XPath("//strong[text()='Update']/following-sibling::div");
+        private readonly By updateTitle = By.XPath("(//strong[text()='Update'])[1]");
+        private readonly By userUpdate = By.XPath("(//strong[text()='Update']/parent::div/following-sibling::div/strong[1])[1]");
+        private readonly By timeUpdate = By.XPath("(//strong[text()='Update']/parent::div/following-sibling::div/strong[2])[1]");
+        private readonly By contentUpdate = By.XPath("(//strong[text()='Update']/following-sibling::div)[1]");
 
         public DetailTaskPage ClickOnHistoryTab()
         {
@@ -272,7 +285,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         public DetailTaskPage VerifyTitleTaskLineFirstServiceUpdate()
         {
-            Assert.IsTrue(IsControlDisplayed(titleTaskLineFirstServiceUpdate));
+            Assert.IsTrue(IsControlDisplayed(titleTaskLineFirstServiceUpdate), "Title Task Line is not displayed");
             return this;
         }
 
@@ -290,11 +303,9 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         public DetailTaskPage VerifyHistoryTabFirstAfterBulkUpdating(string userUpdatedExp, string timeUpdatedExp, string[] fieldInServiceUpdate, string[] valueExpected)
         {
-            Assert.AreEqual(GetElementText(userFirstServiceUpdate), userUpdatedExp);
-            Console.WriteLine(timeUpdatedExp);
-            Console.WriteLine(timeFirstServiceUpdate);
+            Assert.AreEqual(userUpdatedExp, GetElementText(userFirstServiceUpdate));
             Assert.IsTrue(timeUpdatedExp.Contains(GetElementText(timeFirstServiceUpdate)));
-            string[] allInfoDisplayed = GetElementText(contentFirstServiceUpdate).Split("\n");
+            string[] allInfoDisplayed = GetElementText(contentFirstServiceUpdate).Split(Environment.NewLine);
             for(int i = 0; i < allInfoDisplayed.Length; i++)
             {
                 Assert.AreEqual(fieldInServiceUpdate[i] + ": " + valueExpected[i] + ".", allInfoDisplayed[i]);
@@ -306,7 +317,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             Assert.AreEqual(userUpdatedExp, GetElementText(userSecondServiceUpdate));
             Assert.AreEqual(timeUpdatedExp, GetElementText(timeSecondServiceUpdate));
-            string[] allInfoDisplayed = GetElementText(contentSecondServiceUpdate).Split("\n");
+            string[] allInfoDisplayed = GetElementText(contentSecondServiceUpdate).Split(Environment.NewLine);
             for (int i = 0; i < allInfoDisplayed.Length; i++)
             {
                 Assert.AreEqual(fieldInServiceUpdate[i] + ": " + valueExpected[i] + ".", allInfoDisplayed[i]);
@@ -318,7 +329,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             Assert.AreEqual(userUpdatedExp, GetElementText(userUpdate));
             Assert.AreEqual(timeUpdatedExp, GetElementText(timeUpdate));
-            string[] allInfoDisplayed = GetElementText(contentUpdate).Split("\n");
+            string[] allInfoDisplayed = GetElementText(contentUpdate).Split(Environment.NewLine);
             for (int i = 0; i < allInfoDisplayed.Length; i++)
             {
                 Assert.AreEqual(fieldInServiceUpdate[i] + ": " + valueExpected[i] + ".", allInfoDisplayed[i]);
@@ -405,6 +416,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         //TASK LINE TAB
         private readonly By taskLineTab = By.CssSelector("a[aria-controls='taskLines-tab']");
+        private readonly By numberOfTaskLine = By.XPath("//tbody//tr[contains(@data-bind,'with: $data.getFields()')]");
         private readonly By firstStateTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='itemState.id']");
         private readonly By firstProductTaskLine = By.XPath("//tbody/tr[1]//echo-select[contains(@params, 'name: product')]/select");
         private readonly By firstResolutionCodeTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='resCode.id']");
@@ -440,6 +452,12 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual("true", GetAttributeValue(secondProductTaskLine, "disabled"));
             Assert.AreEqual("true", GetAttributeValue(secondStateTaskLine, "disabled"));
             Assert.AreEqual("true", GetAttributeValue(secondResolutionCodeTaskLine, "disabled"));
+            return this;
+        }
+
+        public DetailTaskPage VerifyDisplayNoRecordDisplayed()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(numberOfTaskLine));
             return this;
         }
 

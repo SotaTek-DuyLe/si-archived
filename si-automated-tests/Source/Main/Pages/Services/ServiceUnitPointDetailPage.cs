@@ -1,14 +1,19 @@
-﻿using System;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
-    public class ServiceUnitPointDetailPage : BasePage
+    public class ServiceUnitPointDetailPage : BasePageCommonActions
     {
+        public readonly By RetireButton = By.XPath("//button[@title='Retire']");
+        public readonly By LastUpdatedInput = By.XPath("//input[@id='lastUpdated']");
         private readonly By title = By.XPath("//span[text()='Service Unit Point']");
         private readonly By serviceUnitPointName = By.XPath("//h5[@data-bind='text: pointAddress']");
         private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");

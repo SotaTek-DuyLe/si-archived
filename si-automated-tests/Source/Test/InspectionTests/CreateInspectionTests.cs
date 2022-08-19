@@ -31,6 +31,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         private string assignedUserValue = "josie";
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from task")]
         public void TC_079_Create_inspection_from_task()
         {
@@ -57,8 +58,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
             //Get data in DB to verify
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Tasks")
-                .OpenOption("North Star")
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TasksListingPage>()
@@ -188,17 +189,18 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
                 .FilterInspectionById(inspectionId_2.ToString())
                 .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(allInspectionModels[0], inspectionModels[0], location, "North Star", location, serviceName);
+                .VerifyTheFirstInspection(allInspectionModels[0], inspectionModels[0], location, Contract.RM, location, serviceName);
         }
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from event")]
         public void TC_080_Create_inspection_from_event()
         {
@@ -219,8 +221,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .Login(AutoUser14.UserName, AutoUser14.Password)
                 .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Events")
-                .OpenOption("North Star")
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EventsListingPage>()
@@ -342,16 +344,17 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
                 .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(pointHistoryModels[0], inspectionModels[0], locationValueWithoutIcon, "North Star", locationValueWithoutIcon, "Clinical Waste", AutoUser14.UserName, assignedUserValue, allocatedUnitValue);
+                .VerifyTheFirstInspection(pointHistoryModels[0], inspectionModels[0], locationValueWithoutIcon, Contract.RM, locationValueWithoutIcon, "Clinical Waste", AutoUser14.UserName, assignedUserValue, allocatedUnitValue);
         }
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from service unit")]
         public void TC_081_Create_inspection_from_service_unit()
         {
@@ -368,8 +371,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .Login(AutoUser14.UserName, AutoUser14.Password)
                 .IsOnHomePage(AutoUser14);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Events")
-                .OpenOption("North Star")
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EventsListingPage>()
@@ -455,7 +458,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchToDefaultContent();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
@@ -463,7 +466,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .getAllInspectionInList(1);
 
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "Bulky Collections", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "Bulky Collections", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 
@@ -474,6 +477,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from point address")]
         public void TC_083_Create_inspection_from_point_address()
         {
@@ -569,13 +573,13 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchToDefaultContent();
             //Verify in [All Inspections]
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
                 .getAllInspectionInList(2);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 
@@ -613,6 +617,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from point segment")]
         public void TC_086_Create_inspection_from_point_segment()
         {
@@ -714,13 +719,13 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchToDefaultContent();
             //Verify in [All Inspections]
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
                 .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 
@@ -758,6 +763,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from point area")]
         public void TC_087_Create_inspection_from_point_area()
         {
@@ -854,13 +860,13 @@ namespace si_automated_tests.Source.Test.InspectionTests
 
             //Verify in [All Inspections]
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
                 .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 
@@ -899,6 +905,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Creating inspection from point node")]
         public void TC_088_Create_inspection_from_point_node()
         {
@@ -991,13 +998,13 @@ namespace si_automated_tests.Source.Test.InspectionTests
 
             //Verify in [All Inspections]
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
                 .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, "North Star", locationValue, "", AutoUser45.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "", AutoUser45.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 

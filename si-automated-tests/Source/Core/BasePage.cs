@@ -65,6 +65,14 @@ namespace si_automated_tests.Source.Core
             return driver.FindElements(by).ToList();
         }
 
+        public void InputCalendarDate(By by, string value)
+        {
+            SendKeysWithoutClear(by, Keys.Control + "a");
+            SendKeysWithoutClear(by, Keys.Delete);
+            SendKeysWithoutClear(by, value);
+            SendKeysWithoutClear(by, Keys.Enter);
+        }
+
         //SEND KEYS
         public void SendKeys(IWebElement element, string value)
         {
@@ -93,8 +101,13 @@ namespace si_automated_tests.Source.Core
         public void ClearInputValue(By by)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(by);
-            element.SendKeys(Keys.Control + "a");
-            element.SendKeys(Keys.Delete);
+            element.Clear();
+        }
+
+        public void ClearInputValue(string locator)
+        {
+            IWebElement element = WaitUtil.WaitForElementVisible(locator);
+            element.Clear();
         }
 
         public void EditSendKeys(By by, string value)
@@ -266,6 +279,11 @@ namespace si_automated_tests.Source.Core
             return this.driver.FindElement(by).Enabled;
         }
 
+        public bool IsControlEnabled(string locator)
+        {
+            return this.driver.FindElement(By.XPath(locator)).Enabled;
+        }
+
         //RETURN ELEMENT'S TEXT
         public string GetElementText(string xpath)
         {
@@ -305,6 +323,14 @@ namespace si_automated_tests.Source.Core
         public BasePage SwitchNewIFrame()
         {
             IWebElement iframe = WaitUtil.WaitForElementVisible(By.TagName("iframe"));
+            driver.SwitchTo().Frame(iframe);
+            Thread.Sleep(1000);
+            return this;
+        }
+
+        public BasePage SwitchNewIFrame(By by)
+        {
+            IWebElement iframe = WaitUtil.WaitForElementVisible(by);
             driver.SwitchTo().Frame(iframe);
             Thread.Sleep(1000);
             return this;
@@ -637,12 +663,14 @@ namespace si_automated_tests.Source.Core
             {
                 if (implicitSleep) Thread.Sleep(750);
                 WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
+                WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: loading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@id='loading-shield']");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'loadingDefinition')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'shield: loading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@class,'loading-polygon')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='ui-widget-overlay shield' and contains(@data-bind,'shield: $root.isLoading')]");
+                WaitUtil.WaitForAllElementsInvisible60("//div[@class='ui-widget-overlay shield' and contains(@data-bind,'shield: loading')]");
                 WaitUtil.WaitForPageLoaded();
             }
             catch (WebDriverTimeoutException)

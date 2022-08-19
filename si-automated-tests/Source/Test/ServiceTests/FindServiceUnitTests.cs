@@ -16,6 +16,7 @@ using si_automated_tests.Source.Main.Pages.Search.PointNodes;
 using si_automated_tests.Source.Main.Pages.Search.PointSegment;
 using si_automated_tests.Source.Main.Pages.Services;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+using ServiceUnitDetailPage = si_automated_tests.Source.Main.Pages.Events.ServiceUnitDetailPage;
 
 namespace si_automated_tests.Source.Test.ServiceTests
 {
@@ -25,6 +26,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
     public class FindServiceUnitTests : BaseTest
     {
         [Category("Find Service Unit")]
+        [Category("Chang")]
         [Test(Description = "Find Service unit from Point Address")]
         public void TC_127_Find_service_unit_from_point_address()
         {
@@ -218,6 +220,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Find Service Unit")]
+        [Category("Chang")]
         [Test(Description = "Find Service unit from Point Segment")]
         public void TC_127_Find_service_unit_from_point_segment()
         {
@@ -409,6 +412,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Find Service Unit")]
+        [Category("Chang")]
         [Test(Description = "Find Service unit from Point Area")]
         public void TC_127_Find_service_unit_from_point_area()
         {
@@ -489,6 +493,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .InputKeyInSearch(anyServiceUnitInDB)
                 .ClickFindBtn()
                 .WaitForLoadingIconToDisappear();
+            
             List<FindServiceUnitModel> listServiceUnit = findServiceUnitDetailPage
                 .GetAllServiceUnit();
             findServiceUnitDetailPage
@@ -603,6 +608,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Find Service Unit")]
+        [Category("Chang")]
         [Test(Description = "Find Service unit from Point Note")]
         public void TC_127_Find_service_unit_from_point_note()
         {

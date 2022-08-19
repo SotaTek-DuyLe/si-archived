@@ -18,6 +18,7 @@ namespace si_automated_tests.Source.Test.ContactTests
     public class EditContactTests : BaseTest
     {
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Verify user can edit contact for a party")]
         public void TC_038_01_verify_that_user_can_edit_contact_for_a_party()
         {
@@ -28,9 +29,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser57.UserName, AutoUser57.Password)
                 .IsOnHomePage(AutoUser57);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
@@ -78,6 +79,7 @@ namespace si_automated_tests.Source.Test.ContactTests
 
 
         [Category("CreateInspection")]
+        [Category("Chang")]
         [Test(Description = "Verify contact with start date more than current date will not display in primary contact and invoice contact")]
         public void TC_038_02_verify_contact_with_start_date_more_than_current_date_will_not_display_in_primary_contact_and_invoice_contact()
         {
@@ -88,9 +90,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser57.UserName, AutoUser57.Password)
                 .IsOnHomePage(AutoUser57);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
