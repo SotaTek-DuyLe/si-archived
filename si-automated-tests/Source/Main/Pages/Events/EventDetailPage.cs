@@ -117,6 +117,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By firstNameAfterAccept = By.XPath("//strong[text()='Accept - Event']/following-sibling::div//span[text()='Name']/following-sibling::span[1]");
         private readonly By createdByUserAfterAccept = By.XPath("//strong[text()='Accept - Event']/parent::div/following-sibling::div/strong[1]");
         private readonly By createdByUserAfterAddNote = By.XPath("//strong[text()='Add Note - Event']/parent::div/following-sibling::div/strong[1]");
+        private readonly By notesInAddNoteEvent = By.XPath("//strong[text()='Add Note - Event']//following-sibling::div/span[text()='Notes']/following-sibling::span[1]");
         private readonly By clientRefAfterUpdateInHistoryTab = By.XPath("//strong[text()='Update Event - Event']/following-sibling::div/span[text()='Client reference']/following-sibling::span[1]");
         private readonly By emailAddressAfterUpdateInHistoryTab = By.XPath("//strong[text()='Update Event - Event']/following-sibling::div/span[text()='Email Address']/following-sibling::span[1]");
 
@@ -479,6 +480,17 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
+        public EventDetailPage VerifyHistoryWithDB(EventDBModel eventDBModel, string displayUserLogin, int userId)
+        {
+            Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CreateEventEventTitle));
+            Assert.AreEqual(GetElementText(stateInHistoryTab), eventDBModel.basestatedesc + ".");
+            Assert.AreEqual(GetElementText(eventDateInHistoryTab), eventDBModel.eventdate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT) + ".");
+            Assert.AreEqual(GetElementText(dueDateInHistoryTab), eventDBModel.eventduedate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT) + ".");
+            Assert.AreEqual(GetElementText(createdByUserInHistoryTab), displayUserLogin);
+            Assert.AreEqual(userId, eventDBModel.eventcreatedbyuserID);
+            return this;
+        }
+
         public EventDetailPage VerifyHistoryData(string eventDate, string dueDate, string name, string notes, string state, string displayUserLogin)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CreateEventEventTitle));
@@ -541,6 +553,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.AddNoteEventTitle));
             Assert.AreEqual(user, GetElementText(createdByUserAfterAddNote));
+            return this;
+        }
+
+        public EventDetailPage VerifyNotesAfterAddNote(string notesValue)
+        {
+            Assert.AreEqual(notesValue, GetElementText(notesInAddNoteEvent) + ".");
             return this;
         }
 

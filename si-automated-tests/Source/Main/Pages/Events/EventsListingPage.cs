@@ -15,14 +15,38 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By clearBtn = By.XPath("//button[@title='Clear Filters']");
         private readonly By deleteEventItemBtn = By.XPath("//button[text()='Delete Item']");
         private readonly By eventRow = By.XPath("//div[@class='grid-canvas']");
+        private readonly By allRecordCheckbox = By.XPath("//div[@title='Select/Deselect All']//input");
+        private readonly By bulkUpdateBtn = By.XPath("//button[text()='Bulk Update']");
 
-        public EventsListingPage FilterByEventId(String eventId)
+        public EventsListingPage FilterByEventId(string eventId)
         {
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(addNewEventItem);
             SendKeys(filterInputById, eventId);
             ClickOnElement(applyBtn);
             return this;
+        }
+
+        public EventsListingPage FilterByMultipleEventId(string firstEventId, string secondEventId)
+        {
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(addNewEventItem);
+            SendKeys(filterInputById, (firstEventId + "," + secondEventId));
+            ClickOnElement(applyBtn);
+            return this;
+        }
+
+        public EventsListingPage ClickCheckboxMultipleEventInList()
+        {
+            ClickOnElement(allRecordCheckbox);
+            return this;
+        }
+
+        public EventBulkUpdatePage ClickOnBulkUpdateBtn()
+        {
+            WaitUtil.WaitForElementVisible(bulkUpdateBtn);
+            ClickOnElement(bulkUpdateBtn);
+            return PageFactoryManager.Get<EventBulkUpdatePage>();
         }
 
         public EventDetailPage ClickOnFirstRecord()
