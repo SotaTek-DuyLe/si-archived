@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -59,6 +60,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .EnterAllValueFields(contactModelEdit)
                 .ClickSaveBtn()
                 .VerifyToastMessage("Successfully saved Contact");
+            string completedDateDisplayed = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+            string timeNow = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+
             editPartyContactPage
                 .NavigateToNotesTab()
                 .IsNotesTab()
@@ -66,7 +70,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .WaitForLoadingIconToDisappear();
             editPartyContactPage
                 .VerifyTitleAndNoteAfter()
-                .GetAndVerifyNoteAfterAdding("Edit Contact: ", "New Edit", AutoUser57.UserName)
+                .GetAndVerifyNoteAfterAdding("Edit Contact: ", "New Edit", AutoUser57.UserName, completedDateDisplayed, timeNow)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             detailPartyPage
