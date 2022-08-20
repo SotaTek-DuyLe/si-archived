@@ -63,7 +63,12 @@ namespace si_automated_tests.Source.Test.EventTests
                 .SelectAnyAction(CommonConstants.ActionEventBulkUpdate[0])
                 .AddNotes(notesValue)
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            string updatedTime = CommonUtil.ParseDateTimeToFormat(londonCurrentDate, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+
+            eventBulkUpdatePage
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1)
@@ -88,11 +93,12 @@ namespace si_automated_tests.Source.Test.EventTests
             List<EventDBModel> secondEventModels = finder.GetEvent(int.Parse(secondEventId));
             //First event
             eventDetailPage
-                .VerifyHistoryWithDB(firstEventModels[0], "josie", 2)
+                .VerifyHistoryWithDB(firstEventModels[0], "josie", 2, updatedTime, 1099)
                 .VerifyRecordInHistoryTabAfterAddNote(AutoUser53.DisplayName)
                 .VerifyNotesAfterAddNote(notesValue)
                 .ClickCloseBtn()
-                .SwitchToChildWindow(1);
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
             eventListingPage
                 .ClickClearBtn()
                 .WaitForLoadingIconToDisappear();
@@ -107,7 +113,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickHistoryTab()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
-                .VerifyHistoryWithDB(secondEventModels[0], "A User", 2)
+                .VerifyHistoryWithDB(secondEventModels[0], "A User", 3, updatedTime, 1099)
                 .VerifyRecordInHistoryTabAfterAddNote(AutoUser53.DisplayName)
                 .VerifyNotesAfterAddNote(notesValue)
                 .ClickCloseBtn()
