@@ -32,7 +32,7 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
             }
             return this;
         }
-        public AccountTypeDetailPage clickOnSaveButton()
+        public AccountTypeDetailPage clickSaveButton()
         {
             ClickOnElement(saveButton);
             return this;

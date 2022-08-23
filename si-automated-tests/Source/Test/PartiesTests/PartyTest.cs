@@ -12,6 +12,7 @@ using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccountStatement;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyHistory;
+using si_automated_tests.Source.Main.Pages.UserAndRole;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test
@@ -525,8 +526,8 @@ namespace si_automated_tests.Source.Test
         public void TC_134_the_setting_of_accounting_referrence()
         {
             string charityAccountTypeSettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=AccountType&ObjectID=6";
-            string creditAccountTypeSettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=AccountType&ObjectID=5";
-            string accountSettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=AccountType&ObjectID=6";
+            string adminRolePriviledgeUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?VName=SysConfigView&VNodeID=316&CPath=T77R1297&ObjectID=1297&TypeName=EchoObjectView&RefTypeName=none&ReferenceName=none";
+            string userAuto30SettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?CPath=&ObjectID=1076&CTypeName=User&CReferenceName=none&CObjectID=0&TypeName=User&RefTypeName=none&ReferenceName=none&InEdit=true#";
             PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             string overrideValue = "Account reference value " + CommonUtil.GetRandomString(12);
             int partyId = 73;
@@ -541,22 +542,22 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<AccountTypeDetailPage>()
                 .inputOverrideValue(overrideValue)
                 .TickOverrideCheckbox()
-                .clickOnSaveButton()
+                .clickSaveButton()
                 .WaitForLoadingIconToDisappear()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //create new party 
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -628,7 +629,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<AccountTypeDetailPage>()
                 .inputOverrideValue("")
                 .TickOverrideCheckbox()
-                .clickOnSaveButton()
+                .clickSaveButton()
                 .WaitForLoadingIconToDisappear()
                 .GoToURL(partyUrl);
             PageFactoryManager.Get<DetailPartyPage>()
@@ -647,9 +648,67 @@ namespace si_automated_tests.Source.Test
                 .ClickOnHistoryTab()
                 .ClickRefreshBtn();
 
+            //go to url to deny update
             PageFactoryManager.Get<PartyHistoryPage>()
                 .VerifyNewestAccountingReference("");
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(adminRolePriviledgeUrl);
+            PageFactoryManager.Get<AdminRolePriviledgePage>()
+                .TurnOnDenyUpdate()
+                .ClickSaveButton();
+            //go to another url to change role of different user
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(userAuto30SettingUrl);
+            PageFactoryManager.Get<UserDetailPage>()
+                .IsOnUserDetailPage()
+                .ClickAdminRoles()
+                .UntickAdminRole("System Administrator")
+                .ChooseAdminRole("Search - Parties")
+                .ClickSave()
+                .SleepTimeInMiliseconds(2000);
+            //go to that user and parties id and verify can only read account ref for all ref type
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser6)
+                .ClickUserNameDd()
+                .ClickLogoutBtn();
+            PageFactoryManager.Get<LoginPage>()
+                .SendKeyToUsername(AutoUser30.UserName)
+                .SendKeyToPassword(AutoUser30.Password)
+                .ClickOnSignIn();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser30)
+                .GoToURL(partyUrl);
+            PageFactoryManager.Get<DetailPartyPage>()
+                .SwitchToTab("Account");
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .VerifyAccountReferenceEnabled(false);
 
+
+
+
+
+        }
+        [Test]
+        public void Test()
+        {
+            string userAuto30SettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?CPath=&ObjectID=1076&CTypeName=User&CReferenceName=none&CObjectID=0&TypeName=User&RefTypeName=none&ReferenceName=none&InEdit=true#";
+
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(userAuto30SettingUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .SendKeyToUsername(AutoUser6.UserName)
+                .SendKeyToPassword(AutoUser6.Password)
+                .ClickOnSignIn();
+            PageFactoryManager.Get<UserDetailPage>()
+                .IsOnUserDetailPage()
+                .ClickAdminRoles()
+                .UntickAdminRole("System Administrator")
+                .ChooseAdminRole("Search - Parties")
+                .ClickSave()
+                .SleepTimeInMiliseconds(10000);
         }
     }
 }
