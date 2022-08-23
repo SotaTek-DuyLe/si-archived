@@ -16,7 +16,7 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
         public AdminRolePriviledgePage TurnOnDenyUpdate()
         {
             Assert.NotNull(GetAttributeValue(denyUpdateBtn, "src"));
-            if (GetAttributeValue(denyUpdateBtn, "src").Equals("images/icons/tristate0.png"))
+            if (GetAttributeValue(denyUpdateBtn, "src").Contains("images/icons/tristate0.png", StringComparison.OrdinalIgnoreCase))
             {
                 ClickOnElement(denyUpdateBtn);
 

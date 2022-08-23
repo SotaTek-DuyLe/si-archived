@@ -58,5 +58,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount
             SelectTextFromDropDown(accountTypeInput, accountType);
             return this;
         }
+        public PartyAccountPage VerifyAllAcountReferenceDisabled()
+        {
+            int totalOption = GetNumberOfOptionInSelect(accountTypeInput);
+            for (int i = 0; i < totalOption; i++)
+            {
+                SelectIndexFromDropDown(accountTypeInput, i);
+                VerifyAccountReferenceEnabled(false);
+            }
+            return this;
+        }
     }
 }

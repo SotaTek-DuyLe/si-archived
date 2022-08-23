@@ -527,6 +527,7 @@ namespace si_automated_tests.Source.Test
         {
             string charityAccountTypeSettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=AccountType&ObjectID=6";
             string adminRolePriviledgeUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?VName=SysConfigView&VNodeID=316&CPath=T77R1297&ObjectID=1297&TypeName=EchoObjectView&RefTypeName=none&ReferenceName=none";
+            string accountRefPriviledgeUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?VName=SysConfigView&VNodeID=318&CPath=T77R1297M402T78R15920&ObjectID=15920&TypeName=EchoObjectViewNode&RefTypeName=none&ReferenceName=none";
             string userAuto30SettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?CPath=&ObjectID=1076&CTypeName=User&CReferenceName=none&CObjectID=0&TypeName=User&RefTypeName=none&ReferenceName=none&InEdit=true#";
             PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             string overrideValue = "Account reference value " + CommonUtil.GetRandomString(12);
@@ -573,11 +574,8 @@ namespace si_automated_tests.Source.Test
                 .VerifyAccountReferenceEnabled(false)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .FilterItem(73)
-                .OpenFirstResult()
-                .SwitchToLastWindow();
+                .SwitchNewIFrame()
+                .GoToURL(partyUrl);
             PageFactoryManager.Get<DetailPartyPage>()
                 .SwitchToTab("Account");
             PageFactoryManager.Get<PartyAccountPage>()
@@ -652,10 +650,11 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<PartyHistoryPage>()
                 .VerifyNewestAccountingReference("");
             PageFactoryManager.Get<BasePage>()
-                .GoToURL(adminRolePriviledgeUrl);
+                .GoToURL(accountRefPriviledgeUrl);
             PageFactoryManager.Get<AdminRolePriviledgePage>()
                 .TurnOnDenyUpdate()
-                .ClickSaveButton();
+                .ClickSaveButton()
+                .SleepTimeInMiliseconds(2000);
             //go to another url to change role of different user
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(userAuto30SettingUrl);
@@ -664,6 +663,7 @@ namespace si_automated_tests.Source.Test
                 .ClickAdminRoles()
                 .UntickAdminRole("System Administrator")
                 .ChooseAdminRole("Search - Parties")
+                .ChooseAdminRole("Parties")
                 .ClickSave()
                 .SleepTimeInMiliseconds(2000);
             //go to that user and parties id and verify can only read account ref for all ref type
@@ -684,7 +684,7 @@ namespace si_automated_tests.Source.Test
                 .SwitchToTab("Account");
             PageFactoryManager.Get<PartyAccountPage>()
                 .IsOnAccountPage()
-                .VerifyAccountReferenceEnabled(false);
+                .VerifyAllAcountReferenceDisabled();
 
 
 
