@@ -95,6 +95,7 @@
     <None Remove="Source\Test\RiskTests\" />
     <None Remove="Source\Main\Pages\Applications\RiskRegister\" />
     <None Remove="Source\Main\Pages\Streets\" />
+    <None Remove="Source\Test\SDMActionTests\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Data\" />
@@ -130,6 +131,7 @@
     <Folder Include="Source\Test\RiskTests\" />
     <Folder Include="Source\Main\Pages\Applications\RiskRegister\" />
     <Folder Include="Source\Main\Pages\Streets\" />
+    <Folder Include="Source\Test\SDMActionTests\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">

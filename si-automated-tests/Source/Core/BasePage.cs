@@ -840,7 +840,25 @@ namespace si_automated_tests.Source.Core
                     return Color.Transparent;
             }
         }
-        
-        
+
+        //RIGHT CLICK ON ELEMENT
+        public BasePage RightClickOnElement(string xpath)
+        {
+            Actions actions = new Actions(driver);
+            WaitUtil.WaitForElementVisible(xpath);
+            IWebElement elementLocator = (IWebElement)driver.FindElement(By.XPath(xpath));
+            actions.ContextClick(elementLocator).Perform();
+            return this;
+        }
+
+        public BasePage RightClickOnElement(By by)
+        {
+            Actions actions = new Actions(driver);
+            WaitUtil.WaitForElementVisible(by);
+            IWebElement elementLocator = (IWebElement)driver.FindElement(by);
+            actions.ContextClick(elementLocator).Perform();
+            return this;
+        }
+
     }
 }
