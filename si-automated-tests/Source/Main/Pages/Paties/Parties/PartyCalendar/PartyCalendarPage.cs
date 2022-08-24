@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using CanlendarServiceTask = si_automated_tests.Source.Main.Models.Suspension.ServiceTaskModel;
 namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
 {
@@ -15,7 +16,11 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
         private readonly By applyBtn = By.XPath("//div[@id='calendar-tab']//button[text()='Apply']");
         private readonly By rowsCalendarTableInMonth = By.XPath("//div[@class='fc-content-skeleton']//table//tbody//tr");
         private readonly By nextCalendarBtn = By.XPath("//div[@class='fc-left']//button[contains(@class,'fc-next-button')]");
-       
+        public CalendarElement PartyCalendar
+        {
+            get => new CalendarElement("//div[contains(@class, 'fc-month-view')]", "./div[contains(@class, 'fc-bg')]//table//tbody//tr//td", "//div[contains(@class, 'fc-week')]", "./div[contains(@class, 'fc-content-skeleton')]//table//tbody//tr//td");
+        }
+
         public PartyCalendarPage ClickSiteCombobox()
         {
             IWebElement siteCombobox = GetAllElements(comboboxInCalendars).FirstOrDefault();
@@ -52,16 +57,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
 
         public List<CanlendarServiceTask> GetAllDataInMonth(DateTime fromDateTime, DateTime toDateTime)
         {
-            DateTime GetStartDate()
-            {
-                string startDateXpath = $"//div[@class='fc-content-skeleton']//table//thead//tr/td[1]";
-                IWebElement cell = GetAllElements(startDateXpath).FirstOrDefault();
-                string dataDate = cell.GetAttribute("data-date");
-                DateTime startDateTime = DateTime.ParseExact(dataDate, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
-                return startDateTime;
-            }
             List<CanlendarServiceTask> serviceTasks = new List<CanlendarServiceTask>();
-            int dayOfWeek = 7;
             int months = toDateTime.Month - fromDateTime.Month;
             int step = 0;
             while (step <= months)
@@ -73,29 +69,23 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
                 }
                 step++;
                 Thread.Sleep(1000);
-                DateTime startDate = GetStartDate();
-                var rows = driver.FindElements(rowsCalendarTableInMonth);
-                foreach (var row in rows)
+                var allWeeks = PartyCalendar.GetWeeks();
+                var allDays = new List<DayElement>();
+                foreach (var week in allWeeks)
                 {
-                    for (int day = 1; day <= dayOfWeek; day++)
+                    allDays.AddRange(week.Days);
+                }
+                foreach (var dayInstance in allDays)
+                {
+                    foreach (var contentEle in dayInstance.Contents)
                     {
-                        string cellXpath = $"//td[{day}]//a";
-                        if (row.FindElements(By.XPath(cellXpath)).Count != 0)
+                        List<IWebElement> details = contentEle.FindElements(By.XPath("./a")).ToList();
+                        if (details.Count > 0)
                         {
-                            IWebElement cell = row.FindElement(By.XPath(cellXpath));
                             CanlendarServiceTask serviceTask = new CanlendarServiceTask();
-                            serviceTask.Date = startDate;
-                            startDate.AddDays(1);
-                            serviceTask.Content = GetElementText(cell);
-                            serviceTask.ImagePath = cell.GetCssValue("background");
-                            serviceTasks.Add(serviceTask);
-                        }
-                        else
-                        {
-                            //Empty cell
-                            CanlendarServiceTask serviceTask = new CanlendarServiceTask();
-                            serviceTask.Date = startDate;
-                            startDate.AddDays(1);
+                            serviceTask.Date = dayInstance.Date;
+                            serviceTask.Content = GetElementText(details[0]);
+                            serviceTask.ImagePath = details[0].GetCssValue("background");
                             serviceTasks.Add(serviceTask);
                         }
                     }
