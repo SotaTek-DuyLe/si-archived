@@ -17,8 +17,19 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
         private readonly By nextBtn = By.CssSelector("button[id='next-button']");
         private readonly By firstRowWithServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint')]/span)[1]");
-        private readonly By firstRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint')])[1]");
+        private readonly By firstRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint') and not(span)])[1]");
         private readonly By applyFiltersBtn = By.CssSelector("button[id='filter-button']");
+        private readonly By firstMultipleRowWithServiceTaskSchedule = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint')]//button[@class='toggle'])[1]");
+        private readonly By firstRowInMultipleWithServiceTaskSchedule = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint')]//button[@class='toggle']/parent::div/following-sibling::div/span)[1]");
+        private readonly By secondRowInMultipleWithServiceTaskSchedule = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint')]//button[@class='toggle']/parent::div/following-sibling::div/span)[2]");
+        private readonly By firstMultipleRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint') and not(span)])[1]");
+        private readonly By secondMultipleRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[2]/td[contains(@data-bind, 'retiredPoint') and not(span)])[1]");
+        private readonly By thridMultipleRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint')and not(span)])[3]");
+        private readonly By forthMultipleRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[2]/td[contains(@data-bind, 'retiredPoint')and not(span)])[3]");
+        private readonly By fifthMultipleRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[3]/td[contains(@data-bind, 'retiredPoint')and not(span)])[3]");
+        private readonly By firstCellWithServiceUnit = By.XPath("(//tbody/tr[1]/td[contains(@class, 'unit-cell')])[1]");
+        private readonly By firstCellWithMultipleServiceUnitPoint = By.XPath("(//img[@src='content/style/images/service-unit.png']/following-sibling::img)[1]/parent::span");
+        private readonly By totalRow = By.XPath("//span[contains(text(), 'Total = ')]");
 
         //WARINING POPUP
         private readonly By warningTitle = By.XPath("//h4[text()='Warning']");
@@ -68,6 +79,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             WaitUtil.WaitForElementVisible(warningTitle);
             Assert.IsTrue(IsControlDisplayed(warningTitle));
+            Assert.IsTrue(IsControlDisplayed(warningContent));
             Assert.IsTrue(IsControlDisplayed(checkboxMessage));
             Assert.IsTrue(IsControlEnabled(okBtn));
             Assert.IsTrue(IsControlEnabled(cancelBtn));
@@ -107,6 +119,16 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        public ServiceDataManagementPage VerifyActionMenuDisplayWithServiceUnit()
+        {
+            SleepTimeInMiliseconds(1000);
+            foreach (string action in CommonConstants.ActionMenuSU)
+            {
+                Assert.IsTrue(IsControlDisplayed(actionOption, action), action + " is not displayed");
+            }
+            return this;
+        }
+
         public ServiceDataManagementPage VerifyActionInActionMenuDisabled(string[] nameActions)
         {
             foreach(string action in nameActions)
@@ -119,6 +141,67 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceDataManagementPage RightClickOnFirstRowWithoutServiceTaskSchedule()
         {
             RightClickOnElement(firstRowWithoutServiceTaskSchedule);
+            return this;
+        }
+        public ServiceDataManagementPage ClickOnMultipleRowsWithServiceTaskSchedule()
+        {
+            ScrollDownToElement(firstMultipleRowWithServiceTaskSchedule);
+            ClickOnElement(firstMultipleRowWithServiceTaskSchedule);
+            return this;
+        }
+        public ServiceDataManagementPage SelectMultipleRowsWithServiceTaskSchedule()
+        {
+            HoldKeyDownWhileClickOnElement(firstRowInMultipleWithServiceTaskSchedule);
+            HoldKeyDownWhileClickOnElement(secondRowInMultipleWithServiceTaskSchedule);
+            return this;
+        }
+        public ServiceDataManagementPage RightClickOnMultipleRowWithServiceTaskSchedule()
+        {
+            RightClickOnElement(firstRowInMultipleWithServiceTaskSchedule);
+            return this;
+        }
+        public ServiceDataManagementPage SelectMultipleRowsWithoutServiceTaskSchedule()
+        {
+            HoldKeyDownWhileClickOnElement(firstMultipleRowWithoutServiceTaskSchedule);
+            HoldKeyDownWhileClickOnElement(secondMultipleRowWithoutServiceTaskSchedule);
+            return this;
+        }
+        public ServiceDataManagementPage RightClickOnMultipleRowWithoutServiceTaskSchedule()
+        {
+            RightClickOnElement(firstMultipleRowWithoutServiceTaskSchedule);
+            return this;
+        }
+        public ServiceDataManagementPage RightClickOnFirstCellWithServiceUnit()
+        {
+            RightClickOnElement(firstCellWithServiceUnit);
+            return this;
+        }
+        public ServiceDataManagementPage RightClickOnCellWithMutipleServiceUnitPoint()
+        {
+            ScrollDownToElement(firstCellWithMultipleServiceUnitPoint);
+            RightClickOnElement(firstCellWithMultipleServiceUnitPoint);
+            return this;
+        }
+        public ServiceDataManagementPage VerifyActionInActionMenuEnabled(string[] nameActions)
+        {
+            foreach (string action in nameActions)
+            {
+                Assert.IsTrue(IsControlEnabled(string.Format(actionOption, action)), action + " is not enabled");
+            }
+            return this;
+        }
+
+        public ServiceDataManagementPage RightClickOnMultipleServiceTaskScheduleSegment()
+        {
+            RightClickOnElement(thridMultipleRowWithoutServiceTaskSchedule);
+            RightClickOnElement(forthMultipleRowWithoutServiceTaskSchedule);
+            RightClickOnElement(fifthMultipleRowWithoutServiceTaskSchedule);
+            return this;
+        }
+
+        public ServiceDataManagementPage ClickOutOfAction()
+        {
+            ClickOnElement(totalRow);
             return this;
         }
 

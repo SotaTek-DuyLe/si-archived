@@ -46,6 +46,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] HistoryStreetColumn = { "ID", "Date", "Update Type", "User", "Object Type", "Object ID" };
         public static readonly string[] ActionEventBulkUpdate = { "Add Note" };
         public static readonly string[] ActionMenuSDM = { "Add Service Task Schedule", "Set Assured", "Set Proximity Alert", "Add/Amend Crew Notes", "Retire Service Task Schedule" };
+        public static readonly string[] ActionMenuSU = { "Split Service Unit", "Remove Point" };
 
         //ICON IMAGE
         public static readonly string StreetIconUrl = "web/content/images/street.svg";        

@@ -859,6 +859,16 @@ namespace si_automated_tests.Source.Core
             actions.ContextClick(elementLocator).Perform();
             return this;
         }
+        public BasePage HoldKeyDownWhileClickOnElement(By by)
+        {
+            Actions actions = new Actions(driver);
+            WaitUtil.WaitForElementVisible(by);
+            IWebElement elementLocator = (IWebElement)driver.FindElement(by);
+            actions.MoveToElement(elementLocator).Click();
+            actions.KeyDown(Keys.Control);
+            actions.KeyUp(Keys.Control).Build().Perform();
+            return this;
+        }
 
     }
 }
