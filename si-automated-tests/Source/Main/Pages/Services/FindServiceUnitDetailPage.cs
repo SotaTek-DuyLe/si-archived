@@ -110,7 +110,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         public List<FindServiceUnitModel> GetAllServiceUnit()
         {
+            SleepTimeInMiliseconds(1000);
             WaitUtil.WaitForAllElementsPresent(allServiceUnitRows);
+            WaitUtil.WaitForElementVisible(selectLocatorInServiceUnitGrid, "1");
             List<FindServiceUnitModel> findServiceUnitModels = new List<FindServiceUnitModel>();
             List<IWebElement> allRows = GetAllElements(allServiceUnitRows);
             for (int i = 0; i < allRows.Count; i++)

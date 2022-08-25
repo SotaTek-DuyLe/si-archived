@@ -227,6 +227,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
         [Test(Description = "Verify that a new sector form is opened ")]
         public void TC_129_Verify_that_a_new_sector_form_is_opened()
         {
+            string sector = Contract.RMC;
+
             PageFactoryManager.Get<NavigationBase>()
                    .OpenLastOption(Contract.RMC);
             SectorPage sectorPage = PageFactoryManager.Get<SectorPage>();
@@ -240,30 +242,18 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyElementVisibility(sectorPage.SelectSectorType, true)
                 .VerifyElementVisibility(sectorPage.SelectParentSector, true);
 
-            sectorPage.ClickOnElement(sectorPage.MapTab);
-            sectorPage.WaitForLoadingIconToDisappear();
-            sectorPage.VerifyElementVisibility(sectorPage.DivMap, true);
-
             //Verify that the top bar actions display and correctly
             sectorPage.VerifyElementVisibility(sectorPage.ButtonSave, true)
                 .VerifyElementVisibility(sectorPage.ButtonRefresh, true)
                 .VerifyElementVisibility(sectorPage.ButtonHistory, true)
                 .VerifyElementVisibility(sectorPage.ButtonHelp, true);
             sectorPage.VerifyElementEnable(sectorPage.ButtonSave, false);
-            //Test the buttons functionality
-            sectorPage.ClickOnElement(sectorPage.DetailTab);
-            sectorPage.WaitForLoadingIconToDisappear();
-            string sector = "Richmond Commercial123";
-            sectorPage.SendKeys(sectorPage.InputSector, sector);
-            sectorPage.ClickOnElement(sectorPage.ButtonSave);
-            sectorPage.WaitForLoadingIconToDisappear();
-            sectorPage.VerifyToastMessage("Success")
-                .WaitUntilToastMessageInvisible("Success");
-
+            
+            //Refresh btn
             sectorPage.ClickOnElement(sectorPage.ButtonRefresh);
             sectorPage.WaitForLoadingIconToDisappear();
             sectorPage.VerifyInputValue(sectorPage.InputSector, sector);
-
+            //Help btn
             sectorPage.ClickOnElement(sectorPage.ButtonHelp);
             sectorPage.SwitchToChildWindow(2);
             HelpPage helpPage = PageFactoryManager.Get<HelpPage>();
@@ -273,6 +263,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickOnElement(helpPage.ButtonClose);
             helpPage.SwitchToFirstWindow()
                 .SwitchNewIFrame();
+            //History button
+
 
             //Object header
             sectorPage.VerifyElementText(sectorPage.TitleSectorName, sectorPage.GetInputValue(sectorPage.InputSector))
@@ -308,27 +300,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyElementVisibility(sectorPage.SelectSectorType, true)
                 .VerifyElementVisibility(sectorPage.SelectParentSector, true);
 
-            //can update
-            sector = Contract.RMC;
-            string contract = Contract.RM;
-            string parentSector = "Hampton Tip (West)";
-            string sectorType = "Ward";
-            sectorPage.SendKeys(sectorPage.InputSector, sector);
-            sectorPage.SelectTextFromDropDown(sectorPage.SelectContract, contract)
-                .SelectTextFromDropDown(sectorPage.SelectParentSector, parentSector)
-                .SelectTextFromDropDown(sectorPage.SelectSectorType, sectorType)
-                .ClickOnElement(sectorPage.ButtonSave);
-            sectorPage.WaitForLoadingIconToDisappear();
-            sectorPage.VerifyToastMessage("Success")
-                .WaitUntilToastMessageInvisible("Success");
-
-            sectorPage.ClickOnElement(sectorPage.ButtonRefresh);
-            sectorPage.WaitForLoadingIconToDisappear();
-            sectorPage.VerifyInputValue(sectorPage.InputSector, sector)
-                .VerifySelectedValue(sectorPage.SelectContract, contract)
-                .VerifySelectedValue(sectorPage.SelectParentSector, parentSector)
-                .VerifySelectedValue(sectorPage.SelectSectorType, sectorType);
-
             //Details tab
             //Verify that mandatory fields are highlighted in red and warning message is displayed
             sectorPage.SendKeys(sectorPage.InputSector, "");
@@ -349,6 +320,24 @@ namespace si_automated_tests.Source.Test.ServiceTests
             sectorPage.WaitForLoadingIconToDisappear();
             sectorPage.VerifyToastMessage("SectorType is required")
                 .WaitUntilToastMessageInvisible("SectorType is required");
+            //can update
+            string contract = Contract.RM;
+            string parentSector = "Hampton Tip (West)";
+            string sectorType = "Ward";
+            sectorPage.SelectTextFromDropDown(sectorPage.SelectContract, contract)
+                .SelectTextFromDropDown(sectorPage.SelectParentSector, parentSector)
+                .SelectTextFromDropDown(sectorPage.SelectSectorType, sectorType)
+                .ClickOnElement(sectorPage.ButtonSave);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
+
+            sectorPage.ClickOnElement(sectorPage.ButtonRefresh);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyInputValue(sectorPage.InputSector, sector)
+                .VerifySelectedValue(sectorPage.SelectContract, contract)
+                .VerifySelectedValue(sectorPage.SelectParentSector, parentSector)
+                .VerifySelectedValue(sectorPage.SelectSectorType, sectorType);
         }
     }
 }

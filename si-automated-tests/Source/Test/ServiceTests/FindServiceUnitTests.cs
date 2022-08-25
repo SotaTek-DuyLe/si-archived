@@ -493,6 +493,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .InputKeyInSearch(anyServiceUnitInDB)
                 .ClickFindBtn()
                 .WaitForLoadingIconToDisappear();
+            
             List<FindServiceUnitModel> listServiceUnit = findServiceUnitDetailPage
                 .GetAllServiceUnit();
             findServiceUnitDetailPage

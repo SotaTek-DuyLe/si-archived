@@ -25,7 +25,6 @@ namespace si_automated_tests.Source.Test.EventTests
     [TestFixture]
     public class CreateEventTests : BaseTest
     {
-        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Category("Chang")]
         [Test(Description = "Creating event from point address with service unit")]
@@ -34,7 +33,7 @@ namespace si_automated_tests.Source.Test.EventTests
             CommonFinder finder = new CommonFinder(DbContext);
             string searchForAddresses = "Addresses";
             string eventOption = "Standard - Complaint";
-            string pointAddressId = "483995";
+            string pointAddressId = "363256";
             string eventType = "Complaint";
             List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
             List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
@@ -43,7 +42,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Check SP
             SqlCommand command = new SqlCommand("EW_GetServicesInfoForPoint", DbContext.Connection);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add("@PointID", SqlDbType.Int).Value = 483995;
+            command.Parameters.Add("@PointID", SqlDbType.Int).Value = 363256;
             command.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
             command.Parameters.Add("@UserID", SqlDbType.Int).Value = 54;
 
@@ -104,7 +103,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetAllServiceWithoutServiceUnitModel(allServices);
             //Verify data in [Active Service] tab with SP
             pointAddressDetailPage
-                .VerifyDataInActiveServicesTab483995(allAServicesWithServiceUnit, serviceForPoint)
+                .VerifyDataInActiveServicesTab363256(allAServicesWithServiceUnit, serviceForPoint)
                 .VerifyDataInActiveServicesTab(GetAllServiceWithoutServiceUnitModel, serviceForPoint);
             List<CommonServiceForPointDBModel> FilterCommonServiceForPointWithServiceId = pointAddressDetailPage
                 .FilterCommonServiceForPointWithServiceId(commonService, serviceForPoint[0].serviceID);

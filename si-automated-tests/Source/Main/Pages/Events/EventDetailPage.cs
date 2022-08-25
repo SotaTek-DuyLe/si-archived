@@ -102,7 +102,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By stateInHistoryTab = By.XPath("//span[text()='State']/following-sibling::span[@data-bind='text: $data.value'][1]");
         private readonly By eventDateInHistoryTab = By.XPath("//span[text()='Event date']/following-sibling::span[@data-bind='text: $data.value'][1]");
         private readonly By dueDateInHistoryTab = By.XPath("//span[text()='Due date']/following-sibling::span[@data-bind='text: $data.value'][1]");
-        private readonly By createdByUserInHistoryTab = By.XPath("//strong[@data-bind='text: $data.createdByUser']");
+        private readonly By createdByUserInHistoryTab = By.XPath("//strong[text()='Create Event - Event']/parent::div/following-sibling::div//strong[@data-bind='text: $data.createdByUser']");
         private readonly By createdDateInHistoryTab = By.XPath("//strong[@data-bind='text: $data.createdDate']");
         private readonly By nameInHistoryTab = By.XPath("//span[text()='Name']/following-sibling::span[1]");
         private readonly By notesInHistoryTab = By.XPath("//span[text()='Notes']/following-sibling::span[1]");
@@ -117,6 +117,8 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By firstNameAfterAccept = By.XPath("//strong[text()='Accept - Event']/following-sibling::div//span[text()='Name']/following-sibling::span[1]");
         private readonly By createdByUserAfterAccept = By.XPath("//strong[text()='Accept - Event']/parent::div/following-sibling::div/strong[1]");
         private readonly By createdByUserAfterAddNote = By.XPath("//strong[text()='Add Note - Event']/parent::div/following-sibling::div/strong[1]");
+        private readonly By updatedTimeAfterAddNote = By.XPath("//strong[text()='Add Note - Event']/parent::div/following-sibling::div/strong[2]");
+        private readonly By notesInAddNoteEvent = By.XPath("//strong[text()='Add Note - Event']//following-sibling::div/span[text()='Notes']/following-sibling::span[1]");
         private readonly By clientRefAfterUpdateInHistoryTab = By.XPath("//strong[text()='Update Event - Event']/following-sibling::div/span[text()='Client reference']/following-sibling::span[1]");
         private readonly By emailAddressAfterUpdateInHistoryTab = By.XPath("//strong[text()='Update Event - Event']/following-sibling::div/span[text()='Email Address']/following-sibling::span[1]");
 
@@ -479,6 +481,19 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
+        public EventDetailPage VerifyHistoryWithDB(EventDBModel eventDBModel, string displayUserLogin, int userId, string lastUpdated, int lastUpdatedUserId)
+        {
+            Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CreateEventEventTitle));
+            Assert.AreEqual(GetElementText(stateInHistoryTab), eventDBModel.basestatedesc + ".");
+            Assert.AreEqual(GetElementText(eventDateInHistoryTab), eventDBModel.eventdate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT) + ".");
+            Assert.AreEqual(GetElementText(dueDateInHistoryTab), eventDBModel.eventduedate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT) + ".");
+            Assert.AreEqual(displayUserLogin, GetElementText(createdByUserInHistoryTab));
+            Assert.AreEqual(eventDBModel.eventcreatedbyuserID, userId);
+            Assert.AreEqual(eventDBModel.lastupdated.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT), lastUpdated);
+            Assert.AreEqual(eventDBModel.lastupdateduserID, lastUpdatedUserId);
+            return this;
+        }
+
         public EventDetailPage VerifyHistoryData(string eventDate, string dueDate, string name, string notes, string state, string displayUserLogin)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CreateEventEventTitle));
@@ -541,6 +556,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.AddNoteEventTitle));
             Assert.AreEqual(user, GetElementText(createdByUserAfterAddNote));
+            return this;
+        }
+
+        public EventDetailPage VerifyNotesAfterAddNote(string notesValue)
+        {
+            Assert.AreEqual(notesValue + ".", GetElementText(notesInAddNoteEvent));
             return this;
         }
 
@@ -1080,7 +1101,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             {
                 foreach (ServiceForPointDBModel model in allServices)
                 {
-                    if (model.serviceID == serviceDBModels[i].serviceID)
+                    if (model.serviceID != serviceDBModels[i].serviceID)
                     {
                         result.Add(model);
                     }

@@ -22,7 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By ButtonDay = By.XPath("//button[text()='Day']");
         public readonly By ButtonMonth = By.XPath("//button[text()='Month']");
         public readonly By ButtonLegend = By.XPath("//button[@id='calendarLegend']");
-        public readonly By ButtonSchedule = By.XPath("//a[@class='header-link pull-right' and text()=' Reschedule']");
+        public readonly By ButtonSchedule = By.XPath("//a[contains(text(), 'Reschedule')]");
         public readonly By ButtonRoundFinder = By.XPath("//a[@id='round-finder']");
         public readonly By ButtonFind = By.XPath("//button[text()='Find']");
         public readonly By InputRound = By.XPath("//div[@id='services-finder']//input");

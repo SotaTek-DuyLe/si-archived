@@ -199,7 +199,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 {
                     ClickRefreshBtn();
                     WaitForLoadingIconToDisappear();
-                    SleepTimeInMiliseconds(5000);
+                    SleepTimeInMiliseconds(7000);
                     i--;
                 }
                 else
