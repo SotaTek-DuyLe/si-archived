@@ -685,30 +685,6 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<PartyAccountPage>()
                 .IsOnAccountPage()
                 .VerifyAllAcountReferenceDisabled();
-
-
-
-
-
-        }
-        [Test]
-        public void Test()
-        {
-            string userAuto30SettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?CPath=&ObjectID=1076&CTypeName=User&CReferenceName=none&CObjectID=0&TypeName=User&RefTypeName=none&ReferenceName=none&InEdit=true#";
-
-            PageFactoryManager.Get<BasePage>()
-                .GoToURL(userAuto30SettingUrl);
-            PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
-            PageFactoryManager.Get<UserDetailPage>()
-                .IsOnUserDetailPage()
-                .ClickAdminRoles()
-                .UntickAdminRole("System Administrator")
-                .ChooseAdminRole("Search - Parties")
-                .ClickSave()
-                .SleepTimeInMiliseconds(10000);
         }
     }
 }
