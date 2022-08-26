@@ -20,7 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
 
 
         private readonly By accessRoleOption = By.XPath("//span[contains(text(),'North Star Commercial')]/ancestor::td/following-sibling::td");
-        private const string adminRoleOption = "//span[contains(text(), '{0}')]/parent::td/following-sibling::td/input";
+        private readonly string adminRoleOption = "//span[contains(text(), '{0}')]/parent::td/following-sibling::td/input";
         private readonly By inpectionsAdminRole = By.XPath("(//span[contains(text(), 'Inspections')])[2]/parent::td/following-sibling::td/input");
 
         private readonly By rightFrame = By.XPath("//iframe[@id='RightFrame']");
@@ -78,7 +78,21 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
         public UserDetailPage ChooseAdminRole(string role)
         {
             ScrollDownInElement(By.Id("RightDef"));
-            ClickOnElement(adminRoleOption, role);
+            WebElement target = (WebElement)GetElement(String.Format(adminRoleOption, role));
+            if (!target.Selected)
+            {
+                ClickOnElement(adminRoleOption, role);
+            }
+            return this;
+        }
+        public UserDetailPage UntickAdminRole(string role)
+        {
+            ScrollDownInElement(By.Id("RightDef"));
+            WebElement target = (WebElement)GetElement(String.Format(adminRoleOption, role));
+            if (target.Selected)
+            {
+                ClickOnElement(adminRoleOption, role);
+            }
             return this;
         }
         public UserDetailPage ChooseInspectionAdminRole()
