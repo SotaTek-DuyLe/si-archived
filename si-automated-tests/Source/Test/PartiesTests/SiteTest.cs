@@ -239,10 +239,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ExpandRoundNode("Collections")
                 .SelectRoundNode("Commercial Collections");
             taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
-            taskAllocationPage.ClearInputValue(taskAllocationPage.FromInput);
-            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
-            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
-            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.InputCalendarDate(taskAllocationPage.FromInput, from);
+            taskAllocationPage.InputCalendarDate(taskAllocationPage.ToInput, to);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
             taskAllocationPage.WaitForLoadingIconToDisappear(false);
             taskAllocationPage.DoubleClickFromCellOnRound("Saturday")
