@@ -22,7 +22,12 @@ namespace si_automated_tests.Source.Core
         private readonly string tab = "//a[@data-toggle='tab' and contains(text(),'{0}')]";
         private readonly string tabs = "//a[@data-toggle='tab']";
         private readonly string frameMessage = "//div[@class='notifyjs-corner']/div";
-
+        public readonly By UserDropDown = By.XPath("//div[@id='user-menu']//ul[@class='dropdown-menu']");
+        public readonly By CreateDescriptionButton = By.XPath("//div[@id='user-menu']//button[contains(@data-bind, 'createObjectDescription')]");
+        public By GetToogleButton(string userName)
+        {
+            return By.XPath($"//div[@id='user-menu']//button[contains(text(), '{userName}')]");
+        }
 
         public BasePage()
         {
