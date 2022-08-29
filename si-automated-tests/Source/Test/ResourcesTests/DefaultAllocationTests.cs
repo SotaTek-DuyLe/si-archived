@@ -6,6 +6,7 @@ using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
 using si_automated_tests.Source.Main.Pages.Round;
+using System.Collections.Generic;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.ResourcesTests
@@ -47,7 +48,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifyFirstResultValue("Type", resourceType)
                 .DragAndDropFirstResultToRoundGroup(2)
-                .VerifyToastMessage("Default resource-type set");
+                .VerifyAllocatingToast("Default resource-type set");
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickRound(roundName)
                 .ClickViewRoundGroup()
@@ -72,7 +73,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceType)
-                .VerifyToastMessage("Default resource-type cleared");
+                .VerifyAllocatingToast("Default resource-type cleared");
             //Verify End date is updated on round in future
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickRound("SKIP2 Daily Daily")
@@ -110,7 +111,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //Deallocate to maintain script
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceType)
-                .VerifyToastMessage("Default resource-type cleared");
+                .VerifyAllocatingToast("Default resource-type cleared");
         }
         [Category("Resources")]
         [Category("Dee")]
@@ -162,7 +163,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .FilterResource("Resource", resourceName)
                 .VerifyFirstResultValue("Resource", resourceName)
                 .DragAndDropFirstResultToRoundGroup(2)
-                .VerifyToastMessage("Default Resource Set");
+                .VerifyAllocatingToast("Default Resource Set");
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickRound(roundName)
                 .ClickViewRoundGroup()
@@ -187,7 +188,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceName)
-                .VerifyToastMessage("Default resource cleared");
+                .VerifyAllocatingToast("Default resource cleared");
             ////Verify End date is updated on round in future
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickRound("SKIP2 Daily Daily")
@@ -231,11 +232,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //Deallocate to maintain script
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceName)
-                .VerifyToastMessage("Default resource cleared")
-                .WaitUntilToastMessageInvisible("Default resource cleared");
+                .VerifyAllocatingToast("Default resource cleared");
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceType)
-                .VerifyToastMessage("Default resource-type cleared");
+                .VerifyAllocatingToast("Default resource-type cleared");
         }
         [Category("Resources")]
         [Category("Dee")]
@@ -288,7 +288,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .FilterResource("Resource", resourceName)
                 .VerifyFirstResultValue("Resource", resourceName)
                 .DragAndDropFirstResultToRoundGroup(2)
-                .VerifyToastMessage("Default Resource Set");
+                .VerifyAllocatingToast("Default Resource Set");
             //Verify End date is updated on round 
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickRound(roundName)
@@ -313,7 +313,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceName)
-                .VerifyToastMessage("Default resource cleared");
+                .VerifyAllocatingToast("Default resource cleared");
             //Verify End date is updated on round 
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickRound(roundName)
@@ -340,7 +340,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                .FilterResource("Resource", resourceName)
                .VerifyFirstResultValue("Resource", resourceName)
                .DragAndDropFirstResultToRoundGroup(2)
-               .VerifyToastMessage("Default Resource Set");
+               .VerifyAllocatingToast("Default Resource Set");
             //Verify End date is updated on round in future
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickRound(roundName)
@@ -367,17 +367,19 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceName)
-                .VerifyToastMessage("Default resource cleared")
-                .WaitUntilToastMessageInvisible("Default resource cleared");
+                .VerifyAllocatingToast("Default resource cleared");
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceFromRoundGroup(2, resourceType)
-                .VerifyToastMessage("Default resource-type cleared");
+                .VerifyAllocatingToast("Default resource-type cleared");
         }
         [Category("Resources")]
         [Category("Dee")]
         [Test]
         public void TC_137_default_allocation_test()
         {
+            var listMessages = new List<string>();
+            listMessages.Add("Default resource-type set");
+            listMessages.Add("Default resource-type cleared");
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -387,6 +389,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Resources)
                 .OpenOption("Default Allocation")
+                .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .SelectContract(Contract.RMC)
@@ -402,7 +405,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .FilterResource("Type", "Driver");
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DragAndDropFirstResultToRoundGroup(1)
-                .VerifyToastMessage("Default resource-type set");
+                .VerifyAllocatingToast("Default resource-type set");
             //ALLOCATING RESOURCE TO ALLOCATED RESOURCE TYPE
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .SwitchToTab("All Resources");
@@ -410,7 +413,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .FilterResource("Type", "Driver");
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DragAndDropFirstResultToBlankResourceType("Driver")
-                .VerifyToastMessage("Default Resource Set");
+                .VerifyAllocatingToast("Default Resource Set");
             //ALLOCATING RESOURCE TYPE TO NEW BOX
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .SwitchToTab("Resource Types");
@@ -418,9 +421,30 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .FilterResource("Type", "Loader");
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DragAndDropFirstResultToNewCell()
-                .VerifyToastMessage("Default resource-type set")
-                .SleepTimeInMiliseconds(10000);
+                .VerifyAllocatingToast("Default resource-type set");
             //DEALLOCATING RESOURCE TYPE FROM ROUND GROUP
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DeallocateResourceType("Loader")
+                .VerifyAllocatingToast("Default resource-type cleared");
+            //DEALLOCATING RESOURCE FROM ROUND GROUP
+            string allocatedResourceName = PageFactoryManager.Get<ResourceAllocationPage>().GetFirstAllocatedResource();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DeallocateResource(allocatedResourceName)
+                .VerifyAllocatingToast("Default resource cleared");
+            //REALLOCATING RESOURCE FROM ROUND GROUP TO ANOTHER ROUND GROUP
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SwitchToTab("Resource Types");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Type", "Loader");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DragAndDropFirstResultToNewCell()
+                .VerifyAllocatingToast("Default resource-type set")
+                .RelocateResourceFromRoundGroupToRoundGroup(1, 2)
+                .VerifyToastMessages(listMessages);
+
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SleepTimeInMiliseconds(10000);
 
         }
     }

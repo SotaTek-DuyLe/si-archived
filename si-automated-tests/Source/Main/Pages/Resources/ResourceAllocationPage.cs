@@ -20,6 +20,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         //Left panel Daily Allocation
         private readonly By firstRoundRow = By.XPath("//tbody[contains(@data-bind,'roundMenu')]/tr");
         private readonly string allocatedResource = "//span[@class='main-description resource-name' and contains(text(),'{0}')]";
+        private readonly By allocatedResources = By.XPath("//span[@class='main-description resource-name']");
+        private readonly string allocatedResourceType = "//span[@class='main-description resource-name' and text()='']";
         private readonly By addResourceCell = By.XPath("//td[@title='To allocate resource, select and drag resource from the panel on the right hand side.']");
         private readonly string allocatedResourceContainer = "//span[@class='main-description resource-name' and contains(text(),'{0}')]/parent::td";
         private readonly string resourceAbbreviation = "//span[@class='main-description resource-name' and contains(text(),'{0}')]/following-sibling::span[contains(@data-bind,'resourceStateAbbreviation')]";
@@ -35,6 +37,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources
 
         //Left Panel Default Allocation
         private readonly By firstColumn = By.XPath("//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')]");
+        private readonly string firstResourceCustomRoundGroup = "//tr[@class='round-group-dropdown'][{0}]/td[@class='resource-container resource']";
+        private readonly string roundGroup = "//tr[@class='round-group-dropdown'][{0}]";
         private readonly string blankResourceType = "//span[@class='sub-description resource-type current-type' and text()='{0}']/preceding-sibling::span[@class='main-description resource-name' and text()='']";
         private readonly string expandOptions = "(//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')])[{0}]//div[@id='toggle-actions']";
         private readonly string secondColumnResource = "(//div[@id='rounds-scrollable']//tr[@class='round-group-dropdown'])[{0}]//span[text()='{1}']";
@@ -138,10 +142,17 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(_firstResultFields[0], target);
             return this;
         }
-        public ResourceAllocationPage DeallocateResourceByDragAndDrop(string _resourceName)
+        public ResourceAllocationPage DeallocateResource(string _resourceName)
         {
             IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
             IWebElement source = WaitUtil.WaitForElementVisible(allocatedResource, _resourceName);
+            DragAndDrop(source, _firstResultFields[0]);
+            return this;
+        }
+        public ResourceAllocationPage DeallocateResourceType(string resourceType)
+        {
+            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
+            IWebElement source = WaitUtil.WaitForElementVisible(allocatedResourceType, resourceType);
             DragAndDrop(source, _firstResultFields[0]);
             return this;
         }
@@ -291,6 +302,24 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ClickOnElement(expandOptions, whichRow.ToString());
             SleepTimeInMiliseconds(200);
             return this;
+        }
+        public string GetFirstAllocatedResource()
+        {
+            return GetAllElementsNotWait(allocatedResources)[0].Text;
+        }
+        public ResourceAllocationPage VerifyAllocatingToast(string expectedToast)
+        {
+            VerifyToastMessage(expectedToast);
+            WaitUntilToastMessageInvisible(expectedToast);
+            return this;
+        }
+        public ResourceAllocationPage RelocateResourceFromRoundGroupToRoundGroup(int sourceRow, int targetRow)
+        {
+            var sourceElement = WaitUtil.WaitForElementVisible(firstResourceCustomRoundGroup, sourceRow.ToString());
+            var targetElement = WaitUtil.WaitForElementVisible(roundGroup, targetRow.ToString());
+            DragAndDrop(sourceElement, targetElement);
+            return this;
+
         }
     }
 }
