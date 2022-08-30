@@ -377,9 +377,12 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Test]
         public void TC_137_default_allocation_test()
         {
-            var listMessages = new List<string>();
-            listMessages.Add("Default resource-type set");
-            listMessages.Add("Default resource-type cleared");
+            var listMessagesResourceType = new List<string>();
+            listMessagesResourceType.Add("Default resource-type set");
+            listMessagesResourceType.Add("Default resource-type cleared");
+            var listMessagesResource = new List<string>();
+            listMessagesResource.Add("Default Resource Set");
+            listMessagesResource.Add("Default resource cleared");
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -399,38 +402,38 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(2000);
             //ALLOCATING RESOURCE TYPE TO ROUND GROUP
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .SwitchToTab("Resource Types");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Type", "Driver");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .DragAndDropFirstResultToRoundGroup(1)
-                .VerifyAllocatingToast("Default resource-type set");
-            //ALLOCATING RESOURCE TO ALLOCATED RESOURCE TYPE
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .SwitchToTab("All Resources");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Type", "Driver");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .DragAndDropFirstResultToBlankResourceType("Driver")
-                .VerifyAllocatingToast("Default Resource Set");
-            //ALLOCATING RESOURCE TYPE TO NEW BOX
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .SwitchToTab("Resource Types");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Type", "Loader");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .DragAndDropFirstResultToNewCell()
-                .VerifyAllocatingToast("Default resource-type set");
-            //DEALLOCATING RESOURCE TYPE FROM ROUND GROUP
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .DeallocateResourceType("Loader")
-                .VerifyAllocatingToast("Default resource-type cleared");
-            //DEALLOCATING RESOURCE FROM ROUND GROUP
-            string allocatedResourceName = PageFactoryManager.Get<ResourceAllocationPage>().GetFirstAllocatedResource();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .DeallocateResource(allocatedResourceName)
-                .VerifyAllocatingToast("Default resource cleared");
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .SwitchToTab("Resource Types");
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .FilterResource("Type", "Driver");
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .DragAndDropFirstResultToRoundGroup(1)
+            //    .VerifyAllocatingToast("Default resource-type set");
+            ////ALLOCATING RESOURCE TO ALLOCATED RESOURCE TYPE
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .SwitchToTab("All Resources");
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .FilterResource("Type", "Driver");
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .DragAndDropFirstResultToBlankResourceType("Driver")
+            //    .VerifyAllocatingToast("Default Resource Set");
+            ////ALLOCATING RESOURCE TYPE TO NEW BOX
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .SwitchToTab("Resource Types");
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .FilterResource("Type", "Loader");
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .DragAndDropFirstResultToNewCell()
+            //    .VerifyAllocatingToast("Default resource-type set");
+            ////DEALLOCATING RESOURCE TYPE FROM ROUND GROUP
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .DeallocateResourceType("Loader")
+            //    .VerifyAllocatingToast("Default resource-type cleared");
+            ////DEALLOCATING RESOURCE FROM ROUND GROUP
+            //string allocatedResourceName = PageFactoryManager.Get<ResourceAllocationPage>().GetFirstAllocatedResource();
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .DeallocateResource(allocatedResourceName)
+            //    .VerifyAllocatingToast("Default resource cleared");
             //REALLOCATING RESOURCE FROM ROUND GROUP TO ANOTHER ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .SwitchToTab("Resource Types");
@@ -440,7 +443,25 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .DragAndDropFirstResultToNewCell()
                 .VerifyAllocatingToast("Default resource-type set")
                 .RelocateResourceFromRoundGroupToRoundGroup(1, 2)
-                .VerifyToastMessages(listMessages);
+                .VerifyToastMessages(listMessagesResourceType);
+            //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF DIFFERENT ROUND GROUP
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .RelocateResourceFromRoundGroupToRound("Loader", 1)
+                .VerifyToastMessages(listMessagesResourceType);
+            //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF SAME ROUND GROUP
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DeallocateResourceType(1)
+                .VerifyAllocatingToast("Default resource-type cleared");
+            PageFactoryManager.Get<ResourceAllocationPage>();
+                //.FilterResource("Type", "Driver");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DragAndDropFirstResultToNewCell()
+                .VerifyAllocatingToast("Default resource-type set")
+                .DeallocateResourceType(6)
+                .VerifyAllocatingToast("Default resource-type cleared")
+                .RelocateResourceFromRoundGroupToRound("Driver", 6)
+                .VerifyToastMessages(listMessagesResourceType);
+
 
 
             PageFactoryManager.Get<ResourceAllocationPage>()

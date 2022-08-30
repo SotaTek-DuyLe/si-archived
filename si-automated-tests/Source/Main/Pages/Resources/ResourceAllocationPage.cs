@@ -39,6 +39,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By firstColumn = By.XPath("//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')]");
         private readonly string firstResourceCustomRoundGroup = "//tr[@class='round-group-dropdown'][{0}]/td[@class='resource-container resource']";
         private readonly string roundGroup = "//tr[@class='round-group-dropdown'][{0}]";
+        private readonly By roundContainer = By.XPath("//tr[@class='round-group-dropdown-item']/td[@class='round-container round']");
         private readonly string blankResourceType = "//span[@class='sub-description resource-type current-type' and text()='{0}']/preceding-sibling::span[@class='main-description resource-name' and text()='']";
         private readonly string expandOptions = "(//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')])[{0}]//div[@id='toggle-actions']";
         private readonly string secondColumnResource = "(//div[@id='rounds-scrollable']//tr[@class='round-group-dropdown'])[{0}]//span[text()='{1}']";
@@ -147,6 +148,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
             IWebElement source = WaitUtil.WaitForElementVisible(allocatedResource, _resourceName);
             DragAndDrop(source, _firstResultFields[0]);
+            return this;
+        }
+        public ResourceAllocationPage DeallocateResourceType(int whichOne)
+        {
+            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
+            var source = WaitUtil.WaitForAllElementsVisible(allocatedResourceType);
+            DragAndDrop(source[whichOne-1], _firstResultFields[0]);
             return this;
         }
         public ResourceAllocationPage DeallocateResourceType(string resourceType)
@@ -318,6 +326,15 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             var sourceElement = WaitUtil.WaitForElementVisible(firstResourceCustomRoundGroup, sourceRow.ToString());
             var targetElement = WaitUtil.WaitForElementVisible(roundGroup, targetRow.ToString());
             DragAndDrop(sourceElement, targetElement);
+            return this;
+
+        }
+        public ResourceAllocationPage RelocateResourceFromRoundGroupToRound(string resourceType, int targetRow)
+        {
+            IWebElement source = WaitUtil.WaitForElementVisible(blankResourceType, resourceType);
+            //var sourceElement = WaitUtil.WaitForElementVisible(firstResourceCustomRoundGroup, sourceRow.ToString());
+            var targetElements = WaitUtil.WaitForAllElementsVisible(roundContainer);
+            DragAndDrop(source, targetElements[targetRow-1]);
             return this;
 
         }

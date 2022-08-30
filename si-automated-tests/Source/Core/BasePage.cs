@@ -622,7 +622,8 @@ namespace si_automated_tests.Source.Core
         {
             WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']");
             var notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
-            Assert.AreEqual(messages, notifyMsgs);
+            CollectionAssert.AreEquivalent(messages, notifyMsgs);
+            //Assert.AreEqual(messages, notifyMsgs);
             return this;
         }
 
