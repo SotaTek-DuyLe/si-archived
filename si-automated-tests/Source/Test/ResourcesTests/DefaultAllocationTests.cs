@@ -442,12 +442,14 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DragAndDropFirstResultToNewCell()
                 .VerifyAllocatingToast("Default resource-type set")
-                .RelocateResourceFromRoundGroupToRoundGroup(1, 2)
+                .RelocateResourceTypeFromRoundGroupToRoundGroup("Loader", 2)
                 .VerifyToastMessages(listMessagesResourceType);
             //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF DIFFERENT ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .RelocateResourceFromRoundGroupToRound("Loader", 1)
-                .VerifyToastMessages(listMessagesResourceType);
+                .RelocateResourceTypeFromRoundGroupToRound("Loader", 1)
+                .VerifyToastMessages(listMessagesResourceType)
+                .WaitUntilToastMessageInvisible(listMessagesResourceType[0])
+                .WaitUntilToastMessageInvisible(listMessagesResourceType[1]);
             //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF SAME ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceType(1)
@@ -459,9 +461,9 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyAllocatingToast("Default resource-type set")
                 .DeallocateResourceType(6)
                 .VerifyAllocatingToast("Default resource-type cleared")
-                .RelocateResourceFromRoundGroupToRound("Driver", 6)
+                .RelocateResourceTypeFromRoundGroupToRound("Loader", 5)
                 .VerifyToastMessages(listMessagesResourceType);
-
+            //REALLOCATING RESOURCE FROM ROUND TO ROUND OF SAME ROUND GROUP
 
 
             PageFactoryManager.Get<ResourceAllocationPage>()

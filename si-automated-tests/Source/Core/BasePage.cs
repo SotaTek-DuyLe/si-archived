@@ -623,7 +623,6 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']");
             var notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
             CollectionAssert.AreEquivalent(messages, notifyMsgs);
-            //Assert.AreEqual(messages, notifyMsgs);
             return this;
         }
 
@@ -753,7 +752,6 @@ namespace si_automated_tests.Source.Core
             Thread.Sleep(num);
             return this;
         }
-
         public BasePage DragAndDrop(IWebElement sourceElement, IWebElement targetElement)
         {
             var builder = new Actions(IWebDriverManager.GetDriver());

@@ -321,15 +321,16 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             WaitUntilToastMessageInvisible(expectedToast);
             return this;
         }
-        public ResourceAllocationPage RelocateResourceFromRoundGroupToRoundGroup(int sourceRow, int targetRow)
+        public ResourceAllocationPage RelocateResourceTypeFromRoundGroupToRoundGroup(string resourceType, int targetRow)
         {
-            var sourceElement = WaitUtil.WaitForElementVisible(firstResourceCustomRoundGroup, sourceRow.ToString());
+            IWebElement source = WaitUtil.WaitForElementVisible(blankResourceType, resourceType);
+            //var sourceElement = WaitUtil.WaitForElementVisible(firstResourceCustomRoundGroup, sourceRow.ToString());
             var targetElement = WaitUtil.WaitForElementVisible(roundGroup, targetRow.ToString());
-            DragAndDrop(sourceElement, targetElement);
+            DragAndDrop(source, targetElement);
             return this;
 
         }
-        public ResourceAllocationPage RelocateResourceFromRoundGroupToRound(string resourceType, int targetRow)
+        public ResourceAllocationPage RelocateResourceTypeFromRoundGroupToRound(string resourceType, int targetRow)
         {
             IWebElement source = WaitUtil.WaitForElementVisible(blankResourceType, resourceType);
             //var sourceElement = WaitUtil.WaitForElementVisible(firstResourceCustomRoundGroup, sourceRow.ToString());
