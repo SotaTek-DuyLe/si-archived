@@ -330,6 +330,17 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By IndicatorConfirmButton = By.XPath("//button[contains(text(), 'Confirm')]");
         #endregion
 
+        #region Service Unit Point tab
+        public readonly By AddressRadio = By.XPath("//div[@id='add-service-unit-points']//input[@value='Address']");
+        public readonly By SectorSelect = By.XPath("//div[@id='add-service-unit-points']//select");
+
+        public ServiceUnitDetailPage VerifyRadioIsSelected()
+        {
+            Assert.IsTrue(this.driver.FindElement(AddressRadio).GetAttribute("checked").Contains("true"));
+            return this;
+        }
+        #endregion
+
         public ServiceUnitDetailPage SelectRandomServiceLevel()
         {
             string selectedServiceLevel = GetFirstSelectedItemInDropdown(ServiceLevelSelect);
