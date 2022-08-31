@@ -447,9 +447,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF DIFFERENT ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundGroupToRound("Loader", 1)
-                .VerifyToastMessages(listMessagesResourceType)
-                .WaitUntilToastMessageInvisible(listMessagesResourceType[0])
-                .WaitUntilToastMessageInvisible(listMessagesResourceType[1]);
+                .VerifyToastMessages(listMessagesResourceType);
             //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF SAME ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceType(1)
@@ -464,6 +462,19 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .RelocateResourceTypeFromRoundGroupToRound("Loader", 5)
                 .VerifyToastMessages(listMessagesResourceType);
             //REALLOCATING RESOURCE FROM ROUND TO ROUND OF SAME ROUND GROUP
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .RelocateResourceTypeFromRoundToRound(1, 2)
+                .VerifyToastMessages(listMessagesResourceType);
+            //REALLOCATING RESOURCE FROM ROUND TO ROUND OF DIFFERENT ROUND GROUP
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .RelocateResourceTypeFromRoundToRound(1, 6)
+                .VerifyToastMessages(listMessagesResourceType);
+            //REALLOCATING RESOURCE FROM ROUND TO ROUND GROUP OF SAME ROUND GROUP
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .RelocateResourceTypeFromRoundGroupToRoundGroup("Loader", 1)
+                .VerifyToastMessages(listMessagesResourceType);
+
+
 
 
             PageFactoryManager.Get<ResourceAllocationPage>()

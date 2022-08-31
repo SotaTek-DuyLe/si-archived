@@ -36,6 +36,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string redBackground = "background-color: rgb(255, 105, 98);";
 
         //Left Panel Default Allocation
+        private readonly By roundScrollable = By.Id("rounds-scrollable");
         private readonly By firstColumn = By.XPath("//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')]");
         private readonly string firstResourceCustomRoundGroup = "//tr[@class='round-group-dropdown'][{0}]/td[@class='resource-container resource']";
         private readonly string roundGroup = "//tr[@class='round-group-dropdown'][{0}]";
@@ -321,6 +322,12 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             WaitUntilToastMessageInvisible(expectedToast);
             return this;
         }
+        public ResourceAllocationPage VerifyAllocatingToast(List<string> expectedToasts)
+        {
+            VerifyToastMessages(expectedToasts);
+            expectedToasts.ForEach(t => WaitUntilToastMessageInvisible(t));
+            return this;
+        }
         public ResourceAllocationPage RelocateResourceTypeFromRoundGroupToRoundGroup(string resourceType, int targetRow)
         {
             IWebElement source = WaitUtil.WaitForElementVisible(blankResourceType, resourceType);
@@ -337,7 +344,14 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             var targetElements = WaitUtil.WaitForAllElementsVisible(roundContainer);
             DragAndDrop(source, targetElements[targetRow-1]);
             return this;
-
+        }
+        public ResourceAllocationPage RelocateResourceTypeFromRoundToRound(int whichOne, int roundRow)
+        {
+            var resourceType = WaitUtil.WaitForAllElementsVisible(allocatedResourceType);
+            //var sourceElement = WaitUtil.WaitForElementVisible(firstResourceCustomRoundGroup, sourceRow.ToString());
+            var rounds = WaitUtil.WaitForAllElementsVisible(roundContainer);
+            DragAndDrop(resourceType[whichOne -1], rounds[roundRow - 1]);
+            return this;
         }
     }
 }
