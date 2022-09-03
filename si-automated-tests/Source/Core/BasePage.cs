@@ -22,7 +22,12 @@ namespace si_automated_tests.Source.Core
         private readonly string tab = "//a[@data-toggle='tab' and contains(text(),'{0}')]";
         private readonly string tabs = "//a[@data-toggle='tab']";
         private readonly string frameMessage = "//div[@class='notifyjs-corner']/div";
-
+        public readonly By UserDropDown = By.XPath("//div[@id='user-menu']//ul[@class='dropdown-menu']");
+        public readonly By CreateDescriptionButton = By.XPath("//div[@id='user-menu']//button[contains(@data-bind, 'createObjectDescription')]");
+        public By GetToogleButton(string userName)
+        {
+            return By.XPath($"//div[@id='user-menu']//button[contains(text(), '{userName}')]");
+        }
 
         public BasePage()
         {
@@ -438,7 +443,6 @@ namespace si_automated_tests.Source.Core
         public BasePage ScrollDownInElement(string elementId)
         {
             WaitUtil.WaitForPageLoaded();
-            Thread.Sleep(2000);
             string scriptText = String.Format("var objDiv = document.getElementById(\"{0}\");objDiv.scrollTop = objDiv.scrollHeight;", elementId);
             IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
             js.ExecuteScript(scriptText);
@@ -447,7 +451,6 @@ namespace si_automated_tests.Source.Core
         public BasePage ScrollDownInElement(By by)
         {
             WaitUtil.WaitForPageLoaded();
-            Thread.Sleep(2000);
             IWebElement e = GetElement(by);
             IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
             js.ExecuteScript("arguments[0].scrollTop = arguments[0].scrollHeight;", e);
@@ -457,7 +460,7 @@ namespace si_automated_tests.Source.Core
         public BasePage ScrollDownToElement(By by)
         {
             WaitUtil.WaitForPageLoaded();
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             IWebElement e = GetElement(by);
             IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
             js.ExecuteScript("arguments[0].scrollIntoView(true);", e);
@@ -467,7 +470,6 @@ namespace si_automated_tests.Source.Core
         public BasePage ScrollDownToElement(IWebElement e)
         {
             WaitUtil.WaitForPageLoaded();
-            Thread.Sleep(2000);
             IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
             js.ExecuteScript("arguments[0].scrollIntoView(true);", e);
             return this;
@@ -475,7 +477,6 @@ namespace si_automated_tests.Source.Core
         public BasePage ScrollLeftt(By by)
         {
             WaitUtil.WaitForPageLoaded();
-            Thread.Sleep(2000);
             IWebElement e = GetElement(by);
             IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
             js.ExecuteScript("arguments[0].scrollLeft += 250", e);
@@ -485,7 +486,6 @@ namespace si_automated_tests.Source.Core
         public BasePage ScrollDownToElement(string locator, string value)
         {
             WaitUtil.WaitForPageLoaded();
-            Thread.Sleep(2000);
             string xpath = String.Format(locator, value);
             IWebElement e = driver.FindElement(By.XPath(xpath));
             IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
@@ -496,7 +496,7 @@ namespace si_automated_tests.Source.Core
         public BasePage ScrollToBottomOfPage()
         {
             WaitUtil.WaitForPageLoaded();
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
             var js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
             js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
 
@@ -591,6 +591,12 @@ namespace si_automated_tests.Source.Core
             selectedValue.SelectByIndex(index);
             WaitForLoadingIconToDisappear();
             return this;
+        }
+        public int GetNumberOfOptionInSelect(By by)
+        {
+            IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
+            SelectElement selectElement = new SelectElement(comboBox);
+            return selectElement.Options.Count;
         }
 
         public BasePage SelectIndexFromDropDown(IWebElement webElement, int index)

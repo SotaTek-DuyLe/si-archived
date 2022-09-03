@@ -4,9 +4,15 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.Accounts;
+using si_automated_tests.Source.Main.Pages.IE_Configuration;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccountStatement;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyHistory;
+using si_automated_tests.Source.Main.Pages.UserAndRole;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test
@@ -512,6 +518,173 @@ namespace si_automated_tests.Source.Test
                 .VerifyValueDefaultInInvoiceAddress()
                 .ClickInvoiceAddressDd()
                 .VerifyDisplayNewSiteAddressInInvoiceAddress(addressDetailModel, true);
+        }
+
+        [Category("Accounting Reference")]
+        [Category("Dee")]
+        [Test]
+        public void TC_134_the_setting_of_accounting_referrence()
+        {
+            string charityAccountTypeSettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=AccountType&ObjectID=6";
+            string adminRolePriviledgeUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?VName=SysConfigView&VNodeID=316&CPath=T77R1297&ObjectID=1297&TypeName=EchoObjectView&RefTypeName=none&ReferenceName=none";
+            string accountRefPriviledgeUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?VName=SysConfigView&VNodeID=318&CPath=T77R1297M402T78R15920&ObjectID=15920&TypeName=EchoObjectViewNode&RefTypeName=none&ReferenceName=none";
+            string userAuto30SettingUrl = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?CPath=&ObjectID=1076&CTypeName=User&CReferenceName=none&CObjectID=0&TypeName=User&RefTypeName=none&ReferenceName=none&InEdit=true#";
+            PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
+            string overrideValue = "Account reference value " + CommonUtil.GetRandomString(12);
+            int partyId = 73;
+            string partyUrl = "https://test.echoweb.co.uk/web/parties/" + partyId;
+            //login
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(charityAccountTypeSettingUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .SendKeyToUsername(AutoUser6.UserName)
+                .SendKeyToPassword(AutoUser6.Password)
+                .ClickOnSignIn();
+            PageFactoryManager.Get<AccountTypeDetailPage>()
+                .inputOverrideValue(overrideValue)
+                .TickOverrideCheckbox()
+                .clickSaveButton()
+                .WaitForLoadingIconToDisappear()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser6);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame();
+            //create new party 
+            PageFactoryManager.Get<PartyCommonPage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreatePartyPage>()
+                .IsCreatePartiesPopup(Contract.RMC)
+                .VerifyContractDropdownVlues()
+                .VerifyAllPartyTypes()
+                .SendKeyToThePartyInput(partyModel.PartyName)
+                .SelectStartDate(-1)
+                .SelectPartyType(1)
+                .ClickSaveBtn();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifyDisplaySuccessfullyMessage()
+                .SwitchToTab("Account");
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .SelectAccountType("Charity")
+                .VerifyAccountReferenceEnabled(false)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .GoToURL(partyUrl);
+            PageFactoryManager.Get<DetailPartyPage>()
+                .SwitchToTab("Account");
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .SelectAccountType("Charity")
+                .SelectAccountType("Credit")
+                .ClickSaveBtn();
+            PageFactoryManager.Get<PartyAccountPage>()
+                .SelectAccountType("Charity")
+                .ClickSaveBtn();
+            PageFactoryManager.Get<DetailPartyPage>()
+                //.VerifyDisplaySuccessfullyMessage()
+                .ClickTabDropDown()
+                .ClickOnAccountStatement();
+            PageFactoryManager.Get<AccountStatementPage>()
+                .ClickCreateCreditNote()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreditNotePage>()
+                .ClickYesBtn()
+                .VerifyAccountReferenceIsReadonly()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+
+            PageFactoryManager.Get<AccountStatementPage>()
+               .ClickTakePayment()
+               .SwitchToLastWindow();
+            PageFactoryManager.Get<SalesReceiptPage>()
+                .IsAccountRefReadOnly()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+
+            PageFactoryManager.Get<AccountStatementPage>()
+               .ClickCreateSaleInvoice()
+               .SwitchToLastWindow();
+            PageFactoryManager.Get<CreateInvoicePage>()
+                .VerifyAccountReferenceIsReadonly()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickTabDropDown()
+                .ClickOnHistoryTab()
+                .ClickRefreshBtn();
+            PageFactoryManager.Get<PartyHistoryPage>()
+                .VerifyNewestAccountingReference(overrideValue);
+
+            //Set override value to null
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(charityAccountTypeSettingUrl);
+            PageFactoryManager.Get<AccountTypeDetailPage>()
+                .inputOverrideValue("")
+                .TickOverrideCheckbox()
+                .clickSaveButton()
+                .WaitForLoadingIconToDisappear()
+                .GoToURL(partyUrl);
+            PageFactoryManager.Get<DetailPartyPage>()
+                .SwitchToTab("Account");
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .SelectAccountType("Charity")
+                .SelectAccountType("Credit")
+                .ClickSaveBtn();
+            PageFactoryManager.Get<PartyAccountPage>()
+                .SelectAccountType("Charity")
+                .VerifyAccountReferenceEnabled(false)
+                .ClickSaveBtn();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickTabDropDown()
+                .ClickOnHistoryTab()
+                .ClickRefreshBtn();
+
+            //go to url to deny update
+            PageFactoryManager.Get<PartyHistoryPage>()
+                .VerifyNewestAccountingReference("");
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(accountRefPriviledgeUrl);
+            PageFactoryManager.Get<AdminRolePriviledgePage>()
+                .TurnOnDenyUpdate()
+                .ClickSaveButton()
+                .SleepTimeInMiliseconds(2000);
+            //go to another url to change role of different user
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(userAuto30SettingUrl);
+            PageFactoryManager.Get<UserDetailPage>()
+                .IsOnUserDetailPage()
+                .ClickAdminRoles()
+                .UntickAdminRole("System Administrator")
+                .ChooseAdminRole("Search - Parties")
+                .ChooseAdminRole("Parties")
+                .ClickSave()
+                .SleepTimeInMiliseconds(2000);
+            //go to that user and parties id and verify can only read account ref for all ref type
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser6)
+                .ClickUserNameDd()
+                .ClickLogoutBtn();
+            PageFactoryManager.Get<LoginPage>()
+                .SendKeyToUsername(AutoUser30.UserName)
+                .SendKeyToPassword(AutoUser30.Password)
+                .ClickOnSignIn();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser30)
+                .GoToURL(partyUrl);
+            PageFactoryManager.Get<DetailPartyPage>()
+                .SwitchToTab("Account");
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .VerifyAllAcountReferenceDisabled();
         }
     }
 }

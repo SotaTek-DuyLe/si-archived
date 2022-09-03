@@ -40,6 +40,11 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             get => _searchRoundtreeViewElement;
         }
 
+        public CalendarElement RoundCalendar
+        {
+            get => new CalendarElement("//div[contains(@class, 'fc-month-view')]", "./div[contains(@class, 'fc-bg')]//table//tbody//tr//td", "//div[contains(@class, 'fc-week')]", "./div[contains(@class, 'fc-content-skeleton')]//table//tbody//tr//td");
+        }
+
         public RoundCalendarPage VerifyScheduleButtonEnable(bool isEnable)
         {
             Assert.IsTrue(isEnable ? !GetElement(ButtonSchedule).GetAttribute("class").Contains("disabled") : GetElement(ButtonSchedule).GetAttribute("class").Contains("disabled"));
@@ -95,43 +100,44 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public List<RoundCalendarModel> GetAllDataRoundCalendarInMonth()
         {
             List<RoundCalendarModel> roundCalendars = new List<RoundCalendarModel>();
-            List<IWebElement> fcWeeks = GetAllElements(By.XPath("//div[contains(@class, 'fc-row fc-week')]"));
-            foreach (var fcWeek in fcWeeks)
+            var allWeeks = RoundCalendar.GetWeeks();
+            var allDays = new List<DayElement>();
+            foreach (var week in allWeeks)
             {
-                List<RoundCalendarModel> roundCalendarsInWeek = new List<RoundCalendarModel>();
-                List<IWebElement> dayOfWeeks = fcWeek.FindElements(By.XPath("./div[contains(@class, 'fc-bg')]//table//tbody//tr[1]//td")).ToList();
-                foreach (var dayOfWeek in dayOfWeeks)
+                allDays.AddRange(week.Days);
+            }
+            foreach (var dayInstance in allDays)
+            {
+                RoundCalendarModel roundCalendarModel = new RoundCalendarModel();
+                roundCalendarModel.Instances = new List<RoundInstanceSchedule>();
+                roundCalendarModel.Day = dayInstance.Date;
+                roundCalendars.Add(roundCalendarModel);
+                foreach (var content in dayInstance.Contents)
                 {
-                    string dataDate = dayOfWeek.GetAttribute("data-date");
-                    RoundCalendarModel roundCalendarModel = new RoundCalendarModel();
-                    roundCalendarModel.Instances = new List<RoundInstanceSchedule>();
-                    roundCalendarModel.Day = CommonUtil.StringToDateTime(dataDate, "yyyy-MM-dd");
-                    roundCalendarsInWeek.Add(roundCalendarModel);
-                }
-                List<IWebElement> instanceEles = fcWeek.FindElements(By.XPath("./div[@class='fc-content-skeleton']//table//tbody/tr[not(@class)]")).ToList();
-                for (int i = 0; i < 7; i++)
-                {
-                    foreach (var instanceOfWeek in instanceEles)
+                    string className = content.GetAttribute("class");
+                    if (className.Contains("fc-event-container"))
                     {
-                        List<IWebElement> cellInstances = instanceOfWeek.FindElements(By.XPath("./td[@class='fc-event-container']//a")).ToList();
-                        if(cellInstances.Count > i)
+                        List<IWebElement> details = content.FindElements(By.XPath("./a")).ToList();
+                        if (details.Count > 0)
                         {
-                            string bgColor = cellInstances[i].GetCssValue("background-color");
-                            roundCalendarsInWeek[i].Instances.Add(new RoundInstanceSchedule() 
-                            { 
-                                Instance = cellInstances[i],
+                            string bgColor = details[0].GetCssValue("background-color");
+                            roundCalendarModel.Instances.Add(new RoundInstanceSchedule()
+                            {
+                                Instance = details[0],
                                 IsGrey = bgColor == "rgba(245, 245, 245, 1)",
                                 IsGreen = ColorHelper.IsGreenColor(bgColor),
                             });
                         }
-                        List<IWebElement> cellButtonMores = instanceOfWeek.FindElements(By.XPath("./td[@class='fc-more-cell']//a")).ToList();
-                        if (cellButtonMores.Count > i)
+                    }
+                    else if (className.Contains("fc-more-cell"))
+                    {
+                        List<IWebElement> details = content.FindElements(By.XPath("//a")).ToList();
+                        if (details.Count > 0)
                         {
-                            roundCalendarsInWeek[i].ButtonMore = cellButtonMores[i];
+                            roundCalendarModel.ButtonMore = details[0];
                         }
                     }
                 }
-                roundCalendars.AddRange(roundCalendarsInWeek);
             }
             return roundCalendars;
         }
