@@ -82,7 +82,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskLineDetailPage.ClickOnElement(taskLineDetailPage.HistoryTab);
             taskLineDetailPage.WaitForLoadingIconToDisappear();
             string historyDetailContent2 = taskLineDetailPage.GetElementText(taskLineDetailPage.HistoryDetail);
-            string[] updatedFields2 = historyDetailContent.Split(Environment.NewLine).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+            string[] updatedFields2 = historyDetailContent2.Split(Environment.NewLine).Where(x => !string.IsNullOrEmpty(x)).ToArray();
             Assert.IsTrue(updatedFields2.Length == 1);
             Assert.IsTrue(updatedFields2.FirstOrDefault().Contains("State: Cancelled."));
         }
