@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Models;
@@ -423,6 +424,21 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By secondStateTaskLine = By.CssSelector("tbody>tr:nth-child(2) select[id='itemState.id']");
         private readonly By secondProductTaskLine = By.XPath("//tbody/tr[2]//echo-select[contains(@params, 'name: product')]/select");
         private readonly By secondResolutionCodeTaskLine = By.CssSelector("tbody>tr:nth-child(2) select[id='resCode.id']");
+        private readonly string TaskLineTable = "//div[@id='taskLines-tab']//table";
+        private readonly string TaskLineRow = "./tbody//tr[contains(@data-bind,'with: $data.getFields()')]";
+        private readonly string TaskLineOrderCell = "./td//input[@id='order.id']";
+        private readonly string TaskLineTypeCell = "./td//select[@id='taskLineType.id']";
+
+        public TableElement TaskLineTableEle
+        {
+            get => new TableElement(TaskLineTable, TaskLineRow, new List<string>() { TaskLineOrderCell, TaskLineTypeCell });
+        }
+
+        public DetailTaskPage DoubleClickFirstTaskLine()
+        {
+            TaskLineTableEle.DoubleClickRow(0);
+            return this;
+        }
 
         public DetailTaskPage ClickOnTaskLineTab()
         {
