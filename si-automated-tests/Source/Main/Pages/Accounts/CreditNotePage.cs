@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.Accounts
 {
@@ -13,6 +14,23 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By noteInput = By.Id("notes");
         private readonly By accountRefInput = By.Id("account-ref");
         private readonly By yesBtn = By.XPath("//button[text()='Yes']");
+        private readonly By partyInput_1 = By.XPath("//input[@id='party-name']");
+        private readonly By linesTab = By.CssSelector("a[aria-controls='creditNoteLines-tab']");
+
+        //LINES TAB
+        private readonly By idOfFirstLine = By.XPath("//div[@id='creditNoteLines-tab']//div[@class='grid-canvas']/div[1]/div[contains(@class, 'l1 r1')]");
+        private readonly By targetTypeOfFirstLine = By.XPath("//div[@id='creditNoteLines-tab']//div[@class='grid-canvas']/div[1]/div[contains(@class, 'l2 r2')]");
+        private readonly By targetIdOfFirstLine = By.XPath("//div[@id='creditNoteLines-tab']//div[@class='grid-canvas']/div[1]/div[contains(@class, 'l3 r3')]");
+        private readonly By postedStateOfFirstLine = By.XPath("//div[@id='creditNoteLines-tab']//div[@class='grid-canvas']/div[1]/div[contains(@class, 'l13 r13')]");
+
+
+        //POPUP
+        private readonly By titlePopup = By.XPath("//h4[@class='modal-title']");
+        private readonly By firstCheckboxItemRowCredit = By.XPath("//div[@class='grid-canvas']/div[1]//input");
+        private readonly By confirmBtn = By.XPath("//button[text()='Confirm']");
+        private readonly By createAdhocCreditNoteBtn = By.XPath("//button[text()='Create Adhoc Credit Note']");
+        private readonly By cancelBtn = By.XPath("//button[text()='Cancel']");
+        private readonly By idFirstCreditInPopup = By.XPath("//div[@class='grid-canvas']/div[1]/div[contains(@class, 'l1 r1')]");
 
         //New tabs
         private readonly By lineTab = By.XPath("//a[@aria-controls='creditNoteLines-tab']");
@@ -27,6 +45,29 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             WaitUtil.WaitForElementVisible(noteInput);
             return this;
         }
+
+        public CreditNotePage IsPopupCreditNote()
+        {
+            WaitUtil.WaitForElementVisible(titlePopup);
+            WaitUtil.WaitForElementVisible(confirmBtn);
+            Assert.IsTrue(IsControlDisplayed(confirmBtn));
+            Assert.IsTrue(IsControlDisplayed(createAdhocCreditNoteBtn));
+            Assert.IsTrue(IsControlDisplayed(cancelBtn));
+            return this;
+        }
+
+        public CreditNotePage ClickOnFirstCreditRow()
+        {
+            ClickOnElement(firstCheckboxItemRowCredit);
+            return this;
+        }
+
+        public CreditNotePage ClickOnConfirmBtn()
+        {
+            ClickOnElement(confirmBtn);
+            return this;
+        }
+
         public CreditNotePage SearchForParty(string partyName)
         {
             SendKeys(partyInput, partyName);
@@ -52,5 +93,44 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             return this;
         }
 
+        public CreditNotePage VerifyCurrenCreditNotetUrl(string contractId, string partyId)
+        {
+            string currentUrl = GetCurrentUrl();
+            Assert.AreEqual(WebUrl.MainPageUrl + "web/credit-notes/new?contractId=" + contractId + "&partyId=" + partyId + "&createFromParty=true", currentUrl);
+            return this;
+        }
+
+        public CreditNotePage VerifyCurrentCreditNoteUrl()
+        {
+            string currentUrl = GetCurrentUrl();
+            Assert.IsTrue(currentUrl.Contains(WebUrl.MainPageUrl + "web/credit-notes/"));
+            return this;
+        }
+
+        public CreditNotePage VerifyPartyNameUpdated(string partyNameValue)
+        {
+            Assert.AreEqual(partyNameValue, GetAttributeValue(partyInput_1, "value"));
+            return this;
+        }
+
+        public CreditNotePage ClickOnLinesTab()
+        {
+            ClickOnElement(linesTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public CreditNotePage VerifyRowOfNewLines(string targetTypeValue, string targetIdValue, string statusValue)
+        {
+            Assert.AreEqual(targetTypeValue, GetElementText(targetTypeOfFirstLine));
+            Assert.AreEqual(targetIdValue, GetElementText(targetIdOfFirstLine));
+            Assert.AreEqual(statusValue, GetElementText(postedStateOfFirstLine));
+            return this;
+        }
+
+        public string GetIdOfFirstRowInPopupCredit()
+        {
+            return GetElementText(idFirstCreditInPopup);
+        }
     }
 }
