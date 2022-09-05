@@ -15,6 +15,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
     [TestFixture]
     class DefaultAllocationTests : BaseTest
     {
+        string rscTypeSet = "Default resource-type set";
+        string rscTypeClear = "Default resource-type cleared";
+        string rscSet = "Default Resource Set";
+        string rscClear = "Default resource cleared";
         [Category("Resources")]
         [Category("Dee")]
         [Test]
@@ -378,11 +382,11 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         public void TC_137_default_allocation_test()
         {
             var listMessagesResourceType = new List<string>();
-            listMessagesResourceType.Add("Default resource-type set");
-            listMessagesResourceType.Add("Default resource-type cleared");
+            listMessagesResourceType.Add(rscTypeSet);
+            listMessagesResourceType.Add(rscTypeClear);
             var listMessagesResource = new List<string>();
-            listMessagesResource.Add("Default Resource Set");
-            listMessagesResource.Add("Default resource cleared");
+            listMessagesResource.Add(rscSet);
+            listMessagesResource.Add(rscClear);
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -443,11 +447,11 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .DragAndDropFirstResultToNewCell()
                 .VerifyAllocatingToast("Default resource-type set")
                 .RelocateResourceTypeFromRoundGroupToRoundGroup("Loader", 2)
-                .VerifyToastMessages(listMessagesResourceType);
+                .VerifyAllocatingToast(listMessagesResourceType);
             //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF DIFFERENT ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundGroupToRound("Loader", 1)
-                .VerifyToastMessages(listMessagesResourceType);
+                .VerifyAllocatingToast(listMessagesResourceType);
             //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF SAME ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceType(1)
@@ -460,19 +464,19 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .DeallocateResourceType(6)
                 .VerifyAllocatingToast("Default resource-type cleared")
                 .RelocateResourceTypeFromRoundGroupToRound("Loader", 5)
-                .VerifyToastMessages(listMessagesResourceType);
+                .VerifyAllocatingToast(listMessagesResourceType);
             //REALLOCATING RESOURCE FROM ROUND TO ROUND OF SAME ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundToRound(1, 2)
-                .VerifyToastMessages(listMessagesResourceType);
+                .VerifyAllocatingToast(listMessagesResourceType);
             //REALLOCATING RESOURCE FROM ROUND TO ROUND OF DIFFERENT ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundToRound(1, 6)
-                .VerifyToastMessages(listMessagesResourceType);
+                .VerifyAllocatingToast(listMessagesResourceType);
             //REALLOCATING RESOURCE FROM ROUND TO ROUND GROUP OF SAME ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundGroupToRoundGroup("Loader", 1)
-                .VerifyToastMessages(listMessagesResourceType);
+                .VerifyAllocatingToast(listMessagesResourceType);
 
 
 
