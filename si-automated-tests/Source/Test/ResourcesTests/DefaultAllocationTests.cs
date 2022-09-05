@@ -456,8 +456,6 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceType(1)
                 .VerifyAllocatingToast("Default resource-type cleared");
-            PageFactoryManager.Get<ResourceAllocationPage>();
-                //.FilterResource("Type", "Driver");
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DragAndDropFirstResultToNewCell()
                 .VerifyAllocatingToast("Default resource-type set")
@@ -473,10 +471,46 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundToRound(1, 6)
                 .VerifyAllocatingToast(listMessagesResourceType);
+            //REALLOCATING RESOURCE FROM ROUND TO ROUND GROUP OF DIFFERENT ROUND GROUP
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .RelocateResourceTypeFromRoundGroupToRound("Loader", 1)
+                .VerifyAllocatingToast(listMessagesResourceType);
             //REALLOCATING RESOURCE FROM ROUND TO ROUND GROUP OF SAME ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .RelocateResourceTypeFromRoundGroupToRoundGroup("Loader", 1)
+                .RelocateResourceTypeFromRoundToRound(2, 6)
+                .VerifyAllocatingToast(listMessagesResourceType)
+                .DeallocateResourceType("Loader")
+                .VerifyAllocatingToast(rscTypeClear)
+                .RelocateResourceTypeFromRoundGroupToRoundGroup("Loader", 2)
                 .VerifyAllocatingToast(listMessagesResourceType);
+
+            //OVERRIDE RESOURCE TYPE TO CELL WITH RESOURCE TYPE ON ROUND
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SwitchToTab("All Resources")
+                .SwitchToTab("Resource Type");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Type", "Driver");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .AllocateFirstResultToResourceTypeInRound(1)
+                .VerifyAllocatingToast(rscTypeSet);
+
+            //OVERRIDE RESOURCE TYPE TO CELL WITH RESOURCE TYPE ON ROUND GROUP
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .AllocateFirstResultToResourceTypeInRoundGroup(1)
+                .VerifyAllocatingToast(rscTypeSet);
+
+            //OVERRIDE RESOURCE TO CELL WITH RESOURCE ON ROUND
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Type", "Driver");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DragAndDropFirstResultToBlankResourceTypeInRound("Driver")
+                .VerifyAllocatingToast(rscSet);
+            //OVERRIDE RESOURCE TO CELL WITH RESOURCE ON ROUND GROUP
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .DragAndDropFirstResultToBlankResourceType("Driver")
+                .VerifyAllocatingToast(rscSet);
 
 
 

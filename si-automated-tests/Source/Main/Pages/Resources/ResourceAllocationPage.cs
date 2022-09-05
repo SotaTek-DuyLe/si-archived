@@ -22,6 +22,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string allocatedResource = "//span[@class='main-description resource-name' and contains(text(),'{0}')]";
         private readonly By allocatedResources = By.XPath("//span[@class='main-description resource-name']");
         private readonly string allocatedResourceType = "//span[@class='main-description resource-name' and text()='']";
+        private readonly string allocatedResourceTypeInRound = "//tr[@class='round-group-dropdown-item']//span[@class='main-description resource-name' and text()='']";
+        private readonly string allocatedResourceTypeInRoundGroup = "//tr[@class='round-group-dropdown']//span[@class='main-description resource-name' and text()='']";
         private readonly By addResourceCell = By.XPath("//td[@title='To allocate resource, select and drag resource from the panel on the right hand side.']");
         private readonly string allocatedResourceContainer = "//span[@class='main-description resource-name' and contains(text(),'{0}')]/parent::td";
         private readonly string resourceAbbreviation = "//span[@class='main-description resource-name' and contains(text(),'{0}')]/following-sibling::span[contains(@data-bind,'resourceStateAbbreviation')]";
@@ -41,7 +43,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string firstResourceCustomRoundGroup = "//tr[@class='round-group-dropdown'][{0}]/td[@class='resource-container resource']";
         private readonly string roundGroup = "//tr[@class='round-group-dropdown'][{0}]";
         private readonly By roundContainer = By.XPath("//tr[@class='round-group-dropdown-item']/td[@class='round-container round']");
-        private readonly string blankResourceType = "//span[@class='sub-description resource-type current-type' and text()='{0}']/preceding-sibling::span[@class='main-description resource-name' and text()='']";
+        private readonly string blankResourceTypeInRoundGroup = "//tr[@class='round-group-dropdown']//span[@class='sub-description resource-type current-type' and text()='{0}']/preceding-sibling::span[@class='main-description resource-name' and text()='']";
+        private readonly string blankResourceTypeInRound = "//tr[@class='round-group-dropdown-item']//span[@class='sub-description resource-type current-type' and text()='{0}']/preceding-sibling::span[@class='main-description resource-name' and text()='']";
         private readonly string expandOptions = "(//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')])[{0}]//div[@id='toggle-actions']";
         private readonly string secondColumnResource = "(//div[@id='rounds-scrollable']//tr[@class='round-group-dropdown'])[{0}]//span[text()='{1}']";
         private readonly string roundName = "//span[@class='main-description round-name' and text()='{0}']";
@@ -261,7 +264,14 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage DragAndDropFirstResultToBlankResourceType(string resourceType)
         {
             IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
-            IWebElement target = WaitUtil.WaitForElementVisible(blankResourceType, resourceType);
+            IWebElement target = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType);
+            DragAndDrop(_firstResultFields[0], target);
+            return this;
+        }
+        public ResourceAllocationPage DragAndDropFirstResultToBlankResourceTypeInRound(string resourceType)
+        {
+            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
+            IWebElement target = WaitUtil.WaitForElementVisible(blankResourceTypeInRound, resourceType);
             DragAndDrop(_firstResultFields[0], target);
             return this;
         }
@@ -330,7 +340,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         }
         public ResourceAllocationPage RelocateResourceTypeFromRoundGroupToRoundGroup(string resourceType, int targetRow)
         {
-            IWebElement source = WaitUtil.WaitForElementVisible(blankResourceType, resourceType);
+            IWebElement source = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType);
             //var sourceElement = WaitUtil.WaitForElementVisible(firstResourceCustomRoundGroup, sourceRow.ToString());
             var targetElement = WaitUtil.WaitForElementVisible(roundGroup, targetRow.ToString());
             DragAndDrop(source, targetElement);
@@ -339,7 +349,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         }
         public ResourceAllocationPage RelocateResourceTypeFromRoundGroupToRound(string resourceType, int targetRow)
         {
-            IWebElement source = WaitUtil.WaitForElementVisible(blankResourceType, resourceType);
+            IWebElement source = WaitUtil.WaitForElementVisible(blankResourceTypeInRound, resourceType);
             //var sourceElement = WaitUtil.WaitForElementVisible(firstResourceCustomRoundGroup, sourceRow.ToString());
             var targetElements = WaitUtil.WaitForAllElementsVisible(roundContainer);
             DragAndDrop(source, targetElements[targetRow-1]);
@@ -351,6 +361,22 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             //var sourceElement = WaitUtil.WaitForElementVisible(firstResourceCustomRoundGroup, sourceRow.ToString());
             var rounds = WaitUtil.WaitForAllElementsVisible(roundContainer);
             DragAndDrop(resourceType[whichOne -1], rounds[roundRow - 1]);
+            return this;
+        }
+        public ResourceAllocationPage AllocateFirstResultToResourceTypeInRound(int whichResourceTypeInRow)
+        {
+            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
+            IWebElement source = _firstResultFields[0];
+            var resourceTypeInRound = WaitUtil.WaitForAllElementsVisible(allocatedResourceTypeInRound);
+            DragAndDrop(source, resourceTypeInRound[whichResourceTypeInRow - 1]);
+            return this;
+        }
+        public ResourceAllocationPage AllocateFirstResultToResourceTypeInRoundGroup(int whichResourceTypeInRow)
+        {
+            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
+            IWebElement source = _firstResultFields[0];
+            var resourceTypeInRound = WaitUtil.WaitForAllElementsVisible(allocatedResourceTypeInRoundGroup);
+            DragAndDrop(source, resourceTypeInRound[whichResourceTypeInRow - 1]);
             return this;
         }
     }
