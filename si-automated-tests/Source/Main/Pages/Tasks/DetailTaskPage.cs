@@ -51,6 +51,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private const string inspectionTypeOption = "//select[@id='inspection-type']/option[text()='{0}']";
         private const string allocatedUnitOption = "//select[@id='allocated-unit']/option[text()='{0}']";
         private const string allocatedUserOption = "//select[@id='allocated-user']/option[text()='{0}']";
+        private const string taskStateOption = "//select[@id='taskState.id']/option[text()='{0}']";
 
         public DetailTaskPage IsDetailTaskPage()
         {
@@ -260,6 +261,35 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        public DetailTaskPage ClickOnTaskStateDd()
+        {
+            ClickOnElement(taskStateDd);
+            return this;
+        }
+
+        public DetailTaskPage SelectAnyTaskStateInDd(string taskStateValue)
+        {
+            ClickOnElement(taskStateOption, taskStateValue);
+            return this;
+        }
+
+        public string GetCompletedDateDisplayed()
+        {
+            return GetAttributeValue(completionDateInput, "value");
+        }
+
+        public string GetEndDateDisplayed()
+        {
+            return GetAttributeValue(endDateInput, "value");
+        }
+
+        public DetailTaskPage VerifyCompletedDateNotEmpty()
+        {
+            string completedDateDisplayed = GetAttributeValue(completionDateInput, "value");
+            Assert.IsFalse(string.IsNullOrEmpty(completedDateDisplayed));
+            return this;
+        }
+
         //HISTORY TAB
         private readonly By titleTaskLineFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]");
         private readonly By titleTaskLineSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[2]");
@@ -275,6 +305,15 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By userUpdate = By.XPath("(//strong[text()='Update']/parent::div/following-sibling::div/strong[1])[1]");
         private readonly By timeUpdate = By.XPath("(//strong[text()='Update']/parent::div/following-sibling::div/strong[2])[1]");
         private readonly By contentUpdate = By.XPath("(//strong[text()='Update']/following-sibling::div)[1]");
+        private readonly By completedDateUpdate = By.XPath("//strong[text()='Update']/following-sibling::div/span[text()='Completed date']/following-sibling::span[1]");
+        private readonly By stateUpdate = By.XPath("//strong[text()='Update']/following-sibling::div/span[text()='State']/following-sibling::span[1]");
+        private readonly By endDateUpdate = By.XPath("//strong[text()='Update']/following-sibling::div/span[text()='End date']/following-sibling::span[1]");
+        private readonly By actualAssetQtyTaskLineUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]/following-sibling::div//span[text()='ActualAssetQuantity']/following-sibling::span[1]");
+        private readonly By actualProductQtyTaskLineUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]/following-sibling::div//span[text()='ActualProductQuantity']/following-sibling::span[1]");
+        private readonly By stateTaskLineUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]/following-sibling::div//span[text()='State']/following-sibling::span[1]");
+        private readonly By resolutionCodeTaskLineUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]/following-sibling::div//span[text()='Resolution Code']/following-sibling::span[1]");
+        private readonly By completedDateTaskLineUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]/following-sibling::div//span[text()='Completed Date']/following-sibling::span[1]");
+        private readonly By autoConfirmedTaskLineUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]/following-sibling::div//span[text()='Auto Confirmed']/following-sibling::span[1]");
 
         public DetailTaskPage ClickOnHistoryTab()
         {
@@ -334,6 +373,29 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             {
                 Assert.AreEqual(fieldInServiceUpdate[i] + ": " + valueExpected[i] + ".", allInfoDisplayed[i]);
             }
+            return this;
+        }
+
+        public DetailTaskPage VerifyHistoryTabUpdate(string userUpdatedExp, string timeUpdatedExp, string completedDateExp, string stateExp, string endDateExp)
+        {
+            Assert.AreEqual(userUpdatedExp, GetElementText(userUpdate));
+            Assert.AreEqual(timeUpdatedExp, GetElementText(timeUpdate));
+            Assert.AreEqual(completedDateExp + ".", GetElementText(completedDateUpdate));
+            Assert.AreEqual(stateExp + ".", GetElementText(stateUpdate));
+            Assert.AreEqual(endDateExp + ".", GetElementText(endDateUpdate));
+            return this;
+        }
+
+        public DetailTaskPage VerifyHistoryTabFirstAfterChangingStatus(string userUpdatedExp, string timeUpdatedExp, string actualAssetExp, string actualProductExp, string stateExp, string resolutionCodeExp, string completedDateExp, string autoConfirmedExp)
+        {
+            Assert.AreEqual(userUpdatedExp, GetElementText(userFirstServiceUpdate));
+            Assert.IsTrue(timeUpdatedExp.Contains(GetElementText(timeFirstServiceUpdate)));
+            Assert.AreEqual(actualAssetExp + ".", GetElementText(actualAssetQtyTaskLineUpdate));
+            Assert.AreEqual(actualProductExp + ".", GetElementText(actualProductQtyTaskLineUpdate));
+            Assert.AreEqual(stateExp + ".", GetElementText(stateTaskLineUpdate));
+            Assert.AreEqual(resolutionCodeExp + ".", GetElementText(resolutionCodeTaskLineUpdate));
+            Assert.IsTrue(completedDateExp.Contains(GetElementText(completedDateTaskLineUpdate).Replace(".", "").Trim()), "Expected: " + completedDateExp + " but found: " + GetElementText(completedDateTaskLineUpdate));
+            Assert.AreEqual(autoConfirmedExp + ".", GetElementText(autoConfirmedTaskLineUpdate));
             return this;
         }
 
@@ -417,9 +479,20 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         //TASK LINE TAB
         private readonly By taskLineTab = By.CssSelector("a[aria-controls='taskLines-tab']");
         private readonly By numberOfTaskLine = By.XPath("//tbody//tr[contains(@data-bind,'with: $data.getFields()')]");
+
         private readonly By firstStateTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='itemState.id']");
         private readonly By firstProductTaskLine = By.XPath("//tbody/tr[1]//echo-select[contains(@params, 'name: product')]/select");
         private readonly By firstResolutionCodeTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='resCode.id']");
+        private readonly By firstOrderTaskLine = By.CssSelector("tbody>tr:nth-child(1) input[id='order.id']");
+        private readonly By firstTypeTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='taskLineType.id']");
+        private readonly By firstTypeAssetTaskLine = By.XPath("//tbody/tr[1]//echo-select[contains(@params, 'name: assetType')]/select");
+        private readonly By firstActualAssetTaskLine = By.CssSelector("tbody>tr:nth-child(1) input[id='actualAssetQuantity.id']");
+        private readonly By firstScheduledAssetTaskLine = By.CssSelector("tbody>tr:nth-child(1) input[id='scheduledAssetQuantity.id']");
+        private readonly By firstActualProductTaskLine = By.CssSelector("tbody>tr:nth-child(1) input[id='actualProductQuantity.id']");
+        private readonly By firstScheduledProductTaskLine = By.CssSelector("tbody>tr:nth-child(1) input[id='scheduledProductQuantity.id']");
+        private readonly By firstUnitProductTaskLine = By.XPath("//tbody/tr[1]//echo-select[contains(@params, 'name: unitOfMeasure')]/select");
+        private readonly By firstDestinationTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='destinationSite.id']");
+        private readonly By firstSiteProductTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='siteProduct.id']");
         private readonly By secondStateTaskLine = By.CssSelector("tbody>tr:nth-child(2) select[id='itemState.id']");
         private readonly By secondProductTaskLine = By.XPath("//tbody/tr[2]//echo-select[contains(@params, 'name: product')]/select");
         private readonly By secondResolutionCodeTaskLine = By.CssSelector("tbody>tr:nth-child(2) select[id='resCode.id']");
@@ -428,6 +501,37 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             ClickOnElement(taskLineTab);
             WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public DetailTaskPage VerifyStateOfFirstRowInTaskLineTab(string stateExp)
+        {
+            Assert.AreEqual(stateExp, GetFirstSelectedItemInDropdown(firstStateTaskLine));
+            return this;
+        }
+
+        public DetailTaskPage VerifyResoluctionCodeFirstRowInTaskLineTab(string resolutionCodeExp)
+        {
+            Assert.AreEqual(resolutionCodeExp, GetFirstSelectedItemInDropdown(firstResolutionCodeTaskLine));
+            return this;
+        }
+
+        public DetailTaskPage VerifyAllColumnInFirstRowDisabled()
+        {
+            //Disabled
+            Assert.AreEqual("true", GetAttributeValue(firstOrderTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstTypeTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstTypeAssetTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstActualAssetTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstScheduledAssetTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstProductTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstActualProductTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstScheduledProductTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstUnitProductTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstDestinationTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstSiteProductTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstStateTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstResolutionCodeTaskLine, "disabled"));
             return this;
         }
 
