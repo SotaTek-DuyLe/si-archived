@@ -172,6 +172,24 @@ namespace si_automated_tests.Source.Main.Finders
             string query = $"select * from roundleginstancereallocations where roundleginstanceid in ({string.Join(',', roundleginstanceids)})";
             return FindList<RoundLegInstanceReallocationsModel>(query);
         }
+
+        public List<TaskLineDBModel> GetTaskLineByTaskId(int taskid)
+        {
+            string query = "select * from tasklines where taskid= " + taskid + ";";
+            return FindList<TaskLineDBModel>(query);
+        }
+
+        public List<ResolutionCodeDBModel> GetResolutionCodeById(int id)
+        {
+            string query = "SELECT * FROM resolutioncodes r WHERE r.resolutioncodeID = " + id + ";";
+            return FindList<ResolutionCodeDBModel>(query);
+        }
+
+        public List<AgreementLineActionDBModel> GetAgreementLineActionById(int agreementlineid)
+        {
+            string query = "select * from agreementlineactions a  where agreementlineid=" + agreementlineid + ";";
+            return FindList<AgreementLineActionDBModel>(query);
+        }
     }
 
 }
