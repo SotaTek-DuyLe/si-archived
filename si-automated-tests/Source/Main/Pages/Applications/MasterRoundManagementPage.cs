@@ -188,7 +188,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 {
                     IWebElement e = GetElement(String.Format(lastTaskField, i.ToString()));
                     actual.Description = e.Text;
-                    ScrollLeftt(slickViewport);
+                    ScrollLeft(slickViewport);
                     continue;
                 }
                 else if (hds[i].Text.Equals("Start Date", StringComparison.OrdinalIgnoreCase))
@@ -215,7 +215,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 {
                     IWebElement e = GetElement(String.Format(taskField, i.ToString()));
                     actual.Description = e.Text;
-                    ScrollLeftt(slickViewport);
+                    ScrollLeft(slickViewport);
                     continue;
                 }
                 else if (hds[i].Text.Equals("End Date", StringComparison.OrdinalIgnoreCase))
