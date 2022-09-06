@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -17,6 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="JUnitTestLogger" Version="1.1.0" />
+    <PackageReference Include="NTextCat" Version="0.3.65" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit.Engine.Api" Version="3.15.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
@@ -39,6 +40,7 @@
     <None Remove="Source\" />
     <None Remove="Source\Core\" />
     <None Remove="Source\Main\" />
+    <None Remove="Source\Main\Data\Core14.profile.xml" />
     <None Remove="Source\Test\" />
     <None Remove="WebDriverManager" />
     <None Remove="Source\Main\Pages\" />
@@ -85,6 +87,7 @@
     <None Remove="Source\Main\Pages\Search\PointAreas\" />
     <None Remove="Source\Main\Data\TestUserData.json" />
     <None Remove="Source\Main\Data\DemoUserData.json" />
+	<None Remove="Source\Main\Data\Core14.profile.xml" />
     <None Remove="Source\Main\Pages\Search\PointNodes\" />
     <None Remove="Source\Test\EventTests\" />
     <None Remove="Source\Test\ServiceTests\" />
@@ -95,9 +98,12 @@
     <None Remove="Source\Test\RiskTests\" />
     <None Remove="Source\Main\Pages\Applications\RiskRegister\" />
     <None Remove="Source\Main\Pages\Streets\" />
+    <None Remove="Source\Test\SDMActionTests\" />
+    <None Remove="Source\Test\TaskLineTests\" />
+    <None Remove="Source\Test\OrphanCreditLineTests\" />
+    <None Remove="Source\Test\SiteServiceTests\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Source\Main\Data\" />
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
     <Folder Include="Source\Main\Pages\Paties\SiteServices\" />
     <Folder Include="Source\Test\ContactTests\" />
@@ -116,7 +122,6 @@
     <Folder Include="Source\Main\Pages\Tasks\Inspection\" />
     <Folder Include="Source\Main\Pages\Inspections\" />
     <Folder Include="Source\Main\Pages\Events\" />
-    <Folder Include="Source\Main\Pages\Common\" />
     <Folder Include="Source\Main\Pages\Search\" />
     <Folder Include="Source\Main\Pages\Search\PointAddress\" />
     <Folder Include="Source\Main\Pages\Search\PointSegment\" />
@@ -130,6 +135,10 @@
     <Folder Include="Source\Test\RiskTests\" />
     <Folder Include="Source\Main\Pages\Applications\RiskRegister\" />
     <Folder Include="Source\Main\Pages\Streets\" />
+    <Folder Include="Source\Test\SDMActionTests\" />
+    <Folder Include="Source\Test\TaskLineTests\" />
+    <Folder Include="Source\Test\OrphanCreditLineTests\" />
+    <Folder Include="Source\Test\SiteServiceTests\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
@@ -141,6 +150,9 @@
     <EmbeddedResource Include="Source\Main\Data\DemoUserData.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+	  <EmbeddedResource Include="Source\Main\Data\Core14.profile.xml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources.resx">
