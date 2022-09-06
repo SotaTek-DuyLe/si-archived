@@ -73,13 +73,15 @@ namespace si_automated_tests.Source.Test.TaskLineTests
                 .ClickOnHistoryTab()
                 .VerifyTitleTaskLineFirstServiceUpdate()
                 .VerifyTitleUpdate()
-                .VerifyHistoryTabUpdate(AutoUser51.DisplayName, timeUpdatedExp, completedDateDisplayed, "Completed", endDateDisplayed)
+                .VerifyHistoryTabUpdate(AutoUser51.DisplayName, timeUpdatedExp, completedDateDisplayed, "Completed", endDateDisplayed);
+
+           detailTaskPage
                 .VerifyHistoryTabFirstAfterChangingStatus(AutoUser51.DisplayName, timeUpdatedExp, "1", "75", "Completed", "", completedDateDisplayed, "Manually Confirmed on Web");
             //Line 12: Run query to check
             List<TaskLineDBModel> taskLineDBModels = finder.GetTaskLineByTaskId(int.Parse(taskId));
             int resolutioncodeId = taskLineDBModels[0].resolutioncodeID;
             List<ResolutionCodeDBModel> resolutionCodeDBModels = finder.GetResolutionCodeById(resolutioncodeId);
-            Assert.AreEqual(resolutionCodeDBModels[0].resolutioncode, null);
+            Assert.AreEqual(resolutionCodeDBModels[0].resolutioncode.Trim(), "");
         }
     }
 }

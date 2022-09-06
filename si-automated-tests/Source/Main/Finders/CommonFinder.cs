@@ -184,6 +184,12 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "SELECT * FROM resolutioncodes r WHERE r.resolutioncodeID = " + id + ";";
             return FindList<ResolutionCodeDBModel>(query);
         }
+
+        public List<AgreementLineActionDBModel> GetAgreementLineActionById(int agreementlineid)
+        {
+            string query = "select * from agreementlineactions a  where agreementlineid=" + agreementlineid + ";";
+            return FindList<AgreementLineActionDBModel>(query);
+        }
     }
 
 }

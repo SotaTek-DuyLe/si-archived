@@ -3,7 +3,6 @@
     public class MainOption
     {
         public static readonly string Applications = "Applications";
-        public static readonly string Parties = "Parties";
         public static readonly string Services = "Services";
         public static readonly string Events = "Events";
         public static readonly string Tasks = "Tasks";
@@ -16,5 +15,9 @@
         //ACCOUNT
         public static readonly string Accounts = "Accounts";
         public static readonly string SalesInvoiceBatches = "Sales Invoice Batches";
+
+        //PARTIES
+        public static readonly string Parties = "Parties";
+        public static readonly string SiteServices = "Site Services";
     }
 }

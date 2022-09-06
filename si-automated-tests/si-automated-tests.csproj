@@ -101,6 +101,7 @@
     <None Remove="Source\Test\SDMActionTests\" />
     <None Remove="Source\Test\TaskLineTests\" />
     <None Remove="Source\Test\OrphanCreditLineTests\" />
+    <None Remove="Source\Test\SiteServiceTests\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
@@ -137,6 +138,7 @@
     <Folder Include="Source\Test\SDMActionTests\" />
     <Folder Include="Source\Test\TaskLineTests\" />
     <Folder Include="Source\Test\OrphanCreditLineTests\" />
+    <Folder Include="Source\Test\SiteServiceTests\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
