@@ -403,13 +403,13 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .FilterResource("Resource", resourceNameA)
                 .VerifyFirstResultValue("Resource", resourceNameA)
-                .DragAndDropFirstResultToRound(2)
+                .DragAndDropFirstResultToRoundGroup(2)
                 .VerifyToastMessage("Default Resource Set");
 
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .FilterResource("Resource", resourceNameB)
                 .VerifyFirstResultValue("Resource", resourceNameB)
-                .DragAndDropFirstResultToRound(2)
+                .DragAndDropFirstResultToRoundGroup(2)
                 .VerifyToastMessage("Default Resource Set")
 
             //CREATE LEAVE ENTRY
