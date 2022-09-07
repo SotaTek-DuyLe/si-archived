@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
@@ -16,9 +17,47 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
         private readonly By applyBtn = By.XPath("//div[@id='calendar-tab']//button[text()='Apply']");
         private readonly By rowsCalendarTableInMonth = By.XPath("//div[@class='fc-content-skeleton']//table//tbody//tr");
         private readonly By nextCalendarBtn = By.XPath("//div[@class='fc-left']//button[contains(@class,'fc-next-button')]");
+        public readonly By LastMonthBtn = By.XPath("//button[@title='Last month']");
+        public readonly By CalendarTitle = By.XPath("//h2[text()='August 2022']");
+        public readonly By ServicesDropdownButton = By.XPath("//div[@id='calendar-tab']//button[@data-id='services-list']");
+        public readonly By ProductDropdownButton = By.XPath("//div[@id='calendar-tab']//button[@data-id='products-list']");
+
         public CalendarElement PartyCalendar
         {
             get => new CalendarElement("//div[contains(@class, 'fc-month-view')]", "./div[contains(@class, 'fc-bg')]//table//tbody//tr//td", "//div[contains(@class, 'fc-week')]", "./div[contains(@class, 'fc-content-skeleton')]//table//tbody//tr//td");
+        }
+
+        public PartyCalendarPage GoToAugust()
+        {
+            while (!IsControlDisplayedNotThrowEx(CalendarTitle))
+            {
+                ClickOnElement(LastMonthBtn);
+                WaitForLoadingIconToDisappear();
+            }
+            return this;
+        }
+
+        public PartyCalendarPage ClickDayInstance(DateTime date)
+        {
+            var dayElement = PartyCalendar.GetDay(date);
+            ClickOnElement(dayElement.Contents.FirstOrDefault());
+            return this;
+        }
+
+        public PartyCalendarPage VerifyDayInstanceHasRaiseHandStatus(DateTime date, bool isContain)
+        {
+            var dayElement = PartyCalendar.GetDay(date);
+            var content = dayElement.Contents.FirstOrDefault();
+            IWebElement innerContent = content.FindElement(By.XPath("./a"));
+            if (isContain)
+            {
+                Assert.IsTrue(innerContent.GetCssValue("background-image").Contains("task-onhold.png"));
+            }
+            else
+            {
+                Assert.IsFalse(innerContent.GetCssValue("background-image").Contains("task-onhold.png"));
+            }
+            return this;
         }
 
         public PartyCalendarPage ClickSiteCombobox()

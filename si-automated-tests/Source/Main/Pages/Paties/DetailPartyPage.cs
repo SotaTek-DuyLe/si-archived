@@ -18,7 +18,7 @@ using CanlendarServiceTask = si_automated_tests.Source.Main.Models.Suspension.Se
 
 namespace si_automated_tests.Source.Main.Pages.Paties
 {
-    public class DetailPartyPage : BasePage
+    public class DetailPartyPage : BasePageCommonActions
     {
         private const string AllTabDisplayed = "//li[@role='presentation' and not(contains(@style, 'visibility: collapse'))]/a";
         private const string AllTabInDropdown = "//ul[@class='dropdown-menu']//a";
@@ -134,6 +134,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string ColumnInGrid = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//span[text()='{0}']/parent::div";
         private const string ColumnInRow = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private readonly By siteRows = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']//div[contains(@class,'ui-widget-content')]");
+
+        public readonly By OnStopButton = By.XPath("//div[@id='account-tab']//button[text()='ON STOP']");
+        public readonly By PartyStatus = By.XPath("//div[@title='Party Status']//span");
 
         //STEP
         public DetailPartyPage WaitForDetailPartyPageLoadedSuccessfully(string name)
