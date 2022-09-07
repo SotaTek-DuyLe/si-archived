@@ -225,5 +225,59 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 Assert.IsNotNull(finder.GetResolutionCodeModels(RLIReallocation.reason_resolutioncodeID).FirstOrDefault(x => x.resolutioncode == "Bad Weather"));
             }
         }
+
+        [Category("TaskAllocationTests")]
+        [Test(Description = "182_Round Instance Events grid")]
+        public void TC_182_Round_Instance_Events_grid()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser39.UserName, AutoUser39.Password)
+                .IsOnHomePage(AutoUser39);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption("Task Allocation")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+            TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
+            string from = "07/09/2022";
+            string to = "07/09/2022";
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.RMC);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
+            taskAllocationPage.ExpandRoundNode(Contract.RMC)
+                .ExpandRoundNode("Collections")
+                .SelectRoundNode("Commercial Collections");
+            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.SleepTimeInMiliseconds(1000);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Control + "a");
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Delete);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
+            taskAllocationPage.SleepTimeInMiliseconds(3000);
+            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ContractSelect);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
+            taskAllocationPage.WaitForLoadingIconToDisappear();
+            taskAllocationPage.DoubleClickRI("REC1-AM", "Wednesday")
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            RoundInstanceForm roundInstanceForm = PageFactoryManager.Get<RoundInstanceForm>();
+            roundInstanceForm.ClickOnElement(roundInstanceForm.EventsTab);
+            roundInstanceForm.WaitForLoadingIconToDisappear();
+            roundInstanceForm.ClickOnElement(roundInstanceForm.AddNewEventItemButton);
+            roundInstanceForm.SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+
+            RoundInstanceEventPage roundInstanceEventPage = PageFactoryManager.Get<RoundInstanceEventPage>();
+            roundInstanceEventPage.SelectTextFromDropDown(roundInstanceEventPage.RoundEventTypeSelect, "Tipping")
+                .SelectTextFromDropDown(roundInstanceEventPage.ResourceSelect, "COM2 NST")
+                .ClickSaveAndCloseBtn()
+                .SwitchToChildWindow(2);
+            roundInstanceForm.ClickOnElement(roundInstanceForm.RefreshButton);
+            roundInstanceForm.WaitForLoadingIconToDisappear();
+            roundInstanceForm.VerifyNewRoundInstanceEventData("Tipping", "COM2 NST");
+        }
     }
 }
