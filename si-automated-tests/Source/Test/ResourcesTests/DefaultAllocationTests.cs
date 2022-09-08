@@ -384,6 +384,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Test]
         public void TC_137_default_allocation_test()
         {
+            string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd", 5);
             listMessagesResourceType.Add(rscTypeSet);
             listMessagesResourceType.Add(rscTypeClear);
             listMessagesResource.Add(rscSet);
@@ -403,6 +404,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectContract(Contract.RMC)
                 .SelectBusinessUnit(Contract.RMC)
                 .SelectShift("AM")
+                .ClickCalendar()
+                .InsertDayInFutre(dateInFutre)
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(2000);
@@ -508,9 +511,9 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .FilterResource("Type", "Driver");
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .DragAndDropFirstResultToRoundGroup(1)
+                .DragAndDropSecondResultToRoundGroup(3, 1)
                 .VerifyAllocatingToast(rscSet)
-                .AllocateFirstResultToResourceInRound(1)
+                .AllocateResultToResourceInRound(4, 1)
                 .VerifyAllocatingToast(rscSet);
             //OVERRIDE RESOURCE TO CELL WITH RESOURCE ON ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
@@ -523,7 +526,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .FilterResource("Type", "Driver");
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .AllocateFirstResultToResourceInRound(1)
+                .AllocateResultToResourceInRound(1, 1)
                 .VerifyAllocatingToast(rscTypeSet);
             //ALLOCATING RESOURCE TO ROUND
             PageFactoryManager.Get<ResourceAllocationPage>()

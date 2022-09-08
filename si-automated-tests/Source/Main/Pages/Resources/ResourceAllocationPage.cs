@@ -283,9 +283,9 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, roundGroup[whichRow - 1]);
             return this;
         }
-        public ResourceAllocationPage DragAndDropSecondResultToRoundGroup(int whichRow)
+        public ResourceAllocationPage DragAndDropSecondResultToRoundGroup(int whichOne, int whichRow)
         {
-            var source = GetSecondResult();
+            var source = GetResultNo(whichOne);
             IList<IWebElement> roundGroup = WaitUtil.WaitForAllElementsVisible(roundGroups);
             DragAndDrop(source, roundGroup[whichRow - 1]);
             return this;
@@ -431,9 +431,9 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(resizerElement, targetElement);
             return this;
         }
-        public ResourceAllocationPage AllocateFirstResultToResourceInRound(int whichRound)
+        public ResourceAllocationPage AllocateResultToResourceInRound(int whichOne, int whichRound)
         {
-            var source = GetFirstResult();
+            var source = GetResultNo(whichOne);
             var resourceInRound = WaitUtil.WaitForAllElementsVisible(allocatedResourceInRound);
             DragAndDrop(source, resourceInRound[whichRound - 1]);
             return this;
@@ -449,9 +449,9 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         {
             return WaitUtil.WaitForAllElementsVisible(firstResultFields)[0];
         }
-        public IWebElement GetSecondResult()
+        public IWebElement GetResultNo(int whichOne)
         {
-            return WaitUtil.WaitForAllElementsVisible(firstResultFields)[1];
+            return WaitUtil.WaitForAllElementsVisible(firstResultFields)[whichOne-1];
         }
     }
 }
