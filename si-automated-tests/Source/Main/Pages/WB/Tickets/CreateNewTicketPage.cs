@@ -1,26 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.WB.Tickets
 {
-    public class CreateNewTicketPage : BasePage
+    public class CreateNewTicketPage : BasePageCommonActions
     {
         private readonly By title = By.XPath("//h4[text()='Weighbridge Ticket']");
         private readonly By ticketDateInput = By.CssSelector("input#ticket-date");
-        private readonly By stationDd = By.CssSelector("select#stations");
+        public readonly By stationDd = By.CssSelector("select#stations");
         private readonly By vehicleReg = By.XPath("//label[text()='Vehicle Reg']/following-sibling::div//input");
         private readonly By ticketTypeInput = By.CssSelector("select#ticket-type");
         private readonly By vehicleTypeInput = By.CssSelector("input#resource-type");
         private readonly By ticketTypeDd = By.CssSelector("select[id='ticket-type']");
         private readonly By ticketTypeLabel = By.XPath("//label[text()='Ticket Type']");
-        private readonly By haulierDd = By.CssSelector("select[id='haulier']");
+        public readonly By haulierDd = By.CssSelector("select[id='haulier']");
         private readonly By addTicketLineBtn = By.XPath("//button[text()='Add']");
         private readonly By licenceNumberExpDate = By.CssSelector("input[id='licence-number-expiry']");
         private readonly By licenceNumber = By.CssSelector("input[id='licence-number']");
-
+        public readonly By SourcePartySelect = By.XPath("//select[@id='source-party']");
+        public readonly By PONumberInput = By.XPath("//input[@id='po-number']");
+        public readonly By AddButton = By.XPath("//button[text()='Add' and contains(@data-bind, 'addTicketLine')]");
         //Ticket line
         private readonly By productDd = By.XPath("//tbody[@data-bind='foreach: ticketLines']//td[2]/select");
         private readonly By locationDd = By.XPath("//tbody[@data-bind='foreach: ticketLines']//td[3]/select");
@@ -36,6 +40,94 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         private const string haulierOption = "//select[@id='haulier']/option[text()='{0}']";
         private const string productOption = "//tbody[@data-bind='foreach: ticketLines']//td[2]/select/option[text()='{0}']";
         private const string locationOption = "//tbody[@data-bind='foreach: ticketLines']//td[3]/select/option[text()='{0}']";
+
+        public readonly By TakePaymentTitle = By.XPath("//div[@role='dialog']//div[text()='Take Payment due?']");
+        public readonly By YesTakePaymentButton = By.XPath("//div[@role='dialog' and contains(@style,'display: block;')]//button[text()='Yes']");
+        public readonly By NoTakePaymentButton = By.XPath("//div[@role='dialog' and contains(@style,'display: block;')]//button[text()='No']");
+        public readonly By TakePaymentButton = By.XPath("//div[@class='text-center']//button[contains(text(), 'Take Payment')]");
+        public readonly By CancelTicketButton = By.XPath("//div[@class='text-center']//button[contains(text(), 'Cancel Ticket')]");
+        public readonly By DuplicateTicketButton = By.XPath("//div[@class='text-center']//button[contains(text(), 'Duplicate Ticket')]");
+        public readonly By CopyToGreyListButton = By.XPath("//div[@class='text-center']//button[contains(text(), 'Copy To Greylist')]");
+        public readonly By MarkForCreditButton = By.XPath("//div[@class='text-center']//button[contains(text(), 'Mark For Credit')]");
+        public readonly By UnmarkForCreditButton = By.XPath("//div[@class='text-center']//button[contains(text(), 'Unmark From Credit')]");
+
+        public readonly By TicketState = By.XPath("//h5[@data-bind='text: ticketState']");
+        public readonly By IdTicket = By.XPath("//h4[@title='Id']");
+        #region Take Payment
+        public readonly By PayButton = By.XPath("//div[@id='pay-for-ticket']//button[@data-bind='click: payForTicket']");
+        
+        #endregion
+
+        #region Copy To GreyList
+        public readonly By GreyListSelect = By.XPath("//select[@id='greylist-code']");
+        public readonly By CommentInput = By.XPath("//textarea[@id='greylist-comment']");
+        public readonly By SaveGreyListButton = By.XPath("//div[@id='payment-grey-lists-modal']//button[text()='Save']");
+        #endregion
+
+        #region Ticket Line Table
+        private string TicketLineTable = "//div[@id='details-tab']//table//tbody[@data-bind='foreach: ticketLines']";
+        private string TicketLineRow = "./tr[not(@data-bind)]";
+        private string TicketLineProductCell = "./td//select[contains(@data-bind, 'products')]";
+        private string TicketLineLocationCell = "./td//select[contains(@data-bind, 'locations')]";
+        private string TicketLineUnitCell = "./td//select[contains(@data-bind, 'units')]";
+        private string TicketLineFirstWeightCell = "./td//input[contains(@data-bind, 'ticketLine.grossWeight')]";
+        private string TicketLineFirstDateCell = "./td[contains(@data-bind, 'ticketLine.grossDate')]//div";
+        private string TicketLineSecondWeightCell = "./td//input[contains(@data-bind, 'ticketLine.tareWeight')]";
+        private string TicketLineIsStoreTareCell = "./td//input[@id='isStoredTare']";
+        private string TicketLineSecondDateCell = "./td[contains(@data-bind, 'ticketLine.tareDate')]//div";
+
+        public TableElement TicketLineTableEle
+        {
+            get => new TableElement(TicketLineTable, TicketLineRow, new List<string>() { TicketLineProductCell, TicketLineLocationCell, TicketLineUnitCell, TicketLineFirstWeightCell, TicketLineFirstDateCell, TicketLineSecondWeightCell, TicketLineIsStoreTareCell, TicketLineSecondDateCell });
+        }
+
+        public (string firstDate, string secondDate) InputTicketLineData(int rowIdx, string product, string firstWeight, string secondWeight)
+        {
+            TicketLineTableEle.SetCellValue(rowIdx, 0, product);
+            TicketLineTableEle.SetCellValue(rowIdx, 3, firstWeight);
+            IWebElement firstDateCell = TicketLineTableEle.GetCell(rowIdx, 4);
+            ClickOnElement(firstDateCell.FindElement(By.XPath("./span[@class='input-group-addon']")));
+            IWebElement secondWeightCell = TicketLineTableEle.GetCell(rowIdx, 5);
+            ClickOnElement(secondWeightCell);
+            TicketLineTableEle.SetCellValue(rowIdx, 5, secondWeight);
+            IWebElement secondDateCell = TicketLineTableEle.GetCell(rowIdx, 7);
+            ClickOnElement(secondDateCell.FindElement(By.XPath("./span[@class='input-group-addon']")));
+            secondWeightCell = TicketLineTableEle.GetCell(rowIdx, 5);
+            ClickOnElement(secondWeightCell);
+            return (firstDateCell.FindElement(By.XPath("./input")).GetAttribute("value"), secondDateCell.FindElement(By.XPath("./input")).GetAttribute("value"));
+        }
+
+        public CreateNewTicketPage VerifyTicketLineData(int rowIdx, string product, string firstWeight, string secondWeight, string firtDate, string secondDate)
+        {
+            return this;
+        }
+        #endregion
+
+        #region Price Line Table
+        private readonly string AddPriceLineButton = "./button[contains(@data-bind, 'addPriceLine')]";
+        private readonly string PriceLineRow = "./tr";
+        private readonly string DescriptionCell = "./td//input[contains(@data-bind, 'description')]";
+        private readonly string UnitCell = "./td//select[contains(@data-bind, 'units')]";
+        private readonly string NetQtyCell = "./td//input[contains(@data-bind, 'quantity')]";
+        private readonly string OverrideUnitPriceCell = "./td//input[contains(@data-bind, 'overridePrice')]";
+        private readonly string RemoveButtonCell = "./td//button[text()='Remove']";
+
+        public CreateNewTicketPage ClickAddPriceLine(int ticketLineIdx)
+        {
+            string priceLineTable = $"//div[@id='details-tab']//table//tbody[@data-bind='foreach: ticketLines']//tr[contains(@data-bind, 'ticketLine.priceLines')][{ticketLineIdx}]/td";
+            IWebElement priceLineRow = GetElement(By.XPath(priceLineTable));
+            ClickOnElement(priceLineRow.FindElement(By.XPath(AddPriceLineButton)));
+            return this;
+        }
+        #endregion
+
+        public CreateNewTicketPage VerifyTakePayment()
+        {
+            VerifyElementVisibility(TakePaymentTitle, true);
+            VerifyElementVisibility(YesTakePaymentButton, true);
+            VerifyElementVisibility(NoTakePaymentButton, true);
+            return this;
+        }
 
         public CreateNewTicketPage IsCreateNewTicketPage()
         {
@@ -68,6 +160,14 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             SendKeys(vehicleReg, vehicleValue);
             ClickOnElement(anyOption, vehicleValue);
             ClickOnElement(title);
+            return this;
+        }
+
+        public CreateNewTicketPage InputVehicleRegInputAndClickOK(string vehicleValue)
+        {
+            SendKeys(vehicleReg, vehicleValue);
+            ClickOnElement(anyOption, vehicleValue);
+            ClickOnElement(By.XPath("//div[@id='grey-lists-modal']//button[text()='OK']"));
             return this;
         }
 
