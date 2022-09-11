@@ -190,6 +190,17 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from agreementlineactions a  where agreementlineid=" + agreementlineid + ";";
             return FindList<AgreementLineActionDBModel>(query);
         }
+
+        public List<ResourceClassModel> GetResourceClasses()
+        {
+            return FindList<ResourceClassModel>("select * from resourceclasses");
+        }
+
+        public List<ResourceStateModel> GetResourceStates(int resourceclassID)
+        {
+            string query = "select * from resourcestates where resourceclassID=" + resourceclassID + ";";
+            return FindList<ResourceStateModel>(query);
+        }
     }
 
 }
