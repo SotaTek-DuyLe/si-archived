@@ -19,7 +19,7 @@ namespace si_automated_tests.Source.Test.TaskTests
     [TestFixture]
     public class TaskLineTest : BaseTest
     {
-        [Category("The Min and Max Asset and Product Qty")]
+        [Category("TaskLine")]
         [Test(Description = "Verify whether the history in TaskLine, is updating the Min and Max Asset and Product Qty correctly")]
         public void TC_170_Verify_whether_the_history_in_TaskLine_is_updating_the_Min_and_Max_Asset_and_Product_Qty_correctly()
         {
