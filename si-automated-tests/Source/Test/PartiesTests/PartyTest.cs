@@ -693,7 +693,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyAllAcountReferenceDisabled();
         }
 
-        [Category("On Stop Status icon")]
+        [Category("Edit Party")]
         [Test(Description = "Verify that Tasks in Core Task State: Closed, Cancelled, Failed don't display 'On Stop' icon when a Party is On Stop")]
         public void TC_164_Tasks_On_Stop_Status_icon()
         {
