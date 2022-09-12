@@ -57,9 +57,17 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']");
 
         #region Cancel Popup
-        public readonly By CancelReasonSelect = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//select[@id='resolution-codes']"); 
+        public readonly By CancelExpandReasonButton = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//button[@data-id='resolution-codes']");
+        public readonly By CancelReasonSelect = By.XPath("//ul[@class='dropdown-menu inner' and @aria-expanded='true']"); 
         public readonly By CancelReasonNote = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//textarea[@id='resolution-note']"); 
-        public readonly By CancelReasonButton = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//button[text()='Cancel Ticket']"); 
+        public readonly By CancelReasonButton = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//button[text()='Cancel Ticket']");
+        
+        public CreateNewTicketPage ClickCancelExpandReasonButton()
+        {
+            WaitUtil.WaitForElementVisible(CancelExpandReasonButton);
+            ClickOnElement(CancelExpandReasonButton);
+            return this;
+        }
         #endregion
 
         #region History Tab

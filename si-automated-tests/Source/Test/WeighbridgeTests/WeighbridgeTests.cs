@@ -1399,7 +1399,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Scroll down to the bottom of the page and click on Cancel ticket -> Modal update: Select a reason in the dropdown and add a note -> Click on cancel ticket
             createNewTicketPage.ScrollDownToElement(createNewTicketPage.CancelTicketButton);
-            createNewTicketPage.SelectTextFromDropDown(createNewTicketPage.CancelReasonSelect, "Cancelled by Customer")
+            createNewTicketPage.ClickOnElement(createNewTicketPage.CancelTicketButton);
+            createNewTicketPage.ClickCancelExpandReasonButton();
+            createNewTicketPage.SelectByDisplayValueOnUlElement(createNewTicketPage.CancelReasonSelect, "Cancelled by Customer")
                 .SendKeys(createNewTicketPage.CancelReasonNote, "test");
             createNewTicketPage.ClickOnElement(createNewTicketPage.CancelReasonButton);
             createNewTicketPage.VerifyToastMessage("Successfully saved Weighbridge Ticket")
