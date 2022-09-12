@@ -53,6 +53,39 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
 
         public readonly By TicketState = By.XPath("//h5[@data-bind='text: ticketState']");
         public readonly By IdTicket = By.XPath("//h4[@title='Id']");
+        public readonly By HistoryTab = By.XPath("//a[@aria-controls='history-tab']");
+        public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']");
+
+        #region Cancel Popup
+        public readonly By CancelReasonSelect = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//select[@id='resolution-codes']"); 
+        public readonly By CancelReasonNote = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//textarea[@id='resolution-note']"); 
+        public readonly By CancelReasonButton = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//button[text()='Cancel Ticket']"); 
+        #endregion
+
+        #region History Tab
+        private string HistoryTable = "//div[@id='history-tab']//div[@class='grid-canvas']";
+        private string HistoryRow = "./div[contains(@class, 'slick-row')]";
+        private string HistoryTypeCell = "./div[contains(@class, 'l0')]";
+        private string HistoryActionCell = "./div[contains(@class, 'l1')]";
+        private string HistoryEchoIdCell = "./div[contains(@class, 'l2')]";
+        private string HistoryEchoTypeIdCell = "./div[contains(@class, 'l3')]";
+        private string HistoryDetailsCell = "./div[contains(@class, 'l4')]";
+
+        public TableElement HistoryTableEle
+        {
+            get => new TableElement(HistoryTable, HistoryRow, new List<string>() { HistoryTypeCell, HistoryActionCell, HistoryEchoIdCell, HistoryEchoTypeIdCell, HistoryDetailsCell });
+        }
+
+        public CreateNewTicketPage VerifyHistory(List<string> actions)
+        {
+            for (int i = 0; i < actions.Count; i++)
+            {
+                VerifyCellValue(HistoryTableEle, i, 1, actions[i]);
+            }
+            return this;
+        }
+        #endregion
+
         #region Take Payment
         public readonly By PayButton = By.XPath("//div[@id='pay-for-ticket']//button[@data-bind='click: payForTicket']");
         
