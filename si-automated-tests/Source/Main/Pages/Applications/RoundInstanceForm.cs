@@ -11,9 +11,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 {
     public class RoundInstanceForm : BasePageCommonActions
     {
+        public RoundInstanceForm()
+        {
+            roundInstanceEventTableEle = new TableElement("//div[@id='roundInstanceEvents-tab']//div[@class='grid-canvas']", RoundInstanceEventRow, new List<string>() { RoundInstanceEventCheckbox, RoundInstanceEventId, RoundInstanceEventType, RoundInstanceEventResource });
+            roundInstanceEventTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+        }
+
         public readonly By DropDownStatusButton = By.XPath("//button[@data-id='status']");
         public readonly By DropDownSelect = By.XPath("//ul[@class='dropdown-menu inner']");
         public readonly By WorksheetTab = By.XPath("//a[@aria-controls='worksheet-tab']");
+        public readonly By EventsTab = By.XPath("//a[@aria-controls='roundInstanceEvents-tab']");
         public readonly By WorkSheetIframe = By.XPath("//iframe[@id='worksheet-tab']");
         private readonly By title = By.XPath("//h4[text()='Round Instance']");
         private readonly By idService = By.CssSelector("h4[title='Id']");
@@ -59,6 +69,29 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 RLITableEle.ClickCellOnCellValue(0, 1, RLIID);
             }
             return descriptions;
+        }
+        #endregion
+
+        #region Event Tab
+        public readonly By AddNewEventItemButton = By.XPath("//div[@id='roundInstanceEvents-tab']//button[text()='Add New Item']");
+        public readonly By RefreshButton = By.XPath("//div[@id='roundInstanceEvents-tab']//button[@title='Refresh']");
+        public readonly string RoundInstanceEventRow = "./div[contains(@class, 'slick-row')]";
+        public readonly string RoundInstanceEventCheckbox = "./div[contains(@class, 'slick-cell l0 r0')]//input";
+        public readonly string RoundInstanceEventId = "./div[contains(@class, 'slick-cell l1 r1')]";
+        public readonly string RoundInstanceEventType = "./div[contains(@class, 'slick-cell l2 r2')]";
+        public readonly string RoundInstanceEventResource = "./div[contains(@class, 'slick-cell l3 r3')]";
+
+        private TableElement roundInstanceEventTableEle;
+        public TableElement RoundInstanceEventTableEle
+        {
+            get => roundInstanceEventTableEle;
+        }
+
+        public RoundInstanceForm VerifyNewRoundInstanceEventData(string eventType, string resource)
+        {
+            VerifyCellValue(RoundInstanceEventTableEle, 0, 2, eventType);
+            VerifyCellValue(RoundInstanceEventTableEle, 0, 3, resource);
+            return this;
         }
         #endregion
 

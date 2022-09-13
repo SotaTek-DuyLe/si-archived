@@ -104,7 +104,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyBackgroundColor(resourceName, "white")
             //TC-43
             //Deallocate future resource
-                .DeallocateResourceByDragAndDrop(resourceName)
+                .DeallocateResource(resourceName)
                 .RefreshGrid()
                 .FilterResource("Resource", resourceName)
                 .VerifyResourceDeallocated(resourceName)

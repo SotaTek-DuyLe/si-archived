@@ -474,12 +474,21 @@ namespace si_automated_tests.Source.Core
             js.ExecuteScript("arguments[0].scrollIntoView(true);", e);
             return this;
         }
-        public BasePage ScrollLeftt(By by)
+        public BasePage ScrollLeft(By by)
         {
             WaitUtil.WaitForPageLoaded();
             IWebElement e = GetElement(by);
             IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
             js.ExecuteScript("arguments[0].scrollLeft += 250", e);
+
+            return this;
+        }
+        public BasePage ScrollRight(By by)
+        {
+            WaitUtil.WaitForPageLoaded();
+            IWebElement e = GetElement(by);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollLeft -= 250", e);
 
             return this;
         }
@@ -627,7 +636,7 @@ namespace si_automated_tests.Source.Core
         {
             WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']");
             var notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
-            Assert.AreEqual(messages, notifyMsgs);
+            CollectionAssert.AreEquivalent(messages, notifyMsgs);
             return this;
         }
 
@@ -757,7 +766,6 @@ namespace si_automated_tests.Source.Core
             Thread.Sleep(num);
             return this;
         }
-
         public BasePage DragAndDrop(IWebElement sourceElement, IWebElement targetElement)
         {
             var builder = new Actions(IWebDriverManager.GetDriver());

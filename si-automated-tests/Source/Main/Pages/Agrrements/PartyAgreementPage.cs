@@ -75,6 +75,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         //Tabs
         private readonly By taskTab = By.XPath("//a[text()='Tasks']");
         private readonly By dataTab = By.XPath("//a[text()='Data']");
+        public readonly By PricesTab = By.XPath("//a[@aria-controls='prices-tab']");
 
         //Task Tab locator 
         private readonly By taskTabBtn = By.XPath("//a[@aria-controls='tasks-tab']");

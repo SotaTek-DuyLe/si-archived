@@ -15,8 +15,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications
     {
         public TaskAllocationPage()
         {
-            unallocatedTableEle = new TableElement("//div[@class='tab-pane echo-grid active']//div[@class='grid-canvas']", UnallocatedRow, new List<string>() { UnallocatedCheckbox, UnallocatedDescription, UnallocatedService, UnallocatedID });
+            unallocatedTableEle = new TableElement("//div[@class='tab-pane echo-grid active']//div[@class='grid-canvas']", UnallocatedRow, new List<string>() { UnallocatedCheckbox, UnallocatedDescription, UnallocatedService, UnallocatedID, UnallocatedStatus });
             unallocatedTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+
+            roundTabTableEle = new TableElement("//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']", UnallocatedRow, new List<string>() { UnallocatedCheckbox, UnallocatedDescription, UnallocatedService, UnallocatedID, UnallocatedStatus });
+            roundTabTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
             {
                 return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
             };
@@ -40,6 +46,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly string UnallocatedDescription = "./div[contains(@class, 'slick-cell l4 r4')]";
         public readonly string UnallocatedService = "./div[contains(@class, 'slick-cell l5 r5')]";
         public readonly string UnallocatedID = "./div[contains(@class, 'slick-cell l3 r3')]";
+<<<<<<< HEAD
         private readonly By taskName = By.XPath("//div[@id='tabs-container']//li[@role='presentation'][2]");
         private readonly By thirdTaskName = By.XPath("//div[@id='tabs-container']//li[@role='presentation'][3]");
         private readonly By contractTitle = By.XPath("//label[text()='Contract']");
@@ -52,6 +59,9 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By allTaskAfterDragAndDrop = By.XPath("//div[contains(@id, 'round-tab-')]//div[@class='grid-canvas']/div");
         private readonly By firstRoundAllocated = By.XPath("//div[@id='roundGrid']//span[contains(@style, 'green') and contains(@style, 'background-color: white')]");
         private readonly By taskGrid = By.XPath("//div[contains(@id, 'reallocated-')]//div[@class='grid-canvas']");
+=======
+        public readonly string UnallocatedStatus = "./div[contains(@class, 'slick-cell l10 r10')]";
+>>>>>>> bedfeb0ead2e444e84e990314568033d10400e89
 
         public readonly By ShowOutstandingTaskButton = By.XPath("//div[@id='tabs-container']//button[@id='t-outstanding']");
         public readonly By OutstandingTab = By.XPath("//div[@id='tabs-container']//li//a[@aria-controls='outstanding']");
@@ -60,6 +70,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TableElement UnallocatedTableEle
         {
             get => unallocatedTableEle;
+        }
+
+        private TableElement roundTabTableEle;
+        public TableElement RoundTabTableEle
+        {
+            get => roundTabTableEle;
         }
 
         private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-1')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]", "./i[contains(@class, 'jstree-ocl')][1]");
@@ -548,6 +564,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+<<<<<<< HEAD
         public TaskAllocationPage VerifyTaskNameDisplayed(string taskNameExp)
         {
             WaitUtil.WaitForElementVisible(contractTitle);
@@ -718,6 +735,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             SendKeys(idSearchTextbox, taskId);
             WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public TaskAllocationPage VerifyRoundInstanceStatusCompleted()
+        {
+            IWebElement cell = RoundTabTableEle.GetCell(0, 4);
+            IWebElement img = cell.FindElement(By.XPath("./div//img"));
+            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.png"));
             return this;
         }
     }
