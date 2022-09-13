@@ -470,16 +470,5 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public BasePageCommonActions DragAndDrop(IWebElement dragSource, IWebElement dropTarget)
-        {
-            Actions a = new Actions(driver);
-            a.DragAndDrop(dragSource, dropTarget).Build().Perform();
-            return this;
-        }
-
-        public BasePageCommonActions DragAndDrop(By dragSource, By dropTarget)
-        {
-            return DragAndDrop(GetElement(dragSource), GetElement(dropTarget));
-        }
     }
 }

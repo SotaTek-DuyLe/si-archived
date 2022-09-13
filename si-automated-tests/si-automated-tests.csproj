@@ -102,6 +102,10 @@
     <None Remove="Source\Test\TaskLineTests\" />
     <None Remove="Source\Test\OrphanCreditLineTests\" />
     <None Remove="Source\Test\SiteServiceTests\" />
+    <None Remove="Source\Test\AccountStatementTests\" />
+    <None Remove="Source\Test\HistoryTests\" />
+    <None Remove="Source\Main\Pages\Applications\ServiceStatus\" />
+    <None Remove="Source\Main\Models\ServiceStatus\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
@@ -137,6 +141,10 @@
     <Folder Include="Source\Test\TaskLineTests\" />
     <Folder Include="Source\Test\OrphanCreditLineTests\" />
     <Folder Include="Source\Test\SiteServiceTests\" />
+    <Folder Include="Source\Test\AccountStatementTests\" />
+    <Folder Include="Source\Test\HistoryTests\" />
+    <Folder Include="Source\Main\Pages\Applications\ServiceStatus\" />
+    <Folder Include="Source\Main\Models\ServiceStatus\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">

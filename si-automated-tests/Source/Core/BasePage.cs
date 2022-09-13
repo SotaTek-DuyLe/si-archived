@@ -773,6 +773,14 @@ namespace si_automated_tests.Source.Core
             dragAndDrop.Perform();
             return this;
         }
+
+
+        public BasePage DragAndDrop(By dragSource, By dropTarget)
+        {
+            DragAndDrop(GetElement(dragSource), GetElement(dropTarget));
+            return this;
+        }
+
         public BasePage AlternativeDragAndDrop(IWebElement sourceElement, IWebElement targetElement)
         {
             var builder = new Actions(IWebDriverManager.GetDriver());
@@ -871,6 +879,16 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForElementVisible(by);
             IWebElement elementLocator = (IWebElement)driver.FindElement(by);
             actions.ContextClick(elementLocator).Perform();
+            return this;
+        }
+
+        //HOVER ELEMENT
+        public BasePage HoverOverElement(By by)
+        {
+            Actions actions = new Actions(driver);
+            WaitUtil.WaitForElementVisible(by);
+            IWebElement elementLocator = (IWebElement)driver.FindElement(by);
+            actions.MoveToElement(elementLocator).Perform();
             return this;
         }
 
