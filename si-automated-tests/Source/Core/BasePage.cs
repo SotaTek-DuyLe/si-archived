@@ -773,6 +773,14 @@ namespace si_automated_tests.Source.Core
             dragAndDrop.Perform();
             return this;
         }
+
+
+        public BasePage DragAndDrop(By dragSource, By dropTarget)
+        {
+            DragAndDrop(GetElement(dragSource), GetElement(dropTarget));
+            return this;
+        }
+
         public BasePage AlternativeDragAndDrop(IWebElement sourceElement, IWebElement targetElement)
         {
             var builder = new Actions(IWebDriverManager.GetDriver());
