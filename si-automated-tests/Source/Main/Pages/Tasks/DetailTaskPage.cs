@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Models;
@@ -10,7 +11,7 @@ using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
 
 namespace si_automated_tests.Source.Main.Pages.Tasks
 {
-    public class DetailTaskPage : BasePage
+    public class DetailTaskPage : BasePageCommonActions
     {
         private readonly By taskTitle = By.XPath("//span[text()='Task']");
         private readonly By inspectionBtn = By.XPath("//button[@title='Inspect']");
@@ -19,6 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
         private readonly By historyTab = By.CssSelector("a[aria-controls='history-tab']");
         private readonly By verdictTab = By.CssSelector("a[aria-controls='verdict-tab']");
+        public readonly By OnHoldImg = By.XPath("//img[@class='header-status-icon' and @src='/web/content/images/tasks/onHold.ico']");
 
         //INSPECTION POPUP
         private readonly By inspectionPopupTitle = By.XPath("//h4[text()='Create ']");
@@ -41,8 +43,9 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         //DETAIL TAB
         private readonly By taskNotesInput = By.CssSelector("textarea[id='taskNotes.id']");
-        private readonly By taskStateDd = By.CssSelector("select[id='taskState.id']");
-        private readonly By completionDateInput = By.CssSelector("input[id='completionDate.id']");
+        public readonly By taskStateDd = By.CssSelector("select[id='taskState.id']");
+        public readonly By ScheduleDateInput = By.CssSelector("input[id='scheduledDate.id']");
+        public readonly By completionDateInput = By.CssSelector("input[id='completionDate.id']");
         private readonly By endDateInput = By.CssSelector("input[id='endDate.id']");
         private readonly By resolutionCode = By.CssSelector("select[id='resolutionCode.id']");
 
@@ -496,6 +499,21 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By secondStateTaskLine = By.CssSelector("tbody>tr:nth-child(2) select[id='itemState.id']");
         private readonly By secondProductTaskLine = By.XPath("//tbody/tr[2]//echo-select[contains(@params, 'name: product')]/select");
         private readonly By secondResolutionCodeTaskLine = By.CssSelector("tbody>tr:nth-child(2) select[id='resCode.id']");
+        private readonly string TaskLineTable = "//div[@id='taskLines-tab']//table";
+        private readonly string TaskLineRow = "./tbody//tr[contains(@data-bind,'with: $data.getFields()')]";
+        private readonly string TaskLineOrderCell = "./td//input[@id='order.id']";
+        private readonly string TaskLineTypeCell = "./td//select[@id='taskLineType.id']";
+
+        public TableElement TaskLineTableEle
+        {
+            get => new TableElement(TaskLineTable, TaskLineRow, new List<string>() { TaskLineOrderCell, TaskLineTypeCell });
+        }
+
+        public DetailTaskPage DoubleClickFirstTaskLine()
+        {
+            TaskLineTableEle.DoubleClickRow(0);
+            return this;
+        }
 
         public DetailTaskPage ClickOnTaskLineTab()
         {

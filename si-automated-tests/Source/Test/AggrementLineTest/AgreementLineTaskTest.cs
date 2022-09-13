@@ -6,11 +6,13 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Agrrements;
+using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementLine;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartyAgreement;
+using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 using si_automated_tests.Source.Main.Pages.Task;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
@@ -378,6 +380,251 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .SwitchToFirstWindow()
                     .SwitchNewIFrame();
             }
+        }
+
+        [Category("AgreementTask")]
+        [Test(Description = "Verify that 'Requested Delivery Date' displays correctly on New Agreement with Start Date <current Date")]
+        public void TC_180_1_Agreements_displaying_Requested_Delivery_Date()
+        {
+            int agreementId = 63;
+
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser12.UserName, AutoUser12.Password)
+                .IsOnHomePage(AutoUser12);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption("Agreements")
+                .SwitchNewIFrame();
+
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItem(agreementId)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickOnDetailsTab()
+                .IsOnPartyAgreementPage()
+                .ClickEditAgreementBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<EditAgreementServicePage>()
+                .IsOnEditAgreementServicePage()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            var assetAndProductTab = PageFactoryManager.Get<AssetAndProducTab>();
+            assetAndProductTab
+                .IsOnAssetTab()
+                .ClickOnEditAsset()
+                .VerifyElementVisibility(assetAndProductTab.deliveryDate, false);
+            assetAndProductTab.EditAssetQuantity(3)
+                .ClickOnElement(assetAndProductTab.numberOfAssetOnSite);
+            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
+            assetAndProductTab.VerifyDeliveryDate("26/04/2022")
+                .EditAssertClickDoneBtn()
+                .ClickNext()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+                .IsOnScheduleTab()
+                .ClickAddService()
+                .ClickDoneScheduleBtn()
+                .ClickOnNotSetLink()
+                .ClickDoneRequirementBtn()
+                .ClickNext()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+                .IsOnPriceTab()
+                .RemoveAllRedundantPrices()
+                .ClickNext()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+               .IsOnInvoiceDetailsTab()
+               .ClickFinish()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved agreement")
+                .WaitForLoadingIconToDisappear();
+            //Fix wating time for saved agreement
+            var partyAgreementPage = PageFactoryManager.Get<PartyAgreementPage>();
+            partyAgreementPage.SleepTimeInMiliseconds(10000);
+            partyAgreementPage.ClickApproveAgreement()
+                .ConfirmApproveBtn()
+                .VerifyAgreementStatus("Active")
+                .ClickTaskTabBtn()
+                .WaitForLoadingIconToDisappear();
+            partyAgreementPage
+                .ClickTaskTabBtn()
+                .WaitForLoadingIconToDisappear();
+            var taskTab = PageFactoryManager.Get<TaskTab>();
+            taskTab.SendKeys(taskTab.TaskTypeSearch, "Deliver Commercial Bin");
+            taskTab.ClickOnElement(taskTab.ApplyBtn);
+            taskTab.VerifyTaskDataType("Deliver Commercial Bin");
+            taskTab.VerifyTaskDueDate("26/04/2022 00:00");
+
+            // Đang có bug ở đây, due date vẫn là 26/04/2022
+            partyAgreementPage.ClickOnDetailsTab()
+                .IsOnPartyAgreementPage()
+                .ClickEditAgreementBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<EditAgreementServicePage>()
+                .IsOnEditAgreementServicePage()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            assetAndProductTab
+                .IsOnAssetTab()
+                .ClickOnEditAsset()
+                .EditAssetQuantity(4)
+                .ClickAssetType();
+            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
+            assetAndProductTab.VerifyDeliveryDate("26/04/2022")
+                .EditAssertClickDoneBtn()
+                .ClickNext()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+                .IsOnScheduleTab()
+                .ClickAddService()
+                .ClickDoneScheduleBtn()
+                .ClickOnNotSetLink()
+                .ClickDoneRequirementBtn()
+                .ClickNext()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+                .IsOnPriceTab()
+                .ClickNext()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+               .IsOnInvoiceDetailsTab()
+               .ClickFinish()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved agreement")
+                .WaitForLoadingIconToDisappear();
+            partyAgreementPage.SleepTimeInMiliseconds(10000);
+            partyAgreementPage
+                .ClickTaskTabBtn()
+                .WaitForLoadingIconToDisappear();
+            taskTab.SendKeys(taskTab.TaskTypeSearch, "Deliver Commercial Bin");
+            taskTab.ClickOnElement(taskTab.ApplyBtn);
+            taskTab.VerifyTaskDataType("Deliver Commercial Bin");
+            taskTab.VerifyTaskDueDate("26/04/2022 00:00");
+        }
+
+        [Category("AgreementTask")]
+        [Test(Description = "Verify that 'Requested Delivery Date' displays when user creates new Agreement Line and Asset Qty = 1 on NEW Agreement")]
+        public void TC_180_2_Agreements_displaying_Requested_Delivery_Date()
+        {
+            PageFactoryManager.Get<LoginPage>()
+            .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser12.UserName, AutoUser12.Password)
+                .IsOnHomePage(AutoUser12);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(73)
+                .OpenFirstResult();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .OpenAgreementTab()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .IsOnPartyAgreementPage()
+               .SelectAgreementType("Commercial Collections")
+               .ClickSaveBtn()
+               .VerifyToastMessage("Successfully saved agreement");
+            PageFactoryManager.Get<PartyAgreementPage>().ClickAddService();
+            PageFactoryManager.Get<AddServicePage>()
+                .IsOnAddServicePage();
+            PageFactoryManager.Get<SiteAndServiceTab>()
+                .IsOnSiteServiceTab()
+                .SelectServiceSite("Greggs - 8 KING STREET, TWICKENHAM, TW1 3SN")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SiteAndServiceTab>()
+                .SelectService("Commercial")
+                .ClickNext();
+            var assetAndProductTab = PageFactoryManager.Get<AssetAndProducTab>();
+            assetAndProductTab.WaitForLoadingIconToDisappear();
+            assetAndProductTab
+                .IsOnAssetTab()
+                .ClickAddAsset()
+                .VerifyInputValue(assetAndProductTab.assetQuantity, "1");
+            assetAndProductTab.VerifyDeliveryDate(DateTime.Now.AddDays(7).ToString("dd/MM/yyyy"))
+                .ChooseAssetType("1100L")
+                .ChooseTenure("Rental")
+                .ChooseProduct("General Recycling")
+                .ChooseEwcCode("150106")
+                .EditAssertClickDoneBtn()
+                .ClickNext();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+               .IsOnScheduleTab()
+               .ClickAddService()
+               .ClickDoneScheduleBtn()
+               .ClickOnNotSetLink()
+               .ClickOnWeeklyBtn()
+               .ClickDoneRequirementBtn()
+               .ClickNext()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+               .IsOnPriceTab();
+            PageFactoryManager.Get<PriceTab>()
+               .RemoveAllRedundantPrices()
+               .ClickNext()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+               .IsOnInvoiceDetailsTab()
+               .ClickFinish()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickSaveBtn()
+               .VerifyToastMessage(AgreementConstants.SUCCESSFULLY_SAVED_AGREEMENT)
+               .WaitForLoadingIconToDisappear();
+
+            //Fix wating time for saved agreement
+            var partyAgreementPage = PageFactoryManager.Get<PartyAgreementPage>();
+            partyAgreementPage.SleepTimeInMiliseconds(10000);
+            partyAgreementPage.ClickApproveAgreement()
+                .ConfirmApproveBtn()
+                .VerifyAgreementStatus("Active");
+            partyAgreementPage
+                .ClickEditAgreementBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<EditAgreementServicePage>()
+                .IsOnEditAgreementServicePage()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            assetAndProductTab
+                .IsOnAssetTab()
+                .ClickOnEditAsset();
+            //Đang có bug ở đây, vẫn hiện Requested Delivery Date
+            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
+            assetAndProductTab.EditAssetQuantity(2)
+                .ClickAssetType();
+            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
+            assetAndProductTab.VerifyDeliveryDate(DateTime.Now.AddDays(7).ToString("dd/MM/yyyy"))
+                .EditAssertClickDoneBtn()
+                .ClickNext()
+                .WaitForLoadingIconToDisappear();
         }
     }
 }

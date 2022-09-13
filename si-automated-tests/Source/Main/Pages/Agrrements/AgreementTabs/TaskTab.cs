@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Models.Agreement;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 {
@@ -52,6 +52,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         private string TaskIDCell = "./div[contains(@class, 'l5')]";
         private string TaskStateCell = "./div[contains(@class, 'l6')]";
         private string TaskTypeCell = "./div[contains(@class, 'l11')]";
+        private string TaskDescriptionCell = "./div[contains(@class, 'l12')]";
+        private string TaskDueDateCell = "./div[contains(@class, 'l13')]";
 
         public readonly By TaskTypeSearch = By.XPath("//div[@id='tasks-tab']//div[contains(@class, 'slick-headerrow-column l11 r1')]//input");
         public readonly By ApplyBtn = By.XPath("//div[@id='tasks-tab']//button[@title='Apply Filters']");
@@ -64,7 +66,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 
         public TaskTab()
         {
-            taskTableEle = new TableElement(TaskTable, TaskRow, new List<string>() { TaskCheckboxCell, TaskULCell, TaskStateImgCell, TaskCreateDateCell, TaskPartyCell, TaskIDCell, TaskStateCell, TaskTypeCell });
+            taskTableEle = new TableElement(TaskTable, TaskRow, new List<string>() { TaskCheckboxCell, TaskULCell, TaskStateImgCell, TaskCreateDateCell, TaskPartyCell, TaskIDCell, TaskStateCell, TaskTypeCell, TaskDescriptionCell, TaskDueDateCell });
             taskTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
             {
                 return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
@@ -533,6 +535,16 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             for (int i = 0; i < rows.Count; i++)
             {
                 VerifyCellValue(TaskTableEle, i, 7, taskType);
+            }
+            return this;
+        }
+
+        public TaskTab VerifyTaskDueDate(string dueDate)
+        {
+            List<IWebElement> rows = TaskTableEle.GetRows();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                VerifyCellValue(TaskTableEle, i, 9, dueDate);
             }
             return this;
         }
