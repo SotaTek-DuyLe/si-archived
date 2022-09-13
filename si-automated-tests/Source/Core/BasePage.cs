@@ -866,5 +866,15 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        //HOVER ELEMENT
+        public BasePage HoverOverElement(By by)
+        {
+            Actions actions = new Actions(driver);
+            WaitUtil.WaitForElementVisible(by);
+            IWebElement elementLocator = (IWebElement)driver.FindElement(by);
+            actions.MoveToElement(elementLocator).Perform();
+            return this;
+        }
+
     }
 }
