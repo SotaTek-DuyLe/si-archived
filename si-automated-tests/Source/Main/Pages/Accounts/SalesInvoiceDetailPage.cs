@@ -69,9 +69,6 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             SendKeys(filterLinesInputById, id);
             SendKeys(filterLinesInputById, Keys.Enter);
             WaitForLoadingIconToDisappear();
-            WaitUtil.WaitForElementVisible(applyLinesBtn);
-            ClickOnElement(applyLinesBtn);
-            WaitForLoadingIconToDisappear();
             return this;
         }
 

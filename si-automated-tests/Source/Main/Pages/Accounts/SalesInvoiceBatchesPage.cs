@@ -70,9 +70,6 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             SendKeys(filterInputById, id);
             SendKeys(filterInputById, Keys.Enter);
             WaitForLoadingIconToDisappear();
-            WaitUtil.WaitForElementVisible(applyBtn);
-            ClickOnElement(applyBtn);
-            WaitForLoadingIconToDisappear();
             return this;
         }
 
