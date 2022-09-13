@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
-using si_automated_tests.Source.Main.Pages.Agrrements;
-using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
-using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
-using si_automated_tests.Source.Main.Pages.NavigationPanel;
-using si_automated_tests.Source.Main.Pages.PartyAgreement;
-using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 using si_automated_tests.Source.Main.Pages.ResourceTerm;
-using si_automated_tests.Source.Main.Pages.Task;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.ResourceTermTests
