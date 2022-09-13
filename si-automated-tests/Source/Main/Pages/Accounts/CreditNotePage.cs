@@ -17,7 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By partyInput_1 = By.XPath("//input[@id='party-name']");
         private readonly By linesTab = By.CssSelector("a[aria-controls='creditNoteLines-tab']");
         private readonly By rejectBtn = By.XPath("//button[text()='Reject']");
-        private readonly By approveBtn = By.XPath("//button[text()='Reject']");
+        private readonly By approveBtn = By.XPath("//button[text()='Approve']");
 
         //LINES TAB
         private readonly By idOfFirstLine = By.XPath("//div[@id='creditNoteLines-tab']//div[@class='grid-canvas']/div[1]/div[contains(@class, 'l1 r1')]");
