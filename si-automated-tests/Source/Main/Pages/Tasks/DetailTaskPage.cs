@@ -11,7 +11,7 @@ using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
 
 namespace si_automated_tests.Source.Main.Pages.Tasks
 {
-    public class DetailTaskPage : BasePage
+    public class DetailTaskPage : BasePageCommonActions
     {
         private readonly By taskTitle = By.XPath("//span[text()='Task']");
         private readonly By inspectionBtn = By.XPath("//button[@title='Inspect']");
@@ -20,6 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
         private readonly By historyTab = By.CssSelector("a[aria-controls='history-tab']");
         private readonly By verdictTab = By.CssSelector("a[aria-controls='verdict-tab']");
+        public readonly By OnHoldImg = By.XPath("//img[@class='header-status-icon' and @src='/web/content/images/tasks/onHold.ico']");
 
         //INSPECTION POPUP
         private readonly By inspectionPopupTitle = By.XPath("//h4[text()='Create ']");
@@ -42,8 +43,9 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         //DETAIL TAB
         private readonly By taskNotesInput = By.CssSelector("textarea[id='taskNotes.id']");
-        private readonly By taskStateDd = By.CssSelector("select[id='taskState.id']");
-        private readonly By completionDateInput = By.CssSelector("input[id='completionDate.id']");
+        public readonly By taskStateDd = By.CssSelector("select[id='taskState.id']");
+        public readonly By ScheduleDateInput = By.CssSelector("input[id='scheduledDate.id']");
+        public readonly By completionDateInput = By.CssSelector("input[id='completionDate.id']");
         private readonly By endDateInput = By.CssSelector("input[id='endDate.id']");
         private readonly By resolutionCode = By.CssSelector("select[id='resolutionCode.id']");
 
