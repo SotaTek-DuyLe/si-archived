@@ -23,8 +23,6 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly string firstOptionInRoundGrid = "//div[@id='roundGrid']//div[@class='ui-widget-content slick-row even']/div[4]";
 
 
-
-
         public TaskAllocationPage Input(string contract, string service)
         {
             SelectTextFromDropDown(contractSelect, contract);

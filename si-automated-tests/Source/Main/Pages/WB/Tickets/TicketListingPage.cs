@@ -26,6 +26,9 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return TicketTableEle.GetCellValue(0, 2).AsString();
         }
 
+        private readonly By selectAllCheckbox = By.XPath("//div[@title='Select/Deselect All']//input");
+        private readonly By firstResult = By.XPath("//div[@class='grid-canvas']/div[1]");
+
         public TicketListingPage ClickAddNewTicketBtn()
         {
             ClickOnElement(addNewTicketBtn);
@@ -40,5 +43,21 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             WaitForLoadingIconToDisappear();
             return this;
         }
+
+        public TicketListingPage FilterTicketById(string ticketId)
+        {
+            WaitForLoadingIconToDisappear();
+            SendKeys(filterInputById, ticketId);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public WeighbridgeTicketDetailPage OpenFirstResult()
+        {
+            ClickOnElement(selectAllCheckbox);
+            DoubleClickOnElement(firstResult);
+            return PageFactoryManager.Get<WeighbridgeTicketDetailPage>();
+        }
+
     }
 }
