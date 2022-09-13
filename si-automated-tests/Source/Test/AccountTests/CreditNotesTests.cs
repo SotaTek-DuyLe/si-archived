@@ -198,7 +198,52 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
-
+        }
+        [Category("Account")]
+        [Category("Dee")]
+        [Test]
+        public void TC_145_()
+        {
+            string partyName = "Greggs";
+            string notes = "test note" + CommonUtil.GetRandomString(5);
+            PageFactoryManager.Get<NavigationBase>()
+                .OpenOption("Credit Notes")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            //Create credit note 1
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreditNotePage>()
+                .IsOnCreditNotePage()
+                .SearchForParty(partyName)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved Credit Note")
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickRefreshBtn();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValue("Credit Status", "NEW")
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreditNotePage>()
+                .ClickRejectButton();
+            PageFactoryManager.Get<RejectionPopup>()
+                .VerifyOptionNumber(3)
+                .SelectRejectReasonFromDropDown("Disputed")
+                .InputRejectReason(notes)
+                .ClickConfirmReject()
+                .ClickRefreshBtn();
+            PageFactoryManager.Get<CreditNotePage>()
+                .VerifyRejectButtonDisabled()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .ClickRefreshBtn();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValue("Credit Status", "REJECTED");
         }
     }
 }

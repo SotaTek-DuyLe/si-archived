@@ -565,6 +565,12 @@ namespace si_automated_tests.Source.Core
             WaitForLoadingIconToDisappear();
             return this;
         }
+        public SelectElement GetSelectElement(By by)
+        {
+            Thread.Sleep(500);
+            IWebElement comboBox = WaitUtil.WaitForElementClickable(by);
+            return new SelectElement(comboBox);
+        }
 
         public BasePage SelectTextFromDropDown(IWebElement webElement, string _text)
         {
@@ -720,7 +726,7 @@ namespace si_automated_tests.Source.Core
         {
             ClickOnElement(refreshBtn);
             WaitForLoadingIconToDisappear();
-            SleepTimeInMiliseconds(2000);
+            SleepTimeInMiliseconds(500);
             return this;
         }
         public BasePage ClickSaveAndCloseBtn()

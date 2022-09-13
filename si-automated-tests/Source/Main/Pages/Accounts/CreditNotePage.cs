@@ -16,6 +16,8 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By yesBtn = By.XPath("//button[text()='Yes']");
         private readonly By partyInput_1 = By.XPath("//input[@id='party-name']");
         private readonly By linesTab = By.CssSelector("a[aria-controls='creditNoteLines-tab']");
+        private readonly By rejectBtn = By.XPath("//button[text()='Reject']");
+        private readonly By approveBtn = By.XPath("//button[text()='Reject']");
 
         //LINES TAB
         private readonly By idOfFirstLine = By.XPath("//div[@id='creditNoteLines-tab']//div[@class='grid-canvas']/div[1]/div[contains(@class, 'l1 r1')]");
@@ -132,5 +134,58 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             return GetElementText(idFirstCreditInPopup);
         }
+        public CreditNotePage ClickRejectButton()
+        {
+            ClickOnElement(rejectBtn);
+            return this;
+        }
+        public CreditNotePage ClickApproveButton()
+        {
+            ClickOnElement(approveBtn);
+            return this;
+        }
+        public CreditNotePage VerifyRejectButtonDisabled()
+        {
+            Assert.AreEqual(false, GetElement(rejectBtn).Enabled);
+            return this;
+        }
     }
+    public class RejectionPopup : BasePage {
+        private readonly By reasonDropDown = By.XPath("//select[contains(@data-bind,'resolutionCodes')]");
+        private readonly By reasonNote = By.XPath("//textarea[@data-bind = 'textInput: reasonText']");
+        private readonly By rejectButton = By.XPath("//button[@data-bind = 'click: performReject']");
+
+        public RejectionPopup()
+        {
+            WaitUtil.WaitForPageLoaded();
+            WaitUtil.WaitForElementVisible(reasonDropDown);
+            WaitUtil.WaitForElementVisible(reasonNote);
+            WaitUtil.WaitForElementVisible(rejectButton);
+        }
+        public RejectionPopup SelectRejectReasonFromDropDown(string reason)
+        {
+            SelectTextFromDropDown(reasonDropDown, reason);
+            return this;
+        }
+        public RejectionPopup InputRejectReason(string reason)
+        {
+            SendKeys(reasonNote, reason);
+            return this;
+        }
+        public RejectionPopup ClickConfirmReject()
+        {
+            ClickOnElement(rejectButton);
+            SleepTimeInMiliseconds(1000);
+            VerifyToastMessage("Success");
+            return this;
+        }
+        public RejectionPopup VerifyOptionNumber(int expectedSize)
+        {
+            Assert.AreEqual(GetSelectElement(reasonDropDown).Options.Count, expectedSize + 1);
+            return this;
+        }
+        
+
+    }
+
 }
