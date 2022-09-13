@@ -114,7 +114,6 @@
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyContactPage\" />
     <Folder Include="Source\Test\WeighbridgeTests\" />
     <Folder Include="TestResults\Screenshots\" />
-    <Folder Include="Source\Main\Pages\WB\" />
     <Folder Include="Source\Main\Pages\WB\Sites\" />
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyVehiclePage\" />
     <Folder Include="Source\Main\Pages\WB\Tickets\" />

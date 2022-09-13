@@ -50,9 +50,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties.SiteServices
             SendKeys(agreementIdInput, id);
             SendKeys(agreementIdInput, Keys.Enter);
             WaitForLoadingIconToDisappear();
-            WaitUtil.WaitForElementVisible(applyBtn);
-            ClickOnElement(applyBtn);
-            WaitForLoadingIconToDisappear();
             return this;
         }
 
