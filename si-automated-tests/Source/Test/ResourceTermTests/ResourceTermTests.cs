@@ -10,12 +10,14 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.ResourceTermTests
 {
+    [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
     public class ResourceTermTests : BaseTest
     {
         [Category("Resource Term")]
-        [Test]
+        [Category("Chang")]
+        [Test(Description = "Resource term Entitlements state displays vehicle states")]
         public void TC_160_Resource_term_Entitlements_state_displays_vehicle_states()
         {
             PageFactoryManager.Get<LoginPage>()
