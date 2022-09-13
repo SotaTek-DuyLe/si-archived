@@ -118,7 +118,6 @@
     <Folder Include="Source\Test\AccountTests\" />
     <Folder Include="Source\Main\Pages\Accounts\" />
     <Folder Include="Source\Test\InspectionTests\" />
-    <Folder Include="Source\Main\Pages\Tasks\" />
     <Folder Include="Source\Main\Pages\Tasks\Inspection\" />
     <Folder Include="Source\Main\Pages\Inspections\" />
     <Folder Include="Source\Main\Pages\Events\" />
@@ -131,7 +130,6 @@
     <Folder Include="Source\Main\DBModels\GetServiceInfoForPoint\" />
     <Folder Include="Source\Main\DBModels\GetPointHistory\" />
     <Folder Include="Source\Main\DBModels\GetAllServicesForPoint2\" />
-    <Folder Include="Source\Test\TaskTests\" />
     <Folder Include="Source\Test\RiskTests\" />
     <Folder Include="Source\Main\Pages\Applications\RiskRegister\" />
     <Folder Include="Source\Main\Pages\Streets\" />
