@@ -12,10 +12,10 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
     {
         private readonly By addBtn = By.XPath("//button[@class='btn btn-success']");
         private readonly By assetType = By.Id("asset-type");
-        private readonly By assetQuantity = By.Id("asset-quantity");
+        public readonly By assetQuantity = By.Id("asset-quantity");
         private readonly By assertQuantiryText = By.XPath("//label[text()='Asset Quantity']");
         private readonly By tenure = By.Id("tenure");
-        private readonly By deliveryDate = By.Id("delivery-date");
+        public readonly By deliveryDate = By.Id("delivery-date");
         private readonly By product = By.XPath("//select[@id='product' and contains(@data-bind,'availableProducts')]");
         private readonly By ewc = By.XPath("//select[@id='product' and contains(@data-bind,'productCodes')]");
         private readonly By productQuantity = By.Id("product-quantity");
@@ -24,7 +24,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         private readonly By doneBtn = By.XPath("//button[text()='Done']");
         private readonly By summaryText = By.XPath("//span[@data-bind='text: description']");
         private readonly By assetOnSiteCheckBox = By.Id("asset-on-site");
-        private readonly By numberOfAssetOnSite = By.Id("number-of-assets-on-site");
+        public readonly By numberOfAssetOnSite = By.Id("number-of-assets-on-site");
 
         private string assetTypeOptions = "//select[@id='asset-type']/option[text()='{0}']";
 
