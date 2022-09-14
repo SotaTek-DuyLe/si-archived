@@ -30,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By firstCellWithServiceUnit = By.XPath("(//tbody/tr[1]/td[contains(@class, 'unit-cell')])[1]");
         private readonly By firstCellWithMultipleServiceUnitPoint = By.XPath("(//img[@src='content/style/images/service-unit.png']/following-sibling::img)[1]/parent::span");
         private readonly By totalRow = By.XPath("//span[contains(text(), 'Total = ')]");
+        private readonly By firstRedRow = By.XPath("(//table[@id='description-table']//td[contains(@class, 'no-service-definition')])[1]");
 
         //WARINING POPUP
         private readonly By warningTitle = By.XPath("//h4[text()='Warning']");
@@ -42,6 +43,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string serviceTypeOption = "//select[@id='type']/option[text()='{0}']";
         private readonly string actionOption = "//div[@class='action-container']/button[text()='{0}']";
         private readonly string anyServicesGroupByContract = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/i[1]";
+        private readonly string firstLocatorWithDescRedRow = "(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]/td[contains(@data-bind, 'retiredPoint')]/span)[1]";
 
         public ServiceDataManagementPage IsServiceDataManagementPage()
         {
@@ -110,12 +112,35 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        public ServiceDataManagementPage RightClickOnFirstRowWithServiceTaskSchedule(string descValue)
+        {
+            RightClickOnElement(string.Format(firstLocatorWithDescRedRow, descValue));
+            return this;
+        }
+
+        public string GetFirstDescWithRedColor()
+        {
+            return GetElementText(firstRedRow);
+        }
+
+        public ServiceDataManagementPage DoubleClickOnFirstRowWithServiceTaskSchedule()
+        {
+            DoubleClickOnElement(firstRowWithServiceTaskSchedule);
+            return this;
+        }
+
         public ServiceDataManagementPage VerifyActionMenuDisplayedWithActions()
         {
             foreach(string action in CommonConstants.ActionMenuSDM)
             {
                 Assert.IsTrue(IsControlDisplayed(actionOption, action), action + " is not displayed");
             }
+            return this;
+        }
+
+        public ServiceDataManagementPage ClickOnAnyOptionInActions(string actionName)
+        {
+            ClickOnElement(actionOption, actionName);
             return this;
         }
 
@@ -204,6 +229,32 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(totalRow);
             return this;
         }
+
+        //SET ASSURED
+        private readonly By setEndDateLabel = By.XPath("//label[text()='Set End Date']");
+        private readonly By inputEndDate = By.XPath("//input[@id='assured-end-date']");
+        private readonly By applyAtBottomBtn = By.XPath("//button[text()='Apply']");
+
+        public ServiceDataManagementPage VerifySetAssuredAfterClick()
+        {
+            Assert.IsTrue(IsControlDisplayed(setEndDateLabel));
+            return this;
+        }
+
+        public ServiceDataManagementPage InputDateInSetEndDate(string endDateValue)
+        {
+            SendKeys(inputEndDate, endDateValue);
+            ClickOnElement(setEndDateLabel);
+            return this;
+        }
+
+        public ServiceDataManagementPage ClickOnApplyAtBottomBtn()
+        {
+            ClickOnElement(applyAtBottomBtn);
+            return this;
+        }
+
+
 
     }
 }

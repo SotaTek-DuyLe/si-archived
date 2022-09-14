@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.DBModels;
-using si_automated_tests.Source.Main.Models.Agreement;
 using si_automated_tests.Source.Main.Models.DBModels;
 
 namespace si_automated_tests.Source.Main.Pages.Services
@@ -16,6 +14,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public string AnnouncementTab = "//a[@aria-controls='announcements-tab']";
         public string  DetailTab = "//a[@aria-controls='details-tab']";
         public string ScheduleTab = "//a[@aria-controls='schedules-tab']";
+        private readonly By title = By.XPath("//span[text()='Service Task']");
+        private readonly By serviceGroupTitle = By.XPath("//div[text()='SERVICE GROUP']");
+        private readonly By serviceGroupName = By.XPath("//div[text()='SERVICE GROUP']/following-sibling::div");
+        private readonly By serviceName = By.XPath("//div[text()='SERVICE']/following-sibling::div");
 
         private string serviceTaskName = "//span[text()='Service Task']/following-sibling::span[contains(text(),'{0}')]";
         private string headerPartyName = "//div[@class='headers-container']//a[contains(text(), '{0}')]";
@@ -46,6 +48,15 @@ namespace si_automated_tests.Source.Main.Pages.Services
             WaitUtil.WaitForElementVisible(headerPartyName, partyname);
             return this;
         }
+
+        public ServicesTaskPage IsServiceTaskPage()
+        {
+            WaitUtil.WaitForElementVisible(title);
+            WaitUtil.WaitForElementVisible(serviceGroupTitle);
+
+            return this;
+        }
+
         public ServicesTaskPage ClickOnTaskLineTab()
         {
             ClickOnElement(taskLineTab);
@@ -130,5 +141,57 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(n, num);
             return this;
         }
+
+        //DETAIL TAB
+        private readonly By assuredCheckbox = By.XPath("//label[contains(string(), 'Assured Task')]/following-sibling::input");
+        private readonly By assuredFromInput = By.XPath("//input[@id='assuredFrom.id']");
+        private readonly By assuredUntilInput = By.XPath("//input[@id='assuredUntil.id']");
+
+        public ServicesTaskPage VerifyAssuredTaskChecked()
+        {
+            Assert.IsTrue(IsCheckboxChecked(assuredCheckbox));
+            return this;
+        }
+
+        public ServicesTaskPage ClickOnDetailTab()
+        {
+            ClickOnElement(DetailTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public ServicesTaskPage VerifyAsseredFromAndAssuredUntil(string fromDate, string untilDate)
+        {
+            Assert.AreEqual(fromDate, GetAttributeValue(assuredFromInput, "value"));
+            Assert.AreEqual(untilDate, GetAttributeValue(assuredUntilInput, "value"));
+            return this;
+        }
+
+        public string GetServiceGroupName()
+        {
+            return GetElementText(serviceGroupName);
+        }
+
+        public string GetServiceName()
+        {
+            return GetElementText(serviceName);
+        }
+
+        //SCHEDULE TAB
+        private readonly By schedulesTab = By.XPath("//a[@aria-controls='schedules-tab']");
+        private readonly By roundInFirstRow = By.XPath("//tbody/tr[1]/td[contains(@data-bind, 'text: round.value')]");
+
+        public ServicesTaskPage ClickOnSchedulesTab()
+        {
+            ClickOnElement(schedulesTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        public string GetRoundName()
+        {
+            return GetElementText(roundInFirstRow).Trim();
+        }
+
     }
 }
