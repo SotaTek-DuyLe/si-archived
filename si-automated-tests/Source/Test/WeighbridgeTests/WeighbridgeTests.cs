@@ -13,6 +13,7 @@ using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyWBTicketPage;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
+using si_automated_tests.Source.Main.Pages.WB;
 using si_automated_tests.Source.Main.Pages.WB.Sites;
 using si_automated_tests.Source.Main.Pages.WB.Tickets;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
@@ -1246,5 +1247,174 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyToastMessage(MessageSuccessConstants.SaveWBTicketSuccessMessage);
         }
 
+        [Category("WB")]
+        [Test(Description = "WB Site location delete")]
+        public void TC_161_WB_ticket_issues()
+        {
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.RMC)
+                .OpenOption("Tickets")
+                .SwitchNewIFrame();
+            TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
+            ticketListingPage
+                .WaitForLoadingIconToDisappear();
+            ticketListingPage
+                .ClickAddNewTicketBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
+            createNewTicketPage.IsCreateNewTicketPage()
+                .SelectTextFromDropDown(createNewTicketPage.stationDd, "Townmead In Bridge")
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage.InputVehicleRegInputAndClickOK("NS22 8GH")
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage.SelectTextFromDropDown(createNewTicketPage.haulierDd, "Waste Management Ltd")
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage.SelectTextFromDropDown(createNewTicketPage.SourcePartySelect, "GeoFossils")
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage.SendKeys(createNewTicketPage.PONumberInput, "1234");
+            createNewTicketPage.ClickOnElement(createNewTicketPage.AddButton);
+            createNewTicketPage.WaitForLoadingIconToDisappear();
+            (string firstDate, string secondDate) firstTicketLine = createNewTicketPage.InputTicketLineData(0, "General Recycling", "100", "80");
+            createNewTicketPage.ClickOnElement(createNewTicketPage.AddButton);
+            createNewTicketPage.WaitForLoadingIconToDisappear();
+            (string firstDate, string secondDate) secondTicketLine = createNewTicketPage.InputTicketLineData(1, "General Refuse", "80", "60");
+            createNewTicketPage.ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved Weighbridge Ticket")
+                .WaitForLoadingIconToDisappear();
+
+            //Click No
+            createNewTicketPage.VerifyTakePayment()
+                .ClickOnElement(createNewTicketPage.NoTakePaymentButton);
+            createNewTicketPage.SleepTimeInMiliseconds(500);
+            createNewTicketPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage.VerifyTicketLineData(0, "General Recycling", "100", "80", firstTicketLine.firstDate, firstTicketLine.secondDate)
+                .VerifyTicketLineData(1, "General Refuse", "80", "60", secondTicketLine.firstDate, secondTicketLine.secondDate);
+
+            //Scroll down to the bottom of the page
+            createNewTicketPage.ScrollDownToElement(createNewTicketPage.TakePaymentButton);
+            createNewTicketPage.VerifyElementEnable(createNewTicketPage.TakePaymentButton, true)
+                .VerifyElementEnable(createNewTicketPage.CancelTicketButton, true)
+                .VerifyElementEnable(createNewTicketPage.DuplicateTicketButton, true)
+                .VerifyElementEnable(createNewTicketPage.CopyToGreyListButton, true)
+                .VerifyElementEnable(createNewTicketPage.MarkForCreditButton, false)
+                .VerifyElementEnable(createNewTicketPage.UnmarkForCreditButton, false);
+
+            //Click on take payment -> Click pay on the modal
+            createNewTicketPage.ClickOnElement(createNewTicketPage.TakePaymentButton);
+            createNewTicketPage.ClickOnElement(createNewTicketPage.PayButton);
+            createNewTicketPage.VerifyToastMessage("Successfully saved Weighbridge Ticket");
+            createNewTicketPage.WaitForLoadingIconToDisappear();
+            createNewTicketPage.VerifyElementText(createNewTicketPage.TicketState, "Paid");
+            createNewTicketPage.VerifyElementEnable(createNewTicketPage.TakePaymentButton, false)
+                .VerifyElementEnable(createNewTicketPage.CancelTicketButton, false)
+                .VerifyElementEnable(createNewTicketPage.DuplicateTicketButton, true)
+                .VerifyElementEnable(createNewTicketPage.CopyToGreyListButton, true)
+                .VerifyElementEnable(createNewTicketPage.MarkForCreditButton, true)
+                .VerifyElementEnable(createNewTicketPage.UnmarkForCreditButton, false);
+
+            //Click on mark for credit
+            createNewTicketPage.ClickOnElement(createNewTicketPage.MarkForCreditButton);
+            createNewTicketPage.VerifyToastMessage("Successfully saved Weighbridge Ticket");
+            createNewTicketPage.WaitForLoadingIconToDisappear();
+            createNewTicketPage.VerifyElementText(createNewTicketPage.TicketState, "Credited");
+            createNewTicketPage.VerifyElementEnable(createNewTicketPage.TakePaymentButton, false)
+                .VerifyElementEnable(createNewTicketPage.CancelTicketButton, false)
+                .VerifyElementEnable(createNewTicketPage.DuplicateTicketButton, true)
+                .VerifyElementEnable(createNewTicketPage.CopyToGreyListButton, true)
+                .VerifyElementEnable(createNewTicketPage.MarkForCreditButton, false)
+                .VerifyElementEnable(createNewTicketPage.UnmarkForCreditButton, true);
+
+            //Click on Unmark from credit
+            createNewTicketPage.ClickOnElement(createNewTicketPage.UnmarkForCreditButton);
+            createNewTicketPage.VerifyToastMessage("Successfully saved Weighbridge Ticket");
+            createNewTicketPage.WaitForLoadingIconToDisappear();
+            createNewTicketPage.VerifyElementText(createNewTicketPage.TicketState, "Paid");
+            createNewTicketPage.VerifyElementEnable(createNewTicketPage.TakePaymentButton, false)
+                .VerifyElementEnable(createNewTicketPage.CancelTicketButton, false)
+                .VerifyElementEnable(createNewTicketPage.DuplicateTicketButton, true)
+                .VerifyElementEnable(createNewTicketPage.CopyToGreyListButton, true)
+                .VerifyElementEnable(createNewTicketPage.MarkForCreditButton, true)
+                .VerifyElementEnable(createNewTicketPage.UnmarkForCreditButton, false);
+
+            //Click on copy to Grey list -> Modal: select Grey list code in the dropdown and add the comment -> Save
+            createNewTicketPage.ClickOnElement(createNewTicketPage.CopyToGreyListButton);
+            createNewTicketPage.SleepTimeInMiliseconds(500);
+            createNewTicketPage.SelectTextFromDropDown(createNewTicketPage.GreyListSelect, "MORE INFO REQUIRED")
+                .SendKeys(createNewTicketPage.CommentInput, "test");
+            createNewTicketPage.ClickOnElement(createNewTicketPage.SaveGreyListButton);
+            createNewTicketPage.WaitForLoadingIconToDisappear();
+            string idTicket = createNewTicketPage.GetElementText(createNewTicketPage.IdTicket);
+            createNewTicketPage.SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            ticketListingPage.FilterTicketById(idTicket.AsInteger());
+            ticketListingPage.SleepTimeInMiliseconds(1000);
+            string number = ticketListingPage.GetFirstTicketNumber();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Weighbridge)
+               .ExpandOption(Contract.RMC)
+               .OpenOption("Grey Lists")
+               .SwitchNewIFrame();
+            GreyListPage greyListPage = PageFactoryManager.Get<GreyListPage>();
+            greyListPage.WaitForLoadingIconToDisappear();
+            greyListPage.DoubleClickRow(number)
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            GreyListDetailPage greyListDetailPage = PageFactoryManager.Get<GreyListDetailPage>();
+            greyListDetailPage.VerifyElementText(greyListDetailPage.TicketInput, number, true)
+                .VerifySelectedValue(greyListDetailPage.GreyListCodeSelect, "MORE INFO REQUIRED")
+                .VerifyInputValue(greyListDetailPage.CommentInput, "test")
+                .ClickCloseBtn()
+                .SwitchToFirstWindow();
+
+            ticketListingPage.SwitchToChildWindow(2);
+            createNewTicketPage.ClickOnElement(createNewTicketPage.HistoryTab);
+            createNewTicketPage.WaitForLoadingIconToDisappear();
+            createNewTicketPage.VerifyHistory(new List<string>() { "Delete credit", "Mark for credit", "Pay ticket" });
+            createNewTicketPage.ClickOnElement(createNewTicketPage.DetailTab);
+            createNewTicketPage.WaitForLoadingIconToDisappear();
+            createNewTicketPage.ClickOnElement(createNewTicketPage.DuplicateTicketButton);
+            createNewTicketPage.SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage.VerifySelectedValue(createNewTicketPage.stationDd, "Townmead In Bridge");
+            createNewTicketPage.VerifySelectedValue(createNewTicketPage.haulierDd, "Waste Management Ltd");
+            createNewTicketPage.VerifySelectedValue(createNewTicketPage.SourcePartySelect, "GeoFossils");
+            createNewTicketPage.VerifyInputValue(createNewTicketPage.PONumberInput, "1234");
+            createNewTicketPage.VerifyTicketLineData(0, "General Recycling", "100", "80", firstTicketLine.firstDate, firstTicketLine.secondDate)
+                .VerifyTicketLineData(1, "General Refuse", "80", "60", secondTicketLine.firstDate, secondTicketLine.secondDate);
+            //click save
+            createNewTicketPage.ClickSaveBtn()
+                .VerifyToastMessage("Successfully saved Weighbridge Ticket")
+                .WaitForLoadingIconToDisappear();
+            //Click No
+            createNewTicketPage.VerifyTakePayment()
+                .ClickOnElement(createNewTicketPage.NoTakePaymentButton);
+            createNewTicketPage.SleepTimeInMiliseconds(500);
+            createNewTicketPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage.VerifyTicketLineData(0, "General Recycling", "100", "80", firstTicketLine.firstDate, firstTicketLine.secondDate)
+                .VerifyTicketLineData(1, "General Refuse", "80", "60", secondTicketLine.firstDate, secondTicketLine.secondDate);
+
+            //Scroll down to the bottom of the page and click on Cancel ticket -> Modal update: Select a reason in the dropdown and add a note -> Click on cancel ticket
+            createNewTicketPage.ScrollDownToElement(createNewTicketPage.CancelTicketButton);
+            createNewTicketPage.ClickOnElement(createNewTicketPage.CancelTicketButton);
+            createNewTicketPage.ClickCancelExpandReasonButton();
+            createNewTicketPage.SelectByDisplayValueOnUlElement(createNewTicketPage.CancelReasonSelect, "Cancelled by Customer")
+                .SendKeys(createNewTicketPage.CancelReasonNote, "test");
+            createNewTicketPage.ClickOnElement(createNewTicketPage.CancelReasonButton);
+            createNewTicketPage.VerifyToastMessage("Successfully saved Weighbridge Ticket")
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage.VerifyElementEnable(createNewTicketPage.TakePaymentButton, false)
+                .VerifyElementEnable(createNewTicketPage.CancelTicketButton, false)
+                .VerifyElementEnable(createNewTicketPage.DuplicateTicketButton, true)
+                .VerifyElementEnable(createNewTicketPage.CopyToGreyListButton, true)
+                .VerifyElementEnable(createNewTicketPage.MarkForCreditButton, false)
+                .VerifyElementEnable(createNewTicketPage.UnmarkForCreditButton, false);
+            createNewTicketPage.ClickOnElement(createNewTicketPage.HistoryTab);
+            createNewTicketPage.WaitForLoadingIconToDisappear();
+            createNewTicketPage.VerifyHistory(new List<string>() { "Cancelled" });
+        }
     }
 }

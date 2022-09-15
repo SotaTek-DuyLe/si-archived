@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Models.SalesReceipt;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
 {
     public class SalesReceiptPage : BasePage
     {
+        private readonly By title = By.XPath("//h4[text()='SALES RECEIPT']");
         private readonly By saveBtn = By.XPath("//button[@title='Save']");
         private readonly By inputPartyName = By.XPath("//div[@id='party-name']//input");
         private readonly By inputAccRef = By.XPath("//input[@id='account-ref']");
@@ -26,6 +28,21 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By addnewItemBtn = By.XPath("//button[contains(string(), 'Add New Item')]");
         private readonly By lineRows = By.XPath("//div[@class='slick-viewport']//div[@class='grid-canvas']//div[contains(@class,'ui-widget-content')]");
         private const string FrameMessage = "//div[@class='notifyjs-corner']/div";
+
+        //DETAIL
+        private readonly By partyInput = By.CssSelector("input[id='party-name']");
+        private readonly By accountRef = By.Id("account-ref");
+        private readonly By accountNumber = By.Id("account-number");
+        private readonly By receiptDate = By.Id("receipt-date");
+
+        public SalesReceiptPage VerifyInfoInSaleReceiptScreen(PartyModel partyModel, string timeNowValue)
+        {
+            Assert.AreEqual(partyModel.PartyName, GetAttributeValue(partyInput, "value"));
+            Assert.AreEqual(partyModel.accountRef, GetAttributeValue(accountRef, "value"));
+            Assert.AreEqual(partyModel.accountNumber, GetAttributeValue(accountNumber, "value"));
+            Assert.AreEqual(timeNowValue, GetAttributeValue(receiptDate, "value"));
+            return this;
+        }
 
         public SalesReceiptPage IsInputPartyNameHasError()
         {

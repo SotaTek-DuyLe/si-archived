@@ -1,6 +1,8 @@
 ﻿using System;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.Accounts
 {
@@ -49,6 +51,13 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         public CreditNoteLinePage SelectVatRate(string vat)
         {
             SelectTextFromDropDown(vatRate, vat);
+            return this;
+        }
+
+        public CreditNoteLinePage VerifyCurrentUrl()
+        {
+            string currentUrl = GetCurrentUrl();
+            Assert.IsTrue(currentUrl.Contains(WebUrl.MainPageUrl + "web/credit-note-lines/"));
             return this;
         }
     }

@@ -118,6 +118,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        public ServiceDataManagementPage DoubleClickOnFirstRowWithServiceTaskSchedule(string descValue)
+        {
+            DoubleClickOnElement(string.Format(firstLocatorWithDescRedRow, descValue));
+            return this;
+        }
+
         public string GetFirstDescWithRedColor()
         {
             return GetElementText(firstRedRow);
@@ -243,7 +249,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         public ServiceDataManagementPage InputDateInSetEndDate(string endDateValue)
         {
-            SendKeys(inputEndDate, endDateValue);
+            InputCalendarDate(inputEndDate, endDateValue);
             ClickOnElement(setEndDateLabel);
             return this;
         }

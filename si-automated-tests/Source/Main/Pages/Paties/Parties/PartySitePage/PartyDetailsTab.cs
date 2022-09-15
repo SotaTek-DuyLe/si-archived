@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -14,15 +12,14 @@ namespace si_automated_tests.Source.Main.Pages
         private const string CorrespondenceAddressAddBtn = "//label[text()='Correspondence Address']/following-sibling::div//span[text()='Add']";
         private const string SuccessfullyToastMessage = "//div[@class='notifyjs-corner']//div[text()='Successfully saved party.']";
         private readonly By InvoiceAddressButton = By.Id("party-invoice-address");
-        private readonly By SaveBtn = By.XPath("//button[@title='Save']");
 
+        //DYNAMIC
         private const string InvoiceAddressOnPage = "//div[contains(@data-bind,'invoiceAddress')]/p[text()='{0}']";
         private const string SiteAddressValue = "//label[text()='Correspondence Address']/following-sibling::div//option[text()='{0}']";
         private const string AddressTitle = "//div[text()='{0}']";
 
-        
-        private const string InvoiceAddressValue = "//select[@id='party-invoice-address']/option[text()='{0}']";
 
+        private const string InvoiceAddressValue = "//select[@id='party-invoice-address']/option[text()='{0}']";
 
         public PartyDetailsTab ClickAddCorrespondenceAddress()
         {

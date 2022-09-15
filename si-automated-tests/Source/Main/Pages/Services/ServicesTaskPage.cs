@@ -149,6 +149,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         public ServicesTaskPage VerifyAssuredTaskChecked()
         {
+            WaitUtil.WaitForElementVisible(assuredCheckbox);
             Assert.IsTrue(IsCheckboxChecked(assuredCheckbox));
             return this;
         }

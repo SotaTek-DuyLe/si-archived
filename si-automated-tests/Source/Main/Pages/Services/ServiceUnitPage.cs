@@ -30,6 +30,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        public ServiceUnitPage DoubleClickServiceUnitById(string id)
+        {
+            var row = ServiceUnitTableEle.GetRowByCellValue(0, id);
+            DoubleClickOnElement(row);
+            return this;
+        }
+
         public ServiceUnitPage FindServiceUnitWithId(string serviceUnitId)
         {
             SendKeys(By.XPath("//div[contains(@class, 'slick-headerrow-column l1 r1')]//input"), serviceUnitId);

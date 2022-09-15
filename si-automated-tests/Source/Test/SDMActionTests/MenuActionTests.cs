@@ -347,6 +347,8 @@ namespace si_automated_tests.Source.Test.SDMActionTests
         [Test(Description = "Action 'Set Assured' - ONE cell")]
         public void TC_132_Test_7_Action_Set_Assured_one_cell()
         {
+            string tomorrowDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
+            string datePlus5Days = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 5);
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
@@ -375,8 +377,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
             //Line 90: Right click on ONE cell with Service task schedule in column Round Schedule/Round
-            string tomorrowDate = CommonUtil.GetLocalDayMinusDay(1, CommonConstants.DATE_DD_MM_YYYY_FORMAT);
-            string datePlus5Days = CommonUtil.GetLocalDayMinusDay(5, CommonConstants.DATE_DD_MM_YYYY_FORMAT);
+            
             string descRedRow = serviceDataManagementPage
                 .GetFirstDescWithRedColor();
             serviceDataManagementPage
@@ -391,7 +392,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             //Line 90: Double click on cell to display Service Task Schedule with Service Task
             serviceDataManagementPage
-                .DoubleClickOnFirstRowWithServiceTaskSchedule()
+                .DoubleClickOnFirstRowWithServiceTaskSchedule(descRedRow)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceTaskSchedulePage>()
@@ -399,12 +400,13 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickOnServiceTaskLink()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
-                
+
             PageFactoryManager.Get<ServicesTaskPage>()
                 .IsServiceTaskPage()
                 .ClickOnDetailTab()
                 .VerifyAssuredTaskChecked()
-                .VerifyAsseredFromAndAssuredUntil(tomorrowDate, datePlus5Days);
+                .VerifyAsseredFromAndAssuredUntil(tomorrowDate, datePlus5Days)
+                .ClickOnSchedulesTab();
 
             //Get service group
             string serviceGroupName = PageFactoryManager.Get<ServicesTaskPage>()
@@ -422,7 +424,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchToChildWindow(1)
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
-            string nowPlus2Days = CommonUtil.GetLocalDayMinusDay(1, CommonConstants.DATE_DD_MM_YYYY_FORMAT);
+            string nowPlus2Days = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
             //Line 92: Go to [Task Confirmation screen]
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
@@ -445,7 +447,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .SendKeyInDesc(descRedRow)
                 .VerifyDisplayResultAfterSearchWithDesc(descRedRow);
-            string datePlus7Days = CommonUtil.GetLocalDayMinusDay(5, CommonConstants.DATE_DD_MM_YYYY_FORMAT);
+            string datePlus7Days = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .SendDateInScheduledDate(datePlus7Days)
                 .ClickGoBtn()
@@ -464,6 +466,30 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskAllocationPage>()
+                .SelectContract(Contract.RM)
+                .SelectServices(serviceGroupName, serviceName)
+                .SendKeyInFrom(nowPlus2Days)
+                .ClickOnGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskAllocationPage>()
+                .DragAndDropUnAllocatedRoundToGridTask()
+                .SendKeyInDescInputToSearch(descRedRow)
+                .VerifyDisplayTaskWithAssuredChecked(descRedRow);
+            PageFactoryManager.Get<TaskAllocationPage>()
+                .SendKeyInFrom(datePlus7Days)
+                .ClickOnGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskAllocationPage>()
+                .DragAndDropUnAllocatedRoundToGridTask()
+                .SendKeyInDescInputToSearch(descRedRow)
+                .VerifyDisplayTaskWithAssuredNotChecked(descRedRow);
+        }
+
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "Action 'Set Assured' - MULTIPLE cells in one column")]
+        public void TC_132_Test_8_Action_Set_Assured_multiple_cell()
+        {
 
         }
 

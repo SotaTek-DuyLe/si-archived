@@ -28,12 +28,31 @@ namespace si_automated_tests.Source.Main.Pages.Paties.SiteServices
             return this;
         }
 
+        public SiteServicesCommonPage FilterId(string id)
+        {
+            SendKeys(idInput, id);
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(applyBtn);
+            ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
         public SiteServicesCommonPage FilterAgreementId(int id)
         {
             SendKeys(agreementIdInput, id.ToString());
             ClickOnElement(applyBtn);
             return this;
         }
+
+        public SiteServicesCommonPage FilterAgreementId(string id)
+        {
+            SendKeys(agreementIdInput, id);
+            SendKeys(agreementIdInput, Keys.Enter);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
         public SiteServicesCommonPage VerifyFirstLineAgreementResult(int id, int agreementId)
         {
             WaitUtil.WaitForAllElementsVisible(firstRowResultId);

@@ -18,7 +18,7 @@ using CanlendarServiceTask = si_automated_tests.Source.Main.Models.Suspension.Se
 
 namespace si_automated_tests.Source.Main.Pages.Paties
 {
-    public class DetailPartyPage : BasePage
+    public class DetailPartyPage : BasePageCommonActions
     {
         private const string AllTabDisplayed = "//li[@role='presentation' and not(contains(@style, 'visibility: collapse'))]/a";
         private const string AllTabInDropdown = "//ul[@class='dropdown-menu']//a";
@@ -35,10 +35,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By wBTicketTab = By.XPath("//a[text()='Weighbridge Tickets']");
         private readonly By taskTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='tasks-tab']");
         private readonly By suspensionTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='suspensions-tab']");
+        public readonly By pricesTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='prices-tab']");
         private readonly By adhocTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='adhoc-tab']");
         private readonly By canlendarTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='calendar-tab']");
         private readonly By siteTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='sites-tab']");
         private readonly By accountTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='account-tab']");
+        private readonly By accountStatementTab = By.XPath("//span[text()='Account Statement']/parent::a");
+        private readonly By historyTab = By.XPath("//span[text()='History']/parent::a");
 
         //COMMON DYNAMIC LOCATOR
         private const string partyName = "//p[text()='{0}']";
@@ -132,6 +135,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string ColumnInGrid = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//span[text()='{0}']/parent::div";
         private const string ColumnInRow = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private readonly By siteRows = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']//div[contains(@class,'ui-widget-content')]");
+
+        public readonly By OnStopButton = By.XPath("//div[@id='account-tab']//button[text()='ON STOP']");
+        public readonly By PartyStatus = By.XPath("//div[@title='Party Status']//span");
 
         //STEP
         public DetailPartyPage WaitForDetailPartyPageLoadedSuccessfully(string name)
@@ -899,6 +905,16 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             WaitUtil.WaitForElementClickable(bulkUpdateBtn);
             ClickOnElement(bulkUpdateBtn);
             return PageFactoryManager.Get<TasksBulkUpdatePage>();
+        }
+        public DetailPartyPage ClickOnAccountStatement()
+        {
+            ClickOnElement(accountStatementTab);
+            return this;
+        }
+        public DetailPartyPage ClickOnHistoryTab()
+        {
+            ClickOnElement(historyTab);
+            return this;
         }
     }
 }
