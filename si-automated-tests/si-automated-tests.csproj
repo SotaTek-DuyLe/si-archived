@@ -160,9 +160,6 @@
 	  <EmbeddedResource Include="Source\Main\Data\Core14.profile.xml">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
-	  <EmbeddedResource Include="Allure\*">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources.resx">
