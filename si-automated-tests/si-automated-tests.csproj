@@ -109,7 +109,7 @@
     <None Remove="Source\Main\Models\ServiceStatus\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AllureResults\" />
+    <Folder Include="Allure\" />
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
     <Folder Include="Source\Main\Pages\Paties\SiteServices\" />
     <Folder Include="Source\Test\ContactTests\" />
@@ -158,6 +158,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
 	  <EmbeddedResource Include="Source\Main\Data\Core14.profile.xml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Allure\*">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
   </ItemGroup>

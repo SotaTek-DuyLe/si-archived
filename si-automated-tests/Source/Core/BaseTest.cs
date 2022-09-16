@@ -1,4 +1,5 @@
 ﻿using System;
+using Allure.Commons;
 using NUnit.Framework;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
@@ -12,6 +13,7 @@ namespace si_automated_tests.Source.Core
         [OneTimeSetUp]
         public virtual void OneTimeSetUp()
         {
+            AllureLifecycle.Instance.CleanupResultDirectory();
             new WebUrl();
             try
             {
