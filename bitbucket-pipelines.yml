@@ -36,7 +36,8 @@ pipelines:
               - dotnet clean
               - dotnet restore
               - cd si-automated-tests
-              - dotnet add package JUnitTestLogger --version 1.1.0
+              - dotnet add package JUnitTestLogger --version 1.1.0l
+              - dotnet add package NUnit.Allure --version 1.2.1.1
               - dotnet test --filter Name~$env:TestName --logger:"junit" --settings test.runsettings
             after-script:
             - allure generate ../OutputDebug/allure-results -o TestResults/allure-reports --clean
@@ -57,6 +58,7 @@ pipelines:
               - dotnet restore
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
+              - dotnet add package NUnit.Allure --version 1.2.1.1
               - dotnet test --filter FullyQualifiedName~si_automated_tests.Source.Test.$env:TestClass --logger:"junit" --settings test.runsettings
             after-script:
             - allure generate ../OutputDebug/allure-results -o TestResults/allure-reports --clean
@@ -77,6 +79,7 @@ pipelines:
               - dotnet restore
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
+              - dotnet add package NUnit.Allure --version 1.2.1.1
               - dotnet test --filter TestCategory=$env:TestCategory --logger:"junit" --settings test.runsettings
             after-script:
             - allure generate ../OutputDebug/allure-results -o TestResults/allure-reports --clean
@@ -98,6 +101,7 @@ pipelines:
               - dotnet restore
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
+              - dotnet add package NUnit.Allure --version 1.2.1.1
               - dotnet test --logger:"junit" --settings test.runsettings -- "$env:SCRIPTT"
             after-script:
             - allure generate ../OutputDebug/allure-results -o TestResults/allure-reports --clean
@@ -135,6 +139,7 @@ pipelines:
               - dotnet restore
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
+              - dotnet add package NUnit.Allure --version 1.2.1.1
               - dotnet test --logger:"junit" --settings test.runsettings -- "$env:SCRIPT0" -- "$env:SCRIPT1" -- "$env:SCRIPT2" -- "$env:SCRIPT3" -- "$env:SCRIPT4" -- "$env:SCRIPT5"
             after-script:
             - allure generate ../OutputDebug/allure-results -o TestResults/allure-reports --clean
