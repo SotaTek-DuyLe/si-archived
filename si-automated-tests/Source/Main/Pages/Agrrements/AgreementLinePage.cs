@@ -64,7 +64,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
             return this;
         }
         [AllureStep]
-        publ[AllureStep]ic AgreementLinePage ClickTasksTab()
+        public AgreementLinePage ClickTasksTab()
         {
             ClickOnElement(string.Format(anyTab, "Tasks"));
             return this;
