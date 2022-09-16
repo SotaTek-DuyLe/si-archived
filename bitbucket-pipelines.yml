@@ -44,6 +44,7 @@ pipelines:
             artifacts:
               - '*/TestResults/Screenshots/*.png'
               - '*/TestResults/allure-reports/*'
+              - '*OutputDebug/allure-results/*'
 
     Run custom test class:
       - variables:
