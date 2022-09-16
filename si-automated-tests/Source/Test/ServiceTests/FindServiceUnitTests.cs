@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -23,6 +24,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
+    [AllureNUnit]
     public class FindServiceUnitTests : BaseTest
     {
         [Category("Find Service Unit")]

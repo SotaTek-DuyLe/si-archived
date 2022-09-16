@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -23,6 +24,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
+    [AllureNUnit]
     public class WeighbridgeTests : BaseTest
     {
         private readonly string address = "Twickenham";

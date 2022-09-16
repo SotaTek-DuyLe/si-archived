@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -13,6 +14,7 @@ namespace si_automated_tests.Source.Test.EventTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
+    [AllureNUnit]
     public class UpdateEventTests : BaseTest
     {
         [Category("CreateEvent")]

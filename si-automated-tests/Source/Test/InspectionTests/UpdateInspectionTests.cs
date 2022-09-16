@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Core;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -13,6 +14,9 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.InspectionTests
 {
+    [Parallelizable(scope: ParallelScope.Fixtures)]
+    [TestFixture]
+    [AllureNUnit]
     public class UpdateInspectionTests : BaseTest
     {
         private string inspectionIdCompleteType2;

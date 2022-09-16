@@ -20,11 +20,13 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 using TaskAllocationPage = si_automated_tests.Source.Main.Pages.Applications.TaskAllocationPage;
 using TaskConfirmationPage = si_automated_tests.Source.Main.Pages.Applications.TaskConfirmationPage;
 using RoundInstanceDetailPage = si_automated_tests.Source.Main.Pages.Applications.RoundInstanceDetailPage;
+using NUnit.Allure.Core;
 
 namespace si_automated_tests.Source.Test
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
+    [AllureNUnit]
     public class PartyTest : BaseTest
     {
         [Category("Create party")]

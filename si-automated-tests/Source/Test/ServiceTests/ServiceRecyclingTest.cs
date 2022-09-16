@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Core;
+using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models.Services;
@@ -13,6 +14,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
+    [AllureNUnit]
     public class ServiceRecyclingTest : BaseTest
     {
         [Category("Recycling")]

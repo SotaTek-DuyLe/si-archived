@@ -33,11 +33,13 @@ using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 using si_automated_tests.Source.Main.Pages.Services;
+using NUnit.Allure.Core;
 
 namespace si_automated_tests.Source.Test.AdHocTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
+    [AllureNUnit]
     public class CreateAdHocTest : BaseTest
     {
         public override void Setup()

@@ -17,11 +17,13 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar;
 using si_automated_tests.Source.Main.Finders;
 using System.Threading;
+using NUnit.Allure.Core;
 
 namespace si_automated_tests.Source.Test.SuspensionTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
+    [AllureNUnit]
     public class CreateSuspensionTest : BaseTest
     {
         private CommonFinder finder;

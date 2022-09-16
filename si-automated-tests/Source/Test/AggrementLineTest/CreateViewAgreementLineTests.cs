@@ -15,11 +15,13 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 using si_automated_tests.Source.Main.Pages.Task;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
+using NUnit.Allure.Core;
 
 namespace si_automated_tests.Source.Test
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
+    [AllureNUnit]
     public class CreateViewAgreementLineTests : BaseTest
     {
         [Category("CreateAgreement")]

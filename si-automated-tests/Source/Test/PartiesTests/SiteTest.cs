@@ -22,11 +22,13 @@ using TaskAllocationPage = si_automated_tests.Source.Main.Pages.Applications.Tas
 using RoundInstanceForm = si_automated_tests.Source.Main.Pages.Applications.RoundInstanceForm;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Main.Models.Applications;
+using NUnit.Allure.Core;
 
 namespace si_automated_tests.Source.Test.PartiesTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
+    [AllureNUnit]
     public class SiteTest : BaseTest
     {
         [Category("140_Task_Locked Tasks")]

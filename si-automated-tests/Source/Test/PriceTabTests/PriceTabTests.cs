@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NUnit.Allure.Core;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -22,6 +23,7 @@ namespace si_automated_tests.Source.Test.PriceTabTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
+    [AllureNUnit]
     public class PriceTabTests : BaseTest
     {
         [Category("Create price record")]
