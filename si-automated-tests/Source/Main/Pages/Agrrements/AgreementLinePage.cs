@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -29,6 +30,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
         private const string anyTab = "//a[text()='{0}']";
         private const string billingRuleOption = "//select[@id='billing-rule']/option[text()='{0}']";
 
+
+        [AllureStep]
         public new AgreementLinePage GoToAllTabAndConfirmNoError()
         {
             IList<IWebElement> elements = WaitUtil.WaitForAllElementsVisible(allTabs);
@@ -41,48 +44,53 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
             }
             return this;
         }
+        [AllureStep]
         public AgreementLinePage CloseWithoutSaving()
         {
             ClickOnElement(closeWithoutSavingBtn);
             return this;
         }
-
+        [AllureStep]
         public AgreementLinePage WaitForWindowLoadedSuccess(string id)
         {
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(string.Format(titleContainsId, id));
             return this;
         }
-
+        [AllureStep]
         public AgreementLinePage ClickDetailTab()
         {
             ClickOnElement(string.Format(anyTab, "Details"));
             return this;
         }
-        public AgreementLinePage ClickTasksTab()
+        [AllureStep]
+        publ[AllureStep]ic AgreementLinePage ClickTasksTab()
         {
             ClickOnElement(string.Format(anyTab, "Tasks"));
             return this;
         }
+        [AllureStep]
 
         public AgreementLinePage ClickOnBillingRuleDd()
         {
             ClickOnElement(billingRuleDd);
             return this;
         }
+        [AllureStep]
 
         public AgreementLinePage SelectAnyBillingRuleOption(string option)
         {
             ClickOnElement(billingRuleOption, option);
             return this;
         }
-
+        [AllureStep]
         public AgreementLinePage ClickOnHistoryTab()
         {
             ClickOnElement(historyTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
 
         public AgreementLinePage VerifyHistoryAfterUpdatingAgreementLine(string billingRuleExp, string userUpdatedExp, string timeUpdatedExp)
         {
