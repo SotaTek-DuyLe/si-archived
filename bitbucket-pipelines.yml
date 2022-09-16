@@ -18,8 +18,11 @@ pipelines:
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
               - dotnet test --logger:"junit" --settings test.runsettings
+            after-script:
+            - allure generate ../OutputDebug/allure-results -o TestResults/allure-reports --clean
             artifacts:
               - '*/TestResults/Screenshots/*.png'
+              - '*/TestResults/allure-reports/*'
 
     Run custom test:
       - variables:
@@ -35,8 +38,11 @@ pipelines:
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
               - dotnet test --filter Name~$env:TestName --logger:"junit" --settings test.runsettings
+            after-script:
+            - allure generate ../OutputDebug/allure-results -o TestResults/allure-reports --clean
             artifacts:
               - '*/TestResults/Screenshots/*.png'
+              - '*/TestResults/allure-reports/*'
 
     Run custom test class:
       - variables:
@@ -52,8 +58,11 @@ pipelines:
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
               - dotnet test --filter FullyQualifiedName~si_automated_tests.Source.Test.$env:TestClass --logger:"junit" --settings test.runsettings
+            after-script:
+            - allure generate ../OutputDebug/allure-results -o TestResults/allure-reports --clean
             artifacts:
               - '*/TestResults/Screenshots/*.png'
+              - '*/TestResults/allure-reports/*'
 
     Run custom test category:
       - variables:
@@ -69,8 +78,11 @@ pipelines:
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
               - dotnet test --filter TestCategory=$env:TestCategory --logger:"junit" --settings test.runsettings
+            after-script:
+            - allure generate ../OutputDebug/allure-results -o TestResults/allure-reports --clean
             artifacts:
               - '*/TestResults/Screenshots/*.png'
+              - '*/TestResults/allure-reports/*'
     Run test on custom environment:
       - variables:
             - name: TestUrl
@@ -87,8 +99,11 @@ pipelines:
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
               - dotnet test --logger:"junit" --settings test.runsettings -- "$env:SCRIPTT"
+            after-script:
+            - allure generate ../OutputDebug/allure-results -o TestResults/allure-reports --clean
             artifacts:
               - '*/TestResults/Screenshots/*.png'
+              - '*/TestResults/allure-reports/*'
 
     Run test on custom environment and db creds:
       - variables:
@@ -121,8 +136,11 @@ pipelines:
               - cd si-automated-tests
               - dotnet add package JUnitTestLogger --version 1.1.0
               - dotnet test --logger:"junit" --settings test.runsettings -- "$env:SCRIPT0" -- "$env:SCRIPT1" -- "$env:SCRIPT2" -- "$env:SCRIPT3" -- "$env:SCRIPT4" -- "$env:SCRIPT5"
+            after-script:
+            - allure generate ../OutputDebug/allure-results -o TestResults/allure-reports --clean
             artifacts:
               - '*/TestResults/Screenshots/*.png'
+              - '*/TestResults/allure-reports/*'
               
   default:
     - parallel:
