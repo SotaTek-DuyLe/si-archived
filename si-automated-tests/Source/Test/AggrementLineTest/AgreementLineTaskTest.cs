@@ -379,5 +379,34 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .SwitchNewIFrame();
             }
         }
+
+        [Category("AgreementTask")]
+        [Test(Description = "Verify whether task form is loading when childtask line is there")]
+        public void TC_173_Tasklines_with_details_loaded_in_Task_Form()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                  .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser12.UserName, AutoUser12.Password)
+                .IsOnHomePage(AutoUser12);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.RMC)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonTaskPage>()
+                    .FilterTaskId(12243)
+                    .OpenTaskWithId(12243)
+                    .SwitchToLastWindow();
+            var agreementTaskDetailPage = PageFactoryManager.Get<AgreementTaskDetailsPage>();
+            agreementTaskDetailPage.WaitForLoadingIconToDisappear();
+            agreementTaskDetailPage.ClickToTaskLinesTab();
+            agreementTaskDetailPage.WaitForLoadingIconToDisappear();
+            agreementTaskDetailPage.VerifyToastMessagesIsUnDisplayed();
+            agreementTaskDetailPage.VerifyElementVisibility(agreementTaskDetailPage.AddNewAgreementTaskDetailButton, true);
+            agreementTaskDetailPage.VerifyHeaderColumn();
+        }
     }
 }
