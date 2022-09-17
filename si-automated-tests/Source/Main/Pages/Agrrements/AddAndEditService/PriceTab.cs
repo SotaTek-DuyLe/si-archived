@@ -140,5 +140,49 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             }
             return this;
         }
+
+        public PriceTab InputPrices(List<(string title, string value)> commercialCustomers)
+        {
+            foreach (var commercialCustomer in commercialCustomers)
+            {
+                IWebElement table = GetElement(PriceTable);
+                List<IWebElement> rows = table.FindElements(By.XPath("./tr")).ToList();
+                for (int i = 0; i < rows.Count; i++)
+                {
+                    IWebElement title = rows[i].FindElements(By.XPath("./td//div[@class='price-list']//span[@data-bind='text: name']")).FirstOrDefault();
+                    if (title == null || title.Text != commercialCustomer.title) continue;
+                    if (i + 2 < rows.Count)
+                    {
+                        IWebElement detailRow = rows[i + 2];
+                        IWebElement priceInputCell = detailRow.FindElement(By.XPath("./td//input[@placeholder='Price £']"));
+                        if(priceInputCell != null)
+                        {
+                            SendKeys(priceInputCell, commercialCustomer.value);
+                        }
+                        break;
+                    }
+                }
+            }
+            return this;
+        }
+
+        public PriceTab ClickPrice(string commercialCustomer)
+        {
+            IWebElement table = GetElement(PriceTable);
+            List<IWebElement> rows = table.FindElements(By.XPath("./tr")).ToList();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                IWebElement title = rows[i].FindElements(By.XPath("./td//div[@class='price-list']//span[@data-bind='text: name']")).FirstOrDefault();
+                if (title == null || title.Text != commercialCustomer) continue;
+                if (i + 2 < rows.Count)
+                {
+                    IWebElement detailRow = rows[i + 2];
+                    IWebElement priceInputCell = detailRow.FindElement(By.XPath("./td//input[@placeholder='Price £']"));
+                    ClickOnElement(priceInputCell);
+                    break;
+                }
+            }
+            return this;
+        }
     }
 }
