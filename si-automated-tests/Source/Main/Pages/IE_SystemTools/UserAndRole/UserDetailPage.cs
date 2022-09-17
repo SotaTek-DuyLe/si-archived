@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Attributes;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
 
@@ -25,6 +26,7 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
 
         private readonly By rightFrame = By.XPath("//iframe[@id='RightFrame']");
 
+        [AllureStep]
         public UserDetailPage IsOnUserDetailPage()
         {
             WaitUtil.WaitForElementVisible(saveBtn);
@@ -33,26 +35,31 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
             WaitUtil.WaitForElementVisible(adminRoleTab);
             return this;
         }
+        [AllureStep]
         public UserDetailPage SwitchToRightFrame()
         {
             SwitchToFrame(rightFrame);
             return this;
         }
+        [AllureStep]
         public UserDetailPage EnterUserName(string userName)
         {
             SendKeys(userNameBox, userName);
             return this;
         }
+        [AllureStep]
         public UserDetailPage EnterDisplayName(string displayName)
         {
             SendKeys(displayNameBox, displayName);
             return this;
         }
+        [AllureStep]
         public UserDetailPage EnterEmail(string email)
         {
             SendKeys(emailAddressBox, email);
             return this;
         }
+        [AllureStep]
         public UserDetailPage EnterUserDetails(string userName, string displayName, string email)
         {
             EnterUserName(userName)
@@ -60,21 +67,25 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
             .EnterEmail(email);
             return this;
         }
+        [AllureStep]
         public UserDetailPage ClickDataAccessRoles()
         {
             ClickOnElement(accessRoleTab);
             return this;
         }
+        [AllureStep]
         public UserDetailPage ChooseNorthStarCommercialAsAccessRole(String role)
         {
             ClickOnElement(accessRoleOption);
             return this;
         }
+        [AllureStep]
         public UserDetailPage ClickAdminRoles()
         {
             ClickOnElement(adminRoleTab);
             return this;
         }
+        [AllureStep]
         public UserDetailPage ChooseAdminRole(string role)
         {
             ScrollDownInElement(By.Id("RightDef"));
@@ -85,6 +96,7 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
             }
             return this;
         }
+        [AllureStep]
         public UserDetailPage UntickAdminRole(string role)
         {
             ScrollDownInElement(By.Id("RightDef"));
@@ -95,26 +107,31 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
             }
             return this;
         }
+        [AllureStep]
         public UserDetailPage ChooseInspectionAdminRole()
         {
             ClickOnElement(inpectionsAdminRole);
             return this;
         }
+        [AllureStep]
         public UserDetailPage ClickSave()
         {
             ClickOnElement(saveBtn);
             return this;
         }
+        [AllureStep]
         public UserPage ClickSaveAndClose()
         {
             ClickOnElement(saveCloseBtn);
             return PageFactoryManager.Get<UserPage>();
         }
+        [AllureStep]
         public UserDetailPage ClickResetPassword()
         {
             ClickOnElement(resetPasswordBtn);
             return this;
         }
+        [AllureStep]
         public UserDetailPage WaitForLoadingIconDisappear()
         {
             WaitUtil.WaitForAllElementsPresent(loadingIconHidden);

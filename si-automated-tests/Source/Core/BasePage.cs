@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
@@ -35,6 +36,7 @@ namespace si_automated_tests.Source.Core
             this.driver = IWebDriverManager.GetDriver();
         }
 
+        [AllureStep]
         public void GoToURL(string url)
         {
             driver.Url = url;

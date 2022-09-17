@@ -22,6 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
     {
         private readonly By adhocCells = By.XPath("//div[@id='adhoc-tab']//div[@class='grid-canvas']//div//*");
 
+        [AllureStep]
         public List<AdhocModel> GetAllAdhocTasks()
         {
             List<IWebElement> cells = GetAllElements(adhocCells);
@@ -39,7 +40,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
             }
             return adhocs;
         }
-
+        [AllureStep]
         public AdhocPage ClickCreateAdHocTask(string taskType)
         {
             AdhocModel adhoc = GetAllAdhocTasks().FirstOrDefault(x => x.TaskType == taskType);

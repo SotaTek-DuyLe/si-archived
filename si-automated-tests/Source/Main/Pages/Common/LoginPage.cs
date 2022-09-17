@@ -14,6 +14,7 @@ namespace si_automated_tests.Source.Main.Pages
         private const string HelpLink = "//a[text()='Help']";
 
         private const string ErrorMessage = "//p[text()='Incorrect user name or password']";
+
         [AllureStep]
         public LoginPage IsOnLoginPage()
         {
@@ -29,21 +30,25 @@ namespace si_automated_tests.Source.Main.Pages
             SendKeys(UserNameInput, UserName);
             return this;
         }
+        [AllureStep]
         public LoginPage SendKeyToPassword(string Password)
         {
             SendKeys(PasswordInput, Password);
             return this;
         }
+        [AllureStep]
         public LoginPage ClickOnSignIn()
         {
             ClickOnElement(SignInBtn);
             return this;
         }
+        [AllureStep]
         public LoginPage VerifyErrorMessageDisplay()
         {
             Assert.IsTrue(IsControlDisplayed(ErrorMessage));
             return this;
         }
+        [AllureStep]
         public HomePage Login(string username, string password)
         {
             SendKeyToUsername(username);

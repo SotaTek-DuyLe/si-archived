@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -25,24 +26,25 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
         private readonly By tasklineTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='taskLines-tab']");
         private readonly By purchaseOrderInput = By.XPath("//div[@id='details-tab']//input[@id='purchaseOrderNumber']");
 
+        [AllureStep]
         public AdhocTaskDetailPage VerifyPoNumber()
         {
             Assert.IsTrue(!string.IsNullOrEmpty(GetElementText(title)));
             return this;
         }
-
+        [AllureStep]
         public AdhocTaskDetailPage VerifyPurchaseOrderField(string expectedStr)
         {
             Assert.IsTrue(GetElementText(purchaseOrderValue) == expectedStr);
             return this;
-        } 
-        
+        }
+        [AllureStep]
         public AdhocTaskDetailPage VerifyPurchaseOrderNumber(string expectedStr)
         {
             Assert.IsTrue(WaitUtil.WaitForElementVisible(purchaseOrderInput).GetAttribute("value") == expectedStr);
             return this;
         }
-
+        [AllureStep]
         public AdhocTaskDetailPage ClickTaskLinesTab()
         {
             ClickOnElement(tasklineTab);

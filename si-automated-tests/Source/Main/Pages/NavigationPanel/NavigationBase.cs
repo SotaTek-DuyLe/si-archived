@@ -24,13 +24,15 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
         {
             SwitchToDefaultContent();
         }
+        [AllureStep]
 
         public NavigationBase ClickMainOption(string optionName)
         {
             Thread.Sleep(500);
-            ClickOnElement(String.Format(mainOption, optionName));
+            ClickOnElement(string.Format(mainOption, optionName));
             return this;
         }
+        [AllureStep]
         public NavigationBase ExpandOption(string optionName)
         {
             Thread.Sleep(500);
@@ -41,6 +43,7 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
             }
             return this;
         }
+        [AllureStep]
         public NavigationBase ExpandOptionLast(string optionName)
         {
             Thread.Sleep(500);
@@ -51,6 +54,7 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
             }
             return this;
         }
+        [AllureStep]
         public NavigationBase OpenOption(string optionName)
         {
             Thread.Sleep(500);
@@ -59,6 +63,7 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
             ExitNavigation();
             return this;
         }
+        [AllureStep]
         public NavigationBase OpenLastOption(string optionName)
         {
             Thread.Sleep(500);
@@ -68,12 +73,14 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
             return this;
         }
         //Exit Navigation
+        [AllureStep]
         public NavigationBase ExitNavigation()
         {
             Thread.Sleep(500);
             ClickOnElement(pageTitle);
             return this;
         }
+        [AllureStep]
         public NavigationBase AcceptAlertIfAny()
         {
             try

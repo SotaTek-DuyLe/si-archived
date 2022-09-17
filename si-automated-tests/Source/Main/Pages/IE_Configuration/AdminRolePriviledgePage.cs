@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -13,6 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
         private By saveButton = By.XPath("//img[@title='Save']");
         private By btn = By.XPath("//a[text()='Admin Roles']");
 
+        [AllureStep]
         public AdminRolePriviledgePage TurnOnDenyUpdate()
         {
             Assert.NotNull(GetAttributeValue(denyUpdateBtn, "src"));
@@ -23,6 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
             }
             return this;
         }
+        [AllureStep]
         public AdminRolePriviledgePage ClickSaveButton()
         {
             ClickOnElement(saveButton);

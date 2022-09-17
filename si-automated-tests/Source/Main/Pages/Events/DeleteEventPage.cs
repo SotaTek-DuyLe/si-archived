@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -13,6 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By noBtn = By.CssSelector("button[data-bb-handler='Cancel']");
         private readonly By closeBtn = By.XPath("//button[text()='×']");
 
+        [AllureStep]
         public DeleteEventPage IsWarningPopup()
         {
             WaitUtil.WaitForElementVisible(title);
@@ -24,18 +26,19 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
+        [AllureStep]
         public EventsListingPage ClickNoBtn()
         {
             ClickOnElement(noBtn);
             return PageFactoryManager.Get< EventsListingPage >();
         }
-
+        [AllureStep]
         public EventsListingPage ClickClosePopupBtn()
         {
             ClickOnElement(closeBtn);
             return PageFactoryManager.Get<EventsListingPage>();
         }
-
+        [AllureStep]
         public EventsListingPage ClickYesBtn()
         {
             ClickOnElement(yesBtn);
