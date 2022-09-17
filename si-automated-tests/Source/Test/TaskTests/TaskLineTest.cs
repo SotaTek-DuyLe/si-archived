@@ -86,5 +86,59 @@ namespace si_automated_tests.Source.Test.TaskTests
             Assert.IsTrue(updatedFields2.Length == 1);
             Assert.IsTrue(updatedFields2.FirstOrDefault().Contains("State: Cancelled."));
         }
+
+        [Category("AgreementTask")]
+        [Test(Description = "Verify whether Taskline form is inheriting Completed Date from Task form when user set Not Completed Status on Task form(when core state default is tick)")]
+        public void TC_204_Taskline_is_not_inheriting_Completed_Date()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=TaskType&ObjectID=3#");
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser56.UserName, AutoUser56.Password);
+            var taskTypePage = PageFactoryManager.Get<TaskTypeEchoExtraPage>();
+            taskTypePage.WaitForLoadingIconToDisappear();
+            taskTypePage.SelectByDisplayValueOnUlElement(taskTypePage.TabPage, "States");
+            taskTypePage.VerifyCheckboxIsSelected(taskTypePage.NotCompleteTaskTypeStateCheckbox, true);
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.RMC)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<TasksListingPage>()
+                .WaitForTaskListinPageDisplayed()
+                .FilterByTaskId("15218")
+                .ClickOnFirstRecord()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
+            detailTaskPage.ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            string completedDateDisplayed = CommonUtil.ParseDateTimeToFormat(londonCurrentDate, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+            detailTaskPage.SelectTextFromDropDown(detailTaskPage.taskStateDd, "Not Completed")
+                .ClickSaveBtn()
+                .VerifyToastMessage("Success")
+                .WaitForLoadingIconToDisappear();
+            detailTaskPage.ClickOnTaskLineTab()
+                .WaitForLoadingIconToDisappear();
+            detailTaskPage.VerifyTaskLineState("Not Completed");
+            detailTaskPage.DoubleClickFirstTaskLine()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            TaskLineDetailPage taskLineDetailPage = PageFactoryManager.Get<TaskLineDetailPage>();
+            taskLineDetailPage.ClickOnElement(taskLineDetailPage.DetailTab);
+            taskLineDetailPage.WaitForLoadingIconToDisappear();
+            //Bug
+            taskLineDetailPage.VerifyInputValue(taskLineDetailPage.CompleteDateInput, "")
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            detailTaskPage.ClickOnVerdictTab()
+                .ClickOnTaskInformation()
+                .VerifyTaskCompleteDate(completedDateDisplayed);
+        }
     }
 }
