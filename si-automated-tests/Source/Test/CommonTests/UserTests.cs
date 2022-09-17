@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using NUnit.Allure.Core;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -16,7 +15,6 @@ namespace si_automated_tests.Source.Test
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class UserTests
     {
         [SetUp]

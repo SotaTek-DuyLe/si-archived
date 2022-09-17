@@ -23,13 +23,11 @@ using si_automated_tests.Source.Main.Pages.Task;
 using System.Data.SqlClient;
 using si_automated_tests.Source.Main.Models.DBModels;
 using si_automated_tests.Source.Main.DBModels;
-using NUnit.Allure.Core;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class EditAgreementLineTest_022_029 : BaseTest
     {
         [Category("EditAgreement")]

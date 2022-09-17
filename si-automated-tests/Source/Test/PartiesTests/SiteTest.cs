@@ -28,7 +28,6 @@ namespace si_automated_tests.Source.Test.PartiesTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class SiteTest : BaseTest
     {
         [Category("140_Task_Locked Tasks")]

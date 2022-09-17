@@ -23,7 +23,6 @@ namespace si_automated_tests.Source.Test.PartyTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class PurchaseOrderTest : BaseTest
     {
         [Category("Agreement")]

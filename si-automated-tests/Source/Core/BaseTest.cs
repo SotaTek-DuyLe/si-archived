@@ -1,11 +1,15 @@
 ﻿using System;
 using Allure.Commons;
+using NUnit.Allure.Attributes;
+using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 
 namespace si_automated_tests.Source.Core
 {
+    [AllureNUnit]
+    [AllureParentSuite("Regression Test")]
     public class BaseTest
     {
         protected DatabaseContext DbContext { get; private set; }

@@ -17,7 +17,6 @@ namespace si_automated_tests.Source.Test.SiteServiceTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class BillingRuleAgreementLineTests : BaseTest
     {
         [Category("Billing rule")]

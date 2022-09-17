@@ -12,7 +12,6 @@ namespace si_automated_tests.Source.Test.PartiesTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class PartyDataTest : BaseTest
     {
         [Category("PartyData")]

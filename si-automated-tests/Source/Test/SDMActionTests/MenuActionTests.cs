@@ -13,7 +13,6 @@ namespace si_automated_tests.Source.Test.SDMActionTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class MenuActionTests : BaseTest
     {
         [Category("SDM Actions")]

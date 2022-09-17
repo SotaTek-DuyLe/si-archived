@@ -18,7 +18,6 @@ namespace si_automated_tests.Source.Test.TaskTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class BulkUpdateTaskTests : BaseTest
     {
         //Check for one task from North Star Commercial

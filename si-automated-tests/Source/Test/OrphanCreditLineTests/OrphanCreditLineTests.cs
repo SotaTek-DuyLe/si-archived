@@ -14,7 +14,6 @@ namespace si_automated_tests.Source.Test.OrphanCreditLineTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class OrphanCreditLineTests : BaseTest
     {
         [Category("Orphan Credit Line")]

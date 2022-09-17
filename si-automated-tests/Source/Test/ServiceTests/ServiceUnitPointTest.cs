@@ -17,7 +17,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class ServiceUnitPointTest : BaseTest
     {
         [Category("ServiceUnitPoint")]

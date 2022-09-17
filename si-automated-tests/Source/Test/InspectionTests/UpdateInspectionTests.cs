@@ -16,7 +16,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class UpdateInspectionTests : BaseTest
     {
         private string inspectionIdCompleteType2;

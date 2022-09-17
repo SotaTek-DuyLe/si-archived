@@ -14,7 +14,6 @@ namespace si_automated_tests.Source.Test.ResourceTermTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class ResourceTermTests : BaseTest
     {
         [Category("Resource Term")]

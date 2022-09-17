@@ -14,7 +14,6 @@ namespace si_automated_tests.Source.Test.EventTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class UpdateEventTests : BaseTest
     {
         [Category("CreateEvent")]

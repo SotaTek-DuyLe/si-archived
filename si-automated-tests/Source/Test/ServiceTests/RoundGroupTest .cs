@@ -19,7 +19,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class RoundGroupTest : BaseTest
     {
         [Category("109_Add a Round Group")]

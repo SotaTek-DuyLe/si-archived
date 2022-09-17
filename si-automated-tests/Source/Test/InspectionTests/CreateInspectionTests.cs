@@ -26,7 +26,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class CreateInspectionTests : BaseTest
     {
         private string allocatedUnitValue = "Ancillary";

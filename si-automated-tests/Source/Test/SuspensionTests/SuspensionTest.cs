@@ -23,7 +23,6 @@ namespace si_automated_tests.Source.Test.SuspensionTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class CreateSuspensionTest : BaseTest
     {
         private CommonFinder finder;

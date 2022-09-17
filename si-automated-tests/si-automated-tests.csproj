@@ -16,6 +16,11 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Allure\**" />
+    <EmbeddedResource Remove="Allure\**" />
+    <None Remove="Allure\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="JUnitTestLogger" Version="1.1.0" />
     <PackageReference Include="NTextCat" Version="0.3.65" />
     <PackageReference Include="NUnit" Version="3.13.2" />
@@ -109,7 +114,6 @@
     <None Remove="Source\Main\Models\ServiceStatus\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Allure\" />
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
     <Folder Include="Source\Main\Pages\Paties\SiteServices\" />
     <Folder Include="Source\Test\ContactTests\" />
@@ -160,6 +164,9 @@
 	  <EmbeddedResource Include="Source\Main\Data\Core14.profile.xml">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
+	  <Resource Include="allureConfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources.resx">

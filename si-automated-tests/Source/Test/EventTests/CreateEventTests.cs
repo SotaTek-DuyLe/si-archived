@@ -24,7 +24,6 @@ namespace si_automated_tests.Source.Test.EventTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class CreateEventTests : BaseTest
     {
         [Category("CreateEvent")]

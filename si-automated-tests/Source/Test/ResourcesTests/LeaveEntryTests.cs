@@ -16,7 +16,6 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class LeaveEntryTests : BaseTest
     {
         public override void Setup()

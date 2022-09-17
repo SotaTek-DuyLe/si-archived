@@ -13,7 +13,6 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 {
     [Parallelizable(scope:ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class CreateResourceTests : BaseTest
     {
         [Category("Resources")]

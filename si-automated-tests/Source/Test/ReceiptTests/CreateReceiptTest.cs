@@ -17,7 +17,6 @@ namespace si_automated_tests.Source.Test.ReceiptTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class CreateReceiptTest : BaseTest
     {
         [Category("102_Create a Receipt")]

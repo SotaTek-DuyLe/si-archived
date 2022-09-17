@@ -16,7 +16,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class ContractTests : BaseTest
     {
         private string successToast = "Successfully saved Contract Site";

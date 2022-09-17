@@ -26,7 +26,6 @@ namespace si_automated_tests.Source.Test
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class PartyTest : BaseTest
     {
         [Category("Create party")]

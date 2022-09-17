@@ -17,7 +17,6 @@ namespace si_automated_tests.Source.Test.HistoryTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class ErrorLoadingHistoryTests : BaseTest
     {
         [Category("Error loading history")]

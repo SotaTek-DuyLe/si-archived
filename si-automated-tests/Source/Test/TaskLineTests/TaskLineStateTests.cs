@@ -16,7 +16,6 @@ namespace si_automated_tests.Source.Test.TaskLineTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class TaskLineStateTests : BaseTest
     {
         [Category("Task line State")]

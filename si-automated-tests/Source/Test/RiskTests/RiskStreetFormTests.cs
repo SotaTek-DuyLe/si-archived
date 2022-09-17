@@ -17,7 +17,6 @@ namespace si_automated_tests.Source.Test.RiskTests
 
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class RiskStreetFormTests : BaseTest
     {
         [Category("Risk Street Form")]

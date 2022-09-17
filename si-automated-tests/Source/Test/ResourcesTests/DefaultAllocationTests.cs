@@ -14,7 +14,6 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     class DefaultAllocationTests : BaseTest
     {
         string rscTypeSet = "Default resource-type set";

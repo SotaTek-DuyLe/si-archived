@@ -18,7 +18,6 @@ namespace si_automated_tests.Source.Test.TaskTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class TaskLineTest : BaseTest
     {
         [Category("TaskLine")]

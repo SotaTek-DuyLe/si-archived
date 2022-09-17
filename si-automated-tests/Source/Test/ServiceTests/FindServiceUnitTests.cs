@@ -24,7 +24,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    [AllureNUnit]
     public class FindServiceUnitTests : BaseTest
     {
         [Category("Find Service Unit")]
