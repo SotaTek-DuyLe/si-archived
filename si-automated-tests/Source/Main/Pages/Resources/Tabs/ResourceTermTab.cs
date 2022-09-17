@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Attributes;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
 using System.Collections.Generic;
@@ -13,17 +14,21 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
         private readonly By entitlementTab = By.XPath("//a[contains(text(),'Entitlements')]");
         private readonly By workPattern = By.XPath("//a[contains(text(),'Work Pattern')]");
         private readonly By panelFrame = By.XPath("//iframe[@role='tabpanel']");
+
+        [AllureStep]
         public ResourceTermTab IsOnTermTab()
         {
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(term);
             return this;
         }
+        [AllureStep]
         public ResourceTermTab SelectTerm(string _text)
         {
             SelectTextFromDropDown(term, _text);
             return this;
         }
+        [AllureStep]
         public ResourceTermTab VerifyExtraTabsArePresent()
         {
             SwitchToLastWindow();

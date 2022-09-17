@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Attributes;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using System;
@@ -25,7 +26,6 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
             SwitchToDefaultContent();
         }
         [AllureStep]
-
         public NavigationBase ClickMainOption(string optionName)
         {
             Thread.Sleep(500);

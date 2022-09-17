@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 

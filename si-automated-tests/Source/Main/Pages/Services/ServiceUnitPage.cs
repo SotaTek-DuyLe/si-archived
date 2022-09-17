@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
@@ -24,19 +25,20 @@ namespace si_automated_tests.Source.Main.Pages.Services
             get => new TableElement(ServiceUnitTable, ServiceUnitRow, new List<string>() { IdCell, NameCell });
         }
 
+        [AllureStep]
         public ServiceUnitPage DoubleClickServiceUnit()
         {
             ServiceUnitTableEle.DoubleClickRow(0);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitPage DoubleClickServiceUnitById(string id)
         {
             var row = ServiceUnitTableEle.GetRowByCellValue(0, id);
             DoubleClickOnElement(row);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitPage FindServiceUnitWithId(string serviceUnitId)
         {
             SendKeys(By.XPath("//div[contains(@class, 'slick-headerrow-column l1 r1')]//input"), serviceUnitId);

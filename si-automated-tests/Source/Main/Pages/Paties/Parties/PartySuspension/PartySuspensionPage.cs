@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Models;
@@ -13,16 +14,18 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
         private readonly By suspensionBtn = By.XPath("//button[contains(string(), 'Add New Suspension')]");
         private readonly By suspensionCells = By.XPath("//div[@id='suspensions-tab']//div[@class='grid-canvas']//div//*");
 
+        [AllureStep]
         public PartySuspensionPage ClickAddNewSuspension()
         {
             ClickOnElement(suspensionBtn);
             return this;
         }
+        [AllureStep]
         public SuspensionModel GetNewSuspension()
         {
             return GetAllSuspension().LastOrDefault();
         }
-
+        [AllureStep]
         public List<SuspensionModel> GetAllSuspension()
         {
             List<IWebElement> cells = GetAllElements(suspensionCells);
@@ -39,7 +42,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
             }
             return suspensions;
         }
-
+        [AllureStep]
         public PartySuspensionPage DoubleClickNewSuspension()
         {
             IWebElement cells = GetAllElements(suspensionCells).LastOrDefault();

@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -33,6 +34,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
         //DYNAMIC LOCATOR
         private const string ContactGroupsOption = "//div[@class='bs-actionsbox']/following-sibling::ul//span[text()='{0}']";
 
+        [AllureStep]
         public AddInvoiceContactPage IsCreateInvoiceContactPage()
         {
             WaitUtil.WaitForElementVisible(contactTitle);
@@ -51,7 +53,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
 
             return this;
         }
-
+        [AllureStep]
         public AddInvoiceContactPage ClickAnyContactGroupsAndVerify(string option)
         {
             ClickOnElement(contactGroups);
@@ -63,25 +65,25 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
             ClickOnElement(ContactGroupsOption, option);
             return this;
         }
-
+        [AllureStep]
         public AddInvoiceContactPage EnterFirstName(string firstName)
         {
             SendKeys(firstNameInput, firstName);
             return this;
         }
-
+        [AllureStep]
         public AddInvoiceContactPage EnterLastName(string lastName)
         {
             SendKeys(lastNameInput, lastName);
             return this;
         }
-
+        [AllureStep]
         public AddInvoiceContactPage EnterMobileValue(string mobileValue)
         {
             SendKeys(mobile, mobileValue);
             return this;
         }
-
+        [AllureStep]
         public AddInvoiceContactPage EnterValueRemainingFields(ContactModel contactModel)
         {
             SendKeys(titleInput, contactModel.Title);

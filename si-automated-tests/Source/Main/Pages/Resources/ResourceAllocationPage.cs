@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
@@ -71,23 +72,27 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By resizerHeight = By.XPath("(//div[@title='Close'])[3]");
         private readonly By addResourceBtn = By.Id("t-create");
 
+        [AllureStep]
         public ResourceAllocationPage SelectContract(string contract)
         {
             SelectTextFromDropDown(contractSelect, contract);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage SelectBusinessUnit(string bu)
         {
             ClickOnElement(businessUnitInput);
             ClickOnElement(businessUnitOption, bu);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ExpandBusinessUnitOption(string option)
         {
             ClickOnElement(businessUnitInput);
             ClickOnElement(businessUnitExpandIcon, option);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyBusinessUnitsAre(List<string> expectedUnits)
         {
             List<string> buNameList = new List<string>();
@@ -103,21 +108,25 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             }
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage SelectShift(string shift)
         {
             SelectTextFromDropDown(shiftSelect, shift);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickGo()
         {
             ClickOnElement(goBtn);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickCreateResource()
         {
             ClickOnElement(createResourceBtn);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage FilterResource(string filter, string value)
         {
             IList<IWebElement> _headers = WaitUtil.WaitForAllElementsVisible(headers);
@@ -133,6 +142,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyFirstResultValue(string field, string expected)
         {
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
@@ -148,6 +158,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             return this;
 
         }
+        [AllureStep]
         public ResourceAllocationPage DragAndDropFirstResourceToFirstRound()
         {
             var source = GetFirstResult();
@@ -155,6 +166,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, target);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage DeallocateResource(string _resourceName)
         {
             var target = GetFirstResult();
@@ -162,6 +174,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, target);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage DeallocateResourceInRound(int whichOne)
         {
             var target = GetFirstResult();
@@ -169,6 +182,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, target);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage DeallocateResourceType(int whichOne)
         {
             var target = GetFirstResult();
@@ -176,6 +190,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source[whichOne-1], target);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage DeallocateResourceType(string resourceType)
         {
             var target = GetFirstResult();
@@ -183,6 +198,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, target);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage DeallocateResourceTypeInRound(string resourceType)
         {
             var target = GetFirstResult();
@@ -190,49 +206,56 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, target);
             return this;
         }
-
+        [AllureStep]
         public ResourceAllocationPage VerifyAllocatedResourceName(string _name)
         {
             WaitUtil.WaitForElementVisible(allocatedResource, _name);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyResourceDeallocated(string _name)
         {
             WaitUtil.WaitForElementInvisible(allocatedResource, _name);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickAllocatedResource(string _name)
         {
             ClickOnElement(allocatedResource, _name);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyPresenceOption(string _text)
         {
             Assert.AreEqual(_text, WaitUtil.WaitForElementVisible(resourcePresence).Text);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickPresenceOption()
         {
             ClickOnElement(resourcePresence);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage SelectResourceState(string state)
         {
             //Value: SICK, TRAINING, AWOL
             ClickOnElement(resourceState, state);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickViewShiftDetail()
         {
             ClickOnElement(viewShiftDetailBtn);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickResourceDetail()
         {
             ClickOnElement(resourceDetailBtn);
             return this;
         }
-
+        [AllureStep]
         public ResourceAllocationPage VerifyBackgroundColor(string _resourceName, string _color)
         {
             string style = WaitUtil.WaitForElementVisible(allocatedResourceContainer, _resourceName).GetAttribute("style");
@@ -258,17 +281,20 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             }
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage InsertDate(string _date)
         {
             SendKeys(date, _date);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage RefreshGrid()
         {
             ClickOnElement(refreshBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyStateAbbreviation(string _resourceName, string _abbr)
         {
             Assert.AreEqual(_abbr, WaitUtil.WaitForElementVisible(resourceAbbreviation, _resourceName).Text);
@@ -276,6 +302,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         }
 
         //DEFAULT ALLOCATION PAGE
+        [AllureStep]
         public ResourceAllocationPage DragAndDropFirstResultToRoundGroup(int whichRow)
         {
             var source = GetFirstResult();
@@ -283,6 +310,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, roundGroup[whichRow - 1]);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage DragAndDropSecondResultToRoundGroup(int whichOne, int whichRow)
         {
             var source = GetResultNo(whichOne);
@@ -290,6 +318,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, roundGroup[whichRow - 1]);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage DragAndDropFirstResultToBlankResourceType(string resourceType)
         {
             var source = GetFirstResult();
@@ -297,6 +326,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, target);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage DragAndDropFirstResultToBlankResourceTypeInRound(string resourceType)
         {
             var source = GetFirstResult();
@@ -304,6 +334,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, target);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage DragAndDropFirstResultToNewCellInRoundGroup()
         {
             ScrollLeft(roundScrollable);
@@ -314,6 +345,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ScrollRight(roundScrollable);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage DragAndDropFirstResultToNewCellInRound()
         {
             ScrollLeft(roundScrollable);
@@ -324,22 +356,26 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ScrollRight(roundScrollable);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickRound(string _roundName)
         {
             ClickOnElement(roundName, _roundName);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickViewRoundGroup()
         {
             ClickOnElement(viewRoundBtn);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickCalendar()
         {
             ClickOnElement(dateInput);
             ClickOnElement(calendarIcon);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage InsertDayInFutre(string dayOfMonth)
         {
             if (dayOfMonth.StartsWith("0"))
@@ -349,6 +385,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ClickOnElement(futreDayNumberInCalendar, dayOfMonth);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage DeallocateResourceFromRoundGroup(int whichRow, string whichResource)
         {
             var target = GetFirstResult();
@@ -357,12 +394,14 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, target);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ExpandRoundGroup(int whichRow)
         {
             ClickOnElement(expandOptions, whichRow.ToString());
             SleepTimeInMiliseconds(200);
             return this;
         }
+        [AllureStep]
         public string GetFirstAllocatedResource()
         {
             return GetAllElementsNotWait(allocatedResources)[0].Text;
@@ -373,12 +412,14 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             WaitUntilToastMessageInvisible(expectedToast);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyAllocatingToast(List<string> expectedToasts)
         {
             VerifyToastMessages(expectedToasts);
             expectedToasts.ForEach(t => WaitUntilToastMessageInvisible(t));
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage RelocateResourceTypeFromRoundGroupToRoundGroup(string resourceType, int targetRow)
         {
             IWebElement source = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType);
@@ -387,6 +428,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             return this;
 
         }
+        [AllureStep]
         public ResourceAllocationPage RelocateResourceTypeFromRoundGroupToRound(string resourceType, int targetRow)
         {
             IWebElement source = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType);
@@ -394,6 +436,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, targetElements[targetRow-1]);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage RelocateResourceTypeFromRoundToRoundGroup(string resourceType, int whichRow)
         {
             var source = WaitUtil.WaitForElementVisible(blankResourceTypeInRound, resourceType);
@@ -401,6 +444,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, targetElement);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage RelocateResourceTypeFromRoundToRound(int whichOne, int roundRow)
         {
             var resourceType = WaitUtil.WaitForAllElementsVisible(allocatedResourceType);
@@ -408,6 +452,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(resourceType[whichOne -1], rounds[roundRow - 1]);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage AllocateFirstResultToResourceTypeInRound(int whichResourceTypeInRow)
         {
             var source = GetFirstResult();
@@ -415,6 +460,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, resourceTypeInRound[whichResourceTypeInRow - 1]);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage AllocateFirstResultToResourceTypeInRoundGroup(int whichResourceTypeInRow)
         {
             var source = GetFirstResult();
@@ -422,7 +468,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, resourceTypeInRound[whichResourceTypeInRow - 1]);
             return this;
         }
-
+        [AllureStep]
         public ResourceAllocationPage ResizePage()
         {
             ClickOnElement(resizerHeight);
@@ -431,6 +477,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(resizerElement, targetElement);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage AllocateResultToResourceInRound(int whichOne, int whichRound)
         {
             var source = GetResultNo(whichOne);
@@ -438,6 +485,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, resourceInRound[whichRound - 1]);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage AllocateFirstResultToResourceInRoundGroup(int whichRoundGroup)
         {
             var source = GetFirstResult();
@@ -445,10 +493,12 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, resourceInRoundGroup[whichRoundGroup - 1]);
             return this;
         }
+        [AllureStep]
         public IWebElement GetFirstResult()
         {
             return WaitUtil.WaitForAllElementsVisible(firstResultFields)[0];
         }
+        [AllureStep]
         public IWebElement GetResultNo(int whichOne)
         {
             return WaitUtil.WaitForAllElementsVisible(firstResultFields)[whichOne-1];

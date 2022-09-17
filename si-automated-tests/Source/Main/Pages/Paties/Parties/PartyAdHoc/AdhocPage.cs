@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
