@@ -17,10 +17,7 @@ namespace si_automated_tests.Source.Core
         [OneTimeSetUp]
         public virtual void OneTimeSetUp()
         {
-            AllureExtensions.WrapSetUpTearDownParams(() =>
-            {
-                //AllureLifecycle.Instance.CleanupResultDirectory();
-                new WebUrl();
+            new WebUrl();
                 try
                 {
                     string host = TestContext.Parameters.Get("host");
@@ -45,19 +42,12 @@ namespace si_automated_tests.Source.Core
                     Logger.Get().Info("Using default details");
                     DbContext = new DatabaseContext();
                 }
-            }, "One Time SetUp");
-
         }
 
         [SetUp]
         public virtual void Setup()
         {
-            AllureExtensions.WrapSetUpTearDownParams(() =>
-            {
-                OnSetup();
-                //DatabaseContext = new DatabaseContext();
-            }, "Set Up");
-            
+            OnSetup();
         }
 
         protected void OnSetup()
@@ -70,11 +60,7 @@ namespace si_automated_tests.Source.Core
         [TearDown]
         public virtual void TearDown()
         {
-            AllureExtensions.WrapSetUpTearDownParams(() =>
-            {
-                OnTearDown();
-            }, "TearDown");
-            //DatabaseContext?.Dispose();
+            OnTearDown();
         }
 
         [OneTimeTearDown]

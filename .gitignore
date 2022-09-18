@@ -266,8 +266,4 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 
-# Allure
-allure-reports
-allure-results
-TestResults/allure-reports
 
