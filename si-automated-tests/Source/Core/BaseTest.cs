@@ -19,7 +19,7 @@ namespace si_automated_tests.Source.Core
         {
             AllureExtensions.WrapSetUpTearDownParams(() =>
             {
-                AllureLifecycle.Instance.CleanupResultDirectory();
+                //AllureLifecycle.Instance.CleanupResultDirectory();
                 new WebUrl();
                 try
                 {
@@ -56,7 +56,7 @@ namespace si_automated_tests.Source.Core
             {
                 OnSetup();
                 //DatabaseContext = new DatabaseContext();
-            }, "SetUp");
+            }, "Set Up");
             
         }
 
