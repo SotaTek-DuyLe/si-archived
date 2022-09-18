@@ -17,40 +17,47 @@ namespace si_automated_tests.Source.Core
         [OneTimeSetUp]
         public virtual void OneTimeSetUp()
         {
-            AllureLifecycle.Instance.CleanupResultDirectory();
-            new WebUrl();
-            try
+            AllureExtensions.WrapSetUpTearDownParams(() =>
             {
-                string host = TestContext.Parameters.Get("host");
-                string useIntegratedSecurity = TestContext.Parameters.Get("useIntegratedSecurity");
-                string db = TestContext.Parameters.Get("dbname");
-                if (useIntegratedSecurity.Equals("true", StringComparison.InvariantCultureIgnoreCase))
+                AllureLifecycle.Instance.CleanupResultDirectory();
+                new WebUrl();
+                try
                 {
-                    Logger.Get().Info("Using Integrated Security");
-                    DbContext = new DatabaseContext(host, db);
+                    string host = TestContext.Parameters.Get("host");
+                    string useIntegratedSecurity = TestContext.Parameters.Get("useIntegratedSecurity");
+                    string db = TestContext.Parameters.Get("dbname");
+                    if (useIntegratedSecurity.Equals("true", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        Logger.Get().Info("Using Integrated Security");
+                        DbContext = new DatabaseContext(host, db);
+                    }
+                    else
+                    {
+                        Logger.Get().Info("Using Creds");
+                        string userId = TestContext.Parameters.Get("dbusername");
+                        string password = TestContext.Parameters.Get("dbpassword");
+                        DbContext = new DatabaseContext(host, db, userId, password);
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    Logger.Get().Info("Using Creds");
-                    string userId = TestContext.Parameters.Get("dbusername");
-                    string password = TestContext.Parameters.Get("dbpassword");
-                    DbContext = new DatabaseContext(host, db, userId, password);
+                    Logger.Get().Info("SQL details not specified correctly: " + e.Message);
+                    Logger.Get().Info("Using default details");
+                    DbContext = new DatabaseContext();
                 }
-            }
-            catch (Exception e)
-            {
-                Logger.Get().Info("SQL details not specified correctly: " + e.Message);
-                Logger.Get().Info("Using default details");
-                DbContext = new DatabaseContext();
-            }
+            }, "One Time SetUp");
 
         }
 
         [SetUp]
         public virtual void Setup()
         {
-            OnSetup();
-            //DatabaseContext = new DatabaseContext();
+            AllureExtensions.WrapSetUpTearDownParams(() =>
+            {
+                OnSetup();
+                //DatabaseContext = new DatabaseContext();
+            }, "SetUp");
+            
         }
 
         protected void OnSetup()
@@ -63,7 +70,10 @@ namespace si_automated_tests.Source.Core
         [TearDown]
         public virtual void TearDown()
         {
-            OnTearDown();
+            AllureExtensions.WrapSetUpTearDownParams(() =>
+            {
+                OnTearDown();
+            }, "TearDown");
             //DatabaseContext?.Dispose();
         }
 

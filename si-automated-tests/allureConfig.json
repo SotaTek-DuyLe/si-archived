@@ -3,6 +3,9 @@
         "directory": "allure-results",
         "links": [
             "{link}"
+        ],
+        "brokenTestData": [
+            "System.Exception"
         ]
     }
 }
