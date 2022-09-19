@@ -17,6 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
         private readonly By nextBtn = By.CssSelector("button[id='next-button']");
         private readonly By firstRowWithServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint')]/span)[1]");
+        private readonly By firstRowWithServiceTaskScheduleAndNotAllocated = By.XPath("(//img[@data-bind='visible: serviceTask.isAssured' and contains(@style, 'display: none;')]/parent::span)[1]");
         private readonly By firstRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint') and not(span)])[1]");
         private readonly By applyFiltersBtn = By.CssSelector("button[id='filter-button']");
         private readonly By firstMultipleRowWithServiceTaskSchedule = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint')]//button[@class='toggle'])[1]");
@@ -31,6 +32,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By firstCellWithMultipleServiceUnitPoint = By.XPath("(//img[@src='content/style/images/service-unit.png']/following-sibling::img)[1]/parent::span");
         private readonly By totalRow = By.XPath("//span[contains(text(), 'Total = ')]");
         private readonly By firstRedRow = By.XPath("(//table[@id='description-table']//td[contains(@class, 'no-service-definition')])[1]");
+        private readonly By referenceIdInput = By.XPath("//div[@id='point-grid']//div[contains(@class, 'l1')]//input");
 
         //WARINING POPUP
         private readonly By warningTitle = By.XPath("//h4[text()='Warning']");
@@ -44,6 +46,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string actionOption = "//div[@class='action-container']/button[text()='{0}']";
         private readonly string anyServicesGroupByContract = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/i[1]";
         private readonly string firstLocatorWithDescRedRow = "(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]/td[contains(@data-bind, 'retiredPoint')]/span)[1]";
+        private readonly string roundDate = "//table[@id='master-table']//tr[contains(@class, 'round-row')]/td[count(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//span/parent::td[contains(@data-bind, 'retiredPoint')]/preceding-sibling::td) + 1]";
 
         public ServiceDataManagementPage IsServiceDataManagementPage()
         {
@@ -53,6 +56,39 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(IsControlDisplayed(showInformationBtn));
             Assert.IsTrue(IsControlDisplayed(popOutBtn));
             return this;
+        }
+
+        public int GetRoundDate(string descName)
+        {
+            string roundName = GetElementText(roundDate, descName);
+            if(roundName.Contains("Monday"))
+            {
+                return 2;
+            } else if(roundName.Contains("Tuesday"))
+            {
+                return 3;
+            }
+            else if (roundName.Contains("Tuesday"))
+            {
+                return 3;
+            }
+            else if (roundName.Contains("Wednesday"))
+            {
+                return 4;
+            }
+            else if (roundName.Contains("Thursday"))
+            {
+                return 5;
+            }
+            else if (roundName.Contains("Friday"))
+            {
+                return 6;
+            }
+            else if (roundName.Contains("Saturday"))
+            {
+                return 7;
+            }
+            return 8;
         }
 
         public ServiceDataManagementPage ClickServiceLocationTypeDdAndSelectOption(string typeOptionValue)
@@ -94,6 +130,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        public ServiceDataManagementPage FilterReferenceById(string refId)
+        {
+            SendKeys(referenceIdInput, refId);
+            return this;
+        }
+
         public ServiceDataManagementPage ClickOnSelectAndDeselectBtn()
         {
             ClickOnElement(selectAndDeselectBtn);
@@ -111,6 +153,19 @@ namespace si_automated_tests.Source.Main.Pages.Services
             RightClickOnElement(firstRowWithServiceTaskSchedule);
             return this;
         }
+
+        public ServiceDataManagementPage RightClickOnFirstRowUnAllocated()
+        {
+            RightClickOnElement(firstRowWithServiceTaskScheduleAndNotAllocated);
+            return this;
+        }
+
+        public ServiceDataManagementPage DoubleClickOnFirstRowUnAllocated()
+        {
+            DoubleClickOnElement(firstRowWithServiceTaskScheduleAndNotAllocated);
+            return this;
+        }
+
 
         public ServiceDataManagementPage RightClickOnFirstRowWithServiceTaskSchedule(string descValue)
         {

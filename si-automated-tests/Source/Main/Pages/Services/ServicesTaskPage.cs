@@ -144,6 +144,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         //DETAIL TAB
         private readonly By assuredCheckbox = By.XPath("//label[contains(string(), 'Assured Task')]/following-sibling::input");
+        private readonly By proximityAlertCheckbox = By.XPath("//label[contains(string(), 'Proximity Alert')]/following-sibling::input");
         private readonly By assuredFromInput = By.XPath("//input[@id='assuredFrom.id']");
         private readonly By assuredUntilInput = By.XPath("//input[@id='assuredUntil.id']");
 
@@ -151,6 +152,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             WaitUtil.WaitForElementVisible(assuredCheckbox);
             Assert.IsTrue(IsCheckboxChecked(assuredCheckbox));
+            return this;
+        }
+
+        public ServicesTaskPage VerifyProximityAlertChecked()
+        {
+            WaitUtil.WaitForElementVisible(proximityAlertCheckbox);
+            Assert.IsTrue(IsCheckboxChecked(proximityAlertCheckbox));
             return this;
         }
 

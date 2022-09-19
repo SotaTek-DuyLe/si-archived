@@ -75,6 +75,11 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        public string GetTaskId()
+        {
+            return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/tasks/", "").Trim();
+        }
+
         public string GetServiceName()
         {
             return GetElementText(serviceName);

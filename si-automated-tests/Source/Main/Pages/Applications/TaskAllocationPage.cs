@@ -42,7 +42,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By fromDateInput = By.XPath("//label[text()='From']/following-sibling::input");
         private readonly By toDateInput = By.XPath("//label[text()='To']/following-sibling::input");
         private readonly By goBtn = By.CssSelector("button[id='button-go']");
-        private readonly By descInputSearch = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
+        private readonly By descInputSearch = By.XPath("//div[contains(@id, 'round-tab')]//div[contains(@class, 'l4')]/div/input");
         
 
         public readonly string UnallocatedRow = "./div[contains(@class, 'slick-row')]";
@@ -57,11 +57,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By firstTaskInGrid = By.XPath("//div[contains(@id, 'reallocated-')]//div[@class='grid-canvas']/div[1]");
         private readonly By firstRoundForNextDayNotAllocated = By.XPath("(//div[@id='round-grid-container']//div[contains(@class, 'no-padding')]/div)[1]");
         private readonly By firstRoundGroupNotAllocated = By.XPath("(//div[@id='round-grid-container']//div[contains(@class, 'no-padding')]/div)[1]/parent::div/preceding-sibling::div[2]");
+        private readonly string firstRoundGroupByRoundGroupNameUnAllocated = "(//div[@id='round-grid-container']//div[text()='{0}']/following-sibling::div/div)[1]";
         private readonly By firstRoundNameNotAllocated = By.XPath("(//div[@id='round-grid-container']//div[contains(@class, 'no-padding')]/div)[1]/parent::div/preceding-sibling::div[1]");
         private readonly By allTaskInGrid = By.XPath("//div[contains(@id, 'reallocated-')]//div[@class='grid-canvas']/div");
         private readonly By allTaskAfterDragAndDrop = By.XPath("//div[contains(@id, 'round-tab-')]//div[@class='grid-canvas']/div");
         private readonly By firstRoundAllocated = By.XPath("//div[@id='roundGrid']//span[contains(@style, 'green') and contains(@style, 'background-color: white')]");
         private readonly By taskGrid = By.XPath("//div[contains(@id, 'reallocated-')]//div[@class='grid-canvas']");
+        private readonly By taskGridUnAllocated = By.XPath("//div[contains(@id, 'unallocated')]//div[@class='grid-canvas']");
         public readonly string UnallocatedStatus = "./div[contains(@class, 'slick-cell l10 r10')]";
 
         public readonly By ShowOutstandingTaskButton = By.XPath("//div[@id='tabs-container']//button[@id='t-outstanding']");
@@ -71,8 +73,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string contractOption = "//label[text()='Contract']/following-sibling::span/select/option[text()='{0}']";
         private readonly string serviceOption = "//a[text()='{0}']/preceding-sibling::i";
         private readonly string childServiceOption = "//a[text()='{0}']";
-        private readonly string assuredChecked = "//div[@title='{0}']/following-sibling::div[contains(@class, 'l25')]/div[text()='✓']";
-        private readonly string assuredNotChecked = "//div[@title='{0}']/following-sibling::div[contains(@class, 'l25')]/div[text()='✗']";
+        private readonly string assuredChecked = "//div[contains(string(), '{0}')]/following-sibling::div[contains(@class, 'l25')]/div[text()='✓']";
+        private readonly string assuredNotChecked = "//div[contains(string(), '{0}')]/following-sibling::div[contains(@class, 'l25')]/div[text()='✗']";
 
 
         private TableElement unallocatedTableEle;
@@ -619,6 +621,22 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        public TaskAllocationPage DragAndDropUnAllocatedRoundToGridTask(string roundGroupName)
+        {
+            
+            IWebElement roundCell = GetElement(firstRoundForNextDayNotAllocated);
+            WaitUtil.WaitForElementClickable(roundCell).Click();
+            WaitForLoadingIconToDisappear();
+            roundCell = GetElement(string.Format(firstRoundGroupByRoundGroupNameUnAllocated, roundGroupName));
+            Actions a = new Actions(driver);
+            IWebElement taskGridElement = GetElement(taskGridUnAllocated);
+            a.ClickAndHold(roundCell).Perform();
+            a.MoveToElement(taskGridElement).Perform();
+            a.Release().Perform();
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
         public TaskAllocationPage DragAndDropUnAllocatedRoundToGridTask()
         {
             DragAndDrop(firstRoundForNextDayNotAllocated, taskGrid);
@@ -790,7 +808,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 
         public TaskAllocationPage SendKeyInDescInputToSearch(string value)
         {
-            SendKeys(descInputSearch, value);
+            SendKeys(descInputSearch, value.Trim());
             WaitForLoadingIconToDisappear();
             return this;
         }

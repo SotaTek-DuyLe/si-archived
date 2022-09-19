@@ -4,6 +4,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
+using si_automated_tests.Source.Main.Pages.Tasks;
 
 namespace si_automated_tests.Source.Main.Pages.Applications
 {
@@ -12,14 +13,17 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By contractTitle = By.XPath("//label[text()='Contract']");
         private readonly By serviceTitle = By.XPath("//label[text()='Services']");
         private readonly By scheduleTitle = By.XPath("//label[text()='Scheduled Date']");
-        private readonly By goBtn = By.XPath("button[id='button-go']");
+        private readonly By goBtn = By.CssSelector("button[id='button-go']");
         private readonly By contractDd = By.XPath("//label[text()='Contract']/following-sibling::span/select");
         private readonly By serviceInput = By.XPath("//label[text()='Services']/following-sibling::input");
         private readonly By scheduledDateInput = By.XPath("//label[text()='Scheduled Date']/following-sibling::input");
         private readonly By expandRoundsBtn = By.XPath("//span[text()='Expand Rounds']/parent::button");
         private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
-        private readonly By descAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured')]/div[contains(@class, 'l4')]");
+        private readonly By descAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
+
+        private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
+        private readonly By firstRowAfterFiltering = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]/parent::div");
         public readonly By ContractSelect = By.XPath("//select[@id='contract']");
         public readonly By ServiceInput = By.XPath("//input[@id='services']");
         public readonly By ButtonGo = By.XPath("//button[@id='button-go']");
@@ -43,13 +47,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string anyServicesByServiceGroup = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/preceding-sibling::i";
         private readonly string anyRoundByDay = "//a[text()='{0}']/following-sibling::ul//a[text()='{1}']";
         private readonly string anyChildOfTree = "//a[text()='{0}']/parent::li/i";
+        private readonly string chirldOfTree = "//a[text()='{0}']";
 
         public TaskConfirmationPage IsTaskConfirmationPage()
         {
             WaitUtil.WaitForElementVisible(contractTitle);
             Assert.IsTrue(IsControlDisplayed(serviceTitle));
             Assert.IsTrue(IsControlDisplayed(scheduleTitle));
-            Assert.IsTrue(IsControlDisplayed(goBtn));
             return this;
         }
 
@@ -67,13 +71,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             ClickOnElement(anyServicesByServiceGroup, serviceGroupName);
             ClickOnElement(anyChildOfTree, serviceName);
             ClickOnElement(anyChildOfTree, roundName);
-            ClickOnElement(anyChildOfTree, dayName);
+            ClickOnElement(chirldOfTree, dayName);
             return this;
         }
 
         public TaskConfirmationPage SendDateInScheduledDate(string dateValue)
         {
-            SendKeys(scheduledDateInput, dateValue);
+            InputCalendarDate(scheduledDateInput, dateValue);
             return this;
         }
 
@@ -104,8 +108,20 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 
         public TaskConfirmationPage VerifyDisplayResultAfterSearchWithDesc(string descExp)
         {
-            Assert.AreEqual(descExp, GetElementText(descAtFirstColumn));
+            Assert.AreEqual(descExp.Trim(), GetElementText(descAtFirstColumn).Trim());
             return this;
+        }
+
+        public TaskConfirmationPage ClickOnSelectAndDeselectBtn()
+        {
+            ClickOnElement(selectAndDeselectBtn);
+            return this;
+        }
+
+        public DetailTaskPage DoubleClickOnFirstTask()
+        {
+            DoubleClickOnElement(firstRowAfterFiltering);
+            return PageFactoryManager.Get<DetailTaskPage>();
         }
 
         public TaskConfirmationPage()

@@ -1,10 +1,15 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Collections.Generic;
+using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Applications;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Services;
+using si_automated_tests.Source.Main.Pages.Tasks;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 using TaskAllocationPage = si_automated_tests.Source.Main.Pages.Applications.TaskAllocationPage;
 
@@ -348,7 +353,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
         public void TC_132_Test_7_Action_Set_Assured_one_cell()
         {
             string tomorrowDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
-            string datePlus5Days = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 5);
+            string datePlus10Days = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
@@ -384,12 +389,16 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .RightClickOnFirstRowWithServiceTaskSchedule(descRedRow)
                 .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[1])
                 .VerifySetAssuredAfterClick()
-                .InputDateInSetEndDate(datePlus5Days)
+                .InputDateInSetEndDate(datePlus10Days)
                 .ClickOnApplyAtBottomBtn()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Get Round
+            int roundDay = serviceDataManagementPage
+                .GetRoundDate(descRedRow);
+
             //Line 90: Double click on cell to display Service Task Schedule with Service Task
             serviceDataManagementPage
                 .DoubleClickOnFirstRowWithServiceTaskSchedule(descRedRow)
@@ -405,7 +414,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsServiceTaskPage()
                 .ClickOnDetailTab()
                 .VerifyAssuredTaskChecked()
-                .VerifyAsseredFromAndAssuredUntil(tomorrowDate, datePlus5Days)
+                .VerifyAsseredFromAndAssuredUntil(tomorrowDate, datePlus10Days)
                 .ClickOnSchedulesTab();
 
             //Get service group
@@ -424,20 +433,47 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchToChildWindow(1)
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
-            string nowPlus2Days = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
+            string filterDate = "";
+            DateTime today = DateTime.Today;
+            if (today.DayOfWeek == DayOfWeek.Monday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 4);
+            }
+            else if(today.DayOfWeek == DayOfWeek.Tuesday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Wednesday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Thursday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 8);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Friday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 6);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 5);
+            }
             //Line 92: Go to [Task Confirmation screen]
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
                 .OpenOption(SubOption.TASK_CONFIRMATION)
-                .AcceptAlert()
-                .AcceptAlert()
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .IsTaskConfirmationPage()
                 .SelectContract(Contract.RM)
                 .ClickServicesAndSelectServiceInTree(serviceGroupName, serviceName, roundName, dayName)
-                .SendDateInScheduledDate(nowPlus2Days)
+                .SendDateInScheduledDate(filterDate)
                 .ClickGoBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
@@ -447,9 +483,37 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .SendKeyInDesc(descRedRow)
                 .VerifyDisplayResultAfterSearchWithDesc(descRedRow);
-            string datePlus7Days = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
+            string filterDayOutOfDateRange = "";
+            if (today.DayOfWeek == DayOfWeek.Monday)
+            {
+                filterDayOutOfDateRange = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 18);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Tuesday)
+            {
+                filterDayOutOfDateRange = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 17);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Wednesday)
+            {
+                filterDayOutOfDateRange = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 16);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Thursday)
+            {
+                filterDayOutOfDateRange = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 15);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Friday)
+            {
+                filterDayOutOfDateRange = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 14);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                filterDayOutOfDateRange = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 13);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                filterDayOutOfDateRange = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 12);
+            }
             PageFactoryManager.Get<TaskConfirmationPage>()
-                .SendDateInScheduledDate(datePlus7Days)
+                .SendDateInScheduledDate(filterDayOutOfDateRange)
                 .ClickGoBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
@@ -468,29 +532,209 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             PageFactoryManager.Get<TaskAllocationPage>()
                 .SelectContract(Contract.RM)
                 .SelectServices(serviceGroupName, serviceName)
-                .SendKeyInFrom(nowPlus2Days)
+                .SendKeyInFrom(filterDate)
                 .ClickOnGoBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskAllocationPage>()
-                .DragAndDropUnAllocatedRoundToGridTask()
+                .DragAndDropUnAllocatedRoundToGridTask(roundName)
                 .SendKeyInDescInputToSearch(descRedRow)
                 .VerifyDisplayTaskWithAssuredChecked(descRedRow);
             PageFactoryManager.Get<TaskAllocationPage>()
-                .SendKeyInFrom(datePlus7Days)
+                .SendKeyInFrom(filterDayOutOfDateRange)
                 .ClickOnGoBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskAllocationPage>()
-                .DragAndDropUnAllocatedRoundToGridTask()
+                .DragAndDropUnAllocatedRoundToGridTask(roundName)
                 .SendKeyInDescInputToSearch(descRedRow)
                 .VerifyDisplayTaskWithAssuredNotChecked(descRedRow);
         }
 
         [Category("SDM Actions")]
         [Category("Chang")]
-        [Test(Description = "Action 'Set Assured' - MULTIPLE cells in one column")]
-        public void TC_132_Test_8_Action_Set_Assured_multiple_cell()
+        [Test(Description = "Action 'Set Proximity Alert' - ONE cell")]
+        public void TC_132_Test_9_Action_Set_Proximity_alert_on_cell()
         {
+            CommonFinder finder = new CommonFinder(DbContext);
 
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.RMC)
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .FilterReferenceById("77755")
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnSelectAndDeselectBtn()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            string descRedRow = serviceDataManagementPage
+                .GetFirstDescWithRedColor();
+            serviceDataManagementPage
+                .RightClickOnFirstRowUnAllocated()
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[2])
+                .ClickOnApplyAtBottomBtn()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceDataManagementPage
+                .DoubleClickOnFirstRowUnAllocated()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsServiceTaskSchedule()
+                .ClickOnServiceTaskLink()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .ClickOnDetailTab()
+                .VerifyProximityAlertChecked()
+                .ClickOnSchedulesTab();
+
+            //Get service group
+            string serviceGroupName = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetServiceGroupName();
+            string serviceName = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetServiceName();
+            string roundAtFirstRow = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetRoundName();
+            string roundName = roundAtFirstRow.Split(" ")[0];
+            string dayName = roundAtFirstRow.Split(" ")[1];
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            //Filter taskId and check
+            //Go to [Task confirmation] to get task id
+            string filterDate = "";
+            DateTime today = DateTime.Today;
+            if (today.DayOfWeek == DayOfWeek.Monday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Tuesday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 8);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Wednesday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Thursday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 6);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Friday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 5);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 4);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
+            }
+            //Line 92: Go to [Task Confirmation screen]
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.TASK_CONFIRMATION)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .IsTaskConfirmationPage()
+                .SelectContract(Contract.RM)
+                .ClickServicesAndSelectServiceInTree(serviceGroupName, serviceName, roundName, dayName)
+                .SendDateInScheduledDate(filterDate)
+                .ClickGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnExpandRoundsBtn()
+                .ClickOnExpandRoundLegsBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .SendKeyInDesc(descRedRow)
+                .VerifyDisplayResultAfterSearchWithDesc(descRedRow)
+                .ClickOnSelectAndDeselectBtn()
+                .DoubleClickOnFirstTask()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            string taskId = PageFactoryManager.Get<DetailTaskPage>()
+                .GetTaskId();
+
+            //API Check => Bug
+            List<TaskDBModel> taskDBModels = finder.GetTask(int.Parse(taskId));
+            Assert.AreEqual(1, taskDBModels[0].proximityalert);
+        }
+
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "Action 'Set Proximity Alert' - MULTIPLE cell")]
+        public void TC_132_Test_10_Action_Set_Proximity_alert_on_multiple_cell()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.RMC)
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .FilterReferenceById("103611")
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnSelectAndDeselectBtn()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .RightClickOnFirstRowUnAllocated();
         }
 
     }
