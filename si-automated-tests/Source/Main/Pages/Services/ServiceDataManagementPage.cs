@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -48,6 +49,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string firstLocatorWithDescRedRow = "(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]/td[contains(@data-bind, 'retiredPoint')]/span)[1]";
         private readonly string roundDate = "//table[@id='master-table']//tr[contains(@class, 'round-row')]/td[count(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//span/parent::td[contains(@data-bind, 'retiredPoint')]/preceding-sibling::td) + 1]";
 
+        [AllureStep]
         public ServiceDataManagementPage IsServiceDataManagementPage()
         {
             WaitUtil.WaitForElementVisible(serviceLocationTypeTitle);
@@ -58,6 +60,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public int GetRoundDate(string descName)
         {
             string roundName = GetElementText(roundDate, descName);
@@ -91,6 +94,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return 8;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage ClickServiceLocationTypeDdAndSelectOption(string typeOptionValue)
         {
             ClickOnElement(selectTypeDd);
@@ -98,21 +102,21 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(serviceTypeOption, typeOptionValue);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickOnServicesAndSelectGroupInTree(string serviceGroupName)
         {
             ClickOnElement(inputServicesTree);
             ClickOnElement(anyServicesGroupByContract, serviceGroupName);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickOnApplyFiltersBtn()
         {
             ClickOnElement(applyFiltersBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage VerifyWarningPopupDisplayed()
         {
             WaitUtil.WaitForElementVisible(warningTitle);
@@ -123,43 +127,47 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(IsControlEnabled(cancelBtn));
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickOnOkBtn()
         {
             ClickOnElement(okBtn);
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage FilterReferenceById(string refId)
         {
             SendKeys(referenceIdInput, refId);
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage ClickOnSelectAndDeselectBtn()
         {
             ClickOnElement(selectAndDeselectBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickOnNextBtn()
         {
             ClickOnElement(nextBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage RightClickOnFirstRowWithServiceTaskSchedule()
         {
             RightClickOnElement(firstRowWithServiceTaskSchedule);
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage RightClickOnFirstRowUnAllocated()
         {
             RightClickOnElement(firstRowWithServiceTaskScheduleAndNotAllocated);
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage DoubleClickOnFirstRowUnAllocated()
         {
             DoubleClickOnElement(firstRowWithServiceTaskScheduleAndNotAllocated);
@@ -167,29 +175,34 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
 
+        [AllureStep]
         public ServiceDataManagementPage RightClickOnFirstRowWithServiceTaskSchedule(string descValue)
         {
             RightClickOnElement(string.Format(firstLocatorWithDescRedRow, descValue));
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage DoubleClickOnFirstRowWithServiceTaskSchedule(string descValue)
         {
             DoubleClickOnElement(string.Format(firstLocatorWithDescRedRow, descValue));
             return this;
         }
 
+        [AllureStep]
         public string GetFirstDescWithRedColor()
         {
             return GetElementText(firstRedRow);
         }
 
+        [AllureStep]
         public ServiceDataManagementPage DoubleClickOnFirstRowWithServiceTaskSchedule()
         {
             DoubleClickOnElement(firstRowWithServiceTaskSchedule);
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage VerifyActionMenuDisplayedWithActions()
         {
             foreach(string action in CommonConstants.ActionMenuSDM)
@@ -199,12 +212,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage ClickOnAnyOptionInActions(string actionName)
         {
             ClickOnElement(actionOption, actionName);
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage VerifyActionMenuDisplayWithServiceUnit()
         {
             SleepTimeInMiliseconds(1000);
@@ -215,6 +230,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage VerifyActionInActionMenuDisabled(string[] nameActions)
         {
             foreach(string action in nameActions)
@@ -224,50 +240,67 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage RightClickOnFirstRowWithoutServiceTaskSchedule()
         {
             RightClickOnElement(firstRowWithoutServiceTaskSchedule);
             return this;
         }
+
+        [AllureStep]
         public ServiceDataManagementPage ClickOnMultipleRowsWithServiceTaskSchedule()
         {
             ScrollDownToElement(firstMultipleRowWithServiceTaskSchedule);
             ClickOnElement(firstMultipleRowWithServiceTaskSchedule);
             return this;
         }
+
+        [AllureStep]
         public ServiceDataManagementPage SelectMultipleRowsWithServiceTaskSchedule()
         {
             HoldKeyDownWhileClickOnElement(firstRowInMultipleWithServiceTaskSchedule);
             HoldKeyDownWhileClickOnElement(secondRowInMultipleWithServiceTaskSchedule);
             return this;
         }
+
+        [AllureStep]
         public ServiceDataManagementPage RightClickOnMultipleRowWithServiceTaskSchedule()
         {
             RightClickOnElement(firstRowInMultipleWithServiceTaskSchedule);
             return this;
         }
+
+        [AllureStep]
         public ServiceDataManagementPage SelectMultipleRowsWithoutServiceTaskSchedule()
         {
             HoldKeyDownWhileClickOnElement(firstMultipleRowWithoutServiceTaskSchedule);
             HoldKeyDownWhileClickOnElement(secondMultipleRowWithoutServiceTaskSchedule);
             return this;
         }
+
+        [AllureStep]
         public ServiceDataManagementPage RightClickOnMultipleRowWithoutServiceTaskSchedule()
         {
             RightClickOnElement(firstMultipleRowWithoutServiceTaskSchedule);
             return this;
         }
+
+        [AllureStep]
         public ServiceDataManagementPage RightClickOnFirstCellWithServiceUnit()
         {
             RightClickOnElement(firstCellWithServiceUnit);
             return this;
         }
+
+        [AllureStep]
         public ServiceDataManagementPage RightClickOnCellWithMutipleServiceUnitPoint()
         {
             ScrollDownToElement(firstCellWithMultipleServiceUnitPoint);
             RightClickOnElement(firstCellWithMultipleServiceUnitPoint);
             return this;
         }
+
+        [AllureStep]
         public ServiceDataManagementPage VerifyActionInActionMenuEnabled(string[] nameActions)
         {
             foreach (string action in nameActions)
@@ -277,6 +310,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage RightClickOnMultipleServiceTaskScheduleSegment()
         {
             RightClickOnElement(thridMultipleRowWithoutServiceTaskSchedule);
@@ -285,6 +319,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage ClickOutOfAction()
         {
             ClickOnElement(totalRow);
@@ -296,12 +331,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By inputEndDate = By.XPath("//input[@id='assured-end-date']");
         private readonly By applyAtBottomBtn = By.XPath("//button[text()='Apply']");
 
+        [AllureStep]
         public ServiceDataManagementPage VerifySetAssuredAfterClick()
         {
             Assert.IsTrue(IsControlDisplayed(setEndDateLabel));
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage InputDateInSetEndDate(string endDateValue)
         {
             InputCalendarDate(inputEndDate, endDateValue);
@@ -309,13 +346,11 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage ClickOnApplyAtBottomBtn()
         {
             ClickOnElement(applyAtBottomBtn);
             return this;
         }
-
-
-
     }
 }

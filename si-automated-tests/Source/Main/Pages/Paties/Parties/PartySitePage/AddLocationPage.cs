@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -13,6 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private readonly By activeCheckbox = By.XPath("//label[text()='Active']/following-sibling::div/input");
         private readonly By clientRefInput = By.CssSelector("input#client-ref");
 
+        [AllureStep]
         public AddLocationPage WaitForAddLocationPageLoaded()
         {
             WaitUtil.WaitForPageLoaded();
@@ -20,7 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             WaitUtil.WaitForElementVisible(title);
             return this;
         }
-
+        [AllureStep]
         public AddLocationPage VerifyDisplayPartySitePage()
         {
             WaitUtil.WaitForElementVisible(nameInput);
@@ -31,25 +33,25 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             Assert.AreEqual(GetCssValue(nameInput, "border-color"), CommonConstants.BoderColorMandatory);
             return this;
         }
-
+        [AllureStep]
         public AddLocationPage InputName(string nameValue)
         {
             SendKeys(nameInput, nameValue);
             return this;
         }
-
+        [AllureStep]
         public AddLocationPage SelectActiveCheckbox()
         {
             ClickOnElement(activeCheckbox);
             return this;
         }
-
+        [AllureStep]
         public AddLocationPage VerifyActiveCheckboxSelected()
         {
             Assert.IsTrue(IsElementSelected(activeCheckbox));
             return this;
         }
-
+        [AllureStep]
         public AddLocationPage InputClientName(string client)
         {
             SendKeys(clientRefInput, client);

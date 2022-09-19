@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using si_automated_tests.Source.Core;
@@ -146,17 +147,18 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By ReasonSelect = By.XPath("//select[contains(@data-bind, 'allocationReasons')]");
         public readonly By ReasonConfirmButton = By.XPath("//div[@id='get-allocation-reason']//button[text()='Confirm']");
 
+
         public By GetAllocatingConfirmMsg(int count) 
         {
             return By.XPath($"//div[text()='Allocating {count} Task(s) onto Round Instance for a different day!']");
         }
-
+        [AllureStep]
         public TaskAllocationPage DoubleClickFromCellOnRound(string round)
         {
             RoundInstanceTableEle.DoubleClickCellOnCellValue(4, 2, round);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DoubleClickRI(string roundgroup, string round)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(3, new Dictionary<int, object>()
@@ -169,19 +171,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DoubleClickOnElement(cell);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage SelectRoundNode(string nodeName)
         {
             ServicesTreeView.ClickItem(nodeName);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage ExpandRoundNode(string nodeName)
         {
             ServicesTreeView.ExpandNode(nodeName);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragRoundInstanceToUnlocattedGrid(string roundGroup, string round, int dragcellIdx = 3)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(dragcellIdx, new Dictionary<int, object>() 
@@ -193,7 +195,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DragAndDrop(cell, grid);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragRoundInstanceToReallocattedGrid(string roundGroup, string round, int dragcellIdx = 3)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(dragcellIdx, new Dictionary<int, object>()
@@ -205,7 +207,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DragAndDrop(cell, grid);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragRoundInstanceToRoundGrid(string roundGroup, string round, int dragcellIdx = 3)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(dragcellIdx, new Dictionary<int, object>()
@@ -217,13 +219,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DragAndDrop(cell, grid);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage ClickUnallocatedRow(int rowIdx = 0)
         {
             UnallocatedTableEle.ClickCell(rowIdx, 0);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragUnallocatedRowToRoundInstance(string roundGroup, string round)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(4, new Dictionary<int, object>()
@@ -245,7 +247,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             a.Release().Perform();
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyTaskAllocated(string roundGroup, string round)
         {
             SleepTimeInMiliseconds(200);
@@ -258,7 +260,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(borderLeft.Contains("rgba(0, 128, 0, 1)"));
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage UnallocatedHorizontalScrollToElement(By element, bool isScrollRight = true)
         {
             IWebElement e = this.driver.FindElement(element);
@@ -266,7 +268,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             actions.MoveToElement(e).Perform();
             return this;
         }
-
+        [AllureStep]
         public List<string> GetRoundLegInstanceIds(List<string> descriptions)
         {
             List<string> RLIIds = new List<string>();
@@ -295,7 +297,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return RLIIds;
         }
-
+        [AllureStep]
         public List<RoundInstanceModel> ExpandRoundInstance(int rowCount)
         {
             List<RoundInstanceModel> roundInstanceDetails = new List<RoundInstanceModel>();
@@ -353,7 +355,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return roundInstanceDetails;
         }
-
+        [AllureStep]
         public List<RoundInstanceModel> ExpandRoundInstance(List<RoundInstanceModel> roundInstances)
         {
             List<RoundInstanceModel> roundInstanceDetails = new List<RoundInstanceModel>();
@@ -405,7 +407,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return roundInstanceDetails;
         }
-
+        [AllureStep]
         public TaskAllocationPage ScrollToFirstRow()
         {
             int count = 0;
@@ -430,7 +432,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
-
+        [AllureStep]
         public List<RoundInstanceModel> SelectExpandedUnallocated(int rowCount)
         {
             List<RoundInstanceModel> roundInstances = new List<RoundInstanceModel>();
@@ -471,13 +473,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return roundInstances;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyReAllocatedRows(List<RoundInstanceModel> expected, List<RoundInstanceModel> actual)
         {
             Assert.That(actual, Is.EquivalentTo(expected));
             return this;
         }
-
+        [AllureStep]
         public List<RoundInstanceModel> SelectRoundLegs(int rowCount)
         {
             List<RoundInstanceModel> roundInstances = new List<RoundInstanceModel>();
@@ -503,7 +505,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return roundInstances;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragRoundLegRowToRoundInstance(string roundGroup, string round)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(4, new Dictionary<int, object>()
@@ -531,7 +533,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             a.Release().Perform();
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyRoundLegIsAllocated(List<RoundInstanceModel> roundLegs)
         {
             foreach (var item in roundLegs)
@@ -574,21 +576,21 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyTaskNameDisplayed(string taskNameExp)
         {
             WaitUtil.WaitForElementVisible(contractTitle);
             Assert.AreEqual(taskNameExp, GetElementText(taskName).Replace("*", "").Trim());
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyThirdTaskNameDisplayed(string taskNameExp)
         {
             WaitUtil.WaitForElementVisible(contractTitle);
             Assert.AreEqual(taskNameExp, GetElementText(thirdTaskName));
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyTaskSelectedDisplayedInGrid(List<TaskInWorksheetModel> taskInWorksheetModels)
         {
             for(int i = 0; i < taskInWorksheetModels.Count; i++)
@@ -599,13 +601,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage SelectTwoTaskAgainInGrid()
         {
             ClickOnElement(checkboxSelectAllTask);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragAndDropTwoTaskToFirstUnAllocatedRound()
         {
             IWebElement roundCell = GetElement(firstRoundForNextDayNotAllocated);
@@ -620,7 +622,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragAndDropUnAllocatedRoundToGridTask(string roundGroupName)
         {
             
@@ -636,7 +638,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragAndDropUnAllocatedRoundToGridTask()
         {
             DragAndDrop(firstRoundForNextDayNotAllocated, taskGrid);
@@ -644,11 +646,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        [AllureStep]
         public string GetRoundGroupFirstUnAllocated()
         {
             return GetElementText(firstRoundGroupNotAllocated);
         }
-
+        [AllureStep]
         public string GetRoundNameFirstUnAllocated()
         {
             return GetElementText(firstRoundNameNotAllocated);
@@ -663,6 +666,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string allLocatorRoundUnAllocated = "//div[@id='roundGrid']//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'no-padding')]/div";
         private readonly By idSearchTextbox = By.XPath("//div[contains(@id, 'round-tab')]//div[contains(@class, 'ui-state-default')]//div[contains(@class, 'l3')]//input[contains(@class, 'value')]");
 
+        [AllureStep]
         public List<RoundGroupModel> GetAllRoundInfoModelWithUnallocated()
         {
             List<RoundGroupModel> roundGroupModels = new List<RoundGroupModel>();
@@ -700,8 +704,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By selectReasonDd = By.XPath("//label[contains(text(), 'Please select the reason below and confirm.')]/following-sibling::select");
         private readonly By badweatherReason = By.XPath("//label[contains(text(), 'Please select the reason below and confirm.')]/following-sibling::select/option[text()='Bad Weather']");
         private readonly By confirmBtn = By.XPath("//button[text()='Confirm']");
-       
 
+        [AllureStep]
         public TaskAllocationPage IsConfirmationNeededPopup()
         {
             WaitUtil.WaitForElementVisible(titleConfirmationPopup);
@@ -709,13 +713,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(IsControlDisplayed(closePopupBtn));
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage ClickOnAllocateAllBtn()
         {
             ClickOnElement(allocateAllBtn);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage IsReasonNeededPopup()
         {
             WaitUtil.WaitForElementVisible(titleReasonNeededPopup);
@@ -723,39 +727,39 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(IsControlDisplayed(contentReasonNeededPopup));
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage ClickReasonDdAndSelectReason()
         {
             ClickOnElement(selectReasonDd);
             ClickOnElement(badweatherReason);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage ClickOnConfirmBtn()
         {
             ClickOnElement(confirmBtn);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyTaskNoLongerDisplayedInGrid()
         {
             Assert.IsTrue(IsControlUnDisplayed(allTaskInGrid));
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyTaskDisplayedInGrid()
         {
             Assert.IsTrue(IsControlDisplayed(allTaskAfterDragAndDrop));
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage HoverDateAndVerifyTaskDisplayGreenColor()
         {
             HoverOverElement(firstRoundForNextDayNotAllocated);
             //Verify
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragAndDropRoundToGrid()
         {
             DragAndDrop(firstRoundAllocated, taskGrid);
@@ -763,13 +767,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        [AllureStep]
         public TaskAllocationPage SendKeyInId(string taskId)
         {
             SendKeys(idSearchTextbox, taskId);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyRoundInstanceStatusCompleted()
         {
             IWebElement cell = RoundTabTableEle.GetCell(0, 4);
@@ -777,7 +782,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.png"));
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage SelectContract(string contractName)
         {
             ClickOnElement(ContractSelect);
@@ -785,7 +790,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
 
         }
-
+        [AllureStep]
         public TaskAllocationPage SelectServices(string serviceGroup, string serviceName)
         {
             ClickOnElement(ServiceInput);
@@ -793,32 +798,32 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             ClickOnElement(childServiceOption, serviceName);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage SendKeyInFrom(string fromDate)
         {
             InputCalendarDate(fromDateInput, fromDate);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage ClickOnGoBtn()
         {
             ClickOnElement(goBtn);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage SendKeyInDescInputToSearch(string value)
         {
             SendKeys(descInputSearch, value.Trim());
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyDisplayTaskWithAssuredChecked(string value)
         {
             Assert.IsTrue(IsControlDisplayed(assuredChecked, value));
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyDisplayTaskWithAssuredNotChecked(string value)
         {
             Assert.IsTrue(IsControlDisplayed(assuredNotChecked, value));

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
@@ -17,6 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
         private readonly string dateViewOptionOthers = "//div[contains(@data-bind,'echoCalendar')]//button[text()='{0}']";
         private readonly By todayInYearView = By.XPath("//td[contains(@class,'day today')]");
 
+        [AllureStep]
         public ResourceCalendarTab VerifyWorkPatternIsSet(string _pattern)
         {
             IList<IWebElement> patternList = WaitUtil.WaitForAllElementsVisible(workPattern);
@@ -26,16 +28,19 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             }
             return this;
         }
+        [AllureStep]
         public ResourceCalendarTab VerifyWorkPatternNotSet()
         {
             WaitUtil.WaitForElementInvisible(workPattern);
             return this;
         }
+        [AllureStep]
         public bool IsOnYearDateView()
         {
             //if hidden year view is found -> not on year view, not found -> on year view
             return IsControlUnDisplayed(hiddenYearDateView);
         }
+        [AllureStep]
         public ResourceCalendarTab SwitchDateView(string viewOption)
         {
             //if is year view -> use other view and vice versa
@@ -50,6 +55,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public ResourceCalendarTab OpenTodayDateInYearView()
         {
             DoubleClickOnElement(todayInYearView);

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
@@ -48,12 +49,14 @@ namespace si_automated_tests.Source.Main.Pages.Prices
         {
             get => new TableElement(PricesTable, PricesInputRow, new List<string>() { PriceNameInputCell, PriceCell, MinPriceCell, UnitCell, QtyCell, RemoveButtonCell });
         }
+        [AllureStep]
 
         public PricesTab ClickAddNewPrice(int rowIdx)
         {
             PriceTableEle.ClickCell(rowIdx, 1);
             return this;
         }
+        [AllureStep]
 
         public PricesTab EditPriceRecord(int rowIdx, string name, string price, string minprice)
         {
@@ -63,6 +66,7 @@ namespace si_automated_tests.Source.Main.Pages.Prices
             PricesInputTable.ClickCell(rowIdx, 4);
             return this;
         }
+        [AllureStep]
 
         public PricesTab VerifyPriceRecord(int rowIdx, string name, string price, string minprice)
         {

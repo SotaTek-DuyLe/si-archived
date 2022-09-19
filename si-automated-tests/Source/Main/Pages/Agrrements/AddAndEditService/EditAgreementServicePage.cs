@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -14,6 +15,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         private readonly By Page1SiteAndServiceText = By.XPath("//span[text()='1']/following-sibling::p[text()='Site and Service']");
         private readonly By nextBtn = By.XPath("//button[text()='Next']");
 
+        [AllureStep]
         public EditAgreementServicePage IsOnEditAgreementServicePage()
         {
             WaitUtil.WaitForElementVisible(editServiceTitle);
@@ -23,6 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             Assert.IsTrue(IsControlDisplayed(nextBtn));
             return this;
         }
+        [AllureStep]
         public AssetAndProducTab ClickOnNextBtn()
         {
             WaitUtil.WaitForElementClickable(nextBtn);

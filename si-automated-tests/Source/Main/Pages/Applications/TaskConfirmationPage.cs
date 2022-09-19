@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -49,6 +50,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string anyChildOfTree = "//a[text()='{0}']/parent::li/i";
         private readonly string chirldOfTree = "//a[text()='{0}']";
 
+        [AllureStep]
         public TaskConfirmationPage IsTaskConfirmationPage()
         {
             WaitUtil.WaitForElementVisible(contractTitle);
@@ -57,6 +59,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        [AllureStep]
         public TaskConfirmationPage SelectContract(string contractName)
         {
             ClickOnElement(contractDd);
@@ -65,6 +68,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        [AllureStep]
         public TaskConfirmationPage ClickServicesAndSelectServiceInTree(string serviceGroupName, string serviceName, string roundName, string dayName)
         {
             ClickOnElement(serviceInput);
@@ -75,30 +79,35 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        [AllureStep]
         public TaskConfirmationPage SendDateInScheduledDate(string dateValue)
         {
             InputCalendarDate(scheduledDateInput, dateValue);
             return this;
         }
 
+        [AllureStep]
         public TaskConfirmationPage ClickGoBtn()
         {
             ClickOnElement(goBtn);
             return this;
         }
 
+        [AllureStep]
         public TaskConfirmationPage ClickOnExpandRoundsBtn()
         {
             ClickOnElement(expandRoundsBtn);
             return this;
         }
 
+        [AllureStep]
         public TaskConfirmationPage ClickOnExpandRoundLegsBtn()
         {
             ClickOnElement(expandRoundLegsBtn);
             return this;
         }
 
+        [AllureStep]
         public TaskConfirmationPage SendKeyInDesc(string descValue)
         {
             SendKeys(descInput, descValue);
@@ -106,18 +115,21 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        [AllureStep]
         public TaskConfirmationPage VerifyDisplayResultAfterSearchWithDesc(string descExp)
         {
             Assert.AreEqual(descExp.Trim(), GetElementText(descAtFirstColumn).Trim());
             return this;
         }
 
+        [AllureStep]
         public TaskConfirmationPage ClickOnSelectAndDeselectBtn()
         {
             ClickOnElement(selectAndDeselectBtn);
             return this;
         }
 
+        [AllureStep]
         public DetailTaskPage DoubleClickOnFirstTask()
         {
             DoubleClickOnElement(firstRowAfterFiltering);
@@ -156,19 +168,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             get => _treeViewElement;
         }
-
+        [AllureStep]
         public TaskConfirmationPage SelectRoundNode(string nodeName)
         {
             ServicesTreeView.ClickItem(nodeName);
             return this;
         }
-
+        [AllureStep]
         public TaskConfirmationPage ExpandRoundNode(string nodeName)
         {
             ServicesTreeView.ExpandNode(nodeName);
             return this;
         }
-
+        [AllureStep]
         public TaskConfirmationPage VerifyRoundInstanceStatusCompleted()
         {
             IWebElement cell = UnallocatedTableEle.GetCell(0, 1);
@@ -176,7 +188,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.png"));
             return this;
         }
-
+        [AllureStep]
         public TaskConfirmationPage DoubleClickRoundInstance()
         {
             slickRoundTableEle.DoubleClickRow(0);

@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -27,31 +28,33 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
         //DYNAMIC LOCATOR
         private const string anyContactGroups = "//ul[contains(@class, 'dropdown-menu')]//a/span[text()='{0}']";
 
+        [AllureStep]
         public CreatePartyContactPage IsCreatePartyContactPage()
         {
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(title);
             return this;
         }
-
+        [AllureStep]
         public CreatePartyContactPage EnterFirstName(string firstName)
         {
             SendKeys(contactFistNameInput, firstName);
             return this;
         }
+        [AllureStep]
 
         public CreatePartyContactPage EnterLastName(string lastName)
         {
             SendKeys(contactLastNameInput, lastName);
             return this;
         }
-
+        [AllureStep]
         public CreatePartyContactPage EnterMobileValue(string mobile)
         {
             SendKeys(mobileInput, mobile);
             return this;
         }
-
+        [AllureStep]
         public CreatePartyContactPage EnterValueRemainingFields(ContactModel contactModel)
         {
             SendKeys(titleInput, contactModel.Title);
@@ -66,7 +69,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
             
             return this;
         }
-
+        [AllureStep]
         public CreatePartyContactPage ClickAnyContactGroupsAndVerify(string contactGroup)
         {
             //Click contact groups and verify

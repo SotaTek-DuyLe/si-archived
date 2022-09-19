@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -42,6 +44,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By RetireButton = By.XPath("//div[@class='navbar-right pull-right']//button[@title='Retire']");
         public readonly By CreateAdHocTaskButton = By.XPath("//button[contains(text(), 'Create Ad-Hoc Task')]");
 
+        [AllureStep]
         public ServicesTaskPage WaitForTaskPageLoadedSuccessfully(String service, String partyname)
         {
             WaitUtil.WaitForElementVisible(serviceTaskName, service);
@@ -49,6 +52,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public ServicesTaskPage IsServiceTaskPage()
         {
             WaitUtil.WaitForElementVisible(title);
@@ -57,17 +61,20 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public ServicesTaskPage ClickOnTaskLineTab()
         {
             ClickOnElement(taskLineTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public ServicesTaskPage ClickOnScheduleTask()
         {
             ClickOnElement(ScheduleTab);
             return this;
         }
+        [AllureStep]
         public ServicesTaskPage VerifyServiceTaskInDB(List<ServiceTaskLineDBModel> listAll, int scheduledassetquantity, string assettype, int scheduledproductquantity, string unit, string product, string startdate, string enddate)
         {
             int n = 0;
@@ -91,7 +98,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(n, 1);
             return this;
         }
-
+        [AllureStep]
         public ServicesTaskPage VerifyServiceUnitAssets(List<ServiceUnitAssetsDBModel> listAll, int num, string startDate, string endDate)
         {
             int n = 0;
@@ -107,6 +114,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(n, num);
             return this;
         }
+        [AllureStep]
         public ServicesTaskPage VerifyServiceUnitAssets(List<ServiceUnitAssetsDBModel> listAll,int num, string assetType, string _product, string startDate, string endDate)
         {
             int n = 0;
@@ -122,11 +130,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(n, num);
             return this;
         }
+        [AllureStep]
         public ServicesTaskPage VerifyServiceUnitAssetsNum(List<ServiceUnitAssetsDBModel> listAll, int num)
         {
             Assert.AreEqual(listAll.Count, num);
             return this;
         }
+        [AllureStep]
         public ServicesTaskPage VerifyServiceTaskAgreementNum(List<ServiceTaskForAgreementDBModel> listAll, int num, string startDate) 
         {
             int n = 0;
@@ -148,6 +158,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By assuredFromInput = By.XPath("//input[@id='assuredFrom.id']");
         private readonly By assuredUntilInput = By.XPath("//input[@id='assuredUntil.id']");
 
+        [AllureStep]
         public ServicesTaskPage VerifyAssuredTaskChecked()
         {
             WaitUtil.WaitForElementVisible(assuredCheckbox);
@@ -155,6 +166,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public ServicesTaskPage VerifyProximityAlertChecked()
         {
             WaitUtil.WaitForElementVisible(proximityAlertCheckbox);
@@ -162,6 +174,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public ServicesTaskPage ClickOnDetailTab()
         {
             ClickOnElement(DetailTab);
@@ -169,6 +182,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public ServicesTaskPage VerifyAsseredFromAndAssuredUntil(string fromDate, string untilDate)
         {
             Assert.AreEqual(fromDate, GetAttributeValue(assuredFromInput, "value"));
@@ -176,6 +190,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public string GetServiceGroupName()
         {
             return GetElementText(serviceGroupName);
@@ -190,6 +205,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By schedulesTab = By.XPath("//a[@aria-controls='schedules-tab']");
         private readonly By roundInFirstRow = By.XPath("//tbody/tr[1]/td[contains(@data-bind, 'text: round.value')]");
 
+        [AllureStep]
         public ServicesTaskPage ClickOnSchedulesTab()
         {
             ClickOnElement(schedulesTab);
@@ -197,6 +213,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public string GetRoundName()
         {
             return GetElementText(roundInFirstRow).Trim();

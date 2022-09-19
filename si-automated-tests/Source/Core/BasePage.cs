@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
@@ -36,6 +37,7 @@ namespace si_automated_tests.Source.Core
             this.driver = IWebDriverManager.GetDriver();
         }
 
+        [AllureStep]
         public void GoToURL(string url)
         {
             driver.Url = url;
@@ -70,7 +72,7 @@ namespace si_automated_tests.Source.Core
         {
             return driver.FindElements(by).ToList();
         }
-
+        [AllureStep]
         public void InputCalendarDate(By by, string value)
         {
             if(RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
@@ -89,49 +91,52 @@ namespace si_automated_tests.Source.Core
         }
 
         //SEND KEYS
+        [AllureStep]
         public void SendKeys(IWebElement element, string value)
         {
             element.Clear();
             element.SendKeys(value);
         }
+        [AllureStep]
         public void SendKeys(string locator, string value)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(locator);
             element.Clear();
             element.SendKeys(value);
         }
+        [AllureStep]
         public void SendKeys(By by, string value)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             element.Clear();
             element.SendKeys(value);
         }
-
+        [AllureStep]
         public void SendKeysWithoutClear(By by, string value)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             element.SendKeys(value);
         }
-
+        [AllureStep]
         public void ClearInputValue(By by)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             element.Clear();
         }
-
-
+        [AllureStep]
         public void ClearInputValue(string locator)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(locator);
             element.Clear();
         }
-
+        [AllureStep]
         public void EditSendKeys(By by, string value)
         {
             IWebElement element = WaitUtil.WaitForElementClickable(by);
             element.SendKeys(OpenQA.Selenium.Keys.LeftShift + OpenQA.Selenium.Keys.Home);
             element.SendKeys(value);
         }
+        [AllureStep]
         public void EditSendKeys(string xpath, string value)
         {
             IWebElement element = WaitUtil.WaitForElementClickable(xpath);
@@ -140,17 +145,19 @@ namespace si_automated_tests.Source.Core
         }
 
         //CLICK ON ELEMENT
+        [AllureStep]
         public void ClickOnElement(By by)
         {
             WaitUtil
                 .WaitForElementClickable(by)
                 .Click();
         }
+        [AllureStep]
         public void ClickOnElement(IWebElement element)
         {
             WaitUtil.WaitForElementClickable(element).Click();
         }
-
+        [AllureStep]
         public void ClickOnElement(string xpath)
         {
             WaitUtil
@@ -159,6 +166,7 @@ namespace si_automated_tests.Source.Core
                 .WaitForElementClickable(xpath)
                 .Click();
         }
+        [AllureStep]
         public void ClickOnElement(string xpath, string value)
         {
             xpath = string.Format(xpath, value);
@@ -166,6 +174,7 @@ namespace si_automated_tests.Source.Core
                 .WaitForElementClickable(xpath)
                 .Click();
         }
+        [AllureStep]
         public void ClickToElementByAction(string xpath)
         {
             IWebElement element = this.driver.FindElement(By.XPath(xpath));
@@ -174,6 +183,7 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForElementVisible(xpath);
             actions.Click(element).Perform();
         }
+        [AllureStep]
         public void ClickToElementByAction(string xpath, string value)
         {
             xpath = string.Format(xpath, value);
@@ -183,13 +193,14 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForElementVisible(xpath);
             actions.Click(element).Perform();
         }
+        [AllureStep]
         public void ClickToElementByJavascript(string xpath)
         {
             IWebElement element = this.driver.FindElement(By.XPath(xpath));
             this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
             this.javascriptExecutor.ExecuteScript("arguments[0].click();", new Object[] { element });
         }
-
+        [AllureStep]
         public void ClickToElementByJavascript(string xpath, string value)
         {
             xpath = string.Format(xpath, value);
@@ -197,12 +208,14 @@ namespace si_automated_tests.Source.Core
             this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
             this.javascriptExecutor.ExecuteScript("arguments[0].click();", new Object[] { element });
         }
+        [AllureStep]
         public void DoubleClickOnElement(By by)
         {
             Actions act = new Actions(IWebDriverManager.GetDriver());
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             act.DoubleClick(element).Perform();
         }
+        [AllureStep]
         public void DoubleClickOnElement(string xpath, string value)
         {
             xpath = String.Format(xpath, value);
@@ -210,12 +223,14 @@ namespace si_automated_tests.Source.Core
             IWebElement element = WaitUtil.WaitForElementVisible(xpath);
             act.DoubleClick(element).Perform();
         }
+        [AllureStep]
         public void DoubleClickOnElement(string xpath)
         {
             Actions act = new Actions(IWebDriverManager.GetDriver());
             IWebElement element = WaitUtil.WaitForElementVisible(xpath);
             act.DoubleClick(element).Perform();
         }
+        [AllureStep]
         public void DoubleClickOnElement(IWebElement element)
         {
             Actions act = new Actions(IWebDriverManager.GetDriver());
@@ -325,17 +340,20 @@ namespace si_automated_tests.Source.Core
         }
 
         //SWITCH FRAME
+        [AllureStep]
         public void SwitchToFrame(By by)
         {
             IWebElement e = WaitUtil.WaitForElementVisible(by);
             IWebDriverManager.GetDriver().SwitchTo().Frame(e);
 
         }
+        [AllureStep]
         public void SwitchToDefaultContent()
         {
             IWebDriverManager.GetDriver().SwitchTo().DefaultContent();
 
         }
+        [AllureStep]
         public BasePage SwitchNewIFrame()
         {
             IWebElement iframe = WaitUtil.WaitForElementVisible(By.TagName("iframe"));
@@ -343,7 +361,7 @@ namespace si_automated_tests.Source.Core
             Thread.Sleep(1000);
             return this;
         }
-
+        [AllureStep]
         public BasePage SwitchNewIFrame(By by)
         {
             IWebElement iframe = WaitUtil.WaitForElementVisible(by);
@@ -353,17 +371,20 @@ namespace si_automated_tests.Source.Core
         }
 
         //SWITCH WINDOW
+        [AllureStep]
         public BasePage SwitchToFirstWindow()
         {
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.First());
             return this;
         }
+        [AllureStep]
         public BasePage SwitchToLastWindow()
         {
             Thread.Sleep(500);
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
             return this;
         }
+        [AllureStep]
         public BasePage SwitchToChildWindow(int numberOfWindow, int maxRetryCount = 50)
         {
             WaitUntilNewWindowIsOpened(numberOfWindow, maxRetryCount);
@@ -371,6 +392,7 @@ namespace si_automated_tests.Source.Core
             MaximumWindow();
             return this;
         }
+        [AllureStep]
         public void WaitUntilNewWindowIsOpened(int expectedNumberOfWindows, int maxRetryCount = 50)
         {
             int returnValue;
@@ -399,11 +421,13 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForAlert();
             return IWebDriverManager.GetDriver().SwitchTo().Alert().Text;
         }
+        [AllureStep]
         public BasePage VerifyAlertText(string expected)
         {
             Assert.AreEqual(expected, GetAlertText());
             return this;
         }
+        [AllureStep]
         public BasePage AcceptAlert()
         {
             WaitUtil.WaitForAlert();
@@ -411,7 +435,7 @@ namespace si_automated_tests.Source.Core
             alert.Accept();
             return this;
         }
-
+        [AllureStep]
         public BasePage CancelAlert()
         {
             WaitUtil.WaitForAlert();
@@ -420,13 +444,14 @@ namespace si_automated_tests.Source.Core
             alert.Dismiss();
             return this;
         }
-
+        [AllureStep]
         public BasePage DissmissAlert()
         {
             WaitUtil.WaitForAlert();
             IWebDriverManager.GetDriver().SwitchTo().Alert().Dismiss();
             return this;
         }
+        [AllureStep]
         public BasePage DismissAlert()
         {
             WaitUtil.WaitForAlert();
@@ -435,13 +460,14 @@ namespace si_automated_tests.Source.Core
         }
 
         //REFRESH
+        [AllureStep]
         public BasePage Refresh()
         {
             IWebDriverManager.GetDriver().Navigate().Refresh();
             return this;
         }
         //SCROLLING
-
+        [AllureStep]
         public BasePage Scroll(int pixel)
         {
             WaitUtil.WaitForPageLoaded();
@@ -451,6 +477,7 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
+        [AllureStep]
         public BasePage ScrollDownInElement(string elementId)
         {
             WaitUtil.WaitForPageLoaded();
@@ -459,6 +486,7 @@ namespace si_automated_tests.Source.Core
             js.ExecuteScript(scriptText);
             return this;
         }
+        [AllureStep]
         public BasePage ScrollDownInElement(By by)
         {
             WaitUtil.WaitForPageLoaded();
@@ -467,7 +495,7 @@ namespace si_automated_tests.Source.Core
             js.ExecuteScript("arguments[0].scrollTop = arguments[0].scrollHeight;", e);
             return this;
         }
-
+        [AllureStep]
         public BasePage ScrollDownToElement(By by)
         {
             WaitUtil.WaitForPageLoaded();
@@ -478,6 +506,7 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
+        [AllureStep]
         public BasePage ScrollDownToElement(IWebElement e)
         {
             WaitUtil.WaitForPageLoaded();
@@ -485,6 +514,7 @@ namespace si_automated_tests.Source.Core
             js.ExecuteScript("arguments[0].scrollIntoView(true);", e);
             return this;
         }
+        [AllureStep]
         public BasePage ScrollLeft(By by)
         {
             WaitUtil.WaitForPageLoaded();
@@ -494,6 +524,7 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
+        [AllureStep]
         public BasePage ScrollRight(By by)
         {
             WaitUtil.WaitForPageLoaded();
@@ -503,6 +534,7 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
+        [AllureStep]
         public BasePage ScrollDownToElement(string locator, string value)
         {
             WaitUtil.WaitForPageLoaded();
@@ -513,6 +545,7 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
+        [AllureStep]
         public BasePage ScrollToBottomOfPage()
         {
             WaitUtil.WaitForPageLoaded();
@@ -523,6 +556,8 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         //GET FIRST SELECTED ITEM IN DROPDOWN
+
+        [AllureStep]
         public string GetFirstSelectedItemInDropdown(string xpath)
         {
             IWebElement comboBox = driver.FindElement(By.XPath(xpath));
@@ -530,12 +565,14 @@ namespace si_automated_tests.Source.Core
             return selectedValue.SelectedOption.Text;
         }
 
+        [AllureStep]
         public string GetFirstSelectedItemInDropdown(IWebElement comboBox)
         {
             SelectElement selectedValue = new SelectElement(comboBox);
             return selectedValue.SelectedOption.Text;
         }
 
+        [AllureStep]
         public string GetFirstSelectedItemInDropdown(By by)
         {
             IWebElement comboBox = driver.FindElement(by);
@@ -544,29 +581,36 @@ namespace si_automated_tests.Source.Core
         }
 
         //GET ATTRIBUTE VALUE
+
+        [AllureStep]
         public string GetAttributeValue(string xpath, string attributeName)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(xpath);
             return element.GetAttribute(attributeName);
         }
+
+        [AllureStep]
         public string GetAttributeValue(By by, string attributeName)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             return element.GetAttribute(attributeName);
         }
 
+        [AllureStep]
         public string GetAttributeValue(IWebElement element, string attributeName)
         {
             return element.GetAttribute(attributeName);
         }
 
         //MAXIMUM WINDOW
+        [AllureStep]
         public void MaximumWindow()
         {
             this.driver.Manage().Window.Maximize();
         }
 
         //SELECT VALUE FROM SELECT ELEMENT
+        [AllureStep]
         public BasePage SelectTextFromDropDown(By by, string _text)
         {
             Thread.Sleep(1000);
@@ -576,13 +620,14 @@ namespace si_automated_tests.Source.Core
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public SelectElement GetSelectElement(By by)
         {
             Thread.Sleep(500);
             IWebElement comboBox = WaitUtil.WaitForElementClickable(by);
             return new SelectElement(comboBox);
         }
-
+        [AllureStep]
         public BasePage SelectTextFromDropDown(IWebElement webElement, string _text)
         {
             Thread.Sleep(1000);
@@ -592,7 +637,7 @@ namespace si_automated_tests.Source.Core
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public BasePage SelectValueFromDropDown(By by, string _value)
         {
             IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
@@ -601,7 +646,7 @@ namespace si_automated_tests.Source.Core
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public BasePage SelectValueFromDropDown(IWebElement comboBox, string _value)
         {
             SelectElement selectedValue = new SelectElement(comboBox);
@@ -609,7 +654,7 @@ namespace si_automated_tests.Source.Core
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public BasePage SelectIndexFromDropDown(By by, int index)
         {
             IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
@@ -624,7 +669,7 @@ namespace si_automated_tests.Source.Core
             SelectElement selectElement = new SelectElement(comboBox);
             return selectElement.Options.Count;
         }
-
+        [AllureStep]
         public BasePage SelectIndexFromDropDown(IWebElement webElement, int index)
         {
             SelectElement selectedValue = new SelectElement(webElement);
@@ -634,21 +679,25 @@ namespace si_automated_tests.Source.Core
         }
 
         //GET WARNING TEXT
+        [AllureStep]
         public string GetToastMessage()
         {
             string text = WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']").Text;
             return text;
         }
+        [AllureStep]
         public BasePage VerifyToastMessage(string message)
         {
             Assert.AreEqual(message, GetToastMessage());
             return this;
         }
+        [AllureStep]
         public BasePage VerifyDisplayToastMessage(string message)
         {
             Assert.IsTrue(IsControlDisplayed("//*[contains(text(),'{0}')]", message));
             return this;
         }
+        [AllureStep]
         public BasePage VerifyToastMessages(List<string> messages)
         {
             WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']");
@@ -656,18 +705,19 @@ namespace si_automated_tests.Source.Core
             CollectionAssert.AreEquivalent(messages, notifyMsgs);
             return this;
         }
-
+        [AllureStep]
         public BasePage VerifyToastMessagesIsUnDisplayed()
         {
             IsControlUnDisplayed(By.XPath("//div[@data-notify-html='title']"));
             return this;
         }
-
+        [AllureStep]
         public BasePage WaitUntilToastMessageInvisible(string toastMessage)
         {
             WaitUtil.WaitForElementInvisibleWithText("//div[@data-notify-html='title']", toastMessage);
             return this;
         }
+        [AllureStep]
         public BasePage ClickOnSuccessLink()
         {
             ClickOnElement("//a[@id='echo-notify-success-link' or @id='echo-notify-Success-link']");
@@ -682,13 +732,13 @@ namespace si_automated_tests.Source.Core
             xpath = String.Format(xpath, value);
             return WaitUtil.WaitForElementVisible(xpath).Selected;
         }
-
+        [AllureStep]
         public BasePage WaitForLoadingIconToAppear()
         {
             WaitUtil.WaitForElementVisible("//*[contains(@data-bind,'shield: isLoading')]");
             return this;
         }
-
+        [AllureStep]
         public BasePage WaitForLoadingIconToDisappear(bool implicitSleep = true)
         {
             try
@@ -711,28 +761,32 @@ namespace si_automated_tests.Source.Core
             }
             return this;
         }
-
+        [AllureStep]
         public BasePage VerifyToastMessageNotAppear(string message)
         {
             string xpath = "//div[@data-notify-html='title' and text()='{0}']";
             Assert.IsTrue(IsControlUnDisplayed(String.Format(xpath, message)));
             return this;
         }
+        [AllureStep]
         public BasePage ClickCloseBtn()
         {
             ClickOnElement(closeBtn);
             return this;
         }
+        [AllureStep]
         public BasePage ClickSaveBtn()
         {
             ClickOnElement(saveBtn);
             return this;
         }
+        [AllureStep]
         public string ClickSaveBtnGetUTCTime()
         {
             ClickOnElement(saveBtn);
             return CommonUtil.GetUtcTimeNow("dd/MM/yyyy hh:mm");
         }
+        [AllureStep]
         public BasePage ClickRefreshBtn()
         {
             ClickOnElement(refreshBtn);
@@ -740,11 +794,13 @@ namespace si_automated_tests.Source.Core
             SleepTimeInMiliseconds(500);
             return this;
         }
+        [AllureStep]
         public BasePage ClickSaveAndCloseBtn()
         {
             ClickOnElement(saveAndCloseBtn);
             return this;
         }
+        [AllureStep]
         public BasePage SetElementAttribute(string id, string _attribute, string _value)
         {
             IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
@@ -753,6 +809,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         //SWITCH TAB
+        [AllureStep]
         public BasePage SwitchToTab(string tabName)
         {
             WaitForLoadingIconToDisappear();
@@ -770,7 +827,7 @@ namespace si_automated_tests.Source.Core
             IWebElement e = WaitUtil.WaitForElementVisible(by);
             return e.GetCssValue(propertyName);
         }
-
+        [AllureStep]
         public BasePage VerifyWindowClosed(int numberCurrentWindow)
         {
             Assert.AreEqual(numberCurrentWindow, GetNumberOfWindowHandle());
@@ -778,11 +835,13 @@ namespace si_automated_tests.Source.Core
         }
 
         //SLEEP TIME IN MILISECONDS
+        [AllureStep]
         public BasePage SleepTimeInMiliseconds(int num)
         {
             Thread.Sleep(num);
             return this;
         }
+        [AllureStep]
         public BasePage DragAndDrop(IWebElement sourceElement, IWebElement targetElement)
         {
             var builder = new Actions(IWebDriverManager.GetDriver());
@@ -791,37 +850,37 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-
+        [AllureStep]
         public BasePage DragAndDrop(By dragSource, By dropTarget)
         {
             DragAndDrop(GetElement(dragSource), GetElement(dropTarget));
             return this;
         }
-
+        [AllureStep]
         public BasePage AlternativeDragAndDrop(IWebElement sourceElement, IWebElement targetElement)
         {
             var builder = new Actions(IWebDriverManager.GetDriver());
             builder.ClickAndHold(sourceElement).MoveToElement(targetElement, 5, 5).Click(targetElement).Click(targetElement).Build().Perform();
             return this;
         }
-
+        [AllureStep]
         public BasePage VerifyFocusElement(By by)
         {
             Assert.AreEqual(GetElement(by), driver.SwitchTo().ActiveElement());
             return this;
         }
-
+        [AllureStep]
         public string GetCurrentUrl()
         {
             return IWebDriverManager.GetDriver().Url;
         }
-
+        [AllureStep]
         public BasePage CloseCurrentWindow()
         {
             IWebDriverManager.GetDriver().Close();
             return this;
         }
-
+        [AllureStep]
         public string GetCurrentTitle()
         {
             return IWebDriverManager.GetDriver().Title;
@@ -831,7 +890,7 @@ namespace si_automated_tests.Source.Core
         {
             return GetElement(by).Selected;
         }
-
+        [AllureStep]
         public BasePage GoToAllTabAndConfirmNoError()
         {
             IList<IWebElement> elements = WaitUtil.WaitForAllElementsVisible(tabs);
@@ -846,6 +905,7 @@ namespace si_automated_tests.Source.Core
         }
 
         //BODER COLOR IN RANGE
+        [AllureStep]
         public BasePage VerifyColorInRedRange(By by)
         {
             //Verify field is highlighted in red
@@ -855,7 +915,7 @@ namespace si_automated_tests.Source.Core
             Assert.IsTrue(hueColor < 15 || hueColor > 345);
             return this;
         }
-
+        [AllureStep]
         public BasePage VerifyColorInBlueRange(By by)
         {
             string hexStr = GetCssValue(by, "border-color");
@@ -881,6 +941,7 @@ namespace si_automated_tests.Source.Core
         }
 
         //RIGHT CLICK ON ELEMENT
+        [AllureStep]
         public BasePage RightClickOnElement(string xpath)
         {
             Actions actions = new Actions(driver);
@@ -889,7 +950,7 @@ namespace si_automated_tests.Source.Core
             actions.ContextClick(elementLocator).Perform();
             return this;
         }
-
+        [AllureStep]
         public BasePage RightClickOnElement(By by)
         {
             Actions actions = new Actions(driver);
@@ -910,6 +971,7 @@ namespace si_automated_tests.Source.Core
         }
 
         //HOVER ELEMENT
+        [AllureStep]
         public BasePage HoverOverElement(By by)
         {
             Actions actions = new Actions(driver);

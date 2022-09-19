@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -21,6 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications.RiskRegister
             get => new TableElement(RiskRegisterTable, RiskRegisterRow, new System.Collections.Generic.List<string>() { RiskCheckboxCell, RiskIdCell });
         }
 
+        [AllureStep]
         public RiskRegisterListingPage IsRiskStreetForm()
         {
             WaitUtil.WaitForElementVisible(bulkUpdateBtn);
@@ -28,14 +30,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications.RiskRegister
             Assert.IsTrue(IsControlDisplayed(retireBtn));
             return this;
         }
-
+        [AllureStep]
         public RiskRegisterListingPage FilterByRiskId(string riskId)
         {
             SendKeys(idFilter, riskId);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public RiskDetailPage DoubleClickAtFirstRisk()
         {
             RiskRegisterTableEle.ClickCell(0, 0);

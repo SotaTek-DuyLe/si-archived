@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
@@ -11,6 +12,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications.ServiceStatus
         private readonly By firstCheckbox = By.XPath("//div[@class='grid-canvas']/div[1]//input");
         private readonly By selectAllCheckbox = By.XPath("//div[@title='Select/Deselect All']//input");
 
+
+        [AllureStep]
         public ServiceStatusPage FilterServiceStatusById(string id)
         {
             WaitForLoadingIconToDisappear();
@@ -18,7 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications.ServiceStatus
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public RoundInstanceForm OpenFirstResult()
         {
             ClickOnElement(selectAllCheckbox);

@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -12,6 +13,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications.RiskRegister
         //DYNAMIC
         private const string AnyDiv = "//div[text()='{0}']";
 
+        [AllureStep]
         public RiskDetailPage IsRiskDetailPage(string riskDescName, string riskName)
         {
             WaitUtil.WaitForElementVisible(AnyDiv, riskDescName);
@@ -19,6 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications.RiskRegister
             Assert.IsTrue(IsControlDisplayed(AnyDiv, riskDescName));
             return this;
         }
+        [AllureStep]
 
         public StreetDetailPage ClickOnAddressHeader(string addressName)
         {

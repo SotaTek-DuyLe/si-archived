@@ -1,3 +1,4 @@
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -30,6 +31,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By typeValue = By.XPath("//td[text()='Address']/following-sibling::td");
         private readonly By segmentValue = By.XPath("//td[text()='Segment']/following-sibling::td");
 
+        [AllureStep]
         public ServiceUnitPointDetailPage IsServiceUnitPointDetailPage(string serviceUnitPointNameExp)
         {
             WaitUtil.WaitForElementVisible(title);
@@ -37,7 +39,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(GetElementText(serviceUnitPointName), serviceUnitPointNameExp, "Wrong service unit point name");
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitPointDetailPage VerifyValuesInDetailTab(string pointIdExp, string pointTypeExp)
         {
             Assert.AreEqual(GetAttributeValue(pointIdInput, "value"), pointIdExp, "Wrong pointId");
@@ -50,37 +52,37 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(GetAttributeValue(pointTypeSelect, "disabled"), "true", "Point Type is not disabled");
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitPointDetailPage ClickOnMapTab()
         {
             ClickOnElement(mapTab);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitPointDetailPage ClickOnDetailTab()
         {
             ClickOnElement(detailTab);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitPointDetailPage VerifyValueInMapTab(string typeExp, string segmentExp)
         {
             Assert.AreEqual(GetElementText(typeValue), typeExp);
             Assert.AreEqual(GetElementText(segmentValue), segmentExp);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitPointDetailPage VerifyServiceUnitPointTypeAfter(string expValue)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(serviceUnitPointTypeDd), expValue);
             return this;
         }
-
+        [AllureStep]
         public string GetServiceUnitPointId()
         {
             return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/service-unit-points/", "");
         }
-
+        [AllureStep]
         public ServiceUnitPointDetailPage VerifyUIWithDB(ServiceUnitPointDBModel serviceUnitPointDBModel, PointTypeDBModel pointTypeDBModel)
         {
             Assert.AreEqual(serviceUnitPointDBModel.pointID.ToString(), GetAttributeValue(pointIdInput, "value"));

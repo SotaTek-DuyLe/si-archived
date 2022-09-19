@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -17,6 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
         //DYNAMIC
         public const string columnOfRow = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
 
+        [AllureStep]
         public List<SiteModel> GetAllSiteDisplayed()
         {
             WaitForLoadingIconToDisappear();
@@ -40,7 +42,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
             }
             return allSiteModel;
         }
-
+        [AllureStep]
         public SiteListingPage VerifySiteCreatedIsNotDisplayed(List<SiteModel> siteModelsActual, List<SiteModel> siteModelsCreated, List<SiteModel> siteModelsBefore)
         {
             //Assert.AreEqual(siteModelsBefore.Count, siteModelsActual.Count);
@@ -53,7 +55,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
             }
             return this;
         }
-
+        [AllureStep]
         public SiteListingPage VerifyDisplayNewSite(SiteModel siteModelInput, SiteModel siteModelNew)
         {
             Assert.AreEqual(siteModelInput.Name, siteModelNew.Name );
@@ -63,7 +65,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
             Assert.AreEqual(siteModelInput.EndDate, siteModelNew.EndDate + " 00:00");
             return this;
         }
-
+        [AllureStep]
         public SiteListingPage FilterSiteById(string id)
         {
             WaitForLoadingIconToDisappear();

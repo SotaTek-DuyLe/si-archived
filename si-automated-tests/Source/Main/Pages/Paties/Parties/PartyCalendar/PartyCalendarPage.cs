@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -27,6 +28,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
             get => new CalendarElement("//div[contains(@class, 'fc-month-view')]", "./div[contains(@class, 'fc-bg')]//table//tbody//tr//td", "//div[contains(@class, 'fc-week')]", "./div[contains(@class, 'fc-content-skeleton')]//table//tbody//tr//td");
         }
 
+        [AllureStep]
         public PartyCalendarPage GoToAugust()
         {
             while (!IsControlDisplayedNotThrowEx(CalendarTitle))
@@ -37,13 +39,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
             return this;
         }
 
+        [AllureStep]
         public PartyCalendarPage ClickDayInstance(DateTime date)
         {
             var dayElement = PartyCalendar.GetDay(date);
             ClickOnElement(dayElement.Contents.FirstOrDefault());
             return this;
         }
-
+        [AllureStep]
         public PartyCalendarPage VerifyDayInstanceHasRaiseHandStatus(DateTime date, bool isContain)
         {
             var dayElement = PartyCalendar.GetDay(date);
@@ -59,41 +62,41 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
             }
             return this;
         }
-
+        [AllureStep]
         public PartyCalendarPage ClickSiteCombobox()
         {
             IWebElement siteCombobox = GetAllElements(comboboxInCalendars).FirstOrDefault();
             ClickOnElement(siteCombobox);
             return this;
         }
-
+        [AllureStep]
         public PartyCalendarPage ClickSellectAllSites()
         {
             WaitUtil.WaitForElementVisible(selectAllSitesBtn);
             ClickOnElement(selectAllSitesBtn);
             return this;
         }
-
+        [AllureStep]
         public PartyCalendarPage ClickServiceCombobox()
         {
             IWebElement serviceCombobox = GetAllElements(comboboxInCalendars)[1];
             ClickOnElement(serviceCombobox);
             return this;
         }
-
+        [AllureStep]
         public PartyCalendarPage ClickSellectAllServices()
         {
             WaitUtil.WaitForElementVisible(selectAllSitesBtn);
             ClickOnElement(selectAllSitesBtn);
             return this;
         }
-
+        [AllureStep]
         public PartyCalendarPage ClickApplyCalendarButton()
         {
             ClickOnElement(applyBtn);
             return this;
         }
-
+        [AllureStep]
         public List<CanlendarServiceTask> GetAllDataInMonth(DateTime fromDateTime, DateTime toDateTime)
         {
             List<CanlendarServiceTask> serviceTasks = new List<CanlendarServiceTask>();

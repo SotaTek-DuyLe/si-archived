@@ -24,7 +24,6 @@ using System.Data.SqlClient;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Models.Agreement;
 using si_automated_tests.Source.Main.Models.DBModels;
-
 namespace si_automated_tests.Source.Test.AggrementLineTest
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]

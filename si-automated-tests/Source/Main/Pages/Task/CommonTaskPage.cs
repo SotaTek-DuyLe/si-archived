@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
@@ -15,6 +16,7 @@ namespace si_automated_tests.Source.Main.Pages.Task
 
         private string taskWithId = "//div[contains(@class,'r5') and contains(.,'{0}')]";
 
+        [AllureStep]
         public CommonTaskPage FilterTaskId(int id)
         {
             WaitForLoadingIconToDisappear();
@@ -24,7 +26,7 @@ namespace si_automated_tests.Source.Main.Pages.Task
             ClickOnElement(applyBtn);
             return this;
         }
-        
+        [AllureStep]
         public AgreementTaskDetailsPage OpenTaskWithId(int id)
         {
             DoubleClickOnElement(taskWithId, id.ToString());
