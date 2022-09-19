@@ -19,6 +19,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By nextBtn = By.CssSelector("button[id='next-button']");
         private readonly By firstRowWithServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint')]/span)[1]");
         private readonly By firstRowWithServiceTaskScheduleAndNotAllocated = By.XPath("(//img[@data-bind='visible: serviceTask.isAssured' and contains(@style, 'display: none;')]/parent::span)[1]");
+        private readonly By secondRowWithServiceTaskScheduleAndNotAllocated = By.XPath("(//img[@data-bind='visible: serviceTask.isAssured' and contains(@style, 'display: none;')]/parent::span)[2]");
         private readonly By firstRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint') and not(span)])[1]");
         private readonly By applyFiltersBtn = By.CssSelector("button[id='filter-button']");
         private readonly By firstMultipleRowWithServiceTaskSchedule = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint')]//button[@class='toggle'])[1]");
@@ -163,6 +164,17 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceDataManagementPage RightClickOnFirstRowUnAllocated()
         {
+            RightClickOnElement(firstRowWithServiceTaskScheduleAndNotAllocated);
+            return this;
+        }
+
+
+
+        [AllureStep]
+        public ServiceDataManagementPage SelectAndRightClickOnMultipleRowsUnAllocated()
+        {
+            HoldKeyDownWhileClickOnElement(firstRowWithServiceTaskScheduleAndNotAllocated);
+            HoldKeyDownWhileClickOnElement(secondRowWithServiceTaskScheduleAndNotAllocated);
             RightClickOnElement(firstRowWithServiceTaskScheduleAndNotAllocated);
             return this;
         }

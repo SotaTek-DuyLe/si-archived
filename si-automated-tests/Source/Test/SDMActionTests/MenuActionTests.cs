@@ -734,7 +734,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .RightClickOnFirstRowUnAllocated();
+                .SelectAndRightClickOnMultipleRowsUnAllocated();
         }
 
     }
