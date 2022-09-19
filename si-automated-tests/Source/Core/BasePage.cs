@@ -989,21 +989,14 @@ namespace si_automated_tests.Source.Core
         public BasePage HoldKeyDownWhileClickOnElement(List<string> locators)
         {
             Actions actions = new Actions(driver);
-            actions
-                .KeyDown(Keys.Control)
-                .Perform();
-            foreach(var locator in locators)
+            actions.KeyDown(Keys.Control);
+            foreach (var by in locators)
             {
-                WaitUtil.WaitForElementVisible(locator);
-                IWebElement elementLocator = (IWebElement)driver.FindElement(By.XPath(locator));
-                actions.MoveToElement(elementLocator)
-                    .Click();
-                SleepTimeInMiliseconds(500);
+                WaitUtil.WaitForElementVisible(by);
+                IWebElement elementLocator = (IWebElement)driver.FindElement(By.XPath(by));
+                actions.MoveToElement(elementLocator).Click();
             }
-            actions
-                .KeyUp(Keys.Control)
-                .Build()
-                .Perform();
+            actions.KeyUp(Keys.Control).Build().Perform();
             return this;
         }
 

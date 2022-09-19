@@ -701,7 +701,6 @@ namespace si_automated_tests.Source.Test.SDMActionTests
         [Test(Description = "Action 'Set Proximity Alert' - MULTIPLE cell")]
         public void TC_132_Test_10_Action_Set_Proximity_alert_on_multiple_cell()
         {
-            CommonFinder finder = new CommonFinder(DbContext);
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
@@ -867,7 +866,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
             string firstTaskId = PageFactoryManager.Get<DetailTaskPage>()
                 .GetTaskId();
-
+            CommonFinder finder = new CommonFinder(DbContext);
             //API Check => Bug
             List<TaskDBModel> taskDBModels = finder.GetTask(int.Parse(firstTaskId));
             Assert.AreEqual(1, taskDBModels[0].proximityalert);

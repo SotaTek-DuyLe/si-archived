@@ -178,9 +178,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             List<string> locators = new List<string>();
             locators.Add(string.Format(firstLocatorWithDescRedRow, firstDescRedName));
             locators.Add(string.Format(firstLocatorWithDescRedRow, secondDescRedName));
-
             HoldKeyDownWhileClickOnElement(locators);
-            
             RightClickOnElement(string.Format(firstLocatorWithDescRedRow, firstDescRedName));
             return this;
         }
