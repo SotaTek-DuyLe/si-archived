@@ -970,6 +970,43 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        public BasePage HoldKeyDownWhileClickOnElement(string locator1, string locator2)
+        {
+            Actions actions = new Actions(driver);
+            WaitUtil.WaitForElementVisible(locator1);
+            IWebElement elementLocator1 = (IWebElement)driver.FindElement(By.XPath(locator1));
+            IWebElement elementLocator2 = (IWebElement)driver.FindElement(By.XPath(locator2));
+            actions.MoveToElement(elementLocator1)
+                .KeyDown(Keys.Control)
+                .Click(elementLocator1)
+                .Click(elementLocator2)
+                .KeyUp(Keys.Control)
+                .Build()
+                .Perform();
+            return this;
+        }
+
+        public BasePage HoldKeyDownWhileClickOnElement(List<string> locators)
+        {
+            Actions actions = new Actions(driver);
+            actions
+                .KeyDown(Keys.Control)
+                .Perform();
+            foreach(var locator in locators)
+            {
+                WaitUtil.WaitForElementVisible(locator);
+                IWebElement elementLocator = (IWebElement)driver.FindElement(By.XPath(locator));
+                actions.MoveToElement(elementLocator)
+                    .Click();
+                SleepTimeInMiliseconds(500);
+            }
+            actions
+                .KeyUp(Keys.Control)
+                .Build()
+                .Perform();
+            return this;
+        }
+
         //HOVER ELEMENT
         [AllureStep]
         public BasePage HoverOverElement(By by)

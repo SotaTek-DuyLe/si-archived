@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -34,6 +35,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By firstCellWithMultipleServiceUnitPoint = By.XPath("(//img[@src='content/style/images/service-unit.png']/following-sibling::img)[1]/parent::span");
         private readonly By totalRow = By.XPath("//span[contains(text(), 'Total = ')]");
         private readonly By firstRedRow = By.XPath("(//table[@id='description-table']//td[contains(@class, 'no-service-definition')])[1]");
+        private readonly By secondRedRow = By.XPath("(//table[@id='description-table']//td[contains(@class, 'no-service-definition')])[2]");
         private readonly By referenceIdInput = By.XPath("//div[@id='point-grid']//div[contains(@class, 'l1')]//input");
 
         //WARINING POPUP
@@ -47,7 +49,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string serviceTypeOption = "//select[@id='type']/option[text()='{0}']";
         private readonly string actionOption = "//div[@class='action-container']/button[text()='{0}']";
         private readonly string anyServicesGroupByContract = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/i[1]";
-        private readonly string firstLocatorWithDescRedRow = "(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]/td[contains(@data-bind, 'retiredPoint')]/span)[1]";
+        private readonly string firstLocatorWithDescRedRow = "(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]/td[contains(@data-bind, 'retiredPoint')]/span/parent::td)[1]";
         private readonly string roundDate = "//table[@id='master-table']//tr[contains(@class, 'round-row')]/td[count(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//span/parent::td[contains(@data-bind, 'retiredPoint')]/preceding-sibling::td) + 1]";
 
         [AllureStep]
@@ -171,11 +173,15 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
 
         [AllureStep]
-        public ServiceDataManagementPage SelectAndRightClickOnMultipleRowsUnAllocated()
+        public ServiceDataManagementPage SelectAndRightClickOnMultipleRowsUnAllocated(string firstDescRedName, string secondDescRedName)
         {
-            HoldKeyDownWhileClickOnElement(firstRowWithServiceTaskScheduleAndNotAllocated);
-            HoldKeyDownWhileClickOnElement(secondRowWithServiceTaskScheduleAndNotAllocated);
-            RightClickOnElement(firstRowWithServiceTaskScheduleAndNotAllocated);
+            List<string> locators = new List<string>();
+            locators.Add(string.Format(firstLocatorWithDescRedRow, firstDescRedName));
+            locators.Add(string.Format(firstLocatorWithDescRedRow, secondDescRedName));
+
+            HoldKeyDownWhileClickOnElement(locators);
+            
+            RightClickOnElement(string.Format(firstLocatorWithDescRedRow, firstDescRedName));
             return this;
         }
 
@@ -186,7 +192,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
-
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnSecondRowUnAllocated()
+        {
+            DoubleClickOnElement(secondRowWithServiceTaskScheduleAndNotAllocated);
+            return this;
+        }
         [AllureStep]
         public ServiceDataManagementPage RightClickOnFirstRowWithServiceTaskSchedule(string descValue)
         {
@@ -205,6 +216,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public string GetFirstDescWithRedColor()
         {
             return GetElementText(firstRedRow);
+        }
+
+        [AllureStep]
+        public string GetSecondDescWithRedColor()
+        {
+            return GetElementText(secondRedRow);
         }
 
         [AllureStep]
