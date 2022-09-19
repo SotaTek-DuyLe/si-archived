@@ -285,8 +285,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceDataManagementPage SelectMultipleRowsWithServiceTaskSchedule()
         {
-            HoldKeyDownWhileClickOnElement(firstRowInMultipleWithServiceTaskSchedule);
-            HoldKeyDownWhileClickOnElement(secondRowInMultipleWithServiceTaskSchedule);
+
+            HoldKeyDownWhileClickOnElement(new List<By> { firstRowInMultipleWithServiceTaskSchedule, secondRowInMultipleWithServiceTaskSchedule });
             return this;
         }
 
@@ -300,8 +300,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceDataManagementPage SelectMultipleRowsWithoutServiceTaskSchedule()
         {
-            HoldKeyDownWhileClickOnElement(firstMultipleRowWithoutServiceTaskSchedule);
-            HoldKeyDownWhileClickOnElement(secondMultipleRowWithoutServiceTaskSchedule);
+            HoldKeyDownWhileClickOnElement(new List<By> { firstMultipleRowWithoutServiceTaskSchedule, secondMultipleRowWithoutServiceTaskSchedule };
             return this;
         }
 

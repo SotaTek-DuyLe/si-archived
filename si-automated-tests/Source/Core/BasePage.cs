@@ -959,6 +959,7 @@ namespace si_automated_tests.Source.Core
             actions.ContextClick(elementLocator).Perform();
             return this;
         }
+        [AllureStep]
         public BasePage HoldKeyDownWhileClickOnElement(By by)
         {
             Actions actions = new Actions(driver);
@@ -970,22 +971,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public BasePage HoldKeyDownWhileClickOnElement(string locator1, string locator2)
-        {
-            Actions actions = new Actions(driver);
-            WaitUtil.WaitForElementVisible(locator1);
-            IWebElement elementLocator1 = (IWebElement)driver.FindElement(By.XPath(locator1));
-            IWebElement elementLocator2 = (IWebElement)driver.FindElement(By.XPath(locator2));
-            actions.MoveToElement(elementLocator1)
-                .KeyDown(Keys.Control)
-                .Click(elementLocator1)
-                .Click(elementLocator2)
-                .KeyUp(Keys.Control)
-                .Build()
-                .Perform();
-            return this;
-        }
-
+        [AllureStep]
         public BasePage HoldKeyDownWhileClickOnElement(List<string> locators)
         {
             Actions actions = new Actions(driver);
@@ -994,6 +980,21 @@ namespace si_automated_tests.Source.Core
             {
                 WaitUtil.WaitForElementVisible(by);
                 IWebElement elementLocator = (IWebElement)driver.FindElement(By.XPath(by));
+                actions.MoveToElement(elementLocator).Click();
+            }
+            actions.KeyUp(Keys.Control).Build().Perform();
+            return this;
+        }
+
+        [AllureStep]
+        public BasePage HoldKeyDownWhileClickOnElement(List<By> bys)
+        {
+            Actions actions = new Actions(driver);
+            actions.KeyDown(Keys.Control);
+            foreach (var by in bys)
+            {
+                WaitUtil.WaitForElementVisible(by);
+                IWebElement elementLocator = (IWebElement)driver.FindElement(by);
                 actions.MoveToElement(elementLocator).Click();
             }
             actions.KeyUp(Keys.Control).Build().Perform();

@@ -808,7 +808,6 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchToDefaultContent();
             //Filter taskId and check
             //Go to [Task confirmation] to get task id
-            string filterDate = "";
             DateTime today = DateTime.Today;
             //FRIDAY
             string filterDayOutOfDateRange = "";
@@ -850,7 +849,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsTaskConfirmationPage()
                 .SelectContract(Contract.RM)
                 .ClickServicesAndSelectServiceInTree(firstServiceGroupName, firstServiceName, firstRoundName, firstDayName)
-                .SendDateInScheduledDate(filterDate)
+                .SendDateInScheduledDate(filterDayOutOfDateRange)
                 .ClickGoBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
