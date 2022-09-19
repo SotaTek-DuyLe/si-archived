@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -36,6 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private const string anyResolutionCode = "(//label[contains(string(), 'Resolution Code')])[{0}]/following-sibling::echo-select/select";
         private const string optionResolutionCode = "(//label[contains(string(), 'Resolution Code')])[{0}]/following-sibling::echo-select/select//option[text()='{1}']";
 
+        [AllureStep]
         public TasksBulkUpdatePage IsTaskBulkUpdatePage(string toggleTitle, string numberOfTask)
         {
             WaitUtil.WaitForElementVisible(title);
@@ -49,13 +51,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
             return this;
         }
-
+        [AllureStep]
         public TasksBulkUpdatePage VerifyTaskTypeSecondTask(string taskType)
         {
             Assert.IsTrue(IsControlDisplayed(toggleStandardCommercialTransaction, taskType));
             return this;
         }
-
+        [AllureStep]
         public TasksBulkUpdatePage ClickFirstToggleArrow()
         {
             if (IsControlUnDisplayed(firstToggleArrowExpanded))
@@ -65,7 +67,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             }
             return this;
         }
-
+        [AllureStep]
         public TasksBulkUpdatePage ClickSecondToggleArrow()
         {
             if (IsControlUnDisplayed(secondToggleArrowExpanded))
@@ -75,7 +77,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             }
             return this;
         }
-
+        [AllureStep]
         public TasksBulkUpdatePage VerifyValueAfterClickAnyToggle(string numberOfToggle)
         {
             //verify
@@ -93,6 +95,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Click [Help] btn
+        [AllureStep]
         public TasksBulkUpdatePage ClickHelpBtnAndVerify()
         {
             ClickOnElement(helpBtn);
@@ -104,6 +107,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Verify [Task Bulk Update] form
+        [AllureStep]
         public TasksBulkUpdatePage VerifyTaskBulkUpdateForm()
         {
             Assert.IsTrue(IsControlDisplayed(helpBtn));
@@ -114,6 +118,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Click [Close without saving] btn
+        [AllureStep]
         public TasksBulkUpdatePage ClickCloseWithoutSavingBtn()
         {
             ClickOnElement(closeWithoutSavingBtn);
@@ -121,6 +126,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Send value in [Note]
+        [AllureStep]
         public TasksBulkUpdatePage SendKeyInNoteInput(string noteValue)
         {
             SendKeys(notesInput, noteValue);
@@ -128,6 +134,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Click [Use Background Transaction] checkbox
+        [AllureStep]
         public TasksBulkUpdatePage ClickUserBackgroundTransactionCheckbox()
         {
             ClickOnElement(useBackgroundTransactionCheckbox);
@@ -135,6 +142,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Verify [Task State]
+        [AllureStep]
         public TasksBulkUpdatePage VerifyTaskStatePopulated(string stateExp, string numberOfToggle)
         {
             Assert.AreEqual(stateExp, GetFirstSelectedItemInDropdown(string.Format(anyTaskStateSelect, numberOfToggle)), "Task state is not populated");
@@ -142,12 +150,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Click on Completed Date input
+        [AllureStep]
         public TasksBulkUpdatePage ClickOnCompletedDateInput()
         {
             ClickOnElement(completedDateInput);
             return this;
         }
-
+        [AllureStep]
         public TasksBulkUpdatePage SendKeyInCompletedDate(string value)
         {
             SendKeys(completedDateInput, value);
@@ -155,12 +164,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Click on End Date input
+        [AllureStep]
         public TasksBulkUpdatePage ClickOnEndDateInput()
         {
             ClickOnElement(endDateInput);
             return this;
         }
-
+        [AllureStep]
         public TasksBulkUpdatePage SendKeyInEndDate(string value)
         {
             SendKeys(endDateInput, value);
@@ -168,6 +178,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Verify [task] after updating
+        [AllureStep]
         public TasksBulkUpdatePage VerifyTaskAfterBulkUpdating(TaskDBModel taskDBModel, string note, string taskCompletedDate, string taskEndDate)
         {
             Assert.AreEqual(note, taskDBModel.tasknotes);
@@ -175,7 +186,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(taskEndDate, taskDBModel.taskenddate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT));
             return this;
         }
-
+        [AllureStep]
         public TasksBulkUpdatePage VerifyTaskCompletedDateAndEndDateNotUpdated(TaskDBModel taskDBModel)
         {
             Assert.AreEqual(null, taskDBModel.taskcompleteddate);
@@ -184,6 +195,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Change [Task State]
+        [AllureStep]
         public TasksBulkUpdatePage ChangeTaskStateBottomPage(string stateValue, string indexOfTask)
         {
             ClickOnElement(anyTaskStateSelect, indexOfTask);
@@ -192,6 +204,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Change [Completed Date]
+        [AllureStep]
         public TasksBulkUpdatePage ChangeCompletedDateBottomPage(string completedDateValue, string indexOfTask)
         {
             SendKeys(string.Format(anyCompletedDateToggleInput, indexOfTask), completedDateValue);
@@ -199,6 +212,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Change [End Date]
+        [AllureStep]
         public TasksBulkUpdatePage ChangeEndDateBottomPage(string endDateValue, string indexOfTask)
         {
             SendKeys(string.Format(anyEndDateToggleInput, indexOfTask), endDateValue);
@@ -206,6 +220,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Change [Notes]
+        [AllureStep]
         public TasksBulkUpdatePage ChangeNotesBottomPage(string noteValue, string indexOfTask)
         {
             SendKeys(string.Format(anyNotesToggleInput, indexOfTask), noteValue);
@@ -213,6 +228,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //Change [Resolution Code]
+        [AllureStep]
         public TasksBulkUpdatePage ChangeResolutionCode(string resolutionCodeValue, string indexOfTask)
         {
             ClickOnElement(anyResolutionCode, indexOfTask);

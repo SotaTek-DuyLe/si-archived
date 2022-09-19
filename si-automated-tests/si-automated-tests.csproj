@@ -18,7 +18,8 @@
   <ItemGroup>
     <PackageReference Include="JUnitTestLogger" Version="1.1.0" />
     <PackageReference Include="NTextCat" Version="0.3.65" />
-    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="NUnit.Allure" Version="1.2.1.1" />
     <PackageReference Include="NUnit.Engine.Api" Version="3.15.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
@@ -158,6 +159,9 @@
 	  <EmbeddedResource Include="Source\Main\Data\Core14.profile.xml">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
+	  <Resource Include="allureConfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources.resx">

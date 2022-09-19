@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -32,6 +33,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
         //DYNAMIC LOCATOR
         private const string ContactGroupsOption = "//div[@class='bs-actionsbox']/following-sibling::ul//span[text()='{0}']";
 
+        [AllureStep]
         public AddPrimaryContactPage IsCreatePrimaryContactPage()
         {
             WaitUtil.WaitForPageLoaded();
@@ -53,7 +55,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
 
             return this;
         }
-
+        [AllureStep]
         public AddPrimaryContactPage ClickAnyContactGroupsAndVerify(string option)
         {
             ClickOnElement(contactGroups);
@@ -65,25 +67,25 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
             ClickOnElement(ContactGroupsOption, option);
             return this;
         }
-
+        [AllureStep]
         public AddPrimaryContactPage EnterFirstName(string firstName)
         {
             SendKeys(firstNameInput, firstName);
             return this;
         }
-
+        [AllureStep]
         public AddPrimaryContactPage EnterLastName(string lastName)
         {
             SendKeys(lastNameInput, lastName);
             return this;
         }
-
+        [AllureStep]
         public AddPrimaryContactPage EnterMobileValue(string mobileValue)
         {
             SendKeys(mobile, mobileValue);
             return this;
         }
-
+        [AllureStep]
         public AddPrimaryContactPage EnterValueRemainingFields(ContactModel contactModel)
         {
             SendKeys(titleInput, contactModel.Title);

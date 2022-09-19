@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -29,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private const string selectLocatorInServiceUnitGrid = "//tbody/tr[{0}]//button";
 
         //Verify the display of service unit page
+        [AllureStep]
         public FindServiceUnitDetailPage IsFindServiceUnitPage()
         {
             WaitUtil.WaitForPageLoaded();
@@ -51,6 +53,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         //Click [Close without Saving] btn
+        [AllureStep]
         public FindServiceUnitDetailPage ClickCloseWithoutSavingBtn()
         {
             ClickOnElement(closeNotSavingBtn);
@@ -58,6 +61,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         //Click [Help] btn
+        [AllureStep]
         public FindServiceUnitDetailPage ClickHelpBtnAndVerify()
         {
             ClickOnElement(helpBtn);
@@ -70,6 +74,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         //Send key into [Search]
+        [AllureStep]
         public FindServiceUnitDetailPage InputKeyInSearch(string sectionValue)
         {
             SendKeys(serviceUnitInput, sectionValue);
@@ -77,6 +82,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         //Click [Find] btn
+        [AllureStep]
         public FindServiceUnitDetailPage ClickFindBtn()
         {
             ClickOnElement(findBtn);
@@ -84,6 +90,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         //Verify the display of the result after searching
+        [AllureStep]
         public FindServiceUnitDetailPage VerifyDisplayNoResultFound(string textSearch)
         {
             WaitUtil.WaitForElementVisible(resultNotFoundInGrid, textSearch);
@@ -92,6 +99,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         //Get All Service unit in list
+        [AllureStep]
         public List<FindServiceUnitModel> GetAllServiceUnit(int numberOfRow)
         {
             WaitUtil.WaitForAllElementsPresent(allServiceUnitRows);
@@ -108,6 +116,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return findServiceUnitModels;
         }
 
+        [AllureStep]
         public List<FindServiceUnitModel> GetAllServiceUnit()
         {
             SleepTimeInMiliseconds(1000);
@@ -128,6 +137,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         //Verify [Service unit] after searching
+        [AllureStep]
         public FindServiceUnitDetailPage VerifyResultAfterSearch(List<FindServiceUnitModel> findServiceUnitModels, string textSearch)
         {
             foreach(FindServiceUnitModel findServiceUnitModel in findServiceUnitModels)
@@ -138,6 +148,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         //Click any link in [Service unit]
+        [AllureStep]
         public ServiceUnitDetailPage ClickAnyLinkInServiceUnit(string linkToServiceDetail)
         {
             ClickOnElement(linkToServiceDetail);
@@ -145,6 +156,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         //Click any [Service] btn
+        [AllureStep]
         public ServiceUnitPointDetailPage ClickAnySelect(string selectLocator)
         {
             ClickOnElement(selectLocator);

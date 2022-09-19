@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
@@ -28,7 +29,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAddress
 
 
 
-
+        [AllureStep]
         public CreatePointAddressPage IsOnFirstScreen()
         {
             WaitUtil.WaitForElementVisible(searchInput);
@@ -38,7 +39,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAddress
             WaitUtil.WaitForElementVisible(btnNamed, "Cancel");
             return this;
         }
-
+        [AllureStep]
         public CreatePointAddressPage IsOnSecondScreen()
         {
             WaitUtil.WaitForElementVisible(searchResultScreen2);
@@ -47,7 +48,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAddress
             WaitUtil.WaitForElementVisible(btnNamed, "Cancel");
             return this;
         }
-
+        [AllureStep]
         public CreatePointAddressPage IsOnThirdScreen()
         {
             WaitUtil.WaitForElementVisible(propertyName);
@@ -60,13 +61,14 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAddress
             WaitUtil.WaitForElementVisible(btnNamed, "Cancel");
             return this;
         }
-
+        [AllureStep]
         public CreatePointAddressPage SearchPostCode(string value)
         {
             SendKeys(searchInput, value);
             ClickOnElement(btnNamed, "Search");
             return this;
         }
+        [AllureStep]
         public CreatePointAddressPage SelectResultInScreen1(string value)
         {
             IList<IWebElement> list = WaitUtil.WaitForAllElementsVisible(searchResultScreen1);
@@ -81,6 +83,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAddress
             ClickOnElement(btnNamed, "Next");
             return this;
         }
+        [AllureStep]
         public CreatePointAddressPage SelectResultInScreen2(string value)
         {
             IList<IWebElement> list = WaitUtil.WaitForAllElementsVisible(searchResultScreen2);
@@ -95,6 +98,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAddress
             ClickOnElement(btnNamed, "Next");
             return this;
         }
+        [AllureStep]
         public CreatePointAddressPage InputValuesInScreen3(string _propertyName, string _property, string _toProperty, string _pointSegment, string _pointAddType)
         {
             SendKeys(propertyName, _propertyName);

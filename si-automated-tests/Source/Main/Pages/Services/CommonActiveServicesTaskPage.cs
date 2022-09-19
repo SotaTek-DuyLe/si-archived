@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -42,6 +43,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             get => new TableElement(serviceTaskTable, serviceTaskRow, new List<string>() { serviceTaskCheckboxCell, serviceTaskIdCell, serviceTaskPartyCell, serviceTaskTypeCell, serviceTaskDescriptionCell });
         }
 
+        [AllureStep]
         public CommonActiveServicesTaskPage DoubleClicServiceTask(int rowIdx)
         {
             ServiceTaskTableEle.DoubleClickRow(rowIdx);
@@ -62,13 +64,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             get => new TableElement(ServiceTaskLineTable, ServieTaskLineRow, new List<string>() { ServieTaskLineCheckboxCell, ServieTaskLineIdCell, ServieTaskLinePartyCell, ServieTaskLineTaskTypeCell, ServieTaskLineDescriptionCell, ServieTaskLineStartDateCell, ServieTaskLineEndDateCell });
         }
-
+        [AllureStep]
         public CommonActiveServicesTaskPage DoubleClickServiceTaskLine(int rowIdx)
         {
             ServiceTaskLineTableEle.DoubleClickRow(rowIdx);
             return this;
         }
-
+        [AllureStep]
         public CommonActiveServicesTaskPage InputPartyNameToFilter(string name)
         {
             SendKeys(partyNameInput, name);
@@ -76,6 +78,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         //date type are STARTDATE or ENDDATE
+        [AllureStep]
         public ServicesTaskPage OpenTaskWithPartyNameAndDate(string name, string date, string dateType)
         {
             int n = 10;
@@ -120,7 +123,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return new ServicesTaskPage();
         }
-
+        [AllureStep]
         public List<IWebElement> VerifyTaskWithPartyNameAndDate(int num, string name, string date, string dateType)
         {
             int n = 3;
@@ -163,13 +166,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(num, result.Count);
             return result;
         }
-
+        [AllureStep]
         public ServicesTaskPage OpenATask(IWebElement result)
         {
             DoubleClickOnElement(result);
             return new ServicesTaskPage();
         }
-
+        [AllureStep]
         public ServicesTaskPage OpenTommorowTaskWithPartyName(string partyName)
         {
             int i = 3;
@@ -190,6 +193,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             DoubleClickOnElement(startDateTommorowPartyName, startDateTommorowPartyName);
             return new ServicesTaskPage();
         }
+        [AllureStep]
         public CommonActiveServicesTaskPage OpenTribleYarnsWithDate(string date)
         {
             int i = 10;
@@ -210,6 +214,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             DoubleClickOnElement(tribeYarnsWithDate, date);
             return this;
         }
+        [AllureStep]
         public CommonActiveServicesTaskPage OpenSidraTeddingtonStartDate(string date)
         {
             int i = 3;
@@ -231,6 +236,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             DoubleClickOnElement(sidraTeddingtontribeYarnsStartDate, date);
             return this;
         }
+        [AllureStep]
         public CommonActiveServicesTaskPage OpenSidraTeddingtonEndDate(string date)
         {
             int i = 3;
@@ -251,11 +257,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             DoubleClickOnElement(sidraTeddingtontribeYarnsEndDate, date);
             return this;
         }
+        [AllureStep]
         public CommonActiveServicesTaskPage ClickApplyBtn()
         {
             ClickOnElement(applyBtn);
             return this;
         }
+        [AllureStep]
         public List<ServiceTaskModel> GetAllTaskFromPage()
         {
             List<ServiceTaskModel> listAll = new List<ServiceTaskModel>();
@@ -270,6 +278,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return listAll;
         }
+        [AllureStep]
         public string GetTaskId(string _partyName, string _startDate)
         {
             List<ServiceTaskModel> listAll = this.GetAllTaskFromPage();

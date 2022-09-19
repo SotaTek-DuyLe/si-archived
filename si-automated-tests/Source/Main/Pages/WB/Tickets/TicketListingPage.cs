@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
@@ -21,6 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             get => new TableElement(TicketTable, TicketRow, new List<string>() { TicketCheckboxCell, TicketIdCell, TicketNumber });
         }
 
+        [AllureStep]
         public string GetFirstTicketNumber()
         {
             return TicketTableEle.GetCellValue(0, 2).AsString();
@@ -29,12 +31,13 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         private readonly By selectAllCheckbox = By.XPath("//div[@title='Select/Deselect All']//input");
         private readonly By firstResult = By.XPath("//div[@class='grid-canvas']/div[1]");
 
+        [AllureStep]
         public TicketListingPage ClickAddNewTicketBtn()
         {
             ClickOnElement(addNewTicketBtn);
             return this;
         }
-
+        [AllureStep]
         public TicketListingPage FilterTicketById(int id)
         {
             WaitForLoadingIconToDisappear();
@@ -43,7 +46,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public TicketListingPage FilterTicketById(string ticketId)
         {
             WaitForLoadingIconToDisappear();
@@ -51,7 +54,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public WeighbridgeTicketDetailPage OpenFirstResult()
         {
             ClickOnElement(selectAllCheckbox);

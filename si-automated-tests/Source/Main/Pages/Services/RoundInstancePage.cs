@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using si_automated_tests.Source.Core;
@@ -17,12 +18,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By allocatedResourceTab = By.XPath("//a[@aria-controls='allocated-resources-tab']");
         private readonly By allocatedResourceRows = By.XPath("//div[@id='allocated-resources-tab']//table//tbody//tr");
 
+        [AllureStep]
         public RoundInstancePage ClickAllocatedResourcesTab()
         {
             ClickOnElement(allocatedResourceTab);
             return this;
         }
-
+        [AllureStep]
         public List<AllocatedResourceModel> GetAllocatedResources()
         {
             List<AllocatedResourceModel> allocatedResources = new List<AllocatedResourceModel>();
@@ -38,7 +40,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return allocatedResources;
         }
-
+        [AllureStep]
         public RoundInstancePage VerifyAllocateResourceContainType(string type, string resource)
         {
             var resources = GetAllocatedResources();

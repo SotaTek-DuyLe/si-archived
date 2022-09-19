@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using si_automated_tests.Source.Core;
@@ -28,13 +29,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By OKButton = By.XPath("//div[@class='modal-dialog']//button[contains(string(), 'OK')]");
         public readonly By RetireConfirmTitle = By.XPath("//div[@class='modal-dialog']//h4");
 
+        [AllureStep]
         public RoundSchedulePage ClickPeriodTimeButton(string period)
         {
             IWebElement webElement = GetAllElements(periodTimeButtons).FirstOrDefault(x => x.Text.Contains(period));
             ClickOnElement(webElement);
             return this;
         }
-
+        [AllureStep]
         public RoundSchedulePage ClickDayButtonOnWeekly(string day)
         {
             string xpath = $"//div[@id='schedule-tab']//div[contains(@data-bind, 'foreach: dayButtons')]//button[contains(string(), '{day}')]";

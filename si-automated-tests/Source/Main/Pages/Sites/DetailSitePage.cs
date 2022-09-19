@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -16,12 +17,13 @@ namespace si_automated_tests.Source.Main.Pages.Sites
         private readonly By canlendarTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='calendar-tab']");
         private readonly By rowsCalendarTableInMonth = By.XPath("//div[@class='fc-content-skeleton']//table//tbody//tr");
 
+        [AllureStep]
         public DetailSitePage ClickCalendarTab()
         {
             ClickOnElement(canlendarTab);
             return this;
         }
-
+        [AllureStep]
         public List<CanlendarServiceTask> GetAllDataInMonth(DateTime fromDateTime, DateTime toDateTime)
         {
             DateTime GetStartDate()

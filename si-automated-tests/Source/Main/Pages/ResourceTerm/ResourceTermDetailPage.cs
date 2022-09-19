@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Linq;
 using si_automated_tests.Source.Core.WebElements;
+using NUnit.Allure.Attributes;
 
 namespace si_automated_tests.Source.Main.Pages.ResourceTerm
 {
@@ -27,6 +28,7 @@ namespace si_automated_tests.Source.Main.Pages.ResourceTerm
             get => new TableElement(EntitlementTable, EntitlementRow, new List<string>() { ResourceStateCell, EntitleDaysCell, ProRataCell, StartDateCell, EndDateCell, RemoveResourceButtonCell });
         }
 
+        [AllureStep]
         public ResourceTermDetailPage VerifyResourceStateValue(int rowIdx, List<string> resourceStates)
         {
             ResourceTermTableEle.ClickCell(rowIdx, 0);

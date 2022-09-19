@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
@@ -16,6 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
             WaitUtil.WaitForElementVisible(overridingValue);
             WaitUtil.WaitForElementVisible(overridingcheckbox);
         }
+        [AllureStep]
         public AccountTypeDetailPage TickOverrideCheckbox()
         {
             if(!IsElementSelected(overridingcheckbox))
@@ -24,6 +26,7 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
             }
             return this;
         }
+        [AllureStep]
         public AccountTypeDetailPage UntickOverrideCheckbox()
         {
             if(IsElementSelected(overridingcheckbox))
@@ -32,11 +35,13 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
             }
             return this;
         }
+        [AllureStep]
         public AccountTypeDetailPage clickSaveButton()
         {
             ClickOnElement(saveButton);
             return this;
         }
+        [AllureStep]
         public AccountTypeDetailPage inputOverrideValue(string value)
         {
             SendKeys(overridingValue, value);
