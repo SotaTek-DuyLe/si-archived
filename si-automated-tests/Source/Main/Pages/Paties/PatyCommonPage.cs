@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -14,15 +15,17 @@ namespace si_automated_tests.Source.Main.Pages
 
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
-        private readonly By firstResult = By.XPath("//div[@class='ui-widget-content slick-row even']");
+        private readonly By firstResult = By.XPath("//div[@class='grid-canvas']/div[1]");
 
 
+        [AllureStep]
         public PartyCommonPage ClickAddNewItem()
         {
             WaitForLoadingIconToDisappear();
             ClickOnElement(AddNewItem);
             return this;
         }
+        [AllureStep]
         public List<PartyModel> GetAllPartyListing()
         {
             List<PartyModel> list = new List<PartyModel>();
@@ -30,20 +33,24 @@ namespace si_automated_tests.Source.Main.Pages
             List<IWebElement> AllPartyRows = GetAllElements("//div[@class='grid-canvas']/div[contains(@class, 'ui-widget-content')]");
             List<IWebElement> AllPartyName = GetAllElements("//div[@class='grid-canvas']/div[contains(@class, 'ui-widget-content')]/div[3]");
             List<IWebElement> AllContractName = GetAllElements("//div[@class='grid-canvas']/div[contains(@class, 'ui-widget-content')]/div[4]");
-            List<IWebElement> AllAccontNumber = GetAllElements("//div[@class='grid-canvas']/div[contains(@class, 'ui-widget-content')]/div[5]");
+            List<IWebElement> AllAccountNumber = GetAllElements("//div[@class='grid-canvas']/div[contains(@class, 'ui-widget-content')]/div[5]");
+            List<IWebElement> AllAccountRef = GetAllElements("//div[@class='grid-canvas']/div[contains(@class, 'ui-widget-content')]/div[6]");
             List<IWebElement> AllPartyType = GetAllElements("//div[@class='grid-canvas']/div[contains(@class, 'ui-widget-content')]/div[17]");
             List<IWebElement> AllStartDate = GetAllElements("//div[@class='grid-canvas']/div[contains(@class, 'ui-widget-content')]/div[25]");
             for (int i = 0; i < AllPartyRows.Count; i++)
             {
                 string partyName = GetElementText(AllPartyName[i]);
                 string contractName = GetElementText(AllContractName[i]);
+                string accountNumber = GetElementText(AllAccountNumber[i]);
+                string accountRef = GetElementText(AllAccountRef[i]);
                 string partyType = GetElementText(AllPartyType[i]);
                 string startDate = GetElementText(AllStartDate[i]);
-                list.Add(new PartyModel(partyName, contractName, partyType, startDate));
+                list.Add(new PartyModel(partyName, contractName, accountNumber, accountRef, partyType, startDate));
             }
 
             return list;
         }
+        [AllureStep]
         public PartyCommonPage VerifyPartyCreated(PartyModel partyModelInput, PartyModel partyModelActual)
         {
             Assert.AreEqual(partyModelActual.ContractName, partyModelInput.ContractName);
@@ -52,6 +59,7 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.AreEqual(partyModelActual.StartDate, partyModelInput.StartDate);
             return this;
         }
+        [AllureStep]
         public PartyCommonPage FilterPartyById(int id)
         {
             WaitForLoadingIconToDisappear();
@@ -61,6 +69,18 @@ namespace si_automated_tests.Source.Main.Pages
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
+        public PartyCommonPage FilterPartyById(string id)
+        {
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(AddNewItem);
+            SendKeys(filterInputById, id.ToString());
+            SendKeys(filterInputById, Keys.Enter);
+            ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
         public DetailPartyPage OpenFirstResult()
         {
             DoubleClickOnElement(firstResult);

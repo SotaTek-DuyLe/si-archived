@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -20,6 +21,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyPurchaseOrder
         private readonly By toDateColumn = By.XPath("//div[@class='grid-canvas']//div[contains(@class,'r10')]/div");
 
         private string purchaseOrderNumber = "//div[text()='{0}']";
+
+        [AllureStep]
         public PartyPurchaseOrderPage IsOnPartyPurchaseOrderPage()
         {
             WaitUtil.WaitForElementVisible(purchaseOrderTab);
@@ -27,41 +30,45 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyPurchaseOrder
             Assert.IsTrue(IsControlDisplayed(addNewItem));
             return this;
         }
-
+        [AllureStep]
         public AddPurchaseOrderPage ClickAddNewItem()
         {
             ClickOnElement(addNewItem);
             return new AddPurchaseOrderPage();
         }
-
+        [AllureStep]
         public PartyPurchaseOrderPage SelectPurchaseOrder(String poNumber)
         {
             ClickOnElement(purchaseOrderNumber, poNumber);
             return this;
         }
+        [AllureStep]
         public PurchaseOrderDetailsPage OpenPurchaseOrder(String poNumber)
         {
             DoubleClickOnElement(purchaseOrderNumber, poNumber);
             return new PurchaseOrderDetailsPage();
         }
+        [AllureStep]
         public PartyPurchaseOrderPage VerifyPurchaseOrderAppear(String poNumber)
         {
             WaitUtil.WaitForElementVisible(purchaseOrderNumber, poNumber);
             Assert.IsTrue(IsControlDisplayed(purchaseOrderNumber, poNumber));
             return this;
         }
+        [AllureStep]
         public PartyPurchaseOrderPage VerifyPurchaseOrderDisappear(String poNumber)
         {
             WaitUtil.WaitForElementInvisible(purchaseOrderNumber, poNumber);
             Assert.IsTrue(IsControlUnDisplayed(purchaseOrderNumber, poNumber));
             return this;
         }
+        [AllureStep]
         public RemovePurchaseOrderPage ClickDeletePurchaseOrder()
         {
             ClickOnElement(deleteItem);
             return new RemovePurchaseOrderPage();
         }
-
+        [AllureStep]
         public List<PartyPurchaseOrdersModel> GetAllPurchaseOrderInpage()
         {
             
@@ -76,6 +83,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyPurchaseOrder
             }
             return purchaseOrderList;
         }
+        [AllureStep]
         public PartyPurchaseOrderPage VerifyPurchaseOrder(string po, string _fromDate, string toDate)
         {
             List<PartyPurchaseOrdersModel> purchaseOrderList = this.GetAllPurchaseOrderInpage();

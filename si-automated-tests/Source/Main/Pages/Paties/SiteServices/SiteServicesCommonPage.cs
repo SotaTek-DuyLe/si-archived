@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -21,13 +22,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.SiteServices
         private string aggrementByDate = "//div[text()='{0}']";
         private string siteId = "//div[contains(@class, 'slick-cell')]/div[text()='{0}']";
 
+        [AllureStep]
         public SiteServicesCommonPage FilterId(int id)
         {
             SendKeys(idInput, id.ToString());
             ClickOnElement(applyBtn);
             return this;
         }
-
+        [AllureStep]
         public SiteServicesCommonPage FilterId(string id)
         {
             SendKeys(idInput, id);
@@ -37,25 +39,22 @@ namespace si_automated_tests.Source.Main.Pages.Paties.SiteServices
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public SiteServicesCommonPage FilterAgreementId(int id)
         {
             SendKeys(agreementIdInput, id.ToString());
             ClickOnElement(applyBtn);
             return this;
         }
-
+        [AllureStep]
         public SiteServicesCommonPage FilterAgreementId(string id)
         {
             SendKeys(agreementIdInput, id);
             SendKeys(agreementIdInput, Keys.Enter);
             WaitForLoadingIconToDisappear();
-            WaitUtil.WaitForElementVisible(applyBtn);
-            ClickOnElement(applyBtn);
-            WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public SiteServicesCommonPage VerifyFirstLineAgreementResult(int id, int agreementId)
         {
             WaitUtil.WaitForAllElementsVisible(firstRowResultId);
@@ -63,30 +62,32 @@ namespace si_automated_tests.Source.Main.Pages.Paties.SiteServices
             Assert.AreEqual(GetElementText(firstRowAgreementId), agreementId.ToString());
             return this;
         }
+        [AllureStep]
         public AgreementLinePage OpenFirstResult()
         {
             DoubleClickOnElement(firstResult);
             return PageFactoryManager.Get<AgreementLinePage>();
         }
-
+        [AllureStep]
         public SiteServicesCommonPage VerifyAgreementWindowClosed()
         {
             Assert.AreEqual(GetNumberOfWindowHandle(), 1);
             return this;
         }
+        [AllureStep]
         public SiteServicesCommonPage VerifyAgreementResultNum(int num)
         {
             IList < IWebElement > results = WaitUtil.WaitForAllElementsVisible(allAgrementResult);
             Assert.AreEqual(num, results.Count);
             return this;
         }
-
+        [AllureStep]
         public SiteServicesCommonPage OpenAgreementWithDate(string date)
         {
             DoubleClickOnElement(aggrementByDate, date);
             return this;
         }
-
+        [AllureStep]
         public SiteServicesCommonPage OpenAgreementBySiteID(int id)
         {
             WaitUtil.WaitForElementVisible(siteId, id.ToString());

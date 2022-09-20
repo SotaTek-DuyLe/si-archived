@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -16,6 +17,8 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By yesBtn = By.XPath("//button[text()='Yes']");
         private readonly By partyInput_1 = By.XPath("//input[@id='party-name']");
         private readonly By linesTab = By.CssSelector("a[aria-controls='creditNoteLines-tab']");
+        private readonly By rejectBtn = By.XPath("//button[text()='Reject']");
+        private readonly By approveBtn = By.XPath("//button[text()='Approve']");
 
         //LINES TAB
         private readonly By idOfFirstLine = By.XPath("//div[@id='creditNoteLines-tab']//div[@class='grid-canvas']/div[1]/div[contains(@class, 'l1 r1')]");
@@ -36,7 +39,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By lineTab = By.XPath("//a[@aria-controls='creditNoteLines-tab']");
         private readonly By noteTab = By.XPath("//a[@aria-controls='notes-tab']");
 
-
+        [AllureStep]
         public CreditNotePage IsOnCreditNotePage()
         {
             WaitForLoadingIconToDisappear();
@@ -45,6 +48,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             WaitUtil.WaitForElementVisible(noteInput);
             return this;
         }
+        [AllureStep]
 
         public CreditNotePage IsPopupCreditNote()
         {
@@ -55,19 +59,19 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.IsTrue(IsControlDisplayed(cancelBtn));
             return this;
         }
-
+        [AllureStep]
         public CreditNotePage ClickOnFirstCreditRow()
         {
             ClickOnElement(firstCheckboxItemRowCredit);
             return this;
         }
-
+        [AllureStep]
         public CreditNotePage ClickOnConfirmBtn()
         {
             ClickOnElement(confirmBtn);
             return this;
         }
-
+        [AllureStep]
         public CreditNotePage SearchForParty(string partyName)
         {
             SendKeys(partyInput, partyName);
@@ -75,6 +79,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             ClickOnElement(partySelectOption, partyName);
             return this;
         }
+        [AllureStep]
         public CreditNotePage VerifyNewTabsArePresent()
         {
             WaitForLoadingIconToDisappear();
@@ -82,44 +87,46 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             WaitUtil.WaitForElementVisible(noteTab);
             return this;
         }
+        [AllureStep]
         public CreditNotePage ClickYesBtn()
         {
             ClickOnElement(yesBtn);
             return this;
         }
+        [AllureStep]
         public CreditNotePage VerifyAccountReferenceIsReadonly()
         {
             Assert.AreEqual("true", GetAttributeValue(accountRefInput, "readonly"));
             return this;
         }
-
+        [AllureStep]
         public CreditNotePage VerifyCurrenCreditNotetUrl(string contractId, string partyId)
         {
             string currentUrl = GetCurrentUrl();
             Assert.AreEqual(WebUrl.MainPageUrl + "web/credit-notes/new?contractId=" + contractId + "&partyId=" + partyId + "&createFromParty=true", currentUrl);
             return this;
         }
-
+        [AllureStep]
         public CreditNotePage VerifyCurrentCreditNoteUrl()
         {
             string currentUrl = GetCurrentUrl();
             Assert.IsTrue(currentUrl.Contains(WebUrl.MainPageUrl + "web/credit-notes/"));
             return this;
         }
-
+        [AllureStep]
         public CreditNotePage VerifyPartyNameUpdated(string partyNameValue)
         {
             Assert.AreEqual(partyNameValue, GetAttributeValue(partyInput_1, "value"));
             return this;
         }
-
+        [AllureStep]
         public CreditNotePage ClickOnLinesTab()
         {
             ClickOnElement(linesTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public CreditNotePage VerifyRowOfNewLines(string targetTypeValue, string targetIdValue, string statusValue)
         {
             Assert.AreEqual(targetTypeValue, GetElementText(targetTypeOfFirstLine));
@@ -127,10 +134,70 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.AreEqual(statusValue, GetElementText(postedStateOfFirstLine));
             return this;
         }
-
+        [AllureStep]
         public string GetIdOfFirstRowInPopupCredit()
         {
             return GetElementText(idFirstCreditInPopup);
         }
+        [AllureStep]
+        public CreditNotePage ClickRejectButton()
+        {
+            ClickOnElement(rejectBtn);
+            return this;
+        }
+        [AllureStep]
+        public CreditNotePage ClickApproveButton()
+        {
+            ClickOnElement(approveBtn);
+            return this;
+        }
+        [AllureStep]
+        public CreditNotePage VerifyRejectButtonDisabled()
+        {
+            Assert.AreEqual(false, GetElement(rejectBtn).Enabled);
+            return this;
+        }
     }
+    public class RejectionPopup : BasePage {
+        private readonly By reasonDropDown = By.XPath("//select[contains(@data-bind,'resolutionCodes')]");
+        private readonly By reasonNote = By.XPath("//textarea[@data-bind = 'textInput: reasonText']");
+        private readonly By rejectButton = By.XPath("//button[@data-bind = 'click: performReject']");
+
+        public RejectionPopup()
+        {
+            WaitUtil.WaitForPageLoaded();
+            WaitUtil.WaitForElementVisible(reasonDropDown);
+            WaitUtil.WaitForElementVisible(reasonNote);
+            WaitUtil.WaitForElementVisible(rejectButton);
+        }
+        [AllureStep]
+        public RejectionPopup SelectRejectReasonFromDropDown(string reason)
+        {
+            SelectTextFromDropDown(reasonDropDown, reason);
+            return this;
+        }
+        [AllureStep]
+        public RejectionPopup InputRejectReason(string reason)
+        {
+            SendKeys(reasonNote, reason);
+            return this;
+        }
+        [AllureStep]
+        public RejectionPopup ClickConfirmReject()
+        {
+            ClickOnElement(rejectButton);
+            SleepTimeInMiliseconds(1000);
+            VerifyToastMessage("Success");
+            return this;
+        }
+        [AllureStep]
+        public RejectionPopup VerifyOptionNumber(int expectedSize)
+        {
+            Assert.AreEqual(GetSelectElement(reasonDropDown).Options.Count, expectedSize + 1);
+            return this;
+        }
+        
+
+    }
+
 }

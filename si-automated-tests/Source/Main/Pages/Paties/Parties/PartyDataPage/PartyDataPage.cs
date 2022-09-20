@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -16,6 +17,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyDataPage
         private readonly By imageInput = By.XPath(collapseIn + "//label[text()='Customer Logo']/following-sibling::div[@class='img-thumbnail']");
         private readonly By notesInput = By.XPath(collapseIn + "//label[text()='Notes']/following-sibling::input");
 
+
+        [AllureStep]
         public PartyDataPage VerifyPartyDataCustomer()
         {
             WaitUtil.WaitForElementClickable(customer);
@@ -23,11 +26,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyDataPage
             Assert.AreEqual(GetCssValue(customer, "color"), CommonConstants.ColorBlue);
             return this;
         }
+        [AllureStep]
         public PartyDataPage ClickCustomer()
         {
             ClickOnElement(customer);
             return this;
         }
+        [AllureStep]
         public PartyDataPage VerifyCustomerPath()
         {
             WaitUtil.WaitForElementVisible(collapseIn);
@@ -36,11 +41,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyDataPage
             Assert.IsTrue(IsControlDisplayed(notesInput));
             return this;
         }
+        [AllureStep]
         public PartyDataPage InputNote(string note)
         {
             SendKeys(notesInput,note);
             return this;
         }
+        [AllureStep]
         public PartyDataPage VerifyCustomerPathWithNote(string note)
         {
             WaitUtil.WaitForElementVisible(collapseIn);
@@ -51,6 +58,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyDataPage
             Assert.AreEqual(GetAttributeValue(notesInput, "value"), note);
             return this;
         }
+        [AllureStep]
         public PartyDataPage VerifyCustomerPathHidden()
         {
             WaitUtil.WaitForElementInvisible(collapseIn);

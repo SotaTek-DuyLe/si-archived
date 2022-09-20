@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
@@ -49,13 +50,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By lockInput = By.XPath("//label[contains(string(), 'Lock')]/parent::span/parent::div/following-sibling::input");
         private readonly string anyStreetOption = "//div[@id='searchFields.street']//li[text()='{0}']";
 
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickSearchPointSegmentBtn()
         {
             ClickOnElement(searchPointSegmentBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage IsPointSegmentSearchPopup(string sectorsValueExp)
         {
             WaitUtil.WaitForElementVisible(titlePointSegmentSearch);
@@ -63,7 +64,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(sectorsValueExp, GetFirstSelectedItemInDropdown(sectorsPointSegmentSearchDd));
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage SendKeyInStreetInput(string valueStreet)
         {
             SendKeys(streetSearchInput, valueStreet);
@@ -71,68 +72,68 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(anyStreetOption, valueStreet);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickSearchPointSegment()
         {
             ClickOnElement(searchInPointSegmentSearchPopupBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public string GetValueInPointSegmentsDd()
         {
             SleepTimeInMiliseconds(1000);
             return GetFirstSelectedItemInDropdown(pointSegmentsDd);
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickSavePointSegmentSearchBtn()
         {
             ClickOnElement(savePointSegmentSearchBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickRefreshHeaderBtn()
         {
             ClickOnElement(refreshHeaderBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyValueInPointSegmentDetailTab(string pointSegmentExp)
         {
             Assert.IsTrue(pointSegmentExp.Contains(GetAttributeValue(PointSegmentInput, "value")));
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyValueInStreetDetailTab(string streetExp)
         {
             Assert.IsTrue(streetExp.Contains(GetAttributeValue(StreetInput, "value")));
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage SendKeyLockReferenceInput(string lockRefValue)
         {
             SendKeys(lockReferenceInput, lockRefValue);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage CheckLockInput()
         {
             ClickOnElement(lockInput);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyValueInServiceUnitAfterUpdating(string serviceUnitValueExp)
         {
             Assert.AreEqual(serviceUnitValueExp, GetAttributeValue(ServiceUnitInput, "value"));
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyValueInClientRefAfterUpdating(string clientRefExp)
         {
             Assert.AreEqual(clientRefExp, GetAttributeValue(ClientReferenceInput, "value"));
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyValueInColorAfterUpdating(string colorValueExp)
         {
             Assert.AreEqual(colorValueExp, GetAttributeValue(ColorInput, "value"));
@@ -200,7 +201,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             get => new TableElement(AnnouncementTable, AnnouncementRow, new List<string>() { AnnouncementCheckboxCell , AnnouncementIdCell , AnnouncementNameCell , AnnouncementTypeCell , AnnouncementValidFromCell , AnnouncementValidToCell });
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyNewAnnouncement(string announcement, string type, string from, string to)
         {
             VerifyCellValue(AnnouncementTableEle, 0, 2, announcement);
@@ -209,13 +210,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             VerifyCellValue(AnnouncementTableEle, 0, 5, to);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickAnnouncementCheckbox(int rowIdx)
         {
             AnnouncementTableEle.ClickCell(rowIdx, 0);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyAnnouncementDeleted(string announcement)
         {
             Assert.IsNull(AnnouncementTableEle.GetRowByCellValue(2, announcement));
@@ -260,14 +261,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 RiskRegisterStartDateCell, RiskRegisterEndDateCell
             });
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyNewRiskRegister(RiskRegisterModel riskRegisterModel)
         {
             Assert.IsNotNull(ReviewRiskTableEle.GetRowByCellValue(2, riskRegisterModel.Risk));
             Assert.IsNotNull(ReviewRiskTableEle.GetRowByCellValue(3, riskRegisterModel.Level));
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyRiskRegisterNotDisplayExpiredRecord()
         {
             List<object> endDates = ReviewRiskTableEle.GetColumnValues(10);
@@ -306,7 +307,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 SubscriptionEndDateCell, SubscriptionNoteCell, SubscriptionSubjectCell, SubscriptionDescriptionCell
             });
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyNewSubscription(string contract, string mobile)
         {
             VerifyCellValue(SubscriptionTableEle, 0, 2, contract);
@@ -334,13 +335,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By AddressRadio = By.XPath("//div[@id='add-service-unit-points']//input[@value='Address']");
         public readonly By SectorSelect = By.XPath("//div[@id='add-service-unit-points']//select");
 
+        [AllureStep]
         public ServiceUnitDetailPage VerifyRadioIsSelected()
         {
             Assert.IsTrue(this.driver.FindElement(AddressRadio).GetAttribute("checked").Contains("true"));
             return this;
         }
         #endregion
-
+        [AllureStep]
         public ServiceUnitDetailPage SelectRandomServiceLevel()
         {
             string selectedServiceLevel = GetFirstSelectedItemInDropdown(ServiceLevelSelect);
@@ -366,27 +368,27 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage EditServiceUnitPoint(int rowIdx, string type, string qualifier)
         {
             ServiceUnitPointTableEle.SetCellValue(rowIdx, 3, type);
             ServiceUnitPointTableEle.SetCellValue(rowIdx, 4, qualifier);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage DoubleClickServiceUnitPoint(int rowIdx)
         {
             ServiceUnitPointTableEle.DoubleClickRow(rowIdx);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyStartDateAndEndDateIsReadOnly()
         {
             Assert.IsFalse(ServiceUnitPointTableEle.GetCellEnable(0, 5));
             Assert.IsFalse(ServiceUnitPointTableEle.GetCellEnable(0, 6));
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyAssetAddedByAddNewItemButton(string asset, string assetType, string state, string product, string reference)
         {
             int lastRowIdx = AssetTableEle.GetRows().Count - 1;
@@ -397,13 +399,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             VerifyCellValue(AssetTableEle, lastRowIdx, 6, reference);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyAssetAddedByAddExistItemButton(string assetType)
         {
             VerifyCellValue(AssetTableEle, 0, 3, assetType);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickAssetCheckBox(int rowIdx)
         {
             AssetTableEle.ClickCell(rowIdx, 0);

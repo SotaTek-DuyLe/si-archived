@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using si_automated_tests.Source.Core;
@@ -28,7 +29,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             get => new TableElement(ObjectNoticeTable, ObjectNoticeRow, new List<string>() { IdCell, DescriptionCell, StartDateCell, EndDateCell, SystemCell });
         }
-
+        [AllureStep]
         public BasePageCommonActions VerifyNewObjectNotice(string description, string system, string startDate)
         {
             Assert.IsTrue(ObjectNoticeTableEle.GetCellValue(0, 1).AsString() == description);
@@ -36,12 +37,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(ObjectNoticeTableEle.GetCellValue(0, 4).AsString() == system);
             return this;
         }
-
+        [AllureStep]
         public string GetIdNewObjectNotice()
         {
             return ObjectNoticeTableEle.GetCellValue(0, 0).AsString();
         }
-
+        [AllureStep]
         public BasePageCommonActions DoubleClickNewObjectNotice()
         {
             ObjectNoticeTableEle.DoubleClickRow(0);

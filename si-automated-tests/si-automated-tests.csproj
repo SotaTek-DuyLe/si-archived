@@ -18,7 +18,8 @@
   <ItemGroup>
     <PackageReference Include="JUnitTestLogger" Version="1.1.0" />
     <PackageReference Include="NTextCat" Version="0.3.65" />
-    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="NUnit.Allure" Version="1.2.1.1" />
     <PackageReference Include="NUnit.Engine.Api" Version="3.15.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
@@ -102,6 +103,10 @@
     <None Remove="Source\Test\TaskLineTests\" />
     <None Remove="Source\Test\OrphanCreditLineTests\" />
     <None Remove="Source\Test\SiteServiceTests\" />
+    <None Remove="Source\Test\AccountStatementTests\" />
+    <None Remove="Source\Test\HistoryTests\" />
+    <None Remove="Source\Main\Pages\Applications\ServiceStatus\" />
+    <None Remove="Source\Main\Models\ServiceStatus\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
@@ -110,7 +115,6 @@
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyContactPage\" />
     <Folder Include="Source\Test\WeighbridgeTests\" />
     <Folder Include="TestResults\Screenshots\" />
-    <Folder Include="Source\Main\Pages\WB\" />
     <Folder Include="Source\Main\Pages\WB\Sites\" />
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyVehiclePage\" />
     <Folder Include="Source\Main\Pages\WB\Tickets\" />
@@ -118,7 +122,6 @@
     <Folder Include="Source\Test\AccountTests\" />
     <Folder Include="Source\Main\Pages\Accounts\" />
     <Folder Include="Source\Test\InspectionTests\" />
-    <Folder Include="Source\Main\Pages\Tasks\" />
     <Folder Include="Source\Main\Pages\Tasks\Inspection\" />
     <Folder Include="Source\Main\Pages\Inspections\" />
     <Folder Include="Source\Main\Pages\Events\" />
@@ -131,7 +134,6 @@
     <Folder Include="Source\Main\DBModels\GetServiceInfoForPoint\" />
     <Folder Include="Source\Main\DBModels\GetPointHistory\" />
     <Folder Include="Source\Main\DBModels\GetAllServicesForPoint2\" />
-    <Folder Include="Source\Test\TaskTests\" />
     <Folder Include="Source\Test\RiskTests\" />
     <Folder Include="Source\Main\Pages\Applications\RiskRegister\" />
     <Folder Include="Source\Main\Pages\Streets\" />
@@ -139,6 +141,10 @@
     <Folder Include="Source\Test\TaskLineTests\" />
     <Folder Include="Source\Test\OrphanCreditLineTests\" />
     <Folder Include="Source\Test\SiteServiceTests\" />
+    <Folder Include="Source\Test\AccountStatementTests\" />
+    <Folder Include="Source\Test\HistoryTests\" />
+    <Folder Include="Source\Main\Pages\Applications\ServiceStatus\" />
+    <Folder Include="Source\Main\Models\ServiceStatus\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
@@ -153,6 +159,9 @@
 	  <EmbeddedResource Include="Source\Main\Data\Core14.profile.xml">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </EmbeddedResource>
+	  <Resource Include="allureConfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources.resx">

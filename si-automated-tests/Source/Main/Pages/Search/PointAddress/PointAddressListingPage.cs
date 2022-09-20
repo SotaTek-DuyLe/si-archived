@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -17,13 +18,14 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         //DYNAMIC LOCATOR
         private const string columnInRowPointAddress = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
 
+        [AllureStep]
         public PointAddressListingPage WaitForPointAddressPageDisplayed()
         {
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(addNewPointAddressBtn);
             return this;
         }
-
+        [AllureStep]
         public List<PointAddressModel> getAllPointAddressInList(int numberOfRow)
         {
             List<PointAddressModel> allModel = new List<PointAddressModel>();
@@ -47,13 +49,13 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             return allModel;
         }
 
-
+        [AllureStep]
         public PointAddressDetailPage DoubleClickFirstPointAddressRow()
         {
             DoubleClickOnElement(firstPointAddressRow);
             return PageFactoryManager.Get<PointAddressDetailPage>();
         }
-
+        [AllureStep]
         public PointAddressListingPage FilterPointAddressWithId(string pointAddressId)
         {
             WaitForLoadingIconToDisappear();

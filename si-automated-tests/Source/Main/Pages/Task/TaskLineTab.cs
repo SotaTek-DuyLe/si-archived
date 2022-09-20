@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -20,6 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.Task
         private static string actualAssetQuantityText = "//th[text()='Actual Asset Quantity']";
         private static string actualAssetQuantityInput = "//th[text()='Actual Asset Quantity']/ancestor::thead/following-sibling::tbody/tr[1]/td[count(//th[text()='Actual Asset Quantity']/preceding-sibling::th) + boolean(//th[text()='Actual Asset Quantity'])]//input";
 
+        [AllureStep]
         public TaskLineTab VerifyFirstTaskInfo(string type, string assetType, string product, string unit, string state)
         {
             Assert.AreEqual(type, GetFirstSelectedItemInDropdown(firstTaskType));
@@ -30,6 +32,7 @@ namespace si_automated_tests.Source.Main.Pages.Task
             Assert.AreEqual(state, GetFirstSelectedItemInDropdown(firsTaskState));
             return this;
         }
+        [AllureStep]
         public TaskLineTab VerifyTaskLineInfo(string type, string assetType, string scheduleAssetQty, string product, string unit, string state)
         {
             Assert.AreEqual(type, GetFirstSelectedItemInDropdown(firstTaskType));
@@ -40,16 +43,19 @@ namespace si_automated_tests.Source.Main.Pages.Task
             Assert.AreEqual(state, GetFirstSelectedItemInDropdown(firsTaskState));
             return this;
         }
+        [AllureStep]
         public TaskLineTab InputActuaAssetQuantity(int i)
         {
             EditSendKeys(actualAssetQuantityInput, i.ToString());
             return this;
         }
+        [AllureStep]
         public TaskLineTab ClickOnAcualAssetQuantityText()
         {
             ClickOnElement(actualAssetQuantityText);
             return this;
         }
+        [AllureStep]
         public TaskLineTab SelectCompletedState()
         {
             Thread.Sleep(500);

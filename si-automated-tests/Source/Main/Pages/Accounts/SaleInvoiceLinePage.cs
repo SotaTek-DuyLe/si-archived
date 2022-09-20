@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -24,6 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By unmarkInvoiceLineForCreditBtn = By.XPath("//button[text()='Unmark Invoice Line From Credit']");
         private readonly By id = By.CssSelector("h4[title='Id']");
 
+        [AllureStep]
         public SaleInvoiceLinePage IsOnSaleInvoiceLinePage()
         {
             SwitchToLastWindow();
@@ -33,6 +35,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.IsTrue(IsControlDisplayed(title));
             return this;
         }
+        [AllureStep]
         public SaleInvoiceLinePage InputInfo(string _lineType, string _site, string _product, string _priceElement, string _quantity, string _price)
         {
             SelectTextFromDropDown(lineType, _lineType);
@@ -44,19 +47,19 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             SleepTimeInMiliseconds(1000);
             return this;
         }
-
+        [AllureStep]
         public SaleInvoiceLinePage VerifyDisplayOfMarkInvoiceLineForCreditBtn()
         {
             Assert.IsTrue(IsControlEnabled(markInvoiceLineForCreditBtn));
             return this;
         }
-
+        [AllureStep]
         public SaleInvoiceLinePage ClickOnMarkInvoiceLineForCreditBtn()
         {
             ClickOnElement(markInvoiceLineForCreditBtn);
             return this;
         }
-
+        [AllureStep]
         public SaleInvoiceLinePage VerifyDisplayUnmarkInvoiceLineFromCreditBtn()
         {
             Assert.IsTrue(IsControlEnabled(unmarkInvoiceLineForCreditBtn));

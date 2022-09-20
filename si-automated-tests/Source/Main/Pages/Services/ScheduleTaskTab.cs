@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -29,7 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             get => new TableElement(ScheduleTaskTable, ScheduleRow, new List<string>() { ScheduleCell, StartDateCell, EndDateCell, RolloverCell, RoundCell, RoundGroupCell, DuplicateButtonCell });
         }
-
+        [AllureStep]
         public ScheduleTaskTab VerifyTableIsReadonly()
         {
             var rowCount = ScheduleTaskTableEle.GetRows().Count;
@@ -39,7 +40,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
-
+        [AllureStep]
         public ScheduleTaskTab DoubleClickSchedule(int rowIdx)
         {
             ScheduleTaskTableEle.DoubleClickRow(rowIdx);

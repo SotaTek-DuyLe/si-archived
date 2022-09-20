@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
@@ -22,6 +23,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             SwitchToLastWindow();
         }
+        [AllureStep]
         public CreateInvoiceBatchPage IsOnBatchPage()
         {
             WaitUtil.WaitForElementVisible(typeInput);
@@ -29,24 +31,28 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             WaitUtil.WaitForElementVisible(paymentMethodInput);
             return this;
         }
+        [AllureStep]
         public CreateInvoiceBatchPage SelectAccountType(string type)
         {
             ClickOnElement(typeInput);
             ClickOnElement(dropDownOption, type);
             return this;
         }
+        [AllureStep]
         public CreateInvoiceBatchPage SelectCustomer(string customer)
         {
             ClickOnElement(customerInput);
             ClickOnElement(dropDownOption, customer);
             return this;
         }
+        [AllureStep]
         public CreateInvoiceBatchPage SelectPaymentMethod(string method)
         {
             ClickOnElement(paymentMethodInput);
             ClickOnElement(dropDownOption, method);
             return this;
         }
+        [AllureStep]
         public CreateInvoiceBatchPage SelectInputs(string type, string customer, string method)
         {
             SelectAccountType(type);
@@ -54,11 +60,13 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             SelectPaymentMethod(method);
             return this;
         }
+        [AllureStep]
         public CreateInvoiceBatchPage ClickAddBtn()
         {
             ClickOnElement(addBtn);
             return this;
         }
+        [AllureStep]
         public CreateInvoiceBatchPage InputInvoiceSchedule(string scheduleType, string maxBillDate)
         {
             ClickAddBtn();
@@ -68,6 +76,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             SendKeys(maxBillDateInput, maxBillDate);
             return this;
         }
+        [AllureStep]
         public CreateInvoiceBatchPage InputGenerateDate(string date)
         {
             SendKeys(generateDateInput, date);

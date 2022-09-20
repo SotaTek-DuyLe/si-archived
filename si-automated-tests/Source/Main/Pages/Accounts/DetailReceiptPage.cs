@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -14,12 +15,13 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
     {
         private readonly By addnewItemBtn = By.XPath("//button[contains(string(), 'Add New Item')]");
         private readonly By receiptRows = By.XPath("//div[@class='slick-viewport']//div[@class='grid-canvas']//div[contains(@class,'ui-widget-content')]");
-
+        [AllureStep]
         public DetailReceiptPage ClickAddNewItem()
         {
             ClickOnElement(addnewItemBtn);
             return this;
         }
+        [AllureStep]
 
         public DetailReceiptPage VerifyDetailReceipt(DetailReceiptModel inputDetailReceipt)
         {
@@ -31,7 +33,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.IsTrue(detailReceiptLine.Value == inputDetailReceipt.Value);
             return this;
         }
-
+        [AllureStep]
         public DetailReceiptPage DoubleDetailReceipt()
         {
             List<IWebElement> rows = GetAllElements(receiptRows);
@@ -42,7 +44,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             }
             return this;
         }
-
+        [AllureStep]
         public List<DetailReceiptModel> GetAllDetailReceiptModel()
         {
             List<DetailReceiptModel> receiptLines = new List<DetailReceiptModel>();

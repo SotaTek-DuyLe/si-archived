@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -22,6 +23,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         private string redundantPriceAll = "//div[@id='step-4']//input[@placeholder='Price £' and contains(@class, 'has-error')]";
         private string redundantPrices = "//div[@id='step-4']//tr[contains(@data-bind, 'openPriceForm') and not(contains(@style, 'display: none;'))]//input[contains(@class,'price-text has-error')]/parent::td[1]/following-sibling::td/button[@title='Retire/Remove']";
         public readonly By PriceTable = By.XPath("(//div[@id='step-4']//table)[1]/tbody");
+
+        [AllureStep]
         public PriceTab ClosePriceRecords()
         {
             int count = 0;
@@ -34,13 +37,14 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             }
             return this;
         }
-        
+        [AllureStep]
         public PriceTab IsOnPriceTab()
         {
             WaitUtil.WaitForAllElementsVisible(Page4PricesText);
             Assert.IsTrue(IsControlDisplayed(Page4PricesText));
             return this;
         }
+        [AllureStep]
         public PriceTab RemoveAllRedundantPrice()
         {
             int i = 3;
@@ -60,7 +64,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
 
             return this;
         }
-
+        [AllureStep]
         public PriceTab RemoveAllRedundantPrices()
         {
             List<IWebElement> allBtn = GetAllElements(redundantPrices);
@@ -71,7 +75,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             }
             return this;
         }
-
+        [AllureStep]
         public PriceTab RemoveAllRedundantPrice17()
         {
             int i = 3;
@@ -91,12 +95,13 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
 
             return this;
         }
-
+        [AllureStep]
         public int GetRedundantPricesNum()
         {
             List<IWebElement> all = GetAllElements(redundantPriceAll);
             return all.Count;
         }
+        [AllureStep]
         public PriceTab RemoveAllRedundantPrices(int num)
         {
             int i = num;
@@ -116,7 +121,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
 
             return this;
         }
-
+        [AllureStep]
         public PriceTab ClickOnRemoveButton(List<string> commercialCustomers)
         {
             foreach (var commercialCustomer in commercialCustomers)

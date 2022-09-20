@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Linq;
 using si_automated_tests.Source.Core.WebElements;
+using NUnit.Allure.Attributes;
 
 namespace si_automated_tests.Source.Main.Pages.PartyAgreement
 {
@@ -75,6 +76,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         //Tabs
         private readonly By taskTab = By.XPath("//a[text()='Tasks']");
         private readonly By dataTab = By.XPath("//a[text()='Data']");
+        public readonly By PricesTab = By.XPath("//a[@aria-controls='prices-tab']");
 
         //Task Tab locator 
         private readonly By taskTabBtn = By.XPath("//a[@aria-controls='tasks-tab']");
@@ -118,18 +120,20 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
                 return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
             };
         }
-
+        [AllureStep]
         public PartyAgreementPage VerifyServicePanelUnDisplay()
         {
             Assert.IsTrue(IsControlUnDisplayed(serviceAgreementPanel));
             return this;
         }
+        [AllureStep]
 
         public PartyAgreementPage DoubleClickAgreement(int rowIdx)
         {
             agreementTableEle.DoubleClickRow(rowIdx);
             return this;
         }
+        [AllureStep]
 
         public PartyAgreementPage WaitForAgreementPageLoadedSuccessfully(string type, string name)
         {
@@ -138,6 +142,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             WaitUtil.WaitForPageLoaded();
             return this;
         }
+        [AllureStep]
         public string GetAgreementId()
         {
             int i = 5;
@@ -152,16 +157,19 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             }
             return GetElementText(agreementId);
         }
+        [AllureStep]
         public PartyAgreementPage ClickOnDetailsTab()
         {
             ClickOnElement(detailsTabBtn);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage CloseWithoutSaving()
         {
             ClickOnElement(closeWithoutSavingBtn);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage IsOnPartyAgreementPage()
         {
             WaitUtil.WaitForElementVisible(agreementTypeInput);
@@ -177,21 +185,25 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             WaitUtil.WaitForElementVisible(serviceInput);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage SelectAgreementType(string text)
         {
             SelectTextFromDropDown(agreementTypeInput, text);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyStartDateIsCurrentDate()
         {
             Assert.AreEqual(CommonUtil.GetLocalTimeNow("dd/MM/yyyy"), WaitUtil.WaitForElementVisible(startDate).Text);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyStartDateIs(string date)
         {
             Assert.AreEqual(date, WaitUtil.WaitForElementVisible(startDate).Text);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyAllStartDate(string date)
         {
             IList<IWebElement> startDates = WaitUtil.WaitForAllElementsVisible(startDate);
@@ -202,40 +214,48 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyEndDateIsPredefined()
         {
             Assert.AreEqual("01/01/2050", WaitUtil.WaitForElementVisible(endDate).Text);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyEndDate(string date)
         {
             Assert.AreEqual(date, WaitUtil.WaitForElementVisible(endDate).Text);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage EnterStartDate(string startDate)
         {
             SendKeys(startDateInput, startDate);
             return this;
         }
+        [AllureStep]
         public string GetAgreementStatus()
         {
             return WaitUtil.WaitForElementVisible(status).Text;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyAgreementStatus(string _status)
         {
             WaitUtil.WaitForTextVisibleInElement(status, _status);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyAgreementStatusWithText(string _status)
         {
             Assert.IsTrue(IsControlDisplayed(agreementStatus, _status));
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyAgreementStatusInRedBackground()
         {
             Assert.IsTrue(IsControlDisplayed(statusInRed));
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyNewOptionsAvailable()
         {
             WaitUtil.WaitForElementVisible(addServiceBtn);
@@ -243,43 +263,51 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             WaitUtil.WaitForElementVisible(cancelBtn);
             return this;
         }
+        [AllureStep]
         public DetailPartyPage ClosePartyAgreementPage()
         {
             ClickOnElement(closeBtn);
             return PageFactoryManager.Get<DetailPartyPage>();
         }
+        [AllureStep]
         public PartyAgreementPage ClickApproveAgreement()
         {
             ScrollDownToElement(approveBtn);
             ClickOnElement(approveBtn);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage ConfirmApproveBtn()
         {
             ClickOnElement(confirmApproveBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public AddServicePage ClickAddService()
         {
             ClickOnElement(addServiceBtn);
             return PageFactoryManager.Get<AddServicePage>();
         }
+        [AllureStep]
         public PartyAgreementPage VerifyServicePanelPresent()
         {
             WaitUtil.WaitForElementVisible(serviceAgreementPanel);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyServiceSiteAddres(string add)
         {
             Assert.IsTrue(add.Contains(GetElementText(panelSiteAddress)));
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyServiceStartDate(string startDate)
         {
             Assert.AreEqual(startDate, GetElementText(serviceStartDate));
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyTaskLineTypeStartDates(string startDate)
         {
             Assert.AreEqual(startDate, GetElementText(serviceTaskLineTypeStartDates));
@@ -290,18 +318,21 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             }
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyRegularAssetTypeStartDate(string startDate)
         {
             ScrollDownToElement(regularAssertTypeStartDate);
             Assert.AreEqual(startDate, GetElementText(regularAssertTypeStartDate));
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyAssetAndProductAssetTypeStartDate(string startDate)
         {
             
             Assert.AreEqual(startDate, GetElementText(assetAndProductAssetTypeStartDate));
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage ExpandAllAgreementFields()
         {
             IList<IWebElement> fields = WaitUtil.WaitForAllElementsVisible(subExpandBtns);
@@ -312,20 +343,21 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             }
             return this;
         }
-
+        [AllureStep]
         public PartyAgreementPage ExpandAdhocOnAgreementFields()
         {
             IList<IWebElement> fields = WaitUtil.WaitForAllElementsVisible(subExpandBtns);
             fields?.LastOrDefault()?.Click();
             return this;
         }
-
+        [AllureStep]
         public PartyAgreementPage VerifyAgreementLineFormHasGreenBorder()
         {
             string borderColor = GetElement(By.XPath("//div[@id='details-tab']//div[@class='panel-heading']")).GetCssValue("border-color");
             Assert.IsTrue(ColorHelper.IsGreenColor(borderColor));
             return this;
         }
+        [AllureStep]
 
         public PartyAgreementPage CreateAdhocTaskBtnInAgreementLine(string taskType)
         {
@@ -346,22 +378,25 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             }
             return this;
         }
-
+        [AllureStep]
         public PartyAgreementPage ExpandAgreementLine()
         {
             ClickOnElement(expandBtn);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage ExpandAgreementLineByService(string service)
         {
             ClickOnElement(expandAgreementLineByServicesName, service);
             return this;
         }
+        [AllureStep]
         public TaskTab OpenTaskTab()
         {
             ClickOnElement(taskTab);
             return PageFactoryManager.Get<TaskTab>();
         }
+        [AllureStep]
 
         public PartyAgreementPage ClickEditAgreementBtn()
         {
@@ -369,6 +404,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             ClickOnElement(editBtn);
             return this;
         }
+        [AllureStep]
 
         public PartyAgreementPage ClickRemoveAgreementBtn()
         {
@@ -376,17 +412,20 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             ClickOnElement(removeBtn);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage ClickKeepAgreementBtn()
         {
             ScrollDownToElement(keepBtn);
             ClickOnElement(keepBtn);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage ClickEditAgreementByAddressBtn(string address)
         {
             ClickOnElement(editAgreementByAddress, address);
             return this;
         }
+        [AllureStep]
 
         public PartyAgreementPage VerifyCreateAdhocButtonsAreDisabled()
         {
@@ -397,6 +436,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             }
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyCreateAdhocButtonsAreEnabled()
         {
             IList<IWebElement> createAdhocBtns = WaitUtil.WaitForAllElementsVisible(createAdhocBtn);
@@ -406,7 +446,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             }
             return this;
         }
-
+        [AllureStep]
         public PartyAgreementPage VerifySchedule(string schedule)
         {
             Assert.IsTrue(IsControlDisplayed(regularFrequency, schedule));
@@ -414,27 +454,29 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         }
 
         //Task tab
+        [AllureStep]
         public PartyAgreementPage ClickTaskTabBtn()
         {
             WaitUtil.WaitForElementClickable(taskTabBtn);
             ClickOnElement(taskTabBtn);
             return this;
         }
-        
+
         //Agreement Tab
+        [AllureStep]
         public PartyAgreementPage ClickToAgreementTab()
         {
             ClickOnElement(agreementTabBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public PartyAgreementPage OpenAnAgreementWithDate(string date)
         {
             DoubleClickOnElement(agreementWithDate, date);
             return this;
         }
-
+        [AllureStep]
         public PartyAgreementPage VerifyElementIsMandatory(By by)
         {
             IWebElement webEle = GetElement(by);
@@ -442,29 +484,33 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
             Assert.IsTrue(ColorHelper.IsRedColor(cssColor));
             return this;
         }
-
+        [AllureStep]
         //Verify border at Agreement 
         public PartyAgreementPage VerifyBlueBorder()
         {
             Assert.IsTrue(IsControlDisplayed(blueBorder));
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyDotRedBorder()
         {
             Assert.IsTrue(IsControlDisplayed(dotRedBorder));
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyDotRedBorderDisappear()
         {
             Assert.IsTrue(IsControlUnDisplayed(dotRedBorder));
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyAgreementLineNum(int num)
         {
             List<IWebElement> lineNum = GetAllElements(serviceAgreementPanel);
             Assert.AreEqual(num, lineNum.Count);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyAgreementLineDisappear()
         {
             int i = 5;
@@ -484,23 +530,26 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         }
 
         //Retire popup
+        [AllureStep]
         public PartyAgreementPage ClickRetireButton()
         {
             ClickOnElement(retireBtn);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage VerifyRetirePopup()
         {
             Assert.IsTrue(IsControlDisplayed(retirePopUpTitle));
             Assert.IsTrue(IsControlDisplayed(retirePopUpOKBtn));
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage RetirePopupClickOK()
         {
             ClickOnElement(retirePopUpOKBtn);
             return this;
         }
-
+        [AllureStep]
         public DataTab ClickDataTab()
         {
             ClickOnElement(dataTab);

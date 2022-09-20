@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -18,7 +19,7 @@ using CanlendarServiceTask = si_automated_tests.Source.Main.Models.Suspension.Se
 
 namespace si_automated_tests.Source.Main.Pages.Paties
 {
-    public class DetailPartyPage : BasePage
+    public class DetailPartyPage : BasePageCommonActions
     {
         private const string AllTabDisplayed = "//li[@role='presentation' and not(contains(@style, 'visibility: collapse'))]/a";
         private const string AllTabInDropdown = "//ul[@class='dropdown-menu']//a";
@@ -35,6 +36,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By wBTicketTab = By.XPath("//a[text()='Weighbridge Tickets']");
         private readonly By taskTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='tasks-tab']");
         private readonly By suspensionTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='suspensions-tab']");
+        public readonly By pricesTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='prices-tab']");
         private readonly By adhocTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='adhoc-tab']");
         private readonly By canlendarTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='calendar-tab']");
         private readonly By siteTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='sites-tab']");
@@ -135,7 +137,11 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string ColumnInRow = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private readonly By siteRows = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']//div[contains(@class,'ui-widget-content')]");
 
+        public readonly By OnStopButton = By.XPath("//div[@id='account-tab']//button[text()='ON STOP']");
+        public readonly By PartyStatus = By.XPath("//div[@title='Party Status']//span");
+
         //STEP
+        [AllureStep]
         public DetailPartyPage WaitForDetailPartyPageLoadedSuccessfully(string name)
         {
             WaitUtil.WaitForPageLoaded();
@@ -146,52 +152,55 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         //TAB
+        [AllureStep]
         public DetailPartyPage ClickTabDropDown()
         {
             ClickOnElement(dropdown);
             return this;
         }
+        [AllureStep]
         public DetailPartyPage GoToATab(string tabName)
         {
             ClickOnElement(aTab, tabName);
             return this;
         }
+        [AllureStep]
         public TaskTab ClickTasksTab()
         {
             ClickOnElement(taskTab);
             return new TaskTab();
         }
-
+        [AllureStep]
         public DetailPartyPage ClickSuspensionTab()
         {
             ClickOnElement(suspensionTab);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickAdHocTab()
         {
             ClickOnElement(adhocTab);
             return this;
         }
-
+        [AllureStep]
         public PartyCalendarPage ClickCalendarTab()
         {
             ClickOnElement(canlendarTab);
             return new PartyCalendarPage();
         }
-
+        [AllureStep]
         public DetailPartyPage ClickSiteTab()
         {
             ClickOnElement(siteTab);
             return this;
         }
-        
+        [AllureStep]
         public DetailPartyPage ClickAccountTab()
         {
             ClickOnElement(accountTab);
             return this;
         }
-
+        [AllureStep]
         public List<string> GetAllTabDisplayed()
         {
             List<string> allTabs = new List<string>();
@@ -202,6 +211,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return allTabs;
         }
+        [AllureStep]
         public List<string> GetAllTabInDropdown()
         {
 
@@ -217,6 +227,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return allTabs;
         }
+        [AllureStep]
         public DetailPartyPage MergeAllTabInDetailPartyAndVerify()
         {
             WaitUtil.WaitForElementVisible(AllTabDisplayed);
@@ -226,6 +237,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(allTabDisplayed, PartyTabConstant.AllTabInDetailParty.ToList());
             return this;
         }
+        [AllureStep]
         public DetailPartyPage ClickAllTabAndVerify()
         {
             List<IWebElement> allElements = GetAllElements(AllTabDisplayed);
@@ -240,6 +252,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return this;
         }
+        [AllureStep]
         public DetailPartyPage ClickAllTabInDropdownAndVerify()
         {
             if (IsControlDisplayedNotThrowEx(DropdownBtn))
@@ -262,18 +275,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return this;
         }
+        [AllureStep]
         public DetailPartyPage VerifyDisplaySuccessfullyMessage()
         {
             Assert.IsTrue(IsControlDisplayed(SuccessfullyToastMessage));
             WaitUtil.WaitForElementInvisible(SuccessfullyToastMessage);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickOnParty(string name)
         {
             ClickOnElement(PartyName, name);
             return this;
         }
+        [AllureStep]
         public DetailPartyPage VerifyPartyTypeChecked(string type)
         {
             WaitUtil.WaitForElementVisible(PartyTypeCheckbox, type);
@@ -281,18 +296,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
         //Agreement tab
+
+        [AllureStep]
         public AgreementTab OpenAgreementTab()
         {
             ClickOnElement(agreementTab);
             WaitForLoadingIconToDisappear();
             return new AgreementTab();
         }
-
+        [AllureStep]
         public string GetPartyStartDate()
         {
             return WaitUtil.WaitForElementVisible(partyStartDate).Text;
         }
-
+        [AllureStep]
         public SiteDetailPage OpenFirstSiteRow()
         {
             DoubleClickOnElement(firstSiteRow);
@@ -300,18 +317,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         //DETAIL TAB
+        [AllureStep]
         public DetailPartyPage ClickOnAddInvoiceAddressBtn()
         {
             ClickOnElement(InvoiceAddressAddBtn);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickOnPrimaryContactDd()
         {
             ClickOnElement(PrimaryContactDd);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyValueInPrimaryContactDd(string[] expectedOption)
         {
             foreach(string option in expectedOption)
@@ -320,13 +338,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyFirstValueInPrimaryContactDd(ContactModel contactModel)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(PrimaryContactDd), contactModel.FirstName + " " + contactModel.LastName);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage SelectAnyPrimaryContactAndVerify(ContactModel contactModel)
         {
             ClickOnElement(string.Format(PrimaryContactValue, contactModel.FirstName + " " + contactModel.LastName));
@@ -339,38 +357,38 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(GetFirstSelectedItemInDropdown(PrimaryContactDd), contactModel.FirstName + " " + contactModel.LastName);
             return this;
         }
-
+        [AllureStep]
         public AddPrimaryContactPage ClickAddPrimaryContactBtn()
         {
             ClickOnElement(primaryContactAddBtn);
             return new AddPrimaryContactPage();
         }
-
+        [AllureStep]
         public DetailPartyPage ClickAddCorrespondenceAddress()
         {
             WaitUtil.WaitForElementVisible(CorrespondenceAddressAddBtn);
             ClickOnElement(CorrespondenceAddressAddBtn);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyCreatedSiteAddressAppearAtAddress(AddressDetailModel addressDetail)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(InvoiceAddress), addressDetail.Property.ToString() + " " + addressDetail.Street + ", " + addressDetail.Town + ", " + addressDetail.PostCode);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyValueDefaultInCorresspondenAddress()
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(CorresspondenceAddressDd), "Select...");
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyValueDefaultInInvoiceAddress()
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(InvoiceAddress), "Select...");
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickCorresspondenAddress()
         {
             ClickOnElement(CorresspondenceAddressDd);
@@ -382,7 +400,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             ClickOnElement(InvoiceAddress);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyDisplayNewSiteAddressInCorresspondence(AddressDetailModel addressDetail, bool isAddress)
         {
             if(isAddress)
@@ -395,7 +413,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyDisplayNewSiteAddressInInvoiceAddress(AddressDetailModel addressDetail,bool isAddress)
         {
             if(isAddress)
@@ -408,19 +426,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage SelectCorresspondenAddress(AddressDetailModel addressDetail)
         {
             ClickOnElement(CorresspondenceValue, addressDetail.Property.ToString() + " " + addressDetail.Street + ", " + addressDetail.Town + ", " + addressDetail.PostCode);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickOnSitesTab()
         {
             ClickOnElement(SitesTab);
             return this;
         }
-
+        [AllureStep]
         public List<SiteModel> GetAllSiteInList()
         {
             List<SiteModel> siteModels = new List<SiteModel>();
@@ -449,7 +467,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return siteModels;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifySiteManualCreated(AddressDetailModel addressDetail, SiteModel siteModel, string serviceSite, bool isAddress)
         {
             Assert.AreEqual(siteModel.Name, addressDetail.SiteName);
@@ -463,81 +481,84 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(siteModel.SiteType, serviceSite);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickSaveWithDetailsBtn()
         {
             ClickOnElement(SaveWithDetailsBtn);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickOnDetailsTab()
         {
             ClickOnElement(DetailsTab);
             return this;
         }
+        [AllureStep]
         public DetailPartyPage CloseWithoutSaving()
         {
             WaitUtil.WaitForElementClickable(closeWithoutSavingBtn);
             ClickOnElement(closeWithoutSavingBtn);
             return this;
         }
+        [AllureStep]
         public DetailPartyPage VerifyAddressAppearAtSitesTab(string title)
         {
             WaitUtil.WaitForElementVisible(AddressTitle, title);
             Assert.IsTrue(IsControlDisplayed(AddressTitle, title));
             return this;
         }
+        [AllureStep]
         public DetailPartyPage VerifyCreatedSiteAddressAppearAtAddress(string address)
         {
             WaitUtil.WaitForElementVisible(SiteAddressValue, address);
             Assert.IsTrue(IsControlDisplayed(SiteAddressValue, address));
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage SelectCreatedAddressInCorresspondenceAddress(string address)
         {
             ClickOnElement(CorresspondenceValue, address);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickOnInvoiceAddressButton()
         {
             ClickOnElement(InvoiceAddressButton);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyAddressIsFilledAtInvoiceAddress(string address)
         {
             Assert.AreEqual(address, GetFirstSelectedItemInDropdown(InvoiceAddress));
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyCreatedAddressAppearAtInvoiceAddress(string address)
         {
             WaitUtil.WaitForElementVisible(InvoiceAddressValueDetails, address);
             Assert.IsTrue(IsControlDisplayed(InvoiceAddressValueDetails, address));
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage SelectCreatedAddress(string address)
         {
             ClickOnElement(InvoiceAddressValue, address);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifySelectedAddressOnInvoicePage(String address)
         {
             WaitUtil.WaitForElementVisible(InvoiceAddressOnPage, address);
             Assert.IsTrue(IsControlDisplayed(InvoiceAddressOnPage, address));
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickInvoiceContactDd()
         {
             ClickOnElement(InvoiceContactDd);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyValueInInvoiceContactDd(string[] expectedOption)
         {
             foreach (String option in expectedOption)
@@ -546,7 +567,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage SelectAnyInvoiceContactAndVerify(ContactModel contactModel)
         {
             ClickOnElement(string.Format(InvoiceContactValue, contactModel.FirstName + " " + contactModel.LastName));
@@ -559,7 +580,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(GetFirstSelectedItemInDropdown(InvoiceContactDd), contactModel.FirstName + " " + contactModel.LastName);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickInternalCheckbox()
         {
             ClickOnElement(internalInputCheckbox);
@@ -567,6 +588,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         //Site Tab
+        [AllureStep]
         public DetailPartyPage IsOnSitesTab()
         {
             WaitUtil.WaitForElementClickable(AddNewItemSiteBtn);
@@ -574,6 +596,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.IsTrue(IsControlDisplayed(SiteList));
             return this;
         }
+        [AllureStep]
         public DetailPartyPage ClickOnAddNewItemInSiteTabBtn()
         {
             ClickOnElement(AddNewItemSiteBtn);
@@ -581,19 +604,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         //CONTACT TAB
+        [AllureStep]
         public DetailPartyPage ClickOnContactTab()
         {
             WaitUtil.WaitForElementVisible(contactTab);
             ClickOnElement(contactTab);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickAddNewItemAtContactTab()
         {
             ClickOnElement(addNewItemAtContactTabBtn);
             return this;
         }
-
+        [AllureStep]
         public List<ContactModel> GetAllContact()
         {
             List<ContactModel> contactModels = new List<ContactModel>();
@@ -633,7 +657,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return contactModels;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyContactCreated(ContactModel contactModelExpected, ContactModel contacModelActual)
         {
             Assert.AreEqual(contactModelExpected.Title, contacModelActual.Title);
@@ -649,7 +673,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(contactModelExpected.EndDate + " 00:00", contacModelActual.EndDate);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyContactCreatedWithSomeFields(ContactModel contactModelExpected, ContactModel contacModelActual)
         {
             Assert.AreEqual(contactModelExpected.FirstName, contacModelActual.FirstName);
@@ -659,7 +683,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(contactModelExpected.EndDate + " 00:00", contacModelActual.EndDate);
             return this;
         }
-
+        [AllureStep]
         public EditPartyContactPage ClickFirstContact()
         {
             DoubleClickOnElement(firstContactRow);
@@ -667,12 +691,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         //WB tab
+        [AllureStep]
         public DetailPartyPage ClickWBSettingTab()
         {
             ClickOnElement(wBtab);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyWBSettingTab()
         {
             WaitUtil.WaitForElementVisible(autoPrintTicketCheckbox);
@@ -702,7 +727,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.IsTrue(GetElement(string.Format(authoriseTypingOption, "Do Not Override On Stop")).Selected);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyDisplayYellowMesInLicenceNumberExField()
         {
             Assert.IsTrue(IsControlDisplayed(licenceNumberExpriryIsRequiredMessage));
@@ -710,25 +735,25 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual("rgba(159, 139, 64, 1)", GetCssValue(licenceNumberExpriryIsRequiredMessage, "color"));
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyForcusOnLicenceNumberExField()
         {
             VerifyFocusElement(licenceNumberExpriedInput);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyForcusOnLicenceNumberField()
         {
             VerifyFocusElement(licenceNumberInput);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage InputLienceNumberExField(string date)
         {
             SendKeys(licenceNumberExpriedInput, date);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyDisplayYellowMesInLicenceNumberField()
         {
             Assert.IsTrue(IsControlDisplayed(licenceNumberRequiredMessage));
@@ -736,32 +761,32 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual("rgba(159, 139, 64, 1)", GetCssValue(licenceNumberRequiredMessage, "color"));
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyDisplayGreenBoderInLicenceNumberField()
         {
             //Assert.AreEqual("rgb(102, 175, 233)", GetCssValue(licenceNumberInput, "border-color"));
             VerifyColorInBlueRange(licenceNumberInput);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyDisplayGreenBoderInLicenceNumberExField()
         {
             Assert.AreEqual("rgb(102, 175, 233)", GetCssValue(licenceNumberExpriedInput, "border-color"));
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage InputLicenceNumber(string value)
         {
             SendKeys(licenceNumberInput, value);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyDisplayMesInInvoiceAddressField()
         {
             Assert.IsTrue(IsControlDisplayed(invoiceAddressRequiredMessage));
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyDisplayMesInCorresspondenAddressField()
         {
             Assert.IsTrue(IsControlDisplayed(corresspondenRequiredMessage));
@@ -769,7 +794,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual("rgba(159, 139, 64, 1)", GetCssValue(corresspondenRequiredMessage, "color"));
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickDownloadBtnAndVerify()
         {
             ClickOnElement(downloadBtn);
@@ -781,19 +806,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             SwitchToChildWindow(2);
             return this;
         }
-
+        [AllureStep]
         public string GetPartyId()
         {
             return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/parties/", "");
         }
 
         //VEHICLE TAB
+        [AllureStep]
         public DetailPartyPage ClickOnVehicleTab()
         {
             ClickOnElement(VehicleTab);
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyTableDisplayedInVehicle()
         {
             WaitUtil.WaitForElementVisible(addNewItemVehicleTab);
@@ -803,13 +829,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return this;
         }
-
+        [AllureStep]
         public AddVehiclePage ClickAddNewVehicleBtn()
         {
             ClickOnElement(addNewItemVehicleTab);
             return PageFactoryManager.Get< AddVehiclePage>();
         }
-
+        [AllureStep]
         public List<VehicleModel> GetAllVehicleModel()
         {
             List<VehicleModel> vehicleModels = new List<VehicleModel>();
@@ -836,7 +862,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return vehicleModels;
         }
-
+        [AllureStep]
         public DetailPartyPage VerifyVehicleCreated(VehicleModel vehicleModelDisplayed, string resource, string customer, string haulier, string hireStart, string hireEnd)
         {
             Assert.AreEqual(resource, vehicleModelDisplayed.Resource);
@@ -848,18 +874,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         //WB ticket tab
+        [AllureStep]
         public DetailPartyPage ClickWBTicketTab()
         {
             ClickOnElement(wBTicketTab);
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage ClickAddNewWBTicketBtn()
         {
             ClickOnElement(addNewItemWBTicket);
             return PageFactoryManager.Get<CreateNewTicketPage>();
         }
-
+        [AllureStep]
         public DetailPartyPage DoubleClickSiteRow(int siteId)
         {
             List<IWebElement> rows = GetAllElements(siteRows);
@@ -882,6 +909,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By firstCheckbox = By.XPath("//div[@id='tasks-tab']//div[contains(@class, 'l0 r0')]//input");
         private readonly By bulkUpdateBtn = By.XPath("//div[@id='tasks-tab']//button[text()='Bulk Update']");
 
+
+        [AllureStep]
         public DetailPartyPage FilterTaskId(string taskId)
         {
             SendKeys(taskIdInput, taskId);
@@ -889,24 +918,26 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickFirstTaskCheckbox()
         {
             ClickOnElement(firstCheckbox);
             return this;
         }
-
+        [AllureStep]
         public TasksBulkUpdatePage ClickBulkUpdateBtn()
         {
             WaitUtil.WaitForElementClickable(bulkUpdateBtn);
             ClickOnElement(bulkUpdateBtn);
             return PageFactoryManager.Get<TasksBulkUpdatePage>();
         }
+        [AllureStep]
         public DetailPartyPage ClickOnAccountStatement()
         {
             ClickOnElement(accountStatementTab);
             return this;
         }
+        [AllureStep]
         public DetailPartyPage ClickOnHistoryTab()
         {
             ClickOnElement(historyTab);

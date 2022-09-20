@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
@@ -14,12 +15,15 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         private readonly By invoiceAddress = By.XPath("(//select[contains(@data-bind,'invoiceAddress')])[last()]");
         private readonly By billingRule = By.XPath("(//select[contains(@data-bind,'billingRule')])[last()]");
         private readonly By Page5InvoiceDetailsText = By.XPath("//span[text()='5']/following-sibling::p[text()='Invoice Details']");
+        
+        [AllureStep]
         public InvoiceDetailTab IsOnInvoiceDetailsTab()
         {
             WaitUtil.WaitForAllElementsVisible(Page5InvoiceDetailsText);
             Assert.IsTrue(IsControlDisplayed(Page5InvoiceDetailsText));
             return this;
         }
+        [AllureStep]
         public InvoiceDetailTab VerifyInvoiceOptions(string value)
         {
             Assert.AreEqual(value, GetFirstSelectedItemInDropdown(invoiceSchedule));

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -24,6 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private const string addressCoumn = "//tr[{0}]//td[@data-bind='text: $data.address']";
         private const string anyActionOption = "//select[@id='action']/option[text()='{0}']";
 
+        [AllureStep]
         public EventBulkUpdatePage IsEventBulkUpdatePage()
         {
             WaitUtil.WaitForElementVisible(bulkUpdateTitle);
@@ -31,7 +33,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.IsTrue(IsControlDisplayed(selectedEventText));
             return this;
         }
-
+        [AllureStep]
         public List<EventInBulkUpdateEventModel> GetAllEventInPage()
         {
             List<EventInBulkUpdateEventModel> eventInBulkUpdateEventModels = new List<EventInBulkUpdateEventModel>();
@@ -47,7 +49,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return eventInBulkUpdateEventModels;
         }
-
+        [AllureStep]
         public EventBulkUpdatePage VerifyRecordInfoInEventBulkUpdatePage(List<EventInBulkUpdateEventModel> eventInBulkUpdateEventModels, string[] eventIds, string[] eventTypes, string[] eventServices, string[] eventAddresses)
         {
             for(int i = 0; i < eventInBulkUpdateEventModels.Count; i++)
@@ -59,7 +61,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return this;
         }
-
+        [AllureStep]
         public EventBulkUpdatePage ClickActionDdAndVerify()
         {
             ClickOnElement(actionSelectDd);
@@ -70,13 +72,13 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return this;
         }
-
+        [AllureStep]
         public EventBulkUpdatePage SelectAnyAction(string actionOptionValue)
         {
             ClickOnElement(anyActionOption, actionOptionValue);
             return this;
         }
-
+        [AllureStep]
         public EventBulkUpdatePage AddNotes(string noteValue)
         {
             WaitUtil.WaitForElementVisible(notesTextbox);

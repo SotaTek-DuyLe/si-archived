@@ -1,16 +1,14 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.DBModels;
-using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Models.Applications;
-using System;
+using si_automated_tests.Source.Main.Models.ServiceStatus;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Applications
 {
@@ -18,8 +16,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications
     {
         public TaskAllocationPage()
         {
-            unallocatedTableEle = new TableElement("//div[@class='tab-pane echo-grid active']//div[@class='grid-canvas']", UnallocatedRow, new List<string>() { UnallocatedCheckbox, UnallocatedDescription, UnallocatedService, UnallocatedID });
+            unallocatedTableEle = new TableElement("//div[@class='tab-pane echo-grid active']//div[@class='grid-canvas']", UnallocatedRow, new List<string>() { UnallocatedCheckbox, UnallocatedDescription, UnallocatedService, UnallocatedID, UnallocatedStatus });
             unallocatedTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+
+            roundTabTableEle = new TableElement("//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']", UnallocatedRow, new List<string>() { UnallocatedCheckbox, UnallocatedDescription, UnallocatedService, UnallocatedID, UnallocatedStatus });
+            roundTabTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
             {
                 return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
             };
@@ -36,12 +40,26 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By LockFilterInput = By.XPath("//div[contains(@id, 'round-tab')]//div[contains(@class, 'l27')]//input");
         public readonly By IdFilterInput = By.XPath("//div[contains(@id, 'round-tab')]//div[contains(@class, 'l3')]//input");
         public readonly By ToggleRoundLegsButton = By.XPath("//button[@id='t-toggle-roundlegs']");
+        
 
         public readonly string UnallocatedRow = "./div[contains(@class, 'slick-row')]";
         public readonly string UnallocatedCheckbox = "./div[contains(@class, 'slick-cell l1 r1')]//input";
         public readonly string UnallocatedDescription = "./div[contains(@class, 'slick-cell l4 r4')]";
         public readonly string UnallocatedService = "./div[contains(@class, 'slick-cell l5 r5')]";
         public readonly string UnallocatedID = "./div[contains(@class, 'slick-cell l3 r3')]";
+        private readonly By taskName = By.XPath("//div[@id='tabs-container']//li[@role='presentation'][2]");
+        private readonly By thirdTaskName = By.XPath("//div[@id='tabs-container']//li[@role='presentation'][3]");
+        private readonly By contractTitle = By.XPath("//label[text()='Contract']");
+        private readonly By checkboxSelectAllTask = By.XPath("//div[contains(@id, 'reallocated-')]//div[@title='Select/Deselect All']//input");
+        private readonly By firstTaskInGrid = By.XPath("//div[contains(@id, 'reallocated-')]//div[@class='grid-canvas']/div[1]");
+        private readonly By firstRoundForNextDayNotAllocated = By.XPath("(//div[@id='round-grid-container']//div[contains(@class, 'no-padding')]/div)[1]");
+        private readonly By firstRoundGroupNotAllocated = By.XPath("(//div[@id='round-grid-container']//div[contains(@class, 'no-padding')]/div)[1]/parent::div/preceding-sibling::div[2]");
+        private readonly By firstRoundNameNotAllocated = By.XPath("(//div[@id='round-grid-container']//div[contains(@class, 'no-padding')]/div)[1]/parent::div/preceding-sibling::div[1]");
+        private readonly By allTaskInGrid = By.XPath("//div[contains(@id, 'reallocated-')]//div[@class='grid-canvas']/div");
+        private readonly By allTaskAfterDragAndDrop = By.XPath("//div[contains(@id, 'round-tab-')]//div[@class='grid-canvas']/div");
+        private readonly By firstRoundAllocated = By.XPath("//div[@id='roundGrid']//span[contains(@style, 'green') and contains(@style, 'background-color: white')]");
+        private readonly By taskGrid = By.XPath("//div[contains(@id, 'reallocated-')]//div[@class='grid-canvas']");
+        public readonly string UnallocatedStatus = "./div[contains(@class, 'slick-cell l10 r10')]";
 
         public readonly By ShowOutstandingTaskButton = By.XPath("//div[@id='tabs-container']//button[@id='t-outstanding']");
         public readonly By OutstandingTab = By.XPath("//div[@id='tabs-container']//li//a[@aria-controls='outstanding']");
@@ -50,6 +68,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TableElement UnallocatedTableEle
         {
             get => unallocatedTableEle;
+        }
+
+        private TableElement roundTabTableEle;
+        public TableElement RoundTabTableEle
+        {
+            get => roundTabTableEle;
         }
 
         private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-1')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]", "./i[contains(@class, 'jstree-ocl')][1]");
@@ -80,6 +104,11 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string OutStandingService = "./div[contains(@class, 'slick-cell l4 r4')]";
         private readonly string OutStandingScheduledDate = "./div[contains(@class, 'slick-cell l5 r5')]";
 
+        //DYNAMIC
+        private readonly string idRows = "//div[contains(@id, 'reallocated')]//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'l3')]";
+        private readonly string descRows = "//div[contains(@id, 'reallocated')]//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'l4')]";
+        private readonly string serviceRows = "//div[contains(@id, 'reallocated')]//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'l5')]";
+
         public TableElement OutstandingTableEle
         {
             get => new TableElement(OutStandingTable, OutStandingRow, new List<string>() { OutStandingCheckbox, OutStandingId, OutStandingDescription, OutStandingService, OutStandingScheduledDate });
@@ -104,17 +133,18 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By ReasonSelect = By.XPath("//select[contains(@data-bind, 'allocationReasons')]");
         public readonly By ReasonConfirmButton = By.XPath("//div[@id='get-allocation-reason']//button[text()='Confirm']");
 
+
         public By GetAllocatingConfirmMsg(int count) 
         {
             return By.XPath($"//div[text()='Allocating {count} Task(s) onto Round Instance for a different day!']");
         }
-
+        [AllureStep]
         public TaskAllocationPage DoubleClickFromCellOnRound(string round)
         {
             RoundInstanceTableEle.DoubleClickCellOnCellValue(4, 2, round);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DoubleClickRI(string roundgroup, string round)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(3, new Dictionary<int, object>()
@@ -127,19 +157,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DoubleClickOnElement(cell);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage SelectRoundNode(string nodeName)
         {
             ServicesTreeView.ClickItem(nodeName);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage ExpandRoundNode(string nodeName)
         {
             ServicesTreeView.ExpandNode(nodeName);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragRoundInstanceToUnlocattedGrid(string roundGroup, string round, int dragcellIdx = 3)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(dragcellIdx, new Dictionary<int, object>() 
@@ -151,7 +181,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DragAndDrop(cell, grid);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragRoundInstanceToReallocattedGrid(string roundGroup, string round, int dragcellIdx = 3)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(dragcellIdx, new Dictionary<int, object>()
@@ -163,7 +193,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DragAndDrop(cell, grid);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragRoundInstanceToRoundGrid(string roundGroup, string round, int dragcellIdx = 3)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(dragcellIdx, new Dictionary<int, object>()
@@ -175,13 +205,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DragAndDrop(cell, grid);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage ClickUnallocatedRow(int rowIdx = 0)
         {
             UnallocatedTableEle.ClickCell(rowIdx, 0);
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragUnallocatedRowToRoundInstance(string roundGroup, string round)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(4, new Dictionary<int, object>()
@@ -203,7 +233,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             a.Release().Perform();
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyTaskAllocated(string roundGroup, string round)
         {
             SleepTimeInMiliseconds(200);
@@ -216,7 +246,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(borderLeft.Contains("rgba(0, 128, 0, 1)"));
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage UnallocatedHorizontalScrollToElement(By element, bool isScrollRight = true)
         {
             IWebElement e = this.driver.FindElement(element);
@@ -224,7 +254,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             actions.MoveToElement(e).Perform();
             return this;
         }
-
+        [AllureStep]
         public List<string> GetRoundLegInstanceIds(List<string> descriptions)
         {
             List<string> RLIIds = new List<string>();
@@ -253,7 +283,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return RLIIds;
         }
-
+        [AllureStep]
         public List<RoundInstanceModel> ExpandRoundInstance(int rowCount)
         {
             List<RoundInstanceModel> roundInstanceDetails = new List<RoundInstanceModel>();
@@ -311,7 +341,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return roundInstanceDetails;
         }
-
+        [AllureStep]
         public List<RoundInstanceModel> ExpandRoundInstance(List<RoundInstanceModel> roundInstances)
         {
             List<RoundInstanceModel> roundInstanceDetails = new List<RoundInstanceModel>();
@@ -363,7 +393,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return roundInstanceDetails;
         }
-
+        [AllureStep]
         public TaskAllocationPage ScrollToFirstRow()
         {
             int count = 0;
@@ -388,7 +418,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
-
+        [AllureStep]
         public List<RoundInstanceModel> SelectExpandedUnallocated(int rowCount)
         {
             List<RoundInstanceModel> roundInstances = new List<RoundInstanceModel>();
@@ -429,13 +459,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return roundInstances;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyReAllocatedRows(List<RoundInstanceModel> expected, List<RoundInstanceModel> actual)
         {
             Assert.That(actual, Is.EquivalentTo(expected));
             return this;
         }
-
+        [AllureStep]
         public List<RoundInstanceModel> SelectRoundLegs(int rowCount)
         {
             List<RoundInstanceModel> roundInstances = new List<RoundInstanceModel>();
@@ -461,7 +491,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return roundInstances;
         }
-
+        [AllureStep]
         public TaskAllocationPage DragRoundLegRowToRoundInstance(string roundGroup, string round)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(4, new Dictionary<int, object>()
@@ -489,7 +519,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             a.Release().Perform();
             return this;
         }
-
+        [AllureStep]
         public TaskAllocationPage VerifyRoundLegIsAllocated(List<RoundInstanceModel> roundLegs)
         {
             foreach (var item in roundLegs)
@@ -530,6 +560,189 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 }
                 Assert.IsTrue(roundInstanceDetails.Any(x => x.Description == item.Description));
             }
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage VerifyTaskNameDisplayed(string taskNameExp)
+        {
+            WaitUtil.WaitForElementVisible(contractTitle);
+            Assert.AreEqual(taskNameExp, GetElementText(taskName).Replace("*", "").Trim());
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage VerifyThirdTaskNameDisplayed(string taskNameExp)
+        {
+            WaitUtil.WaitForElementVisible(contractTitle);
+            Assert.AreEqual(taskNameExp, GetElementText(thirdTaskName));
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage VerifyTaskSelectedDisplayedInGrid(List<TaskInWorksheetModel> taskInWorksheetModels)
+        {
+            for(int i = 0; i < taskInWorksheetModels.Count; i++)
+            {
+                Assert.AreEqual(taskInWorksheetModels[i].id, GetElementText(string.Format(idRows, (i + 1))));
+                Assert.AreEqual(taskInWorksheetModels[i].description, GetElementText(string.Format(descRows, (i + 1))));
+                Assert.AreEqual(taskInWorksheetModels[i].service, GetElementText(string.Format(serviceRows, (i + 1))));
+            }
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage SelectTwoTaskAgainInGrid()
+        {
+            ClickOnElement(checkboxSelectAllTask);
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage DragAndDropTwoTaskToFirstUnAllocatedRound()
+        {
+            IWebElement roundCell = GetElement(firstRoundForNextDayNotAllocated);
+            WaitUtil.WaitForElementClickable(roundCell).Click();
+            WaitForLoadingIconToDisappear();
+            roundCell = GetElement(firstRoundForNextDayNotAllocated);
+            IWebElement firstTask = GetElement(firstTaskInGrid);
+            Actions a = new Actions(driver);
+            a.ClickAndHold(firstTask).Perform();
+            a.MoveToElement(roundCell).Perform();
+            a.Release().Perform();
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public string GetRoundGroupFirstUnAllocated()
+        {
+            return GetElementText(firstRoundGroupNotAllocated);
+        }
+        [AllureStep]
+        public string GetRoundNameFirstUnAllocated()
+        {
+            return GetElementText(firstRoundNameNotAllocated);
+        }
+
+        //ROUND GRID
+        private readonly By allRoundRows = By.XPath("//div[@id='roundGrid']//div[@class='grid-canvas']/div");
+        private readonly string allServiceRows = "//div[@id='roundGrid']//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'l0 r0')]";
+        private readonly string allRoundGroupRows = "//div[@id='roundGrid']//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'l1 r1')]";
+        private readonly string allRoundNameRows = "//div[@id='roundGrid']//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'l2 r2')]";
+        private readonly string allLocatorRoundAllocated = "//div[@id='roundGrid']//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'no-padding')]/span";
+        private readonly string allLocatorRoundUnAllocated = "//div[@id='roundGrid']//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'no-padding')]/div";
+
+        [AllureStep]
+        public List<RoundGroupModel> GetAllRoundInfoModelWithUnallocated()
+        {
+            List<RoundGroupModel> roundGroupModels = new List<RoundGroupModel>();
+            List<IWebElement> allRounds = GetAllElements(allRoundRows);
+            for(int i = 0; i < allRounds.Count; i++)
+            {
+                string service = GetElementText(string.Format(allServiceRows, (i + 1)));
+                string roundGroup = GetElementText(string.Format(allRoundGroupRows, (i + 1)));
+                string roundName = GetElementText(string.Format(allRoundNameRows, (i + 1)));
+                string[] locators = new string[2];
+                for(int j = 0; j < 2; j++) {
+                    if(IsControlDisplayed(string.Format(allLocatorRoundUnAllocated, (j+1)))) {
+                        locators[j] = string.Format(allLocatorRoundUnAllocated);
+                    } else
+                    {
+                        locators[j] = string.Format(allLocatorRoundUnAllocated);
+                    }
+                }
+
+                roundGroupModels.Add(new RoundGroupModel(service, roundGroup, roundName, locators));
+            }
+            return roundGroupModels;
+        }
+
+        //CONFIRMATION NEEDED POPUP
+        private readonly By titleConfirmationPopup = By.XPath("//h4[text()='Confirmation Needed']");
+        private readonly By contentConfirmationPopup = By.XPath("//div[text()='Allocating 2 Task(s) onto Round Instance for a different day!']");
+        private readonly By closePopupBtn = By.XPath("//h4[text()='Confirmation Needed']/preceding-sibling::button");
+        private readonly By allocateAllBtn = By.XPath("//button[text()='Allocate All']");
+        private readonly By allocatedTasksBtn = By.XPath("//button[text()='Allocate Tasks where date is same']");
+
+        //REASON NEEDED POPUP
+        private readonly By titleReasonNeededPopup = By.XPath("//h4[text()='Reason Needed']");
+        private readonly By contentReasonNeededPopup = By.XPath("//label[contains(text(), 'Please select the reason below and confirm.')]");
+        private readonly By selectReasonDd = By.XPath("//label[contains(text(), 'Please select the reason below and confirm.')]/following-sibling::select");
+        private readonly By badweatherReason = By.XPath("//label[contains(text(), 'Please select the reason below and confirm.')]/following-sibling::select/option[text()='Bad Weather']");
+        private readonly By confirmBtn = By.XPath("//button[text()='Confirm']");
+
+        [AllureStep]
+        public TaskAllocationPage IsConfirmationNeededPopup()
+        {
+            WaitUtil.WaitForElementVisible(titleConfirmationPopup);
+            Assert.IsTrue(IsControlDisplayed(contentConfirmationPopup));
+            Assert.IsTrue(IsControlDisplayed(closePopupBtn));
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage ClickOnAllocateAllBtn()
+        {
+            ClickOnElement(allocateAllBtn);
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage IsReasonNeededPopup()
+        {
+            WaitUtil.WaitForElementVisible(titleReasonNeededPopup);
+            WaitUtil.WaitForElementVisible(contentReasonNeededPopup);
+            Assert.IsTrue(IsControlDisplayed(contentReasonNeededPopup));
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage ClickReasonDdAndSelectReason()
+        {
+            ClickOnElement(selectReasonDd);
+            ClickOnElement(badweatherReason);
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage ClickOnConfirmBtn()
+        {
+            ClickOnElement(confirmBtn);
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage VerifyTaskNoLongerDisplayedInGrid()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(allTaskInGrid));
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage VerifyTaskDisplayedInGrid()
+        {
+            Assert.IsTrue(IsControlDisplayed(allTaskAfterDragAndDrop));
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage HoverDateAndVerifyTaskDisplayGreenColor()
+        {
+            HoverOverElement(firstRoundForNextDayNotAllocated);
+            //Verify
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage DragAndDropRoundToGrid()
+        {
+            DragAndDrop(firstRoundAllocated, taskGrid);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        private readonly By idSearchTextbox = By.XPath("//div[contains(@id, 'round-tab')]//div[contains(@class, 'ui-state-default')]//div[contains(@class, 'l3')]//input[contains(@class, 'value')]");
+
+        [AllureStep]
+        public TaskAllocationPage SendKeyInId(string taskId)
+        {
+            SendKeys(idSearchTextbox, taskId);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public TaskAllocationPage VerifyRoundInstanceStatusCompleted()
+        {
+            IWebElement cell = RoundTabTableEle.GetCell(0, 4);
+            IWebElement img = cell.FindElement(By.XPath("./div//img"));
+            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.png"));
             return this;
         }
     }

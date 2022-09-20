@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
@@ -45,12 +46,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             get => new TableElement(ReviewRiskTable, ReviewRiskRow, new List<string>() { ReviewRiskNameCell, ReviewRiskLevelCell, ReviewRiskTypeCell, ReviewRiskProximityAlertCell, ReviewRiskStartDateCell, ReviewRiskEndDateCell });
         }
 
+        [AllureStep]
         public RiskRegisterPage SelectRiskCheckbox(int rowIdx)
         {
             RiskTableEle.ClickCell(rowIdx, 0);
             return this;
         }
-
+        [AllureStep]
         public RiskRegisterModel GetReviewRiskData()
         {
             return new RiskRegisterModel()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -47,6 +48,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private const string allocatedUnitOption = "//label[text()=' Allocated Unit']/following-sibling::div/select/option[text()='{0}']";
         private const string assignedUserOption = "//div[@id='inspection-modal']//label[text()='Assigned User']/following-sibling::div/select/option[text()='{0}']";
 
+        [AllureStep]
         public ServiceUnitDetailPage WaitForServiceUnitDetailPageDisplayed(string serviceName)
         {
             WaitForLoadingIconToDisappear();
@@ -55,6 +57,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
+        [AllureStep]
         public ServiceUnitDetailPage ClickOnInspectionBtn()
         {
             ClickOnElement(inspecBtn);
@@ -62,6 +65,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         }
 
         //INSPECTION MODEL
+        [AllureStep]
         public ServiceUnitDetailPage IsCreateInspectionPopup()
         {
             WaitUtil.WaitForElementVisible(createTitle);
@@ -81,7 +85,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(GetCssValue(allocatedUnitDd, "border-color"), CommonConstants.BoderColorMandatory);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyDefaulValue()
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(inspectionTypeDd), "Select... ...");
@@ -92,13 +96,13 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(GetAttributeValue(validToInput, "value"), CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT));
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickClosePopupBtn()
         {
             ClickOnElement(closeBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyPopupDisappears()
         {
             WaitUtil.WaitForElementInvisible(createTitle);
@@ -106,75 +110,75 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.IsTrue(IsControlUnDisplayed(sourceDd));
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickCancelBtn()
         {
             ClickOnElement(cancelBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickAndSelectInspectionType(string inspectionTypeValue)
         {
             ClickOnElement(inspectionTypeDd);
             ClickOnElement(inspectionTypeOption, inspectionTypeValue);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickAndSelectAllocatedUnit(string allocatedUnitValue)
         {
             ClickOnElement(allocatedUnitDd);
             ClickOnElement(allocatedUnitOption, allocatedUnitValue);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickAndSelectAssignedUser(string assignedUserValue)
         {
             ClickOnElement(assignedUserDd);
             ClickOnElement(assignedUserOption, assignedUserValue);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage InputValidTo(string validFromTo)
         {
             SendKeys(validToInput, validFromTo);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickCreateBtn()
         {
             ClickOnElement(createBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage InputNote(string noteValue)
         {
             SendKeys(noteInput, noteValue);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyDefaultSourceDd(string sourceValue)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(sourceDd), sourceValue);
             return this;
         }
-
+        [AllureStep]
         public string GetServiceUnitId()
         {
             return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/service-units/", "");
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyServiceUnitId(string serviceUnitIdEx, string serviceUnitIdDisplayed)
         {
             Assert.AreEqual(serviceUnitIdEx, serviceUnitIdDisplayed);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyServiceUnitId(string serviceUnitIdExp)
         {
             Assert.AreEqual(serviceUnitIdExp, GetServiceUnitId());
             return this;
         }
-                public ServiceUnitDetailPage VerifyServiceUnitDetailTab(ServiceUnitDBModel serviceUnitDBModel, ServiceUnitTypeDBModel serviceUnitTypeDBModel, PointSegmentDBModel pointSegmentDBModel, StreetDBModel streetDBModel)
+        [AllureStep]        public ServiceUnitDetailPage VerifyServiceUnitDetailTab(ServiceUnitDBModel serviceUnitDBModel, ServiceUnitTypeDBModel serviceUnitTypeDBModel, PointSegmentDBModel pointSegmentDBModel, StreetDBModel streetDBModel)
         {
             Assert.AreEqual(serviceUnitDBModel.serviceunit, GetAttributeValue(serviceUnitInput, "value"));
             Assert.AreEqual(serviceUnitTypeDBModel.serviceunittype, GetFirstSelectedItemInDropdown(serviceUnitTypeDd));
@@ -208,7 +212,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(streetDBModel.street, GetAttributeValue(streetInput, "value"));
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickOnServiceUnitPointsTab()
         {
             ClickOnElement(serviceUnitPointsTab);
@@ -224,6 +228,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public const string startDateRow = "//tr[{0}]//input[@name='startDate']";
         public const string endDateRow = "//tr[{0}]//input[@name='endDate']";
 
+        [AllureStep]
         public List<ServiceUnitPointModel> GetAllServiceUnitPointInTab()
         {
             List<ServiceUnitPointModel> result = new List<ServiceUnitPointModel>();
@@ -242,7 +247,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return result;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyFirstServiceUnitPoint(ServiceUnitPointModel serviceUnitPointModel, string unitpointId, string desc, string type, string endDate)
         {
             Assert.AreEqual(unitpointId, serviceUnitPointModel.serviceUnitPointID);
@@ -251,13 +256,13 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(endDate, serviceUnitPointModel.endDate);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifySecondServiceUnitPoint(ServiceUnitPointModel serviceUnitPointModel, string unitpointId)
         {
             Assert.AreEqual(unitpointId, serviceUnitPointModel.serviceUnitPointID);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyServiceUnitPointAddressWithDB(List<ServiceUnitPointModel> serviceUnitPointModels, List<ServiceUnitPointDBModel> serviceUnitPointAllDataDBModel, PointAddressModel pointAddressFirstRow, string pointAddressSecondRow)
         {
             Assert.AreEqual(serviceUnitPointAllDataDBModel[0].serviceunitpointID.ToString(), serviceUnitPointModels[0].serviceUnitPointID);
@@ -278,7 +283,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyServiceUnitPointSegmentWithDB(List<ServiceUnitPointModel> serviceUnitPointModels, List<ServiceUnitPointDBModel> serviceUnitPointAllDataDBModel, PointSegmentDBModel pointSegmentDBModelFirstRow, string addressSecondRow)
         {
             Assert.AreEqual(serviceUnitPointAllDataDBModel[0].serviceunitpointID.ToString(), serviceUnitPointModels[0].serviceUnitPointID, "Wrong serviceUnitPointID");
@@ -300,6 +305,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
+        [AllureStep]
         public ServiceUnitDetailPage VerifyServiceUnitPointAreaWithDB(List<ServiceUnitPointModel> serviceUnitPointModels, List<ServiceUnitPointDBModel> serviceUnitPointAllDataDBModel, PointAreaDBModel pointAreaDBModel, string addressSecondRow)
         {
             Assert.AreEqual(serviceUnitPointAllDataDBModel[0].serviceunitpointID.ToString(), serviceUnitPointModels[0].serviceUnitPointID, "Wrong serviceUnitPointID");
@@ -320,7 +326,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage VerifyServiceUnitPointNodeWithDB(List<ServiceUnitPointModel> serviceUnitPointModels, List<ServiceUnitPointDBModel> serviceUnitPointAllDataDBModel, PointNodeDBModel pointNodeDBModel, string addressSecondRow)
         {
             Assert.AreEqual(serviceUnitPointAllDataDBModel[0].serviceunitpointID.ToString(), serviceUnitPointModels[0].serviceUnitPointID, "Wrong serviceUnitPointID");

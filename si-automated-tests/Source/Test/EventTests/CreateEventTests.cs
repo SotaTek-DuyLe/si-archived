@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -1242,19 +1243,6 @@ namespace si_automated_tests.Source.Test.EventTests
                 }
             }
 
-            //Get Point History from SP
-            SqlCommand command_PointHistory = new SqlCommand("GetPointHistory", DbContext.Connection);
-            command_PointHistory.CommandType = CommandType.StoredProcedure;
-            command_PointHistory.Parameters.Add("@EventID", SqlDbType.Int).Value = 0;
-            command_PointHistory.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
-            command_PointHistory.Parameters.Add("@PointID", SqlDbType.Int).Value = pointID;
-            command_PointHistory.Parameters.Add("@UserID", SqlDbType.Int).Value = 54;
-
-            using (SqlDataReader reader = command_PointHistory.ExecuteReader())
-            {
-                pointHistoryDBModels = ObjectExtention.DataReaderMapToList<PointHistoryDBModel>(reader);
-            }
-
             //Get [Service] withour serviceUnit
             List<ServiceForPointDBModel> serviceForPointDBModelsWithoutServiceUnit = serviceForPoint.FindAll(x => x.serviceunit.Equals("No Service Unit"));
 
@@ -1333,6 +1321,20 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             List<PointHistoryModel> pointHistoryModelsInPointHistorySubTab = eventDetailPage
                 .GetAllPointHistory();
+
+            //Get Point History from SP
+            SqlCommand command_PointHistory = new SqlCommand("GetPointHistory", DbContext.Connection);
+            command_PointHistory.CommandType = CommandType.StoredProcedure;
+            command_PointHistory.Parameters.Add("@EventID", SqlDbType.Int).Value = 0;
+            command_PointHistory.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
+            command_PointHistory.Parameters.Add("@PointID", SqlDbType.Int).Value = pointID;
+            command_PointHistory.Parameters.Add("@UserID", SqlDbType.Int).Value = 54;
+
+            using (SqlDataReader reader = command_PointHistory.ExecuteReader())
+            {
+                pointHistoryDBModels = ObjectExtention.DataReaderMapToList<PointHistoryDBModel>(reader);
+            }
+
             eventDetailPage
                 .VerifyPointHistoryInSubTab(pointHistoryDBModels, pointHistoryModelsInPointHistorySubTab);
             //Line 15

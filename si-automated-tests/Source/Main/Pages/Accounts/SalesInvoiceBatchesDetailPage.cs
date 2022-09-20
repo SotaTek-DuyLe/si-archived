@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -25,6 +26,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         //DYNAMIC
         private readonly string statusSaleInvoice = "//h5[text()='{0}']";
 
+        [AllureStep]
         public SalesInvoiceBatchesDetailPage IsSalesInvoiceBatchesDetailPage(string statusValue, string idValue)
         {
             WaitUtil.WaitForElementVisible(title);
@@ -32,31 +34,29 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.IsTrue(IsControlDisplayed(statusSaleInvoice, statusValue));
             return this;
         }
-
+        [AllureStep]
         public SalesInvoiceBatchesDetailPage ClickOnInvoiceTab()
         {
             ClickOnElement(invoicesTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
 
         public SalesInvoiceBatchesDetailPage FilterByInvoiceId(string id)
         {
             SendKeys(filterInputById, id);
             SendKeys(filterInputById, Keys.Enter);
             WaitForLoadingIconToDisappear();
-            WaitUtil.WaitForElementVisible(applyBtn);
-            ClickOnElement(applyBtn);
-            WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public SalesInvoiceDetailPage DoubleClickOnAnyInvoiceRow()
         {
             DoubleClickOnElement(firstRecordRow);
             return PageFactoryManager.Get<SalesInvoiceDetailPage>();
         }
-
+        [AllureStep]
         public SalesInvoiceBatchesDetailPage IsWariningSaleInvoiceBatchesPopup()
         {
             WaitUtil.WaitForElementVisible(warningTitle);
@@ -67,7 +67,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.IsTrue(IsControlDisplayed(closeBtn));
             return this;
         }
-
+        [AllureStep]
         public SalesInvoiceBatchesPage ClickOnYesOnWarningPopupBtn()
         {
             ClickOnElement(yesBtn);
