@@ -176,6 +176,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             return this;
         }
 
+        [AllureStep]
         public AssetAndProducTab VerifyInputAssetAndProduct(int quantity, string type, string tenureVal, string productVal, string ewcCode)
         {
             VerifyInputValue(assetQuantity, quantity.AsString());

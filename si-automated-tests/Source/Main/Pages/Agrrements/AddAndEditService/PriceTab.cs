@@ -146,6 +146,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             return this;
         }
 
+        [AllureStep]
         public PriceTab InputPrices(List<(string title, string value)> commercialCustomers)
         {
             foreach (var commercialCustomer in commercialCustomers)
@@ -171,6 +172,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             return this;
         }
 
+        [AllureStep]
         public PriceTab ClickPrice(string commercialCustomer)
         {
             IWebElement table = GetElement(PriceTable);
