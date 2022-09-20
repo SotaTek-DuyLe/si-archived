@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -17,12 +18,14 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By firstResult = By.XPath("//div[@class='grid-canvas']/div[1]");
 
 
+        [AllureStep]
         public PartyCommonPage ClickAddNewItem()
         {
             WaitForLoadingIconToDisappear();
             ClickOnElement(AddNewItem);
             return this;
         }
+        [AllureStep]
         public List<PartyModel> GetAllPartyListing()
         {
             List<PartyModel> list = new List<PartyModel>();
@@ -47,6 +50,7 @@ namespace si_automated_tests.Source.Main.Pages
 
             return list;
         }
+        [AllureStep]
         public PartyCommonPage VerifyPartyCreated(PartyModel partyModelInput, PartyModel partyModelActual)
         {
             Assert.AreEqual(partyModelActual.ContractName, partyModelInput.ContractName);
@@ -55,6 +59,7 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.AreEqual(partyModelActual.StartDate, partyModelInput.StartDate);
             return this;
         }
+        [AllureStep]
         public PartyCommonPage FilterPartyById(int id)
         {
             WaitForLoadingIconToDisappear();
@@ -64,7 +69,7 @@ namespace si_automated_tests.Source.Main.Pages
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public PartyCommonPage FilterPartyById(string id)
         {
             WaitForLoadingIconToDisappear();
@@ -75,7 +80,7 @@ namespace si_automated_tests.Source.Main.Pages
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage OpenFirstResult()
         {
             DoubleClickOnElement(firstResult);

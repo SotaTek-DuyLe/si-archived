@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
@@ -59,6 +60,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             get => new TableElement(RLITable, RLIRow, new List<string>() { RLICheckboxCell, RLIIdCell, RLIDescriptionCell, RLIServiceCell });
         }
 
+        [AllureStep]
         public List<string> SelectRLI(List<string> RLIIDs)
         {
             List<string> descriptions = new List<string>();
@@ -87,6 +89,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             get => roundInstanceEventTableEle;
         }
 
+        [AllureStep]
         public RoundInstanceForm VerifyNewRoundInstanceEventData(string eventType, string resource)
         {
             VerifyCellValue(RoundInstanceEventTableEle, 0, 2, eventType);
@@ -95,6 +98,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
         #endregion
 
+        [AllureStep]
         public RoundInstanceForm SelectStatus(string status)
         {
             SleepTimeInMiliseconds(300);
@@ -103,6 +107,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        [AllureStep]
         public RoundInstanceForm IsRoundInstanceForm(string serviceId)
         {
             WaitUtil.WaitForElementVisible(title);
@@ -110,20 +115,21 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        [AllureStep]
         public RoundInstanceForm ClickOnWorksheetTab()
         {
             ClickOnElement(WorksheetTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public RoundInstanceForm ClickOnExpandRoundBtn()
         {
             ClickOnElement(expandRoundBtn);
             WaitUtil.WaitForPageLoaded();
             return this;
         }
-
+        [AllureStep]
         public List<TaskInWorksheetModel> GetAllTaskInWorksheetTab(int numberOfTasks)
         {
             List<TaskInWorksheetModel> taskInWorksheetModels = new List<TaskInWorksheetModel>();
@@ -143,32 +149,32 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return taskInWorksheetModels;
         }
-
+        [AllureStep]
         public RoundInstanceForm SelectTwoTaskInGrid(string firstTask, string secondTask)
         {
             ClickOnElement(firstTask);
             ClickOnElement(secondTask);
             return this;
         }
-
+        [AllureStep]
         public RoundInstanceForm ClickReallocateBtn()
         {
             ClickOnElement(ReallocateButton);
             return this;
         }
-
+        [AllureStep]
         public string GetTaskName()
         {
             string taskNameDisplayed = GetElementText(taskName);
             return taskNameDisplayed.Split(Environment.NewLine)[0].Replace(":", " ").Split("(")[0].Trim();
         }
-
+        [AllureStep]
         public RoundInstanceForm SendKeyInId(string taskId)
         {
             SendKeys(idSearch, taskId);
             return this;
         }
-
+        [AllureStep]
         public RoundInstanceForm VerifyTaskNoLongerDisplayedInGrid()
         {
             Assert.IsTrue(IsControlUnDisplayed(allTaskRows));
@@ -181,19 +187,20 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By statusDd = By.XPath("//label[text()='Status']/following-sibling::div//button");
         private readonly string anyStatusOption = "//span[text()='{0}']/ancestor::li";
 
+        [AllureStep]
         public RoundInstanceForm ClickOnDetailTab()
         {
             ClickOnElement(detailTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public RoundInstanceForm AddNotes(string noteValue)
         {
             SendKeys(noteInput, noteValue);
             return this;
         }
-
+        [AllureStep]
         public RoundInstanceForm ClickOnStatusDdAndSelectValue(string statusValue)
         {
             ClickOnElement(statusDd);
@@ -207,14 +214,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By actionNameInFirstHistoryRow = By.XPath("//div[@id='history-tab']//div[@class='grid-canvas']/div[1]//div[contains(@class, 'l1')]");
         private readonly By detailInFirstHistoryRow = By.XPath("//div[@id='history-tab']//div[@class='grid-canvas']/div[1]//button");
         private readonly By createdByUserInFirstHistoryRow = By.XPath("//div[@id='history-tab']//div[@class='grid-canvas']/div[1]//div[contains(@class, 'l6')]");
-            
+        
+        [AllureStep]
         public RoundInstanceForm ClickOnHistoryTab()
         {
             ClickOnElement(historyTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public RoundInstanceForm VerifyFirstHistoryRow(string typeExp, string actionNameExp, string detailValueExp, string createdByUserExp) 
         {
             Assert.AreEqual(typeExp, GetElementText(typeInFirstHistoryRow));
@@ -227,7 +235,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         //EVENTS TAB
         private readonly By eventsTab = By.CssSelector("a[aria-controls='roundInstanceEvents-tab']");
         private readonly By addNewItemBtn = By.XPath("//div[@id='roundInstanceEvents-tab']//button[text()='Add New Item']");
-
+       
+        [AllureStep]
         public RoundInstanceForm ClickOnEventsTab()
         {
             ClickOnElement(eventsTab);
@@ -235,6 +244,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        [AllureStep]
         public RoundInstanceForm ClickOnAddNewItemBtn()
         {
             ClickOnElement(addNewItemBtn);

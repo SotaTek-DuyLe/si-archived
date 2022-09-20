@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -72,7 +73,8 @@ namespace si_automated_tests.Source.Main.Pages.Streets
         private const string roadTypeOption = "//select[@id='roadType.id']/option[text()='{0}']";
         private const string anySectorRow = "//div[@id='sectors-tab']//td[text()='{0}']";
 
-       
+
+        [AllureStep]
         public StreetDetailPage IsStreetDetailPage(string streetNameValue)
         {
             WaitUtil.WaitForElementVisible(title);
@@ -80,7 +82,7 @@ namespace si_automated_tests.Source.Main.Pages.Streets
             Assert.IsTrue(IsControlDisplayed(streetName, streetNameValue), "Street name " + streetNameValue + " is not displayed");
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage VerifyTopBarActionDisplayed()
         {
             Assert.IsTrue(IsControlDisplayed(saveBtn), "Save button is not displayed");
@@ -94,7 +96,7 @@ namespace si_automated_tests.Source.Main.Pages.Streets
             Assert.AreEqual("true", GetAttributeValue(saveAndCloseBtn, "disabled"));
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage ClicHistoryBtnAndVerify(string streetId)
         {
             ClickOnElement(historyBtn);
@@ -107,7 +109,7 @@ namespace si_automated_tests.Source.Main.Pages.Streets
                 .SwitchToChildWindow(3);
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage ClickAndVerifyHelp()
         {
             ClickOnElement(helpBtn);
@@ -118,21 +120,21 @@ namespace si_automated_tests.Source.Main.Pages.Streets
             SwitchToChildWindow(3);
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage VerifyObjectHeader(string urlIconValue, string streetIdValue)
         {
             Assert.AreEqual(WebUrl.MainPageUrl + urlIconValue, GetAttributeValue(icon, "src"));
             Assert.AreEqual(streetIdValue, GetElementText(streetId));
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage ClickOnPostCodeOutwardsTab()
         {
             ClickOnElement(postCodeOutwardsTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage VerifyPostCodeOutwardsTabIsSelected()
         {
             Assert.AreEqual("true", GetAttributeValue(postCodeOutwardsTab, "aria-expanded"));
@@ -140,13 +142,14 @@ namespace si_automated_tests.Source.Main.Pages.Streets
         }
 
         //DETAILS TAB
+        [AllureStep]
         public StreetDetailPage ClickOnDetailTab()
         {
             ClickOnElement(detailsTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage VerifyFieldInDetailTab()
         {
             WaitUtil.WaitForElementVisible(streetTypeDd);
@@ -157,13 +160,13 @@ namespace si_automated_tests.Source.Main.Pages.Streets
             
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage VerifyDefaultValueInRoadType(string roadTypeValue)
         {
             Assert.AreEqual(roadTypeValue, GetFirstSelectedItemInDropdown(roadTypeDd));
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage ClickStreetTypeDdAndVerify(List<StreetTypeDBModel> streetTypeDBModels)
         {
             ClickOnElement(streetTypeDd);
@@ -173,19 +176,19 @@ namespace si_automated_tests.Source.Main.Pages.Streets
             }
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage SelectStreetType(string streetTypeValue)
         {
             ClickOnElement(streetTypeOption, streetTypeValue);
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage VerifyDefaultValueInStreetName(string streetNameValue)
         {
             Assert.AreEqual(streetNameValue, GetAttributeValue(streetNameInput, "value"));
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage ClickRoadTypeDdAndVerify(List<RoadTypeDBModel> roadTypeDBModels)
         {
             ClickOnElement(roadTypeDd);
@@ -195,7 +198,7 @@ namespace si_automated_tests.Source.Main.Pages.Streets
             }
             return this;
         }
-
+        [AllureStep]
         private List<string> GetAllRoadTypeOptionInList()
         {
             List<string> allTypes = new List<string>();
@@ -206,7 +209,7 @@ namespace si_automated_tests.Source.Main.Pages.Streets
             }
             return allTypes;
         }
-
+        [AllureStep]
         public StreetDetailPage VerifyRoadTypeOptionDisplayOrderAlphabet()
         {
             List<string> allRoadTypeValue = GetAllRoadTypeOptionInList();
@@ -217,13 +220,13 @@ namespace si_automated_tests.Source.Main.Pages.Streets
             CollectionAssert.AreEqual(newRoadType, allRoadTypeValue);
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage ClearTextInStreetName()
         {
             ClearInputValue(streetNameInput);
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage InputTextInStreetName(string streetNameValue)
         {
             SendKeys(streetNameInput, streetNameValue);
@@ -231,26 +234,27 @@ namespace si_automated_tests.Source.Main.Pages.Streets
         }
 
         //DATA TAB
+        [AllureStep]
         public StreetDetailPage ClickOnDataTab()
         {
             ClickOnElement(dataTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage VerifyDataTabAfterSelectStreetType()
         {
             WaitUtil.WaitForElementVisible(accessPointInput);
             Assert.IsTrue(IsControlDisplayed(accessPointInput), "Access Point is not displayed");
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage SendKeyInAccessPoint(string accessPointValue)
         {
             SendKeys(accessPointInput, accessPointValue);
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage VerifyAccessPointAfterSaveForm(string accessPointValue)
         {
             Assert.AreEqual(accessPointValue, GetAttributeValue(accessPointInput, "value"));
@@ -258,13 +262,14 @@ namespace si_automated_tests.Source.Main.Pages.Streets
         }
 
         //Post Code Outwards tab
+        [AllureStep]
         public StreetDetailPage ClickOnPostCodeOutwards()
         {
             ClickOnElement(postCodeOutwardsTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage VerifyDataInPostCodeOutwardsTab(string valueInDb, string totalInDb)
         {
             Assert.AreEqual(valueInDb, GetElementText(postCodeOutwardsValue));
@@ -273,13 +278,14 @@ namespace si_automated_tests.Source.Main.Pages.Streets
         }
 
         //Sectors tab
+        [AllureStep]
         public StreetDetailPage ClickOnSectorsTab()
         {
             ClickOnElement(sectorsTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage VerifyDataInSectorTab(List<SectorDBModel> sectorDBModels)
         {
             for(int i = 0; i < sectorDBModels.Count; i++)
@@ -293,13 +299,14 @@ namespace si_automated_tests.Source.Main.Pages.Streets
         }
 
         //Map tab
+        [AllureStep]
         public StreetDetailPage ClickOnMapTab()
         {
             ClickOnElement(mapTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public StreetDetailPage VerifySegmentValue(string segmentInDb)
         {
             Assert.AreEqual(segmentInDb, GetElementText(segmentText));
@@ -307,13 +314,15 @@ namespace si_automated_tests.Source.Main.Pages.Streets
         }
 
         //Risks tab
+
+        [AllureStep]
         public StreetDetailPage ClickOnRisksTab()
         {
             ClickOnElement(risksTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public List<RiskModel> GetAllRiskInTab()
         {
             SwitchNewIFrame(riskIframe);
@@ -344,7 +353,7 @@ namespace si_automated_tests.Source.Main.Pages.Streets
             }
             return riskModels;
         }
-
+        [AllureStep]
         public StreetDetailPage VerifyRisksWithContractAndName(List<RiskModel> riskModelsDisplayed, string[] contractName, string[] riskName) 
         {
             for(int i = 0; i < riskModelsDisplayed.Count; i++)
@@ -354,7 +363,7 @@ namespace si_automated_tests.Source.Main.Pages.Streets
             }
             return this;
         }
-
+        [AllureStep]
         public RiskDetailPage ClickAnyRiskRowShowRiskDetailPage()
         {
             ClickOnElement(firstCheckboxRiskRow);

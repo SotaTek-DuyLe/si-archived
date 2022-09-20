@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using si_automated_tests.Source.Core;
@@ -53,6 +54,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             get => unallocatedTableEle;
         }
 
+        [AllureStep]
         public RoundInstanceDetailPage VerifyRoundInstanceStatusCompleted()
         {
             IWebElement cell = UnallocatedTableEle.GetCell(0, 1);

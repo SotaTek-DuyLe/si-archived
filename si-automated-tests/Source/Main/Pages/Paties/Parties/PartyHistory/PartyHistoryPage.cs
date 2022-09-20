@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -12,6 +13,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyHistory
         //private readonly By firstAccountingRef = By.XPath("//div[@id='partyHistory-tab']//div[contains(@data-bind,'html: ew.renderChangesHtml($data.changes)')]");
         private readonly By firstAccountingRef = By.XPath("//div[@id='partyHistory-tab']//div[@class='pull-left']/div");
 
+        [AllureStep]
         public PartyHistoryPage VerifyNewestAccountingReference(string expected)
         {
             var actualText = GetElementText(firstAccountingRef);

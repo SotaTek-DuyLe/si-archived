@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -14,6 +15,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementLine
         private string allRows = "//div[@class='grid-canvas']/div";
         private string idColumns = "//div[@class='grid-canvas']/div/div[contains(@class,'r5')]/div";
         private string taskStateColumn = "//div[@class='grid-canvas']/div/div[contains(@class,'r6')]";
+
+        [AllureStep]
         public List<AgreementTaskModel> GetAllTaskInListAgreementLine()
         {
             List<AgreementTaskModel> list = new List<AgreementTaskModel>();
@@ -32,7 +35,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementLine
             }
             return list;
         }
-
+        [AllureStep]
         public AgreementLineTaskTab VerifyTaskStateWithIdsAgreementLine(int[] idList, string state)
         {
             List<AgreementTaskModel> listTasks = this.GetAllTaskInListAgreementLine();

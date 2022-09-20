@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -27,13 +28,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string anyRoundEventTypeOption = "//label[text()='Round Event Type']/following-sibling::select/option[text()='{0}']";
         private readonly string anyResourceOption = "//label[text()='Resource']/following-sibling::select/option[text()='{0}']";
 
+        [AllureStep]
         public RoundInstanceEventDetailPage IsRoundInstanceEventDetailPage()
         {
             WaitUtil.WaitForElementVisible(title);
             Assert.IsTrue(IsControlDisplayed(detailTab));
             return this;
         }
-
+        [AllureStep]
         public RoundInstanceEventDetailPage SelectRoundEventTypeAndResource(string roundEventTypeValue, string resourceValue)
         {
             //Select - Round Event Type
@@ -45,20 +47,20 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             ClickOnElement(anyResourceOption, resourceValue);
             return this;
         }
-
+        [AllureStep]
         public RoundInstanceEventDetailPage ClickOnHistoryTab()
         {
             ClickOnElement(historyTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public RoundInstanceEventDetailPage ClickOnFirstValueInDetailColumn()
         {
             ClickOnElement(firstValueInDetailColumn);
             return this;
         }
-
+        [AllureStep]
         public RoundInstanceEventDetailPage IsHistoryPopup()
         {
             WaitUtil.WaitForAllElementsVisible(titleHistoryPopup);
@@ -66,7 +68,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(IsControlDisplayed(closeHistoryPopupBtn));
             return this;
         }
-
+        [AllureStep]
         public RoundInstanceEventDetailPage ClickOnCloseHistoryPopup()
         {
             ClickOnElement(closeHistoryPopupBtn);

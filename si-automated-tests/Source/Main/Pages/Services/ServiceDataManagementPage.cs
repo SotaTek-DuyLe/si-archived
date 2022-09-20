@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -32,6 +33,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string actionOption = "//div[@class='action-container']/button[text()='{0}']";
         private readonly string anyServicesGroupByContract = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/i[1]";
 
+        [AllureStep]
         public ServiceDataManagementPage IsServiceDataManagementPage()
         {
             WaitUtil.WaitForElementVisible(serviceLocationTypeTitle);
@@ -41,7 +43,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(IsControlDisplayed(popOutBtn));
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickServiceLocationTypeDdAndSelectOption(string typeOptionValue)
         {
             ClickOnElement(selectTypeDd);
@@ -49,21 +51,21 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(serviceTypeOption, typeOptionValue);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickOnServicesAndSelectGroupInTree(string serviceGroupName)
         {
             ClickOnElement(inputServicesTree);
             ClickOnElement(anyServicesGroupByContract, serviceGroupName);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickOnApplyFiltersBtn()
         {
             ClickOnElement(applyFiltersBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage VerifyWarningPopupDisplayed()
         {
             WaitUtil.WaitForElementVisible(warningTitle);
@@ -73,31 +75,31 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(IsControlEnabled(cancelBtn));
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickOnOkBtn()
         {
             ClickOnElement(okBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickOnSelectAndDeselectBtn()
         {
             ClickOnElement(selectAndDeselectBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickOnNextBtn()
         {
             ClickOnElement(nextBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage RightClickOnFirstRowWithServiceTaskSchedule()
         {
             RightClickOnElement(firstRowWithServiceTaskSchedule);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage VerifyActionMenuDisplayedWithActions()
         {
             foreach(string action in CommonConstants.ActionMenuSDM)
@@ -106,7 +108,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage VerifyActionInActionMenuDisabled(string[] nameActions)
         {
             foreach(string action in nameActions)
@@ -115,7 +117,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage RightClickOnFirstRowWithoutServiceTaskSchedule()
         {
             RightClickOnElement(firstRowWithoutServiceTaskSchedule);

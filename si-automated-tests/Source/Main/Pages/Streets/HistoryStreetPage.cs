@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -10,6 +11,7 @@ namespace si_automated_tests.Source.Main.Pages.Streets
         //DYNAMIC
         private const string anyColumnHistory = "//th[text()='{0}']";
 
+        [AllureStep]
         public HistoryStreetPage IsHistoryStreetPage()
         {
             WaitUtil.WaitForElementVisible(anyColumnHistory, CommonConstants.HistoryStreetColumn[0]);
@@ -19,7 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.Streets
             }
             return this;
         }
-
+        [AllureStep]
         public HistoryStreetPage VerifyCurrentUrlHistoryStreet(string streetId)
         {
             string currentUrl = GetCurrentUrl();

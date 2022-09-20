@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Attributes;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,8 @@ namespace si_automated_tests.Source.Main.Pages.SystemTools.SystemMonitoring
 
         private readonly By resetPasswordLink = By.XPath("//div[contains(@id,'C_View')]/descendant::a");
 
-        
+
+        [AllureStep]
         public EmailDetailPage IsOnEmailDetailPage()
         {
             Thread.Sleep(1500);
@@ -26,11 +28,13 @@ namespace si_automated_tests.Source.Main.Pages.SystemTools.SystemMonitoring
             WaitUtil.WaitForElementVisible(attributes);
             return this;
         }
+        [AllureStep]
         public EmailDetailPage ClickBodyView()
         {
             ClickOnElement(bodyView);
             return this;
         }
+        [AllureStep]
         public String GetPasswordResetLink()
         {
             return GetElementText(resetPasswordLink);

@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -18,6 +19,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By deleteBtn = By.XPath("//button[text()='Delete Item']");
         private readonly By taskRow = By.XPath("//div[@class='grid-canvas']");
 
+        [AllureStep]
         public TasksListingPage WaitForTaskListinPageDisplayed()
         {
             WaitUtil.WaitForPageLoaded();
@@ -26,7 +28,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             WaitUtil.WaitForElementVisible(deleteItem);
             return this;
         }
-
+        [AllureStep]
         public TasksListingPage FilterByTaskId(string taskId)
         {
             SendKeys(filterInputById, taskId);
@@ -34,7 +36,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public TasksListingPage FilterMultipleTaskId(string firstTaskId, string secondTaskId)
         {
             SendKeys(filterInputById, firstTaskId + "," + secondTaskId);
@@ -42,44 +44,44 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage ClickOnFirstRecord()
         {
             DoubleClickOnElement(firstRecordRow);
             return PageFactoryManager.Get<DetailTaskPage>();
         }
-
+        [AllureStep]
         public TasksListingPage ClickCheckboxFirstTaskInList()
         {
             ClickOnElement(firstCheckboxTask);
             return this;
         }
-
+        [AllureStep]
         public TasksListingPage ClickCheckboxMultipleTaskInList()
         {
             ClickOnElement(allRecordCheckbox);
             return this;
         }
-
+        [AllureStep]
         public TasksBulkUpdatePage ClickOnBulkUpdateBtn()
         {
             WaitUtil.WaitForElementVisible(bulkUpdateBtn);
             ClickOnElement(bulkUpdateBtn);
             return PageFactoryManager.Get<TasksBulkUpdatePage>();
         }
-
+        [AllureStep]
         public TasksListingPage ClickClearBtn()
         {
             ClickOnElement(clearBtn);
             return this;
         }
-
+        [AllureStep]
         public TasksListingPage ClickDeleteBtn()
         {
             ClickOnElement(deleteBtn);
             return this;
         }
-
+        [AllureStep]
         public TasksListingPage VerifyNoRecordDisplayed()
         {
             Assert.AreEqual("", GetElementText(taskRow));

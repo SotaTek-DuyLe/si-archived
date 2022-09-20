@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -46,6 +47,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
                     DestinationSiteCell, SiteProductCell, RetireButtonCell});
         }
 
+        [AllureStep]
         public ServiceTaskLineTab VerifyTaskLineIsReadOnly()
         {
             var rowCount = TaskLineTableEle.GetRows().Count;
@@ -69,13 +71,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
-
+        [AllureStep]
         public ServiceTaskLineTab DoubleClickTaskLine(int rowIdx)
         {
             TaskLineTableEle.DoubleClickRow(rowIdx);
             return this;
         }
-
+        [AllureStep]
         public ServiceTaskLineTab VerifyTaskLine(string type, string assetType, string scheduleAssetQty, string product, string sheduleProductQty, string unit, string startDate, string endDate)
         {
             VerifyCellValue(TaskLineTableEle, 0, 1, type);
@@ -88,7 +90,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             VerifyCellValue(TaskLineTableEle, 0, 10, endDate);
             return this;
         }
-
+        [AllureStep]
         public ServiceTaskLineTab verifyTaskInfo(String _assetType, String _scheduledAssetQty, String _product, String _unit, String _startDate, String _endDate)
         {
             Assert.AreEqual(_assetType, GetFirstSelectedItemInDropdown(assetType));
@@ -99,6 +101,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(_endDate, GetElementText(endDate));
             return this;
         }
+        [AllureStep]
         public ServiceTaskLineTab verifyTaskInfo(String _assetType, String _scheduledAssetQty, String _product, String _unit, String _endDate)
         {
             Assert.AreEqual(_assetType, GetFirstSelectedItemInDropdown(assetType));
@@ -108,13 +111,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(_endDate, GetElementText(endDate));
             return this;
         }
-
+        [AllureStep]
         public ServiceTaskLineTab verifyTaskLineStartDate(string date)
         {
             string startdate = GetElementText(startDate);
             Assert.AreEqual(startdate, date);
             return this;
         }
+        [AllureStep]
         public ServiceTaskLineTab verifyTaskLineEndDate(string date)
         {
             string enddate = GetElementText(endDate);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -26,6 +27,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         //DYNAMIC LOCATOR
         private const string AnyLiOption = "//li[contains(text(), '{0}')]";
 
+        [AllureStep]
         public CreateVehicleCustomerHaulierPage IsCreateVehicleCustomerHaulierPage()
         {
             WaitUtil.WaitForElementVisible(title);
@@ -42,7 +44,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
 
             return this;
         }
-
+        [AllureStep]
         public CreateVehicleCustomerHaulierPage VerifyDefaultMandatoryField()
         {
             //Mandatory field
@@ -54,7 +56,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             Assert.AreEqual(GetAttributeValue(hireEndInput, "value"), CommonConstants.EndDateAgreement);
             return this;
         }
-
+        [AllureStep]
         public CreateVehicleCustomerHaulierPage InputCustomer(string customerName)
         {
             SendKeys(customerInput, customerName);
@@ -62,7 +64,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ClickOnElement(AnyLiOption, customerName);
             return this;
         }
-
+        [AllureStep]
         public CreateVehicleCustomerHaulierPage InputHaulier(string haulierName)
         {
             SendKeys(haulierInput, haulierName);
@@ -70,13 +72,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ClickOnElement(AnyLiOption, haulierName);
             return this;
         }
-
+        [AllureStep]
         public CreateVehicleCustomerHaulierPage InputHumanResourceName(string resourceName)
         {
             SendKeys(resourceInput, resourceName);
             return this;
         }
-
+        [AllureStep]
         public CreateVehicleCustomerHaulierPage VerifyNotDisplaySuggestionInResourceInput()
         {
             Assert.IsTrue(IsControlUnDisplayed(suggestionResource));
@@ -84,7 +86,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             VerifyColorInRedRange(resourceInput);
             return this;
         }
-
+        [AllureStep]
         public CreateVehicleCustomerHaulierPage VerifyDisplayResourceRequiredMessage()
         {
             Assert.IsTrue(IsControlDisplayed(messageHumanResourceRequired));

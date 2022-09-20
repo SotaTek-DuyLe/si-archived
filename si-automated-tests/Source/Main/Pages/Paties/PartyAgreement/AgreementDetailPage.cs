@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -29,32 +30,33 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
         private const string titleDetail = "//span[text()='{0}']";
         private const string nameDetail = "//p[text()='{0}']";
 
+        [AllureStep]
         public AgreementDetailPage WaitForDetailAgreementLoaded()
         {
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(agreementName);
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage WaitForDetailAgreementLoaded(string titleA, string agreementNameA)
         {
             WaitUtil.WaitForElementVisible(string.Format(titleDetail, titleA));
             WaitUtil.WaitForElementVisible(string.Format(nameDetail, agreementNameA));
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage ClickPrimaryContactDd()
         {
             ClickOnElement(primaryContactDd);
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage ClickInvoiceContactDd()
         {
             ClickOnElement(invoiceContactDd);
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage VerifyValueInPrimaryContactDd(string[] expectedOption)
         {
             foreach (string option in expectedOption)
@@ -63,7 +65,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
             }
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage SelectAnyPrimaryContactAndVerify(ContactModel contactModel)
         {
             ClickOnElement(primaryContactValue, contactModel.FirstName + " " + contactModel.LastName);
@@ -76,7 +78,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
             Assert.AreEqual(GetFirstSelectedItemInDropdown(primaryContactDd), contactModel.FirstName + " " + contactModel.LastName);
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage VerifyValueInInvoiceContactDd(string[] expectedOption)
         {
             foreach (string option in expectedOption)
@@ -85,13 +87,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
             }
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage VerifyFirstValueInInvoiceContactDd(ContactModel contactModel)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(invoiceContactDd), contactModel.FirstName + " " + contactModel.LastName);
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage SelectAnyInvoiceContactAndVerify(ContactModel contactModel)
         {
             ClickOnElement(invoiceContactValue, contactModel.FirstName + " " + contactModel.LastName);
@@ -104,13 +106,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
             Assert.AreEqual(GetFirstSelectedItemInDropdown(invoiceContactDd), contactModel.FirstName + " " + contactModel.LastName);
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage ClickInvoiceContactDdAtServiceTable()
         {
             ClickOnElement(invoiceContactAtServiceTable);
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage VerifyValueInInvoiceContactServiceTable(string[] expectedOption)
         {
             foreach (string option in expectedOption)
@@ -119,38 +121,38 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
             }
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage SelectAnyInvoiceContactServiceTableAndVerify(ContactModel contactModel)
         {
             ClickOnElement(string.Format(invoiceContactValueAtServiceTable, contactModel.FirstName + " " + contactModel.LastName));
             Assert.AreEqual(GetFirstSelectedItemInDropdown(invoiceContactAtServiceTable), contactModel.FirstName + " " + contactModel.LastName);
             return this;
         }
-
+        [AllureStep]
         public AddInvoiceContactPage ClickAddInvoiceContactBtn()
         {
             ClickOnElement(addInvoiceContactBdn);
             return new AddInvoiceContactPage();
         }
-
+        [AllureStep]
         public AgreementDetailPage ScrollToTheRemoveBtn()
         {
             ScrollDownToElement(removeBtn);
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage ClickExpandBtn()
         {
             ClickOnElement(expandedBtn);
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage ScrollToAdhoc()
         {
             ScrollDownToElement(adhoc);
             return this;
         }
-
+        [AllureStep]
         public AgreementDetailPage VerifyNumberOfContact(int numberOfContact)
         {
             Assert.AreEqual(numberOfContact, GetAllElements(allPrimaryContactValue).Count);

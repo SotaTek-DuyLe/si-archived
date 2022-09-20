@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
@@ -31,33 +32,39 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         //Dynamic locator
         private string scheduleLink = "//a[text()='{0}']";
 
+        [AllureStep]
         public ScheduleServiceTab IsOnScheduleTab()
         {
             WaitUtil.WaitForElementVisible(addAssetScheduleBtn);
             return this;
         }
+        [AllureStep]
         public ScheduleServiceTab ClickAddService()
         {
             ClickOnElement(addAssetScheduleBtn);
             return this;
         }
+        [AllureStep]
         public ScheduleServiceTab ClickDoneScheduleBtn()
         {
             ClickOnElement(doneAssetScheduleBtn);
             return this;
         }
+        [AllureStep]
         public ScheduleServiceTab ClickDoneCurrentScheduleBtn()
         {
             ScrollDownToElement(doneCurrentAssetScheduleBtn);
             ClickOnElement(doneCurrentAssetScheduleBtn);
             return this;
         }
+        [AllureStep]
         public ScheduleServiceTab ClickDoneRequirementBtn()
         {
             ScrollDownToElement(doneScheduleReqBtn);
             ClickOnElement(doneScheduleReqBtn);
             return this;
         }
+        [AllureStep]
         public ScheduleServiceTab VerifyAssetSummary(int quantity, string type, int productQuantity, string product)
         {
             var text1 = String.Format("{0} x {1}, {2}", quantity.ToString(), type, productQuantity.ToString());
@@ -65,62 +72,70 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             Assert.IsTrue(GetElementText(summaryText).Contains(product));
             return this;
         }
+        [AllureStep]
         public ScheduleServiceTab ClickAddScheduleRequirement()
         {
             ClickOnElement(addScheduelBtn);
             return this;
         }
+        [AllureStep]
         public ScheduleServiceTab SelectFrequencyOption(string option)
         {
             ClickOnElement(frequencyOption,option);
             return this;
         }
+        [AllureStep]
         public ScheduleServiceTab UntickAnyDayOption()
         {
             if (IsElementSelected(anyDayOption)) ClickOnElement(anyDayOption);
             return this;
         }
+        [AllureStep]
         public ScheduleServiceTab TickAnyDayOption()
         {
             if (!IsElementSelected(anyDayOption)) ClickOnElement(anyDayOption);
             return this;
         }
+        [AllureStep]
         public ScheduleServiceTab SelectDayOfWeek(string day)
         {
             ClickOnElement(dayOption, day);
             return this;
         }
+        [AllureStep]
         public ScheduleServiceTab VerifyScheduleSummary(string expected)
         {
             Assert.AreEqual(expected, GetElementText(scheduleSummaryText));
             return this;
         }
+        [AllureStep]
         public ScheduleServiceTab ClickOnNotSetLink()
         {
             ScrollDownToElement(notSetLink);
             ClickOnElement(notSetLink);
             return this;
         }
-
+        [AllureStep]
         public ScheduleServiceTab ClickOnWeeklyBtn()
         {
             ClickOnElement(weeklyBtn);
             return this;
         }
-
+        [AllureStep]
         public ScheduleServiceTab VerifyScheduleOnceEveryDay()
         {
             WaitUtil.WaitForElementVisible(onceEveryDay);
             Assert.IsTrue(IsControlDisplayed(onceEveryDay));
             return this;
         }
+        [AllureStep]
         public ScheduleServiceTab InputStartDate(string date)
         {
             EditSendKeys(startDateInput, date);
             //SendKeys(startDateInput, date);
             return this;
         }
-
+        [AllureStep]
         public ScheduleServiceTab ClickOnSchedule(string schedule)
         {
             ClickOnElement(scheduleLink, schedule);
