@@ -451,6 +451,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
         public DetailTaskPage VerifyTaskCompleteDate(string completionDateExp)
         {
             Assert.AreEqual(completionDateExp, GetAttributeValue(completionDateVerdictInput, "value"), "Completion Date is not correct");
@@ -541,6 +542,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             });
         }
 
+        [AllureStep]
         public DetailTaskPage VerifyTaskLineState(string state)
         {
             VerifyCellValue(TaskLineTableEle, 0, 11, state);
