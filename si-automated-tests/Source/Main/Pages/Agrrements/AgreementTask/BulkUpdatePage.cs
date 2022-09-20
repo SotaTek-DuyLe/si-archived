@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -27,6 +28,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
         
         private string taskBulkUpdateNumText = "//label[contains(text(),'{0}')]";
 
+        [AllureStep]
         public BulkUpdatePage VerifyBulkUpdatePage(int num)
         {
             string numText = "Update " + num.ToString() + " Selected Tasks";
@@ -40,11 +42,13 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
             Assert.IsTrue(IsControlDisplayed(standardCommercialCollectionSpan));
             return this;
         }
+        [AllureStep]
         public BulkUpdatePage ExpandStandardCommercialCollection()
         {
             ClickOnElement(standardCommercialCollectionSpan);
             return this;
         }
+        [AllureStep]
 
         public BulkUpdatePage SelectCompletedState()
         {
@@ -53,34 +57,40 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
             ClickOnElement(taskStateCompleted);
             return this;
         }
+        [AllureStep]
         public BulkUpdatePage ClickResolutionText()
         {
             ClickOnElement(resolutionCodeText);
             return this;
         }
+        [AllureStep]
         public BulkUpdatePage ClickTaskCompletedDate()
         {
             ClickOnElement(taskCompletedDateInput);
             return this;
         }
+        [AllureStep]
         public BulkUpdatePage VerifyTaskCompletedDateValue(string date)
         {
             String completedDate = GetAttributeValue(taskCompletedDateInput, "value");
             Assert.IsTrue(completedDate.Contains(date));
             return this;
         }
+        [AllureStep]
 
         public BulkUpdatePage ClickTaskEndDate()
         {
             ClickOnElement(taskEndDateInput);
             return this;
         }
+        [AllureStep]
         public BulkUpdatePage VerifyTaskEndDateValue(string date)
         {
             String endDate = GetAttributeValue(taskEndDateInput, "value");
             Assert.IsTrue(endDate.Contains(date));
             return this;
         }
+        [AllureStep]
         public BulkUpdatePage InputNote(string note)
         {
             SendKeys(taskNote, note);

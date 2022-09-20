@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -22,6 +23,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By saveBtn = By.XPath("//button[@title='Save']");
         private readonly By receiptValue = By.XPath("//h5[@title='Receipt Value']");
 
+        [AllureStep]
         public SalesReceiptLinesPage ClickObjectTypeAndVerifyListType()
         {
             ClickOnElement(objectType);
@@ -30,19 +32,19 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.AreEqual(new List<string>() { "Weighbridge Ticket", "Sales Invoice" }, types);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptLinesPage SelectObjectType(string option)
         {
             SelectTextFromDropDown(objectType, option);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptLinesPage InputInvoice(string value)
         {
             SendKeys(inputInvoice, value);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptLinesPage NetPriceHasValue()
         {
 
@@ -59,7 +61,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.IsNotEmpty(GetInputValue(netPrice));
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptLinesPage VatPriceHasValue()
         {
             int i = 5;
@@ -75,7 +77,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.IsNotEmpty(GetInputValue(vatPrice));
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptLinesPage GrossPriceHasValue()
         {
             int i = 5;
@@ -91,32 +93,32 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.IsNotEmpty(GetInputValue(grossPrice));
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptLinesPage ValuePriceContainValue(string value)
         {
             Assert.IsTrue(GetInputValue(valuePrice) == value);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptLinesPage InputValuePrice(string value)
         {
             SendKeys(valuePrice, value);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptLinesPage IsReceiptValueDisplay()
         {
             WaitUtil.WaitForElementVisible(receiptValue);
             Assert.IsTrue(IsControlDisplayed(receiptValue));
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptLinesPage VerifyAmountOwned(string value)
         {
             Assert.IsTrue(GetInputValue(amountOwedPrice) == value);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptLinesPage ClickOnSaveBtn()
         {
             ClickOnElement(saveBtn);

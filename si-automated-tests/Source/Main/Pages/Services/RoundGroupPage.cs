@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using si_automated_tests.Source.Core;
@@ -77,28 +78,28 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             get => new TableElement(ScheduleTable, ScheduleRows, new List<string>() { ScheduleIdCell, ScheduleDetailCell, ScheduleStartDateCell, ScheduleEndDateCell, ScheduleSeasonCell, ScheduleEditCell });
         }
-
+        [AllureStep]
         public RoundGroupPage ClickScheduleDetail(string id)
         {
             int rowIdx = ScheduleTableElement.GetRows().IndexOf(ScheduleTableElement.GetRowByCellValue(0, id));
             ScheduleTableElement.ClickCell(rowIdx, 1);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage EditPatternEnd(string id, string patternEnd)
         {
             int rowIdx = ScheduleTableElement.GetRows().IndexOf(ScheduleTableElement.GetRowByCellValue(0, id));
             ScheduleTableElement.SetCellValue(rowIdx, 3, patternEnd);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyPatternEnd(string id, string patternEnd)
         {
             int rowIdx = ScheduleTableElement.GetRows().IndexOf(ScheduleTableElement.GetRowByCellValue(0, id));
             VerifyCellValue(ScheduleTableElement, rowIdx, 3, patternEnd);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyNewSchedule(string scheduleDetail, string startDate, string endDate)
         {
             int rowCount = ScheduleTableElement.GetRows().Count;
@@ -109,6 +110,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
         #endregion
+
+        [AllureStep]
         public RoundGroupPage VerifyDefaultDataOnAddForm()
         {
             Assert.IsEmpty(GetElement(roundGroupInput).GetAttribute("value"));
@@ -119,13 +122,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(GetFirstSelectedItemInDropdown(recordWorkingTimeSelect) == "Default");
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyRoundGroup(string value)
         {
             Assert.IsTrue(GetElement(roundGroupInput).GetAttribute("value") == value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage ClickOnDispatchSiteAndVerifyData()
         {
             ClickOnElement(dispatchSiteSelect);
@@ -133,19 +136,19 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(new List<string>() { "Kingston Tip", "Townmead Tip & Depot (East)", "Townmead Weighbridge" }, options);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage SelectDispatchSite(string value)
         {
             SelectTextFromDropDown(dispatchSiteSelect, value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage EnterRoundGroupValue(string value)
         {
             SendKeys(roundGroupInput, value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyServiceButtonsVisible()
         {
             WaitUtil.WaitForElementVisible(copyBtn);
@@ -153,115 +156,115 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(IsControlDisplayed(optimiseBtn));
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage ClickRoundTab()
         {
             ClickOnElement(roundTab);
             return this;
-        } 
-        
+        }
+        [AllureStep]
         public RoundGroupPage ClickDefaultResourceTab()
         {
             ClickOnElement(defaultResourcesTab);
             return this;
         }
-        
+        [AllureStep]
         public RoundGroupPage ClickCalendarTab()
         {
             ClickOnElement(calendarTab);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage IsRoundTab()
         {
             Assert.IsTrue(IsControlDisplayed(roundTab));
             Assert.IsTrue(IsControlDisplayed(roundRows));
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage ClickAddNewItemOnRoundTab()
         {
             ClickOnElement(addNewItemBtnOnRoundTab);
             return this;
         }
-        
+        [AllureStep]
         public RoundGroupPage ClickAddNewItemOnResourceTab()
         {
             ClickOnElement(addNewItemBtnOnResourceTab);
             return this;
         }
-         
+        [AllureStep]
         public RoundGroupPage ClickSyncRoundResourceOnResourceTab()
         {
             ClickOnElement(syncRoundResourceOnResourceTab);
             return this;
         }
-
+        [AllureStep]
         public int GetIndexNewRoundRow()
         {
             return GetAllElements(roundRows).Count - 1;
-        } 
-        
+        }
+        [AllureStep]
         public int GetIndexNewResourceRow()
         {
             return GetAllElements(resourceRows).Count - 1;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyDefaultResourceRowsIsVisible()
         {
             Assert.IsTrue(IsControlDisplayed(resourceRows));
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyDropDownTypeIsPresent(int rowIdx)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
             Assert.IsTrue(row.FindElement(typeSelect).Displayed);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyDropDownTypeIsDisable(int rowIdx)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
             Assert.IsFalse(row.FindElement(typeSelect).Enabled);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyStartDateInputIsDisable(int rowIdx)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
             Assert.IsFalse(row.FindElement(startDateInput).Enabled);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyInputQuantityIsPresent(int rowIdx)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
             Assert.IsTrue(row.FindElement(quantityInput).Displayed);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyRetireButtonIsPresent(int rowIdx)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
             Assert.IsTrue(row.FindElement(retireBtn).Displayed);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyStartDateInput(int rowIdx, string expectedValue)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
             Assert.IsTrue(row.FindElement(startDateInput).GetAttribute("value") == expectedValue);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyEndDateInput(int rowIdx, string expectedValue)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
             Assert.IsTrue(row.FindElement(endDateInput).GetAttribute("value") == expectedValue);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage SelectType(int rowIdx, string value)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
@@ -269,7 +272,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             SelectTextFromDropDown(select, value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage EnterQuantity(int rowIdx, string value)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
@@ -277,7 +280,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             SendKeys(input, value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage EnterStartDate(int rowIdx, string value)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
@@ -285,7 +288,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             SendKeys(input, value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage EnterEndDate(int rowIdx, string value)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
@@ -293,21 +296,21 @@ namespace si_automated_tests.Source.Main.Pages.Services
             SendKeys(input, value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage EnterRoundValue(int rowIdx, string value)
         {
             IWebElement webElement = GetAllElements(roundRows)[rowIdx];
             SendKeys(webElement.FindElement(By.XPath("./td/input[@id='round.id']")), value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage ClickExpandButton(int rowIdx)
         {
             IWebElement webElement = GetAllElements(resourceRows)[rowIdx];
             ClickOnElement(webElement.FindElement(toggleBtn));
             return this;
         }
-
+        [AllureStep]
         public int GetIndexResourceRowByType(string type)
         {
             List<IWebElement> webElements = GetAllElements(resourceRows);
@@ -320,62 +323,62 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return 0;
         }
-
+        [AllureStep]
         public RoundGroupPage ClickAddResource(int rowIdx)
         {
             IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
             ClickOnElement(webElement.FindElement(addResourceBtn));
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage SelectResourceType(int rowIdx, int index)
         {
             IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
             SelectIndexFromDropDown(webElement.FindElement(resourceSelect), index);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage SelectResourceType(int rowIdx, string value)
         {
             IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
             SelectTextFromDropDown(webElement.FindElement(resourceSelect), value);
             return this;
         }
-
+        [AllureStep]
         public int GetResourceOptionCount(int rowIdx)
         {
             IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
             return webElement.FindElements(resourceSelectOpt).Count;
         }
-
+        [AllureStep]
         public RoundGroupPage ClickHasSchedule(int rowIdx)
         {
             IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
             ClickOnElement(webElement.FindElement(hasScheduleCheckbox));
             return this;
         }
-        
+        [AllureStep]
         public RoundGroupPage VerifyPatternStartDateContainString(string value)
         {
             IWebElement webElement = GetElement(patternStartDateInput);
             Assert.IsTrue(webElement.GetAttribute("value") == value);
             return this;
-        } 
-        
+        }
+        [AllureStep]
         public RoundGroupPage VerifyRightPanelTitle(string value)
         {
             IWebElement webElement = GetElement(rightPanelTitle);
             Assert.IsTrue(GetElementText(webElement).Trim() == value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyAllPeriodTimeOptions(List<string> options)
         {
             List<string> presentOptions = GetAllElements(periodTimeButtons).Select(x => x.Text).ToList();
             Assert.AreEqual(options, presentOptions);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyResourceDetailRow(int rowIdx, int resourceSelectedIdx, bool hasSchedule, string schedule, bool isVisibleRetireBtn, bool isVisibleEditBtn)
         {
             IWebElement row = this.driver.FindElements(resourceDetailRows)[rowIdx];
@@ -393,7 +396,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(editButton.Displayed == isVisibleEditBtn);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyResourceDetailRow(int rowIdx, string resourceSelected, bool hasSchedule, string schedule, string startDateValue, string endDateValue, bool isVisibleRetireBtn, bool checkEnable)
         {
             IWebElement row = this.driver.FindElements(resourceDetailRows)[rowIdx];
@@ -421,7 +424,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage ClickEditButton(int rowIdx)
         {
             IWebElement row = this.driver.FindElements(resourceDetailRows)[rowIdx];
@@ -429,39 +432,39 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(editButton);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage ClickPeriodTimeButton(string period)
         {
             IWebElement webElement = GetAllElements(periodTimeButtons).FirstOrDefault(x => x.Text.Contains(period));
             ClickOnElement(webElement);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage IsPeriodButtonSelected(string period)
         {
             IWebElement webElement = GetAllElements(periodTimeButtons).FirstOrDefault(x => x.Text.Contains(period));
             Assert.IsTrue(webElement.GetAttribute("class").Contains("btn-primary"));
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage SelectWeeklyFrequency(string value)
         {
             SelectTextFromDropDown(weeklyFrequencySelect, value);
             return this;
-        } 
-        
+        }
+        [AllureStep]
         public RoundGroupPage SelectDailyFrequency(string value)
         {
             SelectTextFromDropDown(dailyFrequencySelect, value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifySelectWeeklyFrequency(string value)
         {
             Assert.IsTrue(GetFirstSelectedItemInDropdown(weeklyFrequencySelect) == value); ;
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage ClickDayButtonOnWeekly(string day)
         {
             string xpath = $"//div[@id='defaultResources-tab']//div[@id='rightPanel']//div[contains(@data-bind, 'foreach: dayButtons')]//button[contains(string(), '{day}')]";
@@ -469,7 +472,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Thread.Sleep(200);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage IsDayButtonOnWeeklySelected(string day)
         {
             string xpath = $"//div[@id='defaultResources-tab']//div[@id='rightPanel']//button[contains(string(), '{day}')]";
@@ -477,13 +480,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(webElement.GetAttribute("class").Contains("btn-primary"));
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyRightPanelIsInVisible()
         {
             Assert.IsTrue(IsControlUnDisplayed(rightPanelTitle));
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyRowDetailIsVisible(int rowIdx)
         {
             Assert.IsTrue(this.driver.FindElements(resourceDetailRows).Count > rowIdx);
@@ -491,7 +494,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(webElement.Displayed);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage EnterRoundTypeValue(int rowIdx, string value)
         {
             IWebElement webElement = GetAllElements(roundRows)[rowIdx];
@@ -500,7 +503,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             selectedValue.SelectByText(value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage EnterDispatchSiteValue(int rowIdx, string value)
         {
             IWebElement webElement = GetAllElements(roundRows)[rowIdx];
@@ -509,7 +512,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             selectedValue.SelectByText(value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage EnterShiftValue(int rowIdx, string value)
         {
             IWebElement webElement = GetAllElements(roundRows)[rowIdx];
@@ -518,7 +521,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             selectedValue.SelectByText(value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyRoundColor(int rowIdx, string value)
         {
             IWebElement webElement = GetAllElements(roundRows)[rowIdx];
@@ -526,14 +529,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(input.GetAttribute("value") == value);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage DoubleClickRound(int rowIdx)
         {
             IWebElement webElement = GetAllElements(roundRows)[rowIdx];
             DoubleClickOnElement(webElement);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage DoubleClickRound(string roundType)
         {
             List<IWebElement> webElements = GetAllElements(roundRows);
@@ -546,7 +549,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage ClickRetireButton(string driverType)
         {
             List<IWebElement> webElements = GetAllElements(resourceRows);
@@ -560,6 +563,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
+        [AllureStep]
 
         public RoundGroupPage ClickRetireDefaultResourceButton(string resource)
         {
@@ -574,7 +578,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyDefaultResourceIsInVisible(string driverType)
         {
             List<IWebElement> webElements = GetAllElements(resourceRows);
@@ -584,7 +588,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage VerifyDetailDefaultResourceIsInVisible(string driverType, string resource)
         {
             List<IWebElement> webElements = GetAllElements(resourceRows);
@@ -607,7 +611,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
-
+        [AllureStep]
         public List<DefaultResourceModel> GetAllDefaultResourceModels()
         {
             List<DefaultResourceModel> defaultResources = new List<DefaultResourceModel>();
@@ -639,11 +643,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return defaultResources;
         }
 
+
         /// <summary>
         /// DoubleClickRoundGroup
         /// </summary>
         /// <param name="startDate">ddMMyyyy</param>
         /// <returns></returns>
+        /// 
+        [AllureStep]
         public RoundGroupPage DoubleClickRoundGroup(DateTime startDate, DateTime endDate, List<DayOfWeek> dayOfWeeks)
         {
             while (true)
@@ -672,7 +679,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage RoundInstancesNotDisplayAfterEnddate(DateTime endDate)
         {
             int retry = 0;
@@ -694,13 +701,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage ClickSiteTab()
         {
             ClickOnElement(sitesTab);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage IsOnSiteTab()
         {
             VerifyElementVisibility(leftSiteColumn, true);
@@ -709,7 +716,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             VerifyElementVisibility(removeSiteButton, true);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage CheckRightSiteVisibility(string selectSite, bool isVisible)
         {
             IWebElement webElement = GetElement(rightSiteColumn);
@@ -717,7 +724,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(isVisible ? options.FirstOrDefault(x => x.Text == selectSite) != null: options.FirstOrDefault(x => x.Text == selectSite) == null);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage CheckLeftSiteVisibility(string selectSite, bool isVisible)
         {
             IWebElement webElement = GetElement(leftSiteColumn);
@@ -725,7 +732,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(isVisible ? options.FirstOrDefault(x => x.Text == selectSite) != null : options.FirstOrDefault(x => x.Text == selectSite) == null);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage ClickRemoveRightSite(string selectSite)
         {
             IWebElement webElement = GetElement(rightSiteColumn);
@@ -741,7 +748,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(removeSiteButton);
             return this;
         }
-
+        [AllureStep]
         public RoundGroupPage ClickAddLeftSite(string selectSite)
         {
             IWebElement webElement = GetElement(leftSiteColumn);

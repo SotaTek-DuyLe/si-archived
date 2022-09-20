@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -40,23 +41,27 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By RetireButton = By.XPath("//div[@class='navbar-right pull-right']//button[@title='Retire']");
         public readonly By CreateAdHocTaskButton = By.XPath("//button[contains(text(), 'Create Ad-Hoc Task')]");
 
+        [AllureStep]
         public ServicesTaskPage WaitForTaskPageLoadedSuccessfully(String service, String partyname)
         {
             WaitUtil.WaitForElementVisible(serviceTaskName, service);
             WaitUtil.WaitForElementVisible(headerPartyName, partyname);
             return this;
         }
+        [AllureStep]
         public ServicesTaskPage ClickOnTaskLineTab()
         {
             ClickOnElement(taskLineTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public ServicesTaskPage ClickOnScheduleTask()
         {
             ClickOnElement(ScheduleTab);
             return this;
         }
+        [AllureStep]
         public ServicesTaskPage VerifyServiceTaskInDB(List<ServiceTaskLineDBModel> listAll, int scheduledassetquantity, string assettype, int scheduledproductquantity, string unit, string product, string startdate, string enddate)
         {
             int n = 0;
@@ -80,7 +85,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(n, 1);
             return this;
         }
-
+        [AllureStep]
         public ServicesTaskPage VerifyServiceUnitAssets(List<ServiceUnitAssetsDBModel> listAll, int num, string startDate, string endDate)
         {
             int n = 0;
@@ -96,6 +101,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(n, num);
             return this;
         }
+        [AllureStep]
         public ServicesTaskPage VerifyServiceUnitAssets(List<ServiceUnitAssetsDBModel> listAll,int num, string assetType, string _product, string startDate, string endDate)
         {
             int n = 0;
@@ -111,11 +117,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(n, num);
             return this;
         }
+        [AllureStep]
         public ServicesTaskPage VerifyServiceUnitAssetsNum(List<ServiceUnitAssetsDBModel> listAll, int num)
         {
             Assert.AreEqual(listAll.Count, num);
             return this;
         }
+        [AllureStep]
         public ServicesTaskPage VerifyServiceTaskAgreementNum(List<ServiceTaskForAgreementDBModel> listAll, int num, string startDate) 
         {
             int n = 0;

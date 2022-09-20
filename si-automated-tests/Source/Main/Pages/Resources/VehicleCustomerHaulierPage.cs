@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -21,6 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
         private const string Column = "//span[text()='{0}']/parent::div";
         private const string ColumnInRow = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
 
+        [AllureStep]
         public VehicleCustomerHaulierPage VerifyVehicleCustomerHaulierPageDisplayed()
         {
             WaitForLoadingIconToDisappear();
@@ -31,7 +33,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             }
             return this;
         }
-
+        [AllureStep]
         public VehicleCustomerHaulierPage FilterVehicleById(string id)
         {
             WaitForLoadingIconToDisappear();
@@ -40,13 +42,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public CreateVehicleCustomerHaulierPage ClickAddNewItemBtn()
         {
             ClickOnElement(addNewItemBtn);
             return PageFactoryManager.Get< CreateVehicleCustomerHaulierPage>();
         }
-
+        [AllureStep]
         public List<VehicleModel> GetAllVehicleModel()
         {
             List<VehicleModel> vehicleModels = new List<VehicleModel>();
@@ -73,7 +75,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             }
             return vehicleModels;
         }
-
+        [AllureStep]
         public VehicleCustomerHaulierPage VerifyVehicleCreated(VehicleModel vehicleModelDisplayed, string resource, string customer, string haulier, string hireStart, string hireEnd)
         {
             Assert.AreEqual(resource, vehicleModelDisplayed.Resource);

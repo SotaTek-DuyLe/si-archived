@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -26,7 +27,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             get => new TableElement(AnnouncementTaskTable, AnnouncementTaskRow, new List<string>() { CheckboxCell, IdCell, NameCell, TypeCell, ValidFromCell, ValidToCell });
         }
-
+        [AllureStep]
         public AnnouncementTaskTab VerifyAnnouncementTaskData(string name, string type, string validFrom, string validTo)
         {
             VerifyCellValue(AnnouncementTaskTableEle, 0, 2, name);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -48,6 +49,7 @@ namespace si_automated_tests.Source.Main.Pages
         //DYNAMIC LOCATOR
         private const string AddressSite = "//div[contains(text(),'{0}')]";
 
+        [AllureStep]
         public PartySiteAddressPage IsOnPartySiteAddressPage()
         {
             WaitUtil.WaitForPageLoaded();
@@ -62,7 +64,7 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.IsTrue(IsControlDisplayed(CreateNonGeographicalAddress));
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage InputTextToSearchBar(String value)
         {
             WaitUtil.WaitForElementVisible(SearchInput);
@@ -70,48 +72,48 @@ namespace si_automated_tests.Source.Main.Pages
             SendKeys(SearchInput, value);
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage ClickSearchBtn()
         {
             WaitUtil.WaitForElementVisible(SearchBtn);
             ClickOnElement(SearchBtn);
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage VerifySearchedAddressAppear(String add)
         {
             WaitUtil.WaitForElementVisible(AddressSite, add);
             Assert.IsTrue(IsControlDisplayed(AddressSite, add));
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage ClickOnSearchedAddress(string add)
         {
             WaitUtil.WaitForElementClickable(AddressSite, add);
             ClickOnElement(AddressSite, add);
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage VerifyNextButtonAvalable()
         {
             WaitUtil.WaitForElementClickable(NextBtn);
             Assert.True(IsControlEnabled(NextBtn));
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage ClickOnNextButton()
         {
             WaitUtil.WaitForElementClickable(NextBtn);
             ClickOnElement(NextBtn);
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage ClickOnCreateManuallyBtn()
         {
             ClickOnElement(CreateManuallyBtn);
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage IsCheckAddressDetailScreen(bool isAddress)
         {
             WaitUtil.WaitForElementVisible(SiteNameLabel);
@@ -152,19 +154,19 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.AreEqual(GetAttributeValue(CountryInput, "class"), "form-control");
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage SendKeyInSiteNameInput(string siteName)
         {
             SendKeys(SiteNameInput, siteName);
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage VerifyCreateBtnDisabled()
         {
             Assert.AreEqual(GetAttributeValue(CreateBtn, "disabled"), "true");
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage InputAllMandatoryFieldInCheckAddressDetailScreen(AddressDetailModel addressDetail)
         {
             SendKeys(PropertyInput, addressDetail.Property.ToString());
@@ -174,7 +176,7 @@ namespace si_automated_tests.Source.Main.Pages
             SendKeys(CountryInput, addressDetail.Country);
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage InputSomeMandatoryFieldInCheckAddressDetailScreen(AddressDetailModel addressDetail)
         {
             SendKeys(AddressInput, addressDetail.Address);
@@ -182,31 +184,31 @@ namespace si_automated_tests.Source.Main.Pages
             SendKeys(PostcodeInput, addressDetail.PostCode);
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage InputValueInCountry(string country)
         {
             SendKeys(CountryInput, country);
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage ClickCreateBtn()
         {
             ClickOnElement(CreateBtn);
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage ClickCreateScreen3Btn()
         {
             ClickOnElement(CreateScreen3Btn);
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage WaitForLoadingIconInvisiable()
         {
             WaitUtil.WaitForElementInvisible(LoadingData);
             return this;
         }
-
+        [AllureStep]
         public PartySiteAddressPage ClickOnNonGeoGraphicalAddressBtn()
         {
             ClickOnElement(CreateNonGeographicalAddressBtn);

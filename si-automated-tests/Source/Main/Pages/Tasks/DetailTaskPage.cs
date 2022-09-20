@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -56,6 +57,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private const string allocatedUserOption = "//select[@id='allocated-user']/option[text()='{0}']";
         private const string taskStateOption = "//select[@id='taskState.id']/option[text()='{0}']";
 
+        [AllureStep]
         public DetailTaskPage IsDetailTaskPage()
         {
             WaitUtil.WaitForPageLoaded();
@@ -63,24 +65,25 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             WaitUtil.WaitForElementVisible(taskTitle);
             return this;
         }
-
+        [AllureStep]
         public string GetLocationName()
         {
             return GetElementText(locationName);
         }
-
+        [AllureStep]
         public DetailTaskPage ClickOnInspectionBtn()
         {
             ClickOnElement(inspectionBtn);
             return this;
         }
-
+        [AllureStep]
         public string GetServiceName()
         {
             return GetElementText(serviceName);
         }
 
         //INSPECTION POPUP
+        [AllureStep]
         public DetailTaskPage IsInspectionPopup()
         {
             WaitUtil.WaitForPageLoaded();
@@ -100,7 +103,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(GetCssValue(allocatedUnitDd, "border-color"), CommonConstants.BoderColorMandatory);
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyDefaultValue(string sourceName)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(sourceDd), sourceName);
@@ -108,7 +111,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(GetAttributeValue(validToInput, "value"), CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT));
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage ClickAndVerifySourceDd(string[] sourceNameList)
         {
             ClickOnElement(sourceDd);
@@ -119,46 +122,46 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             }
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage ClickInspectionTypeDdAndSelectValue(string inspectionTypeValue)
         {
             ClickOnElement(inspectionTypeDd);
             ClickOnElement(inspectionTypeOption, inspectionTypeValue);
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage ClickAllocatedUnitAndSelectValue(string allocatedUnitValue)
         {
             ClickOnElement(allocatedUnitDd);
             ClickOnElement(allocatedUnitOption, allocatedUnitValue);
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage ClickAllocatedUserAndSelectValue(string allocatedUserValue)
         {
             ClickOnElement(allocatedUserDd);
             ClickOnElement(allocatedUserOption, allocatedUserValue);
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage InputNote(string noteValue)
         {
             SendKeys(noteInput, noteValue);
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage ClickCreateBtn()
         {
             ClickOnElement(createBtn);
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage InputValidFrom(string validFromValue)
         {
             SendKeys(validFromInput, validFromValue);
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage InputValidTo(string validFromTo)
         {
             SendKeys(validToInput, validFromTo);
@@ -166,12 +169,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //INSPECTION TAB
+        [AllureStep]
         public DetailTaskPage ClickInspectionTab()
         {
             ClickOnElement(inspectionTab);
             return this;
         }
-
+        [AllureStep]
         public List<InspectionModel> getAllInspection()
         {
             WaitUtil.WaitForPageLoaded();
@@ -207,7 +211,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             }
             return allModel;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyInspectionCreated(InspectionModel inspectionModelActual, string id, string inspectionType, string createdByUser, string assignedUser, string allocatedUnit, string status, string validFrom, string validTo)
         {
             Assert.AreEqual(id, inspectionModelActual.ID);
@@ -220,13 +224,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(validTo, inspectionModelActual.validTo);
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage ClickAddNewInspectionItem()
         {
             ClickOnElement(addNewItemInSpectionBtn);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage ClickOnFirstInspection()
         {
             DoubleClickOnElement(firstInspectionRow);
@@ -234,13 +238,14 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //DETAIL TAB
+        [AllureStep]
         public DetailTaskPage ClickOnDetailTab()
         {
             ClickOnElement(detailTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyFieldAfterBulkUpdate(string topNoteValue, string commonNoteValue, string endDateValue, string taskStateValue, string completionDateValue, string resolutionCodeValue)
         {
             string firstNote = GetAttributeValue(taskNotesInput, "value").Split(Environment.NewLine)[0];
@@ -253,7 +258,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(resolutionCodeValue, GetFirstSelectedItemInDropdown(resolutionCode));
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyFieldAfterBulkUpdate(string topNoteValue, string endDateValue, string taskStateValue, string completionDateValue, string resolutionCodeValue)
         {
             Assert.AreEqual(topNoteValue, GetAttributeValue(taskNotesInput, "value"));
@@ -263,29 +268,29 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(resolutionCodeValue, GetFirstSelectedItemInDropdown(resolutionCode));
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage ClickOnTaskStateDd()
         {
             ClickOnElement(taskStateDd);
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage SelectAnyTaskStateInDd(string taskStateValue)
         {
             ClickOnElement(taskStateOption, taskStateValue);
             return this;
         }
-
+        [AllureStep]
         public string GetCompletedDateDisplayed()
         {
             return GetAttributeValue(completionDateInput, "value");
         }
-
+        [AllureStep]
         public string GetEndDateDisplayed()
         {
             return GetAttributeValue(endDateInput, "value");
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyCompletedDateNotEmpty()
         {
             string completedDateDisplayed = GetAttributeValue(completionDateInput, "value");
@@ -318,31 +323,32 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By completedDateTaskLineUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]/following-sibling::div//span[text()='Completed Date']/following-sibling::span[1]");
         private readonly By autoConfirmedTaskLineUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]/following-sibling::div//span[text()='Auto Confirmed']/following-sibling::span[1]");
 
+        [AllureStep]
         public DetailTaskPage ClickOnHistoryTab()
         {
             ClickOnElement(historyTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyTitleTaskLineFirstServiceUpdate()
         {
             Assert.IsTrue(IsControlDisplayed(titleTaskLineFirstServiceUpdate), "Title Task Line is not displayed");
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyTitleTaskLineSecondServiceUpdate()
         {
             Assert.IsTrue(IsControlDisplayed(titleTaskLineSecondServiceUpdate));
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyTitleUpdate()
         {
             Assert.IsTrue(IsControlDisplayed(updateTitle));
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyHistoryTabFirstAfterBulkUpdating(string userUpdatedExp, string timeUpdatedExp, string[] fieldInServiceUpdate, string[] valueExpected)
         {
             Assert.AreEqual(userUpdatedExp, GetElementText(userFirstServiceUpdate));
@@ -354,7 +360,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             }
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyHistoryTabSecondAfterBulkUpdating(string userUpdatedExp, string timeUpdatedExp, string[] fieldInServiceUpdate, string[] valueExpected)
         {
             Assert.AreEqual(userUpdatedExp, GetElementText(userSecondServiceUpdate));
@@ -366,7 +372,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             }
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyHistoryTabUpdate(string userUpdatedExp, string timeUpdatedExp, string[] fieldInServiceUpdate, string[] valueExpected)
         {
             Assert.AreEqual(userUpdatedExp, GetElementText(userUpdate));
@@ -378,7 +384,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             }
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyHistoryTabUpdate(string userUpdatedExp, string timeUpdatedExp, string completedDateExp, string stateExp, string endDateExp)
         {
             Assert.AreEqual(userUpdatedExp, GetElementText(userUpdate));
@@ -388,7 +394,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(endDateExp + ".", GetElementText(endDateUpdate));
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyHistoryTabFirstAfterChangingStatus(string userUpdatedExp, string timeUpdatedExp, string actualAssetExp, string actualProductExp, string stateExp, string resolutionCodeExp, string completedDateExp, string autoConfirmedExp)
         {
             Assert.AreEqual(userUpdatedExp, GetElementText(userFirstServiceUpdate));
@@ -419,6 +425,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By confirmationMethodSecondVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(2)>td:nth-child(10)");
         private readonly By productSecondVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(2)>td:nth-child(4)");
 
+        [AllureStep]
         public DetailTaskPage ClickOnVerdictTab()
         {
             ClickOnElement(verdictTab);
@@ -427,13 +434,14 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //==> Verdict tab -> Information
+        [AllureStep]
         public DetailTaskPage ClickOnTaskInformation()
         {
             ClickOnElement(taskInformationVerdictTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyTaskInformationAfterBulkUpdating(string completionDateExp, string taskStateExp, string resolutionCodeExp, string confirmationMethodExp)
         {
             Assert.AreEqual(completionDateExp, GetAttributeValue(completionDateVerdictInput, "value"), "Completion Date is not correct");
@@ -444,13 +452,14 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //==> Verdict tab -> Task line
+        [AllureStep]
         public DetailTaskPage ClickOnTaskLineVerdictTab()
         {
             ClickOnElement(taskLineVerdictTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyFirstTaskLineStateVerdictTab(string dateTimeExp, string stateExp, string confirmMethodExp, string productExp)
         {
             Assert.AreEqual(dateTimeExp, GetElementText(dateTimeFirstLineVerdictTab));
@@ -459,7 +468,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(productExp, GetElementText(productFirstVerdictTab));
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifySecondTaskLineStateVerdictTab(string dateTimeExp, string stateExp, string confirmMethodExp, string productExp)
         {
             Assert.AreEqual(dateTimeExp, GetElementText(dateTimeSecondLineVerdictTab));
@@ -468,7 +477,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(productExp, GetElementText(productSecondVerdictTab));
             return this;
         }
-
+        [AllureStep]
         public string CompareDueDateWithTimeNow(TaskDBModel taskDBModel, string timeCompleted)
         {
             DateTime dateTime = CommonUtil.GetLocalTimeNow();
@@ -509,31 +518,32 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             get => new TableElement(TaskLineTable, TaskLineRow, new List<string>() { TaskLineOrderCell, TaskLineTypeCell });
         }
 
+        [AllureStep]
         public DetailTaskPage DoubleClickFirstTaskLine()
         {
             TaskLineTableEle.DoubleClickRow(0);
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage ClickOnTaskLineTab()
         {
             ClickOnElement(taskLineTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyStateOfFirstRowInTaskLineTab(string stateExp)
         {
             Assert.AreEqual(stateExp, GetFirstSelectedItemInDropdown(firstStateTaskLine));
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyResoluctionCodeFirstRowInTaskLineTab(string resolutionCodeExp)
         {
             Assert.AreEqual(resolutionCodeExp, GetFirstSelectedItemInDropdown(firstResolutionCodeTaskLine));
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyAllColumnInFirstRowDisabled()
         {
             //Disabled
@@ -552,7 +562,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual("true", GetAttributeValue(firstResolutionCodeTaskLine, "disabled"));
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyFirstTaskLineAfterBulkUpdate(string productExp, string stateExp, string resolutionCodeExp)
         {
             Assert.AreEqual(productExp, GetFirstSelectedItemInDropdown(firstProductTaskLine));
@@ -564,7 +574,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual("true", GetAttributeValue(firstResolutionCodeTaskLine, "disabled"));
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifySecondTaskLineAfterBulkUpdate(string productExp, string stateExp, string resolutionCodeExp)
         {
             Assert.AreEqual(productExp, GetFirstSelectedItemInDropdown(secondProductTaskLine));
@@ -576,7 +586,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual("true", GetAttributeValue(secondResolutionCodeTaskLine, "disabled"));
             return this;
         }
-
+        [AllureStep]
         public DetailTaskPage VerifyDisplayNoRecordDisplayed()
         {
             Assert.IsTrue(IsControlUnDisplayed(numberOfTaskLine));

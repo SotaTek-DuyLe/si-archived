@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Attributes;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
 namespace si_automated_tests.Source.Main.Pages.UserAndRole
@@ -18,23 +19,25 @@ namespace si_automated_tests.Source.Main.Pages.UserAndRole
             WaitUtil.WaitForElementVisible(actionBtn);
             return this;
         }
+        [AllureStep]
         public UserPage ClickAction()
         {
             ClickOnElement(actionBtn);
             return this;
         }
+        [AllureStep]
         public UserPage ClickNew()
         {
             ClickOnElement(newAction);
             return this;
         }
-
+        [AllureStep]
         public UserPage ClickMoveNextBtn()
         {
             ClickOnElement(moveNextBtn);
             return this;
         }
-
+        [AllureStep]
         public UserDetailPage ClickAnyUserShowDetail(string userName)
         {
             DoubleClickOnElement(anyUserInList, userName);

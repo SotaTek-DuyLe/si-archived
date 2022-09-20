@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using Allure.Commons;
+using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using System;
@@ -11,13 +13,16 @@ namespace si_automated_tests.Source.Core
 
     public class CustomTestListener
     {
+        [AllureStep("Screenshot of failure")]
         public static void GetScreenShot(string testName)
         {
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
             var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../si-automated-tests/TestResults/Screenshots/");
             var newPath = new Uri(path).LocalPath;
             Screenshot screenshot = ((ITakesScreenshot)IWebDriverManager.GetDriver()).GetScreenshot();
-            screenshot.SaveAsFile(newPath + "Evidence_" + testName + ".png");
+            var screenshotPath = newPath + "Evidence_" + testName + ".png";
+            screenshot.SaveAsFile(screenshotPath);
+            AllureLifecycle.Instance.AddAttachment(screenshotPath);
         }
         public static void OnTestStarted()
         {

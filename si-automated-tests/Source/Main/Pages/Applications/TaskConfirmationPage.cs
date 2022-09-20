@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using si_automated_tests.Source.Core;
@@ -66,19 +67,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             get => _treeViewElement;
         }
-
+        [AllureStep]
         public TaskConfirmationPage SelectRoundNode(string nodeName)
         {
             ServicesTreeView.ClickItem(nodeName);
             return this;
         }
-
+        [AllureStep]
         public TaskConfirmationPage ExpandRoundNode(string nodeName)
         {
             ServicesTreeView.ExpandNode(nodeName);
             return this;
         }
-
+        [AllureStep]
         public TaskConfirmationPage VerifyRoundInstanceStatusCompleted()
         {
             IWebElement cell = UnallocatedTableEle.GetCell(0, 1);
@@ -86,7 +87,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.png"));
             return this;
         }
-
+        [AllureStep]
         public TaskConfirmationPage DoubleClickRoundInstance()
         {
             slickRoundTableEle.DoubleClickRow(0);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -76,18 +77,21 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
             });
         }
 
+        [AllureStep]
         public AgreementTaskDetailsPage DoubleClickTaskLine(int rowIdx = 0)
         {
             TaskLineTableEle.DoubleClickRow(rowIdx);
             return this;
-        } 
+        }
 
+        [AllureStep]
         public AgreementTaskDetailsPage VerifyTaskLineProduct(int rowIdx, string value)
         {
             VerifyCellValue(TaskLineTableEle, rowIdx, 5, value);
             return this;
         }
 
+        [AllureStep]
         public AgreementTaskDetailsPage VerifyTaskLineState(int rowIdx, string value)
         {
             VerifyCellValue(TaskLineTableEle, rowIdx, 11, value);
@@ -95,6 +99,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
         }
         #endregion
 
+        [AllureStep]
         public AgreementTaskDetailsPage WaitingForTaskDetailsPageLoadedSuccessfully()
         {
             WaitUtil.WaitForElementVisible(taskTypeURL);
@@ -120,6 +125,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
             Assert.IsTrue(IsControlDisplayed(taskTypeName));
             return this;
         }
+        [AllureStep]
         public AgreementTaskDetailsPage IsOnAgreementTaskPage()
         {
             WaitUtil.WaitForElementVisible(detailsTab);
@@ -127,13 +133,13 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
             Assert.IsTrue(!IsControlDisplayed(taskLinesTab));
             return this;
         }
-
+        [AllureStep]
         public AgreementTaskDetailsPage CLickOnSaveBtn()
         {
             ClickOnElement(saveBtn);
             return this;
         }
-
+        [AllureStep]
         public AgreementTaskDetailsPage ClickCloseWithoutSaving()
         {
             WaitForLoadingIconToDisappear();
@@ -142,12 +148,14 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
         }
 
         //Details Tab
+        [AllureStep]
         public AgreementTaskDetailsPage ClickToDetailsTab() {
             ClickOnElement(detailsTab);
             WaitForLoadingIconToDisappear();
             return this;
 
         }
+        [AllureStep]
 
         public AgreementTaskDetailsPage ClickStateDetais()
         {
@@ -155,6 +163,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
             Thread.Sleep(1000);
             return this;
         }
+        [AllureStep]
         public AgreementTaskDetailsPage ChooseTaskState(string status)
         {
             
@@ -163,12 +172,13 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
             return this;
         }
         //Task Line tab
+        [AllureStep]
         public AgreementTaskDetailsPage ClickToTaskLinesTab()
         {
             ClickOnElement(taskLinesTab);
             return this;
         }
-
+        [AllureStep]
         public AgreementTaskDetailsPage VerifyTaskLine(string _type, string _assetType, string _scheduleAssetQty, string product, string productAssetQty, string unit, string _state)
         {
             WaitUtil.WaitForElementVisible(type);
@@ -181,17 +191,19 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
             Assert.AreEqual(GetFirstSelectedItemInDropdown(state), _state);
             return this;
         }
-        
+        [AllureStep]
         public AgreementTaskDetailsPage InputActuaAssetQuantity(int i)
         {
             EditSendKeys(actualAssetQuantityInput, i.ToString());
             return this;
         }
+        [AllureStep]
         public AgreementTaskDetailsPage ClickOnAcualAssetQuantityText()
         {
             ClickOnElement(actualAssetQuantityText);
             return this;
         }
+        [AllureStep]
         public AgreementTaskDetailsPage SelectCompletedState()
         {
             Thread.Sleep(500);
@@ -201,7 +213,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
             Thread.Sleep(1000);
             return this;
         }
-
+        [AllureStep]
         public HistoryTab ClickHistoryTab()
         {
             ClickOnElement(historyTab);

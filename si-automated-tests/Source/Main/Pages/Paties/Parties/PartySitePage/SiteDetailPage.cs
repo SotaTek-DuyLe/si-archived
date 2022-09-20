@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -50,6 +51,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private const string nameOfColumnInLocationTab = "//div[@id='weighbridgeSiteLocations-tab']//span[text()='{0}']/parent::div";
         private const string nameOfColumnInProductTab = "//div[@id='weighbridgeSiteProductLocations-tab']//span[text()='{0}']/parent::div";
 
+        [AllureStep]
         public SiteDetailPage WaitForSiteDetailPageLoaded()
         {
             WaitUtil.WaitForPageLoaded();
@@ -57,7 +59,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             WaitUtil.WaitForElementVisible(siteName);
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage WaitForSiteDetailPageLoaded(string titleA, string agreementNameA)
         {
             WaitUtil.WaitForPageLoaded();
@@ -65,7 +67,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             WaitUtil.WaitForElementVisible(string.Format(nameDetail, agreementNameA));
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage WaitForSiteDetailsLoaded(string titleA, string siteNameDisplayed)
         {
             WaitUtil.WaitForPageLoaded();
@@ -74,19 +76,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             return this;
         }
 
-
+        [AllureStep]
         public SiteDetailPage ClickPrimaryContactDd()
         {
             ClickOnElement(primaryContactDd);
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage VerifyNumberOfContact(int numberOfContact)
         {
             Assert.AreEqual(numberOfContact, GetAllElements(allPrimaryContactValue).Count);
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage VerifyValueInPrimaryContactDd(string[] expectedOption)
         {
             foreach (String option in expectedOption)
@@ -95,7 +97,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             }
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage SelectAnyPrimaryContactAndVerify(ContactModel contactModel)
         {
             ClickOnElement(string.Format(primaryContactValue, contactModel.FirstName + " " + contactModel.LastName));
@@ -107,19 +109,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             Assert.AreEqual(GetFirstSelectedItemInDropdown(primaryContactDd), contactModel.FirstName + " " + contactModel.LastName);
             return this;
         }
-
+        [AllureStep]
         public AddPrimaryContactPage ClickPrimaryContactAddBtn()
         {
             ClickOnElement(primaryContactAddBtn);
             return PageFactoryManager.Get<AddPrimaryContactPage>();
         }
-
+        [AllureStep]
         public SiteDetailPage VerifyFirstValueInPrimaryContactDd(ContactModel contactModel)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(primaryContactDd), contactModel.FirstName + " " + contactModel.LastName);
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage VerifyDisplayAllTab(string[] expectedAllTab)
         {
             foreach(string tab in expectedAllTab)
@@ -128,14 +130,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             }
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage ClickDetailTab()
         {
             ClickOnElement(allTabInScreen, "Details");
             WaitUtil.WaitForElementInvisible(frameMessage);
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage ClickSomeTabAndVerifyNoErrorMessage()
         {
             List<IWebElement> allElements = GetAllElements(allTabDisplayedNotContainsMapTab);
@@ -150,14 +152,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             }
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage ClickMapTabAndVerifyMessage(string message)
         {
             ClickOnElement(allTabInScreen, CommonConstants.MapTab);
             Assert.IsTrue(IsControlDisplayed(string.Format(messageAtMapTab, message)));
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage ClickStationTab()
         {
             ClickOnElement(stationTab);
@@ -165,6 +167,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         }
 
         //STATION TAB
+        [AllureStep]
         public CreateStationPage ClickAddNewStationItem()
         {
             ClickOnElement(addNewItemBtn);
@@ -172,6 +175,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         }
 
         //LOCATION TAB
+        [AllureStep]
         public SiteDetailPage VerifyDisplayColumnInGrid()
         {
             foreach(string column in CommonConstants.LocationTabColumn)
@@ -181,19 +185,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             }
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage ClickOnLocationTab()
         {
             ClickOnElement(locationTab);
             return this;
         }
-
+        [AllureStep]
         public AddLocationPage ClickAddNewLocationItem()
         {
             ClickOnElement(addNewItemLocationBtn);
             return PageFactoryManager.Get<AddLocationPage>();
         }
-
+        [AllureStep]
         public List<LocationModel> GetAllLocationInGrid()
         {
             WaitUtil.WaitForElementVisible(addNewItemLocationBtn);
@@ -214,7 +218,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             }
             return allModel;
         }
-
+        [AllureStep]
         public SiteDetailPage VerifyLocationCreated(LocationModel locationModel, string locationName, bool active, string client)
         {
             Assert.AreEqual(locationName, locationModel.Location);
@@ -229,19 +233,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             Assert.AreEqual(client, locationModel.Client);
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage ClickAnySelectAndDeSelectLocatorRow(string locatorCheckbox)
         {
             ClickOnElement(locatorCheckbox);
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage ClickFirstSelectAndDeSelectLocatorRow()
         {
             ClickOnElement(string.Format(selectAndDeSelectCheckboxLocations, 1));
             return this;
         }
-
+        [AllureStep]
         public DeleteWBLocation ClickDeleteItemInLocationTabBtn()
         {
             ClickOnElement(deleteItemLocationBtn);
@@ -249,13 +253,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         }
 
         //PRODUCT TAB
+        [AllureStep]
         public SiteDetailPage ClickProductTab()
         {
             ClickOnElement(productTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public SiteDetailPage VerifyDisplayColumnInProductTabGrid()
         {
             foreach(string column in CommonConstants.ProductTabColumn)
@@ -264,7 +269,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             }
             return this;
         }
-
+        [AllureStep]
         public AddProductPage ClickAddNewProductItem()
         {
             ClickOnElement(addNewProductItem);

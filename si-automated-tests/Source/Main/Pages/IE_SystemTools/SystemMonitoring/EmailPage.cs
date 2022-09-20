@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Attributes;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace si_automated_tests.Source.Main.Pages.SystemTools.SystemMonitoring
 
         private readonly String rightTableId = "RightDef";
 
+        [AllureStep]
         public EmailPage IsOnEmailPage()
         {
             SwitchToFrame(rightFrame);
@@ -22,11 +24,13 @@ namespace si_automated_tests.Source.Main.Pages.SystemTools.SystemMonitoring
             WaitUtil.WaitForElementVisible(moveLastBtn);
             return this;
         }
+        [AllureStep]
         public EmailPage ClickMoveLast()
         {
             ClickOnElement(moveLastBtn);
             return this;
         }
+        [AllureStep]
         public EmailPage ClickLastRow()
         {
             ScrollDownInElement(rightTableId);
