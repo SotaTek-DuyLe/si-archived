@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -29,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private const string multipleLocationGrid = "//label[text()='Is Restrict Location']/following-sibling::div//li//span[text()='{0}']";
         private const string locationInRestrictLocationCheckbox = "//span[text()='{0}']/parent::div/following-sibling::div/input";
 
+        [AllureStep]
         public AddProductPage WaitForAddProductPageDisplayed()
         {
             WaitForLoadingIconToDisappear();
@@ -36,7 +38,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             WaitUtil.WaitForElementVisible(title);
             return this;
         }
-
+        [AllureStep]
         public AddProductPage IsAddProductPage()
         {
             WaitUtil.WaitForPageLoaded();
@@ -57,7 +59,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             Assert.AreEqual(GetCssValue(productBtn, "border-color"), "rgb(217, 83, 79)");
             return this;
         }
-
+        [AllureStep]
         public AddProductPage ClickAnyProduct(string productName)
         {
             ClickOnElement(productBtn);
@@ -65,7 +67,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             ClickOnElement(anyProductOption, productName);
             return this;
         }
-
+        [AllureStep]
         public AddProductPage ClickAnyTicketType(string ticketTypeName)
         {
             ClickOnElement(ticketTypeBtn);
@@ -73,7 +75,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             ClickOnElement(anyTicketTypeOption, ticketTypeName);
             return this;
         }
-
+        [AllureStep]
         public AddProductPage ClickDefaultLocationDdAndSelectAnyOption(string locationName)
         {
             ClickOnElement(defaultLocationDd);
@@ -81,19 +83,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             ClickOnElement(anyLocationOption, locationName);
             return this;
         }
+        [AllureStep]
 
         public AddProductPage ClickOnIsLocationMandatoryCheckbox()
         {
             ClickOnElement(isLocationMandatoryCheckbox);
             return this;
         }
-
+        [AllureStep]
         public AddProductPage ClickIsRestrictLocation()
         {
             ClickOnElement(isRestricLocationCheckbox);
             return this;
         }
-
+        [AllureStep]
         public AddProductPage VerifyDisplayMultipleLocationGrid(string[] locationName)
         {
             foreach(string location in locationName)
@@ -102,7 +105,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             }
             return this;
         }
-
+        [AllureStep]
         public AddProductPage ClickAnyLocationInGrid(string locationName)
         {
             ClickOnElement(locationInRestrictLocationCheckbox, locationName);

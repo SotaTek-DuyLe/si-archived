@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -18,6 +19,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By allRecordCheckbox = By.XPath("//div[@title='Select/Deselect All']//input");
         private readonly By bulkUpdateBtn = By.XPath("//button[text()='Bulk Update']");
 
+        [AllureStep]
         public EventsListingPage FilterByEventId(string eventId)
         {
             WaitForLoadingIconToDisappear();
@@ -26,7 +28,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             ClickOnElement(applyBtn);
             return this;
         }
-
+        [AllureStep]
         public EventsListingPage FilterByMultipleEventId(string firstEventId, string secondEventId)
         {
             WaitForLoadingIconToDisappear();
@@ -35,44 +37,44 @@ namespace si_automated_tests.Source.Main.Pages.Events
             ClickOnElement(applyBtn);
             return this;
         }
-
+        [AllureStep]
         public EventsListingPage ClickCheckboxMultipleEventInList()
         {
             ClickOnElement(allRecordCheckbox);
             return this;
         }
-
+        [AllureStep]
         public EventBulkUpdatePage ClickOnBulkUpdateBtn()
         {
             WaitUtil.WaitForElementVisible(bulkUpdateBtn);
             ClickOnElement(bulkUpdateBtn);
             return PageFactoryManager.Get<EventBulkUpdatePage>();
         }
-
+        [AllureStep]
         public EventDetailPage ClickOnFirstRecord()
         {
             DoubleClickOnElement(firstRecord);
             return PageFactoryManager.Get<EventDetailPage>();
         }
-
+        [AllureStep]
         public EventDetailPage ClickRowWithIcon()
         {
             DoubleClickOnElement(linkedIcon);
             return PageFactoryManager.Get<EventDetailPage>();
         }
-
+        [AllureStep]
         public EventsListingPage ClickClearBtn()
         {
             ClickOnElement(clearBtn);
             return this;
         }
-
+        [AllureStep]
         public EventsListingPage ClickDeleteBtn()
         {
             ClickOnElement(deleteEventItemBtn);
             return this;
         }
-
+        [AllureStep]
         public EventsListingPage VerifyNoRecordDisplayed()
         {
             Assert.AreEqual("", GetElementText(eventRow));

@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Attributes;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using si_automated_tests.Source.Core;
 using System;
@@ -23,6 +24,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly string firstOptionInRoundGrid = "//div[@id='roundGrid']//div[@class='ui-widget-content slick-row even']/div[4]";
 
 
+        [AllureStep]
         public TaskAllocationPage Input(string contract, string service)
         {
             SelectTextFromDropDown(contractSelect, contract);
@@ -33,6 +35,7 @@ namespace si_automated_tests.Source.Main.Pages
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public TaskAllocationPage DragAnDropTest()
         {
             ClickOnElement(firstCheckBox);

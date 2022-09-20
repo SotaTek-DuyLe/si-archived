@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Attributes;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By contractUnitNameInput = By.Id("contract-unit");
         private readonly By clientRefInput = By.Id("client-ref");
 
+        [AllureStep]
         public ContractUnitDetailPage InputContractUnitDetails(string name, string refer)
         {
             SendKeys(contractUnitNameInput, name);

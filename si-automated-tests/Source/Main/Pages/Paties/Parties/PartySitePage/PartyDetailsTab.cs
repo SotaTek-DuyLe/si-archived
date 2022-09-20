@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -21,57 +22,59 @@ namespace si_automated_tests.Source.Main.Pages
 
         private const string InvoiceAddressValue = "//select[@id='party-invoice-address']/option[text()='{0}']";
 
+        [AllureStep]
         public PartyDetailsTab ClickAddCorrespondenceAddress()
         {
             WaitUtil.WaitForElementVisible(CorrespondenceAddressAddBtn);
             ClickOnElement(CorrespondenceAddressAddBtn);
             return this;
         }
-
+        [AllureStep]
         public PartyDetailsTab ClickOnDetailsTab()
         {
             ClickOnElement(DetailsTab);
             return this;
         }
-
+        [AllureStep]
         public PartyDetailsTab ClickOnSitesTab()
         {
             ClickOnElement(SitesTab);
             return this;
         }
-
+        [AllureStep]
         public PartyDetailsTab VerifyAddressAppearAtSitesTab(string title)
         {
             WaitUtil.WaitForElementVisible(AddressTitle, title);
             Assert.IsTrue(IsControlDisplayed(AddressTitle, title));
             return this;
         }
+        [AllureStep]
         public PartyDetailsTab VerifyCreatedSiteAddressAppearAtAddress(string address)
         {
             WaitUtil.WaitForElementVisible(SiteAddressValue, address);
             Assert.IsTrue(IsControlDisplayed(SiteAddressValue, address));
             return this;
         }
-
+        [AllureStep]
         public PartyDetailsTab ClickOnInvoiceAddressButton()
         {
             ClickOnElement(InvoiceAddressButton);
             return this;
         }
-
+        [AllureStep]
         public PartyDetailsTab VerifyCreatedAddressAppearAtInvoiceAddress(string address)
         {
             WaitUtil.WaitForElementVisible(InvoiceAddressValue, address);
             Assert.IsTrue(IsControlDisplayed(InvoiceAddressValue, address));
             return this;
         }
-
+        [AllureStep]
         public PartyDetailsTab SelectCreatedAddress(string address)
         {
             ClickOnElement(InvoiceAddressValue, address);
             return this;
         }
-
+        [AllureStep]
         public PartyDetailsTab VerifyDisplaySuccessfullyMessage()
         {
 
@@ -79,7 +82,7 @@ namespace si_automated_tests.Source.Main.Pages
             WaitUtil.WaitForElementInvisible(SuccessfullyToastMessage);
             return this;
         }
-
+        [AllureStep]
         public PartyDetailsTab VerifySelectedAddressOnInvoicePage(String address)
         {
             WaitUtil.WaitForElementVisible(InvoiceAddressOnPage, address);

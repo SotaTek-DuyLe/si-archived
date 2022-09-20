@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Models;
@@ -38,6 +39,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         //round grid
         private readonly By rounds = By.XPath("//ul[@id='rounds']/li");
 
+        [AllureStep]
         public MasterRoundManagementPage IsOnPage()
         {
             WaitUtil.WaitForPageLoaded();
@@ -48,6 +50,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             WaitUtil.WaitForElementVisible(goBtn);
             return this;
         }
+        [AllureStep]
         public MasterRoundManagementPage InputSearchDetails(string contract, string service, string date)
         {
             SelectTextFromDropDown(contractSelect, contract);
@@ -59,6 +62,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             WaitUtil.WaitForPageLoaded();
             return this;
         }
+        [AllureStep]
         public MasterRoundManagementPage InputSearchDetails(string contract, string service, string subService, string date)
         {
             SelectTextFromDropDown(contractSelect, contract);
@@ -71,6 +75,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             WaitUtil.WaitForPageLoaded();
             return this;
         }
+        [AllureStep]
         public MasterRoundManagementPage InputSearchDetails(string date)
         {
             SendKeys(dateInput, date);
@@ -79,16 +84,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             WaitUtil.WaitForPageLoaded();
             return this;
         }
+        [AllureStep]
         public MasterRoundManagementPage ClickFirstUnallocatedTask()
         {
             ClickOnElement(firstUnallocatedTask);
             return this;
         }
+        [AllureStep]
         public MasterRoundManagementPage ClickFirstAllocatedTask()
         {
             ClickOnElement(firstAllocatedTask);
             return this;
         }
+        [AllureStep]
         public MasterRoundManagementPage DragAndDropFirstUnallocatedTaskToFirstRound()
         {
             var newSource = GetElement(activeUnallocatedTask);
@@ -96,6 +104,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DragAndDrop(newSource, target);
             return this;
         }
+        [AllureStep]
         public MasterRoundManagementPage DragAndDropSelectedAllocatedTaskToSecondRound()
         {
             var newSource = GetElement(selectedAllocatedTask);
@@ -103,6 +112,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             AlternativeDragAndDrop(newSource, target);
             return this;
         }
+        [AllureStep]
         public MasterRoundManagementPage DragAndDropFirstRoundToGrid()
         {
             var target = GetElement(tabContainer);
@@ -110,10 +120,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DragAndDrop(source, target);
             return this;
         }
+        [AllureStep]
         public String GetFirstRoundName()
         {
             return GetAllElements(rounds)[0].Text;
         }
+        [AllureStep]
         public MasterRoundManagementPage DragAndDropSecondRoundToGrid()
         {
             var target = GetElement(tabContainer);
@@ -121,6 +133,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DragAndDrop(source, target);
             return this;
         }
+        [AllureStep]
         public TaskModel GetFirstTaskDetails()
         {
             TaskModel temp = new TaskModel();
@@ -141,6 +154,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return temp;
         }
+        [AllureStep]
         public TaskModel GetFirstTaskDetailsInActiveRoundTab()
         {
             TaskModel temp = new TaskModel();
@@ -161,6 +175,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return temp;
         }
+        [AllureStep]
         public MasterRoundManagementPage FilterRoundBy(string fieldName, string valueToInput)
         {
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsPresent(roundTabHeaders);
@@ -175,6 +190,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
+        [AllureStep]
         public MasterRoundManagementPage VerifyTaskModelDescriptionAndStartDate(TaskModel expected)
         {
             //verify last task in grid
@@ -202,6 +218,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.AreEqual(actual.StartDate.Contains(expected.StartDate),true);
             return this;
         }
+        [AllureStep]
         public MasterRoundManagementPage VerifyTaskModelDescriptionAndEndDate(TaskModel expected)
         {
             //Verify first task in grid
