@@ -21,5 +21,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public readonly By MaxProductQty = By.XPath("//div[@id='details-tab']//input[@id='max-product-qty']");
         public readonly By StateSelect = By.XPath("//div[@id='details-tab']//select[@id='state']");
         public readonly By HistoryDetail = By.XPath("//div[@id='history-tab']//div[@data-bind='html: ew.renderChangesHtml(changes)'][1]");
+        public readonly By CompleteDateInput = By.XPath("//div[@id='details-tab']//input[@id='completed-date']");
     }
 }
