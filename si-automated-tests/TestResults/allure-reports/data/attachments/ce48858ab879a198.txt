@@ -1,4 +1,0 @@
-====[INFO]   TEST STARTED: TC_144_
-====[INFO]   Browser not specified, setting up for Chrome
-====[INFO]   TEST PASSED: TC_144_
-====[INFO]   END OF TEST
