@@ -165,7 +165,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -316,7 +316,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -487,7 +487,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -649,7 +649,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -813,7 +813,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -984,7 +984,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -1162,7 +1162,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -1340,7 +1340,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
