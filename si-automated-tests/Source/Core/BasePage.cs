@@ -78,16 +78,14 @@ namespace si_automated_tests.Source.Core
             if(RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 SendKeysWithoutClear(by, Keys.Command + "a");
-                SendKeysWithoutClear(by, Keys.Delete);
-                SendKeysWithoutClear(by, value);
-                SendKeysWithoutClear(by, Keys.Enter);
-            } else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 SendKeysWithoutClear(by, Keys.Control + "a");
-                SendKeysWithoutClear(by, Keys.Delete);
-                SendKeysWithoutClear(by, value);
-                SendKeysWithoutClear(by, Keys.Enter);
             }
+            SendKeysWithoutClear(by, Keys.Delete);
+            SendKeysWithoutClear(by, value);
+            SendKeysWithoutClear(by, Keys.Enter);
         }
 
         //SEND KEYS

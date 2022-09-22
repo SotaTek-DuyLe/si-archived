@@ -466,7 +466,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             //Line 92: Go to [Task Confirmation screen]
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.TASK_CONFIRMATION)
+                .OpenOption(SubOption.TaskConfirmation)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
@@ -527,7 +527,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             //Go to [Task Allocation] to check
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.TASK_ALLOCATION)
+                .OpenOption(SubOption.TaskAllocation)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskAllocationPage>()
@@ -668,7 +668,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             //Line 92: Go to [Task Confirmation screen]
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.TASK_CONFIRMATION)
+                .OpenOption(SubOption.TaskConfirmation)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
@@ -843,7 +843,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             //Line 92: Go to [Task Confirmation screen]
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.TASK_CONFIRMATION)
+                .OpenOption(SubOption.TaskConfirmation)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
@@ -1030,7 +1030,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             //Line 92: Go to [Task Confirmation screen]
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.TASK_CONFIRMATION)
+                .OpenOption(SubOption.TaskConfirmation)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
@@ -1076,7 +1076,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
 
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.TASK_ALLOCATION)
+                .OpenOption(SubOption.TaskAllocation)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskAllocationPage>()
