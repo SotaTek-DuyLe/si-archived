@@ -654,5 +654,105 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickNext()
                 .WaitForLoadingIconToDisappear();
         }
+
+        [Category("AgreementTask")]
+        [Test(Description = "Verify that a product code has been added to agreement line wizard")]
+        public void TC_193_Add_product_code_description_to_the_AgreementLineAssetProduct()
+        {
+            PageFactoryManager.Get<LoginPage>()
+            .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser12.UserName, AutoUser12.Password)
+                .IsOnHomePage(AutoUser12);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(1136)
+                .OpenFirstResult();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .OpenAgreementTab()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .IsOnPartyAgreementPage()
+               .SelectAgreementType("Commercial Collections")
+               .ClickSaveBtn()
+               .VerifyToastMessage("Successfully saved agreement");
+            PageFactoryManager.Get<PartyAgreementPage>().ClickAddService();
+            PageFactoryManager.Get<AddServicePage>()
+                .IsOnAddServicePage();
+            PageFactoryManager.Get<SiteAndServiceTab>()
+                .IsOnSiteServiceTab()
+                .SelectService("Commercial")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SiteAndServiceTab>().ClickNext();
+            var assetAndProductTab = PageFactoryManager.Get<AssetAndProducTab>();
+            assetAndProductTab.WaitForLoadingIconToDisappear();
+            assetAndProductTab
+                .IsOnAssetTab()
+                .ClickAddAsset()
+                .VerifyInputValue(assetAndProductTab.assetQuantity, "1");
+            assetAndProductTab.VerifyDeliveryDate(DateTime.Now.AddDays(7).ToString("dd/MM/yyyy"))
+                .ChooseAssetType("1100L")
+                .ChooseTenure("Rental")
+                .ChooseProduct("General Recycling")
+                .ChooseEwcCode("150106")
+                .EditAssertClickDoneBtn()
+                .ClickNext();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+               .IsOnScheduleTab()
+               .ClickAddService()
+               .ClickDoneScheduleBtn()
+               .ClickOnNotSetLink()
+               .ClickOnWeeklyBtn()
+               .ClickDoneRequirementBtn()
+               .ClickNext()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+               .IsOnPriceTab()
+               .InputPrices(new List<(string title, string value)>() { ("Commercial Customers: Bin Removal", "1"), ("Commercial Customers: Bin Delivery", "1") })
+               .ClickPrice("Commercial Customers: Bin Rental")
+               .ClickNext()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+               .IsOnInvoiceDetailsTab()
+               .ClickFinish()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickSaveBtn()
+               .VerifyToastMessage(AgreementConstants.SUCCESSFULLY_SAVED_AGREEMENT)
+               .WaitForLoadingIconToDisappear();
+
+            var partyAgreementPage = PageFactoryManager.Get<PartyAgreementPage>();
+            partyAgreementPage.SleepTimeInMiliseconds(10000);
+            partyAgreementPage.ClickApproveAgreement()
+                .ConfirmApproveBtn()
+                .VerifyAgreementStatus("Active");
+            partyAgreementPage
+                .ClickEditAgreementBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<EditAgreementServicePage>()
+                .IsOnEditAgreementServicePage()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            assetAndProductTab
+                .IsOnAssetTab()
+                .ClickOnEditAsset()
+                .VerifyInputAssetAndProduct(1, "1100L", "Rental", "General Recycling", "150106");
+        }
     }
 }
