@@ -6,7 +6,6 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.DBModels;
-using si_automated_tests.Source.Main.Models.Agreement;
 using si_automated_tests.Source.Main.Models.DBModels;
 
 namespace si_automated_tests.Source.Main.Pages.Services
@@ -17,6 +16,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public string AnnouncementTab = "//a[@aria-controls='announcements-tab']";
         public string  DetailTab = "//a[@aria-controls='details-tab']";
         public string ScheduleTab = "//a[@aria-controls='schedules-tab']";
+        private readonly By title = By.XPath("//span[text()='Service Task']");
+        private readonly By serviceGroupTitle = By.XPath("//div[text()='SERVICE GROUP']");
+        private readonly By serviceGroupName = By.XPath("//div[text()='SERVICE GROUP']/following-sibling::div");
+        private readonly By serviceName = By.XPath("//div[text()='SERVICE']/following-sibling::div");
 
         private string serviceTaskName = "//span[text()='Service Task']/following-sibling::span[contains(text(),'{0}')]";
         private string headerPartyName = "//div[@class='headers-container']//a[contains(text(), '{0}')]";
@@ -48,6 +51,16 @@ namespace si_automated_tests.Source.Main.Pages.Services
             WaitUtil.WaitForElementVisible(headerPartyName, partyname);
             return this;
         }
+
+        [AllureStep]
+        public ServicesTaskPage IsServiceTaskPage()
+        {
+            WaitUtil.WaitForElementVisible(title);
+            WaitUtil.WaitForElementVisible(serviceGroupTitle);
+
+            return this;
+        }
+
         [AllureStep]
         public ServicesTaskPage ClickOnTaskLineTab()
         {
@@ -138,5 +151,80 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(n, num);
             return this;
         }
+
+        //DETAIL TAB
+        private readonly By assuredCheckbox = By.XPath("//label[contains(string(), 'Assured Task')]/following-sibling::input");
+        private readonly By proximityAlertCheckbox = By.XPath("//label[contains(string(), 'Proximity Alert')]/following-sibling::input");
+        private readonly By assuredFromInput = By.XPath("//input[@id='assuredFrom.id']");
+        private readonly By assuredUntilInput = By.XPath("//input[@id='assuredUntil.id']");
+
+        [AllureStep]
+        public ServicesTaskPage VerifyAssuredTaskChecked()
+        {
+            WaitUtil.WaitForElementVisible(assuredCheckbox);
+            Assert.IsTrue(IsCheckboxChecked(assuredCheckbox));
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage VerifyProximityAlertChecked()
+        {
+            WaitUtil.WaitForElementVisible(proximityAlertCheckbox);
+            Assert.IsTrue(IsCheckboxChecked(proximityAlertCheckbox));
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnDetailTab()
+        {
+            ClickOnElement(DetailTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage VerifyAsseredFromAndAssuredUntil(string fromDate, string untilDate)
+        {
+            Assert.AreEqual(fromDate, GetAttributeValue(assuredFromInput, "value"));
+            Assert.AreEqual(untilDate, GetAttributeValue(assuredUntilInput, "value"));
+            return this;
+        }
+
+        [AllureStep]
+        public string GetServiceGroupName()
+        {
+            return GetElementText(serviceGroupName);
+        }
+
+        public string GetServiceName()
+        {
+            return GetElementText(serviceName);
+        }
+
+        //SCHEDULE TAB
+        private readonly By schedulesTab = By.XPath("//a[@aria-controls='schedules-tab']");
+        private readonly By roundInFirstRow = By.XPath("//tbody/tr[1]/td[contains(@data-bind, 'text: round.value')]");
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnSchedulesTab()
+        {
+            ClickOnElement(schedulesTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public string GetRoundName()
+        {
+            return GetElementText(roundInFirstRow).Trim();
+        }
+
+        [AllureStep]
+        public ServicesTaskPage VerifyNoteValueInTaskNotes(string noteValueExp)
+        {
+            Assert.AreEqual(noteValueExp, GetAttributeValue(TaskNoteInput, "value"));
+            return this;
+        }
+
     }
 }

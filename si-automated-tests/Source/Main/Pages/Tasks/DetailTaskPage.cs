@@ -76,6 +76,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             ClickOnElement(inspectionBtn);
             return this;
         }
+
+        [AllureStep]
+        public string GetTaskId()
+        {
+            return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/tasks/", "").Trim();
+        }
+
         [AllureStep]
         public string GetServiceName()
         {
@@ -295,6 +302,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             string completedDateDisplayed = GetAttributeValue(completionDateInput, "value");
             Assert.IsFalse(string.IsNullOrEmpty(completedDateDisplayed));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyTaskNotesValue(string noteValue)
+        {
+            Assert.AreEqual(noteValue, GetAttributeValue(taskNotesInput, "value"));
             return this;
         }
 

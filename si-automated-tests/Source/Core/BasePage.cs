@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
@@ -74,7 +75,14 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public void InputCalendarDate(By by, string value)
         {
-            SendKeysWithoutClear(by, Keys.Control + "a");
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                SendKeysWithoutClear(by, Keys.Command + "a");
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                SendKeysWithoutClear(by, Keys.Control + "a");
+            }
             SendKeysWithoutClear(by, Keys.Delete);
             SendKeysWithoutClear(by, value);
             SendKeysWithoutClear(by, Keys.Enter);
@@ -546,6 +554,8 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         //GET FIRST SELECTED ITEM IN DROPDOWN
+
+        [AllureStep]
         public string GetFirstSelectedItemInDropdown(string xpath)
         {
             IWebElement comboBox = driver.FindElement(By.XPath(xpath));
@@ -553,12 +563,14 @@ namespace si_automated_tests.Source.Core
             return selectedValue.SelectedOption.Text;
         }
 
+        [AllureStep]
         public string GetFirstSelectedItemInDropdown(IWebElement comboBox)
         {
             SelectElement selectedValue = new SelectElement(comboBox);
             return selectedValue.SelectedOption.Text;
         }
 
+        [AllureStep]
         public string GetFirstSelectedItemInDropdown(By by)
         {
             IWebElement comboBox = driver.FindElement(by);
@@ -567,17 +579,22 @@ namespace si_automated_tests.Source.Core
         }
 
         //GET ATTRIBUTE VALUE
+
+        [AllureStep]
         public string GetAttributeValue(string xpath, string attributeName)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(xpath);
             return element.GetAttribute(attributeName);
         }
+
+        [AllureStep]
         public string GetAttributeValue(By by, string attributeName)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             return element.GetAttribute(attributeName);
         }
 
+        [AllureStep]
         public string GetAttributeValue(IWebElement element, string attributeName)
         {
             return element.GetAttribute(attributeName);
@@ -938,6 +955,49 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForElementVisible(by);
             IWebElement elementLocator = (IWebElement)driver.FindElement(by);
             actions.ContextClick(elementLocator).Perform();
+            return this;
+        }
+        [AllureStep]
+        public BasePage HoldKeyDownWhileClickOnElement(By by)
+        {
+            Actions actions = new Actions(driver);
+            WaitUtil.WaitForElementVisible(by);
+            IWebElement elementLocator = (IWebElement)driver.FindElement(by);
+            actions.MoveToElement(elementLocator).Click();
+            actions.KeyDown(Keys.Control);
+            actions.KeyUp(Keys.Control).Build().Perform();
+            return this;
+        }
+
+        [AllureStep]
+        public BasePage HoldKeyDownWhileClickOnElement(List<string> locators)
+        {
+            Actions actions = new Actions(driver);
+            actions.KeyDown(Keys.Control);
+            foreach (var by in locators)
+            {
+                WaitUtil.WaitForElementVisible(by);
+                IWebElement elementLocator = (IWebElement)driver.FindElement(By.XPath(by));
+                actions.MoveToElement(elementLocator).Click();
+                SleepTimeInMiliseconds(500);
+            }
+            actions.KeyUp(Keys.Control).Build().Perform();
+            return this;
+        }
+
+        [AllureStep]
+        public BasePage HoldKeyDownWhileClickOnElement(List<By> bys)
+        {
+            Actions actions = new Actions(driver);
+            actions.KeyDown(Keys.Control);
+            foreach (var by in bys)
+            {
+                WaitUtil.WaitForElementVisible(by);
+                IWebElement elementLocator = (IWebElement)driver.FindElement(by);
+                actions.MoveToElement(elementLocator).Click();
+                SleepTimeInMiliseconds(500);
+            }
+            actions.KeyUp(Keys.Control).Build().Perform();
             return this;
         }
 
