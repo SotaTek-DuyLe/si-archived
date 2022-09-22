@@ -7,6 +7,7 @@ using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Models.Applications;
 using si_automated_tests.Source.Main.Models.ServiceStatus;
+using si_automated_tests.Source.Main.Pages.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -69,6 +70,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 
         public readonly By ShowOutstandingTaskButton = By.XPath("//div[@id='tabs-container']//button[@id='t-outstanding']");
         public readonly By OutstandingTab = By.XPath("//div[@id='tabs-container']//li//a[@aria-controls='outstanding']");
+        private readonly By selectAndDeselectBtn = By.XPath("//div[contains(@id, 'round-tab')]//div[@title='Select/Deselect All']");
 
         //DYNAMIC
         private readonly string contractOption = "//label[text()='Contract']/following-sibling::span/select/option[text()='{0}']";
@@ -76,7 +78,9 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string childServiceOption = "//a[text()='{0}']";
         private readonly string assuredChecked = "//div[contains(string(), '{0}')]/following-sibling::div[contains(@class, 'l25')]/div[text()='✓']";
         private readonly string assuredNotChecked = "//div[contains(string(), '{0}')]/following-sibling::div[contains(@class, 'l25')]/div[text()='✗']";
-
+        private readonly string roundWithRoundNameAndRoundGroup = "//div[@id='round-grid-container']//div[text()='{0}']/preceding-sibling::div[text()='{1}']/following-sibling::div/div";
+        private readonly string firstTaskWithAssuredByRoundName = "//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']/div[contains(string(), '{0}')]";
+        private readonly string firstCheckboxTask = "//div[contains(@id, 'round-tab')]//div[contains(string(), '{0}')]/preceding-sibling::div[contains(@class, 'l1')]";
 
         private TableElement unallocatedTableEle;
         public TableElement UnallocatedTableEle
@@ -827,6 +831,37 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TaskAllocationPage VerifyDisplayTaskWithAssuredNotChecked(string value)
         {
             Assert.IsTrue(IsControlDisplayed(assuredNotChecked, value));
+            return this;
+        }
+
+        [AllureStep]
+        public TaskAllocationPage DragAndDropUnAllocatedRoundToGridTask(string roundName, string roundGroupName)
+        {
+
+            IWebElement roundCell = GetElement(string.Format(roundWithRoundNameAndRoundGroup, roundName, roundGroupName));
+            WaitUtil.WaitForElementClickable(roundCell).Click();
+            WaitForLoadingIconToDisappear();
+            roundCell = GetElement(string.Format(roundWithRoundNameAndRoundGroup, roundName, roundGroupName));
+            Actions a = new Actions(driver);
+            IWebElement taskGridElement = GetElement(taskGridUnAllocated);
+            a.ClickAndHold(roundCell).Perform();
+            a.MoveToElement(taskGridElement).Perform();
+            a.Release().Perform();
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage DoubleClickOnTaskAfterFilter(string roundName)
+        {
+            ClickOnElement(firstCheckboxTask, roundName);
+            DoubleClickOnElement(firstTaskWithAssuredByRoundName, roundName);
+            return PageFactoryManager.Get<DetailTaskPage>();
+        }
+        [AllureStep]
+        public TaskAllocationPage ClickOnSelectAndDeselectBtn()
+        {
+            ClickOnElement(selectAndDeselectBtn);
             return this;
         }
     }

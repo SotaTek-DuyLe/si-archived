@@ -14,6 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By RoundLegSelect = By.XPath("//div[@id='div-roundLeg']//select[@id='roundLeg.id']");
         private readonly By title = By.XPath("//span[text()='Service Task Schedule']");
         private readonly By serviceTaskLink = By.XPath("//span[text()='Service Task Schedule']/following-sibling::span");
+        private readonly By roundDd = By.XPath("//div[@id='div-round']//label[contains(string(), 'Round')]/following-sibling::echo-select/select");
 
         public ServiceTaskSchedulePage IsServiceTaskSchedule()
         {
@@ -37,6 +38,11 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(detailTab);
             WaitForLoadingIconToDisappear();
             return this;
+        }
+
+        public string GetRoundNameDisplayed()
+        {
+            return GetFirstSelectedItemInDropdown(roundDd);
         }
 
 

@@ -305,6 +305,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
+        public DetailTaskPage VerifyTaskNotesValue(string noteValue)
+        {
+            Assert.AreEqual(noteValue, GetAttributeValue(taskNotesInput, "value"));
+            return this;
+        }
+
         //HISTORY TAB
         private readonly By titleTaskLineFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]");
         private readonly By titleTaskLineSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[2]");

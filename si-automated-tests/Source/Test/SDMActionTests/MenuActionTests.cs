@@ -634,6 +634,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchToDefaultContent();
             //Filter taskId and check
             //Go to [Task confirmation] to get task id
+            //WEDNESDAY
             string filterDate = "";
             DateTime today = DateTime.Today;
             if (today.DayOfWeek == DayOfWeek.Monday)
@@ -743,7 +744,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             //First round
             serviceDataManagementPage
-                .DoubleClickOnFirstRowUnAllocated()
+                .DoubleClickOnFirstRowUnAllocated(firstDescRedRow)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceTaskSchedulePage>()
@@ -775,7 +776,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchNewIFrame();
             //Second round
             serviceDataManagementPage
-                .DoubleClickOnSecondRowUnAllocated()
+                .DoubleClickOnSecondRowUnAllocated(secondDescRedRow)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceTaskSchedulePage>()
@@ -892,6 +893,208 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             List<TaskDBModel> secondtaskDBModels = finder.GetTask(int.Parse(secondTaskId));
             Assert.AreEqual(1, secondtaskDBModels[0].proximityalert);
 
+        }
+
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "Action 'Add/Amend Crew Notes' - ONE cell with Assured Task")]
+        public void TC_132_Test_11_Action_add_amend_crew_notes_one_cell_with_assured_task()
+        {
+            string tomorrowDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
+            string datePlus10Days = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.RMC)
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .FilterReferenceById("77755")
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnSelectAndDeselectBtn()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            string descRedRow = serviceDataManagementPage
+                .GetFirstDescWithRedColor();
+            string noteValue = "Auto test note" + CommonUtil.GetRandomNumber(5);
+            serviceDataManagementPage
+                .RightClickOnSecondRowUnAllocated()
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[1])
+                .VerifySetAssuredAfterClick();
+            //Input [Set Assured]
+            serviceDataManagementPage.InputDateInSetEndDate(datePlus10Days);
+            //Input [Add/Amend Crew Notes]
+            string roundNameWithFormat = "WDREF1:Wednesday";
+            serviceDataManagementPage.RightClickOnSecondRowUnAllocated(roundNameWithFormat);
+            serviceDataManagementPage.ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[3]);
+            serviceDataManagementPage.InputAddAmendCrewNotes(noteValue);
+            serviceDataManagementPage.ClickOnSaveBtn();
+            serviceDataManagementPage.ClickOnApplyAtBottomBtn()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Get Round
+            int roundDay = serviceDataManagementPage
+                .GetRoundDate(descRedRow);
+            //Line 90: Double click on cell to display Service Task Schedule with Service Task
+            serviceDataManagementPage
+                .DoubleClickOnAnyRowWithServiceTaskSchedule(roundNameWithFormat)
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsServiceTaskSchedule()
+                .ClickOnServiceTaskLink()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .ClickOnDetailTab()
+                .VerifyAssuredTaskChecked()
+                .VerifyAsseredFromAndAssuredUntil(tomorrowDate, datePlus10Days)
+                //Verify [Task Notes]
+                .VerifyNoteValueInTaskNotes(noteValue)
+                .ClickOnSchedulesTab();
+
+            //Get service group
+            string serviceGroupName = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetServiceGroupName();
+            string serviceName = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetServiceName();
+            string roundAtFirstRow = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetRoundName();
+            string roundName = roundAtFirstRow.Split(" ")[0];
+            string dayName = roundAtFirstRow.Split(" ")[1];
+
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            string filterDate = "";
+            DateTime today = DateTime.Today;
+            if (today.DayOfWeek == DayOfWeek.Monday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Tuesday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 8);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Wednesday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Thursday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 6);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Friday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 5);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 4);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
+            }
+
+            //Line 92: Go to [Task Confirmation screen]
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.TASK_CONFIRMATION)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .IsTaskConfirmationPage()
+                .SelectContract(Contract.RM)
+                .ClickServicesAndSelectServiceInTree(serviceGroupName, serviceName, roundName, dayName)
+                .SendDateInScheduledDate(filterDate)
+                .ClickGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnExpandRoundsBtn()
+                .ClickOnExpandRoundLegsBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .SendKeyInDesc(descRedRow)
+                .VerifyDisplayResultAfterSearchWithDesc(descRedRow)
+                .DoubleClickOnFirstRound()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear(); 
+            PageFactoryManager.Get<RoundInstanceDetailPage>()
+                .ClickOnWorksheetTab()
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundInstanceDetailPage>()
+                .ClickOnMinimiseRoundsAndRoundLegsBtn()
+                .SendKeyInDesc(descRedRow)
+                .VerifyDisplayNotesAfterSearchWithDesc(noteValue)
+                .ClickOnSelectAndDeselectBtn()
+                .DoubleClickOnFirstRowAfterFilteringWithDesc()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            //Verify [Task notes] in [Details] tab
+            PageFactoryManager.Get<DetailTaskPage>()
+                .ClickOnDetailTab()
+                .VerifyTaskNotesValue(noteValue)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            //Verify in [Task Allocation] page
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.TASK_ALLOCATION)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskAllocationPage>()
+                .SelectContract(Contract.RM)
+                .SelectServices(serviceGroupName, serviceName)
+                .SendKeyInFrom(filterDate)
+                .ClickOnGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskAllocationPage>()
+                .DragAndDropUnAllocatedRoundToGridTask(dayName, roundName)
+                .SendKeyInDescInputToSearch(descRedRow)
+                .DoubleClickOnTaskAfterFilter(descRedRow)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailTaskPage>()
+                .IsDetailTaskPage()
+                .ClickOnDetailTab()
+                .VerifyTaskNotesValue(noteValue);
         }
 
     }

@@ -219,5 +219,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return GetElementText(roundInFirstRow).Trim();
         }
 
+        [AllureStep]
+        public ServicesTaskPage VerifyNoteValueInTaskNotes(string noteValueExp)
+        {
+            Assert.AreEqual(noteValueExp, GetAttributeValue(TaskNoteInput, "value"));
+            return this;
+        }
+
     }
 }

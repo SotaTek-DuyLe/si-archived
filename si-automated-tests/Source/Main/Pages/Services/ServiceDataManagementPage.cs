@@ -51,6 +51,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string anyServicesGroupByContract = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/i[1]";
         private readonly string firstLocatorWithDescRedRow = "(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]/td[contains(@data-bind, 'retiredPoint')]/span/parent::td)[1]";
         private readonly string roundDate = "//table[@id='master-table']//tr[contains(@class, 'round-row')]/td[count(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//span/parent::td[contains(@data-bind, 'retiredPoint')]/preceding-sibling::td) + 1]";
+        private readonly string columnRoundByRoundName = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[@title='{0}']/preceding-sibling::td) + 1]";
 
         [AllureStep]
         public ServiceDataManagementPage IsServiceDataManagementPage()
@@ -170,7 +171,19 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnSecondRowUnAllocated()
+        {
+            RightClickOnElement(secondRowWithServiceTaskScheduleAndNotAllocated);
+            return this;
+        }
 
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnSecondRowUnAllocated(string roundNameDisplayed)
+        {
+            RightClickOnElement(string.Format(columnRoundByRoundName, roundNameDisplayed));
+            return this;
+        }
 
         [AllureStep]
         public ServiceDataManagementPage SelectAndRightClickOnMultipleRowsUnAllocated(string firstDescRedName, string secondDescRedName)
@@ -191,9 +204,16 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
-        public ServiceDataManagementPage DoubleClickOnSecondRowUnAllocated()
+        public ServiceDataManagementPage DoubleClickOnFirstRowUnAllocated(string firstDescRedName)
         {
-            DoubleClickOnElement(secondRowWithServiceTaskScheduleAndNotAllocated);
+            DoubleClickOnElement(firstLocatorWithDescRedRow, firstDescRedName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnSecondRowUnAllocated(string secondDescRedName)
+        {
+            DoubleClickOnElement(firstLocatorWithDescRedRow, secondDescRedName);
             return this;
         }
         [AllureStep]
@@ -207,6 +227,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceDataManagementPage DoubleClickOnFirstRowWithServiceTaskSchedule(string descValue)
         {
             DoubleClickOnElement(string.Format(firstLocatorWithDescRedRow, descValue));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnAnyRowWithServiceTaskSchedule(string roundNameDisplayed)
+        {
+            DoubleClickOnElement(string.Format(columnRoundByRoundName, roundNameDisplayed));
             return this;
         }
 
@@ -300,7 +327,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceDataManagementPage SelectMultipleRowsWithoutServiceTaskSchedule()
         {
-            HoldKeyDownWhileClickOnElement(new List<By> { firstMultipleRowWithoutServiceTaskSchedule, secondMultipleRowWithoutServiceTaskSchedule };
+            HoldKeyDownWhileClickOnElement(new List<By> { firstMultipleRowWithoutServiceTaskSchedule, secondMultipleRowWithoutServiceTaskSchedule });
             return this;
         }
 
@@ -356,6 +383,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By setEndDateLabel = By.XPath("//label[text()='Set End Date']");
         private readonly By inputEndDate = By.XPath("//input[@id='assured-end-date']");
         private readonly By applyAtBottomBtn = By.XPath("//button[text()='Apply']");
+        private readonly By addAmendCrewNotesBtn = By.XPath("//button[text()='Add/Amend Crew Notes']");
+        private readonly By setAssuredBtn = By.XPath("//button[text()='Set Assured']");
+        private readonly By textareaInputNotes = By.CssSelector("textarea[id='crew-notes']");
+        private readonly By saveBtn = By.XPath("//button[text()='Save']");
 
         [AllureStep]
         public ServiceDataManagementPage VerifySetAssuredAfterClick()
@@ -369,6 +400,20 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             InputCalendarDate(inputEndDate, endDateValue);
             ClickOnElement(setEndDateLabel);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage InputAddAmendCrewNotes(string noteValue)
+        {
+            SendKeys(textareaInputNotes, noteValue);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage ClickOnSaveBtn()
+        {
+            ClickOnElement(saveBtn);
             return this;
         }
 

@@ -981,6 +981,7 @@ namespace si_automated_tests.Source.Core
                 WaitUtil.WaitForElementVisible(by);
                 IWebElement elementLocator = (IWebElement)driver.FindElement(By.XPath(by));
                 actions.MoveToElement(elementLocator).Click();
+                SleepTimeInMiliseconds(500);
             }
             actions.KeyUp(Keys.Control).Build().Perform();
             return this;
@@ -996,6 +997,7 @@ namespace si_automated_tests.Source.Core
                 WaitUtil.WaitForElementVisible(by);
                 IWebElement elementLocator = (IWebElement)driver.FindElement(by);
                 actions.MoveToElement(elementLocator).Click();
+                SleepTimeInMiliseconds(500);
             }
             actions.KeyUp(Keys.Control).Build().Perform();
             return this;

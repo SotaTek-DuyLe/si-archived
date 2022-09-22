@@ -42,6 +42,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 
         public readonly By ShowOutstandingTaskButton = By.XPath("//div[@id='tabs-container']//button[@id='t-outstanding']");
         public readonly By OutstandingTab = By.XPath("//div[@id='tabs-container']//li//a[@aria-controls='outstanding']");
+        private readonly By firstRoundInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[1]");
 
         //DYNAMIC
         private readonly string anyContractOption = "//label[text()='Contract']/following-sibling::span/select/option[text()='{0}']";
@@ -193,6 +194,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             slickRoundTableEle.DoubleClickRow(0);
             return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage DoubleClickOnFirstRound()
+        {
+            DoubleClickOnElement(firstRoundInGrid);
+            SleepTimeInMiliseconds(3000);
+            return PageFactoryManager.Get<RoundInstanceDetailPage>();
         }
     }
 }
