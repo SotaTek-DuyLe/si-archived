@@ -6,6 +6,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Task;
 
@@ -47,6 +48,56 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
         private static string actualAssetQuantityText = "//th[text()='Asset']";
         private static By actualAssetQuantityInput = By.Id("actualAssetQuantity.id");
 
+        #region Task Line Table
+        private string TaskLineTable = "//div[@id='taskLines-tab']//table//tbody";
+        private string TaskLineRow = "./tr";
+        private string OrderCell = "./td//input[@id='order.id']";
+        private string TypeCell = "./td//select[@id='taskLineType.id']";
+        private string AssetTypeCell = "./td//echo-select[contains(@params, 'assetType')]//select";
+        private string AssetActualCell = "./td//input[@id='actualAssetQuantity.id']";
+        private string AssetScheduleCell = "./td//input[@id='scheduledAssetQuantity.id']";
+        private string ProductCell = "./td//echo-select[contains(@params, 'product')]//select";
+        private string ProductActualCell = "./td//input[@id='actualProductQuantity.id']";
+        private string ProductScheduleCell = "./td//input[@id='scheduledProductQuantity.id']";
+        private string UnitCell = "./td//echo-select[contains(@params, 'unitOfMeasure')]//select";
+        private string SiteDestinationCell = "./td//select[@id='destinationSite.id']";
+        private string SiteProductCell = "./td//select[@id='siteProduct.id']";
+        private string StateCell = "./td//select[@id='itemState.id']";
+        private string ResolutionCodeCell = "./td//select[@id='resCode.id']";
+        private string RemoveButtonCell = "./td//button";
+
+        public TableElement TaskLineTableEle
+        {
+            get => new TableElement(TaskLineTable, TaskLineRow, new List<string>() 
+            { 
+                OrderCell, TypeCell, AssetTypeCell, 
+                AssetActualCell, AssetScheduleCell, ProductCell, 
+                ProductActualCell, ProductScheduleCell, UnitCell,
+                SiteDestinationCell, SiteProductCell, StateCell, ResolutionCodeCell, RemoveButtonCell 
+            });
+        }
+
+        [AllureStep]
+        public AgreementTaskDetailsPage DoubleClickTaskLine(int rowIdx = 0)
+        {
+            TaskLineTableEle.DoubleClickRow(rowIdx);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementTaskDetailsPage VerifyTaskLineProduct(int rowIdx, string value)
+        {
+            VerifyCellValue(TaskLineTableEle, rowIdx, 5, value);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementTaskDetailsPage VerifyTaskLineState(int rowIdx, string value)
+        {
+            VerifyCellValue(TaskLineTableEle, rowIdx, 11, value);
+            return this;
+        }
+        #endregion
         public readonly By AddNewAgreementTaskDetailButton = By.XPath("//div[@id='taskLines-tab']//button[@title='Add New Item']");
 
         #region Task Details Header
