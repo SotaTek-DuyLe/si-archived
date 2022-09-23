@@ -362,11 +362,13 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyName045)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
-            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-            detailPartyPage
-                .VerifyDisplaySuccessfullyMessage()
+                .ClickSaveBtn()
+                .waitForLoadingIconDisappear();
+            PageFactoryManager.Get<CreatePartyPage>()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+                
             //Get id
             partyIdCustomer = detailPartyPage
                 .GetPartyId();
@@ -400,14 +402,14 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded45)
                 .SelectCreatedAddress(addressAdded45)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SavePartySuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             //Internal flag checked
             detailPartyPage
                 .ClickInternalCheckbox()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SavePartySuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Navigate to Site page
             detailPartyPage

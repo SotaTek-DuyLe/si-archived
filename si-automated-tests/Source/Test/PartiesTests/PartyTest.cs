@@ -62,7 +62,9 @@ namespace si_automated_tests.Source.Test
                 .SelectPartyType(1)
                 .ClickSaveBtn();
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyDisplaySuccessfullyMessage()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<DetailPartyPage>()
                 .MergeAllTabInDetailPartyAndVerify()
                 .ClickAllTabAndVerify()
                 .ClickAllTabInDropdownAndVerify();
@@ -99,7 +101,9 @@ namespace si_automated_tests.Source.Test
                 .ClickSaveBtn();
             //Verify all tab display correctly
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyDisplaySuccessfullyMessage()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<DetailPartyPage>()
                 .MergeAllTabInDetailPartyAndVerify()
                 .ClickAllTabAndVerify()
                 .ClickAllTabInDropdownAndVerify()
