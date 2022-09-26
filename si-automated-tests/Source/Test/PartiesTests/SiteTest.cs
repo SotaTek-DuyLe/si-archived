@@ -56,7 +56,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             sitePage.ClickOnElement(sitePage.LockCheckbox);
             sitePage.SendKeys(sitePage.LockReferenceInput, "Lock test automation");
             sitePage.ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Site");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
         }
 
         [Category("140_Task_Locked Tasks")]
@@ -87,7 +87,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             serviceUnitPage.SendKeys(serviceUnitPage.LockReferenceInput, lockedreference);
             serviceUnitPage.ClickOnElement(serviceUnitPage.ClientReferenceInput);
             serviceUnitPage.ClickSaveBtn()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //Verify DB
             CommonFinder finder = new CommonFinder(DbContext);
             var serviceUnit = finder.GetServiceUnitById(230015);
@@ -122,7 +122,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             string lockedreference = "Red key ring";
             sitePage.SendKeys(sitePage.LockReferenceInput, lockedreference);
             sitePage.ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Site");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //Verify DB
             CommonFinder finder = new CommonFinder(DbContext);
             var serviceUnit = finder.GetServiceUnitById(25);
@@ -146,7 +146,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             lockedreference = "";
             sitePage.SendKeys(sitePage.LockReferenceInput, lockedreference);
             sitePage.ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Site")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToChildWindow(2);
             pointAddressPage.ClickOnElement(pointAddressPage.AllServiceTab);
             pointAddressPage.WaitForLoadingIconToDisappear();
@@ -184,7 +184,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             string lockedreference = "yellow key";
             sitePage.SendKeys(sitePage.LockReferenceInput, lockedreference);
             sitePage.ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Site");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //Verify DB
             CommonFinder finder = new CommonFinder(DbContext);
             var serviceUnit = finder.GetServiceUnitById(24);
@@ -206,7 +206,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             serviceUnitPage.SendKeys(serviceUnitPage.LockReferenceInput, "");
             serviceUnitPage.ClickOnElement(serviceUnitPage.ClientReferenceInput);
             serviceUnitPage.ClickSaveBtn()
-                .VerifyToastMessage("Success")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToFirstWindow();
             sitePage.ClickRefreshBtn();
             sitePage.WaitForLoadingIconToDisappear();
@@ -251,7 +251,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             roundInstanceForm.ClickOnElement(roundInstanceForm.DropDownStatusButton);
             roundInstanceForm.SelectStatus("In Progress")
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Round Instance")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
