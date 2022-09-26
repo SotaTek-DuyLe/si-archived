@@ -573,7 +573,8 @@ namespace si_automated_tests.Source.Test
                 .SelectPartyType(1)
                 .ClickSaveBtn();
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyDisplaySuccessfullyMessage()
+                .SleepTimeInMiliseconds(1)
+                //.VerifyDisplaySuccessfullyMessage()
                 .SwitchToTab("Account");
             PageFactoryManager.Get<PartyAccountPage>()
                 .IsOnAccountPage()
@@ -592,7 +593,8 @@ namespace si_automated_tests.Source.Test
                 .ClickSaveBtn();
             PageFactoryManager.Get<PartyAccountPage>()
                 .SelectAccountType("Charity")
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .SleepTimeInMiliseconds(1000);
             PageFactoryManager.Get<DetailPartyPage>()
                 //.VerifyDisplaySuccessfullyMessage()
                 .ClickTabDropDown()

@@ -14,7 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccountStatem
         {
             WaitUtil.WaitForElementVisible(buttonNamed, "Create Credit Note");
             WaitUtil.WaitForElementVisible(buttonNamed, "Take Payment");
-            WaitUtil.WaitForElementVisible(buttonNamed, "Create Sales Invoice");
+            WaitUtil.WaitForElementVisible(buttonNamed, "Create Invoice");
         }
         [AllureStep]
         private AccountStatementPage ClickOnButtonNamed(string value)
@@ -37,7 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccountStatem
         [AllureStep]
         public AccountStatementPage ClickCreateSaleInvoice()
         {
-            ClickOnButtonNamed("Create Sales Invoice");
+            ClickOnButtonNamed("Create Invoice");
             return this;
         }
 
