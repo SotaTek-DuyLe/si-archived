@@ -29,7 +29,6 @@ namespace si_automated_tests.Source.Main.Pages
         public List<PartyModel> GetAllPartyListing()
         {
             List<PartyModel> list = new List<PartyModel>();
-            SwitchNewIFrame();
             List<IWebElement> AllPartyRows = GetAllElements("//div[@class='grid-canvas']/div[contains(@class, 'ui-widget-content')]");
             List<IWebElement> AllPartyName = GetAllElements("//div[@class='grid-canvas']/div[contains(@class, 'ui-widget-content')]/div[3]");
             List<IWebElement> AllContractName = GetAllElements("//div[@class='grid-canvas']/div[contains(@class, 'ui-widget-content')]/div[4]");
@@ -74,9 +73,8 @@ namespace si_automated_tests.Source.Main.Pages
         {
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(AddNewItem);
-            SendKeys(filterInputById, id.ToString());
+            SendKeys(filterInputById, id);
             SendKeys(filterInputById, Keys.Enter);
-            ClickOnElement(applyBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }

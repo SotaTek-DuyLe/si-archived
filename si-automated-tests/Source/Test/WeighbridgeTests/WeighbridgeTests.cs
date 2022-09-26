@@ -126,7 +126,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
-                .VerifyDisplaySuccessfullyMessage()
+                //.VerifyDisplaySuccessfullyMessage()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
                 .ClickOnDetailsTab()
@@ -160,7 +160,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Internal flag checked
                 .ClickInternalCheckbox()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
+                .WaitForLoadingIconToDisappear();
+                //.VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
             //Create new Vehicle
             detailPartyPage
                 .ClickOnVehicleTab()
@@ -178,7 +179,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Input haulier name in TC47
                 .SelectHaulierName(partyNameHaulier)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBVCHRegistered)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Create new station in TC048
@@ -207,7 +208,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectDefaultTicket(ticketType)
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBStationSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
@@ -220,6 +221,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAddNewProductItem()
                 .SwitchToLastWindow();
             AddProductPage addProductPage = PageFactoryManager.Get<AddProductPage>();
+            //Bug
             addProductPage
                 .WaitForAddProductPageDisplayed()
                 .IsAddProductPage()
@@ -228,7 +230,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Select any ticket Type
                 .ClickAnyTicketType(ticketType)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
@@ -250,7 +252,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectActiveCheckbox()
                 .InputClientName(clientRef)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             addLocationPage
                 .VerifyActiveCheckboxSelected()
                 .ClickCloseBtn()
@@ -362,11 +364,13 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyName045)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .waitForLoadingIconDisappear();
+            //PageFactoryManager.Get<CreatePartyPage>()
+            //    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+            //    .WaitForLoadingIconToDisappear();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-            detailPartyPage
-                .VerifyDisplaySuccessfullyMessage()
-                .WaitForLoadingIconToDisappear();
+                
             //Get id
             partyIdCustomer = detailPartyPage
                 .GetPartyId();
@@ -400,14 +404,15 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded45)
                 .SelectCreatedAddress(addressAdded45)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SavePartySuccessMessage);
+                .WaitForLoadingIconToDisappear();
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                //.WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             //Internal flag checked
             detailPartyPage
                 .ClickInternalCheckbox()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SavePartySuccessMessage)
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                //.WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Navigate to Site page
             detailPartyPage
@@ -460,8 +465,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
-                .VerifyDisplaySuccessfullyMessage()
-                .ClickSaveBtn()
+                //.VerifyDisplaySuccessfullyMessage()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
                 .VerifyDisplayGreenBoderInLicenceNumberExField()
@@ -505,8 +509,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectCreatedAddressInCorresspondenceAddress(addressAdded)
                 .VerifyAddressIsFilledAtInvoiceAddress(addressAdded)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SavePartySuccessMessage);
+                .WaitForLoadingIconToDisappear();
+                //.VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
+                //.WaitUntilToastMessageInvisible(MessageSuccessConstants.SavePartySuccessMessage);
             detailPartyPage
                 .ClickOnSitesTab()
                 .WaitForLoadingIconToDisappear();
@@ -537,7 +542,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
-                .VerifyDisplaySuccessfullyMessage()
+                //.VerifyDisplaySuccessfullyMessage()
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             partyIdHaulier = detailPartyPage
@@ -667,14 +672,14 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .InputName(stationNameTC48)
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBStationSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBStationSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             createStationPage
                 .SelectDefaultTicket("Incoming")
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBStationSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBStationSuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
@@ -727,8 +732,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectResourceType(resourceType)
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveResourceSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveResourceSuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1)
                 .SwitchNewIFrame()
@@ -784,8 +789,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectResourceType(resourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveResourceSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveResourceSuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1)
                 .SwitchNewIFrame()
@@ -926,8 +931,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             addLocationPage
                 .InputName(locationNameNotActive)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
@@ -939,8 +944,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .InputName(locationNameActive)
                 .SelectActiveCheckbox()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             addLocationPage
                 .VerifyActiveCheckboxSelected()
                 .ClickCloseBtn()
@@ -961,8 +966,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectActiveCheckbox()
                 .InputClientName(clientRef)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBSiteLocationSuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             List<LocationModel> allModelsNew = siteDetailPage
@@ -1109,8 +1114,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             addProductPage
                 .ClickAnyTicketType(ticketType)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             //==> Add new product with ticketType = Neutral
@@ -1129,8 +1134,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Select any ticket Type
                 .ClickAnyTicketType(neutralTicketType)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             //==> Add new product with ticketType = Outbound
@@ -1149,8 +1154,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Select any ticket Type
                 .ClickAnyTicketType(outboundTicketType)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
 
@@ -1245,7 +1250,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .InputSecondDate()
                 .InputSecondWeight(1)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBTicketSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
         }
 
         [Category("WB")]
@@ -1282,7 +1287,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createNewTicketPage.WaitForLoadingIconToDisappear();
             (string firstDate, string secondDate) secondTicketLine = createNewTicketPage.InputTicketLineData(1, "General Refuse", "80", "60");
             createNewTicketPage.ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Weighbridge Ticket")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
 
             //Click No
@@ -1306,7 +1311,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Click on take payment -> Click pay on the modal
             createNewTicketPage.ClickOnElement(createNewTicketPage.TakePaymentButton);
             createNewTicketPage.ClickOnElement(createNewTicketPage.PayButton);
-            createNewTicketPage.VerifyToastMessage("Successfully saved Weighbridge Ticket");
+            createNewTicketPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             createNewTicketPage.WaitForLoadingIconToDisappear();
             createNewTicketPage.VerifyElementText(createNewTicketPage.TicketState, "Paid");
             createNewTicketPage.VerifyElementEnable(createNewTicketPage.TakePaymentButton, false)
@@ -1318,7 +1323,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Click on mark for credit
             createNewTicketPage.ClickOnElement(createNewTicketPage.MarkForCreditButton);
-            createNewTicketPage.VerifyToastMessage("Successfully saved Weighbridge Ticket");
+            createNewTicketPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             createNewTicketPage.WaitForLoadingIconToDisappear();
             createNewTicketPage.VerifyElementText(createNewTicketPage.TicketState, "Credited");
             createNewTicketPage.VerifyElementEnable(createNewTicketPage.TakePaymentButton, false)
@@ -1330,7 +1335,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Click on Unmark from credit
             createNewTicketPage.ClickOnElement(createNewTicketPage.UnmarkForCreditButton);
-            createNewTicketPage.VerifyToastMessage("Successfully saved Weighbridge Ticket");
+            createNewTicketPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             createNewTicketPage.WaitForLoadingIconToDisappear();
             createNewTicketPage.VerifyElementText(createNewTicketPage.TicketState, "Paid");
             createNewTicketPage.VerifyElementEnable(createNewTicketPage.TakePaymentButton, false)
@@ -1405,7 +1410,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createNewTicketPage.SelectByDisplayValueOnUlElement(createNewTicketPage.CancelReasonSelect, "Cancelled by Customer")
                 .SendKeys(createNewTicketPage.CancelReasonNote, "test");
             createNewTicketPage.ClickOnElement(createNewTicketPage.CancelReasonButton);
-            createNewTicketPage.VerifyToastMessage("Successfully saved Weighbridge Ticket")
+            createNewTicketPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             createNewTicketPage.VerifyElementEnable(createNewTicketPage.TakePaymentButton, false)
                 .VerifyElementEnable(createNewTicketPage.CancelTicketButton, false)

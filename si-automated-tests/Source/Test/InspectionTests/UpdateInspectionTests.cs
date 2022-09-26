@@ -93,8 +93,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                .VerifyStateInspection("Unallocated")
                .InputNote(noteUpdate)
                .ClickSaveBtn()
-               .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
-               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveInspectionSuccessMessage);
+               .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             detailInspectionPage
                 .VerifyNoteValue(noteUpdate)
                 //Line 32
@@ -107,8 +107,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 //.UploadImage("")
                 .AddAccessPointInDataTab(accessPointDataTab)
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveInspectionSuccessMessage)
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
                 .VerifyValueInNoteInputDataTab(noteInDataTab)
@@ -126,7 +126,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             detailInspectionPage
                 .ClickCompleteBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
             string timeComplete = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             detailInspectionPage
                 .VerifyAllFieldsInPopupDisabled()
@@ -224,7 +224,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             //Line 37 => Cancel
             detailInspectionPage
                 .ClickCancelBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
             string timeCancelled = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             detailInspectionPage
                 .VerifyAllFieldsInPopupDisabled()
@@ -312,8 +312,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                //.VerifyStateInspection("Unallocated")
                .InputValidTo(validToValue)
                .ClickSaveBtn()
-               .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
-               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveInspectionSuccessMessage);
+               .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             detailInspectionPage
                 .VerifyAllFieldsInPopupDisabled()
                 .VerifyStateInspection("Expired")
@@ -413,7 +413,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickCompleteBtn();
             string timeCompleted = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             detailInspectionPage
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
             detailInspectionPage
                 .VerifyStateInspection("Complete")
                 .VerifyAllFieldsInPopupDisabled()
@@ -509,8 +509,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string timeCompleted = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             detailInspectionPage
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveInspectionSuccessMessage)
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
                 .VerifyStateInspection("Complete")
@@ -538,8 +538,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 //Line 54 => Edit Note
                 .AddNotesInDataTab(newNoteDataTab)
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             detailInspectionPage
                 .ClickOnHistoryTab()
                 .VerifyFirstNoteInHistoryTab(newNoteDataTab);
@@ -632,7 +632,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 //Line 57 => Complete
                 .SelectStreetGrade("C")
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
             detailInspectionPage
                 .VerifyValueInNoteInputDataTab(noteDataTab)
                 .VerifyFieldsInDataTabDisabled("C")
@@ -740,8 +740,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             //Verify Details tab is read only
             detailInspectionPage
                 .VerifyStateInspection("Expired")

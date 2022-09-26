@@ -15,7 +15,6 @@ using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using si_automated_tests.Source.Main.Pages.WB.Tickets;
-using CanlendarServiceTask = si_automated_tests.Source.Main.Models.Suspension.ServiceTaskModel;
 
 namespace si_automated_tests.Source.Main.Pages.Paties
 {
@@ -24,7 +23,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string AllTabDisplayed = "//li[@role='presentation' and not(contains(@style, 'visibility: collapse'))]/a";
         private const string AllTabInDropdown = "//ul[@class='dropdown-menu']//a";
         private const string DropdownBtn = "//li[contains(@class, 'dropdown')]/a[contains(@class, 'dropdown-toggle')]";
-        private const string SuccessfullyToastMessage = "//div[@class='notifyjs-corner']//div[text()='Successfully saved party.']";
+        private const string SuccessfullyToastMessage = "//div[@class='nsotifyjs-corner']//div[text()='Success']";
         private const string FrameMessage = "//div[@class='notifyjs-corner']/div";
         private const string SaveWithDetailsBtn = "//a[@aria-controls='details-tab']/ancestor::body//button[@title='Save']";
         private readonly By closeWithoutSavingBtn = By.XPath("//a[@aria-controls='details-tab']/ancestor::body//button[@title='Close Without Saving']");

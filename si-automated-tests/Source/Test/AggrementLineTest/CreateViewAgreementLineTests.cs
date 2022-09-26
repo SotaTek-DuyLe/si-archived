@@ -16,7 +16,7 @@ using si_automated_tests.Source.Main.Pages.Task;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 
-namespace si_automated_tests.Source.Test
+namespace si_automated_tests.Source.Test.PartiesTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
@@ -62,7 +62,7 @@ namespace si_automated_tests.Source.Test
                .IsOnPartyAgreementPage()
                .SelectAgreementType("Commercial Collections")
                .ClickSaveBtn();
-            PageFactoryManager.Get<BasePage>().VerifyToastMessage("Successfully saved agreement");
+            PageFactoryManager.Get<BasePage>().VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyAgreementStatus("New")
                 .VerifyNewOptionsAvailable()
@@ -141,7 +141,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyServicePanelPresent()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(5000);
             PageFactoryManager.Get<PartyAgreementPage>()
@@ -220,7 +220,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyStartDateIs(agreementStartDate)
                 .SelectAgreementType("Commercial Collections")
                 .ClickSaveBtn();
-            PageFactoryManager.Get<BasePage>().VerifyToastMessage("Successfully saved agreement");
+            PageFactoryManager.Get<BasePage>().VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyAgreementStatus("New")
                 .VerifyNewOptionsAvailable()
@@ -299,7 +299,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyServicePanelPresent()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(5000);
             PageFactoryManager.Get<PartyAgreementPage>()
@@ -394,7 +394,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyStartDateIs(agreementStartDate)
                 .SelectAgreementType("Commercial Collections")
                 .ClickSaveBtn();
-            PageFactoryManager.Get<BasePage>().VerifyToastMessage("Successfully saved agreement");
+            PageFactoryManager.Get<BasePage>().VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyAgreementStatus("New")
                 .VerifyNewOptionsAvailable()
@@ -473,7 +473,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyServicePanelPresent()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(5000);
             PageFactoryManager.Get<PartyAgreementPage>()
