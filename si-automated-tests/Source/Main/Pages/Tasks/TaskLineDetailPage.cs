@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
     {
         public readonly By DetailTab = By.CssSelector("a[aria-controls='details-tab']");
         public readonly By HistoryTab = By.CssSelector("a[aria-controls='history-tab']");
+        public readonly By ProductSelect = By.XPath("//div[@id='details-tab']//echo-select[contains(@params, 'product')]//select");
         public readonly By MinAssetQty = By.XPath("//div[@id='details-tab']//input[@id='min-asset-qty']");
         public readonly By MaxAssetQty = By.XPath("//div[@id='details-tab']//input[@id='max-asset-qty']");
         public readonly By MinProductQty = By.XPath("//div[@id='details-tab']//input[@id='min-product-qty']");

@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -23,7 +24,8 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By filterLinesInputById = By.XPath("//div[@id='salesInvoiceLines-tab']//div[contains(@class, 'l1 r1')]/descendant::input");
         private readonly By applyLinesBtn = By.XPath("//div[@id='salesInvoiceLines-tab']//button[@type='button' and @title='Apply Filters']");
         private readonly By firstLinesRecordRow = By.XPath("//div[@id='salesInvoiceLines-tab']//div[@class='grid-canvas']/div[not(contains(@style, 'display: none;'))][1]");
-
+        
+        [AllureStep]
         public SalesInvoiceDetailPage IsSaleInvoiceDetailPage(string statusValue, string idValue)
         {
             WaitUtil.WaitForElementVisible(title);
@@ -32,14 +34,14 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.AreEqual(idValue, GetElementText(id));
             return this;
         }
-
+        [AllureStep]
         public SalesInvoiceDetailPage ClickOnPriceLineTab()
         {
             ClickOnElement(priceLineTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public SalesInvoiceDetailPage FilterByPriceLineId(string id)
         {
             SendKeys(filterPriceLineInputById, id);
@@ -49,7 +51,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public PriceLineDetailPage ClickOnFirstPriceLineRecord()
         {
             DoubleClickOnElement(firstPriceLineRecordRow);
@@ -57,12 +59,14 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         }
 
         //LINES TAB
+        [AllureStep]
         public SalesInvoiceDetailPage ClickOnLinesTab()
         {
             ClickOnElement(linesTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
 
         public SalesInvoiceDetailPage FilterByLinesId(string id)
         {
@@ -71,7 +75,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public SaleInvoiceLinePage ClickOnFirstLinesRecord()
         {
             DoubleClickOnElement(firstLinesRecordRow);

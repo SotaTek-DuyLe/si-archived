@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -15,6 +16,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By unmarkFromCreditBtn = By.XPath("//button[text()='Unmark From Credit']");
         private readonly By partyHyperLink = By.CssSelector("h5[title='Open Party']");
 
+        [AllureStep]
         public PriceLineDetailPage IsPriceLineDetailPage(string idValue)
         {
             WaitUtil.WaitForElementVisible(title);
@@ -23,25 +25,25 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.IsTrue(IsControlDisplayed(detailTab));
             return this;
         }
-
+        [AllureStep]
         public PriceLineDetailPage ClickOnMarkForCreditBtn()
         {
             ClickOnElement(markForCreditBtn);
             return this;
         }
-
+        [AllureStep]
         public PriceLineDetailPage VerifyDisplayUnMarkFromCreditBtn()
         {
             Assert.IsTrue(IsControlEnabled(unmarkFromCreditBtn));
             return this;
         }
-
+        [AllureStep]
         public DetailPartyPage ClickOnPartyHyperlinkText()
         {
             ClickOnElement(partyHyperLink);
             return PageFactoryManager.Get<DetailPartyPage>();
         }
-
+        [AllureStep]
         public string GetPartyName()
         {
             return GetElementText(partyHyperLink);

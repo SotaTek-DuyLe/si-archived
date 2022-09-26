@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
@@ -20,6 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.WB
             get => new TableElement(GreyListTable, GreyListRow, new List<string>() { GreyListCheckboxCell, GreyListIdCell, GreyListVehicle, GreyListTicket });
         }
 
+        [AllureStep]
         public GreyListPage DoubleClickRow(string ticketNumber)
         {
             var row = GreyListTableEle.GetRowByCellValue(3, ticketNumber);

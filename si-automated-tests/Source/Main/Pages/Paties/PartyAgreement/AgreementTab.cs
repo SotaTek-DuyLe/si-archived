@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Pages.PartyAgreement;
@@ -24,19 +25,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By firstAgreementRow = By.XPath(agreementTabId + "//div[@class='grid-canvas']/div[1]");
 
 
+        [AllureStep]
         public PartyAgreementPage ClickAddNewItem()
         {
             ClickOnElement(addNewItemBtn);
             return PageFactoryManager.Get<PartyAgreementPage>();
         }
-
+        [AllureStep]
         public AgreementTab IsOnAgreementTab()
         {
             WaitUtil.WaitForElementVisible(addNewItemBtn);
             Assert.IsTrue(IsControlDisplayed(addNewItemBtn));
             return this;
         }
-
+        [AllureStep]
         public AgreementTab VerifyFirstAgreementInfo(string name, string startDate, string endDate, string type, string status)
         {
             Assert.AreEqual(name, GetElementText(firstAgreementName));
@@ -46,6 +48,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(status, GetElementText(firstAgreementStatus));
             return this;
         }
+        [AllureStep]
         public AgreementTab VerifyAgreementAppear(string id, string name, string _startDate, string _endDate, string _status)
         {
             List<IWebElement> idList = GetAllElements(firstAgreementId);
@@ -71,6 +74,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(n, 0);
             return this;
         }
+        [AllureStep]
         public PartyAgreementPage OpenAgreementWithId(int id)
         {
             List<IWebElement> idList = GetAllElements(firstAgreementId);
@@ -84,18 +88,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return PageFactoryManager.Get<PartyAgreementPage>(); 
         }
+        [AllureStep]
         public PartyAgreementPage OpenFirstAgreement()
         {
             DoubleClickOnElement(firstAgreementId);
             return PageFactoryManager.Get<PartyAgreementPage>();
         }
-
+        [AllureStep]
         public int GetAgreementId()
         {
             return Int32.Parse(WaitUtil.WaitForElementVisible(firstAgreementId).Text);
         }
 
-
+        [AllureStep]
         public AgreementDetailPage OpenFirstAgreementRow()
         {
             DoubleClickOnElement(firstAgreementRow);

@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -29,13 +30,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private const string timezoneOption = "//select[@id='time-zone']/option[text()='{0}']";
         private const string defaultTicketOption = "//select[@id='ticket-type']/option[text()='{0}']";
 
+        [AllureStep]
         public CreateStationPage WaitForCreateStationPageLoaded(string siteName)
         {
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(title, siteName);
             return this;
         }
-
+        [AllureStep]
         public CreateStationPage IsCreateStationPage()
         {
             Assert.IsTrue(IsControlDisplayed(nameInput));
@@ -68,7 +70,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             Assert.AreEqual(GetCssValue(timeZoneDd, "border-color"), CommonConstants.BoderColorMandatory);
             return this;
         }
-
+        [AllureStep]
         public CreateStationPage VerifyDisplayErrorMesMissingTimezone()
         {
             VerifyDisplayToastMessage(MessageRequiredFieldConstants.MissingTimezoneMessage);
@@ -76,7 +78,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             //Assert.AreEqual(GetCssValue(errorMesRequiredTimeZone, "color"), "rgba(159, 139, 64, 1)");
             return this;
         }
-
+        [AllureStep]
         public CreateStationPage SelectTimezone(string timezoneInput)
         {
             ClickOnElement(timeZoneDd);
@@ -85,13 +87,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             Assert.AreEqual(GetFirstSelectedItemInDropdown(timeZoneDd), timezoneInput);
             return this;
         }
-
+        [AllureStep]
         public CreateStationPage InputName(string stationName)
         {
             SendKeys(nameInput, stationName);
             return this;
         }
-
+        [AllureStep]
         public CreateStationPage SelectDefaultTicket(string ticketOption)
         {
             ClickOnElement(defaultTicketTypeDd);

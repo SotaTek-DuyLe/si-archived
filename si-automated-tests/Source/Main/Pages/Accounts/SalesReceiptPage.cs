@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -35,6 +36,8 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By accountNumber = By.Id("account-number");
         private readonly By receiptDate = By.Id("receipt-date");
 
+        [AllureStep]
+
         public SalesReceiptPage VerifyInfoInSaleReceiptScreen(PartyModel partyModel, string timeNowValue)
         {
             Assert.AreEqual(partyModel.PartyName, GetAttributeValue(partyInput, "value"));
@@ -43,7 +46,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.AreEqual(timeNowValue, GetAttributeValue(receiptDate, "value"));
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptPage IsInputPartyNameHasError()
         {
             Thread.Sleep(200);
@@ -56,7 +59,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.IsTrue(R > 100 && R > G * 2 && R > B * 2);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptPage SearchPartyNameAndSelect(string value)
         {
             IWebElement input = GetElement(inputPartyName);
@@ -64,7 +67,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             ClickOnElement(GetAllElements(autoCompleteParty).FirstOrDefault());
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptPage IsInputPartyNameValid()
         {
             IWebElement input = GetElement(inputPartyName);
@@ -72,21 +75,21 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.AreNotEqual("rgb(169, 68, 66)", borderColor);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptPage IsAccountRefReadOnly()
         {
             IWebElement input = GetElement(inputAccRef);
             Assert.IsNotNull(input.GetAttribute("readonly"));
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptPage IsAccountNumberReadOnly()
         {
             IWebElement input = GetElement(inputAccNumber);
             Assert.IsNotNull(input.GetAttribute("readonly"));
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptPage ClickPaymentMethodAndVerifyListMethod()
         {
             ClickOnElement(paymentMethod);
@@ -95,49 +98,49 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.AreEqual(new List<string>() { "Bank Transfer", "Credit", "Credit/Debit Card", "Direct Debit" },paymentmethods);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptPage SelectPaymentMethod(string option)
         {
             SelectTextFromDropDown(paymentMethod, option);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptPage InputPaymentRef(string value)
         {
             SendKeys(inputPaymentRef, value);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptPage InputNotes(string value)
         {
             SendKeys(notes, value);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptPage ClickLinesTab()
         {
             ClickOnElement(lineTab);
             return this;
         }
-          
+        [AllureStep]
         public SalesReceiptPage ClickDetailsTab()
         {
             ClickOnElement(detailTab);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptPage ClickAddNewLine()
         {
             ClickOnElement(addnewItemBtn);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptPage CLickOnSaveBtn()
         {
             ClickOnElement(saveBtn);
             return this;
         }
-
+        [AllureStep]
         public SalesReceiptPage VerifySaleReceiptLines()
         {
             SalesReceiptLineModel salesReceiptLine = GetAllSalesReceiptLineModel().FirstOrDefault();
@@ -147,7 +150,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.IsTrue(salesReceiptLine.Value == "£5.00");
             return this;
         }
-
+        [AllureStep]
         public List<SalesReceiptLineModel> GetAllSalesReceiptLineModel()
         {
             List<SalesReceiptLineModel> receiptLines = new List<SalesReceiptLineModel>();
@@ -170,7 +173,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             }
             return receiptLines;
         }
-
+        [AllureStep]
         public SalesReceiptPage VerifyNotDisplayErrorMessage()
         {
             Assert.IsFalse(IsControlDisplayedNotThrowEx(FrameMessage));

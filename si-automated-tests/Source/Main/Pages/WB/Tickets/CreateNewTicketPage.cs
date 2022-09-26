@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -61,7 +62,8 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         public readonly By CancelReasonSelect = By.XPath("//ul[@class='dropdown-menu inner' and @aria-expanded='true']"); 
         public readonly By CancelReasonNote = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//textarea[@id='resolution-note']"); 
         public readonly By CancelReasonButton = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//button[text()='Cancel Ticket']");
-        
+
+        [AllureStep]
         public CreateNewTicketPage ClickCancelExpandReasonButton()
         {
             WaitUtil.WaitForElementVisible(CancelExpandReasonButton);
@@ -83,7 +85,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         {
             get => new TableElement(HistoryTable, HistoryRow, new List<string>() { HistoryTypeCell, HistoryActionCell, HistoryEchoIdCell, HistoryEchoTypeIdCell, HistoryDetailsCell });
         }
-
+        [AllureStep]
         public CreateNewTicketPage VerifyHistory(List<string> actions)
         {
             for (int i = 0; i < actions.Count; i++)
@@ -122,6 +124,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             get => new TableElement(TicketLineTable, TicketLineRow, new List<string>() { TicketLineProductCell, TicketLineLocationCell, TicketLineUnitCell, TicketLineFirstWeightCell, TicketLineFirstDateCell, TicketLineSecondWeightCell, TicketLineIsStoreTareCell, TicketLineSecondDateCell });
         }
 
+        [AllureStep]
         public (string firstDate, string secondDate) InputTicketLineData(int rowIdx, string product, string firstWeight, string secondWeight)
         {
             TicketLineTableEle.SetCellValue(rowIdx, 0, product);
@@ -137,7 +140,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             ClickOnElement(secondWeightCell);
             return (firstDateCell.FindElement(By.XPath("./input")).GetAttribute("value"), secondDateCell.FindElement(By.XPath("./input")).GetAttribute("value"));
         }
-
+        [AllureStep]
         public CreateNewTicketPage VerifyTicketLineData(int rowIdx, string product, string firstWeight, string secondWeight, string firtDate, string secondDate)
         {
             return this;
@@ -153,6 +156,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         private readonly string OverrideUnitPriceCell = "./td//input[contains(@data-bind, 'overridePrice')]";
         private readonly string RemoveButtonCell = "./td//button[text()='Remove']";
 
+        [AllureStep]
         public CreateNewTicketPage ClickAddPriceLine(int ticketLineIdx)
         {
             string priceLineTable = $"//div[@id='details-tab']//table//tbody[@data-bind='foreach: ticketLines']//tr[contains(@data-bind, 'ticketLine.priceLines')][{ticketLineIdx}]/td";
@@ -161,7 +165,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return this;
         }
         #endregion
-
+        [AllureStep]
         public CreateNewTicketPage VerifyTakePayment()
         {
             VerifyElementVisibility(TakePaymentTitle, true);
@@ -169,7 +173,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             VerifyElementVisibility(NoTakePaymentButton, true);
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage IsCreateNewTicketPage()
         {
             WaitUtil.WaitForElementVisible(title);
@@ -182,20 +186,20 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             Assert.AreEqual(GetCssValue(stationDd, "border-color"), CommonConstants.BoderColorMandatory);
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage ClickStationDdAndSelectStation(String stationName)
         {
             ClickOnElement(stationDd);
             ClickOnElement(stationOption, stationName);
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage VerifyDisplayVehicleRegInput()
         {
             Assert.IsTrue(IsControlDisplayed(vehicleReg));
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage InputVehicleRegInput(string vehicleValue)
         {
             SendKeys(vehicleReg, vehicleValue);
@@ -203,7 +207,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             ClickOnElement(title);
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage InputVehicleRegInputAndClickOK(string vehicleValue)
         {
             SendKeys(vehicleReg, vehicleValue);
@@ -211,7 +215,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             ClickOnElement(By.XPath("//div[@id='grey-lists-modal']//button[text()='OK']"));
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage VerifyDisplayVehicleType(string vehicleTypeName)
         {
             WaitUtil.WaitForElementVisible(vehicleTypeInput);
@@ -222,19 +226,20 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         }
 
         //Ticket Type Dd
+        [AllureStep]
         public CreateNewTicketPage VerifyDisplayTicketTypeInput()
         {
             WaitUtil.WaitForElementVisible(ticketTypeInput);
             Assert.IsTrue(IsControlDisplayed(ticketTypeInput));
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage ClickTicketType()
         {
             ClickOnElement(ticketTypeDd);
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage VerifyValueInTicketTypeDd()
         {
             foreach(string ticket in CommonConstants.TicketType)
@@ -243,7 +248,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             }
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage ClickAnyTicketType(string ticketType)
         {
             ClickOnElement(ticketTypeOption, ticketType);
@@ -253,32 +258,33 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         }
 
         //Haulier Dd
+        [AllureStep]
         public CreateNewTicketPage VerifyDisplayHaulierDd()
         {
             WaitUtil.WaitForElementVisible(haulierDd);
             Assert.IsTrue(IsControlDisplayed(haulierDd));
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage ClickAnyHaulier(string haulierName)
         {
             ClickOnElement(haulierOption, haulierName);
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage ClickAddTicketLineBtn()
         {
             ScrollToBottomOfPage();
             ClickOnElement(addTicketLineBtn);
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage InputLicenceNumberExpDate()
         {
             SendKeys(licenceNumberExpDate, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT));
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage InputLicenceNumber()
         {
             SendKeys(licenceNumber, CommonUtil.GetRandomNumber(5));
@@ -286,12 +292,13 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         }
 
         //Ticket line - Product Column
+        [AllureStep]
         public CreateNewTicketPage ClickProductDd()
         {
             ClickOnElement(productDd);
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage ClickAnyProductValue(string productValue)
         {
             ClickOnElement(productOption, productValue);
@@ -299,12 +306,13 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         }
 
         //Ticket line - Location Column
+        [AllureStep]
         public CreateNewTicketPage VerifyNoLocationIsPrepolulated()
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(locationDd), "Select...");
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage VerifyActiveLocationIsDisplayed(string locationActiveName)
         {
             ClickOnElement(locationDd);
@@ -312,13 +320,13 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             Assert.IsTrue(IsControlDisplayed(locationOption, locationActiveName));
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage VerifyLocationNotDisplayed(string locatioName)
         {
             Assert.IsTrue(IsControlUnDisplayed(locationOption, locatioName));
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage VerifyActiveLocationIsDisplayed(string[] allLocationActiveName)
         {
             ClickOnElement(locationDd);
@@ -329,13 +337,13 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             }
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage VerifyLocationPrepolulated(string locationName)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(locationDd), locationName);
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage VerifyLocationDeletedNotDisplay(string locationDeleted)
         {
             ClickOnElement(locationDd);
@@ -343,13 +351,13 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             Assert.IsTrue(IsControlUnDisplayed(locationOption, locationDeleted));
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage ClickLocationDd()
         {
             ClickOnElement(locationDd);
             return this;
         }
-
+        [AllureStep]
         public CreateNewTicketPage SelectLocation(string locationName)
         {
             ClickOnElement(locationOption, locationName);
@@ -357,6 +365,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         }
 
         //Ticket line - First Weight
+        [AllureStep]
         public CreateNewTicketPage InputFirstWeight(int firstW)
         {
             SendKeys(firstWeightInput, firstW.ToString());
@@ -364,6 +373,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         }
 
         //Ticket line - First Date
+        [AllureStep]
         public CreateNewTicketPage InputFirstDate()
         {
             SendKeys(firstDateInput, CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2));
@@ -371,6 +381,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         }
 
         //Ticket line - Second Weight
+        [AllureStep]
         public CreateNewTicketPage InputSecondWeight(int secondW)
         {
             SendKeys(secondWeightInput, secondW.ToString());
@@ -378,6 +389,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         }
 
         //Ticket line - Second Date
+        [AllureStep]
         public CreateNewTicketPage InputSecondDate()
         {
             SendKeys(secondDateInput, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT));

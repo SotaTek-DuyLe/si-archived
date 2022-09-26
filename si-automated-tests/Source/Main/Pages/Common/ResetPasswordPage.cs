@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Attributes;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,8 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By setBtn = By.XPath("//button[@type='submit']");
         private readonly By successMessage = By.XPath("//div[text()='You have successfully changed your password.']");
         private readonly By gotoLoginBtn = By.XPath("//a[text()='Go to Login']");
-        
+
+        [AllureStep]
         public ResetPasswordPage IsOnResetPasswordPage()
         {
             WaitUtil.WaitForElementVisible(newPasswordInput);
@@ -21,6 +23,7 @@ namespace si_automated_tests.Source.Main.Pages
             WaitUtil.WaitForElementVisible(setBtn);
             return this;
         }
+        [AllureStep]
         public ResetPasswordPage ResetPassword(string _newPassword)
         {
             SendKeys(newPasswordInput, _newPassword);
@@ -28,11 +31,13 @@ namespace si_automated_tests.Source.Main.Pages
             ClickOnElement(setBtn);
             return this;
         }
+        [AllureStep]
         public ResetPasswordPage VerifyResetSuccessfully()
         {
             WaitUtil.WaitForElementVisible(successMessage);
             return this;
         }
+        [AllureStep]
         public LoginPage ClickGoToLogin()
         {
             ClickOnElement(gotoLoginBtn);

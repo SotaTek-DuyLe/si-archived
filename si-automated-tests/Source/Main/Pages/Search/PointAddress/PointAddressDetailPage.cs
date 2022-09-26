@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -93,6 +94,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private readonly By allStatusRows = By.CssSelector("tbody[data-bind='foreach: allServices'] td:nth-child(6)");
         private const string serviceUnitLink = "//tbody/tr[{0}]//a[@title='Open Service Unit' and not(contains(@style, 'display: none;'))]";
 
+        [AllureStep]
         public List<AllServiceInPointAddressModel> GetAllServicesInAllServicesTab()
         {
             WaitUtil.WaitForAllElementsPresent(totalServicesRows);
@@ -114,13 +116,13 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             }
             return result;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickServiceUnitLinkAdded(string locatorToDetail)
         {
             ClickOnElement(locatorToDetail);
             return PageFactoryManager.Get<ServiceUnitDetailPage>();
         }
-
+        [AllureStep]
         public PointAddressDetailPage VerifyDBWithUI(List<AllServiceInPointAddressModel> allServiceInPointAddresses, List<ServiceForPoint2DBModel> serviceForPoint2DBModels)
         {
             for(int i = 0; i < allServiceInPointAddresses.Count; i++)
@@ -147,7 +149,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
 
             return this;
         }
-
+        [AllureStep]
         public List<ActiveSeviceModel> GetAllServiceWithServiceUnitModel()
         {
             List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
@@ -191,7 +193,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             }
             return activeSeviceModels;
         }
-
+        [AllureStep]
         public List<ActiveSeviceModel> GetAllActiveService483995()
         {
             List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
@@ -217,12 +219,12 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             }
             return activeSeviceModels;
         }
-
+        [AllureStep]
         public List<ServiceForPointDBModel> GetServiceWithoutServiceUnitDB(List<ServiceForPointDBModel> serviceForPoint)
         {
             return serviceForPoint.FindAll(x => x.serviceunit.Equals("No Service Unit"));
         }
-
+        [AllureStep]
         public PointAddressDetailPage VerifyDataInActiveServicesTab(List<ActiveSeviceModel> activeSeviceWithoutServiceUnitModels, List<ServiceForPointDBModel> serviceForPoint)
         {
             //DB get service without service unit
@@ -234,7 +236,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             }
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage VerifyDataInActiveServicesTab363256(List<ActiveSeviceModel> activeSeviceWithServiceUnitModels, List<ServiceForPointDBModel> serviceForPoint)
         {
             for (int i = 0; i < activeSeviceWithServiceUnitModels.Count; i++)
@@ -276,7 +278,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             }
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage VerifyDataInActiveServicesTab(List<ActiveSeviceModel> activeSeviceWithServiceUnitModels, List<ServiceForPointDBModel> serviceForPoint, List<ServiceTaskForPointDBModel> serviceTaskForPoint)
         {
             for (int i = 0; i < activeSeviceWithServiceUnitModels.Count; i++)
@@ -350,7 +352,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             }
             return this;
         }
-
+        [AllureStep]
         public List<ActiveSeviceModel> GetAllServiceInTab()
         {
             List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
@@ -367,6 +369,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         }
 
         //DB
+        [AllureStep]
         public List<ServiceTaskForPointDBModel> GetServiceTaskForPointWithSameAssetType(List<ServiceTaskForPointDBModel> serviceTaskForPoint, string assetType)
         {
             List<ServiceTaskForPointDBModel> result = new List<ServiceTaskForPointDBModel>();
@@ -380,7 +383,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             
             return result.OrderBy(x => x.nextdate).ToList();
         }
-
+        [AllureStep]
         public List<CommonServiceForPointDBModel> FilterCommonServiceForPointWithServiceId(List<CommonServiceForPointDBModel> commonService, int serviceIdExpected)
         {
             return commonService.FindAll(x => x.serviceID == serviceIdExpected);
@@ -394,6 +397,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private const string allocatedUnitOption = "//label[text()=' Allocated Unit']/following-sibling::div/select/option[text()='{0}']";
         private const string assignedUserOption = "//div[@id='inspection-modal']//label[text()='Assigned User']/following-sibling::div/select/option[text()='{0}']";
 
+        [AllureStep]
         public PointAddressDetailPage WaitForPointAddressDetailDisplayed()
         {
             WaitUtil.WaitForPageLoaded();
@@ -401,21 +405,23 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             WaitUtil.WaitForElementVisible(titleDetail);
             return this;
         }
-
+        [AllureStep]
         public string GetPointAddressName()
         {
             return GetElementText(pointAddressName);
         }
-
+        [AllureStep]
         public PointAddressDetailPage ClickInspectBtn()
         {
             ClickOnElement(inspectBtn);
             return this;
         }
+        [AllureStep]
         public String GetPointAddressId()
         {
             return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/point-addresses/", "");
         }
+        [AllureStep]
         public PointAddressDetailPage VerifyPointAddressId(string idExpected)
         {
             Assert.AreEqual(idExpected, GetPointAddressId());
@@ -423,6 +429,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         }
 
         //INSPECTION MODEL
+        [AllureStep]
         public PointAddressDetailPage IsCreateInspectionPopup()
         {
             WaitUtil.WaitForElementVisible(createTitle);
@@ -442,7 +449,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             Assert.AreEqual(GetCssValue(allocatedUnitDd, "border-color"), CommonConstants.BoderColorMandatory);
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage VerifyDefaulValue()
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(inspectionTypeDd), "Select... ...");
@@ -453,52 +460,52 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             Assert.AreEqual(GetAttributeValue(validToInput, "value"), CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT));
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage VerifyDefaultSourceDd(string sourceValue)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(sourceDd), sourceValue);
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage ClickAndSelectInspectionType(string inspectionTypeValue)
         {
             ClickOnElement(inspectionTypeDd);
             ClickOnElement(inspectionTypeOption, inspectionTypeValue);
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage ClickAndSelectAllocatedUnit(string allocatedUnitValue)
         {
             ClickOnElement(allocatedUnitDd);
             ClickOnElement(allocatedUnitOption, allocatedUnitValue);
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage ClickAndSelectAssignedUser(string assignedUserValue)
         {
             ClickOnElement(assignedUserDd);
             ClickOnElement(assignedUserOption, assignedUserValue);
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage InputValidTo(string validFromTo)
         {
             SendKeys(validToInput, validFromTo);
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage ClickCreateBtn()
         {
             ClickOnElement(createBtn);
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage InputNote(string noteValue)
         {
             SendKeys(noteInput, noteValue);
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage ClickOnInspectionCreatedLink()
         {
             ClickOnElement("//a[@id='echo-notify-success-link']");
@@ -506,12 +513,13 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         }
 
         //POINT HISTORY TAB
+        [AllureStep]
         public PointAddressDetailPage ClickPointHistoryTab()
         {
             ClickOnElement(pointHistoryTab);
             return this;
         }
-
+        [AllureStep]
         public List<PointHistoryModel> GetAllPointHistory()
         {
             List<PointHistoryModel> allModel = new List<PointHistoryModel>();
@@ -536,7 +544,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             
             return allModel;
         }
-
+        [AllureStep]
         public PointAddressDetailPage VerifyPointHistory(PointHistoryModel pointHistoryModelActual, string desc, string id, string type, string address, string date, string dueDate, string state)
         {
             Assert.AreEqual(desc, pointHistoryModelActual.description);
@@ -548,7 +556,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             Assert.AreEqual(state, pointHistoryModelActual.state);
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage FilterByPointHistoryId(string pointHistoryId)
         {
             SendKeys(filterInputById, pointHistoryId);
@@ -558,12 +566,13 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         }
 
         //ACTIVE SERVICES TAB
+        [AllureStep]
         public PointAddressDetailPage ClickOnActiveServicesTab()
         {
             ClickOnElement(activeServiceTab);
             return this;
         }
-
+        [AllureStep]
         public List<ActiveSeviceModel> GetAllServiceWithoutServiceUnitModel(List<ActiveSeviceModel> GetAllServiceInTab)
         {
             List<ActiveSeviceModel> serviceModels = new List<ActiveSeviceModel>();
@@ -576,13 +585,13 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             }
             return serviceModels;
         }
-
+        [AllureStep]
         public ActiveSeviceModel GetActiveServiceWithSkipService(List<ActiveSeviceModel> allActiveServicesInServiceTab)
         {
             return allActiveServicesInServiceTab.FirstOrDefault(x => x.service.Equals("Skips"));
         }
 
-
+        [AllureStep]
         public ActiveSeviceModel GetFirstActiveServiceModel()
         {
             string eventLocator = string.Format(eventDynamicLocator, "1");
@@ -590,19 +599,20 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             string serviceValue = GetElementText(serviceWithServiceUnitDynamic, "1");
             return new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue);
         }
-
+        [AllureStep]
         public PointAddressDetailPage ClickFirstEventInFirstServiceRow()
         {
             ClickOnElement(eventDynamicLocator, "1");
             return this;
         }
+        [AllureStep]
 
         public PointAddressDetailPage ClickAnyEventInActiveServiceRow(string eventLocator)
         {
             ClickOnElement(eventLocator);
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage VerifyEventTypeWhenClickEventBtn(List<CommonServiceForPointDBModel> FilterCommonServiceForPointWithServiceId)
         {
             foreach(CommonServiceForPointDBModel common in FilterCommonServiceForPointWithServiceId)
@@ -611,7 +621,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             }
             return this;
         }
-
+        [AllureStep]
         public List<string> GetAllEventTypeInDd()
         {
             List<string> eventTypes = new List<string>();
@@ -622,13 +632,13 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             }
             return eventTypes;
         }
-
+        [AllureStep]
         public EventDetailPage ClickAnyEventOption(string eventName)
         {
             ClickOnElement(eventOptions, eventName);
             return PageFactoryManager.Get<EventDetailPage>();
         }
-
+        [AllureStep]
         public PointAddressDetailPage VerifyDataInActiveServiceWithSp(List<ActiveSeviceModel> allActiveServices, List<ServiceForPointDBModel> serviceForPoint)
         {
             for(int i = 0; i < allActiveServices.Count; i++)
@@ -638,6 +648,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             }
             return this;
         }
+        [AllureStep]
         public PointAddressDetailPage VerifyDetailsInDetailsTab(string _propertyName, string _property, string _toProperty, string _pointSegment, string _pointAddType)
         {
             Assert.True(GetPointAddressName().Contains(_propertyName));
@@ -648,6 +659,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         }
 
         //Click on the [All Services] tab
+        [AllureStep]
         public PointAddressDetailPage ClickOnAllServicesTab()
         {
             ClickOnElement(allAservicesTab);
@@ -655,6 +667,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         }
 
         //Click on any [Action]
+        [AllureStep]
         public PointAddressDetailPage ClickOnAnyActionBtn(int index)
         {
             ClickOnElement(actionBtnAtRow, index.ToString());
@@ -662,6 +675,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         }
 
         //Click on any [Add Service Unit] btn
+        [AllureStep]
         public PointAddressDetailPage ClickOnAnyAddServiceUnitBtn(int index)
         {
             ClickOnElement(addServiceUnitBtnAtRow, index.ToString());
@@ -669,12 +683,13 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         }
 
         //Click on any [Find Service Unit] btn
+        [AllureStep]
         public PointAddressDetailPage ClickOnAnyFindServiceUnitBtn(int index)
         {
             ClickOnElement(findServiceUnitBtnAtRow, index.ToString());
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage VerifyServiceRowAfterRefreshing(string atRow, string serviceUnitAdded, string taskCountExp, string scheduleCountExp, string statusExp)
         {
             Assert.AreEqual(GetElementText(serviceUnitAtRow, atRow), serviceUnitAdded);

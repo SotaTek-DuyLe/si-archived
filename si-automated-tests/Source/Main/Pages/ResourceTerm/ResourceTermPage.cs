@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Linq;
 using si_automated_tests.Source.Core.WebElements;
+using NUnit.Allure.Attributes;
 
 namespace si_automated_tests.Source.Main.Pages.ResourceTerm
 {
@@ -35,6 +36,7 @@ namespace si_automated_tests.Source.Main.Pages.ResourceTerm
         {
             get => resourceTermTableEle; 
         }
+        [AllureStep]
 
         public ResourceTermPage DoubleClickRow(int rowIdx)
         {

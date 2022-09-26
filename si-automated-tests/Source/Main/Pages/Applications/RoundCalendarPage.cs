@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
@@ -45,58 +46,59 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             get => new CalendarElement("//div[contains(@class, 'fc-month-view')]", "./div[contains(@class, 'fc-bg')]//table//tbody//tr//td", "//div[contains(@class, 'fc-week')]", "./div[contains(@class, 'fc-content-skeleton')]//table//tbody//tr//td");
         }
 
+        [AllureStep]
         public RoundCalendarPage VerifyScheduleButtonEnable(bool isEnable)
         {
             Assert.IsTrue(isEnable ? !GetElement(ButtonSchedule).GetAttribute("class").Contains("disabled") : GetElement(ButtonSchedule).GetAttribute("class").Contains("disabled"));
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage ClickInputService()
         {
             IWebElement element = this.driver.FindElement(InputService);
             element.Click();
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage ClickInputRound()
         {
             IWebElement element = this.driver.FindElements(InputRound).FirstOrDefault(x => x.Displayed);
             element?.Click();
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage SendInputOriginDate(string value)
         {
             IWebElement element = this.driver.FindElements(InputOriginDate).FirstOrDefault(x => x.Displayed);
             SendKeys(element, value);
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage ClickButtonFind()
         {
             IWebElement element = this.driver.FindElements(ButtonFind).FirstOrDefault(x => x.Displayed);
             element?.Click();
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage SelectServiceNode(string nodeName)
         {
             ServicesTreeView.ClickItem(nodeName);
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage SelectRoundNode(string nodeName)
         {
             SearchRoundTreeView.ClickItem(nodeName);
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage ExpandRoundNode(string nodeName)
         {
             SearchRoundTreeView.ExpandNode(nodeName);
             return this;
         }
-
+        [AllureStep]
         public List<RoundCalendarModel> GetAllDataRoundCalendarInMonth()
         {
             List<RoundCalendarModel> roundCalendars = new List<RoundCalendarModel>();
@@ -141,7 +143,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return roundCalendars;
         }
-
+        [AllureStep]
         public List<RoundCalendarModel> GetAllDataRoundCalendarInWeek()
         {
             List<RoundCalendarModel> roundCalendars = new List<RoundCalendarModel>();
@@ -173,7 +175,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return roundCalendars;
         }
-
+        [AllureStep]
         public List<RoundCalendarModel> GetAllDataRoundCalendarInDay()
         {
             List<RoundCalendarModel> roundCalendars = new List<RoundCalendarModel>();
@@ -205,7 +207,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return roundCalendars;
         }
-
+        [AllureStep]
         public RoundCalendarPage RoundInstanceHasGreenBackground(DateTime dateTime)
         {
             List<RoundCalendarModel> roundCalendars = GetAllDataRoundCalendarInMonth();
@@ -213,7 +215,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(dayRoundInstance.Instances.Any(x => x.IsGreen));
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage IsRoundCalendarInWeekDisplayed()
         {
             List<RoundCalendarModel> rounds = GetAllDataRoundCalendarInWeek();
@@ -238,7 +240,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage IsRoundCalendarInDayDisplayed()
         {
             List<RoundCalendarModel> rounds = GetAllDataRoundCalendarInDay();
@@ -250,7 +252,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage ClickMoreButton(bool clickGreyInstance)
         {
             List<RoundCalendarModel> roundCalendars = GetAllDataRoundCalendarInMonth();
@@ -258,7 +260,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             roundCalendar?.ButtonMore.Click();
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage IsListOfRoundInstanceScheduleDisplayed()
         {
             List<IWebElement> rounds = GetAllElements(By.XPath("//div[contains(@class, 'fc-popover')]//div[contains(@class, 'fc-body')]//a"));
@@ -269,7 +271,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage ClickRoundInstance(bool clickGreyInstance)
         {
             List<RoundCalendarModel> roundCalendars = GetAllDataRoundCalendarInMonth();
@@ -277,7 +279,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             roundCalendar?.Instances.FirstOrDefault().Instance.Click();
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage ClickRoundInstance(DateTime dateTime)
         {
             List<RoundCalendarModel> roundCalendars = GetAllDataRoundCalendarInMonth();
@@ -285,7 +287,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             roundCalendar?.Instances.FirstOrDefault().Instance.Click();
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage VerifyRoundInstanceBackground(DateTime dateTime, string backgroundColor)
         {
             List<RoundCalendarModel> roundCalendars = GetAllDataRoundCalendarInMonth();
@@ -294,7 +296,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(bgColor == backgroundColor);
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage DoubleClickRoundInstance(bool clickGreyInstance)
         {
             List<RoundCalendarModel> roundCalendars = GetAllDataRoundCalendarInMonth();
@@ -302,7 +304,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DoubleClickOnElement(roundCalendar?.Instances.FirstOrDefault().Instance);
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage IsCalendarScheduleDisplayed()
         {
             List<(string imgPath, string legendItemText)> expectedResult = new List<(string imgPath, string legendItemText)>()
@@ -324,7 +326,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
-
+        [AllureStep]
         public RoundCalendarPage IsCanlendarScheduleUnDisplayed()
         {
             Assert.IsTrue(IsControlUnDisplayed(By.XPath("//div[@id='fc-legend-content']//div[@class='legend-item']")));

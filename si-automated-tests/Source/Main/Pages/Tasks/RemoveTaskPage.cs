@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
@@ -14,6 +15,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By noBtn = By.XPath("//button[text()='No']");
         private readonly By closeBtn = By.XPath("//button[contains(@class, 'close')]");
 
+        [AllureStep]
         public RemoveTaskPage IsDeleteTaskPopup()
         {
             WaitUtil.WaitForElementVisible(titlePopup);
@@ -24,25 +26,25 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.IsTrue(IsControlDisplayed(closeBtn));
             return this;
         }
-
+        [AllureStep]
         public RemoveTaskPage ClickOnYesDeleteTaskPopupBtn()
         {
             ClickOnElement(yesBtn);
             return this;
         }
-
+        [AllureStep]
         public TasksListingPage ClickOnNoDeleteTaskPopupBtn()
         {
             ClickOnElement(noBtn);
             return PageFactoryManager.Get<TasksListingPage>(); ;
         }
-
+        [AllureStep]
         public TasksListingPage ClickCloseDeleteTaskPopupBtn()
         {
             ClickOnElement(closeBtn);
             return PageFactoryManager.Get<TasksListingPage>();
         }
-
+        [AllureStep]
         public TasksListingPage EnterEscBtn()
         {
             Actions action = new Actions(IWebDriverManager.GetDriver());

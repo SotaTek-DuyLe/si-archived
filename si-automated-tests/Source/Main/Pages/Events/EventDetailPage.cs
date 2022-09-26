@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -166,12 +167,13 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By allocationInServiceTab = By.XPath("//div[@class='parent-row']//span[contains(@data-bind, 'text: $parents[0].getParentAllocationText($data)')]/parent::div");
         private const string eventOptions = "//div[@id='create-event-dropdown']//li[text()='{0}']";
 
+        [AllureStep]
         public EventDetailPage ClickOnServicesTab()
         {
             ClickOnElement(servicesTab);
             return this;
         }
-
+        [AllureStep]
         public List<ActiveSeviceModel> GetAllServiceWithServiceUnitModel()
         {
             List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
@@ -190,7 +192,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return activeSeviceModels;
         }
-
+        [AllureStep]
         public List<ActiveSeviceModel> GetAllActiveServiceInTabFullInfo()
         {
             List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
@@ -208,7 +210,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return activeSeviceModels;
         }
-
+        [AllureStep]
         public List<ActiveSeviceModel> GetAllActiveServiceInTabFullInfo32839()
         {
             List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
@@ -236,18 +238,18 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return activeSeviceModels;
         }
 
-
+        [AllureStep]
         public EventDetailPage VerifyActiveServiceDisplayedWithDB(List<ActiveSeviceModel> activeSeviceModelsDisplayed, List<ServiceForPointDBModel> serviceForPointDB, List<ServiceTaskForPointDBModel> serviceTaskForPointDBModels)
         {
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickFirstEventInFirstServiceRow()
         {
             ClickOnElement(eventDynamicLocator, "1");
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyEventTypeWhenClickEventBtn(List<CommonServiceForPointDBModel> FilterCommonServiceForPointWithServiceId)
         {
             foreach (CommonServiceForPointDBModel common in FilterCommonServiceForPointWithServiceId)
@@ -256,7 +258,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickAnyEventOption(string eventName)
         {
             ClickOnElement(eventOptions, eventName);
@@ -264,6 +266,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         }
 
         //LOCATION POPUP
+        [AllureStep]
         public EventDetailPage VeriryDisplayPopupLinkEventToServiceUnit(string sectorValue)
         {
             WaitUtil.WaitForElementVisible(linkEventTitle);
@@ -291,80 +294,80 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickCloseEventPopupBtn()
         {
             ClickOnElement(closePopupBtn);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage WaitForEventDetailDisplayed()
         {
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(eventTitle);
             return this;
         }
-
+        [AllureStep]
         public string GetLocationName()
         {
             return GetElementText(locationName);
         }
-
+        [AllureStep]
         public EventDetailPage VerifyEventName(string eventNameExp)
         {
             WaitUtil.WaitForElementVisible(locationName);
             Assert.AreEqual(eventNameExp, GetElementText(locationName));
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickOnLocation()
         {
             ClickOnElement(locationName);
             return PageFactoryManager.Get<ServiceUnitDetailPage>();
         }
-
+        [AllureStep]
         public EventDetailPage ClickOnLocationShowPopup()
         {
             ClickOnElement(locationName);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickInspectionBtn()
         {
             ClickOnElement(inspectionBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceUnitDetailPage ClickOnSourceHyperlink(string sourceName)
         {
             ClickOnElement(urlType, sourceName);
             return PageFactoryManager.Get<ServiceUnitDetailPage>();
         }
-
+        [AllureStep]
         public string GetEventTypeName()
         {
             return GetElementText(eventType);
         }
-
+        [AllureStep]
         public EventDetailPage VerifyEventType(string eventTypeValueExpected)
         {
             Assert.AreEqual(eventTypeValueExpected.ToLower().Replace("standard", "").Replace("-", "").Trim(), GetElementText(eventType).Replace("- ", "").ToLower());
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyEventTypeWithDB(string eventTypeValueExpected)
         {
             Assert.AreEqual(eventTypeValueExpected.ToLower(), GetElementText(eventType).Replace("- ", "").ToLower());
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyServiceGroupAndService(string serviceGroupExp, string serviceExp)
         {
             Assert.AreEqual(serviceGroupExp, GetElementText(serviceGroup));
             Assert.AreEqual(serviceExp, GetElementText(service));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ExpandDetailToggle()
         {
             if (IsControlUnDisplayed(detailLoactorExpanded))
@@ -376,13 +379,14 @@ namespace si_automated_tests.Source.Main.Pages.Events
             SleepTimeInMiliseconds(2000);
             return this;
         }
-
+        [AllureStep]
         public List<CommonServiceForPointDBModel> FilterCommonServiceForPointWithServiceId(List<CommonServiceForPointDBModel> commonService, int serviceIdExpected)
         {
             return commonService.FindAll(x => x.serviceID == serviceIdExpected);
         }
 
         //DETAIL - Expanded
+        [AllureStep]
         public EventDetailPage VerifyValueInSubDetailInformation(EventDBModel eventDBModel)
         {
             Assert.AreEqual(eventDBModel.eventobjectdesc, GetAttributeValue(sourceInput, "value"));
@@ -397,7 +401,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual("", GetAttributeValue(clientRefInput, "value"));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyValueInSubDetailInformation(string sourceExp, string statusExp)
         {
             Assert.AreEqual(sourceExp, GetAttributeValue(sourceInput, "value"));
@@ -412,26 +416,26 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual("", GetAttributeValue(clientRefInput, "value"));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyDueDateEmpty()
         {
             Assert.AreEqual("", GetAttributeValue(dueDateInput, "value"));
             return this;
         }
 
-
+        [AllureStep]
         public EventDetailPage VerifySourceInputReadOnly()
         {
             Assert.AreEqual(GetAttributeValue(parentSourceInput, "disabled"), "true");
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyDueDate(string dueDateValue)
         {
             Assert.IsTrue(GetAttributeValue(dueDateInput, "value").Contains(dueDateValue));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyDisplayTabsAfterSaveEvent()
         {
             Assert.IsTrue(IsControlDisplayed(anyTab, "data-tab"));
@@ -444,32 +448,32 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.IsTrue(IsControlDisplayed(anyTab, "map-tab"));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickHistoryTab()
         {
             ClickOnElement(anyTab, "history-tab");
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickDataTab()
         {
             ClickOnElement(anyTab, "data-tab");
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickMapTab()
         {
             ClickOnElement(anyTab, "map-tab");
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyDataInMapTab(string typeExp, string eventTypeExp, string serviceUnitEpx)
         {
             Assert.AreEqual(typeExp, GetElementText(typeInMapTab));
             Assert.AreEqual((eventTypeExp.ToLower().Replace("standard", "").Replace("-", "").Trim() + " > " + serviceUnitEpx).ToLower(), GetElementText(descInMapTab).ToLower());
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyHistoryWithDB(EventDBModel eventDBModel, string displayUserLogin)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CreateEventEventTitle));
@@ -480,7 +484,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(54, eventDBModel.eventcreatedbyuserID);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyHistoryWithDB(EventDBModel eventDBModel, string displayUserLogin, int userId, string lastUpdated, int lastUpdatedUserId)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CreateEventEventTitle));
@@ -493,7 +497,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(eventDBModel.lastupdateduserID, lastUpdatedUserId);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyHistoryData(string eventDate, string dueDate, string name, string notes, string state, string displayUserLogin)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CreateEventEventTitle));
@@ -505,7 +509,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(notes + ".", GetElementText(notesInHistoryTab));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyNewRecordInHistoryTab(string newStateValue, string newAllocatedUserValue, string newContractUnitValue, string user)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.AllocateEventEventTitle));
@@ -515,7 +519,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(user, GetElementText(createdByUserNewRecord));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyNewRecordInHistoryTabAfterAllocate(string newStateValue, string user)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.AllocateEventEventTitle));
@@ -524,7 +528,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
-
+        [AllureStep]
         public EventDetailPage VerifyRecordInHistoryTabAfterUpdate(string newNameValue, string user)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.UpdateEventTitle));
@@ -532,7 +536,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(user, GetElementText(createdByUserAfterUpdate));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyRecordInHistoryTabAfterCancel(string newState, string endDate, string resolvedDate, string user)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CancelEventTitle));
@@ -542,7 +546,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(user, GetElementText(createdByUserAfterUpdate));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyRecordInHistoryTabAfterUpdateClientRefAndEmail(string clientRef, string emailAddress, string user)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.UpdateEventTitle));
@@ -551,20 +555,20 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(user, GetElementText(createdByUserAfterUpdate));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyRecordInHistoryTabAfterAddNote(string user)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.AddNoteEventTitle));
             Assert.AreEqual(user, GetElementText(createdByUserAfterAddNote));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyNotesAfterAddNote(string notesValue)
         {
             Assert.AreEqual(notesValue + ".", GetElementText(notesInAddNoteEvent));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyRecordInHistoryTabAfterAccept(string newStateValue, string user, string newName)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.AcceptEventTitle));
@@ -573,76 +577,76 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(user, GetElementText(createdByUserAfterAccept));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickDataSubTab()
         {
             ClickOnElement(anyTab, "data-tab");
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyNotDisplayErrorMessage()
         {
             Assert.IsFalse(IsControlDisplayedNotThrowEx(FrameMessage));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickServicesSubTab()
         {
             ClickOnElement(anyTab, "services-tab");
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickOutstandingSubTab()
         {
             ClickOnElement(anyTab, "outstanding-tab");
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickPointHistorySubTab()
         {
             ClickOnElement(anyTab, "pointHistory-tab");
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyValueInStatus(string expectedStatus)
         {
             WaitUtil.WaitForElementVisible(statusDd);
             Assert.AreEqual(expectedStatus, GetFirstSelectedItemInDropdown(statusDd));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyEndDateAndResolvedDate()
         {
             Assert.IsTrue(GetAttributeValue(endDateInput, "value").Contains(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT)));
             Assert.IsTrue(GetAttributeValue(resolvedDateInput, "value").Contains(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT)));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyValueInAllocatedUnit(string expectedAllocatedUnit)
         {
             Assert.AreEqual(expectedAllocatedUnit, GetFirstSelectedItemInDropdown(allocatedUnitDetailDd));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage InputClientRef(string clientRefValue)
         {
             SendKeys(clientRefInput, clientRefValue);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyValueInClientRef(string expectedClientRef)
         {
             Assert.AreEqual(expectedClientRef, GetAttributeValue(clientRefInput, "value"));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyValueInAssignedUser(string expectedAlssignedUser)
         {
             Assert.AreEqual(expectedAlssignedUser, GetFirstSelectedItemInDropdown(assignedUserDetailDd));
             return this;
         }
 
-
+        [AllureStep]
         public EventDetailPage VerifyDataInServiceSubTab(List<ActiveSeviceModel> allActiveServicesSubTab, List<ServiceForPointDBModel> filterServiceWithContract)
         {
             for (int i = 0; i < allActiveServicesSubTab.Count; i++)
@@ -653,7 +657,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyDataInServiceSubTab(List<ActiveSeviceModel> allActiveServicesSubTab, List<ActiveSeviceModel> activeSeviceModelsDetailPointSegment)
         {
             for(int i = 0; i < allActiveServicesSubTab.Count; i++)
@@ -670,7 +674,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
 
-
+        [AllureStep]
         public List<ActiveSeviceModel> GetAllActiveServiceWithServiceUnitModel()
         {
             List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
@@ -684,7 +688,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return activeSeviceModels;
         }
-
+        [AllureStep]
         public List<ActiveSeviceModel> GetAllServiceInTab()
         {
             List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
@@ -698,7 +702,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return activeSeviceModels;
         }
-
+        [AllureStep]
         public List<ActiveSeviceModel> GetAllServiceWithoutServiceUnitModel(List<ActiveSeviceModel> GetAllServiceInTab)
         {
             List<ActiveSeviceModel> serviceModels = new List<ActiveSeviceModel>();
@@ -711,7 +715,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return serviceModels;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyPointHistoryInSubTab(List<PointHistoryModel> pointHistoryModelsInDetail, List<PointHistoryModel> pointHistoryModelsInPointHistorySubTab)
         {
             for(int i = 0; i < pointHistoryModelsInDetail.Count; i++)
@@ -727,7 +731,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyPointHistoryInSubTab(List<PointHistoryDBModel> pointHistoryDBModels, List<PointHistoryModel> pointHistoryModelsInPointHistorySubTab)
         {
             for (int i = 0; i < pointHistoryDBModels.Count; i++)
@@ -743,50 +747,50 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickAnyEventInActiveServiceRow(string eventLocator)
         {
             ClickOnElement(eventLocator);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage InputNameInDataTab(string nameValue)
         {
             SendKeys(nameInput, nameValue);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage InputNoteInDataTab(string noteValue)
         {
             SendKeys(noteInputInDataTab, noteValue);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyValueInNameFieldInDataTab(string expName)
         {
             Assert.AreEqual(expName, GetAttributeValue(nameInput, "value"));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage InputContactNumber(string numberValue)
         {
             SendKeys(contactNumberInput, numberValue);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage InputEmailAddress(string emailValue)
         {
             SendKeys(emailInput, emailValue);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyValueInEmailFieldInDataTab(string expName)
         {
             Assert.AreEqual(expName, GetAttributeValue(emailInput, "value"));
             return this;
         }
 
-
+        [AllureStep]
         public List<string> GetAllEventTypeInDd()
         {
             List<string> eventTypes = new List<string>();
@@ -797,19 +801,19 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return eventTypes;
         }
-
+        [AllureStep]
         public EventDetailPage ClickOnAllocatedUnit()
         {
             ClickOnElement(allocatedUnitDetailDd);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage SelectAnyAllocatedUnit(string allocatedUnitValue)
         {
             ClickOnElement(allocatedUnitDetailOption, allocatedUnitValue);
             return this;
         }
-
+        [AllureStep]
         public List<string> GetAllOptionInAllocatedUnitDetailSubTab()
         {
             List<string> results = new List<string>();
@@ -820,7 +824,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return results;
         }
-
+        [AllureStep]
         public List<string> GetAllOptionInAssignedUserDetailSubTab()
         {
             List<string> results = new List<string>();
@@ -833,6 +837,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         }
 
         //POPUP CREATE INSPECTION
+        [AllureStep]
         public EventDetailPage IsCreateInspectionPopup(bool isIcon)
         {
             WaitUtil.WaitForPageLoaded();
@@ -857,7 +862,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(GetCssValue(allocatedUnitDd, "border-color"), CommonConstants.BoderColorMandatory);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyDefaulValue(bool isIcon)
         {
             if (isIcon)
@@ -872,7 +877,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(GetAttributeValue(validToInput, "value"), CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickSourceDdAndVerify(string[] sourceValues)
         {
             ClickOnElement(sourceDd);
@@ -883,19 +888,19 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyDefaultSourceDd(string sourceValue)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(sourceDd), sourceValue);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickCancelBtn()
         {
             ClickOnElement(cancelBtn);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyPopupDisappears()
         {
             WaitUtil.WaitForElementInvisible(sourceDd);
@@ -903,65 +908,65 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.IsTrue(IsControlUnDisplayed(sourceDd));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickAndSelectInspectionType(string inspectionTypeValue)
         {
             ClickOnElement(inspectionTypeDd);
             ClickOnElement(inspectionTypeOption, inspectionTypeValue);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickAndSelectAllocatedUnit(string allocatedUnitValue)
         {
             ClickOnElement(allocatedUnitDd);
             ClickOnElement(allocatedUnitOption, allocatedUnitValue);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickOnAssignedUserInDetailSubTab()
         {
             ClickOnElement(assignedUserDetailDd);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickAndSelectAssignedUser(string assignedUserValue)
         {
             ClickOnElement(assignedUserDd);
             ClickOnElement(assignedUserOption, assignedUserValue);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage InputValidFrom(string validFromValue)
         {
             SendKeys(validFromInput, validFromValue);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage InputValidTo(string validFromTo)
         {
             SendKeys(validToInput, validFromTo);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickCreateBtn()
         {
             ClickOnElement(createBtn);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage InputNote(string noteValue)
         {
             SendKeys(noteInput, noteValue);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyValueInNoteField(string expNoteValue)
         {
             Assert.AreEqual(expNoteValue, GetAttributeValue(noteInputInDataTab, "value"));
             return this;
         }
 
-
+        [AllureStep]
         public EventDetailPage ClickRefreshEventDetailBtn()
         {
             ClickOnElement(refreshBtn);
@@ -969,12 +974,13 @@ namespace si_automated_tests.Source.Main.Pages.Events
         }
 
         //POINT HISTORY
+        [AllureStep]
         public EventDetailPage ClickPointHistoryTab()
         {
             ClickOnElement(pointHistoryBtn);
             return this;
         }
-
+        [AllureStep]
         public List<PointHistoryModel> GetAllPointHistory()
         {
             WaitUtil.WaitForElementVisible(descriptionColumn);
@@ -1000,12 +1006,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
             
             return allModel;
         }
-
+        [AllureStep]
         public List<PointHistoryModel> FilterPointHistoryWithId(List<PointHistoryModel> pointHistoryModelsAll, string pointHistoryIdInput)
         {
             return pointHistoryModelsAll.FindAll(x => x.ID.Equals(pointHistoryIdInput));
         }
-
+        [AllureStep]
         public EventDetailPage VerifyPointHistory(PointHistoryModel pointHistoryModelActual, string desc, string id, string type, string service, string address, string date, string dueDate, string state)
         {
             Assert.AreEqual(desc, pointHistoryModelActual.description);
@@ -1019,44 +1025,44 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
 
         }
-
+        [AllureStep]
         public EventDetailPage DoubleClickOnCreatedInspection()
         {
             DoubleClickOnElement(firstRowPointHistory);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage FilterByPointHistoryId(string pointHistoryId)
         {
             SendKeys(filterInputById, pointHistoryId);
             ClickOnElement(eventTitle);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyCurrentEventUrl()
         {
             Assert.IsTrue(GetCurrentUrl().Contains(WebUrl.MainPageUrl + "web/events/"));
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyDisplayBlueIcon()
         {
             Assert.IsTrue(IsControlDisplayed(blueIcon));
             return this;
         }
-
+        [AllureStep]
         public string GetEventId()
         {
             return GetCurrentUrl()
                 .Replace(WebUrl.MainPageUrl + "web/events/", "");
         }
-
+        [AllureStep]
         public EventDetailPage ClickActionBtn()
         {
             ClickOnElement(actionBtn);
             return this;
         }
-
+        [AllureStep]
         public List<string> GetAllOptionInActionDd()
         {
             List<string> results = new List<string>();
@@ -1066,14 +1072,14 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 results.Add(GetElementText(e));
             }
             return results;
-        }  
-
+        }
+        [AllureStep]
         public EventDetailPage ClickAnyOptionInActionDd(string actionName)
         {
             ClickOnElement(anyOptionInActionDd, actionName);
             return this;
         }
-
+        [AllureStep]
         public List<string> GetAllOptionInEventActions()
         {
             List<string> results = new List<string>();
@@ -1084,7 +1090,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             }
             return results;
         }
-
+        [AllureStep]
         public EventDetailPage VerifyActionAreTheSame(List<string> actions, List<string> eventActions)
         {
             Assert.IsTrue(actions.SequenceEqual(eventActions));
@@ -1093,7 +1099,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
 
         //DB
-
+        [AllureStep]
         public List<ServiceForPointDBModel> FilterServicePointWithServiceID(List<ServiceForPointDBModel> allServices, List<ServiceDBModel> serviceDBModels)
         {
             List<ServiceForPointDBModel> result = new List<ServiceForPointDBModel>();
@@ -1117,24 +1123,25 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By addNoteBtnInEventActions = By.XPath("//span[text()='Add Note']/parent::button/parent::li");
         private readonly By cancelBtnInEventActions = By.XPath("//span[text()='Cancel']/parent::button/parent::li");
 
+        [AllureStep]
         public EventDetailPage ClickAllocateEventInEventActionsPanel()
         {
             ClickOnElement(allocateEventBtnInEventActions);
             return this;
         }
-
+        [AllureStep]
         public EventDetailPage ClickAcceptInEventActionsPanel()
         {
             ClickOnElement(acceptBtnInEventActions);
             return this;
         }
-
+        [AllureStep]
         public EventActionPage ClickAddNoteInEventsActionsPanel()
         {
             ClickOnElement(addNoteBtnInEventActions);
             return PageFactoryManager.Get< EventActionPage>();
         }
-
+        [AllureStep]
         public EventDetailPage ClickCancelInEventsActionsPanel()
         {
             ClickOnElement(cancelBtnInEventActions);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -27,24 +28,25 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
         private readonly By finishBtn = By.XPath("//div[@id='add-service-suspensions']//div[@class='modal-footer']//button[text()='Finish']");
         private const string AnyMessage = "//div[text()='{0}']";
 
+        [AllureStep]
         public AddNewSuspensionPage WaitServiceSuspensionVisible()
         {
             WaitUtil.WaitForElementVisible(serviceSuspensionModal);
             return this;
         }
-
+        [AllureStep]
         public List<string> GetSiteNames()
         {
             List<IWebElement> checkboxs = GetAllElements(siteItems);
             return checkboxs.Select(x => GetElementText(x)).ToList();
         }
-
+        [AllureStep]
         public List<string> GetServiceNames()
         {
             List<IWebElement> checkboxs = GetAllElements(serviceItems);
             return checkboxs.Select(x => GetElementText(x)).ToList();
         }
-
+        [AllureStep]
         public AddNewSuspensionPage VerifySuspensionTitle(string title)
         {
             List<IWebElement> titles = GetAllElements(titleXpath);
@@ -52,79 +54,79 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
             Assert.IsTrue(viewTitle == title);
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage VerifyNextButtonIsDisable()
         {
             Assert.IsFalse(IsControlEnabled(nextBtn));
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage ClickSelectAllSiteCheckbox()
         {
             ClickOnElement(selectAllSiteCheckbox);
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage ClickSelectAllServiceCheckbox()
         {
             ClickOnElement(selectAllServiceCheckbox);
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage VerifyNextButtonIsEnable()
         {
             Assert.IsTrue(IsControlEnabled(nextBtn));
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage ClickNextButton()
         {
             ClickOnElement(nextBtn);
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage IsFirstDayInputVisible()
         {
             Assert.IsTrue(IsControlDisplayed(fromDateInput));
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage IsLastDayInputVisible()
         {
             Assert.IsTrue(IsControlDisplayed(untilDateInput));
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage IsDateDiffLabelVisible()
         {
             Assert.IsTrue(IsControlDisplayed(dateDiffLabel));
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage IsEveryDayRadioVisible()
         {
             Assert.IsTrue(IsControlDisplayed(everydayRadio));
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage IsSelectedDayRadioVisible()
         {
             Assert.IsTrue(IsControlDisplayed(selectedDayRadio));
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage ClickFinish()
         {
             ClickOnElement(finishBtn);
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage VerifyWarningMessage(string errorMessage)
         {
             Assert.IsTrue(IsControlDisplayed(String.Format(AnyMessage, errorMessage)));
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage InputDaysAndVerifyDaysCalculationLbl(string fromDate, string lastDay)
         {
             IWebElement dateDiffEle = GetElement(dateDiffLabel);
@@ -137,13 +139,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
             Assert.IsTrue(GetElementText(dateDiffEle) == "30 days");
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage VerifySaveMessage(string saveMsg)
         {
             Assert.IsTrue(IsControlDisplayed(String.Format(AnyMessage, saveMsg)));
             return this;
         }
-
+        [AllureStep]
         public AddNewSuspensionPage IsAddSuspensionModalInVisible()
         {
             Assert.IsTrue(IsControlUnDisplayed(modal));

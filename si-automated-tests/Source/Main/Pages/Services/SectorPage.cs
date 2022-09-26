@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -25,6 +26,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By TitleSectorName = By.XPath("//div[@class='headers-container']//h5");
         public readonly By SectorId = By.XPath("//h4[@class='id']");
 
+        [AllureStep]
         public SectorPage VerifyBorderColorIsRed(By element)
         {
             string rgb = GetCssValue(element, "border-color");

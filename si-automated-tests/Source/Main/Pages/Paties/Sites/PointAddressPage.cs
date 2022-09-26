@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
@@ -26,6 +27,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
             get => new TableElement(AllServiceTable, AllServiceRow, new List<string>() { AllServiceContractCell, AllServiceServiceCell, AllServiceServiceUnitCell, AllServiceTaskCountCell });
         }
 
+        [AllureStep]
         public PointAddressPage ClickServiceUnit(string service)
         {
             AllServiceTableEle.ClickCellOnCellValue(2, 1, service);

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -17,8 +19,24 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
         private readonly By nextBtn = By.CssSelector("button[id='next-button']");
         private readonly By firstRowWithServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint')]/span)[1]");
-        private readonly By firstRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint')])[1]");
+        private readonly By firstRowWithServiceTaskScheduleAndNotAllocated = By.XPath("(//img[@data-bind='visible: serviceTask.isAssured' and contains(@style, 'display: none;')]/parent::span)[1]");
+        private readonly By secondRowWithServiceTaskScheduleAndNotAllocated = By.XPath("(//img[@data-bind='visible: serviceTask.isAssured' and contains(@style, 'display: none;')]/parent::span)[2]");
+        private readonly By firstRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint') and not(span)])[1]");
         private readonly By applyFiltersBtn = By.CssSelector("button[id='filter-button']");
+        private readonly By firstMultipleRowWithServiceTaskSchedule = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint')]//button[@class='toggle'])[1]");
+        private readonly By firstRowInMultipleWithServiceTaskSchedule = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint')]//button[@class='toggle']/parent::div/following-sibling::div/span)[1]");
+        private readonly By secondRowInMultipleWithServiceTaskSchedule = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint')]//button[@class='toggle']/parent::div/following-sibling::div/span)[2]");
+        private readonly By firstMultipleRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint') and not(span)])[1]");
+        private readonly By secondMultipleRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[2]/td[contains(@data-bind, 'retiredPoint') and not(span)])[1]");
+        private readonly By thridMultipleRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint')and not(span)])[3]");
+        private readonly By forthMultipleRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[2]/td[contains(@data-bind, 'retiredPoint')and not(span)])[3]");
+        private readonly By fifthMultipleRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[3]/td[contains(@data-bind, 'retiredPoint')and not(span)])[3]");
+        private readonly By firstCellWithServiceUnit = By.XPath("(//tbody/tr[1]/td[contains(@class, 'unit-cell')])[1]");
+        private readonly By firstCellWithMultipleServiceUnitPoint = By.XPath("(//img[@src='content/style/images/service-unit.png']/following-sibling::img)[1]/parent::span");
+        private readonly By totalRow = By.XPath("//span[contains(text(), 'Total = ')]");
+        private readonly By firstRedRow = By.XPath("(//table[@id='description-table']//td[contains(@class, 'no-service-definition')])[1]");
+        private readonly By secondRedRow = By.XPath("(//table[@id='description-table']//td[contains(@class, 'no-service-definition')])[2]");
+        private readonly By referenceIdInput = By.XPath("//div[@id='point-grid']//div[contains(@class, 'l1')]//input");
 
         //WARINING POPUP
         private readonly By warningTitle = By.XPath("//h4[text()='Warning']");
@@ -31,7 +49,11 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string serviceTypeOption = "//select[@id='type']/option[text()='{0}']";
         private readonly string actionOption = "//div[@class='action-container']/button[text()='{0}']";
         private readonly string anyServicesGroupByContract = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/i[1]";
+        private readonly string firstLocatorWithDescRedRow = "(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]/td[contains(@data-bind, 'retiredPoint')]/span/parent::td)[1]";
+        private readonly string roundDate = "//table[@id='master-table']//tr[contains(@class, 'round-row')]/td[count(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//span/parent::td[contains(@data-bind, 'retiredPoint')]/preceding-sibling::td) + 1]";
+        private readonly string columnRoundByRoundName = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[@title='{0}']/preceding-sibling::td) + 1]";
 
+        [AllureStep]
         public ServiceDataManagementPage IsServiceDataManagementPage()
         {
             WaitUtil.WaitForElementVisible(serviceLocationTypeTitle);
@@ -42,6 +64,41 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
+        public int GetRoundDate(string descName)
+        {
+            string roundName = GetElementText(roundDate, descName);
+            if(roundName.Contains("Monday"))
+            {
+                return 2;
+            } else if(roundName.Contains("Tuesday"))
+            {
+                return 3;
+            }
+            else if (roundName.Contains("Tuesday"))
+            {
+                return 3;
+            }
+            else if (roundName.Contains("Wednesday"))
+            {
+                return 4;
+            }
+            else if (roundName.Contains("Thursday"))
+            {
+                return 5;
+            }
+            else if (roundName.Contains("Friday"))
+            {
+                return 6;
+            }
+            else if (roundName.Contains("Saturday"))
+            {
+                return 7;
+            }
+            return 8;
+        }
+
+        [AllureStep]
         public ServiceDataManagementPage ClickServiceLocationTypeDdAndSelectOption(string typeOptionValue)
         {
             ClickOnElement(selectTypeDd);
@@ -49,55 +106,157 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(serviceTypeOption, typeOptionValue);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickOnServicesAndSelectGroupInTree(string serviceGroupName)
         {
             ClickOnElement(inputServicesTree);
             ClickOnElement(anyServicesGroupByContract, serviceGroupName);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickOnApplyFiltersBtn()
         {
             ClickOnElement(applyFiltersBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage VerifyWarningPopupDisplayed()
         {
             WaitUtil.WaitForElementVisible(warningTitle);
             Assert.IsTrue(IsControlDisplayed(warningTitle));
+            Assert.IsTrue(IsControlDisplayed(warningContent));
             Assert.IsTrue(IsControlDisplayed(checkboxMessage));
             Assert.IsTrue(IsControlEnabled(okBtn));
             Assert.IsTrue(IsControlEnabled(cancelBtn));
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickOnOkBtn()
         {
             ClickOnElement(okBtn);
             return this;
         }
 
+        [AllureStep]
+        public ServiceDataManagementPage FilterReferenceById(string refId)
+        {
+            SendKeys(referenceIdInput, refId);
+            return this;
+        }
+
+        [AllureStep]
         public ServiceDataManagementPage ClickOnSelectAndDeselectBtn()
         {
             ClickOnElement(selectAndDeselectBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage ClickOnNextBtn()
         {
             ClickOnElement(nextBtn);
             return this;
         }
-
+        [AllureStep]
         public ServiceDataManagementPage RightClickOnFirstRowWithServiceTaskSchedule()
         {
             RightClickOnElement(firstRowWithServiceTaskSchedule);
             return this;
         }
 
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnFirstRowUnAllocated()
+        {
+            RightClickOnElement(firstRowWithServiceTaskScheduleAndNotAllocated);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnSecondRowUnAllocated()
+        {
+            RightClickOnElement(secondRowWithServiceTaskScheduleAndNotAllocated);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnSecondRowUnAllocated(string roundNameDisplayed)
+        {
+            RightClickOnElement(string.Format(columnRoundByRoundName, roundNameDisplayed));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage SelectAndRightClickOnMultipleRowsUnAllocated(string firstDescRedName, string secondDescRedName)
+        {
+            List<string> locators = new List<string>();
+            locators.Add(string.Format(firstLocatorWithDescRedRow, firstDescRedName));
+            locators.Add(string.Format(firstLocatorWithDescRedRow, secondDescRedName));
+            HoldKeyDownWhileClickOnElement(locators);
+            RightClickOnElement(string.Format(firstLocatorWithDescRedRow, firstDescRedName));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnFirstRowUnAllocated()
+        {
+            DoubleClickOnElement(firstRowWithServiceTaskScheduleAndNotAllocated);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnFirstRowUnAllocated(string firstDescRedName)
+        {
+            DoubleClickOnElement(firstLocatorWithDescRedRow, firstDescRedName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnSecondRowUnAllocated(string secondDescRedName)
+        {
+            DoubleClickOnElement(firstLocatorWithDescRedRow, secondDescRedName);
+            return this;
+        }
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnFirstRowWithServiceTaskSchedule(string descValue)
+        {
+            RightClickOnElement(string.Format(firstLocatorWithDescRedRow, descValue));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnFirstRowWithServiceTaskSchedule(string descValue)
+        {
+            DoubleClickOnElement(string.Format(firstLocatorWithDescRedRow, descValue));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnAnyRowWithServiceTaskSchedule(string roundNameDisplayed)
+        {
+            DoubleClickOnElement(string.Format(columnRoundByRoundName, roundNameDisplayed));
+            return this;
+        }
+
+        [AllureStep]
+        public string GetFirstDescWithRedColor()
+        {
+            return GetElementText(firstRedRow);
+        }
+
+        [AllureStep]
+        public string GetSecondDescWithRedColor()
+        {
+            return GetElementText(secondRedRow);
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnFirstRowWithServiceTaskSchedule()
+        {
+            DoubleClickOnElement(firstRowWithServiceTaskSchedule);
+            return this;
+        }
+
+        [AllureStep]
         public ServiceDataManagementPage VerifyActionMenuDisplayedWithActions()
         {
             foreach(string action in CommonConstants.ActionMenuSDM)
@@ -107,6 +266,25 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
+        public ServiceDataManagementPage ClickOnAnyOptionInActions(string actionName)
+        {
+            ClickOnElement(actionOption, actionName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyActionMenuDisplayWithServiceUnit()
+        {
+            SleepTimeInMiliseconds(1000);
+            foreach (string action in CommonConstants.ActionMenuSU)
+            {
+                Assert.IsTrue(IsControlDisplayed(actionOption, action), action + " is not displayed");
+            }
+            return this;
+        }
+
+        [AllureStep]
         public ServiceDataManagementPage VerifyActionInActionMenuDisabled(string[] nameActions)
         {
             foreach(string action in nameActions)
@@ -116,11 +294,134 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage RightClickOnFirstRowWithoutServiceTaskSchedule()
         {
             RightClickOnElement(firstRowWithoutServiceTaskSchedule);
             return this;
         }
 
+        [AllureStep]
+        public ServiceDataManagementPage ClickOnMultipleRowsWithServiceTaskSchedule()
+        {
+            ScrollDownToElement(firstMultipleRowWithServiceTaskSchedule);
+            ClickOnElement(firstMultipleRowWithServiceTaskSchedule);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage SelectMultipleRowsWithServiceTaskSchedule()
+        {
+
+            HoldKeyDownWhileClickOnElement(new List<By> { firstRowInMultipleWithServiceTaskSchedule, secondRowInMultipleWithServiceTaskSchedule });
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnMultipleRowWithServiceTaskSchedule()
+        {
+            RightClickOnElement(firstRowInMultipleWithServiceTaskSchedule);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage SelectMultipleRowsWithoutServiceTaskSchedule()
+        {
+            HoldKeyDownWhileClickOnElement(new List<By> { firstMultipleRowWithoutServiceTaskSchedule, secondMultipleRowWithoutServiceTaskSchedule });
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnMultipleRowWithoutServiceTaskSchedule()
+        {
+            RightClickOnElement(firstMultipleRowWithoutServiceTaskSchedule);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnFirstCellWithServiceUnit()
+        {
+            RightClickOnElement(firstCellWithServiceUnit);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnCellWithMutipleServiceUnitPoint()
+        {
+            ScrollDownToElement(firstCellWithMultipleServiceUnitPoint);
+            RightClickOnElement(firstCellWithMultipleServiceUnitPoint);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyActionInActionMenuEnabled(string[] nameActions)
+        {
+            foreach (string action in nameActions)
+            {
+                Assert.IsTrue(IsControlEnabled(string.Format(actionOption, action)), action + " is not enabled");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnMultipleServiceTaskScheduleSegment()
+        {
+            RightClickOnElement(thridMultipleRowWithoutServiceTaskSchedule);
+            RightClickOnElement(forthMultipleRowWithoutServiceTaskSchedule);
+            RightClickOnElement(fifthMultipleRowWithoutServiceTaskSchedule);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage ClickOutOfAction()
+        {
+            ClickOnElement(totalRow);
+            return this;
+        }
+
+        //SET ASSURED
+        private readonly By setEndDateLabel = By.XPath("//label[text()='Set End Date']");
+        private readonly By inputEndDate = By.XPath("//input[@id='assured-end-date']");
+        private readonly By applyAtBottomBtn = By.XPath("//button[text()='Apply']");
+        private readonly By addAmendCrewNotesBtn = By.XPath("//button[text()='Add/Amend Crew Notes']");
+        private readonly By setAssuredBtn = By.XPath("//button[text()='Set Assured']");
+        private readonly By textareaInputNotes = By.CssSelector("textarea[id='crew-notes']");
+        private readonly By saveBtn = By.XPath("//button[text()='Save']");
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifySetAssuredAfterClick()
+        {
+            Assert.IsTrue(IsControlDisplayed(setEndDateLabel));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage InputDateInSetEndDate(string endDateValue)
+        {
+            InputCalendarDate(inputEndDate, endDateValue);
+            ClickOnElement(setEndDateLabel);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage InputAddAmendCrewNotes(string noteValue)
+        {
+            SendKeys(textareaInputNotes, noteValue);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage ClickOnSaveBtn()
+        {
+            ClickOnElement(saveBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage ClickOnApplyAtBottomBtn()
+        {
+            ClickOnElement(applyAtBottomBtn);
+            return this;
+        }
     }
 }
