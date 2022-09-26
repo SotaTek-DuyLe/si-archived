@@ -1097,5 +1097,94 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .VerifyTaskNotesValue(noteValue);
         }
 
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "Action 'Retire Service Task Schedule' -  Service Task with MULTIPLE Service Task Schedules")]
+        public void TC_132_Test_13_Action_Retire_Service_task_schedule_service_task_with_multiple_service_task_schedules()
+        {
+            CommonFinder finder = new CommonFinder(DbContext);
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.RMC)
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .SelectCheckboxByReferenceId("98558")
+                .SelectCheckboxByReferenceId("104353")
+                .SelectCheckboxByReferenceId("104386")
+                .SelectCheckboxByReferenceId("108488")
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnSelectAndDeselectBtn()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            string descRedRow = serviceDataManagementPage
+                .GetFirstDescWithRedColor();
+            string roundNameRetired = "REC1-AM:Thursday";
+            string roundNameRetiredWithFormat = "REC1-AM Thursday";
+            string roundNameNotRetiredWithFormat = "REC1-AM Monday";
+            string serviceGroupName = "Collections";
+            string serviceName = "Commercial Collections";
+            serviceDataManagementPage
+                .RightClickOnSecondRowUnAllocated(roundNameRetired)
+                .VerifyActionMenuDisplayedWithActions()
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[4])
+                .ClickOnApplyAtBottomBtn()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Verify Only Service Task Schedule is retired and a white colour appears in cell (no STS is present)
+            serviceDataManagementPage
+                .VerifyWhiteColourAppearInCellNoSTSPresent(roundNameRetired)
+                .SwitchToDefaultContent();
+            //Go to [Master Round Management] - STS with retired round not displayed
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.MasterRoundManagement)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            string contract = Contract.RMC;
+            string service = "Commercial Collections";
+            PageFactoryManager.Get<MasterRoundManagementPage>()
+                .IsOnPage()
+                .InputSearchDetails(contract, service)
+                .ClickOnSearchRoundBtn()
+                .SendKeyInSearchRound(roundNameRetiredWithFormat)
+                .DragAndDropFirstRoundToGrid();
+            PageFactoryManager.Get<MasterRoundManagementPage>()
+                .SendKeyInDescInput(descRedRow)
+                .VerifyNoRecordInTaskGrid()
+                //Go to [Master Round Management] - STS with round displayed
+                .SendKeyInSearchRound(roundNameNotRetiredWithFormat)
+                .DragAndDropFirstRoundToGrid()
+                .SwitchToTab(roundNameNotRetiredWithFormat);
+            PageFactoryManager.Get<MasterRoundManagementPage>()
+                .SendKeyInDescInput(descRedRow)
+                .VerifyNoRecordInTaskGrid();
+        }
+
     }
 }
