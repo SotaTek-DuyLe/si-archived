@@ -46,7 +46,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public readonly By taskStateDd = By.CssSelector("select[id='taskState.id']");
         public readonly By ScheduleDateInput = By.CssSelector("input[id='scheduledDate.id']");
         public readonly By completionDateInput = By.CssSelector("input[id='completionDate.id']");
-        private readonly By endDateInput = By.CssSelector("input[id='endDate.id']");
+        public readonly By endDateInput = By.CssSelector("input[id='endDate.id']");
         private readonly By resolutionCode = By.CssSelector("select[id='resolutionCode.id']");
 
         //DYNAMIC LOCATOR
@@ -535,6 +535,12 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifyTaskLineState(string state)
         {
             VerifyCellValue(TaskLineTableEle, 0, 11, state);
+            return this;
+        }
+
+        public DetailTaskPage InputTaskLineState(string state)
+        {
+            TaskLineTableEle.SetCellValue(0, 11, state);
             return this;
         }
 
