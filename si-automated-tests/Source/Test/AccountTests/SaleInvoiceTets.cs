@@ -52,7 +52,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .IsOnCreateInvoicePage()
                 .SearchForParty(partyName)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Sales Invoice");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<CreateInvoicePage>()
                 .VerifyNewTabsArePresent()
                 .SwitchToTab("Lines");
@@ -64,7 +64,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .IsOnSaleInvoiceLinePage()
                 .InputInfo(lineType, site, product, priceElement, quantity, price)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Sales Invoice Line")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<LinesTab>()
@@ -78,7 +78,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .ClickButton("Post");
             PageFactoryManager.Get<PostConfirmationPage>()
                 .ClickConfirm()
-                .VerifyToastMessage("Success")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SleepTimeInMiliseconds(2500)
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
@@ -109,7 +109,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .InputInvoiceSchedule(invoiceType, scheduelDate)
                 .InputGenerateDate(currentDateTime)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved sales invoice batch")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();

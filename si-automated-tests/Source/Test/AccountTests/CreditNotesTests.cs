@@ -52,7 +52,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .IsOnCreditNotePage()
                 .SearchForParty(partyName)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Credit Note");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<CreditNotePage>()
                 .VerifyNewTabsArePresent()
                 .SwitchToTab("Lines");
@@ -64,7 +64,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .IsOnCreditNoteLinePage()
                 .InputInfo(lineType, site, product, priceElement, description, quantity, price)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Credit Note Line")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<LinesTab>()
@@ -99,7 +99,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .IsOnCreditNotePage()
                 .SearchForParty(partyName)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Credit Note");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<CreditNotePage>()
                 .VerifyNewTabsArePresent()
                 .SwitchToTab("Lines");
@@ -111,7 +111,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .IsOnCreditNoteLinePage()
                 .InputInfo(lineType, site, product, priceElement, description, quantity, price)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Credit Note Line")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<LinesTab>()
@@ -176,7 +176,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .IsOnCreditNotePage()
                 .SearchForParty(partyName)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Credit Note");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<CreditNotePage>()
                 .VerifyNewTabsArePresent()
                 .SwitchToTab("Lines");
@@ -189,7 +189,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .InputInfo(lineType, site, product, priceElement, description, quantity, price)
                 .SelectVatRate(vat)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Credit Note Line")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<LinesTab>()
@@ -218,7 +218,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .IsOnCreditNotePage()
                 .SearchForParty(partyName)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Credit Note")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();

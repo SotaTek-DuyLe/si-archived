@@ -51,7 +51,7 @@ namespace si_automated_tests.Source.Test.PartyTests
                 partyAgreementPage
                     .SelectAgreementType("Commercial Collections")
                     .ClickSaveBtn()
-                    .VerifyToastMessage("Successfully saved agreement")
+                    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                     .WaitForLoadingIconToDisappear();
                 partyAgreementPage
                     .WaitForAgreementPageLoadedSuccessfully(agreementType, partyName)
@@ -121,7 +121,7 @@ namespace si_automated_tests.Source.Test.PartyTests
                     .VerifyServicePanelPresent()
                     .VerifyAgreementLineFormHasGreenBorder()
                     .ClickSaveBtn()
-                    .VerifyToastMessage("Successfully saved agreement")
+                    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                     .WaitForLoadingIconToDisappear();
                 partyAgreementPage
                     .VerifyServiceStartDate(DateTime.Now.ToString(CommonConstants.DATE_DD_MM_YYYY_FORMAT).Replace("-", "/"))
@@ -305,7 +305,7 @@ namespace si_automated_tests.Source.Test.PartyTests
                 .ClickFinish();
             partyAgreementPage
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             partyAgreementPage
                 .ClosePartyAgreementPage()
@@ -318,7 +318,7 @@ namespace si_automated_tests.Source.Test.PartyTests
             partyAgreementPage
                 .ClickRemoveAgreementBtn()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             partyAgreementPage.VerifyServicePanelUnDisplay();
         }
