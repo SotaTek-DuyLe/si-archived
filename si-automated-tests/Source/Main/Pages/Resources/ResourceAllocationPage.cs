@@ -146,13 +146,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage VerifyFirstResultValue(string field, string expected)
         {
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
-            var e = GetFirstResult();
             for (int i = 0; i < hds.Count; i++)
             {
                 if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
                 {
+                    var f = GetResultNo(i+1);
                     //Temporary comment because of unfixed bug: Assert.AreEqual(expected, _firstResultFields[i].Text);
-                    Assert.IsTrue(e.Text.Contains(expected),"expected " + expected + " but found " + e.Text);
+                    Assert.IsTrue(f.Text.Contains(expected),"expected " + expected + " but found " + f.Text);
                 }
             }
             return this;
