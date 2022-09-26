@@ -109,7 +109,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .InputInvoiceSchedule(invoiceType, scheduelDate)
                 .InputGenerateDate(currentDateTime)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .VerifyToastMessage("Successfully saved sales invoice batch")
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();

@@ -86,7 +86,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .EnterDates(currentDate)
                 .EnterDetails(details)
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<LeaveEntryPage>()
                 .VerifyNewButtonsDisplayed()
                 .CloseCurrentWindow()
@@ -167,7 +167,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .EnterDates(currentDate)
                 .EnterDetails(details)
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<LeaveEntryPage>()
                 .VerifyNewButtonsDisplayed()
                 .CloseCurrentWindow()
@@ -244,7 +244,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .EnterDates(currentDate)
                 .EnterDetails(details)
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<LeaveEntryPage>()
                 .VerifyNewButtonsDisplayed()
                 .CloseCurrentWindow()
@@ -320,7 +320,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .EnterDates(currentDate)
                 .EnterDetails(details)
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
@@ -432,8 +432,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .EnterDates(currentDate)
                 .EnterDetails(details)
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry")
-                .WaitUntilToastMessageInvisible("Successfully saved Leave Entry");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             //VERIFY
             PageFactoryManager.Get<LeaveEntryPage>()
                 .VerifyNewButtonsDisplayed()
@@ -459,7 +459,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .EnterDates(currentDate)
                 .EnterDetails(details)
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //VERIFY
             PageFactoryManager.Get<LeaveEntryPage>()
                 .VerifyNewButtonsDisplayed()
