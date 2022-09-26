@@ -41,8 +41,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By canlendarTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='calendar-tab']");
         private readonly By siteTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='sites-tab']");
         private readonly By accountTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='account-tab']");
-        private readonly By accountStatementTab = By.XPath("//span[text()='Account Statement']/parent::a");
-        private readonly By historyTab = By.XPath("//span[text()='History']/parent::a");
+        private readonly By accountStatementTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='partyAccountStatements-tab]");
+        private readonly By accountStatementTabAlt = By.XPath("//span[text()='Account Statement']/parent::a");
+        private readonly By historyTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='partyHistory-tab]");
+        private readonly By historyTabAlt = By.XPath("//span[text()='History']/parent::a");
 
         //COMMON DYNAMIC LOCATOR
         private const string partyName = "//p[text()='{0}']";
@@ -934,20 +936,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public DetailPartyPage ClickOnAccountStatement()
         {
-            if (!IsControlDisplayed(accountStatementTab))
+            if (!IsControlDisplayedNotThrowEx(accountStatementTab))
             {
                 ClickTabDropDown();
-                ClickOnElement(accountStatementTab);
+                ClickOnElement(accountStatementTabAlt);
             }
             return this;
         }
         [AllureStep]
         public DetailPartyPage ClickOnHistoryTab()
         {
-            if (!IsControlDisplayed(historyTab))
+            if (!IsControlDisplayedNotThrowEx(historyTab))
             {
                 ClickTabDropDown();
-                ClickOnElement(historyTab);
+                ClickOnElement(historyTabAlt);
             }
             return this;
         }
