@@ -64,7 +64,6 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
         private string SiteProductCell = "./td//select[@id='siteProduct.id']";
         private string StateCell = "./td//select[@id='itemState.id']";
         private string ResolutionCodeCell = "./td//select[@id='resCode.id']";
-        private string RemoveButtonCell = "./td//button";
 
         public TableElement TaskLineTableEle
         {
@@ -73,8 +72,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask
                 OrderCell, TypeCell, AssetTypeCell, 
                 AssetActualCell, AssetScheduleCell, ProductCell, 
                 ProductActualCell, ProductScheduleCell, UnitCell,
-                SiteDestinationCell, SiteProductCell, StateCell, ResolutionCodeCell, RemoveButtonCell 
-            });
+                SiteDestinationCell, SiteProductCell, StateCell, ResolutionCodeCell });
         }
 
         [AllureStep]
