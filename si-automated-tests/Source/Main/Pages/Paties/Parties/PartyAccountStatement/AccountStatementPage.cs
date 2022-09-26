@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 using NUnit.Allure.Attributes;
-using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
 namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccountStatement
 {
     public class AccountStatementPage : BasePage
     {
-        private string buttonNamed = "//button[text()='{0}']";
+        private string buttonNamed = "//div[@id='partyAccountStatements-tab']//button[text()='{0}']";
         public AccountStatementPage()
         {
             WaitUtil.WaitForElementVisible(buttonNamed, "Create Credit Note");

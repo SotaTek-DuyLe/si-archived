@@ -83,7 +83,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyPrimaryContactAndVerify(contactModel)
                 //Step 2: Line 13
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+                .WaitForLoadingIconToDisappear();
             //Step 3: Line 14
             detailPartyPage
                 .ClickInvoiceContactDd()
@@ -92,8 +93,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyInvoiceContactAndVerify(contactModel)
                 //Step 3: Line 16
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                //.WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Step 4: Line 17
             detailPartyPage
