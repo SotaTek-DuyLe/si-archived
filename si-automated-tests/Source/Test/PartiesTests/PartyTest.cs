@@ -597,7 +597,7 @@ namespace si_automated_tests.Source.Test
                 .SleepTimeInMiliseconds(1000);
             PageFactoryManager.Get<DetailPartyPage>()
                 //.VerifyDisplaySuccessfullyMessage()
-                .ClickTabDropDown()
+                //.ClickTabDropDown()
                 .ClickOnAccountStatement();
             PageFactoryManager.Get<AccountStatementPage>()
                 .ClickCreateCreditNote()
@@ -624,7 +624,7 @@ namespace si_automated_tests.Source.Test
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickTabDropDown()
+                //.ClickTabDropDown()
                 .ClickOnHistoryTab()
                 .ClickRefreshBtn();
             PageFactoryManager.Get<PartyHistoryPage>()
@@ -651,7 +651,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyAccountReferenceEnabled(false)
                 .ClickSaveBtn();
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickTabDropDown()
+                //.ClickTabDropDown()
                 .ClickOnHistoryTab()
                 .ClickRefreshBtn();
 

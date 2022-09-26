@@ -934,13 +934,21 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public DetailPartyPage ClickOnAccountStatement()
         {
-            ClickOnElement(accountStatementTab);
+            if (!IsControlDisplayed(accountStatementTab))
+            {
+                ClickTabDropDown();
+                ClickOnElement(accountStatementTab);
+            }
             return this;
         }
         [AllureStep]
         public DetailPartyPage ClickOnHistoryTab()
         {
-            ClickOnElement(historyTab);
+            if (!IsControlDisplayed(historyTab))
+            {
+                ClickTabDropDown();
+                ClickOnElement(historyTab);
+            }
             return this;
         }
     }
