@@ -56,7 +56,7 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             Assert.AreEqual(inspectionModelExpected.ID, inspectionModelActual.ID);
             Assert.AreEqual(location, inspectionModelActual.point);
             Assert.AreEqual(inspectionModelExpected.inspectionType, inspectionModelActual.inspectionType);
-            Assert.AreEqual(inspectionModelExpected.createdByUser, inspectionModelActual.createdByUser);
+            Assert.IsTrue(inspectionModelActual.createdByUser.Contains(inspectionModelExpected.createdByUser));
             Assert.AreEqual(inspectionModelExpected.assignedUser, inspectionModelActual.assignedUser);
             Assert.AreEqual(inspectionModelExpected.allocatedUnit, inspectionModelActual.allocatedUnit);
             Assert.AreEqual(inspectionModelExpected.status, inspectionModelActual.status);

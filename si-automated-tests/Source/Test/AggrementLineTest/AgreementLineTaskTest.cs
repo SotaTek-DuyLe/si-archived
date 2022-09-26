@@ -478,7 +478,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Fix wating time for saved agreement
             var partyAgreementPage = PageFactoryManager.Get<PartyAgreementPage>();
@@ -534,7 +534,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             partyAgreementPage.SleepTimeInMiliseconds(10000);
             partyAgreementPage
@@ -574,7 +574,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .IsOnPartyAgreementPage()
                .SelectAgreementType("Commercial Collections")
                .ClickSaveBtn()
-               .VerifyToastMessage("Successfully saved agreement");
+               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<PartyAgreementPage>().ClickAddService();
             PageFactoryManager.Get<AddServicePage>()
                 .IsOnAddServicePage();
@@ -784,7 +784,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .IsOnPartyAgreementPage()
                .SelectAgreementType("Commercial Collections")
                .ClickSaveBtn()
-               .VerifyToastMessage("Successfully saved agreement");
+               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<PartyAgreementPage>().ClickAddService();
             PageFactoryManager.Get<AddServicePage>()
                 .IsOnAddServicePage();

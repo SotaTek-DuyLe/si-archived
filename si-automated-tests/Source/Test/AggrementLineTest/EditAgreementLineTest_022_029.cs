@@ -69,7 +69,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .SelectAgreementType("Commercial Collections")
                .ClickSaveBtn();
             PageFactoryManager.Get<BasePage>()
-                .VerifyToastMessage("Successfully saved agreement");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
@@ -127,7 +127,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessage("Successfully saved agreement")
+               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                .WaitForLoadingIconToDisappear();
             // Finish Create Agreement Line 
             PageFactoryManager.Get<BasePage>()
@@ -326,7 +326,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyBlueBorder()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             // Finish Edit Agreement Line 
             PageFactoryManager.Get<BasePage>()
@@ -557,7 +557,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyBlueBorder()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             // Finish Edit Agreement Line 
             PageFactoryManager.Get<BasePage>()
@@ -998,7 +998,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .EnterStartDate(futureDate)
                .ClickSaveBtn();
             PageFactoryManager.Get<BasePage>()
-                .VerifyToastMessage("Successfully saved agreement");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //Finish created new agreement
             PageFactoryManager.Get<PartyAgreementPage>()
                .WaitForLoadingIconToDisappear();
@@ -1463,7 +1463,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .EnterStartDate(futureDate)
                .ClickSaveBtn();
             PageFactoryManager.Get<BasePage>()
-                .VerifyToastMessage("Successfully saved agreement");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //Finish created new agreement
             PageFactoryManager.Get<PartyAgreementPage>()
                .WaitForLoadingIconToDisappear();
