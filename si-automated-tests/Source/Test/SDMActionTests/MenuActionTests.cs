@@ -34,7 +34,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsOnHomePage(AutoUser52);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -99,7 +99,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsOnHomePage(AutoUser52);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -140,7 +140,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsOnHomePage(AutoUser52);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -206,7 +206,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsOnHomePage(AutoUser52);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -271,7 +271,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsOnHomePage(AutoUser52);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -325,7 +325,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsOnHomePage(AutoUser52);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -363,7 +363,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsOnHomePage(AutoUser52);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -566,7 +566,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsOnHomePage(AutoUser52);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -711,7 +711,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsOnHomePage(AutoUser52);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -912,7 +912,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsOnHomePage(AutoUser52);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
-                .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();

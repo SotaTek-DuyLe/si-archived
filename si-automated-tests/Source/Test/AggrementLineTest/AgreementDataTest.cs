@@ -60,7 +60,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnDataTab()
                 .InputNotes(note1)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DataTab>()
                 .VerifyNote(note1)
                 .ClickRefreshBtn();
@@ -73,7 +73,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnDataTab()
                 .InputNotes(note2)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DataTab>()
                 .VerifyNote(note2)
                 .ClickRefreshBtn();

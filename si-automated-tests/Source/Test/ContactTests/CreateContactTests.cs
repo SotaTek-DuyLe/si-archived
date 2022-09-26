@@ -63,7 +63,7 @@ namespace si_automated_tests.Source.Test.ContactTests
             createPartyContactPage
                 .EnterMobileValue(contactModel.Mobile)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveContactMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //Step 1: Line 10
             createPartyContactPage
                 .EnterValueRemainingFields(contactModel)
@@ -83,7 +83,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyPrimaryContactAndVerify(contactModel)
                 //Step 2: Line 13
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+                .WaitForLoadingIconToDisappear();
             //Step 3: Line 14
             detailPartyPage
                 .ClickInvoiceContactDd()
@@ -92,8 +93,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyInvoiceContactAndVerify(contactModel)
                 //Step 3: Line 16
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SavePartySuccessMessage)
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                //.WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Step 4: Line 17
             detailPartyPage
@@ -109,7 +110,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 //Step 4: Line 18
                 .SelectAnyPrimaryContactAndVerify(contactModel)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Step 5: Line 19
@@ -129,7 +130,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyPrimaryContactAndVerify(contactModel)
                 //Step 5: Line 22
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveAgreementMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Step 6: Line 23
             agreementDetailPage
@@ -139,7 +141,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyInvoiceContactAndVerify(contactModel)
                 //Step 5: Line 25
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveAgreementMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear()
                 .ScrollToBottomOfPage();
             //Step 7: Line 26
@@ -150,7 +153,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 //Step 7: Line 28
                 .SelectAnyInvoiceContactServiceTableAndVerify(contactModel)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveAgreementMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear()
                 .ClickCloseBtn();
         }

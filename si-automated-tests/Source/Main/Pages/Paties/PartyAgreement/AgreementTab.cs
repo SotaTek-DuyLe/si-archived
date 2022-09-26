@@ -21,7 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By firstAgreementStartDate = By.XPath(agreementTabId + "//div[@class='slick-cell l9 r9']");
         private readonly By firstAgreementEndDate = By.XPath(agreementTabId + "//div[@class='slick-cell l10 r10']");
         private readonly By firstAgreementType = By.XPath(agreementTabId + "//div[@class='slick-cell l13 r13']");
-        private readonly By firstAgreementStatus = By.XPath(agreementTabId + "//div[@class='slick-cell l14 r14']");
+        private readonly By firstAgreementStatus = By.XPath(agreementTabId + "//div[@class='slick-cell l15 r15']");
         private readonly By firstAgreementRow = By.XPath(agreementTabId + "//div[@class='grid-canvas']/div[1]");
 
 
