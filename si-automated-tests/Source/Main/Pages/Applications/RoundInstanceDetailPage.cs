@@ -26,6 +26,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             };
         }
         public readonly By WorkSheetTab = By.XPath("//a[@aria-controls='worksheet-tab']");
+        public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']");
+        public readonly By TaskLinesTab = By.XPath("//a[@aria-controls='taskLines-tab']");
         public readonly By ExpandRoundsGo = By.XPath("//button[@id='t-toggle-rounds']");
         private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         public readonly By IdFilterInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l3')]//input");
@@ -42,7 +44,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly string RoundDescriptionCell = "./div[contains(@class, 'slick-cell l0')]";
         private readonly By title = By.XPath("//h4[text()='Round Instance']");
         private readonly By rescheduleDateTitle = By.XPath("//label[text()='Reschedule Date']");
-
+        public readonly By TaskStateSelect = By.XPath("//div[@id='details-tab']//select[@id='taskState.id']");
+        public readonly By BulkUpdateButton = By.XPath("//button[@title='Bulk Update']");
+        #region Bulk update
+        public readonly By BulkUpdateStateSelect = By.XPath("//div[@class='bulk-confirmation']//select[1]");
+        public readonly By BulkUpdateReasonSelect = By.XPath("//div[@class='bulk-confirmation']//select[2]");
+        public readonly By ConfirmButton = By.XPath("//button[text()='Confirm']");
+        #endregion
 
         private TableElement slickRoundTableEle;
         public TableElement SlickRoundTableEle
@@ -54,6 +62,40 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TableElement UnallocatedTableEle
         {
             get => unallocatedTableEle;
+        }
+
+        private readonly string TaskLineTable = "//div[@id='taskLines-tab']//table";
+        private readonly string TaskLineRow = "./tbody//tr[contains(@data-bind,'with: $data.getFields()')]";
+        private readonly string TaskLineOrderCell = "./td//input[@id='order.id']";
+        private readonly string TaskLineTypeCell = "./td//select[@id='taskLineType.id']";
+        private readonly string AssetTypeCell = "./td//echo-select[contains(@params, 'assetType')]//select";
+        private readonly string AssetActualCell = "./td//input[@id='actualAssetQuantity.id']";
+        private readonly string AssetScheduleCell = "./td//input[@id='scheduledAssetQuantity.id']";
+        private readonly string ProductCell = "./td//echo-select[contains(@params, 'product')]//select";
+        private readonly string ProductActualCell = "./td//input[@id='actualProductQuantity.id']";
+        private readonly string ProductScheduleCell = "./td//input[@id='scheduledProductQuantity.id']";
+        private readonly string UnitCell = "./td//echo-select[contains(@params, 'unitOfMeasure')]//select";
+        private readonly string SiteDestinationCell = "./td//select[@id='destinationSite.id']";
+        private readonly string SiteProductCell = "./td//select[@id='siteProduct.id']";
+        private readonly string StateCell = "./td//select[@id='itemState.id']";
+        private readonly string ResolutionCodeCell = "./td//select[@id='resCode.id']";
+
+        public TableElement TaskLineTableEle
+        {
+            get => new TableElement(TaskLineTable, TaskLineRow, new List<string>()
+            {
+                TaskLineOrderCell, TaskLineTypeCell, AssetTypeCell,
+                AssetActualCell, AssetScheduleCell, ProductCell,
+                ProductActualCell, ProductScheduleCell, UnitCell,
+                SiteDestinationCell, SiteProductCell, StateCell, ResolutionCodeCell
+            });
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyTaskLineState(string state)
+        {
+            VerifyCellValue(TaskLineTableEle, 0, 11, state);
+            return this;
         }
 
         [AllureStep]
@@ -116,6 +158,21 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public RoundInstanceDetailPage ClickOnSelectAndDeselectBtn()
         {
             ClickOnElement(selectAndDeselectBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage DoubleClickOnTask()
+        {
+            UnallocatedTableEle.DoubleClickRow(0);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickOnFirstRound()
+        {
+            ClickOnElement(By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[2]//input[@type='checkbox']"));
+            SleepTimeInMiliseconds(3000);
             return this;
         }
     }

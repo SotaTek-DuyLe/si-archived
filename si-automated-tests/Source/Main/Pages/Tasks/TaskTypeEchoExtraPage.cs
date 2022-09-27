@@ -14,6 +14,15 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
     public class TaskTypeEchoExtraPage : BasePageCommonActions
     {
         public readonly By TabPage = By.XPath("//div[@class='tabstrip_s1']/ul");
-        public readonly By NotCompleteTaskTypeStateCheckbox = By.XPath("//div[@tpfx='TabPage_' and contains(@style, 'visibility: visible')]//table//tbody//tr[@echoid='14']//td[4]//input");
+        
+        public By GetCompleteTaskTypeStateCheckboxXPath(string echoId)
+        {
+            return By.XPath($"//div[@tpfx='TabPage_' and contains(@style, 'visibility: visible')]//table//tbody//tr[@echoid='{echoId}']//td[4]//input");
+        }
+
+        public By GetNotCompleteTaskTypeStateCheckboxXPath(string echoId)
+        {
+            return By.XPath($"//div[@tpfx='TabPage_' and contains(@style, 'visibility: visible')]//table//tbody//tr[@echoid='{echoId}']//td[4]//input");
+        }
     }
 }
