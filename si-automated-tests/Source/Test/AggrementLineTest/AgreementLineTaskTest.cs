@@ -686,9 +686,11 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             var serviceTaskLinePage = PageFactoryManager.Get<TaskLineDetailPage>();
             serviceTaskLinePage.WaitForLoadingIconToDisappear();
-            serviceTaskLinePage.SelectTextFromDropDown(serviceTaskLinePage.ProductSelect, "General Recycling")
-                .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Task Line")
+            serviceTaskLinePage.SelectTextFromDropDown(serviceTaskLinePage.ProductSelect, "General Recycling");
+            serviceTaskLinePage.SendKeys(serviceTaskLinePage.MinAssetQty, "8");
+            serviceTaskLinePage.SendKeys(serviceTaskLinePage.MaxAssetQty, "10");
+            serviceTaskLinePage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
@@ -703,7 +705,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             serviceTaskLinePage.WaitForLoadingIconToDisappear();
             serviceTaskLinePage.SelectTextFromDropDown(serviceTaskLinePage.StateSelect, "Not Completed")
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Task Line")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
@@ -746,7 +748,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             serviceTaskLinePage.SendKeys(serviceTaskLinePage.MinProductQty, "6");
             serviceTaskLinePage.SendKeys(serviceTaskLinePage.MaxProductQty, "8");
             serviceTaskLinePage.ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Task Line")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             serviceTaskLinePage.ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
@@ -821,6 +823,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab()
+               .ClickOnRemoveButton(new List<string>() { "Commercial Customers: Collection" })
                .InputPrices(new List<(string title, string value)>() { ("Commercial Customers: Bin Removal", "1"), ("Commercial Customers: Bin Delivery", "1") })
                .ClickPrice("Commercial Customers: Bin Rental")
                .ClickNext()
@@ -835,7 +838,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessage(AgreementConstants.SUCCESSFULLY_SAVED_AGREEMENT)
+               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                .WaitForLoadingIconToDisappear();
 
             var partyAgreementPage = PageFactoryManager.Get<PartyAgreementPage>();
