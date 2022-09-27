@@ -149,6 +149,20 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
+        public TasksBulkUpdatePage SelectTaskState(string state, string numberOfToggle)
+        {
+            SelectTextFromDropDown(By.XPath(string.Format(anyTaskStateSelect, numberOfToggle)), state);
+            return this;
+        }
+
+        [AllureStep]
+        public TasksBulkUpdatePage SelectResolutionCode(string code, string numberOfToogle)
+        {
+            SelectTextFromDropDown(By.XPath(string.Format(anyResolutionCodeSelect, numberOfToogle)), code);
+            return this;
+        }
+
         //Click on Completed Date input
         [AllureStep]
         public TasksBulkUpdatePage ClickOnCompletedDateInput()
