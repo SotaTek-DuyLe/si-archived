@@ -581,7 +581,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SelectPartyType(1)
                 .ClickSaveBtn();
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyDisplaySuccessfullyMessage()
+                .SleepTimeInMiliseconds(1)
+                //.VerifyDisplaySuccessfullyMessage()
                 .SwitchToTab("Account");
             PageFactoryManager.Get<PartyAccountPage>()
                 .IsOnAccountPage()
@@ -600,10 +601,11 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickSaveBtn();
             PageFactoryManager.Get<PartyAccountPage>()
                 .SelectAccountType("Charity")
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .SleepTimeInMiliseconds(1000);
             PageFactoryManager.Get<DetailPartyPage>()
                 //.VerifyDisplaySuccessfullyMessage()
-                .ClickTabDropDown()
+                //.ClickTabDropDown()
                 .ClickOnAccountStatement();
             PageFactoryManager.Get<AccountStatementPage>()
                 .ClickCreateCreditNote()
@@ -630,7 +632,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickTabDropDown()
+                //.ClickTabDropDown()
                 .ClickOnHistoryTab()
                 .ClickRefreshBtn();
             PageFactoryManager.Get<PartyHistoryPage>()
@@ -657,7 +659,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyAccountReferenceEnabled(false)
                 .ClickSaveBtn();
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickTabDropDown()
+                //.ClickTabDropDown()
                 .ClickOnHistoryTab()
                 .ClickRefreshBtn();
 
