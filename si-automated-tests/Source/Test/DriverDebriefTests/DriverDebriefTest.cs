@@ -59,6 +59,7 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
             //Click on different x bin lift -> Find your task you updated in previous step
             debriefResultPage.ClickOnElement(debriefResultPage.BinLiftFirstRow);
             debriefResultPage.WaitForLoadingIconToDisappear();
+            debriefResultPage.SleepTimeInMiliseconds(10000);
             debriefResultPage.VerifyTaskLineStateIsCompleted();
 
             //Click on x bin lift and select bin lift you used before -> Click unmatch
@@ -70,6 +71,7 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
             debriefResultPage.VerifyDisplayToastMessage(MessageSuccessConstants.SavedMessage)
                 .WaitForLoadingIconToDisappear();
             //Click on x bin lift -> Find the task you are working with
+            debriefResultPage.SleepTimeInMiliseconds(10000);
             debriefResultPage.ClickOnElement(debriefResultPage.BinLiftSecondRow);
             debriefResultPage.WaitForLoadingIconToDisappear();
             debriefResultPage.VerifyFirstTaskRatio();
