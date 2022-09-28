@@ -131,7 +131,7 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
             debriefResultPage.ClickOnElement(debriefResultPage.BinLiftFirstRow);
             debriefResultPage.WaitForLoadingIconToDisappear();
             debriefResultPage.DragFirstBinLiftToTaskLine()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             debriefResultPage.SleepTimeInMiliseconds(10000);
             debriefResultPage.VerifyBinLiftStateIsCompleted();
