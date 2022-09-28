@@ -55,7 +55,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyCustomerPath()
                 .InputNote(note1)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved party.")
+                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyDataPage>()
                 .VerifyCustomerPathHidden()
@@ -63,7 +63,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyCustomerPathWithNote(note1)
                 .InputNote(note2)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved party.")
+                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyDataPage>()
                .VerifyCustomerPathHidden()

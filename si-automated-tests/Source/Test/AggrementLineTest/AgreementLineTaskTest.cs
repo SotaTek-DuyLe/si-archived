@@ -688,7 +688,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             serviceTaskLinePage.WaitForLoadingIconToDisappear();
             serviceTaskLinePage.SelectTextFromDropDown(serviceTaskLinePage.ProductSelect, "General Recycling")
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Task Line")
+                .VerifyToastMessage(MessageSuccessConstants.SaveTaskLine)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
@@ -703,7 +703,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             serviceTaskLinePage.WaitForLoadingIconToDisappear();
             serviceTaskLinePage.SelectTextFromDropDown(serviceTaskLinePage.StateSelect, "Not Completed")
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Task Line")
+                .VerifyToastMessage(MessageSuccessConstants.SaveTaskLine)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
@@ -746,7 +746,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             serviceTaskLinePage.SendKeys(serviceTaskLinePage.MinProductQty, "6");
             serviceTaskLinePage.SendKeys(serviceTaskLinePage.MaxProductQty, "8");
             serviceTaskLinePage.ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Task Line")
+                .VerifyToastMessage(MessageSuccessConstants.SaveTaskLine)
                 .WaitForLoadingIconToDisappear();
             serviceTaskLinePage.ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();

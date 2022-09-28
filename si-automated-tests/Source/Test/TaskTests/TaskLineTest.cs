@@ -55,8 +55,8 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskLineDetailPage.SendKeys(taskLineDetailPage.MinProductQty, "10");
             taskLineDetailPage.SendKeys(taskLineDetailPage.MaxProductQty, "40");
             taskLineDetailPage.ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Task Line")
-                .WaitUntilToastMessageInvisible("Successfully saved Task Line");
+                .VerifyToastMessage(MessageSuccessConstants.SaveTaskLine)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveTaskLine);
             taskLineDetailPage.ClickOnElement(taskLineDetailPage.HistoryTab);
             taskLineDetailPage.WaitForLoadingIconToDisappear();
             string historyDetailContent = taskLineDetailPage.GetElementText(taskLineDetailPage.HistoryDetail);
@@ -78,8 +78,8 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskLineDetailPage.WaitForLoadingIconToDisappear();
             taskLineDetailPage.SelectTextFromDropDown(taskLineDetailPage.StateSelect, "Cancelled");
             taskLineDetailPage.ClickSaveBtn()
-               .VerifyToastMessage("Successfully saved Task Line")
-               .WaitUntilToastMessageInvisible("Successfully saved Task Line");
+               .VerifyToastMessage(MessageSuccessConstants.SaveTaskLine)
+               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveTaskLine);
             taskLineDetailPage.ClickOnElement(taskLineDetailPage.HistoryTab);
             taskLineDetailPage.WaitForLoadingIconToDisappear();
             string historyDetailContent2 = taskLineDetailPage.GetElementText(taskLineDetailPage.HistoryDetail);
