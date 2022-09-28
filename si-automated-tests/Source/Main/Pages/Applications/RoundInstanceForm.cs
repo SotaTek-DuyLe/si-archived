@@ -186,6 +186,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By noteInput = By.CssSelector("textarea[id='notes']");
         private readonly By statusDd = By.XPath("//label[text()='Status']/following-sibling::div//button");
         private readonly string anyStatusOption = "//span[text()='{0}']/ancestor::li";
+        public readonly By DebriefButton = By.XPath("//button[@title='Debrief']");
 
         [AllureStep]
         public RoundInstanceForm ClickOnDetailTab()

@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string SaveContactMessage = "Successfully saved Contact";
         public static readonly string SaveEventMessage = "Successfully saved event.";
         public static readonly string SuccessMessage = "Success";
+        public static readonly string SavedMessage = "Saved";
         public static readonly string ActionSuccessMessage = "Action Successful";
         public static readonly string SaveInspectionSuccessMessage = "Successfully saved Inspection";
         public static readonly string SavePointSegmentSuccessMessage = "Successfully saved Point Segment";
