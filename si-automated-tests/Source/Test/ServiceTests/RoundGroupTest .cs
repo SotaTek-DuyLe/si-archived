@@ -696,25 +696,39 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             int driverTypeIdx = 0;
             string dateNow = DateTime.Now.ToString("dd/MM/yyyy");
-            //roundGroupPage
-            //    .ClickExpandButton(driverTypeIdx)
-            //    .ClickHasSchedule(driverTypeIdx)
-            //    .VerifyRightPanelTitle("Round Group Resource Allocation")
-            //    .VerifyPatternStartDateContainString(dateNow)
-            //    .ClickPeriodTimeButton("Weekly")
-            //    .SelectWeeklyFrequency("Every week")
-            //    .ClickDayButtonOnWeekly("Tue")
-            //    .ClickSaveBtn()
-            //    .WaitForLoadingIconToDisappear()
-            //    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
-            //roundGroupPage
-            //    .VerifyRightPanelIsInVisible()
-            //    .ClickExpandButton(driverTypeIdx);
-            //Thread.Sleep(300);
-            //PageFactoryManager.Get<RoundGroupPage>()
-            //    .VerifyResourceDetailRow(driverTypeIdx, 12, true, $"Every Tuesday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true, true)
-            //    .ClickEditButton(0);
-            //Thread.Sleep(300);
+            roundGroupPage
+                .ClickExpandButton(driverTypeIdx)
+                .ClickHasSchedule(driverTypeIdx)
+                .VerifyRightPanelTitle("Round Resource Allocation")
+                .VerifyPatternStartDateContainString(dateNow)
+                .ClickPeriodTimeButton("Weekly")
+                .SelectWeeklyFrequency("Every week")
+                .ClickDayButtonOnWeekly("Tue")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            roundGroupPage
+                .VerifyRightPanelIsInVisible()
+                .ClickExpandButton(driverTypeIdx);
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyResourceDetailRow(driverTypeIdx, "Hedy Lamarr", true, $"Every Tuesday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true);
+            roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.VerifyScheduleDetail("Every Tuesday commencing Monday 10 January 2022")
+                .ClickEditSchedule()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+
+            RoundSchedulePage roundSchedulePage = PageFactoryManager.Get<RoundSchedulePage>();
+            roundSchedulePage.ClickOnElement(roundSchedulePage.ScheduleTab);
+            roundSchedulePage.WaitForLoadingIconToDisappear();
+            roundSchedulePage.ClickDayButtonOnWeekly("Fri")
+                .ClickSaveAndCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            roundGroupPage.SleepTimeInMiliseconds(5000);
+            roundGroupPage.VerifyScheduleDetail("Every Tuesday and Friday commencing Monday 10 January 2022");
         }
     }
 }

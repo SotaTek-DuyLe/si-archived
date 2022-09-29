@@ -109,6 +109,22 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(rowValues[3].AsString() == endDate);
             return this;
         }
+
+        [AllureStep]
+        public RoundGroupPage VerifyScheduleDetail(string scheduleDetail)
+        {
+            int rowCount = ScheduleTableElement.GetRows().Count;
+            List<object> rowValues = ScheduleTableElement.GetRowValue(rowCount - 1);
+            Assert.IsTrue(rowValues[1].AsString() == scheduleDetail);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundGroupPage ClickEditSchedule()
+        {
+            ScheduleTableElement.ClickCell(0, 5);
+            return this;
+        }
         #endregion
 
         [AllureStep]
@@ -396,6 +412,23 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(editButton.Displayed == isVisibleEditBtn);
             return this;
         }
+
+        [AllureStep]
+        public RoundGroupPage VerifyResourceDetailRow(int rowIdx, string resourceSelected, bool hasSchedule, string schedule, bool isVisibleRetireBtn)
+        {
+            IWebElement row = this.driver.FindElements(resourceDetailRows)[rowIdx];
+            IWebElement select = row.FindElement(resourceSelect);
+            string selectedValue = GetFirstSelectedItemInDropdown(select);
+            Assert.IsTrue(selectedValue == resourceSelected);
+            IWebElement checkbox = row.FindElement(hasScheduleCheckbox);
+            Assert.IsTrue(checkbox.Selected == hasSchedule);
+            IWebElement input = row.FindElement(scheduleInput);
+            Assert.IsTrue(input.GetAttribute("value") == schedule);
+            IWebElement retireButton = row.FindElement(retireBtn);
+            Assert.IsTrue(retireButton.Displayed == isVisibleRetireBtn);
+            return this;
+        }
+
         [AllureStep]
         public RoundGroupPage VerifyResourceDetailRow(int rowIdx, string resourceSelected, bool hasSchedule, string schedule, string startDateValue, string endDateValue, bool isVisibleRetireBtn, bool checkEnable)
         {
