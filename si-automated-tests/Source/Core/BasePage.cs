@@ -683,8 +683,15 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public string GetToastMessage()
         {
-            string text = WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']").Text;
-            return text;
+            try
+            {
+                string text = WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']").Text;
+                return text;
+            }
+            catch (WebDriverTimeoutException)
+            {
+                throw new WebDriverTimeoutException("Toast message doesn't appear after 30 seconds");
+            }
         }
         [AllureStep]
         public BasePage VerifyToastMessage(string message)
