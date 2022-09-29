@@ -43,13 +43,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By ShowOutstandingTaskButton = By.XPath("//div[@id='tabs-container']//button[@id='t-outstanding']");
         public readonly By OutstandingTab = By.XPath("//div[@id='tabs-container']//li//a[@aria-controls='outstanding']");
         private readonly By firstRoundInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[1]");
-
+        public readonly By BulkUpdateButton = By.XPath("//button[@title='Bulk Update']");
         //DYNAMIC
         private readonly string anyContractOption = "//label[text()='Contract']/following-sibling::span/select/option[text()='{0}']";
         private readonly string anyServicesByServiceGroup = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/preceding-sibling::i";
         private readonly string anyRoundByDay = "//a[text()='{0}']/following-sibling::ul//a[text()='{1}']";
         private readonly string anyChildOfTree = "//a[text()='{0}']/parent::li/i";
         private readonly string chirldOfTree = "//a[text()='{0}']";
+
+        #region Bulk update
+        public readonly By BulkUpdateStateSelect = By.XPath("//div[@class='bulk-confirmation']//select[1]");
+        public readonly By BulkUpdateReasonSelect = By.XPath("//div[@class='bulk-confirmation']//select[2]");
+        public readonly By ConfirmButton = By.XPath("//button[text()='Confirm']");
+        #endregion
 
         [AllureStep]
         public TaskConfirmationPage IsTaskConfirmationPage()
@@ -197,11 +203,26 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
+        public TaskConfirmationPage DoubleClickRoundInstanceDetail()
+        {
+            UnallocatedTableEle.DoubleClickRow(0);
+            return this;
+        }
+
+        [AllureStep]
         public RoundInstanceDetailPage DoubleClickOnFirstRound()
         {
             DoubleClickOnElement(firstRoundInGrid);
             SleepTimeInMiliseconds(3000);
             return PageFactoryManager.Get<RoundInstanceDetailPage>();
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage ClickOnFirstRound()
+        {
+            ClickOnElement(By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[2]//input[@type='checkbox']"));
+            SleepTimeInMiliseconds(3000);
+            return this;
         }
     }
 }

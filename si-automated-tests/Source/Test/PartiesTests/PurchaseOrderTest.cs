@@ -185,8 +185,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 PageFactoryManager.Get<TaskDetailTab>()
                     .SelectTextFromDropDown(taskDetailTab.detailTaskState, "Completed")
                     .ClickSaveBtn()
-                    .VerifyToastMessage("Success")
-                    .WaitUntilToastMessageInvisible("Success")
+                    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                     .ClickCloseBtn()
                     .SwitchToChildWindow(2);
             }
