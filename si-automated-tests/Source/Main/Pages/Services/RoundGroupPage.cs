@@ -475,7 +475,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public RoundGroupPage IsDayButtonOnWeeklySelected(string day)
         {
-            string xpath = $"//div[@id='defaultResources-tab']//div[@id='rightPanel']//button[contains(string(), '{day}')]";
+            string xpath = $"//div[@id='defaultResources-tab']//div[@id='rightPanel']//div[@data-bind='foreach: dayButtons']//button[contains(string(), '{day}')]";
             IWebElement webElement = GetElement(By.XPath(xpath));
             Assert.IsTrue(webElement.GetAttribute("class").Contains("btn-primary"));
             return this;
