@@ -19,7 +19,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string ActionSuccessMessage = "Action Successful";
         public static readonly string SaveInspectionSuccessMessage = "Successfully saved Inspection";
         public static readonly string SavePointSegmentSuccessMessage = "Successfully saved Point Segment";
-        public static readonly string SaveCreditNoteSuccessMessage = "Successfully saved Credit Note";
+        public static readonly string SaveCreditNoteSuccessMessage = "Success"; //Successfully saved Credit Note
         public static readonly string TasksAllocatedSuccessMessage = "Task(s) Allocated";
         public static readonly string SaveRoundInstanceSuccessMessage = "Successfully saved Round Instance";
         public static readonly string SaveRoundInstanceEventSuccessMessage = "Successfully saved Round Instance Event";

@@ -53,8 +53,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
                 .ClickOnDetailTab()
                 .AddNotes(note)
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveRoundInstanceSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveRoundInstanceSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SaveRoundInstanceSuccessMessage);
             roundInstanceForm
                 .ClickOnHistoryTab()
                 .VerifyToastMessagesIsUnDisplayed();
@@ -86,7 +85,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
                 .ClickOnDetailTab()
                 .ClickOnStatusDdAndSelectValue("Complete")
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveRoundInstanceSuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SaveRoundInstanceSuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveRoundInstanceSuccessMessage);
             roundInstanceForm
                 .ClickOnHistoryTab()
@@ -188,7 +187,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
                 .IsReasonNeededPopup()
                 .ClickReasonDdAndSelectReason()
                 .ClickOnConfirmBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.TasksAllocatedSuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.TasksAllocatedSuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.TasksAllocatedSuccessMessage);
             taskAllocationPage
                 .VerifyTaskNoLongerDisplayedInGrid()
