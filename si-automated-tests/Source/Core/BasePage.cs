@@ -690,7 +690,7 @@ namespace si_automated_tests.Source.Core
             }
             catch (WebDriverTimeoutException)
             {
-                throw new WebDriverTimeoutException("Toast message doesn't appear after 30 seconds");
+                Assert.Fail("Toast message doesn't appear after 30 seconds");
             }
         }
         [AllureStep]

@@ -5,11 +5,11 @@ namespace si_automated_tests.Source.Main.Constants
     {
         public static readonly string SaveWBStationSuccessMessage = "Success"; //Successfully saved Weighbridge Station
         public static readonly string SavePartySuccessMessage = "Success"; //Successfully saved party.
-        public static readonly string SaveSiteSuccessMessage = "Successfully saved Site";
-        public static readonly string SaveWBSiteLocationSuccessMessage = "Successfully saved Weighbridge Site Location";
+        public static readonly string SaveSiteSuccessMessage = "Successfully saved Site"; 
+        public static readonly string SaveWBSiteLocationSuccessMessage = "Success"; //Successfully saved Weighbridge Site Location
         public static readonly string SaveResourceSuccessMessage = "Success"; //Successfully saved resource.
         public static readonly string SaveWBVCHRegistered = "Success"; //Weighbridge Vehicle Customer Haulier Successfully registered
-        public static readonly string SaveWBSiteProductSuccessMessage = "Successfully saved Weighbridge Site Product";
+        public static readonly string SaveWBSiteProductSuccessMessage = "Success"; //Successfully saved Weighbridge Site Product
         public static readonly string SaveWBTicketSuccessMessage = "Success"; //Successfully saved Weighbridge Ticket
         public static readonly string SaveInspectionCreatedMessage = "Inspection Created";
         public static readonly string SaveAgreementMessage = "Success"; //Successfully saved agreement
