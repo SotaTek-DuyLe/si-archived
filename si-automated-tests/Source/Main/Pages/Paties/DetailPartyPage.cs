@@ -610,6 +610,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             WaitUtil.WaitForElementVisible(contactTab);
             ClickOnElement(contactTab);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]

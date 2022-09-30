@@ -858,6 +858,21 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DoubleClickOnElement(firstTaskWithAssuredByRoundName, roundName);
             return PageFactoryManager.Get<DetailTaskPage>();
         }
+
+        [AllureStep]
+        public DetailTaskPage VerifyDisplayTaskAfterFilter(string roundName)
+        {
+            Assert.IsTrue(IsControlDisplayed(firstTaskWithAssuredByRoundName, roundName));
+            return PageFactoryManager.Get<DetailTaskPage>();
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyNoDisplayTaskAfterFilter(string roundName)
+        {
+            Assert.IsTrue(IsControlUnDisplayed(firstTaskWithAssuredByRoundName, roundName));
+            return PageFactoryManager.Get<DetailTaskPage>();
+        }
+
         [AllureStep]
         public TaskAllocationPage ClickOnSelectAndDeselectBtn()
         {

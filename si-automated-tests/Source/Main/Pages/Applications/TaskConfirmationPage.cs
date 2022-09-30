@@ -22,6 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
         private readonly By descAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
+        private readonly By allRowInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div");
 
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
         private readonly By firstRowAfterFiltering = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]/parent::div");
@@ -81,8 +82,18 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             ClickOnElement(serviceInput);
             ClickOnElement(anyServicesByServiceGroup, serviceGroupName);
             ClickOnElement(anyChildOfTree, serviceName);
-            ClickOnElement(anyChildOfTree, roundName);
+            ClickOnElement(chirldOfTree, roundName);
             ClickOnElement(chirldOfTree, dayName);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage ClickServicesAndSelectServiceInTree(string serviceGroupName, string serviceName, string roundName)
+        {
+            ClickOnElement(serviceInput);
+            ClickOnElement(anyServicesByServiceGroup, serviceGroupName);
+            ClickOnElement(anyChildOfTree, serviceName);
+            ClickOnElement(chirldOfTree, roundName);
             return this;
         }
 
@@ -125,7 +136,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public TaskConfirmationPage VerifyDisplayResultAfterSearchWithDesc(string descExp)
         {
-            Assert.AreEqual(descExp.Trim(), GetElementText(descAtFirstColumn).Trim());
+            Assert.IsTrue(GetElementText(descAtFirstColumn).Trim().ToLower().Contains(descExp.Trim().ToLower()));
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage VerifyNoDisplayResultAfterSearchWithDesc()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(allRowInGrid));
             return this;
         }
 

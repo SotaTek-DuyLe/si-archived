@@ -18,7 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By selectTypeDd = By.CssSelector("select[id='type']");
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
         private readonly By nextBtn = By.CssSelector("button[id='next-button']");
-        private readonly By firstRowWithServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint')]/span)[1]");
+        private readonly By firstRowWithServiceTaskSchedule = By.XPath("(//img[@data-bind='visible: serviceTask.isAssured']/parent::span)[1]");
         private readonly By firstRowWithServiceTaskScheduleAndNotAllocated = By.XPath("(//img[@data-bind='visible: serviceTask.isAssured' and contains(@style, 'display: none;')]/parent::span)[1]");
         private readonly By secondRowWithServiceTaskScheduleAndNotAllocated = By.XPath("(//img[@data-bind='visible: serviceTask.isAssured' and contains(@style, 'display: none;')]/parent::span)[2]");
         private readonly By firstRowWithoutServiceTaskSchedule = By.XPath("(//tbody/tr[1]/td[contains(@data-bind, 'retiredPoint') and not(span)])[1]");
@@ -51,7 +51,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string anyServicesGroupByContract = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/i[1]";
         private readonly string firstLocatorWithDescRedRow = "(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]/td[contains(@data-bind, 'retiredPoint')]/span/parent::td)[1]";
         private readonly string roundDate = "//table[@id='master-table']//tr[contains(@class, 'round-row')]/td[count(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//span/parent::td[contains(@data-bind, 'retiredPoint')]/preceding-sibling::td) + 1]";
-        private readonly string columnRoundByRoundName = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[@title='{0}']/preceding-sibling::td) + 1]";
+        private readonly string columnRoundByRoundName = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]";
+        private readonly string columnRoundByRoundNameContantSTS = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]/span";
+        private readonly string checkboxByRefId = "//div[text()='{0}']/preceding-sibling::div/input";
 
         [AllureStep]
         public ServiceDataManagementPage IsServiceDataManagementPage()
@@ -142,6 +144,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceDataManagementPage FilterReferenceById(string refId)
         {
             SendKeys(referenceIdInput, refId);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage SelectCheckboxByReferenceId(string refId)
+        {
+            ClickOnElement(checkboxByRefId, refId);
             return this;
         }
 
@@ -421,6 +430,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceDataManagementPage ClickOnApplyAtBottomBtn()
         {
             ClickOnElement(applyAtBottomBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyWhiteColourAppearInCellNoSTSPresent(string roundNameValue)
+        {
+            Assert.IsTrue(IsControlUnDisplayed(columnRoundByRoundNameContantSTS, roundNameValue));
             return this;
         }
     }

@@ -64,7 +64,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //    .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
             //    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DetailPartyPage>()
-                .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName);
+                .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName)
+                .SleepTimeInMiliseconds(2000);
             //PageFactoryManager.Get<DetailPartyPage>()
             //    .MergeAllTabInDetailPartyAndVerify();
             PageFactoryManager.Get<DetailPartyPage>()
@@ -107,7 +108,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DetailPartyPage>()
                  .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName)
-                //.MergeAllTabInDetailPartyAndVerify()
+                 .SleepTimeInMiliseconds(2000);
+            //.MergeAllTabInDetailPartyAndVerify()
+            PageFactoryManager.Get<DetailPartyPage>()
                 .ClickAllTabAndVerify()
                 .ClickAllTabInDropdownAndVerify()
                 .SwitchToFirstWindow();

@@ -2,10 +2,10 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace si_automated_tests.Source.Main.Pages.Applications
 {
@@ -15,8 +15,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By servicesInput = By.Id("services");
         private readonly By dateInput = By.Id("effective-date");
         private readonly By goBtn = By.Id("button-go");
+        private readonly By searchRoundBtn = By.CssSelector("button[id='t-rounds-filter']");
+        private readonly By searchRoundInput = By.CssSelector("div[id='search-panel']>input");
+        private readonly By descInput = By.XPath("//div[contains(@id, 'round-tab')]//div[contains(@class, 'l4')]//input");
+        private readonly By firstResultRowInTaskGrid = By.XPath("//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']/div[1]");
         private readonly string serviceOption = "//a[contains(@class,'jstree-anchor') and text()='{0}']";
         private readonly string serviceExpandIcon = "//a[contains(@class,'jstree-anchor') and text()='{0}']/preceding-sibling::i";
+        private readonly string descAtAnyRoundTab = "//div[contains(@id, '{0}')]//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]";
+        private readonly string activeTab = "//div[@id='tabs-container']//li[contains(@class, 'active')]/a";
+        private readonly string descInputAtAnyTab = "(//div[contains(@id, 'round-tab')]//div[contains(@class, 'l4')]//input)[{0}]";
 
         //unalocated task tab
         private readonly By tabContainer = By.XPath("//div[@id='tabs-container']/ul");
@@ -24,7 +31,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By firstUnallocatedTask = By.XPath("//div[@id='unallocated']//div[@class='grid-canvas']/div[1]");
         private readonly By activeUnallocatedTask = By.XPath("//div[@id='unallocated']//div[@class='grid-canvas']/div[contains(@class,'active')]");
         private readonly By activeUnallocatedTaskField = By.XPath("//div[@id='unallocated']//div[@class='grid-canvas']/div[contains(@class,'active')]/div");
-        
+
         //round tab
         private readonly By roundTabHeaders = By.XPath("//div[contains(@id,'round-tab') and contains(@class,'active')]//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
         private readonly String roundFilterHeader = "//div[contains(@id,'round-tab') and contains(@class,'active')]//div[contains(@class,'slick-headerrow-columns')]/div[{0}]//input[@class='value form-control']";
@@ -37,7 +44,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By slickViewport = By.XPath("(//div[@class='slick-viewport'])[last()]");
 
         //round grid
-        private readonly By rounds = By.XPath("//ul[@id='rounds']/li");
+        private readonly By rounds = By.XPath("//ul[@id='rounds']/li[not(contains(@style, 'display: none;'))]");
 
         [AllureStep]
         public MasterRoundManagementPage IsOnPage()
@@ -62,6 +69,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             WaitUtil.WaitForPageLoaded();
             return this;
         }
+
+        [AllureStep]
+        public MasterRoundManagementPage InputSearchDetails(string contract, string service)
+        {
+            SelectTextFromDropDown(contractSelect, contract);
+            ClickOnElement(servicesInput);
+            ClickOnElement(serviceOption, service);
+            ClickOnElement(goBtn);
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForPageLoaded();
+            return this;
+        }
+
         [AllureStep]
         public MasterRoundManagementPage InputSearchDetails(string contract, string service, string subService, string date)
         {
@@ -200,7 +220,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsPresent(roundTabHeaders);
             for (int i = 0; i < hds.Count; i++)
             {
-                
+
                 if (hds[i].Text.Equals("Description", StringComparison.OrdinalIgnoreCase))
                 {
                     IWebElement e = GetElement(String.Format(lastTaskField, i.ToString()));
@@ -247,5 +267,52 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.AreEqual(actual.EndDate.Contains(expected.EndDate), true);
             return this;
         }
+
+        [AllureStep]
+        public MasterRoundManagementPage ClickOnSearchRoundBtn()
+        {
+            ClickOnElement(searchRoundBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public MasterRoundManagementPage SendKeyInSearchRound(string roundName)
+        {
+            SendKeys(searchRoundInput, roundName);
+            return this;
+        }
+
+        [AllureStep]
+        public MasterRoundManagementPage SendKeyInDescInput(string descValue)
+        {
+            SendKeys(descInput, descValue);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public MasterRoundManagementPage SendKeyInDescInput(string descValue, string tabIndex)
+        {
+            SendKeys(string.Format(descInputAtAnyTab, tabIndex), descValue);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public MasterRoundManagementPage VerifyNoRecordInTaskGrid()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(firstResultRowInTaskGrid));
+            return this;
+        }
+
+        [AllureStep]
+        public MasterRoundManagementPage VerifyFirstRecordWithDescInTaskGrid(string descExp)
+        {
+            //Get active tab
+            string href = GetAttributeValue(activeTab, "href").Replace(WebUrl.MainPageUrl + "web/service-task-allocation#", "").Trim();
+            Assert.IsTrue(GetElementText(descAtAnyRoundTab, href).Trim().ToLower().Contains(descExp.Trim().ToLower()));
+            return this;
+        }
     }
+
 }

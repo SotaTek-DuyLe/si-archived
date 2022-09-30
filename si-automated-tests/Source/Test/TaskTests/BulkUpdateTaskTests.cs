@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -370,22 +369,19 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage
                 .IsDetailTaskPage()
                 .ClickOnDetailTab()
-                .VerifyFieldAfterBulkUpdate(topNote, timeNow, "Not Completed", completedDateDisplayed, "Not Out");
+                .VerifyFieldAfterBulkUpdate(topNote, timeNow, "Not Completed", timeNow, "Not Out");
             //Step 4: Line 53 - History tab
             string[] valueExpInServiceUpdateSecondTask = { "Not Completed", completedDateDDMMYYYY, "Manually Confirmed on Web"};
-            string[] valueExpUpdateSecondTask = { topNote, completedDateDisplayed, "Not Completed", timeNow, "Not Out" };
+            string[] valueExpUpdateSecondTask = { topNote, timeNow, "Not Completed", timeNow, "Not Out" };
             detailTaskPage
                 .ClickOnHistoryTab()
-                .VerifyTitleTaskLineFirstServiceUpdate()
-                .VerifyHistoryTabFirstAfterBulkUpdating(AutoUser55.DisplayName, completedDateDisplayed, CommonConstants.ServiceUpdateTaskLineFromCancelledToNotCompleted, valueExpInServiceUpdateSecondTask);
-            detailTaskPage
                 .VerifyTitleUpdate()
                 .VerifyHistoryTabUpdate(AutoUser55.DisplayName, completedDateDisplayed, CommonConstants.UpdateColumnHistoryTabFirst, valueExpUpdateSecondTask);
             //Step 4: Line 53 - Verdict tab
             detailTaskPage
                 .ClickOnVerdictTab()
                 .ClickOnTaskInformation()
-                .VerifyTaskInformationAfterBulkUpdating(completedDateDisplayed, "Not Completed", "Not Out", "Manually Confirmed on Web")
+                .VerifyTaskInformationAfterBulkUpdating(timeNow, "Not Completed", "Not Out", "Manually Confirmed on Web")
                 .ClickOnTaskLineVerdictTab()
                 .VerifyFirstTaskLineStateVerdictTab(completedDateDisplayed, "Not Completed", "Manually Confirmed on Web", "General Refuse");
             //Step 4: Line 53 - Task line tab => Failed
