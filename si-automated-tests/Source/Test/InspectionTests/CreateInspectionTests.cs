@@ -128,8 +128,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
             List<InspectionModel> allInspectionModels = detailTaskPage
                 .getAllInspection();
             detailTaskPage
-                .VerifyInspectionCreated(allInspectionModels[0], inspectionId.ToString(), inspectionTypeValue, AutoUser14.UserName, assignedUserValue, allocatedUnitValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT) + " 00:00", CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1) + " 00:00");
-            //Add new item
+                .VerifyInspectionCreated(allInspectionModels[0], inspectionId.ToString(), inspectionTypeValue, AutoUser14.DisplayName, assignedUserValue, allocatedUnitValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT) + " 00:00", CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1) + " 00:00");
+            //Bug => Add new item
             detailTaskPage
                 .ClickAddNewInspectionItem()
                 .IsInspectionPopup()
@@ -162,7 +162,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             allInspectionModels = detailTaskPage
                 .getAllInspection();
             detailTaskPage
-               .VerifyInspectionCreated(allInspectionModels[0], inspectionId_2.ToString(), inspectionTypeValue, AutoUser14.UserName, allocatedUserValue_2, allocatedUnitValue_2, "Expired", validFromInThePast + " 00:00", validToInThePast + " 00:00")
+               .VerifyInspectionCreated(allInspectionModels[0], inspectionId_2.ToString(), inspectionTypeValue, AutoUser14.DisplayName, allocatedUserValue_2, allocatedUnitValue_2, "Expired", validFromInThePast + " 00:00", validToInThePast + " 00:00")
                //Clik First Inspection Row
                .ClickOnFirstInspection()
                .SwitchToLastWindow()
@@ -351,7 +351,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
                 .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(pointHistoryModels[0], inspectionModels[0], locationValueWithoutIcon, Contract.RM, locationValueWithoutIcon, "Clinical Waste", AutoUser14.UserName, assignedUserValue, allocatedUnitValue);
+                .VerifyTheFirstInspection(pointHistoryModels[0], inspectionModels[0], locationValueWithoutIcon, Contract.RM, locationValueWithoutIcon, "Clinical Waste", AutoUser14.DisplayName, assignedUserValue, allocatedUnitValue);
         }
 
         [Category("CreateInspection")]
@@ -467,7 +467,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .getAllInspectionInList(1);
 
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "Bulky Collections", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "Bulky Collections", AutoUser14.DisplayName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 
@@ -578,9 +578,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
+                .FilterInspectionById(inspectionId.ToString())
                 .getAllInspectionInList(2);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "", AutoUser14.DisplayName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 
@@ -724,9 +725,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
+                .FilterInspectionById(inspectionId.ToString())
                 .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "", AutoUser14.DisplayName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 
@@ -865,9 +867,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
+                .FilterInspectionById(inspectionId.ToString())
                 .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "", AutoUser14.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "", AutoUser14.DisplayName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 
@@ -1003,9 +1006,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
+                .FilterInspectionById(inspectionId.ToString())
                 .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "", AutoUser45.UserName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "", AutoUser45.DisplayName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
 

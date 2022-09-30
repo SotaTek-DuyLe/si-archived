@@ -345,6 +345,9 @@ namespace si_automated_tests.Source.Core
             IWebDriverManager.GetDriver().SwitchTo().Frame(e);
 
         }
+        public String getCurrentPageSource() {
+            return IWebDriverManager.GetDriver().PageSource;
+        }
         [AllureStep]
         public void SwitchToDefaultContent()
         {
@@ -734,6 +737,10 @@ namespace si_automated_tests.Source.Core
         public BasePage WaitForLoadingIconToAppear()
         {
             WaitUtil.WaitForElementVisible("//*[contains(@data-bind,'shield: isLoading')]");
+            return this;
+        }
+        public BasePage waitForLoadingIconDisappear() {
+            WaitUtil.WaitAttributeChange(By.XPath("//*[contains(@data-bind,'shield: isLoading')]"), "style", "display: block;");
             return this;
         }
         [AllureStep]

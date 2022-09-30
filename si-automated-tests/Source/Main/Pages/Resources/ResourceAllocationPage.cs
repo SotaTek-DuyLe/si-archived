@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By goBtn = By.XPath("//button[text()='Go']");
         private readonly By createResourceBtn = By.Id("t-create");
         private readonly By refreshBtn = By.Id("t-refresh");
-        private readonly By date = By.Id("date");
+        public readonly By date = By.Id("date");
 
         //Left panel Daily Allocation
         private readonly By firstRoundRow = By.XPath("//tbody[contains(@data-bind,'roundMenu')]/tr");
@@ -71,6 +72,26 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By resizerWidth = By.XPath("//div[@title='Resize']");
         private readonly By resizerHeight = By.XPath("(//div[@title='Close'])[3]");
         private readonly By addResourceBtn = By.Id("t-create");
+        public readonly By SecondRoundInstanceRow = By.XPath("//div[@id='rounds-scrollable']//table[1]//tbody[1]/tr[3]");
+        public readonly By BusinessUnitInput = By.XPath("//input[@id='business-units']");
+
+        private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-1')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]", "./i[contains(@class, 'jstree-ocl')][1]");
+        private TreeViewElement ServicesTreeView
+        {
+            get => _treeViewElement;
+        }
+        [AllureStep]
+        public ResourceAllocationPage SelectRoundNode(string nodeName)
+        {
+            ServicesTreeView.ClickItem(nodeName);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ExpandRoundNode(string nodeName)
+        {
+            ServicesTreeView.ExpandNode(nodeName);
+            return this;
+        }
 
         [AllureStep]
         public ResourceAllocationPage SelectContract(string contract)
@@ -146,13 +167,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage VerifyFirstResultValue(string field, string expected)
         {
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
-            var e = GetFirstResult();
             for (int i = 0; i < hds.Count; i++)
             {
                 if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
                 {
+                    var f = GetResultNo(i+1);
                     //Temporary comment because of unfixed bug: Assert.AreEqual(expected, _firstResultFields[i].Text);
-                    Assert.IsTrue(e.Text.Contains(expected),"expected " + expected + " but found " + e.Text);
+                    Assert.IsTrue(f.Text.Contains(expected),"expected " + expected + " but found " + f.Text);
                 }
             }
             return this;
@@ -502,6 +523,14 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public IWebElement GetResultNo(int whichOne)
         {
             return WaitUtil.WaitForAllElementsVisible(firstResultFields)[whichOne-1];
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ClickRoundInstance()
+        {
+            ClickOnElement(SecondRoundInstanceRow);
+            ClickOnElement(By.XPath("//div[@class='menu']//button[text()='VIEW ROUND INSTANCE']"));
+            return this;
         }
     }
 }

@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Web performance",
+        "messageRegex": ".*Loading icon doesn't disappear.*"
+    },
+    {
+        "name": "Failed String validation",
+        "messageRegex": ".*Expected string length.*"
+    },
+    {
+        "name": "Timeout Exception",
+        "messageRegex": ".*WebDriverTimeoutException.*"
+    },
+    {
+        "name": "Automation Bug",
+        "messageRegex": ".*ArgumentOutOfRangeException.*"
+    }
+]

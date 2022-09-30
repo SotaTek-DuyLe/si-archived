@@ -45,7 +45,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<BusinessUnitPage>()
                 .InputBusinessName("Food")
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Business Unit")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();

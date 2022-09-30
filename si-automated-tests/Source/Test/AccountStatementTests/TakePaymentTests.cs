@@ -48,7 +48,7 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClickTabDropDown()
+                //.ClickTabDropDown()
                 .ClickOnAccountStatement()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AccountStatementPage>()

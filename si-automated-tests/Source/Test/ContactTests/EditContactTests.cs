@@ -58,7 +58,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .IsEditPartyContactPage(contactModelList[0])
                 .EnterAllValueFields(contactModelEdit)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Contact");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             string completedDateDisplayed = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             string timeNow = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
 
@@ -69,7 +69,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .WaitForLoadingIconToDisappear();
             editPartyContactPage
                 .VerifyTitleAndNoteAfter()
-                .GetAndVerifyNoteAfterAdding("Edit Contact: ", "New Edit", AutoUser57.UserName, completedDateDisplayed, timeNow)
+                .GetAndVerifyNoteAfterAdding("Edit Contact: ", "New Edit", AutoUser57.DisplayName, completedDateDisplayed, timeNow)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             detailPartyPage

@@ -69,7 +69,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .SelectAgreementType("Commercial Collections")
                .ClickSaveBtn();
             PageFactoryManager.Get<BasePage>()
-                .VerifyToastMessage("Successfully saved agreement");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
 
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
@@ -127,7 +127,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessage("Successfully saved agreement")
+               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                .WaitForLoadingIconToDisappear();
             // Finish Create Agreement Line 
             PageFactoryManager.Get<BasePage>()
@@ -326,7 +326,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyBlueBorder()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             // Finish Edit Agreement Line 
             PageFactoryManager.Get<BasePage>()
@@ -451,7 +451,15 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonActiveServicesTaskPage>()
                 .InputPartyNameToFilter("Rosie and Java")
-                .ClickApplyBtn()
+                .ClickApplyBtn();
+
+            //Get service task id
+            string serviceTaskId = PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .GetTaskId(partyName, tommorowDate);
+            string serviceTaskIdRetired = PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .GetTaskId(partyName, originDate);
+
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
                 .OpenTaskWithPartyNameAndDate("Rosie and Java", tommorowDate, "STARTDATE")
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ServicesTaskPage>()
@@ -470,7 +478,25 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .verifyScheduleStartDate(tommorowDate)
                 .verifyScheduleEndDate("01/01/2050");
 
-           //BUGS FOR VERIFY IN DB
+            //VERIFY IN DB
+
+            string serviceTaskQuery = SQLConstants.SQL_ServiceTask + serviceTaskId;
+            SqlCommand commandServiceTask = new SqlCommand(serviceTaskQuery, DbContext.Connection);
+            SqlDataReader readerServiceTask = commandServiceTask.ExecuteReader();
+            List<ServiceTaskLineDBModel> serviceTasks = ObjectExtention.DataReaderMapToList<ServiceTaskLineDBModel>(readerServiceTask);
+            readerServiceTask.Close();
+
+            string serviceTaskQueryRetired = SQLConstants.SQL_ServiceTask + serviceTaskIdRetired;
+            SqlCommand commandServiceTaskRetired = new SqlCommand(serviceTaskQueryRetired, DbContext.Connection);
+            SqlDataReader readerServiceTaskRetired = commandServiceTaskRetired.ExecuteReader();
+            List<ServiceTaskLineDBModel> serviceTasksRetired = ObjectExtention.DataReaderMapToList<ServiceTaskLineDBModel>(readerServiceTaskRetired);
+            readerServiceTask.Close();
+
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .VerifyServiceTaskInDB(serviceTasks, 3, "660L", 165, null, "General Recycling", tommorowDate, "01/01/2050")
+                .VerifyServiceTaskInDB(serviceTasksRetired, 2, "660L", 165, null, "General Recycling", originDate, tommorowDate);
+
+
         }
 
         [Category("EditAgreement")]
@@ -557,7 +583,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyBlueBorder()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             // Finish Edit Agreement Line 
             PageFactoryManager.Get<BasePage>()
@@ -998,7 +1024,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .EnterStartDate(futureDate)
                .ClickSaveBtn();
             PageFactoryManager.Get<BasePage>()
-                .VerifyToastMessage("Successfully saved agreement");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //Finish created new agreement
             PageFactoryManager.Get<PartyAgreementPage>()
                .WaitForLoadingIconToDisappear();
@@ -1463,7 +1489,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .EnterStartDate(futureDate)
                .ClickSaveBtn();
             PageFactoryManager.Get<BasePage>()
-                .VerifyToastMessage("Successfully saved agreement");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //Finish created new agreement
             PageFactoryManager.Get<PartyAgreementPage>()
                .WaitForLoadingIconToDisappear();

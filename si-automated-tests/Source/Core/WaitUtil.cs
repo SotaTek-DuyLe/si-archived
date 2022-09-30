@@ -24,6 +24,7 @@ namespace si_automated_tests.Source.Core
         public static IWebElement WaitForElementVisible(string locator)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(shortTimeOut));
+            driverWait.PollingInterval = TimeSpan.FromMilliseconds(10);
             return (WebElement)driverWait.Until(ExpectedConditions.ElementIsVisible(By.XPath(locator)));
         }
         [AllureStep]

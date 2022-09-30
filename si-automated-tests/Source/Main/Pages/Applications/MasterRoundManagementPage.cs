@@ -6,7 +6,6 @@ using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace si_automated_tests.Source.Main.Pages.Applications
 {
@@ -161,7 +160,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsPresent(unallocatedHeaders);
             for (int i = 0; i < hds.Count; i++)
             {
-                if (hds[i].Text.Equals("Description", StringComparison.OrdinalIgnoreCase))
+                //Changed Description to Street for validation
+                if (hds[i].Text.Equals("Street", StringComparison.OrdinalIgnoreCase))
                 {
                     IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(activeUnallocatedTaskField);
                     temp.Description = _firstResultFields[i].Text;
@@ -235,8 +235,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                     break;
                 }
             }
-            Assert.AreEqual(expected.Description, actual.Description);
-            Assert.AreEqual(actual.StartDate.Contains(expected.StartDate), true);
+            Assert.AreEqual(actual.Description.Contains(expected.Description), true, "Expected " + actual.Description + " to contain " + expected.Description);
+            Assert.AreEqual(actual.StartDate.Contains(expected.StartDate), true, "Expected " + actual.StartDate + " to contain " + expected.StartDate);
             return this;
         }
         [AllureStep]

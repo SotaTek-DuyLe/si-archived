@@ -20,9 +20,8 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 using TaskAllocationPage = si_automated_tests.Source.Main.Pages.Applications.TaskAllocationPage;
 using TaskConfirmationPage = si_automated_tests.Source.Main.Pages.Applications.TaskConfirmationPage;
 using RoundInstanceDetailPage = si_automated_tests.Source.Main.Pages.Applications.RoundInstanceDetailPage;
-using NUnit.Allure.Core;
 
-namespace si_automated_tests.Source.Test
+namespace si_automated_tests.Source.Test.PartiesTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
@@ -61,9 +60,14 @@ namespace si_automated_tests.Source.Test
                 .SelectStartDate(-1)
                 .SelectPartyType(1)
                 .ClickSaveBtn();
+            //PageFactoryManager.Get<DetailPartyPage>()
+            //    .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+            //    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyDisplaySuccessfullyMessage()
-                .MergeAllTabInDetailPartyAndVerify()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName);
+            //PageFactoryManager.Get<DetailPartyPage>()
+            //    .MergeAllTabInDetailPartyAndVerify();
+            PageFactoryManager.Get<DetailPartyPage>()
                 .ClickAllTabAndVerify()
                 .ClickAllTabInDropdownAndVerify();
 
@@ -98,9 +102,12 @@ namespace si_automated_tests.Source.Test
                 .SelectPartyType(1)
                 .ClickSaveBtn();
             //Verify all tab display correctly
+            //PageFactoryManager.Get<DetailPartyPage>()
+            //    .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+            //    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyDisplaySuccessfullyMessage()
-                .MergeAllTabInDetailPartyAndVerify()
+                 .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName)
+                //.MergeAllTabInDetailPartyAndVerify()
                 .ClickAllTabAndVerify()
                 .ClickAllTabInDropdownAndVerify()
                 .SwitchToFirstWindow();
@@ -423,7 +430,7 @@ namespace si_automated_tests.Source.Test
                 .SelectPartyType(1)
                 .ClickSaveBtn();
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyDisplaySuccessfullyMessage()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName)
             //Test path for TC 010
                 .ClickOnAddInvoiceAddressBtn()
                 .SwitchToChildWindow(3);
@@ -453,8 +460,8 @@ namespace si_automated_tests.Source.Test
                 .VerifySiteManualCreated(addressDetailModel, allSiteModel[0], "Serviced Site", false)
                 .ClickOnDetailsTab()
                 .ClickSaveBtn();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyDisplaySuccessfullyMessage();
+            //PageFactoryManager.Get<DetailPartyPage>()
+            //    .VerifyDisplaySuccessfullyMessage();
         }
 
         [Category("SiteAddress")]
@@ -495,8 +502,9 @@ namespace si_automated_tests.Source.Test
                 .SelectPartyType(1)
                 .ClickSaveBtn();
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyDisplaySuccessfullyMessage()
+            //    .VerifyDisplaySuccessfullyMessage()
             //Test path for TC 011
+                 .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName)
                  .ClickOnSitesTab()
                  .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
@@ -573,7 +581,8 @@ namespace si_automated_tests.Source.Test
                 .SelectPartyType(1)
                 .ClickSaveBtn();
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyDisplaySuccessfullyMessage()
+                .SleepTimeInMiliseconds(1)
+                //.VerifyDisplaySuccessfullyMessage()
                 .SwitchToTab("Account");
             PageFactoryManager.Get<PartyAccountPage>()
                 .IsOnAccountPage()
@@ -592,10 +601,11 @@ namespace si_automated_tests.Source.Test
                 .ClickSaveBtn();
             PageFactoryManager.Get<PartyAccountPage>()
                 .SelectAccountType("Charity")
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .SleepTimeInMiliseconds(1000);
             PageFactoryManager.Get<DetailPartyPage>()
                 //.VerifyDisplaySuccessfullyMessage()
-                .ClickTabDropDown()
+                //.ClickTabDropDown()
                 .ClickOnAccountStatement();
             PageFactoryManager.Get<AccountStatementPage>()
                 .ClickCreateCreditNote()
@@ -622,7 +632,7 @@ namespace si_automated_tests.Source.Test
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickTabDropDown()
+                //.ClickTabDropDown()
                 .ClickOnHistoryTab()
                 .ClickRefreshBtn();
             PageFactoryManager.Get<PartyHistoryPage>()
@@ -649,7 +659,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyAccountReferenceEnabled(false)
                 .ClickSaveBtn();
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickTabDropDown()
+                //.ClickTabDropDown()
                 .ClickOnHistoryTab()
                 .ClickRefreshBtn();
 

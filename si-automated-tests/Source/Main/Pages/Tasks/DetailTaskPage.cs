@@ -47,7 +47,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public readonly By taskStateDd = By.CssSelector("select[id='taskState.id']");
         public readonly By ScheduleDateInput = By.CssSelector("input[id='scheduledDate.id']");
         public readonly By completionDateInput = By.CssSelector("input[id='completionDate.id']");
-        private readonly By endDateInput = By.CssSelector("input[id='endDate.id']");
+        public readonly By endDateInput = By.CssSelector("input[id='endDate.id']");
         private readonly By resolutionCode = By.CssSelector("select[id='resolutionCode.id']");
 
         //DYNAMIC LOCATOR
@@ -465,6 +465,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
+        public DetailTaskPage VerifyTaskCompleteDate(string completionDateExp)
+        {
+            Assert.AreEqual(completionDateExp, GetAttributeValue(completionDateVerdictInput, "value"), "Completion Date is not correct");
+            return this;
+        }
+
         //==> Verdict tab -> Task line
         [AllureStep]
         public DetailTaskPage ClickOnTaskLineVerdictTab()
@@ -526,10 +533,41 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly string TaskLineRow = "./tbody//tr[contains(@data-bind,'with: $data.getFields()')]";
         private readonly string TaskLineOrderCell = "./td//input[@id='order.id']";
         private readonly string TaskLineTypeCell = "./td//select[@id='taskLineType.id']";
+        private readonly string AssetTypeCell = "./td//echo-select[contains(@params, 'assetType')]//select";
+        private readonly string AssetActualCell = "./td//input[@id='actualAssetQuantity.id']";
+        private readonly string AssetScheduleCell = "./td//input[@id='scheduledAssetQuantity.id']";
+        private readonly string ProductCell = "./td//echo-select[contains(@params, 'product')]//select";
+        private readonly string ProductActualCell = "./td//input[@id='actualProductQuantity.id']";
+        private readonly string ProductScheduleCell = "./td//input[@id='scheduledProductQuantity.id']";
+        private readonly string UnitCell = "./td//echo-select[contains(@params, 'unitOfMeasure')]//select";
+        private readonly string SiteDestinationCell = "./td//select[@id='destinationSite.id']";
+        private readonly string SiteProductCell = "./td//select[@id='siteProduct.id']";
+        private readonly string StateCell = "./td//select[@id='itemState.id']";
+        private readonly string ResolutionCodeCell = "./td//select[@id='resCode.id']";
 
         public TableElement TaskLineTableEle
         {
-            get => new TableElement(TaskLineTable, TaskLineRow, new List<string>() { TaskLineOrderCell, TaskLineTypeCell });
+            get => new TableElement(TaskLineTable, TaskLineRow, new List<string>()
+            {
+                TaskLineOrderCell, TaskLineTypeCell, AssetTypeCell,
+                AssetActualCell, AssetScheduleCell, ProductCell,
+                ProductActualCell, ProductScheduleCell, UnitCell,
+                SiteDestinationCell, SiteProductCell, StateCell, ResolutionCodeCell
+            });
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyTaskLineState(string state)
+        {
+            VerifyCellValue(TaskLineTableEle, 0, 11, state);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage InputTaskLineState(string state)
+        {
+            TaskLineTableEle.SetCellValue(0, 11, state);
+            return this;
         }
 
         [AllureStep]

@@ -50,8 +50,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<PointNodeDetailPage>()
                 .InputPointNodeDetails(_des, _lat, _long)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Point Node")
-                .WaitUntilToastMessageInvisible("Successfully saved Point Node")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .GoToAllTabAndConfirmNoError();
         }
         [Category("PointArea")]
@@ -71,8 +71,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .InputAreaName(name)
                 .InputLatLong(latLong)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Point Area")
-                .WaitUntilToastMessageInvisible("Successfully saved Point Area")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .GoToAllTabAndConfirmNoError();
         }
         [Category("PointArea")]
@@ -185,8 +185,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .IsOnDetailPage()
                 .InputDetails(type, text, impact, from, to)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Announcement")
-                .WaitUntilToastMessageInvisible("Successfully saved Announcement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
@@ -211,8 +211,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .IsOnDetailPage()
                 .InputDetails(type, text, impact, from, to)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Announcement")
-                .WaitUntilToastMessageInvisible("Successfully saved Announcement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<CommonBrowsePage>()

@@ -15,7 +15,6 @@ using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using si_automated_tests.Source.Main.Pages.WB.Tickets;
-using CanlendarServiceTask = si_automated_tests.Source.Main.Models.Suspension.ServiceTaskModel;
 
 namespace si_automated_tests.Source.Main.Pages.Paties
 {
@@ -24,7 +23,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string AllTabDisplayed = "//li[@role='presentation' and not(contains(@style, 'visibility: collapse'))]/a";
         private const string AllTabInDropdown = "//ul[@class='dropdown-menu']//a";
         private const string DropdownBtn = "//li[contains(@class, 'dropdown')]/a[contains(@class, 'dropdown-toggle')]";
-        private const string SuccessfullyToastMessage = "//div[@class='notifyjs-corner']//div[text()='Successfully saved party.']";
+        private const string SuccessfullyToastMessage = "//div[@class='nsotifyjs-corner']//div[text()='Success']";
         private const string FrameMessage = "//div[@class='notifyjs-corner']/div";
         private const string SaveWithDetailsBtn = "//a[@aria-controls='details-tab']/ancestor::body//button[@title='Save']";
         private readonly By closeWithoutSavingBtn = By.XPath("//a[@aria-controls='details-tab']/ancestor::body//button[@title='Close Without Saving']");
@@ -41,8 +40,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By canlendarTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='calendar-tab']");
         private readonly By siteTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='sites-tab']");
         private readonly By accountTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='account-tab']");
-        private readonly By accountStatementTab = By.XPath("//span[text()='Account Statement']/parent::a");
-        private readonly By historyTab = By.XPath("//span[text()='History']/parent::a");
+        private readonly By accountStatementTab = By.XPath("//ul[contains(@class,'nav-tabs')]/li[contains(@style,'visible')]/a[@aria-controls='partyAccountStatements-tab']");
+        private readonly By accountStatementTabAlt = By.XPath("//span[text()='Account Statement']/parent::a");
+        private readonly By historyTab = By.XPath("//ul[contains(@class,'nav-tabs')]/li[contains(@style,'visible')]/a[@aria-controls='partyHistory-tab']");
+        private readonly By historyTabAlt = By.XPath("//span[text()='History']/parent::a");
 
         //COMMON DYNAMIC LOCATOR
         private const string partyName = "//p[text()='{0}']";
@@ -934,13 +935,29 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public DetailPartyPage ClickOnAccountStatement()
         {
-            ClickOnElement(accountStatementTab);
+            if (!IsControlDisplayedNotThrowEx(accountStatementTab))
+            {
+                ClickTabDropDown();
+                ClickOnElement(accountStatementTabAlt);
+            }
+            else
+            {
+                ClickOnElement(accountStatementTab);
+            }
             return this;
         }
         [AllureStep]
         public DetailPartyPage ClickOnHistoryTab()
         {
-            ClickOnElement(historyTab);
+            if (!IsControlDisplayedNotThrowEx(historyTab))
+            {
+                ClickTabDropDown();
+                ClickOnElement(historyTabAlt);
+            }
+            else
+            {
+                ClickOnElement(historyTab);
+            }
             return this;
         }
     }

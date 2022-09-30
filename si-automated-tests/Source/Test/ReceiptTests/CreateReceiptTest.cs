@@ -64,7 +64,7 @@ namespace si_automated_tests.Source.Test.ReceiptTests
                 .InputPaymentRef(input.PaymentReference)
                 .InputNotes(input.Notes)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Sales Receipt")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SalesReceiptPage>()
                 .ClickLinesTab()
@@ -128,7 +128,7 @@ namespace si_automated_tests.Source.Test.ReceiptTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<SalesReceiptLinesPage>()
                 .ClickOnSaveBtn()
-                .VerifyToastMessage("Successfully saved Sales ReceiptLine")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SalesReceiptLinesPage>()
                 .VerifyAmountOwned("83.2")

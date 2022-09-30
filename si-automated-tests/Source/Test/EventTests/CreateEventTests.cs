@@ -165,7 +165,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -213,7 +213,6 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseBtn();
         }
 
-        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Category("Chang")]
         [Test(Description = "Creating event from point address without service unit")]
@@ -316,7 +315,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -358,7 +357,6 @@ namespace si_automated_tests.Source.Test.EventTests
                 
         }
 
-        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Category("Chang")]
         [Test(Description = "Creating event from point segment with service unit")]
@@ -487,7 +485,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -532,7 +530,6 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseBtn();
         }
 
-        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Category("Chang")]
         [Test(Description = "Creating event from point segment without service unit")]
@@ -649,7 +646,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -688,7 +685,6 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseEventPopupBtn();
         }
 
-        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Category("Chang")]
         [Test(Description = "Creating event from point node with service unit")]
@@ -813,7 +809,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -858,7 +854,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseBtn();
         }
 
-        //Done Bug: Cannot Click on [Source input]
+        //Need to check
         [Category("CreateEvent")]
         [Category("Chang")]
         [Test(Description = "Creating event from point area with service unit")]
@@ -984,7 +980,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -1029,7 +1025,6 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseBtn();
         }
 
-        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Category("Chang")]
         [Test(Description = "Creating event from event with service unit")]
@@ -1162,7 +1157,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
@@ -1207,7 +1202,6 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickCloseBtn();
         }
 
-        //Done Bug: Cannot Click on [Source input]
         [Category("CreateEvent")]
         [Category("Chang")]
         [Test(Description = "Creating event from event without service unit")]
@@ -1340,7 +1334,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveEventMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage

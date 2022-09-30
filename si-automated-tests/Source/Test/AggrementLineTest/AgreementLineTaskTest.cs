@@ -14,8 +14,10 @@ using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
+using si_automated_tests.Source.Main.Pages.Services;
 using si_automated_tests.Source.Main.Pages.Task;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+using TaskLineDetailPage = si_automated_tests.Source.Main.Pages.Tasks.TaskLineDetailPage;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
 {
@@ -383,6 +385,34 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("AgreementTask")]
+        [Test(Description = "Verify whether task form is loading when childtask line is there")]
+        public void TC_173_Tasklines_with_details_loaded_in_Task_Form()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                  .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser12.UserName, AutoUser12.Password)
+                .IsOnHomePage(AutoUser12);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.RMC)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonTaskPage>()
+                    .FilterTaskId(12243)
+                    .OpenTaskWithId(12243)
+                    .SwitchToLastWindow();
+            var agreementTaskDetailPage = PageFactoryManager.Get<AgreementTaskDetailsPage>();
+            agreementTaskDetailPage.WaitForLoadingIconToDisappear();
+            agreementTaskDetailPage.ClickToTaskLinesTab();
+            agreementTaskDetailPage.WaitForLoadingIconToDisappear();
+            agreementTaskDetailPage.VerifyToastMessagesIsUnDisplayed();
+            agreementTaskDetailPage.VerifyElementVisibility(agreementTaskDetailPage.AddNewAgreementTaskDetailButton, true);
+            agreementTaskDetailPage.VerifyHeaderColumn();
+        }
+
         [Test(Description = "Verify that 'Requested Delivery Date' displays correctly on New Agreement with Start Date <current Date")]
         public void TC_180_1_Agreements_displaying_Requested_Delivery_Date()
         {
@@ -448,7 +478,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Fix wating time for saved agreement
             var partyAgreementPage = PageFactoryManager.Get<PartyAgreementPage>();
@@ -504,7 +534,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             partyAgreementPage.SleepTimeInMiliseconds(10000);
             partyAgreementPage
@@ -544,7 +574,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .IsOnPartyAgreementPage()
                .SelectAgreementType("Commercial Collections")
                .ClickSaveBtn()
-               .VerifyToastMessage("Successfully saved agreement");
+               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<PartyAgreementPage>().ClickAddService();
             PageFactoryManager.Get<AddServicePage>()
                 .IsOnAddServicePage();
@@ -625,6 +655,208 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .EditAssertClickDoneBtn()
                 .ClickNext()
                 .WaitForLoadingIconToDisappear();
+        }
+
+        [Category("AgreementTask")]
+        [Test(Description = "Verify whether productcode field is not resetting value to 0 when user update taskline from task form")]
+        public void TC_174_1_Taskline_Productcode()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                  .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser12.UserName, AutoUser12.Password)
+                .IsOnHomePage(AutoUser12);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.RMC)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonTaskPage>()
+                    .FilterTaskId(15331)
+                    .OpenTaskWithId(15331)
+                    .SwitchToLastWindow();
+            var agreementTaskDetailPage = PageFactoryManager.Get<AgreementTaskDetailsPage>();
+            agreementTaskDetailPage.WaitForLoadingIconToDisappear();
+            agreementTaskDetailPage.ClickToTaskLinesTab();
+            agreementTaskDetailPage.WaitForLoadingIconToDisappear();
+            agreementTaskDetailPage.DoubleClickTaskLine()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            var serviceTaskLinePage = PageFactoryManager.Get<TaskLineDetailPage>();
+            serviceTaskLinePage.WaitForLoadingIconToDisappear();
+            serviceTaskLinePage.SelectTextFromDropDown(serviceTaskLinePage.ProductSelect, "General Recycling");
+            serviceTaskLinePage.SendKeys(serviceTaskLinePage.MinAssetQty, "8");
+            serviceTaskLinePage.SendKeys(serviceTaskLinePage.MaxAssetQty, "10");
+            serviceTaskLinePage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            agreementTaskDetailPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            agreementTaskDetailPage.VerifyTaskLineProduct(0, "General Recycling");
+
+            //2
+            agreementTaskDetailPage.DoubleClickTaskLine()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            serviceTaskLinePage.WaitForLoadingIconToDisappear();
+            serviceTaskLinePage.SelectTextFromDropDown(serviceTaskLinePage.StateSelect, "Not Completed")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            agreementTaskDetailPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            agreementTaskDetailPage.VerifyTaskLineState(0, "Not Completed");
+        }
+
+        [Category("AgreementTask")]
+        [Test(Description = "Verify whether any other field in taskline form clearing when user update taskline from task form")]
+        public void TC_174_2_Taskline_Productcode()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                 .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser12.UserName, AutoUser12.Password)
+                .IsOnHomePage(AutoUser12);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.RMC)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonTaskPage>()
+                    .FilterTaskId(15331)
+                    .OpenTaskWithId(15331)
+                    .SwitchToLastWindow();
+            var agreementTaskDetailPage = PageFactoryManager.Get<AgreementTaskDetailsPage>();
+            agreementTaskDetailPage.WaitForLoadingIconToDisappear();
+            agreementTaskDetailPage.ClickToTaskLinesTab();
+            agreementTaskDetailPage.WaitForLoadingIconToDisappear();
+            agreementTaskDetailPage.DoubleClickTaskLine()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            var serviceTaskLinePage = PageFactoryManager.Get<TaskLineDetailPage>();
+            serviceTaskLinePage.WaitForLoadingIconToDisappear();
+            serviceTaskLinePage.SendKeys(serviceTaskLinePage.MinAssetQty, "5");
+            serviceTaskLinePage.SendKeys(serviceTaskLinePage.MaxAssetQty, "10");
+            serviceTaskLinePage.SendKeys(serviceTaskLinePage.MinProductQty, "6");
+            serviceTaskLinePage.SendKeys(serviceTaskLinePage.MaxProductQty, "8");
+            serviceTaskLinePage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            serviceTaskLinePage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceTaskLinePage.VerifyInputValue(serviceTaskLinePage.MinAssetQty, "5")
+                .VerifyInputValue(serviceTaskLinePage.MaxAssetQty, "10")
+                .VerifyInputValue(serviceTaskLinePage.MinProductQty, "6")
+                .VerifyInputValue(serviceTaskLinePage.MaxProductQty, "8");
+        }
+
+        [Category("AgreementTask")]
+        [Test(Description = "Verify that a product code has been added to agreement line wizard")]
+        public void TC_193_Add_product_code_description_to_the_AgreementLineAssetProduct()
+        {
+            PageFactoryManager.Get<LoginPage>()
+            .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser12.UserName, AutoUser12.Password)
+                .IsOnHomePage(AutoUser12);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(1136)
+                .OpenFirstResult();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .OpenAgreementTab()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .IsOnPartyAgreementPage()
+               .SelectAgreementType("Commercial Collections")
+               .ClickSaveBtn()
+               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<PartyAgreementPage>().ClickAddService();
+            PageFactoryManager.Get<AddServicePage>()
+                .IsOnAddServicePage();
+            PageFactoryManager.Get<SiteAndServiceTab>()
+                .IsOnSiteServiceTab()
+                .SelectService("Commercial")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SiteAndServiceTab>().ClickNext();
+            var assetAndProductTab = PageFactoryManager.Get<AssetAndProducTab>();
+            assetAndProductTab.WaitForLoadingIconToDisappear();
+            assetAndProductTab
+                .IsOnAssetTab()
+                .ClickAddAsset()
+                .VerifyInputValue(assetAndProductTab.assetQuantity, "1");
+            assetAndProductTab.VerifyDeliveryDate(DateTime.Now.AddDays(7).ToString("dd/MM/yyyy"))
+                .ChooseAssetType("1100L")
+                .ChooseTenure("Rental")
+                .ChooseProduct("General Recycling")
+                .ChooseEwcCode("150106")
+                .EditAssertClickDoneBtn()
+                .ClickNext();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ScheduleServiceTab>()
+               .IsOnScheduleTab()
+               .ClickAddService()
+               .ClickDoneScheduleBtn()
+               .ClickOnNotSetLink()
+               .ClickOnWeeklyBtn()
+               .ClickDoneRequirementBtn()
+               .ClickNext()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PriceTab>()
+               .IsOnPriceTab()
+               .ClickOnRemoveButton(new List<string>() { "Commercial Customers: Collection" })
+               .InputPrices(new List<(string title, string value)>() { ("Commercial Customers: Bin Removal", "1"), ("Commercial Customers: Bin Delivery", "1") })
+               .ClickPrice("Commercial Customers: Bin Rental")
+               .ClickNext()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+               .IsOnInvoiceDetailsTab()
+               .ClickFinish()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickSaveBtn()
+               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+               .WaitForLoadingIconToDisappear();
+
+            var partyAgreementPage = PageFactoryManager.Get<PartyAgreementPage>();
+            partyAgreementPage.SleepTimeInMiliseconds(10000);
+            partyAgreementPage.ClickApproveAgreement()
+                .ConfirmApproveBtn()
+                .VerifyAgreementStatus("Active");
+            partyAgreementPage
+                .ClickEditAgreementBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<EditAgreementServicePage>()
+                .IsOnEditAgreementServicePage()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            assetAndProductTab
+                .IsOnAssetTab()
+                .ClickOnEditAsset()
+                .VerifyInputAssetAndProduct(1, "1100L", "Rental", "General Recycling", "150106");
         }
     }
 }

@@ -52,7 +52,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectResourceType(resourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame()
@@ -166,7 +166,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectResourceType(resourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
@@ -180,7 +180,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectResourceType(vehicleResourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame()
@@ -295,7 +295,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectResourceType(resourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
@@ -310,7 +310,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectResourceType(vehicleResourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame()
@@ -339,7 +339,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectLeaveType("Holiday")
                 .SelectLeaveReason("Paid")
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<LeaveEntryPage>()
                 .ApproveLeaveEntry()
                 .SwitchToLastWindow();
