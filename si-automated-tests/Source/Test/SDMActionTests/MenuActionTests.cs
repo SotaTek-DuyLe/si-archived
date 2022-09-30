@@ -1102,8 +1102,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
         [Test(Description = "Action 'Retire Service Task Schedule' -  Service Task with MULTIPLE Service Task Schedules")]
         public void TC_132_Test_13_Action_Retire_Service_task_schedule_service_task_with_multiple_service_task_schedules()
         {
-            CommonFinder finder = new CommonFinder(DbContext);
-
+            
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
@@ -1111,6 +1110,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsOnLoginPage()
                 .Login(AutoUser52.UserName, AutoUser52.Password)
                 .IsOnHomePage(AutoUser52);
+
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
                 .OpenOption(SubOption.SERVICE_DATA_MANAGEMENT)
@@ -1132,12 +1132,6 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SelectCheckboxByReferenceId("104353")
                 .SelectCheckboxByReferenceId("104386")
                 .SelectCheckboxByReferenceId("108488")
-                .ClickOnApplyFiltersBtn()
-                .VerifyWarningPopupDisplayed()
-                .ClickOnOkBtn()
-                .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage
-                .ClickOnSelectAndDeselectBtn()
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
             string descRedRow = serviceDataManagementPage
@@ -1167,7 +1161,46 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             string contract = Contract.RMC;
-            string service = "Commercial Collections";
+            string service = "Collections";
+            string filterDatePast = "";
+            string filterDateFuture = "";
+            //Thursday
+            DateTime today = DateTime.Today;
+            if (today.DayOfWeek == DayOfWeek.Monday)
+            {
+                filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -4);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Tuesday)
+            {
+                filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -5);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Wednesday)
+            {
+                filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -6);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Thursday)
+            {
+                filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -7);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Friday)
+            {
+                filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -1);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 6);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -2);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 5);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -3);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 4);
+            }
             PageFactoryManager.Get<MasterRoundManagementPage>()
                 .IsOnPage()
                 .InputSearchDetails(contract, service)
@@ -1182,8 +1215,68 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .DragAndDropFirstRoundToGrid()
                 .SwitchToTab(roundNameNotRetiredWithFormat);
             PageFactoryManager.Get<MasterRoundManagementPage>()
-                .SendKeyInDescInput(descRedRow)
-                .VerifyNoRecordInTaskGrid();
+                .SendKeyInDescInput(descRedRow, "2")
+                .VerifyFirstRecordWithDescInTaskGrid(descRedRow)
+                .SwitchToDefaultContent();
+            //Go to [Task confirmation screen] to verify
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.TaskConfirmation)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+
+            string roundName = "REC1-AM";
+            //=> Filter with date in the past [round Retired]
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .IsTaskConfirmationPage()
+                .SelectContract(Contract.RMC)
+                .ClickServicesAndSelectServiceInTree(serviceGroupName, serviceName, roundName)
+                .SendDateInScheduledDate(filterDatePast)
+                .ClickGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnExpandRoundsBtn()
+                .ClickOnExpandRoundLegsBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .SendKeyInDesc(descRedRow)
+                .VerifyDisplayResultAfterSearchWithDesc(descRedRow);
+            //=> Filter with date in the future [round Retired]
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .SendDateInScheduledDate(filterDateFuture)
+                .ClickGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .SendKeyInDesc(descRedRow)
+                .VerifyNoDisplayResultAfterSearchWithDesc()
+                .SwitchToDefaultContent();
+            //Go to [Task Allocation] to verify
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.TaskAllocation)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            //=> Filter with date in the past
+            PageFactoryManager.Get<TaskAllocationPage>()
+                .SelectContract(Contract.RMC)
+                .SelectServices(serviceGroupName, serviceName)
+                .SendKeyInFrom(filterDatePast)
+                .ClickOnGoBtn()
+                .WaitForLoadingIconToDisappear();
+            string dayName = "Thursday";
+            PageFactoryManager.Get<TaskAllocationPage>()
+                .DragAndDropUnAllocatedRoundToGridTask(dayName, roundName)
+                .SendKeyInDescInputToSearch(descRedRow)
+                .VerifyDisplayTaskAfterFilter(descRedRow);
+            //=> Filter with date in the future
+            PageFactoryManager.Get<TaskAllocationPage>()
+                .SendKeyInFrom(filterDateFuture)
+                .ClickOnGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskAllocationPage>()
+                .DragAndDropUnAllocatedRoundToGridTask(dayName, roundName)
+                .SendKeyInDescInputToSearch(descRedRow)
+                .VerifyNoDisplayTaskAfterFilter(descRedRow);
         }
 
     }

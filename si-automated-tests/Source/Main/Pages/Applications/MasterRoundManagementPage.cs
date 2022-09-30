@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string serviceOption = "//a[contains(@class,'jstree-anchor') and text()='{0}']";
         private readonly string serviceExpandIcon = "//a[contains(@class,'jstree-anchor') and text()='{0}']/preceding-sibling::i";
         private readonly string descAtAnyRoundTab = "//div[contains(@id, '{0}')]//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]";
+        private readonly string activeTab = "//div[@id='tabs-container']//li[contains(@class, 'active')]/a";
+        private readonly string descInputAtAnyTab = "(//div[contains(@id, 'round-tab')]//div[contains(@class, 'l4')]//input)[{0}]";
 
         //unalocated task tab
         private readonly By tabContainer = By.XPath("//div[@id='tabs-container']/ul");
@@ -42,7 +45,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By slickViewport = By.XPath("(//div[@class='slick-viewport'])[last()]");
 
         //round grid
-        private readonly By rounds = By.XPath("//ul[@id='rounds']/li");
+        private readonly By rounds = By.XPath("//ul[@id='rounds']/li[not(contains(@style, 'display: none;'))]");
 
         [AllureStep]
         public MasterRoundManagementPage IsOnPage()
@@ -288,6 +291,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
+        public MasterRoundManagementPage SendKeyInDescInput(string descValue, string tabIndex)
+        {
+            SendKeys(string.Format(descInputAtAnyTab, tabIndex), descValue);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
         public MasterRoundManagementPage VerifyNoRecordInTaskGrid()
         {
             Assert.IsTrue(IsControlUnDisplayed(firstResultRowInTaskGrid));
@@ -297,7 +308,9 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public MasterRoundManagementPage VerifyFirstRecordWithDescInTaskGrid(string descExp)
         {
-            Assert.AreEqual(descExp.Trim(), GetElementText(descAtFirstColumn).Trim());
+            //Get active tab
+            string href = GetAttributeValue(activeTab, "href").Replace(WebUrl.MainPageUrl + "web/service-task-allocation#", "").Trim();
+            Assert.IsTrue(GetElementText(descAtAnyRoundTab, href).Trim().ToLower().Contains(descExp.Trim().ToLower()));
             return this;
         }
     }
