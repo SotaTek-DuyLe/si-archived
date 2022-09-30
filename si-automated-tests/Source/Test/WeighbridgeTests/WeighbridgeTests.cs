@@ -1392,7 +1392,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyTicketLineData(1, "General Refuse", "80", "60", secondTicketLine.firstDate, secondTicketLine.secondDate);
             //click save
             createNewTicketPage.ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Weighbridge Ticket")
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBTicketSuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Click No
             createNewTicketPage.VerifyTakePayment()

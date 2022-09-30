@@ -245,7 +245,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<RoundGroupPage>()
                 .ClickSyncRoundResourceOnResourceTab()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage("Successfully saved Round Group");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<RoundGroupPage>()
                 .ClickRoundTab()
                 .WaitForLoadingIconToDisappear();

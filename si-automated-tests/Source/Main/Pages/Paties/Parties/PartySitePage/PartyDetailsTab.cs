@@ -11,7 +11,7 @@ namespace si_automated_tests.Source.Main.Pages
         private const string DetailsTab = "//a[text()='Details']";
         private const string SitesTab = "//a[text()='Sites']";
         private const string CorrespondenceAddressAddBtn = "//label[text()='Correspondence Address']/following-sibling::div//span[text()='Add']";
-        private const string SuccessfullyToastMessage = "//div[@class='notifyjs-corner']//div[text()='Successfully saved party.']";
+        private const string SuccessfullyToastMessage = "//div[@class='notifyjs-corner']//div[text()='Success']";
         private readonly By InvoiceAddressButton = By.Id("party-invoice-address");
 
         //DYNAMIC

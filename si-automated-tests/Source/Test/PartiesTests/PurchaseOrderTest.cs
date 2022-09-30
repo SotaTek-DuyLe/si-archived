@@ -427,7 +427,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .InputLastDay(datePlus)
                 .SelectAgreement("41 - Richmond (Active from 21/03/2022 until 01/01/2050)")
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Purchase Order")
+                .VerifyToastMessage(MessageSuccessConstants.SavePurchaseOrder)
                 .CloseCurrentWindow()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<DetailPartyPage>()
@@ -604,7 +604,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnAccountPage()
                 .CheckOnAccountType("PO Number Required")
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved party.")
+                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAccountPage>()
                 .VerifyAccountTypeChecked("PO Number Required");
@@ -695,7 +695,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnAccountPage()
                 .UncheckOnAccountType("PO Number Required")
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved party.")
+                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAccountPage>()
                 .VerifyAccountTypeUnchecked("PO Number Required");
