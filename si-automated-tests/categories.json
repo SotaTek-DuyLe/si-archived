@@ -1,7 +1,8 @@
 [
     {
         "name": "Web performance",
-        "messageRegex": ".*Loading icon doesn't disappear.*"
+        "messageRegex": "(.*Toast message doesn't appear.*)|(.*Loading icon doesn't disappear.*)"
+
     },
     {
         "name": "Failed String validation",
@@ -13,6 +14,6 @@
     },
     {
         "name": "Automation Bug",
-        "messageRegex": ".*ArgumentOutOfRangeException.*"
+        "messageRegex": "(.*ArgumentOutOfRangeException.*)|(.*System.FormatException.*)"
     }
 ]

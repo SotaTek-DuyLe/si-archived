@@ -3,7 +3,7 @@ namespace si_automated_tests.Source.Main.Constants
 {
     public class MessageSuccessConstants
     {
-        public static readonly string SaveWBStationSuccessMessage = "Successfully saved Weighbridge Station";
+        public static readonly string SaveWBStationSuccessMessage = "Success"; //Successfully saved Weighbridge Station
         public static readonly string SavePartySuccessMessage = "Success"; //Successfully saved party.
         public static readonly string SaveSiteSuccessMessage = "Successfully saved Site";
         public static readonly string SaveWBSiteLocationSuccessMessage = "Successfully saved Weighbridge Site Location";
@@ -21,7 +21,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string SavePointSegmentSuccessMessage = "Successfully saved Point Segment";
         public static readonly string SaveCreditNoteSuccessMessage = "Success"; //Successfully saved Credit Note
         public static readonly string TasksAllocatedSuccessMessage = "Task(s) Allocated";
-        public static readonly string SaveRoundInstanceSuccessMessage = "Successfully saved Round Instance";
+        public static readonly string SaveRoundInstanceSuccessMessage = "Success"; //Successfully saved Round Instance"
         public static readonly string SaveRoundInstanceEventSuccessMessage = "Successfully saved Round Instance Event";
         public static readonly string SaveTaskLine = "Success"; //Successfully saved Task Line
         public static readonly string SavePurchaseOrder = "Success"; //Successfully saved Purchase Order
