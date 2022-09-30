@@ -53,7 +53,8 @@ namespace si_automated_tests.Source.Test.HistoryTests
                 .ClickOnDetailTab()
                 .AddNotes(note)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveRoundInstanceSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SaveRoundInstanceSuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveRoundInstanceSuccessMessage);
             roundInstanceForm
                 .ClickOnHistoryTab()
                 .VerifyToastMessagesIsUnDisplayed();

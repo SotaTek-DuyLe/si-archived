@@ -110,7 +110,7 @@ namespace si_automated_tests.Source.Test.OrphanCreditLineTests
                 .VerifyPartyNameUpdated(partyName)
                 //Line 18: Click on [Lines] tab
                 .ClickOnLinesTab()
-                .VerifyRowOfNewLines("TaskLine", idCredit, "NEW");
+                .VerifyRowOfNewLines("WeighbridgeTicket", idCredit, "NEW");
 
         }
 
