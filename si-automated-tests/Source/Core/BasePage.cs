@@ -683,8 +683,16 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public string GetToastMessage()
         {
-            string text = WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']").Text;
-            return text;
+            try
+            {
+                string text = WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']").Text;
+                return text;
+            }
+            catch (WebDriverTimeoutException)
+            {
+                Assert.Fail("Toast message doesn't appear after 30 seconds");
+                return null;
+            }
         }
         [AllureStep]
         public BasePage VerifyToastMessage(string message)
@@ -701,7 +709,7 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public BasePage VerifyToastMessages(List<string> messages)
         {
-            WaitUtil.WaitForElementVisible("//div[@data-notify-html='title']");
+            GetToastMessage();
             var notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
             CollectionAssert.AreEquivalent(messages, notifyMsgs);
             return this;

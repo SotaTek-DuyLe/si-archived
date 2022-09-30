@@ -104,8 +104,7 @@ namespace si_automated_tests.Source.Test.OrphanCreditLineTests
                 .VerifyCurrenCreditNotetUrl("2", "68")
                 //Line 17: Click on [SAVE] and verify
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveCreditNoteSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveCreditNoteSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SaveCreditNoteSuccessMessage);
             PageFactoryManager.Get<CreditNotePage>()
                 .VerifyCurrentCreditNoteUrl()
                 .VerifyPartyNameUpdated(partyName)
