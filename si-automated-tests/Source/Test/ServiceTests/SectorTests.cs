@@ -319,8 +319,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             sectorPage.VerifyBorderColorIsRed(sectorPage.SelectSectorType);
             sectorPage.ClickOnElement(sectorPage.ButtonSave);
             sectorPage.WaitForLoadingIconToDisappear();
-            sectorPage.VerifyToastMessage("SectorType is required")
-                .WaitUntilToastMessageInvisible("SectorType is required");
+            sectorPage.VerifyToastMessage("Sector Type is required")
+                .WaitUntilToastMessageInvisible("Sector Type is required");
             //can update
             string contract = Contract.RM;
             string parentSector = "Hampton Tip (West)";
