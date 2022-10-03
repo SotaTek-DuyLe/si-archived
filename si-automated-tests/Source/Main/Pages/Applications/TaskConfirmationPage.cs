@@ -82,7 +82,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             ClickOnElement(serviceInput);
             ClickOnElement(anyServicesByServiceGroup, serviceGroupName);
             ClickOnElement(anyChildOfTree, serviceName);
-            ClickOnElement(chirldOfTree, roundName);
+            ClickOnElement(anyChildOfTree, roundName);
             ClickOnElement(chirldOfTree, dayName);
             return this;
         }

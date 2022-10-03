@@ -79,6 +79,8 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             string[] actionNotAvailable = { CommonConstants.ActionMenuSU[0] };
             string[] actionEnabled = { CommonConstants.ActionMenuSU[1] };
             serviceDataManagementPage
+                .ClickOnTotalRecord();
+            serviceDataManagementPage
                 .RightClickOnFirstCellWithServiceUnit()
                 .VerifyActionMenuDisplayWithServiceUnit()
                 .VerifyActionInActionMenuDisabled(actionNotAvailable)
@@ -121,7 +123,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             string[] actionEnabled = { CommonConstants.ActionMenuSU[0] };
             serviceDataManagementPage
                 .RightClickOnCellWithMutipleServiceUnitPoint()
-                //.VerifyActionMenuDisplayWithServiceUnit()
+                .VerifyActionMenuDisplayWithServiceUnit()
                 .VerifyActionInActionMenuEnabled(actionEnabled);
 
         }
@@ -178,17 +180,16 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .VerifyActionInActionMenuDisabled(otherAction);
             //Step 5: Line 12: Right click on any of the cells with Service Unit
             string[] actionNotAvailable = { CommonConstants.ActionMenuSU[0] };
-            //string[] actionEnabled = { CommonConstants.ActionMenuSU[1] };
             serviceDataManagementPage
                 .RightClickOnFirstCellWithServiceUnit()
-                //.VerifyActionMenuDisplayWithServiceUnit()
+                .VerifyActionMenuDisplayWithServiceUnit()
                 .VerifyActionInActionMenuDisabled(actionNotAvailable);
                 //.VerifyActionInActionMenuEnabled(actionEnabled);
             //Step 1: Line 13: Right-click on any of the cells with Service Unit containing icon of Service Unit with multiple Service Unit Points
-            string[] actionEnabled = { CommonConstants.ActionMenuSU[0] };
+            string[] actionEnabled = { CommonConstants.ActionMenuSU[1] };
             serviceDataManagementPage
                 .RightClickOnCellWithMutipleServiceUnitPoint()
-                //.VerifyActionMenuDisplayWithServiceUnit()
+                .VerifyActionMenuDisplayWithServiceUnit()
                 .VerifyActionInActionMenuEnabled(actionEnabled);
         }
 
@@ -250,9 +251,9 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             string[] actionEnabled = { CommonConstants.ActionMenuSU[1] };
             serviceDataManagementPage
                 .RightClickOnFirstCellWithServiceUnit()
-                //.VerifyActionMenuDisplayWithServiceUnit()
-                .VerifyActionInActionMenuDisabled(actionNotAvailable);
-                //.VerifyActionInActionMenuEnabled(actionEnabled);
+                .VerifyActionMenuDisplayWithServiceUnit()
+                .VerifyActionInActionMenuDisabled(actionNotAvailable)
+                .VerifyActionInActionMenuEnabled(actionEnabled);
             //Step 1: Line 13: Right-click on any of the cells with Service Unit containing icon of Service Unit with multiple Service Unit Points
             // No data to test
         }
@@ -304,9 +305,9 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             string[] actionEnabled = { CommonConstants.ActionMenuSU[1] };
             serviceDataManagementPage
                 .RightClickOnFirstCellWithServiceUnit()
-                //.VerifyActionMenuDisplayWithServiceUnit()
-                .VerifyActionInActionMenuDisabled(actionNotAvailable);
-            //.VerifyActionInActionMenuEnabled(actionEnabled);
+                .VerifyActionMenuDisplayWithServiceUnit()
+                .VerifyActionInActionMenuDisabled(actionNotAvailable)
+                .VerifyActionInActionMenuEnabled(actionEnabled);
             //Step 1: Line 13: Right-click on any of the cells with Service Unit containing icon of Service Unit with multiple Service Unit Points
             // No data to test
         }
@@ -1277,6 +1278,14 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .DragAndDropUnAllocatedRoundToGridTask(dayName, roundName)
                 .SendKeyInDescInputToSearch(descRedRow)
                 .VerifyNoDisplayTaskAfterFilter(descRedRow);
+        }
+
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "Verify that is possible to apply for combination of MULTIPLE Actions ")]
+        public void TC_132_Test_16_Verify_that_is_possible_to_apply_for_combination_of_MULTIPLE_actions()
+        {
+
         }
 
     }

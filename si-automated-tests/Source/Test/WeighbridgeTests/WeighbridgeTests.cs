@@ -468,7 +468,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //.VerifyDisplaySuccessfullyMessage()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
-                .VerifyDisplayGreenBoderInLicenceNumberExField()
+                .ClickSaveBtn();
+            detailPartyPage
+                //.VerifyDisplayGreenBoderInLicenceNumberExField()
                 .VerifyDisplayYellowMesInLicenceNumberExField()
                 .InputLienceNumberExField(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .ClickSaveBtn()

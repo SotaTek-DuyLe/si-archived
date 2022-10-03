@@ -146,6 +146,10 @@ namespace si_automated_tests.Source.Test.OrphanCreditLineTests
                 .ClickOnYesOnWarningPopupBtn()
                 .SwitchToChildWindow(1)
                 .SwitchNewIFrame();
+
+            PageFactoryManager.Get<SalesInvoiceBatchesPage>()
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SalesInvoiceBatchesPage>()
                 .VerifyStatusOfFirstRecord(status)
                 //Line 9: Double click on the row
