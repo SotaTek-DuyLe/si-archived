@@ -210,11 +210,10 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 
         //HISTORY TAB
         private readonly By historyTab = By.CssSelector("a[aria-controls='history-tab']");
-        private readonly By typeInFirstHistoryRow = By.XPath("//div[@id='history-tab']//div[@class='grid-canvas']/div[1]//div[contains(@class, 'l0')]");
-        private readonly By actionNameInFirstHistoryRow = By.XPath("//div[@id='history-tab']//div[@class='grid-canvas']/div[1]//div[contains(@class, 'l1')]");
-        private readonly By detailInFirstHistoryRow = By.XPath("//div[@id='history-tab']//div[@class='grid-canvas']/div[1]//button");
-        private readonly By createdByUserInFirstHistoryRow = By.XPath("//div[@id='history-tab']//div[@class='grid-canvas']/div[1]//div[contains(@class, 'l6')]");
-        
+        private readonly By updatedByUser = By.XPath("(//strong[text()='Update']/parent::div/following-sibling::div/strong[1])[1]");
+        private readonly By updatedTime = By.XPath("//strong[text()='Update']/parent::div/following-sibling::div/strong[2]");
+        private readonly By contentUpdated = By.XPath("(//strong[text()='Update']/following-sibling::div)[1]");
+
         [AllureStep]
         public RoundInstanceForm ClickOnHistoryTab()
         {
@@ -222,13 +221,23 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             WaitForLoadingIconToDisappear();
             return this;
         }
+
+
         [AllureStep]
-        public RoundInstanceForm VerifyFirstHistoryRow(string typeExp, string actionNameExp, string detailValueExp, string createdByUserExp) 
+        public RoundInstanceForm VerifyFirstHistoryRow(string notesValueExp, string updatedByUserExp)
         {
-            Assert.AreEqual(typeExp, GetElementText(typeInFirstHistoryRow));
-            Assert.AreEqual(actionNameExp, GetElementText(actionNameInFirstHistoryRow));
-            Assert.IsTrue(GetElementText(detailInFirstHistoryRow).Trim().Contains(detailValueExp));
-            Assert.AreEqual(createdByUserExp, GetElementText(createdByUserInFirstHistoryRow));
+            Assert.AreEqual(notesValueExp, GetElementText(contentUpdated));
+            Assert.AreEqual(updatedByUserExp, GetElementText(updatedByUser));
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceForm VerifyFirstHistoryRow(string[] valueUpdated, string[] labels, string updatedByUserExp)
+        {
+            string[] valueNoteActual = GetElementText(contentUpdated).Split(Environment.NewLine);
+
+            Assert.AreEqual(labels[0]+ ": " + valueUpdated[0] + ".", valueNoteActual[0]);
+            Assert.AreEqual(updatedByUserExp, GetElementText(updatedByUser));
             return this;
         }
 

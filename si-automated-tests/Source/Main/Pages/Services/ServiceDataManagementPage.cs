@@ -37,6 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By firstRedRow = By.XPath("(//table[@id='description-table']//td[contains(@class, 'no-service-definition')])[1]");
         private readonly By secondRedRow = By.XPath("(//table[@id='description-table']//td[contains(@class, 'no-service-definition')])[2]");
         private readonly By referenceIdInput = By.XPath("//div[@id='point-grid']//div[contains(@class, 'l1')]//input");
+        private readonly By totalRecord = By.XPath("//span[contains(text(),'Total =')]");
 
         //WARINING POPUP
         private readonly By warningTitle = By.XPath("//h4[text()='Warning']");
@@ -344,6 +345,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceDataManagementPage RightClickOnMultipleRowWithoutServiceTaskSchedule()
         {
             RightClickOnElement(firstMultipleRowWithoutServiceTaskSchedule);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage ClickOnTotalRecord()
+        {
+            ClickOnElement(totalRecord);
             return this;
         }
 

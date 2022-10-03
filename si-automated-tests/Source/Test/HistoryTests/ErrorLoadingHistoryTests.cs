@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -59,7 +58,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
                 .ClickOnHistoryTab()
                 .VerifyToastMessagesIsUnDisplayed();
             roundInstanceForm
-                .VerifyFirstHistoryRow("RoundInstance", "Update", "Notes: " + note + ".", AutoUser47.DisplayName);
+                .VerifyFirstHistoryRow("Notes: " + note + ".", AutoUser47.DisplayName);
             //Click on [Events] tab
             roundInstanceForm
                 .ClickOnEventsTab()
@@ -93,8 +92,10 @@ namespace si_automated_tests.Source.Test.HistoryTests
                 .VerifyToastMessagesIsUnDisplayed()
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
+            string[] labelInHistoryTab = { "State"};
+            string[] valueUpdated = { "Complete" };
             roundInstanceForm
-                .VerifyFirstHistoryRow("RoundInstance", "Update", "State: Complete.", AutoUser47.DisplayName)
+                .VerifyFirstHistoryRow(valueUpdated, labelInHistoryTab, AutoUser47.DisplayName)
                 .CloseCurrentWindow()
                 .SwitchToChildWindow(1)
                 .SwitchNewIFrame()
@@ -201,7 +202,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
                 .VerifyTaskDisplayedInGrid()
                 .SendKeyInId(listTasks[1].id)
                 .VerifyTaskDisplayedInGrid()
-                .VerifyThirdTaskNameDisplayed(firstRoundGroupUnAllocated + " " + firstRoundNameUnAllocated + " - " + timeNow)
+                //.VerifyThirdTaskNameDisplayed(firstRoundGroupUnAllocated + " " + firstRoundNameUnAllocated + " - " + timeNow)
                 //Line 13: Close Task allocation form
                 .CloseCurrentWindow()
                 .SwitchToChildWindow(2)
