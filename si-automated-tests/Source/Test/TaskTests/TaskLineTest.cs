@@ -177,7 +177,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             agreementTaskDetailPage.VerifyHeaderColumn()
                 .ClickCloseBtn()
                 .SwitchToFirstWindow();
-            //Verify whether None of the tasklines updated and taskstate set to Completed - all tasklines get tasklinestate Completed of the same coretaskstate and actual and product qty updated to the 
+            //Verify whether None of the tasklines updated and taskstate set to Completed -all tasklines get tasklinestate Completed of the same coretaskstate and actual and product qty updated to the
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=TaskType&ObjectID=4");
             //Login
@@ -190,11 +190,11 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
-                .FilterByTaskId("15025")
+                .FilterByTaskId("17182")
                 .ClickOnFirstRecord()
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
@@ -223,26 +223,24 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
-                .FilterByTaskId("1990")
+                .FilterByTaskId("399")
                 .ClickOnFirstRecord()
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.SelectTextFromDropDown(detailTaskPage.taskStateDd, "Unallocated");
-            string completeDate = detailTaskPage.GetInputValue(detailTaskPage.completionDateInput);
-            DateTime completeDateTime = CommonUtil.StringToDateTime(completeDate, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
-            detailTaskPage.SendKeys(detailTaskPage.endDateInput, completeDateTime.AddDays(10).ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT));
+            detailTaskPage.SendKeys(detailTaskPage.endDateInput, DateTime.Now.AddDays(10).ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT));
             detailTaskPage.ClickSaveBtn()
                 .VerifyToastMessage("Success")
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnTaskLineTab()
                 .WaitForLoadingIconToDisappear();
-            detailTaskPage.VerifyTaskLineState("Not Completed")
+            detailTaskPage.VerifyTaskLineState("Pending")
                 .ClickCloseBtn()
                 .SwitchToFirstWindow();
 
@@ -295,11 +293,11 @@ namespace si_automated_tests.Source.Test.TaskTests
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
-                .FilterByTaskId("16383")
+                .FilterByTaskId("17212")
                 .ClickCheckboxFirstTaskInList()
                 .ClickOnBulkUpdateBtn()
                 .SwitchToLastWindow()
@@ -323,7 +321,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnTaskLineTab()
                 .WaitForLoadingIconToDisappear();
-            detailTaskPage.VerifyTaskLineState("Not Completed")
+            detailTaskPage.VerifyTaskLineState("Pending")
                 .ClickCloseBtn()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
@@ -341,6 +339,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             TaskConfirmationPage taskConfirmationPage = PageFactoryManager.Get<TaskConfirmationPage>();
             taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, Contract.RMC);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ServiceInput);
+            Thread.Sleep(1000);
             taskConfirmationPage.ExpandRoundNode(Contract.RMC)
                 .ExpandRoundNode("Collections")
                 .ExpandRoundNode("Commercial Collections")
@@ -382,8 +381,10 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
                 .SwitchNewIFrame();
+            taskConfirmationPage = PageFactoryManager.Get<TaskConfirmationPage>();
             taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, Contract.RMC);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ServiceInput);
+            Thread.Sleep(1000);
             taskConfirmationPage.ExpandRoundNode(Contract.RMC)
                 .ExpandRoundNode("Collections")
                 .ExpandRoundNode("Commercial Collections")
@@ -426,6 +427,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             resourceAllocationPage.SelectContract(Contract.RMC);
             resourceAllocationPage.SelectShift("AM");
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
+            Thread.Sleep(1000);
             resourceAllocationPage.ExpandRoundNode(Contract.RMC)
                 .ExpandRoundNode("Collections")
                 .SelectRoundNode("Collections - Recycling")
@@ -468,9 +470,11 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickMainOption(MainOption.Resources)
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
+            resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
             resourceAllocationPage.SelectContract(Contract.RMC);
             resourceAllocationPage.SelectShift("AM");
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
+            Thread.Sleep(1000);
             resourceAllocationPage.ExpandRoundNode(Contract.RMC)
                 .ExpandRoundNode("Collections")
                 .SelectRoundNode("Collections - Recycling")
