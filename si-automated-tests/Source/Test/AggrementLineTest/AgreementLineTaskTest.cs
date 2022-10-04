@@ -455,7 +455,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             assetAndProductTab.EditAssetQuantity(3)
                 .ClickOnElement(assetAndProductTab.numberOfAssetOnSite);
             assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
-            assetAndProductTab.VerifyDeliveryDate("26/04/2022")
+            string dueDate = "26/04/2022";
+            assetAndProductTab.VerifyDeliveryDate(dueDate)
                 .EditAssertClickDoneBtn()
                 .ClickNext()
                 .WaitForLoadingIconToDisappear();
@@ -495,7 +496,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             taskTab.SendKeys(taskTab.TaskTypeSearch, "Deliver Commercial Bin");
             taskTab.ClickOnElement(taskTab.ApplyBtn);
             taskTab.VerifyTaskDataType("Deliver Commercial Bin");
-            taskTab.VerifyTaskDueDate("26/04/2022 00:00");
+            taskTab.VerifyTaskDueDate(dueDate + " 00:00");
 
             // Đang có bug ở đây, due date vẫn là 26/04/2022
             partyAgreementPage.ClickOnDetailsTab()
@@ -512,7 +513,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .EditAssetQuantity(4)
                 .ClickAssetType();
             assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
-            assetAndProductTab.VerifyDeliveryDate("26/04/2022")
+            assetAndProductTab.VerifyDeliveryDate("12/10/2022")
                 .EditAssertClickDoneBtn()
                 .ClickNext()
                 .WaitForLoadingIconToDisappear();
@@ -543,7 +544,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             taskTab.SendKeys(taskTab.TaskTypeSearch, "Deliver Commercial Bin");
             taskTab.ClickOnElement(taskTab.ApplyBtn);
             taskTab.VerifyTaskDataType("Deliver Commercial Bin");
-            taskTab.VerifyTaskDueDate("26/04/2022 00:00");
+            taskTab.VerifyTaskDueDate("12/10/2022 00:00");
         }
 
         [Category("AgreementTask")]
