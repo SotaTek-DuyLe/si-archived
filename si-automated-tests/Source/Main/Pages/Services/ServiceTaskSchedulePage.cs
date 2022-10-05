@@ -1,6 +1,8 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
@@ -16,6 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By serviceTaskLink = By.XPath("//span[text()='Service Task Schedule']/following-sibling::span");
         private readonly By roundDd = By.XPath("//div[@id='div-round']//label[contains(string(), 'Round')]/following-sibling::echo-select/select");
 
+        [AllureStep]
         public ServiceTaskSchedulePage IsServiceTaskSchedule()
         {
             WaitUtil.WaitForElementVisible(title);
@@ -24,6 +27,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public ServicesTaskPage ClickOnServiceTaskLink()
         {
             ClickOnElement(serviceTaskLink);
@@ -33,6 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         //DETAIL TAB
         private readonly By detailTab = By.CssSelector("a[aria-controls=details-tab]");
 
+        [AllureStep]
         public ServiceTaskSchedulePage ClickOnDetailTab()
         {
             ClickOnElement(detailTab);
@@ -40,9 +45,18 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
         public string GetRoundNameDisplayed()
         {
             return GetFirstSelectedItemInDropdown(roundDd);
+        }
+
+        [AllureStep]
+        public ServiceTaskSchedulePage VerifyStartDateAndEndDate()
+        {
+            Assert.AreEqual(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), GetAttributeValue(StartDateInput, "value"));
+            Assert.AreEqual("01/01/2050", GetAttributeValue(EndDateInput, "value"));
+            return this;
         }
 
 

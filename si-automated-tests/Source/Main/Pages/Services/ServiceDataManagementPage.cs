@@ -123,7 +123,6 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceDataManagementPage ClickOnServicesAndSelectGroupInTree(string contract, string serviceGroupName, string childServiceGroup)
         {
             ClickOnElement(inputServicesTree);
-            ClickOnElement(expandServiceGroup, contract);
             ClickOnElement(expandServiceGroup, serviceGroupName);
             ClickOnElement(anyServicesGroupByContract, childServiceGroup);
             return this;
@@ -470,13 +469,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         //Step and locator for TC-132/step 16
         private readonly By firstRowNotContaintServiceUnitStep16 = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint') and not(span)])[1]");
         private readonly By secondRowNotConstaintServiceUnitStep16 = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint') and not(span)])[2]");
-        private readonly By thirdRowWithServiceTaskScheduleAndNotAllocated = By.XPath("(//img[@data-bind='visible: serviceTask.isAssured' and contains(@style, 'display: none;')]/parent::span)[3]");
-        private readonly By forthRowWithServiceTaskScheduleAndNotAllocated = By.XPath("(//img[@data-bind='visible: serviceTask.isAssured' and contains(@style, 'display: none;')]/parent::span)[4]");
-        private readonly By fifthRowWithServiceTaskScheduleAndNotAllocated = By.XPath("(//img[@data-bind='visible: serviceTask.isAssured' and contains(@style, 'display: none;')]/parent::span)[5]");
         //DYNAMIC
         private readonly string firstCellWithServiceTaskScheduleByRoundName = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]";
         private readonly string secondCellWithServiceTaskScheduleByRoundName = "//tbody[contains(@class, 'ui-droppable')]/tr[2]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]";
-        private readonly string thirdCellWithServiceTaskScheduleByRoundName = "//tbody[contains(@class, 'ui-droppable')]/tr[2]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]";
+        private readonly string thirdCellWithServiceTaskScheduleByRoundName = "//tbody[contains(@class, 'ui-droppable')]/tr[3]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]";
 
         [AllureStep]
         public ServiceDataManagementPage SelectMultipleCellWithServiceTaskSchedule(string roundName)
@@ -526,5 +522,41 @@ namespace si_automated_tests.Source.Main.Pages.Services
             RightClickOnElement(string.Format(firstCellWithServiceTaskScheduleByRoundName, roundName));
             return this;
         }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnFirstServiceTasSchedule(string roundName)
+        {
+            DoubleClickOnElement(secondCellWithServiceTaskScheduleByRoundName, roundName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnSecondServiceTasSchedule(string roundName)
+        {
+            DoubleClickOnElement(thirdCellWithServiceTaskScheduleByRoundName, roundName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnSetAssuredCell16(string roundName)
+        {
+            DoubleClickOnElement(firstCellWithServiceTaskScheduleByRoundName, roundName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnSetProximityAlert16(string roundName)
+        {
+            DoubleClickOnElement(secondCellWithServiceTaskScheduleByRoundName, roundName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnAddAmendCrewNoteAndSetAssured16(string roundName)
+        {
+            DoubleClickOnElement(firstCellWithServiceTaskScheduleByRoundName, roundName);
+            return this;
+        }
+
     }
 }

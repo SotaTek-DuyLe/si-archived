@@ -1327,6 +1327,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             string roundNameRetired = "WDREC1:Thursday";
             string roundNameSetAssuredAndProximity = "WDREF1:Thursday";
             string roundNameCrewNotes = "CLINICAL1:Monday";
+            string tomorrowDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
 
             //MULTIPLE [Retire]
             serviceDataManagementPage
@@ -1338,10 +1339,10 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 //[Add Service Task] for multiple cell
                 .SelectMultipleCellWithNoServiceTaskSchedule()
                 .RightClickOnMultipleCellWithMoServiceTaskSchedule()
-                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[1])
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[0])
                 //[Set Assured] for one cell with service task schedule
                 .RightClickOnThirdCellWithServiceTaskSchedule(roundNameSetAssuredAndProximity)
-                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[2])
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[1])
                 .VerifySetAssuredAfterClick()
                 .InputDateInSetEndDate(datePlus10Days)
                 .ClickOnTotalRecord()
@@ -1352,8 +1353,8 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .RightClickOnFifthCellWithServiceTaskSchedule(roundNameCrewNotes)
                 .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[3])
                 .InputAddAmendCrewNotes(noteValue)
-                .InputDateInSetEndDate(datePlus10Days)
                 .ClickOnSaveBtn()
+                .InputDateInSetEndDate(datePlus10Days)
                 //Click on [Apply] btn
                 .ClickOnApplyAtBottomBtn()
                 .AcceptAlert()
@@ -1365,6 +1366,77 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 //Column retired
                 .VerifyWhiteColourAppearInCellNoSTSPresent(roundNameRetired)
                 .VerifyWhiteColourAppearInSecondCellNoSTSPresent(roundNameRetired)
+                //Column [Add Service Task]
+                .DoubleClickOnFirstServiceTasSchedule(roundNameCrewNotes)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsServiceTaskSchedule()
+                .VerifyStartDateAndEndDate()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            serviceDataManagementPage
+                .DoubleClickOnSecondServiceTasSchedule(roundNameCrewNotes)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsServiceTaskSchedule()
+                .VerifyStartDateAndEndDate()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            //Column [Set assured]
+            serviceDataManagementPage
+                .DoubleClickOnSetAssuredCell16(roundNameSetAssuredAndProximity)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsServiceTaskSchedule()
+                .ClickOnServiceTaskLink()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .ClickOnDetailTab()
+                .VerifyAssuredTaskChecked()
+                .VerifyAsseredFromAndAssuredUntil(tomorrowDate, datePlus10Days)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            //Column [Set Proximity Alert]
+            serviceDataManagementPage
+                .DoubleClickOnSetProximityAlert16(roundNameSetAssuredAndProximity)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsServiceTaskSchedule()
+                .ClickOnServiceTaskLink()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .ClickOnDetailTab()
+                .VerifyProximityAlertChecked()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            //Column [Add/Amend Crew Notes]
+            serviceDataManagementPage
+                .DoubleClickOnAddAmendCrewNoteAndSetAssured16(roundNameCrewNotes)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsServiceTaskSchedule()
+                .ClickOnServiceTaskLink()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .ClickOnDetailTab()
+                .VerifyAssuredTaskChecked()
+                .VerifyAsseredFromAndAssuredUntil(tomorrowDate, datePlus10Days)
+                .VerifyNoteValueInTaskNotes(noteValue);
 
         }
 
