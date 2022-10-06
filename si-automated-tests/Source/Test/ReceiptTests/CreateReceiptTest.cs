@@ -81,7 +81,7 @@ namespace si_automated_tests.Source.Test.ReceiptTests
                 .VerifyToastMessage("No data available for the selected type.");
             Thread.Sleep(300);
             PageFactoryManager.Get<SalesReceiptLinesPage>()
-                .InputInvoice("1")
+                .InputInvoice("2")
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SalesReceiptLinesPage>()
                 .NetPriceHasValue()
@@ -98,7 +98,7 @@ namespace si_automated_tests.Source.Test.ReceiptTests
             Thread.Sleep(2000);
             PageFactoryManager.Get<SalesReceiptLinesPage>()
                 .ClickOnSaveBtn()
-                .VerifyToastMessage("Sales receipt line can only be created against a posted invoice.");
+                .VerifyToastMessage("Sales receipt line cannot be overpaid. Please enter valid value.");
             PageFactoryManager.Get<SalesReceiptLinesPage>()
                 .SwitchToFirstWindow();
             PageFactoryManager.Get<NavigationBase>()
