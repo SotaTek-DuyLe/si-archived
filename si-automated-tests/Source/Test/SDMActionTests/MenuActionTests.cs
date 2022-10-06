@@ -1285,6 +1285,162 @@ namespace si_automated_tests.Source.Test.SDMActionTests
         [Test(Description = "Verify that is possible to apply for combination of MULTIPLE Actions ")]
         public void TC_132_Test_16_Verify_that_is_possible_to_apply_for_combination_of_MULTIPLE_actions()
         {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.RM, "Waste", "Domestic Refuse")
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .SelectCheckboxByReferenceId("63074")
+                .SelectCheckboxByReferenceId("63075")
+                .SelectCheckboxByReferenceId("63076")
+                .SelectCheckboxByReferenceId("63077")
+                .SelectCheckboxByReferenceId("63078")
+                .SelectCheckboxByReferenceId("63080")
+                .SelectCheckboxByReferenceId("63081")
+                .SelectCheckboxByReferenceId("63082")
+                .SelectCheckboxByReferenceId("63083")
+                .SelectCheckboxByReferenceId("63084")
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            string datePlus10Days = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+            string noteValue = "Note value " + CommonUtil.GetRandomString(5);
+            string roundNameRetired = "WDREC1:Thursday";
+            string roundNameSetAssuredAndProximity = "WDREF1:Thursday";
+            string roundNameCrewNotes = "CLINICAL1:Monday";
+            string tomorrowDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
+
+            //MULTIPLE [Retire]
+            serviceDataManagementPage
+                //Retire multiple cell with service task schedule
+                .SelectMultipleCellWithServiceTaskSchedule(roundNameRetired)
+                .RightClickOnMultipleRowWithServiceTaskSchedule(roundNameRetired)
+                .VerifyActionMenuDisplayedWithActions()
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[4])
+                //[Add Service Task] for multiple cell
+                .SelectMultipleCellWithNoServiceTaskSchedule()
+                .RightClickOnMultipleCellWithMoServiceTaskSchedule()
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[0])
+                //[Set Assured] for one cell with service task schedule
+                .RightClickOnThirdCellWithServiceTaskSchedule(roundNameSetAssuredAndProximity)
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[1])
+                .VerifySetAssuredAfterClick()
+                .InputDateInSetEndDate(datePlus10Days)
+                .ClickOnTotalRecord()
+                //[Set Proximity Alert] for one cell with service task schedule
+                .RightClickOnForthCellWithServiceTaskSchedule(roundNameSetAssuredAndProximity)
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[2])
+                //[Add/Amend Crew Notes] for one cell with service task schedule
+                .RightClickOnFifthCellWithServiceTaskSchedule(roundNameCrewNotes)
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[3])
+                .InputAddAmendCrewNotes(noteValue)
+                .ClickOnSaveBtn()
+                .InputDateInSetEndDate(datePlus10Days)
+                //Click on [Apply] btn
+                .ClickOnApplyAtBottomBtn()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Verify each column
+            serviceDataManagementPage
+                //Column retired
+                .VerifyWhiteColourAppearInCellNoSTSPresent(roundNameRetired)
+                .VerifyWhiteColourAppearInSecondCellNoSTSPresent(roundNameRetired)
+                //Column [Add Service Task]
+                .DoubleClickOnFirstServiceTasSchedule(roundNameCrewNotes)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsServiceTaskSchedule()
+                .VerifyStartDateAndEndDate()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+            serviceDataManagementPage
+                .DoubleClickOnSecondServiceTasSchedule(roundNameCrewNotes)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsServiceTaskSchedule()
+                .VerifyStartDateAndEndDate()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+            //Column [Set assured]
+            serviceDataManagementPage
+                .DoubleClickOnSetAssuredCell16(roundNameSetAssuredAndProximity)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsServiceTaskSchedule()
+                .ClickOnServiceTaskLink()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .ClickOnDetailTab()
+                .VerifyAssuredTaskChecked()
+                .VerifyAsseredFromAndAssuredUntil(tomorrowDate, datePlus10Days)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+            //Column [Set Proximity Alert]
+            serviceDataManagementPage
+                .DoubleClickOnSetProximityAlert16(roundNameSetAssuredAndProximity)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsServiceTaskSchedule()
+                .ClickOnServiceTaskLink()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .ClickOnDetailTab()
+                .VerifyProximityAlertChecked()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+            //Column [Add/Amend Crew Notes]
+            serviceDataManagementPage
+                .DoubleClickOnAddAmendCrewNoteAndSetAssured16(roundNameCrewNotes)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsServiceTaskSchedule()
+                .ClickOnServiceTaskLink()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .ClickOnDetailTab()
+                .VerifyAssuredTaskChecked()
+                .VerifyAsseredFromAndAssuredUntil(tomorrowDate, datePlus10Days)
+                .VerifyNoteValueInTaskNotes(noteValue);
 
         }
 

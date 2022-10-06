@@ -38,6 +38,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By secondRedRow = By.XPath("(//table[@id='description-table']//td[contains(@class, 'no-service-definition')])[2]");
         private readonly By referenceIdInput = By.XPath("//div[@id='point-grid']//div[contains(@class, 'l1')]//input");
         private readonly By totalRecord = By.XPath("//span[contains(text(),'Total =')]");
+        
 
         //WARINING POPUP
         private readonly By warningTitle = By.XPath("//h4[text()='Warning']");
@@ -50,10 +51,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string serviceTypeOption = "//select[@id='type']/option[text()='{0}']";
         private readonly string actionOption = "//div[@class='action-container']/button[text()='{0}']";
         private readonly string anyServicesGroupByContract = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/i[1]";
+        private readonly string expandServiceGroup = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/preceding-sibling::i";
         private readonly string firstLocatorWithDescRedRow = "(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]/td[contains(@data-bind, 'retiredPoint')]/span/parent::td)[1]";
         private readonly string roundDate = "//table[@id='master-table']//tr[contains(@class, 'round-row')]/td[count(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//span/parent::td[contains(@data-bind, 'retiredPoint')]/preceding-sibling::td) + 1]";
         private readonly string columnRoundByRoundName = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]";
-        private readonly string columnRoundByRoundNameContantSTS = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]/span";
+        private readonly string firstColumnRoundByRoundNameContantSTS = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]/span";
+        private readonly string secondColumnRoundByRoundNameContantSTS = "//tbody[contains(@class, 'ui-droppable')]/tr[2]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]/span";
         private readonly string checkboxByRefId = "//div[text()='{0}']/preceding-sibling::div/input";
 
         [AllureStep]
@@ -114,6 +117,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             ClickOnElement(inputServicesTree);
             ClickOnElement(anyServicesGroupByContract, serviceGroupName);
+            return this;
+        }
+        [AllureStep]
+        public ServiceDataManagementPage ClickOnServicesAndSelectGroupInTree(string contract, string serviceGroupName, string childServiceGroup)
+        {
+            ClickOnElement(inputServicesTree);
+            ClickOnElement(expandServiceGroup, serviceGroupName);
+            ClickOnElement(anyServicesGroupByContract, childServiceGroup);
             return this;
         }
         [AllureStep]
@@ -444,8 +455,108 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceDataManagementPage VerifyWhiteColourAppearInCellNoSTSPresent(string roundNameValue)
         {
-            Assert.IsTrue(IsControlUnDisplayed(columnRoundByRoundNameContantSTS, roundNameValue));
+            Assert.IsTrue(IsControlUnDisplayed(firstColumnRoundByRoundNameContantSTS, roundNameValue));
             return this;
         }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyWhiteColourAppearInSecondCellNoSTSPresent(string roundNameValue)
+        {
+            Assert.IsTrue(IsControlUnDisplayed(secondColumnRoundByRoundNameContantSTS, roundNameValue));
+            return this;
+        }
+
+        //Step and locator for TC-132/step 16
+        private readonly By firstRowNotContaintServiceUnitStep16 = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint') and not(span)])[1]");
+        private readonly By secondRowNotConstaintServiceUnitStep16 = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint') and not(span)])[2]");
+        //DYNAMIC
+        private readonly string firstCellWithServiceTaskScheduleByRoundName = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]";
+        private readonly string secondCellWithServiceTaskScheduleByRoundName = "//tbody[contains(@class, 'ui-droppable')]/tr[2]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]";
+        private readonly string thirdCellWithServiceTaskScheduleByRoundName = "//tbody[contains(@class, 'ui-droppable')]/tr[3]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]";
+
+        [AllureStep]
+        public ServiceDataManagementPage SelectMultipleCellWithServiceTaskSchedule(string roundName)
+        {
+            HoldKeyDownWhileClickOnElement(new List<string> { string.Format(firstCellWithServiceTaskScheduleByRoundName, roundName), string.Format(secondCellWithServiceTaskScheduleByRoundName, roundName) });
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnMultipleRowWithServiceTaskSchedule(string roundName)
+        {
+            RightClickOnElement(string.Format(firstCellWithServiceTaskScheduleByRoundName, roundName));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage SelectMultipleCellWithNoServiceTaskSchedule()
+        {
+            HoldKeyDownWhileClickOnElement(new List<By> { firstRowNotContaintServiceUnitStep16, secondRowNotConstaintServiceUnitStep16 });
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnMultipleCellWithMoServiceTaskSchedule()
+        {
+            RightClickOnElement(secondRowNotConstaintServiceUnitStep16);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnThirdCellWithServiceTaskSchedule(string roundName)
+        {
+            RightClickOnElement(string.Format(firstCellWithServiceTaskScheduleByRoundName, roundName));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnForthCellWithServiceTaskSchedule(string roundName)
+        {
+            RightClickOnElement(string.Format(secondCellWithServiceTaskScheduleByRoundName, roundName));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnFifthCellWithServiceTaskSchedule(string roundName)
+        {
+            RightClickOnElement(string.Format(firstCellWithServiceTaskScheduleByRoundName, roundName));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnFirstServiceTasSchedule(string roundName)
+        {
+            DoubleClickOnElement(secondCellWithServiceTaskScheduleByRoundName, roundName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnSecondServiceTasSchedule(string roundName)
+        {
+            DoubleClickOnElement(thirdCellWithServiceTaskScheduleByRoundName, roundName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnSetAssuredCell16(string roundName)
+        {
+            DoubleClickOnElement(firstCellWithServiceTaskScheduleByRoundName, roundName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnSetProximityAlert16(string roundName)
+        {
+            DoubleClickOnElement(secondCellWithServiceTaskScheduleByRoundName, roundName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnAddAmendCrewNoteAndSetAssured16(string roundName)
+        {
+            DoubleClickOnElement(firstCellWithServiceTaskScheduleByRoundName, roundName);
+            return this;
+        }
+
     }
 }
