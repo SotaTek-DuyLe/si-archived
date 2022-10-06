@@ -67,10 +67,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
             return suspensions;
         }
         [AllureStep]
-        public PartySuspensionPage DoubleClickNewSuspension()
+        public PartySuspensionPage ClickNewSuspension()
         {
-            IWebElement cells = GetAllElements(suspensionCells).LastOrDefault();
-            DoubleClickOnElement(cells);
+            SuspensionTableEle.ClickRow(0);
             return this;
         }
     }
