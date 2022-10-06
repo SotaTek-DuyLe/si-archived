@@ -505,5 +505,41 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.VerifyTaskLineState("Not Completed");
         }
+
+        [Category("TaskLine")]
+        [Test(Description = "Verify that it is possible to set  tasks where Task Line State Resolution Code is not configured")]
+        public void TC_165_Task_Line_State_Resolution_Code()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                 .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser56.UserName, AutoUser56.Password)
+                .IsOnHomePage(AutoUser56);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.RMC)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TasksListingPage>()
+                .WaitForTaskListinPageDisplayed()
+                .FilterByTaskId("11396")
+                .ClickOnFirstRecord()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
+            detailTaskPage.ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            detailTaskPage.SelectTextFromDropDown(detailTaskPage.taskStateDd, "Cancelled")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            detailTaskPage.ClickOnTaskLineTab()
+                .WaitForLoadingIconToDisappear();
+            detailTaskPage.VerifyTaskLineState("Cancelled")
+                .ClickCloseBtn()
+                .SwitchToFirstWindow();
+        }
     }
 }
