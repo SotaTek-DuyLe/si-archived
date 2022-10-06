@@ -134,7 +134,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsEmpty(GetElement(sortOrderInput).GetAttribute("value"));
             Assert.IsEmpty(GetFirstSelectedItemInDropdown(dispatchSiteSelect));
             Assert.IsTrue(GetFirstSelectedItemInDropdown(generationOfRoundInstanceSelect) == "Default");
-            Assert.IsTrue(GetFirstSelectedItemInDropdown(defaultWorkSheetSelect) == "Crew Worksheet");
+            Assert.IsTrue(GetFirstSelectedItemInDropdown(defaultWorkSheetSelect) == "Round Map (Round Legs)");
             Assert.IsTrue(GetFirstSelectedItemInDropdown(recordWorkingTimeSelect) == "Default");
             return this;
         }
