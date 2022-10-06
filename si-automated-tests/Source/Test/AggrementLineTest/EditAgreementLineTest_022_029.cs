@@ -156,6 +156,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
+                .ExpandAgreementLine()
+                .ExpandAllAgreementFields()
                 .VerifyTaskLineTypeStartDates(todayDate)
                 .VerifyAssetAndProductAssetTypeStartDate(todayDate)
                 .VerifyRegularAssetTypeStartDate(todayDate)

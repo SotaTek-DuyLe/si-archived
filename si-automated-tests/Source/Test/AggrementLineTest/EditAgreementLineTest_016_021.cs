@@ -265,7 +265,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab()
-               .RemoveAllRedundantPrice17()
+               .RemoveAllRedundantPrices()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
