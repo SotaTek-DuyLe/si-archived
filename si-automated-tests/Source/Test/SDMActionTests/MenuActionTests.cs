@@ -1374,7 +1374,8 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsServiceTaskSchedule()
                 .VerifyStartDateAndEndDate()
                 .ClickCloseBtn()
-                .SwitchToChildWindow(1);
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
             serviceDataManagementPage
                 .DoubleClickOnSecondServiceTasSchedule(roundNameCrewNotes)
                 .SwitchToChildWindow(2)
@@ -1383,7 +1384,8 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .IsServiceTaskSchedule()
                 .VerifyStartDateAndEndDate()
                 .ClickCloseBtn()
-                .SwitchToChildWindow(1);
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
             //Column [Set assured]
             serviceDataManagementPage
                 .DoubleClickOnSetAssuredCell16(roundNameSetAssuredAndProximity)
@@ -1402,7 +1404,8 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2)
                 .ClickCloseBtn()
-                .SwitchToChildWindow(1);
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
             //Column [Set Proximity Alert]
             serviceDataManagementPage
                 .DoubleClickOnSetProximityAlert16(roundNameSetAssuredAndProximity)
@@ -1420,7 +1423,8 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2)
                 .ClickCloseBtn()
-                .SwitchToChildWindow(1);
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
             //Column [Add/Amend Crew Notes]
             serviceDataManagementPage
                 .DoubleClickOnAddAmendCrewNoteAndSetAssured16(roundNameCrewNotes)

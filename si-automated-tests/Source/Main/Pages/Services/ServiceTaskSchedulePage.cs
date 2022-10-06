@@ -54,7 +54,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceTaskSchedulePage VerifyStartDateAndEndDate()
         {
-            Assert.AreEqual(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), GetAttributeValue(StartDateInput, "value"));
+            Assert.AreEqual(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), GetAttributeValue(StartDateInput, "value"));
             Assert.AreEqual("01/01/2050", GetAttributeValue(EndDateInput, "value"));
             return this;
         }
