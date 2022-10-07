@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 
@@ -555,6 +556,23 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceDataManagementPage DoubleClickOnAddAmendCrewNoteAndSetAssured16(string roundName)
         {
             DoubleClickOnElement(firstCellWithServiceTaskScheduleByRoundName, roundName);
+            return this;
+        }
+
+        //Step and locator for Step 17
+        [AllureStep]
+        public ServiceDataManagementPage DragSUWithServiceUnitScheduleIntoAnotherSU()
+        {
+            IWebElement roundCell = GetElement(firstRoundForNextDayNotAllocated);
+            WaitUtil.WaitForElementClickable(roundCell).Click();
+            WaitForLoadingIconToDisappear();
+            roundCell = GetElement(string.Format(firstRoundGroupByRoundGroupNameUnAllocated, roundGroupName));
+            Actions a = new Actions(driver);
+            IWebElement taskGridElement = GetElement(taskGridUnAllocated);
+            a.ClickAndHold(roundCell).Perform();
+            a.MoveToElement(taskGridElement).Perform();
+            a.Release().Perform();
+            WaitForLoadingIconToDisappear();
             return this;
         }
 

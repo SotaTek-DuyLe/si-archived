@@ -59,7 +59,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .VerifyActionMenuDisplayedWithActions()
                 .VerifyActionInActionMenuDisabled(addServiceTaskScheduleAction);
             //Step 2: Line 9: Right-click on any of the cells with no ServiceTask Schedule
-            string[] otherAction = { CommonConstants.ActionMenuSDM[1], CommonConstants.ActionMenuSDM[2], CommonConstants.ActionMenuSDM[3], CommonConstants.ActionMenuSDM[4]};
+            string[] otherAction = { CommonConstants.ActionMenuSDM[1], CommonConstants.ActionMenuSDM[2], CommonConstants.ActionMenuSDM[3], CommonConstants.ActionMenuSDM[4] };
             serviceDataManagementPage
                 .RightClickOnFirstRowWithoutServiceTaskSchedule()
                 .VerifyActionMenuDisplayedWithActions()
@@ -172,7 +172,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .RightClickOnFirstRowWithoutServiceTaskSchedule()
                 .VerifyActionMenuDisplayedWithActions()
                 .VerifyActionInActionMenuDisabled(otherAction);
-           
+
             //Step 4: Line 11: Select MULTIPLE cells not containing Service Task Schedule
             serviceDataManagementPage
                 .RightClickOnMultipleServiceTaskScheduleSegment()
@@ -184,7 +184,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .RightClickOnFirstCellWithServiceUnit()
                 .VerifyActionMenuDisplayWithServiceUnit()
                 .VerifyActionInActionMenuDisabled(actionNotAvailable);
-                //.VerifyActionInActionMenuEnabled(actionEnabled);
+            //.VerifyActionInActionMenuEnabled(actionEnabled);
             //Step 1: Line 13: Right-click on any of the cells with Service Unit containing icon of Service Unit with multiple Service Unit Points
             string[] actionEnabled = { CommonConstants.ActionMenuSU[1] };
             serviceDataManagementPage
@@ -383,7 +383,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
             //Line 90: Right click on ONE cell with Service task schedule in column Round Schedule/Round
-            
+
             string descRedRow = serviceDataManagementPage
                 .GetFirstDescWithRedColor();
             serviceDataManagementPage
@@ -440,7 +440,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             {
                 filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 4);
             }
-            else if(today.DayOfWeek == DayOfWeek.Tuesday)
+            else if (today.DayOfWeek == DayOfWeek.Tuesday)
             {
                 filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
             }
@@ -1050,7 +1050,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .VerifyDisplayResultAfterSearchWithDesc(descRedRow)
                 .DoubleClickOnFirstRound()
                 .SwitchToChildWindow(2)
-                .WaitForLoadingIconToDisappear(); 
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundInstanceDetailPage>()
                 .ClickOnWorksheetTab()
                 .SwitchNewIFrame()
@@ -1103,7 +1103,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
         [Test(Description = "Action 'Retire Service Task Schedule' -  Service Task with MULTIPLE Service Task Schedules")]
         public void TC_132_Test_13_Action_Retire_Service_task_schedule_service_task_with_multiple_service_task_schedules()
         {
-            
+
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
@@ -1441,8 +1441,41 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .VerifyAssuredTaskChecked()
                 .VerifyAsseredFromAndAssuredUntil(tomorrowDate, datePlus10Days)
                 .VerifyNoteValueInTaskNotes(noteValue);
-
         }
 
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "Drag SU with No STS into a cell with No SU (Point B drag into Point A)")]
+        public void TC_132_Drag_SU_with_no_STS_into_a_cell_with_no_SU_point_B_drag_into_point_A()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.RMC)
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+
+            //MULTIPLE [Retire]
+            serviceDataManagementPage
+                //Retire multiple cell with service task schedule
+        }
     }
 }
