@@ -60,6 +60,40 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string secondColumnRoundByRoundNameContantSTS = "//tbody[contains(@class, 'ui-droppable')]/tr[2]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]/span";
         private readonly string checkboxByRefId = "//div[text()='{0}']/preceding-sibling::div/input";
 
+        private readonly By ServiceUnitPointC = By.XPath("((//table[@id='master-table']//tbody//tr[4])//td[@class='unit-cell'])[5]");
+        private readonly By SchedulePointC = By.XPath("((//table[@id='master-table']//tbody//tr[4])//td)[35]");
+        private readonly By ServiceUnitPointA = By.XPath("((//table[@id='master-table']//tbody//tr[5])//td[@class='unit-cell'])[5]");
+        private readonly By DescriptionPointC = By.XPath("//table[@id='description-table']//tbody//tr[4]//td[contains(@class, 'data-cell')]");
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickPointC()
+        {
+            DoubleClickOnElement(DescriptionPointC);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DragServiceUnitPointCToServicePointA()
+        {
+            IWebElement schedulePointC = GetElement(SchedulePointC);
+            var shedulePointCContentEle = schedulePointC.FindElements(By.XPath("./span[contains(@class, 'existing-schedule')]"));
+            Assert.IsTrue(shedulePointCContentEle.Count != 0);
+            DragAndDrop(ServiceUnitPointC, ServiceUnitPointA);
+            SleepTimeInMiliseconds(300);
+            schedulePointC = GetElement(SchedulePointC);
+            shedulePointCContentEle = schedulePointC.FindElements(By.XPath("./span[contains(@class, 'existing-schedule')]"));
+            Assert.IsTrue(shedulePointCContentEle.Count == 0);
+            IWebElement imgServiceUnitPointC = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[4])//td[@class='unit-cell'])[5]//img[@class='action-image'][1]"));
+            IWebElement imgMergeUnitPointC = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[4])//td[@class='unit-cell'])[5]//img[@class='action-image'][2]"));
+            Assert.IsTrue(GetAttributeValue(imgServiceUnitPointC, "src").Contains("service-unit.png"));
+            Assert.IsTrue(GetAttributeValue(imgMergeUnitPointC, "src").Contains("merged-unit.png"));
+            IWebElement imgServiceUnitPointA = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[5])//td[@class='unit-cell'])[5]//img[@class='action-image'][1]"));
+            IWebElement imgMergeUnitPointA = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[5])//td[@class='unit-cell'])[5]//img[@class='action-image'][2]"));
+            Assert.IsTrue(GetAttributeValue(imgServiceUnitPointA, "src").Contains("service-unit.png"));
+            Assert.IsTrue(GetAttributeValue(imgMergeUnitPointA, "src").Contains("merged-unit.png"));
+            return this;
+        }
+
         [AllureStep]
         public ServiceDataManagementPage IsServiceDataManagementPage()
         {
@@ -560,21 +594,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         //Step and locator for Step 17
-        [AllureStep]
-        public ServiceDataManagementPage DragSUWithServiceUnitScheduleIntoAnotherSU()
-        {
-            IWebElement roundCell = GetElement(firstRoundForNextDayNotAllocated);
-            WaitUtil.WaitForElementClickable(roundCell).Click();
-            WaitForLoadingIconToDisappear();
-            roundCell = GetElement(string.Format(firstRoundGroupByRoundGroupNameUnAllocated, roundGroupName));
-            Actions a = new Actions(driver);
-            IWebElement taskGridElement = GetElement(taskGridUnAllocated);
-            a.ClickAndHold(roundCell).Perform();
-            a.MoveToElement(taskGridElement).Perform();
-            a.Release().Perform();
-            WaitForLoadingIconToDisappear();
-            return this;
-        }
+        
 
     }
 }

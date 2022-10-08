@@ -699,5 +699,11 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             return this;
         
         }
+
+        public PointAddressDetailPage ClickServiceUnit(int index)
+        {
+            ClickOnElement(serviceUnitAtRow, index.ToString());
+            return this;
+        }
     }
 }

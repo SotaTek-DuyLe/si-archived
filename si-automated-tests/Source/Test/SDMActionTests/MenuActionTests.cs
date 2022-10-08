@@ -8,6 +8,7 @@ using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Applications;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
+using si_automated_tests.Source.Main.Pages.PointAddress;
 using si_automated_tests.Source.Main.Pages.Services;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
@@ -1473,9 +1474,71 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickOnOkBtn()
                 .WaitForLoadingIconToDisappear();
 
-            //MULTIPLE [Retire]
             serviceDataManagementPage
-                //Retire multiple cell with service task schedule
+                .ClickOnSelectAndDeselectBtn()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage.DragServiceUnitPointCToServicePointA()
+                .ClickOnApplyAtBottomBtn()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+
+            //verify database
+
+            //Double click on Point C in the grid Click on 'All Services' tab and Click on 'Edit Service Unit' button for retired Service Unit
+            serviceDataManagementPage.DoubleClickPointC()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+
+            PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
+            pointAddressDetailPage.ClickOnAllServicesTab()
+                .WaitForLoadingIconToDisappear();
+            pointAddressDetailPage.ClickServiceUnit(13)
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+
+            ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
+            serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, "01/01/2050");
+
+            //Double click on Service Task ID
+            serviceUnitDetailPage.ClickOnElement(serviceUnitDetailPage.ServiceTaskScheduleTab);
+            serviceUnitDetailPage.WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.ClickEditServiceTask(0)
+                .SwitchToChildWindow(4)
+                .WaitForLoadingIconToDisappear();
+            ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
+            servicesTaskPage.ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            servicesTaskPage.VerifyInputValue(servicesTaskPage.EndDateInput, "01/01/2050")
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+
+            //Go back to Service Unit window, Click on 'Service Unit Points' tab Double click on retired Service Unit Point ID
+            serviceUnitDetailPage.ClickOnElement(serviceUnitDetailPage.ServiceUnitPointTab);
+            serviceUnitDetailPage.WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.DoubleClickServiceUnitPoint(0)
+                .SwitchToChildWindow(4)
+                .WaitForLoadingIconToDisappear();
+
+            ServiceUnitPointDetailPage serviceUnitPointDetail = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
+            serviceUnitPointDetail.VerifyInputValue(serviceUnitPointDetail.EndDateInput, "01/01/2050")
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+
+            //Go back to 'All Services' tab and Click on 'Edit Service Unit' button for a new Service Unit
+            serviceUnitDetailPage.ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            pointAddressDetailPage.ClickOnAllServicesTab()
+                .WaitForLoadingIconToDisappear();
+            pointAddressDetailPage.ClickServiceUnit(13)
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, "01/01/2050");
         }
     }
 }
