@@ -385,8 +385,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Test]
         public void TC_137_default_allocation_test()
         {
-            string resourceName = "Neil Armstrong ";
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string vehicleResourceName = "Loader " + CommonUtil.GetRandomNumber(5);
+            string resourceName2 = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string vehicleResourceName2 = "Loader " + CommonUtil.GetRandomNumber(5);
             string resourceType = "Driver";
             string vehicleResourceType = "Loader";
             string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd", 5);
@@ -422,7 +424,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ResourceDetailTab>()
                 .IsOnDetailTab()
-                .InputResourceName(resourceName + CommonUtil.GetRandomNumber(5))
+                .InputResourceName(resourceName)
                 .SelectResourceType(resourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
@@ -436,7 +438,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ResourceDetailTab>()
                 .IsOnDetailTab()
-                .InputResourceName(vehicleResourceName + CommonUtil.GetRandomNumber(5))
+                .InputResourceName(vehicleResourceName)
                 .SelectResourceType(vehicleResourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
@@ -451,7 +453,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ResourceDetailTab>()
                 .IsOnDetailTab()
-                .InputResourceName(resourceName + CommonUtil.GetRandomNumber(5))
+                .InputResourceName(resourceName2)
                 .SelectResourceType(resourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
@@ -465,7 +467,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ResourceDetailTab>()
                 .IsOnDetailTab()
-                .InputResourceName(vehicleResourceName + CommonUtil.GetRandomNumber(5))
+                .InputResourceName(vehicleResourceName2)
                 .SelectResourceType(vehicleResourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
@@ -486,7 +488,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .SwitchToTab("All Resources");
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Type", "Driver");
+                .FilterResource("Resource", resourceName);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DragAndDropFirstResultToBlankResourceType("Driver")
                 .VerifyAllocatingToast("Default Resource Set");
