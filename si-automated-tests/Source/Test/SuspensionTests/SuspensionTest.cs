@@ -177,7 +177,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .ClickTabDropDown()
                 .ClickSuspensionTab()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PartySuspensionPage>().DoubleClickNewSuspension();
+            PageFactoryManager.Get<PartySuspensionPage>().ClickNewSuspension();
             inputData.FromDate = DateTime.Now.AddDays(4).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
             inputData.LastDate = DateTime.Now.AddDays(18).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
             inputData.SuspensedDay = "Everyday";

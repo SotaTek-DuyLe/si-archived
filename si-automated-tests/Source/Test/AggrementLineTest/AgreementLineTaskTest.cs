@@ -455,7 +455,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             assetAndProductTab.EditAssetQuantity(3)
                 .ClickOnElement(assetAndProductTab.numberOfAssetOnSite);
             assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
-            assetAndProductTab.VerifyDeliveryDate("26/04/2022")
+            string dueDate = "26/04/2022";
+            assetAndProductTab.VerifyDeliveryDate(dueDate)
                 .EditAssertClickDoneBtn()
                 .ClickNext()
                 .WaitForLoadingIconToDisappear();
@@ -495,7 +496,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             taskTab.SendKeys(taskTab.TaskTypeSearch, "Deliver Commercial Bin");
             taskTab.ClickOnElement(taskTab.ApplyBtn);
             taskTab.VerifyTaskDataType("Deliver Commercial Bin");
-            taskTab.VerifyTaskDueDate("26/04/2022 00:00");
+            taskTab.VerifyTaskDueDate(dueDate + " 00:00");
 
             // Đang có bug ở đây, due date vẫn là 26/04/2022
             partyAgreementPage.ClickOnDetailsTab()
@@ -512,7 +513,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .EditAssetQuantity(4)
                 .ClickAssetType();
             assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
-            assetAndProductTab.VerifyDeliveryDate("26/04/2022")
+            assetAndProductTab.VerifyDeliveryDate("12/10/2022")
                 .EditAssertClickDoneBtn()
                 .ClickNext()
                 .WaitForLoadingIconToDisappear();
@@ -543,7 +544,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             taskTab.SendKeys(taskTab.TaskTypeSearch, "Deliver Commercial Bin");
             taskTab.ClickOnElement(taskTab.ApplyBtn);
             taskTab.VerifyTaskDataType("Deliver Commercial Bin");
-            taskTab.VerifyTaskDueDate("26/04/2022 00:00");
+            taskTab.VerifyTaskDueDate("12/10/2022 00:00");
         }
 
         [Category("AgreementTask")]
@@ -627,7 +628,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessage(AgreementConstants.SUCCESSFULLY_SAVED_AGREEMENT)
+               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                .WaitForLoadingIconToDisappear();
 
             //Fix wating time for saved agreement
@@ -647,11 +648,11 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnAssetTab()
                 .ClickOnEditAsset();
             //Đang có bug ở đây, vẫn hiện Requested Delivery Date
-            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
+            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, false);
             assetAndProductTab.EditAssetQuantity(2)
                 .ClickAssetType();
             assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
-            assetAndProductTab.VerifyDeliveryDate(DateTime.Now.AddDays(7).ToString("dd/MM/yyyy"))
+            assetAndProductTab.VerifyDeliveryDate(DateTime.Now.AddDays(8).ToString("dd/MM/yyyy"))
                 .EditAssertClickDoneBtn()
                 .ClickNext()
                 .WaitForLoadingIconToDisappear();
