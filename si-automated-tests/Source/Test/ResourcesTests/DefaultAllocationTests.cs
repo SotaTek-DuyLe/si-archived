@@ -433,6 +433,34 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
+            //CREATE NEW DRIVER
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName2)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //CREATE NEW DRIVER
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName3)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
             //Create vehicle
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
@@ -448,20 +476,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow()
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
-            //CREATE NEW DRIVER
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .ClickCreateResource()
-                .SwitchToLastWindow();
-            PageFactoryManager.Get<ResourceDetailTab>()
-                .IsOnDetailTab()
-                .InputResourceName(resourceName2)
-                .SelectResourceType(resourceType)
-                .TickContractRoam()
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
-                .SwitchToLastWindow()
-                .SwitchNewIFrame();
+            
             //Create vehicle
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
