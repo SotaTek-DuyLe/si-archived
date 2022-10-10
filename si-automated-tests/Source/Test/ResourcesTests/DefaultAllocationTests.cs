@@ -385,7 +385,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Test]
         public void TC_137_default_allocation_test()
         {
-            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string resourceName = "Neil Armstrong ";
             string vehicleResourceName = "Loader " + CommonUtil.GetRandomNumber(5);
             string resourceType = "Driver";
             string vehicleResourceType = "Loader";
@@ -422,7 +422,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ResourceDetailTab>()
                 .IsOnDetailTab()
-                .InputResourceName(resourceName)
+                .InputResourceName(resourceName + CommonUtil.GetRandomNumber(5))
                 .SelectResourceType(resourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
@@ -436,7 +436,36 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ResourceDetailTab>()
                 .IsOnDetailTab()
-                .InputResourceName(vehicleResourceName)
+                .InputResourceName(vehicleResourceName + CommonUtil.GetRandomNumber(5))
+                .SelectResourceType(vehicleResourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            //CREATE NEW DRIVER
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName + CommonUtil.GetRandomNumber(5))
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //Create vehicle
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(vehicleResourceName + CommonUtil.GetRandomNumber(5))
                 .SelectResourceType(vehicleResourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
