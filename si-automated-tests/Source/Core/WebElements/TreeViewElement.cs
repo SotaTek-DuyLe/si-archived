@@ -9,11 +9,11 @@ namespace si_automated_tests.Source.Core.WebElements
 {
     public class TreeViewElement
     {
-        private string TreeViewXPath;
-        private string TreeViewItemXpath;
-        private string TreeViewItemTextElementXpath;
-        private string HierarchicalXpath;
-        private string ExpandIconXpath;
+        protected string TreeViewXPath;
+        protected string TreeViewItemXpath;
+        protected string TreeViewItemTextElementXpath;
+        protected string HierarchicalXpath;
+        protected string ExpandIconXpath;
 
         public TreeViewElement(string treeViewXpath, string treeViewItemXpath, string treeViewItemTextElementXpath, string hierarchicalXpath, string expandIconXpath = "")
         {
@@ -82,7 +82,7 @@ namespace si_automated_tests.Source.Core.WebElements
             }
         }
 
-        public void ExpandNode(string nodeName)
+        public virtual void ExpandNode(string nodeName)
         {
             if (SelectedNode != null)
             {
