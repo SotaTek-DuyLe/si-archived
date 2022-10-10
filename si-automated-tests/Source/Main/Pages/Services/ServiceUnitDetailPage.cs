@@ -142,7 +142,6 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         #endregion
 
-
         #region ServiceUnitPointTable
         public readonly string ServiceUnitPointTable = "//div[@id='serviceUnitPoints-tab']//table//tbody";
         public readonly string ServiceUnitPointRow = "./tr";
@@ -342,6 +341,34 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
         #endregion
+
+        #region Service Task Schedule
+        private string ServiceTaskScheduleTable = "//div[@id='serviceTaskSchedules-tab']//table//tbody";
+        private string ServiceTaskScheduleRow = "./tr";
+        private string STSId = "./td[@data-bind='text: serviceTaskId.value']";
+        private string STSTaskType = "./td[contains(@data-bind, 'taskType.value')]";
+        private string STSTaskLineUnit = "./td[contains(@data-bind, 'taskLines.value')]";
+        private string STSIsRollOver = "./td//input[contains(@data-bind, 'isRollover.value')]";
+        private string STSAllocation = "./td[contains(@data-bind, 'allocation.value')]";
+        private string STSAssureTask = "./td//input[contains(@data-bind, 'assuredTask.value')]";
+        private string STSStartDate = "./td//input[@id='startDate.id']";
+        private string STSEndDate = "./td//input[@id='endDate.id']";
+        private string STSEditSchedule = "./td//button[@title='Edit Schedule']";
+        private string STSEditServiceTask = "./td//button[@title='Edit Service Task']";
+
+        public TableElement ServiceTaskScheduleTableEle
+        {
+            get => new TableElement(ServiceTaskScheduleTable, ServiceTaskScheduleRow, 
+                new List<string>() { STSId, STSTaskType, STSTaskLineUnit, STSIsRollOver, STSAllocation, STSAssureTask, STSStartDate, STSEndDate, STSEditSchedule, STSEditServiceTask });
+        }
+
+        public ServiceUnitDetailPage ClickEditServiceTask(int rowIdx)
+        {
+            ServiceTaskScheduleTableEle.ClickCell(rowIdx, 9);
+            return this;
+        }
+        #endregion
+
         [AllureStep]
         public ServiceUnitDetailPage SelectRandomServiceLevel()
         {
