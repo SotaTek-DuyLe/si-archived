@@ -385,6 +385,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Test]
         public void TC_137_default_allocation_test()
         {
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string vehicleResourceName = "Loader " + CommonUtil.GetRandomNumber(5);
+            string resourceType = "Driver";
+            string vehicleResourceType = "Loader";
             string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd", 5);
             listMessagesResourceType.Add(rscTypeSet);
             listMessagesResourceType.Add(rscTypeClear);
@@ -412,6 +416,35 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SleepTimeInMiliseconds(2000);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ResizePage();
+            //CREATE NEW DRIVER
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //Create vehicle
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(vehicleResourceName)
+                .SelectResourceType(vehicleResourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             //ALLOCATING RESOURCE TYPE TO ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .SwitchToTab("Resource Types");
