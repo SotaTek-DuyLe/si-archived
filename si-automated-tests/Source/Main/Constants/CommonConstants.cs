@@ -47,6 +47,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] ActionEventBulkUpdate = { "Add Note" };
         public static readonly string[] ActionMenuSDM = { "Add Service Task Schedule", "Set Assured", "Set Proximity Alert", "Add/Amend Crew Notes", "Retire Service Task Schedule" };
         public static readonly string[] ActionMenuSU = { "Split Service Unit", "Remove Point" };
+        public static readonly string FUTURE_END_DATE = "01/01/2050";
 
         //ICON IMAGE
         public static readonly string StreetIconUrl = "web/content/images/street.svg";        

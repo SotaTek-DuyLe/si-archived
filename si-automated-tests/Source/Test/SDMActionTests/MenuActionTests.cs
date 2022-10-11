@@ -1447,7 +1447,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
         [Category("SDM Actions")]
         [Category("Chang")]
         [Test(Description = "Drag SU with No STS into a cell with No SU (Point B drag into Point A)")]
-        public void TC_132_Drag_SU_with_no_STS_into_a_cell_with_no_SU_point_B_drag_into_point_A()
+        public void TC_132_Test_17_Drag_SU_with_no_STS_into_a_cell_with_no_SU_point_B_drag_into_point_A()
         {
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -1475,7 +1475,17 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
 
             serviceDataManagementPage
-                .ClickOnSelectAndDeselectBtn()
+                //.ClickOnSelectAndDeselectBtn()
+                .SelectCheckboxByReferenceId("77755")
+                .SelectCheckboxByReferenceId("80147")
+                .SelectCheckboxByReferenceId("98558")
+                .SelectCheckboxByReferenceId("103611")
+                .SelectCheckboxByReferenceId("104386")
+                .SelectCheckboxByReferenceId("108488")
+                .SelectCheckboxByReferenceId("110048")
+                .SelectCheckboxByReferenceId("111390")
+                .SelectCheckboxByReferenceId("112050")
+                .SelectCheckboxByReferenceId("117464")
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage.DragServiceUnitPointCToServicePointA()
@@ -1500,7 +1510,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
 
             ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
-            serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, "01/01/2050");
+            serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, CommonConstants.FUTURE_END_DATE);
 
             //Double click on Service Task ID
             serviceUnitDetailPage.ClickOnElement(serviceUnitDetailPage.ServiceTaskScheduleTab);
@@ -1511,7 +1521,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
             servicesTaskPage.ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
-            servicesTaskPage.VerifyInputValue(servicesTaskPage.EndDateInput, "01/01/2050")
+            servicesTaskPage.VerifyInputValue(servicesTaskPage.EndDateInput, CommonConstants.FUTURE_END_DATE)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
@@ -1524,7 +1534,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
 
             ServiceUnitPointDetailPage serviceUnitPointDetail = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
-            serviceUnitPointDetail.VerifyInputValue(serviceUnitPointDetail.EndDateInput, "01/01/2050")
+            serviceUnitPointDetail.VerifyInputValue(serviceUnitPointDetail.EndDateInput, CommonConstants.FUTURE_END_DATE)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
@@ -1538,7 +1548,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             pointAddressDetailPage.ClickServiceUnit(13)
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
-            serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, "01/01/2050");
+            serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, CommonConstants.FUTURE_END_DATE);
         }
     }
 }

@@ -61,8 +61,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string checkboxByRefId = "//div[text()='{0}']/preceding-sibling::div/input";
 
         private readonly By ServiceUnitPointC = By.XPath("((//table[@id='master-table']//tbody//tr[4])//td[@class='unit-cell'])[5]");
-        private readonly By SchedulePointC = By.XPath("((//table[@id='master-table']//tbody//tr[4])//td)[35]");
-        private readonly By ServiceUnitPointA = By.XPath("((//table[@id='master-table']//tbody//tr[5])//td[@class='unit-cell'])[5]");
+        private readonly By SchedulePointC = By.XPath("((//table[@id='master-table']//tbody//tr[4])//td)[12]");
+        private readonly By ServiceUnitPointA = By.XPath("(//table[@id='master-table']//tbody//tr[5]//td)[12]");
         private readonly By DescriptionPointC = By.XPath("//table[@id='description-table']//tbody//tr[4]//td[contains(@class, 'data-cell')]");
 
         [AllureStep]
