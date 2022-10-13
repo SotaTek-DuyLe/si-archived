@@ -6,7 +6,6 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
-using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.DBModels.GetAllServicesForPoint2;
 using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
 using si_automated_tests.Source.Main.Models;
@@ -80,6 +79,9 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private const string addServiceUnitBtnAtRow = "//tr[{0}]//button[contains(string(), 'Add Service Unit')]";
         private const string findServiceUnitBtnAtRow = "//tr[{0}]//button[contains(string(), 'Find Service Unit')]";
         private const string serviceUnitAtRow = "//tr[{0}]//a[@title='Open Service Unit']";
+        private const string serviceUnitAtRowWithServiceName = "//tr/td[contains(text(), '{0}')]/following-sibling::td/a[@title='Open Service Unit' and text()='{1}']";
+        private const string serviceUnitAtRowWithServiceNameAndActive = "//tr/td[contains(text(), '{0}')]/following-sibling::td/div[not(contains(@style, 'display: none;')) and text()='Active']/parent::td/preceding-sibling::td//a[@title='Open Service Unit' and text()='{1}']";
+        private const string serviceUnitAtRowWithServiceNameAndNoneStatus = "//tr/td[contains(text(), '{0}')]/following-sibling::td/div[contains(@style, 'display: none;') and text()='Active']/parent::td/preceding-sibling::td//a[@title='Open Service Unit' and text()='{1}']";
         private const string statusActiveAtRow = "//tr[{0}]//div[@data-bind='visible: $data.active']";
         private const string taskCountAtRow = "//tr[{0}]//td[@data-bind='text: $data.taskCount']";
         private const string scheduleCountAtRow = "//tr[{0}]//td[@data-bind='text: $data.scheduleCount']";
@@ -703,6 +705,24 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         public PointAddressDetailPage ClickServiceUnit(int index)
         {
             ClickOnElement(serviceUnitAtRow, index.ToString());
+            return this;
+        }
+
+        public PointAddressDetailPage ClickOnServiceUnitWithServiceName(string serviceName, string serviceUnitName)
+        {
+            ClickOnElement(string.Format(serviceUnitAtRowWithServiceName, serviceName, serviceUnitName));
+            return this;
+        }
+
+        public PointAddressDetailPage ClickOnServiceUnitWithServiceNameAndActive(string serviceName, string serviceUnitName)
+        {
+            ClickOnElement(string.Format(serviceUnitAtRowWithServiceNameAndActive, serviceName, serviceUnitName));
+            return this;
+        }
+
+        public PointAddressDetailPage ClickOnServiceUnitWithServiceNameAndNonActive(string serviceName, string serviceUnitName)
+        {
+            ClickOnElement(string.Format(serviceUnitAtRowWithServiceNameAndNoneStatus, serviceName, serviceUnitName));
             return this;
         }
     }

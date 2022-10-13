@@ -59,6 +59,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
+        public ServiceTaskSchedulePage VerifyRoundValue(string roundValueExp)
+        {
+            Assert.AreEqual(roundValueExp, GetFirstSelectedItemInDropdown(RoundSelect), "Wrong round value");
+            return this;
+        }
+
 
     }
 }
