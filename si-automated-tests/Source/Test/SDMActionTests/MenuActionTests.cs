@@ -8,6 +8,7 @@ using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Applications;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
+using si_automated_tests.Source.Main.Pages.PointAddress;
 using si_automated_tests.Source.Main.Pages.Services;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
@@ -59,7 +60,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .VerifyActionMenuDisplayedWithActions()
                 .VerifyActionInActionMenuDisabled(addServiceTaskScheduleAction);
             //Step 2: Line 9: Right-click on any of the cells with no ServiceTask Schedule
-            string[] otherAction = { CommonConstants.ActionMenuSDM[1], CommonConstants.ActionMenuSDM[2], CommonConstants.ActionMenuSDM[3], CommonConstants.ActionMenuSDM[4]};
+            string[] otherAction = { CommonConstants.ActionMenuSDM[1], CommonConstants.ActionMenuSDM[2], CommonConstants.ActionMenuSDM[3], CommonConstants.ActionMenuSDM[4] };
             serviceDataManagementPage
                 .RightClickOnFirstRowWithoutServiceTaskSchedule()
                 .VerifyActionMenuDisplayedWithActions()
@@ -172,7 +173,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .RightClickOnFirstRowWithoutServiceTaskSchedule()
                 .VerifyActionMenuDisplayedWithActions()
                 .VerifyActionInActionMenuDisabled(otherAction);
-           
+
             //Step 4: Line 11: Select MULTIPLE cells not containing Service Task Schedule
             serviceDataManagementPage
                 .RightClickOnMultipleServiceTaskScheduleSegment()
@@ -184,7 +185,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .RightClickOnFirstCellWithServiceUnit()
                 .VerifyActionMenuDisplayWithServiceUnit()
                 .VerifyActionInActionMenuDisabled(actionNotAvailable);
-                //.VerifyActionInActionMenuEnabled(actionEnabled);
+            //.VerifyActionInActionMenuEnabled(actionEnabled);
             //Step 1: Line 13: Right-click on any of the cells with Service Unit containing icon of Service Unit with multiple Service Unit Points
             string[] actionEnabled = { CommonConstants.ActionMenuSU[1] };
             serviceDataManagementPage
@@ -383,7 +384,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
             //Line 90: Right click on ONE cell with Service task schedule in column Round Schedule/Round
-            
+
             string descRedRow = serviceDataManagementPage
                 .GetFirstDescWithRedColor();
             serviceDataManagementPage
@@ -440,7 +441,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             {
                 filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 4);
             }
-            else if(today.DayOfWeek == DayOfWeek.Tuesday)
+            else if (today.DayOfWeek == DayOfWeek.Tuesday)
             {
                 filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
             }
@@ -1050,7 +1051,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .VerifyDisplayResultAfterSearchWithDesc(descRedRow)
                 .DoubleClickOnFirstRound()
                 .SwitchToChildWindow(2)
-                .WaitForLoadingIconToDisappear(); 
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundInstanceDetailPage>()
                 .ClickOnWorksheetTab()
                 .SwitchNewIFrame()
@@ -1103,7 +1104,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
         [Test(Description = "Action 'Retire Service Task Schedule' -  Service Task with MULTIPLE Service Task Schedules")]
         public void TC_132_Test_13_Action_Retire_Service_task_schedule_service_task_with_multiple_service_task_schedules()
         {
-            
+
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
@@ -1441,8 +1442,430 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .VerifyAssuredTaskChecked()
                 .VerifyAsseredFromAndAssuredUntil(tomorrowDate, datePlus10Days)
                 .VerifyNoteValueInTaskNotes(noteValue);
-
         }
 
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "Drag SU with No STS into a cell with No SU (Point B drag into Point A)")]
+        public void TC_132_Test_17_Drag_SU_with_no_STS_into_a_cell_with_no_SU_point_B_drag_into_point_A()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.RMC)
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+
+            serviceDataManagementPage
+                //.ClickOnSelectAndDeselectBtn()
+                .SelectCheckboxByReferenceId("77755")
+                .SelectCheckboxByReferenceId("80147")
+                .SelectCheckboxByReferenceId("98558")
+                .SelectCheckboxByReferenceId("103611")
+                .SelectCheckboxByReferenceId("104386")
+                .SelectCheckboxByReferenceId("108488")
+                .SelectCheckboxByReferenceId("110048")
+                .SelectCheckboxByReferenceId("111390")
+                .SelectCheckboxByReferenceId("112050")
+                .SelectCheckboxByReferenceId("117464")
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage.DragServiceUnitPointCToServicePointA()
+                .ClickOnApplyAtBottomBtn()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+
+            //verify database
+
+            //Double click on Point C in the grid Click on 'All Services' tab and Click on 'Edit Service Unit' button for retired Service Unit
+            serviceDataManagementPage.DoubleClickPointC()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+
+            PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
+            pointAddressDetailPage.ClickOnAllServicesTab()
+                .WaitForLoadingIconToDisappear();
+            pointAddressDetailPage.ClickServiceUnit(13)
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+
+            ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
+            serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, CommonConstants.FUTURE_END_DATE);
+
+            //Double click on Service Task ID
+            serviceUnitDetailPage.ClickOnElement(serviceUnitDetailPage.ServiceTaskScheduleTab);
+            serviceUnitDetailPage.WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.ClickEditServiceTask(0)
+                .SwitchToChildWindow(4)
+                .WaitForLoadingIconToDisappear();
+            ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
+            servicesTaskPage.ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            servicesTaskPage.VerifyInputValue(servicesTaskPage.EndDateInput, CommonConstants.FUTURE_END_DATE)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+
+            //Go back to Service Unit window, Click on 'Service Unit Points' tab Double click on retired Service Unit Point ID
+            serviceUnitDetailPage.ClickOnElement(serviceUnitDetailPage.ServiceUnitPointTab);
+            serviceUnitDetailPage.WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.DoubleClickServiceUnitPoint(0)
+                .SwitchToChildWindow(4)
+                .WaitForLoadingIconToDisappear();
+
+            ServiceUnitPointDetailPage serviceUnitPointDetail = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
+            serviceUnitPointDetail.VerifyInputValue(serviceUnitPointDetail.EndDateInput, CommonConstants.FUTURE_END_DATE)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+
+            //Go back to 'All Services' tab and Click on 'Edit Service Unit' button for a new Service Unit
+            serviceUnitDetailPage.ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            pointAddressDetailPage.ClickOnAllServicesTab()
+                .WaitForLoadingIconToDisappear();
+            pointAddressDetailPage.ClickServiceUnit(13)
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, CommonConstants.FUTURE_END_DATE);
+        }
+
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "Action 'Split Service Units'")]
+        public void TC_132_Test_19_Action_split_service_units()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.RM)
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            string schedulePointA = "2 GLEBE WAY, HANWORTH, FELTHAM, TW13 6HH";
+            string schedulePointB = "3 GLEBE WAY, HANWORTH, FELTHAM, TW13 6HH";
+            string titleTaskSchedule = "Domestic Recycling";
+
+            serviceDataManagementPage
+                //.ClickOnSelectAndDeselectBtn()
+                .SelectCheckboxByReferenceId("26")
+                .SelectCheckboxByReferenceId("27")
+                .SelectCheckboxByReferenceId("42")
+                .SelectCheckboxByReferenceId("68")
+                .SelectCheckboxByReferenceId("185")
+                .SelectCheckboxByReferenceId("272")
+                .SelectCheckboxByReferenceId("357")
+                .SelectCheckboxByReferenceId("454")
+                .SelectCheckboxByReferenceId("63074")
+                .SelectCheckboxByReferenceId("63075")
+                .SelectCheckboxByReferenceId("63076")
+                .SelectCheckboxByReferenceId("76599")
+                .SelectCheckboxByReferenceId("76600")
+                .SelectCheckboxByReferenceId("76611")
+                .SelectCheckboxByReferenceId("76615")
+                .SelectCheckboxByReferenceId("76620")
+                .SelectCheckboxByReferenceId("76629")
+                .SelectCheckboxByReferenceId("76635")
+                .SelectCheckboxByReferenceId("76640");
+            serviceDataManagementPage
+                .ScrollToBottomOfPage();
+            serviceDataManagementPage
+                .SelectCheckboxByReferenceId("76642")
+                .SelectCheckboxByReferenceId("76643")
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .DragServiceUnitPointToServiceUnitStep19(schedulePointA, schedulePointB)
+                .ClickOnApplyAtBottomBtn()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Verify the display of the multiple service unit
+            serviceDataManagementPage
+                .VerifyDisplayMultipleIconInServiceUnit(schedulePointA, schedulePointB);
+            //Click on [Split Service Unit]
+            serviceDataManagementPage
+                .RightClickOnServiceUnitPointStep19(schedulePointB)
+                .VerifyActionInActionMenuEnabled(CommonConstants.ActionMenuSU)
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSU[0])
+                .ClickOnApplyAtBottomBtn()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Verify undisplay of the multiple service unit
+            serviceDataManagementPage
+                .VerifyUnDisplayMultipleIconInServiceUnit(schedulePointA, schedulePointB)
+                //Click on Point B to verify detail of point
+                .DoubleClickAtAnyPointStep19(schedulePointB)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            string tomorrowDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
+            PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
+            pointAddressDetailPage
+                .WaitForPointAddressDetailDisplayed()
+                .ClickOnAllServicesTab()
+                .WaitForLoadingIconToDisappear();
+            //Service Unit with active status
+            pointAddressDetailPage
+                .ClickOnServiceUnitWithServiceNameAndActive(titleTaskSchedule, schedulePointB)
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
+            serviceUnitDetailPage
+                .IsServiceUnitDetailPage()
+                //Service Unit Points tab
+                .ClickOnServiceUnitPointsTab()
+                .VerifyEndDateAndDescAtAnyServiceUnitPoint(CommonConstants.FUTURE_END_DATE, schedulePointA, "1")
+                .VerifyEndDateAndDescAtAnyServiceUnitPoint(tomorrowDate, schedulePointB, "2")
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            //Service Unit with non status
+            pointAddressDetailPage
+                .ClickOnServiceUnitWithServiceNameAndNonActive(titleTaskSchedule, schedulePointB)
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage
+                .IsServiceUnitDetailPage()
+                .ClickOnServiceUnitPointsTab()
+                .VerifyEndDateAndDescAtAnyServiceUnitPoint(CommonConstants.FUTURE_END_DATE, schedulePointB, "1")
+                //Service Task Schedules
+                .ClickOnServiceTaskSchedulesTab()
+                .ClickOnEditServiceTaskBtnAtFirstRow()
+                .SwitchToChildWindow(4)
+                .WaitForLoadingIconToDisappear();
+            ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
+            servicesTaskPage
+                .IsServiceTaskPage()
+                .ClickOnDetailTab()
+                .VerifyStartDateAndEndDate(tomorrowDate, CommonConstants.FUTURE_END_DATE)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+
+            pointAddressDetailPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+            //Click on Point B to verify detail of point
+            serviceDataManagementPage
+                .DoubleClickAtAnyPointStep19(schedulePointA)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            pointAddressDetailPage
+                .WaitForPointAddressDetailDisplayed()
+                .ClickOnAllServicesTab()
+                .WaitForLoadingIconToDisappear();
+            //Service Unit with active status
+            pointAddressDetailPage
+                .ClickOnServiceUnitWithServiceNameAndActive(titleTaskSchedule, schedulePointA)
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage
+                .IsServiceUnitDetailPage()
+                //Service Unit Points tab
+                .ClickOnServiceUnitPointsTab()
+                .VerifyEndDateAndDescAtAnyServiceUnitPoint(tomorrowDate, schedulePointA, "1")
+                .ClickOnServiceTaskSchedulesTab()
+                .VerifyEndDateAtFirstRowServiceTaskScheduleTab(tomorrowDate, "1")
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            pointAddressDetailPage
+                .ClickOnServiceUnitWithServiceNameAndNonActive(titleTaskSchedule, schedulePointB)
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage
+                .IsServiceUnitDetailPage()
+                .ClickOnServiceUnitPointsTab()
+                .VerifyEndDateAndDescAtAnyServiceUnitPoint(CommonConstants.FUTURE_END_DATE, schedulePointA, "1")
+                .VerifyEndDateAndDescAtAnyServiceUnitPoint(tomorrowDate, schedulePointB, "2");
+        }
+
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "Action 'Remove Point' - for Service Unit with Multiple Service Unit Points")]
+        public void TC_132_Test_21_Action_remove_point_for_service_unit_with_multiple_service_unit_points()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.RM)
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                //.ClickOnSelectAndDeselectBtn()
+                .SelectCheckboxByReferenceId("26")
+                .SelectCheckboxByReferenceId("27")
+                .SelectCheckboxByReferenceId("42")
+                .SelectCheckboxByReferenceId("68")
+                .SelectCheckboxByReferenceId("185")
+                .SelectCheckboxByReferenceId("272")
+                .SelectCheckboxByReferenceId("357")
+                .SelectCheckboxByReferenceId("454")
+                .SelectCheckboxByReferenceId("63074")
+                .SelectCheckboxByReferenceId("63075")
+                .SelectCheckboxByReferenceId("63076")
+                .SelectCheckboxByReferenceId("76598")
+                .SelectCheckboxByReferenceId("76599")
+                .SelectCheckboxByReferenceId("76610")
+                .SelectCheckboxByReferenceId("76620")
+                .SelectCheckboxByReferenceId("76626")
+                .SelectCheckboxByReferenceId("76627")
+                .SelectCheckboxByReferenceId("76628")
+                .SelectCheckboxByReferenceId("76629")
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            string serviceUnitName = "1, BUTTS HOUSE, BUTTS CRESCENT, HANWORTH, FELTHAM, TW13 6HT";
+            string serviceUnitNameContains = "BUTTS HOUSE, BUTTS CRESCENT, HANWORTH, TW13 6HT";
+            string title = "Communal Refuse";
+
+            serviceDataManagementPage
+                .RightClickOnServiceUnitWithMultipleServiceUnitStep19(serviceUnitName)
+                .VerifyActionInActionMenuEnabled(CommonConstants.ActionMenuSU)
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSU[1])
+                .ClickOnApplyAtBottomBtn()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Verify the icon for Service Unit and 'Linked' icon are not present in cell with service unit
+            serviceDataManagementPage
+                .VerifyUnDisplayIconForServiceUnitAndLinkedIcon(serviceUnitName)
+                .DoubleClickAtAnyPointStep19(serviceUnitName)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            string tomorrowDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
+            PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
+            pointAddressDetailPage
+                .WaitForPointAddressDetailDisplayed()
+                .ClickOnAllServicesTab()
+                .WaitForLoadingIconToDisappear();
+            //Service Unit with active status
+            pointAddressDetailPage
+                .ClickOnServiceUnitWithServiceNameAndActive(title, serviceUnitNameContains)
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
+            serviceUnitDetailPage
+                .IsServiceUnitDetailPage()
+                .ClickOnServiceUnitPointsTab()
+                .VerifyEndStartDateAndDescAtAnyServiceUnitPoint(tomorrowDate, serviceUnitName, "Point of Service")
+                //Detail tab
+                .ClickOnDetailTab()
+                .VerifyStartDateEndDateInDetailTab(CommonConstants.FUTURE_END_DATE);
+        }
+
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "Reallocation of ONE new added STS from Round Schedule/Round to another Round Schedule/Round - reallocation from one cell to another and back to the first cell")]
+        public void TC_132_Test_Reallocation_of_one_cell()
+        {
+            string initialRound = "REC1-AM:Tuesday";
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.RMC, "Collections", "Commercial Collections")
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnSelectAndDeselectBtn()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .RightClickOnTuesdayEveryWeek()
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[0])
+                .DragTuesDayToWednesdayToTestReallocate()
+                .DragWednesdayToTuesDayToTestReallocate()
+                .ClickOnApplyAtBottomBtn()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceDataManagementPage
+                .DoubleClickOnTuesdayAfterReallocate()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            ServiceTaskSchedulePage serviceTaskSchedulePage = PageFactoryManager.Get<ServiceTaskSchedulePage>();
+            serviceTaskSchedulePage
+                .IsServiceTaskSchedule()
+                .VerifyRoundValue(initialRound);
+        }
     }
 }

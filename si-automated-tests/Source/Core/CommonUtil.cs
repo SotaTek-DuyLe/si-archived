@@ -74,10 +74,6 @@ namespace si_automated_tests.Source.Core
         {
             return DateTime.Now.AddDays(day).Day.ToString();
         }
-        public static string GetLocalDayMinusDay(int day, string format)
-        {
-            return DateTime.Now.AddDays(day).Day.ToString(format);
-        }
 
         public static DateTime StringToDateTime(string str, string format)
         {

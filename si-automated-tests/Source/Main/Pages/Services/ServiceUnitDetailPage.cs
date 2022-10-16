@@ -13,6 +13,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
 {
     public class ServiceUnitDetailPage : BasePageCommonActions
     {
+        private readonly By title = By.XPath("//div[@class='headers-container']//span[text()='Service Unit']");
         public readonly By StartDateInput = By.XPath("//div[@id='details-tab']//input[@id='startDate.id']");
         public readonly By EndDateInput = By.XPath("//div[@id='details-tab']//input[@id='endDate.id']");
         public readonly By ServiceUnitInput = By.XPath("//div[@id='details-tab']//input[@name='serviceUnit']");
@@ -49,6 +50,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By lockReferenceInput = By.CssSelector("input[name='lockReference']");
         private readonly By lockInput = By.XPath("//label[contains(string(), 'Lock')]/parent::span/parent::div/following-sibling::input");
         private readonly string anyStreetOption = "//div[@id='searchFields.street']//li[text()='{0}']";
+        private readonly string endDateAtAnyRowServiceTaskScheduleTab = "//div[@id='serviceTaskSchedules-tab']//tr[{0}]//input[@id='endDate.id']";
+
+        [AllureStep]
+        public ServiceUnitDetailPage IsServiceUnitDetailPage()
+        {
+            WaitUtil.WaitForElementVisible(title);
+            return this;
+        }
 
         [AllureStep]
         public ServiceUnitDetailPage ClickSearchPointSegmentBtn()
@@ -142,7 +151,6 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         #endregion
 
-
         #region ServiceUnitPointTable
         public readonly string ServiceUnitPointTable = "//div[@id='serviceUnitPoints-tab']//table//tbody";
         public readonly string ServiceUnitPointRow = "./tr";
@@ -153,6 +161,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly string QualifierCell = "./td//select[@id='serviceUnitPointQualifier.id']";
         public readonly string StartDateCell = "./td//input[@id='startDate.id']";
         public readonly string EndDateCell = "./td//input[@id='endDate.id']";
+
+        //DYNAMIC
+        private readonly string endDateAtAnyRow = "//div[@id='serviceUnitPoints-tab']//tr[{0}]//input[@id='endDate.id']";
+        private readonly string endDateByServuceUnitPoint = "//div[@id='serviceUnitPoints-tab']//a[text()='{0}']/parent::td/following-sibling::td//input[@id='endDate.id']";
+        private readonly string startDateByServuceUnitPoint = "//div[@id='serviceUnitPoints-tab']//a[text()='{0}']/parent::td/following-sibling::td//input[@id='startDate.id']";
+        private readonly string typeByServiceUnitPoint = "//div[@id='serviceUnitPoints-tab']//a[text()='{0}']/parent::td/following-sibling::td//select[@id='serviceUnitPointType.id']";
+        private readonly string descAtAnyRow = "//div[@id='serviceUnitPoints-tab']//tr[{0}]//a";
+
         public TableElement ServiceUnitPointTableEle
         {
             get => new TableElement(ServiceUnitPointTable, ServiceUnitPointRow, new List<string>() { ServiceUnitPointIdCell, PointIdCell, DescriptionCell, TypeCell, QualifierCell, StartDateCell, EndDateCell });
@@ -342,6 +358,35 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
         #endregion
+
+        #region Service Task Schedule
+        private string ServiceTaskScheduleTable = "//div[@id='serviceTaskSchedules-tab']//table//tbody";
+        private string ServiceTaskScheduleRow = "./tr";
+        private string STSId = "./td[@data-bind='text: serviceTaskId.value']";
+        private string STSTaskType = "./td[contains(@data-bind, 'taskType.value')]";
+        private string STSTaskLineUnit = "./td[contains(@data-bind, 'taskLines.value')]";
+        private string STSIsRollOver = "./td//input[contains(@data-bind, 'isRollover.value')]";
+        private string STSAllocation = "./td[contains(@data-bind, 'allocation.value')]";
+        private string STSAssureTask = "./td//input[contains(@data-bind, 'assuredTask.value')]";
+        private string STSStartDate = "./td//input[@id='startDate.id']";
+        private string STSEndDate = "./td//input[@id='endDate.id']";
+        private string STSEditSchedule = "./td//button[@title='Edit Schedule']";
+        private string STSEditServiceTask = "./td//button[@title='Edit Service Task']";
+        private By editServuceTaskBtnFirstRow = By.XPath("//div[@id='serviceTaskSchedules-tab']//tr[1]//button[contains(string(), 'Edit Service Task')]");
+
+        public TableElement ServiceTaskScheduleTableEle
+        {
+            get => new TableElement(ServiceTaskScheduleTable, ServiceTaskScheduleRow, 
+                new List<string>() { STSId, STSTaskType, STSTaskLineUnit, STSIsRollOver, STSAllocation, STSAssureTask, STSStartDate, STSEndDate, STSEditSchedule, STSEditServiceTask });
+        }
+
+        public ServiceUnitDetailPage ClickEditServiceTask(int rowIdx)
+        {
+            ServiceTaskScheduleTableEle.ClickCell(rowIdx, 9);
+            return this;
+        }
+        #endregion
+
         [AllureStep]
         public ServiceUnitDetailPage SelectRandomServiceLevel()
         {
@@ -412,6 +457,72 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnServiceUnitPointsTab()
+        {
+            ClickOnElement(ServiceUnitPointTab);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnDetailTab()
+        {
+            ClickOnElement(DetailTab);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyEndDateAndDescAtAnyServiceUnitPoint(string endDateValue, string descValue, string atRow)
+        {
+            Assert.AreEqual(endDateValue, GetAttributeValue(string.Format(endDateAtAnyRow, atRow), "value"));
+            //Cannot edit
+            Assert.AreEqual("true", GetAttributeValue(string.Format(endDateAtAnyRow, atRow), "disabled"));
+            Assert.AreEqual(descValue, GetElementText(string.Format(descAtAnyRow, atRow)));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnServiceTaskSchedulesTab()
+        {
+            ClickOnElement(ServiceTaskScheduleTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnEditServiceTaskBtnAtFirstRow()
+        {
+            ClickOnElement(editServuceTaskBtnFirstRow);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyEndDateAtFirstRowServiceTaskScheduleTab(string endDateValue, string atRow)
+        {
+            Assert.AreEqual(GetAttributeValue(string.Format(endDateAtAnyRowServiceTaskScheduleTab, atRow), "value"), endDateValue);
+            Assert.AreEqual("true", GetAttributeValue(string.Format(endDateAtAnyRowServiceTaskScheduleTab, atRow), "disabled"));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyEndStartDateAndDescAtAnyServiceUnitPoint(string endDateValue, string descValue, string type)
+        {
+            Assert.AreEqual(endDateValue, GetAttributeValue(string.Format(endDateByServuceUnitPoint, descValue), "value"), "Wrong end date");
+            //Cannot edit
+            Assert.AreEqual("true", GetAttributeValue(string.Format(endDateByServuceUnitPoint, descValue), "disabled"), "End date is not disabled");
+            Assert.AreEqual("true", GetAttributeValue(string.Format(startDateByServuceUnitPoint, descValue), "disabled"), "Start date is not disabled");
+            Assert.AreEqual(type, GetFirstSelectedItemInDropdown(string.Format(typeByServiceUnitPoint, descValue)), "Wrong type");
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyStartDateEndDateInDetailTab(string endDateValue)
+        {
+            Assert.AreEqual("true", GetAttributeValue(StartDateInput, "disabled"), "Start date is not disabled");
+            Assert.AreEqual("true", GetAttributeValue(EndDateInput, "disabled"), "End date is not disabled");
+            Assert.AreEqual(endDateValue, GetAttributeValue(EndDateInput, "value"), "Wrong end date");
+            return this;
+        }
 
     }
 }

@@ -40,34 +40,51 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public void GoToURL(string url)
         {
-            driver.Url = url;
+             driver.Url = url;
             WaitUtil.WaitForPageLoaded();
         }
 
         //GET ELEMENT
+        [AllureStep]
         public IWebElement GetElement(By by)
         {
             return WaitUtil.WaitForElementVisible(by);
         }
+
+        [AllureStep]
+        public IWebElement GetElement(string locator, string value)
+        {
+            return WaitUtil.WaitForElementVisible(locator, value);
+        }
+
+        [AllureStep]
         public IWebElement GetElement(string locator)
         {
             return WaitUtil.WaitForElementVisible(locator);
         }
+
+        [AllureStep]
         public List<IWebElement> GetAllElements(string locator)
         {
             WaitUtil.WaitForAllElementsVisible(locator);
             return driver.FindElements(By.XPath(locator)).ToList();
         }
+
+        [AllureStep]
         public List<IWebElement> GetAllElements(string locator, string value)
         {
             WaitUtil.WaitForAllElementsVisible(string.Format(locator, value));
             return driver.FindElements(By.XPath(string.Format(locator, value))).ToList();
         }
+
+        [AllureStep]
         public List<IWebElement> GetAllElements(By by)
         {
             WaitUtil.WaitForAllElementsVisible(by);
             return driver.FindElements(by).ToList();
         }
+
+        [AllureStep]
         public List<IWebElement> GetAllElementsNotWait(By by)
         {
             return driver.FindElements(by).ToList();
@@ -986,6 +1003,25 @@ namespace si_automated_tests.Source.Core
             actions.ContextClick(elementLocator).Perform();
             return this;
         }
+
+        [AllureStep]
+        public BasePage RightClickOnElement(string xpath, string value)
+        {
+            Actions actions = new Actions(driver);
+            WaitUtil.WaitForElementVisible(xpath, value);
+            IWebElement elementLocator = (IWebElement)driver.FindElement(By.XPath(string.Format(xpath, value)));
+            actions.ContextClick(elementLocator).Perform();
+            return this;
+        }
+
+        [AllureStep]
+        public BasePage RightClickOnElement(IWebElement element)
+        {
+            Actions actions = new Actions(driver);
+            actions.ContextClick(element).Perform();
+            return this;
+        }
+
         [AllureStep]
         public BasePage RightClickOnElement(By by)
         {

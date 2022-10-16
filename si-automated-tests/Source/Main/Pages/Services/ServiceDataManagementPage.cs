@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.Pages.PointAddress;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
@@ -38,7 +38,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By secondRedRow = By.XPath("(//table[@id='description-table']//td[contains(@class, 'no-service-definition')])[2]");
         private readonly By referenceIdInput = By.XPath("//div[@id='point-grid']//div[contains(@class, 'l1')]//input");
         private readonly By totalRecord = By.XPath("//span[contains(text(),'Total =')]");
-        
+
 
         //WARINING POPUP
         private readonly By warningTitle = By.XPath("//h4[text()='Warning']");
@@ -59,6 +59,40 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string secondColumnRoundByRoundNameContantSTS = "//tbody[contains(@class, 'ui-droppable')]/tr[2]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]/span";
         private readonly string checkboxByRefId = "//div[text()='{0}']/preceding-sibling::div/input";
 
+        private readonly By ServiceUnitPointC = By.XPath("((//table[@id='master-table']//tbody//tr[4])//td[@class='unit-cell'])[5]");
+        private readonly By SchedulePointC = By.XPath("((//table[@id='master-table']//tbody//tr[4])//td)[12]");
+        private readonly By ServiceUnitPointA = By.XPath("(//table[@id='master-table']//tbody//tr[5]//td)[12]");
+        private readonly By DescriptionPointC = By.XPath("//table[@id='description-table']//tbody//tr[4]//td[contains(@class, 'data-cell')]");
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickPointC()
+        {
+            DoubleClickOnElement(DescriptionPointC);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DragServiceUnitPointCToServicePointA()
+        {
+            IWebElement schedulePointC = GetElement(SchedulePointC);
+            var shedulePointCContentEle = schedulePointC.FindElements(By.XPath("./span[contains(@class, 'existing-schedule')]"));
+            Assert.IsTrue(shedulePointCContentEle.Count != 0);
+            DragAndDrop(ServiceUnitPointC, ServiceUnitPointA);
+            SleepTimeInMiliseconds(300);
+            schedulePointC = GetElement(SchedulePointC);
+            shedulePointCContentEle = schedulePointC.FindElements(By.XPath("./span[contains(@class, 'existing-schedule')]"));
+            Assert.IsTrue(shedulePointCContentEle.Count == 0);
+            IWebElement imgServiceUnitPointC = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[4])//td[@class='unit-cell'])[5]//img[@class='action-image'][1]"));
+            IWebElement imgMergeUnitPointC = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[4])//td[@class='unit-cell'])[5]//img[@class='action-image'][2]"));
+            Assert.IsTrue(GetAttributeValue(imgServiceUnitPointC, "src").Contains("service-unit.png"));
+            Assert.IsTrue(GetAttributeValue(imgMergeUnitPointC, "src").Contains("merged-unit.png"));
+            IWebElement imgServiceUnitPointA = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[5])//td[@class='unit-cell'])[5]//img[@class='action-image'][1]"));
+            IWebElement imgMergeUnitPointA = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[5])//td[@class='unit-cell'])[5]//img[@class='action-image'][2]"));
+            Assert.IsTrue(GetAttributeValue(imgServiceUnitPointA, "src").Contains("service-unit.png"));
+            Assert.IsTrue(GetAttributeValue(imgMergeUnitPointA, "src").Contains("merged-unit.png"));
+            return this;
+        }
+
         [AllureStep]
         public ServiceDataManagementPage IsServiceDataManagementPage()
         {
@@ -74,10 +108,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public int GetRoundDate(string descName)
         {
             string roundName = GetElementText(roundDate, descName);
-            if(roundName.Contains("Monday"))
+            if (roundName.Contains("Monday"))
             {
                 return 2;
-            } else if(roundName.Contains("Tuesday"))
+            } else if (roundName.Contains("Tuesday"))
             {
                 return 3;
             }
@@ -162,6 +196,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceDataManagementPage SelectCheckboxByReferenceId(string refId)
         {
+            ScrollDownToElement(checkboxByRefId, refId);
             ClickOnElement(checkboxByRefId, refId);
             return this;
         }
@@ -280,7 +315,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceDataManagementPage VerifyActionMenuDisplayedWithActions()
         {
-            foreach(string action in CommonConstants.ActionMenuSDM)
+            foreach (string action in CommonConstants.ActionMenuSDM)
             {
                 Assert.IsTrue(IsControlDisplayed(actionOption, action), action + " is not displayed");
             }
@@ -308,7 +343,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceDataManagementPage VerifyActionInActionMenuDisabled(string[] nameActions)
         {
-            foreach(string action in nameActions)
+            foreach (string action in nameActions)
             {
                 Assert.AreEqual("true", GetAttributeValue(string.Format(actionOption, action), "disabled"), action + " is not disabaled");
             }
@@ -466,6 +501,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        #region
         //Step and locator for TC-132/step 16
         private readonly By firstRowNotContaintServiceUnitStep16 = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint') and not(span)])[1]");
         private readonly By secondRowNotConstaintServiceUnitStep16 = By.XPath("(//tbody/tr/td[contains(@data-bind, 'retiredPoint') and not(span)])[2]");
@@ -557,6 +593,119 @@ namespace si_automated_tests.Source.Main.Pages.Services
             DoubleClickOnElement(firstCellWithServiceTaskScheduleByRoundName, roundName);
             return this;
         }
+        #endregion
+
+        #region
+        //Step and locator for Step 19
+        private readonly string serviceUnitPointByNameStep19 = "(//tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//img[@src='content/style/images/service-unit.png']/parent::span)[1]";
+        private readonly string serviceUnitPointWithMultipleIcon = "(//tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//img[@src='content/style/images/merged-unit.png']/preceding-sibling::img[@src='content/style/images/service-unit.png'])[1]";
+        private readonly string serviceTaskScheduleWithMultipleIcon = "//tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//img[@src='content/style/images/merged-unit.png' and not(contains(@style, 'display: none;'))]/parent::span[contains(@data-bind, 'serviceTaskSchedule: { serviceTaskSchedule: $data }')]";
+        private readonly string anyPointWithDesc = "//table[@id='description-table']//td[text()='{0}']";
+
+        [AllureStep]
+        public ServiceDataManagementPage DragServiceUnitPointToServiceUnitStep19(string serviceUnitNamePointA, string serviceUnitNamePointB)
+        {
+            IWebElement schedulePointA = GetElement(serviceUnitPointByNameStep19, serviceUnitNamePointA);
+            IWebElement schedulePointB = GetElement(serviceUnitPointByNameStep19, serviceUnitNamePointB);
+            ScrollDownToElement(schedulePointB);
+            DragAndDrop(schedulePointA, schedulePointB);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnServiceUnitPointStep19(string serviceUnitNamePointA)
+        {
+            RightClickOnElement(serviceUnitPointByNameStep19, serviceUnitNamePointA);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyDisplayMultipleIconInServiceUnit(string serviceUnitNamePointA, string serviceUnitNamePointB)
+        {
+            Assert.IsTrue(IsControlDisplayed(serviceUnitPointWithMultipleIcon, serviceUnitNamePointA));
+            Assert.IsTrue(IsControlDisplayed(serviceUnitPointWithMultipleIcon, serviceUnitNamePointB));
+            //Assert.IsTrue(IsControlDisplayed(serviceTaskScheduleWithMultipleIcon, serviceUnitNamePointA));
+            //Assert.IsTrue(IsControlDisplayed(serviceTaskScheduleWithMultipleIcon, serviceUnitNamePointB));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyUnDisplayMultipleIconInServiceUnit(string serviceUnitNamePointA, string serviceUnitNamePointB)
+        {
+            Assert.IsTrue(IsControlUnDisplayed(serviceUnitPointWithMultipleIcon, serviceUnitNamePointA));
+            Assert.IsTrue(IsControlUnDisplayed(serviceUnitPointWithMultipleIcon, serviceUnitNamePointB));
+            //Assert.IsTrue(IsControlUnDisplayed(serviceTaskScheduleWithMultipleIcon, serviceUnitNamePointA));
+            //Assert.IsTrue(IsControlUnDisplayed(serviceTaskScheduleWithMultipleIcon, serviceUnitNamePointB));
+            return this;
+        }
+
+        [AllureStep]
+        public PointAddressDetailPage DoubleClickAtAnyPointStep19(string serviceUnitName)
+        {
+            DoubleClickOnElement(anyPointWithDesc, serviceUnitName);
+            return PageFactoryManager.Get<PointAddressDetailPage>();
+        }
+        #endregion
+
+        #region locators and steps for Step 21
+        private readonly string serviceUnitWithMultipleServiceUnit = "(//tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//button[text()='Multiple']/ancestor::td/preceding-sibling::td[1])[1]";
+        private readonly string serviceUnitIconAtServiceUnit = "//table[@id='master-table']//tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//td[8]//img[@src='content/style/images/service-unit.png']";
+        private readonly string mergedUnitIconAtServiceUnit = "//table[@id='master-table']//tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//td[8]//img[@src='content/style/images/merged-unit.png']";
+        private readonly string multipleBtnAtServiceUnit = "//table[@id='master-table']//tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//td[9]//button[text()='Multiple']";
+        private readonly string toggleMultipleBtnAtServiceUnit = "//table[@id='master-table']//tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//td[9]//button[@class='toggle']";
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnServiceUnitWithMultipleServiceUnitStep19(string serviceUnitName)
+        {
+            RightClickOnElement(serviceUnitWithMultipleServiceUnit, serviceUnitName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyUnDisplayIconForServiceUnitAndLinkedIcon(string serviceUnitName)
+        {
+            Assert.IsTrue(IsControlUnDisplayed(serviceUnitIconAtServiceUnit, serviceUnitName));
+            Assert.IsTrue(IsControlUnDisplayed(mergedUnitIconAtServiceUnit, serviceUnitName));
+            Assert.IsTrue(IsControlUnDisplayed(multipleBtnAtServiceUnit, serviceUnitName));
+            Assert.IsTrue(IsControlUnDisplayed(toggleMultipleBtnAtServiceUnit, serviceUnitName));
+            return this;
+        }
+        #endregion
+
+        #region locators and steps for Step [Reallocate]
+        private readonly By tuesdayEveryWeekNotAllocated = By.XPath("//table[@id='master-table']//tbody/tr[1]/td[count(//thead/tr[@class='round-row']/td[@title='REC1-AM:Tuesday']/preceding-sibling::td) + 1]");
+        private readonly By wednesdayEveryWeekNotAllocated = By.XPath("//table[@id='master-table']//tbody/tr[1]/td[count(//thead/tr[@class='round-row']/td[@title='REC1-AM:Wednesday']/preceding-sibling::td) + 1]");
+
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnTuesdayEveryWeek()
+        {
+            RightClickOnElement(tuesdayEveryWeekNotAllocated);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DragTuesDayToWednesdayToTestReallocate()
+        {
+            DragAndDrop(tuesdayEveryWeekNotAllocated, wednesdayEveryWeekNotAllocated);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DragWednesdayToTuesDayToTestReallocate()
+        {
+            DragAndDrop(wednesdayEveryWeekNotAllocated, tuesdayEveryWeekNotAllocated);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnTuesdayAfterReallocate()
+        {
+            DoubleClickOnElement(tuesdayEveryWeekNotAllocated);
+            return this;
+        }
+
+        #endregion
+
 
     }
 }

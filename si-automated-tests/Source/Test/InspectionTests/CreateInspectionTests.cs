@@ -580,7 +580,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchNewIFrame();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
                 .FilterInspectionById(inspectionId.ToString())
-                .getAllInspectionInList(2);
+                .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
                 .VerifyTheFirstInspection(inspectionModels[0], locationValue, Contract.RM, locationValue, "", AutoUser14.DisplayName, assignedUserValue, allocatedUnitValue, inspectionId.ToString(), inspectionTypeValue, "Pending", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 .DoubleClickFirstInspectionRow()

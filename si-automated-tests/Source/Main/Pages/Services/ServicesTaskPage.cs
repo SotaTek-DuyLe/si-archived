@@ -196,9 +196,18 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return GetElementText(serviceGroupName);
         }
 
+        [AllureStep]
         public string GetServiceName()
         {
             return GetElementText(serviceName);
+        }
+
+        [AllureStep]
+        public ServicesTaskPage VerifyStartDateAndEndDate(string startDateExp, string endDateExp)
+        {
+            Assert.AreEqual(startDateExp, GetAttributeValue(StartDateInput, "value"));
+            Assert.AreEqual(endDateExp, GetAttributeValue(EndDateInput, "value"));
+            return this;
         }
 
         //SCHEDULE TAB
