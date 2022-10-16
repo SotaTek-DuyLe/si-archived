@@ -97,5 +97,14 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             Assert.AreEqual(statusExp, GetElementText(firstStatusAtRow));
             return this;
         }
+
+        public SalesInvoiceBatchesPage FilterId(string id)
+        {
+            WaitForLoadingIconToDisappear();
+            SendKeys(filterInputById, id);
+            ClickOnElement(applyBtn);
+            WaitForLoadingIconToAppear();
+            return this;
+        }
     }
 }

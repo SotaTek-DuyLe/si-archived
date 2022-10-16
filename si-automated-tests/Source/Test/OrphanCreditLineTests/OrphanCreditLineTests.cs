@@ -151,6 +151,7 @@ namespace si_automated_tests.Source.Test.OrphanCreditLineTests
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SalesInvoiceBatchesPage>()
+                .FilterBySaleInvoiceBatchId(saleBatchId)
                 .VerifyStatusOfFirstRecord(status)
                 //Line 9: Double click on the row
                 .ClickOnFirstRecord()

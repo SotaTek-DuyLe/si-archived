@@ -48,10 +48,10 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
         private readonly By serviceUnitParent = By.XPath("//div[@class='parent-row']//div[@title='Open Service Unit']");
         private readonly By serviceParent = By.XPath("//div[@class='parent-row']//span[@title='Open Service Task']");
         private readonly By scheduleParent = By.XPath("//div[@data-bind=\"template: { name: 'service-grid-schedule' }\"]");
-        private readonly By lastParent = By.CssSelector("div.parent-row span[data-bind='text: ew.formatDateForUser($data.lastDate)']");
-        private readonly By nextPrent = By.CssSelector("div.parent-row span[data-bind='text: ew.formatDateForUser($data.nextDate)']");
-        private readonly By assetTypeParent = By.CssSelector("div.parent-row div[data-bind='foreach: $data.asset']");
-        private readonly By allocationParent = By.XPath("//div[@class='parent-row']//span[contains(@data-bind, 'text: $parents[0].getParentAllocationText($data)')]");
+        private readonly By lastParent = By.XPath("//div[@id='activeServices-tab']//div[@class='parent-row']//span[@data-bind='text: ew.formatDateForUser($data.lastDate)']");
+        private readonly By nextPrent = By.XPath("//div[@id='activeServices-tab']//div[@class='parent-row']//span[@data-bind='text: ew.formatDateForUser($data.nextDate)']");
+        private readonly By assetTypeParent = By.XPath("//div[@id='activeServices-tab']//div[@class='parent-row']//div[@data-bind='foreach: $data.asset']");
+        private readonly By allocationParent = By.XPath("//div[@id='activeServices-tab']//div[@class='parent-row']//span[contains(@data-bind, 'text: $parents[0].getParentAllocationText($data)')]");
         //CHRILD
         private readonly By scheduleChildRow = By.XPath("//div[@class='services-grid--root']/div[@class='services-grid--row']//div[@class='child-row' and not(contains(@style, 'display: none'))]//div[@data-bind='text: $data']");
         private readonly By lastChildRow = By.XPath("//div[@class='services-grid--root']/div[@class='services-grid--row']//div[@class='child-row' and not(contains(@style, 'display: none'))]//span[@data-bind='text: ew.formatDateForUser($data.lastDate)']");
