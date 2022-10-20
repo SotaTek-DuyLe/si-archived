@@ -17,6 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By title = By.XPath("//span[text()='Service Task Schedule']");
         private readonly By serviceTaskLink = By.XPath("//span[text()='Service Task Schedule']/following-sibling::span");
         private readonly By roundDd = By.XPath("//div[@id='div-round']//label[contains(string(), 'Round')]/following-sibling::echo-select/select");
+        private readonly By statusText = By.XPath("//h5[@id='header-status']/span[1]");
 
         [AllureStep]
         public ServiceTaskSchedulePage IsServiceTaskSchedule()
@@ -60,9 +61,23 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
+        public ServiceTaskSchedulePage VerifyEndDateIsDisabled()
+        {
+            Assert.AreEqual("true", GetAttributeValue(EndDateInput, "disabled"));
+            return this;
+        }
+
+        [AllureStep]
         public ServiceTaskSchedulePage VerifyRoundValue(string roundValueExp)
         {
             Assert.AreEqual(roundValueExp, GetFirstSelectedItemInDropdown(RoundSelect), "Wrong round value");
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceTaskSchedulePage VerifyStatusOfServiceTaskSchedule(string statusValue)
+        {
+            Assert.AreEqual(statusValue, GetElementText(statusText), "Status is not correct");
             return this;
         }
 

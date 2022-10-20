@@ -2,12 +2,9 @@ using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
-using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using System;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
@@ -37,7 +34,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             WaitUtil.WaitForElementVisible(title);
             Assert.IsTrue(IsControlDisplayed(title));
-            Assert.AreEqual(GetElementText(serviceUnitPointName), serviceUnitPointNameExp, "Wrong service unit point name");
+            Assert.AreEqual(serviceUnitPointNameExp, GetElementText(serviceUnitPointName), "Wrong service unit point name");
             return this;
         }
         [AllureStep]
@@ -91,6 +88,15 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(serviceUnitPointDBModel.startdate.ToString().Replace("-", "/").Contains(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT) + " 00:00:00") || serviceUnitPointDBModel.startdate.ToString().Replace("-", "/").Contains(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT) + " 00:00:00"), "Wrong inpsection valid Date");
             Console.WriteLine(serviceUnitPointDBModel.enddate.ToString());
             Assert.IsTrue(serviceUnitPointDBModel.enddate.ToString().Contains("01/01/2050 00:00:00"));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitPointDetailPage VerifyPointTypeStartAndEndDate(string pointTypeVale, string startDateValue, string endDateValue)
+        {
+            Assert.AreEqual(pointTypeVale, GetFirstSelectedItemInDropdown(pointTypeVale));
+            Assert.AreEqual(startDateValue, GetAttributeValue(startDateInput, "value"));
+            Assert.AreEqual(endDateValue, GetAttributeValue(endDateInput, "value"));
             return this;
         }
     }

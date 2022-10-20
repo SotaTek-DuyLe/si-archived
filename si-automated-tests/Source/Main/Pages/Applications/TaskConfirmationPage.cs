@@ -22,6 +22,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
         private readonly By descAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
+        private readonly By scheduledDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l16')]");
+        private readonly By dueDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l17')]");
         private readonly By allRowInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div");
 
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
@@ -139,6 +141,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(GetElementText(descAtFirstColumn).Trim().ToLower().Contains(descExp.Trim().ToLower()));
             return this;
         }
+
+        [AllureStep]
+        public TaskConfirmationPage VerifyScheduledDateAndDueDateAfterSearchWithDesc(string dateValue)
+        {
+            Assert.AreEqual(dateValue, GetElementText(scheduledDateAtFirstColumn), "Wrong [Scheduled Date]");
+            Assert.AreEqual(dateValue, GetElementText(dueDateAtFirstColumn), "Wrong [Due Date]");
+            return this;
+        }
+
 
         [AllureStep]
         public TaskConfirmationPage VerifyNoDisplayResultAfterSearchWithDesc()

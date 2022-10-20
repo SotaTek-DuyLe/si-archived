@@ -20,6 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By serviceGroupTitle = By.XPath("//div[text()='SERVICE GROUP']");
         private readonly By serviceGroupName = By.XPath("//div[text()='SERVICE GROUP']/following-sibling::div");
         private readonly By serviceName = By.XPath("//div[text()='SERVICE']/following-sibling::div");
+        private readonly By serviceTaskScheduleName = By.CssSelector("a.typeUrl");
 
         private string serviceTaskName = "//span[text()='Service Task']/following-sibling::span[contains(text(),'{0}')]";
         private string headerPartyName = "//div[@class='headers-container']//a[contains(text(), '{0}')]";
@@ -207,12 +208,24 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             Assert.AreEqual(startDateExp, GetAttributeValue(StartDateInput, "value"));
             Assert.AreEqual(endDateExp, GetAttributeValue(EndDateInput, "value"));
+            //End date are disabled
+            Assert.AreEqual("true", GetAttributeValue(EndDateInput, "disabled"), "End date is not disabled");
             return this;
         }
 
-        //SCHEDULE TAB
+        [AllureStep]
+        public ServicesTaskPage VerifyServiceAndServicegroupName(string serviceNameValue, string serviceGroupNameValue)
+        {
+            Assert.AreEqual(serviceNameValue, GetServiceName());
+            Assert.AreEqual(serviceGroupNameValue, GetServiceGroupName());
+            return this;
+        }
+
+        #region SCHEDULE TAB
         private readonly By schedulesTab = By.XPath("//a[@aria-controls='schedules-tab']");
         private readonly By roundInFirstRow = By.XPath("//tbody/tr[1]/td[contains(@data-bind, 'text: round.value')]");
+        private readonly By startDateAtFirstRow = By.XPath("//tbody/tr[1]/td[@data-bind='text: startDate.value']");
+        private readonly By endDateAtFirstRow = By.XPath("//tbody/tr[1]/td[@data-bind='text: endDate.value']");
 
         [AllureStep]
         public ServicesTaskPage ClickOnSchedulesTab()
@@ -234,6 +247,30 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(noteValueExp, GetAttributeValue(TaskNoteInput, "value"));
             return this;
         }
+
+        [AllureStep]
+        public ServicesTaskPage VerifyServiceScheduleTaskName(string serviceScheduleTaskName)
+        {
+            Assert.AreEqual(serviceScheduleTaskName, GetElementText(serviceTaskScheduleName));
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage VerifyServiceTaskName(string serviceTaskNameValue)
+        {
+            Assert.IsTrue(IsControlDisplayed(serviceTaskName, serviceTaskNameValue), serviceTaskNameValue + "is not displayed");
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage VerifyStartDateAndEndDateFirstRow(string startDateValue, string endDateValue)
+        {
+            Assert.AreEqual(startDateValue, GetElementText(startDateAtFirstRow), "Start date is incorrect");
+            Assert.AreEqual(startDateValue, GetElementText(startDateAtFirstRow), "End date is incorrect");
+            return this;
+        }
+
+        #endregion
 
     }
 }
