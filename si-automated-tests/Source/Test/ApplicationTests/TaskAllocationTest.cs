@@ -279,5 +279,51 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             roundInstanceForm.WaitForLoadingIconToDisappear();
             roundInstanceForm.VerifyNewRoundInstanceEventData("Tipping", "COM2 NST");
         }
+
+        [Category("TaskAllocationTests")]
+        [Test(Description = "190_A negative slot count appears on round from which the tasks were reallocated")]
+        public void TC_190_A_negative_slot_count_appears_on_round_from_which_the_tasks_were_reallocated()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser39.UserName, AutoUser39.Password)
+                .IsOnHomePage(AutoUser39);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption("Task Allocation")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+            TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
+            string from = "06/09/2022";
+            string to = "06/09/2022";
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.RM);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
+            taskAllocationPage.ExpandRoundNode(Contract.RM)
+                .SelectRoundNode("Recycling");
+            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.SleepTimeInMiliseconds(1000);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Control + "a");
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Delete);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
+            taskAllocationPage.SleepTimeInMiliseconds(3000);
+            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ContractSelect);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
+            taskAllocationPage.WaitForLoadingIconToDisappear();
+            taskAllocationPage.DragRoundInstanceToUnlocattedGrid("EDREC3", "Tuesday");
+            taskAllocationPage.WaitForLoadingIconToDisappear();
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ToggleRoundLegsButton);
+            taskAllocationPage.SleepTimeInMiliseconds(300);
+            List<RoundInstanceModel> roundInstanceDetails = taskAllocationPage.SelectRoundLegs(2);
+            taskAllocationPage.DragRoundLegRowToRoundInstance("EDREC1", "Wednesday", 4)
+                .VerifyElementVisibility(taskAllocationPage.GetAllocatingConfirmMsg(roundInstanceDetails.Count), true)
+                .ClickOnElement(taskAllocationPage.AllocateAllButton);
+            taskAllocationPage.WaitForLoadingIconToDisappear()
+                .VerifyToastMessages(new List<string>() { "Task(s) Allocated" });
+            taskAllocationPage.VerifyTaskAllocated("EDREC1", "Wednesday");
+        }
     }
 }
