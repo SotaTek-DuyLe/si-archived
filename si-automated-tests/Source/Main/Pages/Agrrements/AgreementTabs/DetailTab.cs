@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -10,7 +11,7 @@ using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 
 namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 {
-    public class DetailTab : BasePage
+    public class DetailTab : BasePageCommonActions
     {
         private readonly By subExpandBtns = By.XPath("//div[contains(@class,'panel-heading clickable')]");
 
@@ -126,8 +127,11 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         private readonly By regularAssertTypeStartDate = By.XPath("//span[text()='Regular']/ancestor::div[1]/following-sibling::div//span[contains(@data-bind,'displayStartDate')]");
         private readonly By serviceTaskLineTypeStartDates = By.XPath("//th[text()='Task Line Type']/ancestor::thead[1]/following-sibling::tbody//span[@title='Start Date']");
 
+        public readonly By InvoiceAddressSelect = By.XPath("//div[@id='details-tab']//select[@id='invoice-address']");
+        public readonly By BillingRuleSelect = By.XPath("//div[@id='details-tab']//select[@id='billing-rule']");
 
         //AssetAndProduct
+        [AllureStep]
         public DetailTab ClickAssetAndProductAndVerify(string expectValue)
         {
             ClickOnElement(assetAndProduct);
@@ -135,7 +139,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             Assert.AreEqual(GetAttributeValue(assetAndProduct, "aria-expanded"), expectValue);
             return this;
         }
-
+        [AllureStep]
         public AsserAndProductModel GetAllInfoAssetAndProduct()
         {
             string assertTypeM = GetElementText(assertType);
@@ -161,7 +165,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             string endDateM = GetElementText(endDateAssetAndProduct);
             return new AsserAndProductModel(assertTypeM, quantity1M, productM, ewcCodeM, productQuantityM, unitM, tenureM, invoiceScheduleM, invoiceAddressM, startDateM, endDateM);
         }
-
+        [AllureStep]
         public AsserAndProductModel GetAllInfoAssetAndProductAgreement()
         {
             string assertTypeM = GetElementText(assertType);
@@ -174,7 +178,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             string endDateM = GetElementText(endDateAssetAndProduct);
             return new AsserAndProductModel(assertTypeM, quantity1M, productM, "", productQuantityM, unitM, tenureM, new string[1], new string[1], startDateM, endDateM);
         }
-
+        [AllureStep]
         public DetailTab VerifyAssertAndProductInfo(AsserAndProductModel productModel)
         {
             Assert.AreEqual(productModel.AssetType, "1100L");
@@ -195,7 +199,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             Assert.AreEqual(productModel.EndDate, "01/01/2050");
             return this;
         }
-
+        [AllureStep]
         public DetailTab VerifyAssertAndProductInfo(AsserAndProductModel productModel, AsserAndProductModel input)
         {
             Assert.AreEqual(productModel.AssetType, input.AssetType);
@@ -209,6 +213,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         }
 
         //mobilization
+        [AllureStep]
         public DetailTab ClickMobilizationAndVerify(string expectValue)
         {
             ScrollDownToElement(mobilization);
@@ -217,6 +222,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             Assert.AreEqual(GetAttributeValue(mobilization, "aria-expanded"), expectValue);
             return this;
         }
+        [AllureStep]
 
         public MobilizationModel GetAllInfoMobilization()
         {
@@ -250,7 +256,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             return new MobilizationModel(indexM, taskTypeM, invoiceScheduleM, invoiceAddressM, startEndDateM, taskLineTypeM, assetTypeM,
                 assetQtyM, minAssetM, maxAssetM, productM, amountOfProductM, minProdQtyM, maxProdQtyM, unitM, startDateM, endDateM);
         }
-
+        [AllureStep]
         public DetailTab VerifyMobilizationInfo(MobilizationModel mobilizationModel)
         {
             Assert.AreEqual(mobilizationModel.Index, "1");
@@ -277,6 +283,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             Assert.AreEqual(GetAttributeValue(invoiceScheduleMobi, "disabled"), "true");
             return this;
         }
+        [AllureStep]
         public DetailTab VerifyMobilizationInfo(MobilizationModel mobilizationModel, MobilizationModel input)
         {
             Assert.AreEqual(mobilizationModel.TaskLineType, input.TaskLineType);
@@ -289,8 +296,9 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             return this;
         }
 
-            //regular
-            public DetailTab ClickRegularAndVerify(string expectValue)
+        //regular
+        [AllureStep]
+        public DetailTab ClickRegularAndVerify(string expectValue)
         {
             ScrollDownToElement(regular);
             ClickOnElement(regular);
@@ -298,7 +306,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             Assert.AreEqual(GetAttributeValue(regular, "aria-expanded"), expectValue);
             return this;
         }
-
+        [AllureStep]
         public RegularModel GetAllInfoRegular()
         {
             string indexR = GetElementText(indexNumbRe);
@@ -334,7 +342,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             return new RegularModel(indexR, taskTypeR, invoiceScheduleR, invoiceAddressR, frequencyR, startEndDateR, taskLineTypeR, assetTypeR, assetQtyR, minAssetR, maxAssetR, productR, amountOfProductR, minProdQtyR, maxProdQtyR, unitR, destinationSiteR,
               siteProductR, startDateCoverR, endDateCoverR);
         }
-
+        [AllureStep]
         public DetailTab VerifyRegularInfo(RegularModel regularModel)
         {
             Assert.AreEqual(regularModel.Index, "1");
@@ -364,17 +372,19 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             Assert.AreEqual(GetAttributeValue(invoiceScheduleRe, "disabled"), "true");
             return this;
         }
-
+        [AllureStep]
         public DetailTab VerifyRegularTaskTypeDate(string dateRange) 
         {
             Assert.AreEqual(dateRange, GetElementText(startEndDateRe));
             return this;
         }
+        [AllureStep]
         public DetailTab VerifyRegularTaskLineTypeStartDate(String startDate)
         {
             Assert.AreEqual(startDate, GetElementText(startDateCoverRe));
             return this;
         }
+        [AllureStep]
         public DetailTab VerifyRegularInfo(RegularModel regularModel, RegularModel input)
         {
             Assert.AreEqual(regularModel.TaskLineType, input.TaskLineType);
@@ -388,6 +398,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         }
 
         //De-Mobilization
+        [AllureStep]
         public DetailTab ClickDeMobilizationAndVerify(string expectValue)
         {
             ScrollDownToElement(deMobilization);
@@ -396,7 +407,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             Assert.AreEqual(GetAttributeValue(deMobilization, "aria-expanded"), expectValue);
             return this;
         }
-
+        [AllureStep]
         public MobilizationModel GetAllInfoDeMobilization()
         {
             string indexM = GetElementText(indexNumbDeMobi);
@@ -429,7 +440,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             return new MobilizationModel(indexM, taskTypeM, invoiceScheduleM, invoiceAddressM, startEndDateM, taskLineTypeM, assetTypeM,
                 assetQtyM, minAssetM, maxAssetM, productM, amountOfProductM, minProdQtyM, maxProdQtyM, unitM, startDateM, endDateM);
         }
-
+        [AllureStep]
         public DetailTab VerifyDeMobilizationInfo(MobilizationModel mobilizationModel)
         {
             Assert.AreEqual(mobilizationModel.Index, "1");
@@ -458,6 +469,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         }
 
         //Ad-Hoc
+        [AllureStep]
         public DetailTab ClickAdHocAndVerify(string expectValue)
         {
             ScrollDownToElement(adHoc);
@@ -467,7 +479,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             ScrollToBottomOfPage();
             return this;
         }
-
+        [AllureStep]
         public List<MobilizationModel> GetAllInfoAdhoc()
         {
             List<MobilizationModel> allAdhoc = new List<MobilizationModel>();
@@ -535,7 +547,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return allAdhoc;
         }
-
+        [AllureStep]
         public DetailTab VerifyAdhocInfo(List<MobilizationModel> mobilizationModelList)
         {
             for (int i = 0; i < mobilizationModelList.Count; i++)
@@ -567,6 +579,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return this;
         }
+        [AllureStep]
         public DetailTab VerifyAdhocInfo(List<MobilizationModel> mobilizationModelList, List<MobilizationModel> input)
         {
             for (int i = 0; i < mobilizationModelList.Count; i++)
@@ -582,7 +595,29 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return this;
         }
-
+        [AllureStep]
+        public DetailTab VerifyAdhocInfo(List<MobilizationModel> mobilizationModelList, MobilizationModel input, int num)
+        {
+            int n = 0;
+            for (int i = 0; i < mobilizationModelList.Count; i++)
+            {
+                if(mobilizationModelList[i].TaskLineType == input.TaskLineType && mobilizationModelList[i].StartDateCover == input.StartDateCover)
+                {
+                    Assert.AreEqual(mobilizationModelList[i].TaskLineType, input.TaskLineType);
+                    Assert.AreEqual(mobilizationModelList[i].AssetType, input.AssetType);
+                    Assert.AreEqual(mobilizationModelList[i].AssetQuantity, input.AssetQuantity);
+                    Assert.AreEqual(mobilizationModelList[i].Product, input.Product);
+                    Assert.AreEqual(mobilizationModelList[i].AmountOfProduct, input.AmountOfProduct);
+                    Assert.AreEqual(mobilizationModelList[i].Unit, input.Unit);
+                    Assert.AreEqual(mobilizationModelList[i].StartDateCover, input.StartDateCover);
+                    n++;
+                }
+                
+            }
+            Assert.AreEqual(n, num);
+            return this;
+        }
+        [AllureStep]
         public DetailTab VerifyCreateAdhocButtonsAreEnabled()
         {
             IList<IWebElement> createAdhocBtns = WaitUtil.WaitForAllElementsVisible(createAdhocBtn);
@@ -592,26 +627,32 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return this;
         }
+        [AllureStep]
         public IList<IWebElement> GetCreateAdhocBtnList()
         {
+            ScrollDownToElement(createAdhocBtn);
             IList<IWebElement> createAdhocBtns = WaitUtil.WaitForAllElementsVisible(createAdhocBtn);
             return createAdhocBtns;
         }
+        [AllureStep]
         public AgreementTaskDetailsPage ClickAdHocBtn(IWebElement e)
         {
             ClickOnElement(e);
             return new AgreementTaskDetailsPage();
         }
+        [AllureStep]
         public DetailTab VerifyMobilizationPanelDisappear()
         {
             Assert.IsTrue(IsControlUnDisplayed(beginLocatorMobi));
             return this;
         }
+        [AllureStep]
         public DetailTab VerifyDeMobilizationPanelDisappear()
         {
             Assert.IsTrue(IsControlUnDisplayed(beginLocatorDeMobilization));
             return this;
         }
+        [AllureStep]
         public DetailTab ExpandAllAgreementFields()
         {
             IList<IWebElement> fields = WaitUtil.WaitForAllElementsVisible(subExpandBtns);
@@ -622,6 +663,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return this;
         }
+        [AllureStep]
         public DetailTab VerifyTaskLineTypeStartDates(string startDate)
         {
             Assert.AreEqual(startDate, GetElementText(serviceTaskLineTypeStartDates));
@@ -632,12 +674,14 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return this;
         }
+        [AllureStep]
         public DetailTab VerifyRegularAssetTypeStartDate(string startDate)
         {
             ScrollDownToElement(regularAssertTypeStartDate);
             Assert.AreEqual(startDate, GetElementText(regularAssertTypeStartDate));
             return this;
         }
+        [AllureStep]
         public DetailTab VerifyAssetAndProductAssetTypeStartDate(string startDate)
         {
 

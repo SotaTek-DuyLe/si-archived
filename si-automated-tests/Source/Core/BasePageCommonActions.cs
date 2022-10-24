@@ -1,5 +1,7 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using si_automated_tests.Source.Core.WebElements;
 using System;
@@ -11,168 +13,239 @@ namespace si_automated_tests.Source.Core
 {
     public class BasePageCommonActions : BasePage
     {
+        [AllureStep]
         public BasePageCommonActions VerifyElementVisibility(string xpath, bool isVisible)
         {
+            if (!isVisible)
+            {
+                Assert.IsTrue(IsControlUnDisplayed(xpath));
+                return this;
+            }
             VerifyElementVisibility(GetElement(xpath), isVisible);
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyElementVisibility(By xpath, bool isVisible)
         {
+            if (!isVisible)
+            {
+                Assert.IsTrue(IsControlUnDisplayed(xpath));
+                return this;
+            }
             VerifyElementVisibility(GetElement(xpath), isVisible);
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyElementVisibility(IWebElement webElement, bool isVisible)
         {
             Assert.IsTrue(isVisible ? webElement.Displayed : !webElement.Displayed);
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyElementEnable(string xpath, bool isEnable)
         {
             VerifyElementEnable(GetElement(xpath), isEnable);
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyElementEnable(By xpath, bool isEnable)
         {
             VerifyElementEnable(GetElement(xpath), isEnable);
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyElementEnable(IWebElement webElement, bool isEnable)
         {
             Assert.IsTrue(isEnable ? webElement.Enabled : !webElement.Enabled);
             return this;
         }
 
+        [AllureStep]
         public bool GetCheckboxValue(By xpath)
         {
             return GetElement(xpath).Selected;
         }
 
+        [AllureStep]
         public bool GetCheckboxValue(string xpath)
         {
             return GetElement(xpath).Selected;
         }
 
+        [AllureStep]
         public bool GetCheckboxValue(IWebElement webElement)
         {
             return webElement.Selected;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyCheckboxIsSelected(string xpath, bool isSelected)
         {
             Assert.IsTrue(isSelected ? GetCheckboxValue(xpath) : !GetCheckboxValue(xpath));
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyCheckboxIsSelected(By xpath, bool isSelected)
         {
             Assert.IsTrue(isSelected ? GetCheckboxValue(xpath) : !GetCheckboxValue(xpath));
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyCheckboxIsSelected(IWebElement webElement, bool isSelected)
         {
             Assert.IsTrue(isSelected ? GetCheckboxValue(webElement) : !GetCheckboxValue(webElement));
             return this;
         }
 
-        public string GetInputValue(By xpath)
+        [AllureStep]
+        public string GetInputValue(By xpath, string text)
         {
+            WaitUtil.TextToBePresentInElementValue(GetElement(xpath), text);
             return GetElement(xpath).GetAttribute("value");
         }
 
-        public string GetInputValue(string xpath)
+        [AllureStep]
+        public string GetInputValue(string xpath, string text)
         {
+            WaitUtil.TextToBePresentInElementValue(GetElement(xpath), text);
             return GetElement(xpath).GetAttribute("value");
         }
 
-        public string GetInputValue(IWebElement webElement)
+        [AllureStep]
+        public string GetInputValue(IWebElement webElement, string text)
         {
+            WaitUtil.TextToBePresentInElementValue(webElement, text);
             return webElement.GetAttribute("value");
         }
 
+        [AllureStep]
         public BasePageCommonActions SetInputValue(By xpath, string value)
         {
             SendKeys(xpath, value);
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions SetInputValue(string xpath, string value)
         {
             SendKeys(xpath, value);
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions SetInputValue(IWebElement webElement, string value)
         {
             SendKeys(webElement, value);
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyInputValue(string xpath, string expectedValue)
         {
-            Assert.IsTrue(GetInputValue(xpath) == expectedValue);
+            Assert.IsTrue(GetInputValue(xpath, expectedValue) == expectedValue);
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyInputValue(By xpath, string expectedValue)
         {
-            Assert.IsTrue(GetInputValue(xpath) == expectedValue);
+            Assert.AreEqual(expectedValue, GetInputValue(xpath, expectedValue));
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyInputValue(IWebElement webElement, string expectedValue)
         {
-            Assert.IsTrue(GetInputValue(webElement) == expectedValue);
+            Assert.IsTrue(GetInputValue(webElement, expectedValue) == expectedValue);
             return this;
         }
 
-        public BasePageCommonActions VerifyElementText(string xpath, string expectedValue, bool ignoreEmpty = false)
+        [AllureStep]
+        public BasePageCommonActions VerifyElementText(string xpath, string expectedValue, bool ignoreEmpty = false, bool toLowerCase = false)
         {
+            if (toLowerCase)
+            {
+                Assert.IsTrue((ignoreEmpty ? GetElementText(xpath).Trim() : GetElementText(xpath)).ToLower() == expectedValue.ToLower());
+                return this;
+            }
             Assert.IsTrue((ignoreEmpty ? GetElementText(xpath).Trim() : GetElementText(xpath)) == expectedValue);
             return this;
         }
 
-        public BasePageCommonActions VerifyElementText(By xpath, string expectedValue, bool ignoreEmpty = false)
+        [AllureStep]
+        public BasePageCommonActions VerifyElementText(By xpath, string expectedValue, bool ignoreEmpty = false, bool toLowerCase = false)
         {
+            if (toLowerCase)
+            {
+                Assert.IsTrue((ignoreEmpty ? GetElementText(xpath).Trim() : GetElementText(xpath)).ToLower() == expectedValue.ToLower());
+                return this;
+            }
             Assert.IsTrue((ignoreEmpty ? GetElementText(xpath).Trim() : GetElementText(xpath)) == expectedValue);
             return this;
         }
 
-        public BasePageCommonActions VerifyElementText(IWebElement webElement, string expectedValue, bool ignoreEmpty = false)
+        [AllureStep]
+        public BasePageCommonActions VerifyElementText(IWebElement webElement, string expectedValue, bool ignoreEmpty = false, bool toLowerCase = false)
         {
+            if (toLowerCase)
+            {
+                Assert.IsTrue((ignoreEmpty ? GetElementText(webElement).Trim() : GetElementText(webElement)).ToLower() == expectedValue.ToLower());
+                return this;
+            }
             Assert.IsTrue((ignoreEmpty ? GetElementText(webElement).Trim() : GetElementText(webElement)) == expectedValue);
             return this;
         }
 
+        [AllureStep]
         public List<string> GetSelectDisplayValues(string selectXpath)
         {
             return GetSelectDisplayValues(GetElement(selectXpath));
         }
 
+        [AllureStep]
         public List<string> GetSelectDisplayValues(By selectXpath)
         {
             return GetSelectDisplayValues(GetElement(selectXpath));
         }
 
+        [AllureStep]
         public List<string> GetSelectDisplayValues(IWebElement webElement)
         {
             SelectElement select = new SelectElement(webElement);
             return select.Options.Select(x => x.Text).ToList();
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifySelectContainDisplayValue(string selectXpath, string expectedValue, bool checkContain = true)
         {
-            Assert.IsTrue(checkContain ? 
-                GetSelectDisplayValues(selectXpath).FirstOrDefault(x => x == expectedValue) != null : 
+            Assert.IsTrue(checkContain ?
+                GetSelectDisplayValues(selectXpath).FirstOrDefault(x => x == expectedValue) != null :
                 GetSelectDisplayValues(selectXpath).FirstOrDefault(x => x == expectedValue) == null);
             return this;
         }
 
+        [AllureStep]
+        public BasePageCommonActions VerifySelectedValue(string selectXpath, string expectedValue)
+        {
+            Assert.IsTrue(GetFirstSelectedItemInDropdown(selectXpath) == expectedValue);
+            return this;
+        }
+
+        [AllureStep]
+        public BasePageCommonActions VerifySelectedValue(By selectXpath, string expectedValue)
+        {
+            Assert.IsTrue(GetFirstSelectedItemInDropdown(selectXpath) == expectedValue);
+            return this;
+        }
+
+        [AllureStep]
         public BasePageCommonActions VerifySelectContainDisplayValue(By selectXpath, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ?
@@ -181,6 +254,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifySelectContainDisplayValue(IWebElement webElement, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ?
@@ -189,6 +263,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifySelectContainDisplayValues(string selectXpath, List<string> expectedValues, bool checkContain = true)
         {
             if (checkContain)
@@ -202,6 +277,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifySelectContainDisplayValues(By selectXpath, List<string> expectedValues, bool checkContain = true)
         {
             if (checkContain)
@@ -215,6 +291,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifySelectContainDisplayValues(IWebElement webElement, List<string> expectedValues, bool checkContain = true)
         {
             if (checkContain)
@@ -228,49 +305,79 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyElementContainAttributeValue(string xpath, string attribute, string expectedValue, bool checkContain = true)
         {
             VerifyElementContainAttributeValue(GetElement(xpath), attribute, expectedValue, checkContain);
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyElementContainAttributeValue(By xpath, string attribute, string expectedValue, bool checkContain = true)
         {
             VerifyElementContainAttributeValue(GetElement(xpath), attribute, expectedValue, checkContain);
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyElementContainAttributeValue(IWebElement webElement, string attribute, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ? webElement.GetAttribute(attribute).Contains(expectedValue) : !webElement.GetAttribute(attribute).Contains(expectedValue));
             return this;
         }
 
+        [AllureStep]
+        public BasePageCommonActions VerifyElementContainCssAttributeValue(string xpath, string attribute, string expectedValue, bool checkContain = true)
+        {
+            VerifyElementContainCssAttributeValue(GetElement(xpath), attribute, expectedValue, checkContain);
+            return this;
+        }
+
+        [AllureStep]
+        public BasePageCommonActions VerifyElementContainCssAttributeValue(By xpath, string attribute, string expectedValue, bool checkContain = true)
+        {
+            VerifyElementContainCssAttributeValue(GetElement(xpath), attribute, expectedValue, checkContain);
+            return this;
+        }
+
+        [AllureStep]
+        public BasePageCommonActions VerifyElementContainCssAttributeValue(IWebElement webElement, string attribute, string expectedValue, bool checkContain = true)
+        {
+            Assert.IsTrue(checkContain ? webElement.GetCssValue(attribute).Contains(expectedValue) : !webElement.GetCssValue(attribute).Contains(expectedValue));
+            return this;
+        }
+
+        [AllureStep]
         public List<string> GetUlDisplayValues(string ulXpath)
         {
             return GetUlDisplayValues(GetElement(ulXpath));
         }
 
+        [AllureStep]
         public List<string> GetUlDisplayValues(By ulXpath)
         {
             return GetUlDisplayValues(GetElement(ulXpath));
         }
 
+        [AllureStep]
         public List<string> GetUlDisplayValues(IWebElement webElement)
         {
             return webElement.FindElements(By.XPath("./li")).Select(x => x.Text).ToList();
         }
 
+        [AllureStep]
         public BasePageCommonActions SelectByDisplayValueOnUlElement(string ulXpath, string selectValue)
         {
             return SelectByDisplayValueOnUlElement(GetElement(ulXpath), selectValue);
         }
 
+        [AllureStep]
         public BasePageCommonActions SelectByDisplayValueOnUlElement(By ulXpath, string selectValue)
         {
             return SelectByDisplayValueOnUlElement(GetElement(ulXpath), selectValue);
         }
 
+        [AllureStep]
         public BasePageCommonActions SelectByDisplayValueOnUlElement(IWebElement webElement, string selectValue)
         {
             List<IWebElement> options = webElement.FindElements(By.XPath("./li")).ToList();
@@ -285,6 +392,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyUlContainDisplayValue(string ulXpath, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ?
@@ -293,6 +401,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyUlContainDisplayValue(By ulXpath, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ?
@@ -301,6 +410,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyUlContainDisplayValue(IWebElement webElement, string expectedValue, bool checkContain = true)
         {
             Assert.IsTrue(checkContain ?
@@ -309,6 +419,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyUlContainDisplayValues(string ulXpath, List<string> expectedValues, bool checkContain = true)
         {
             if (checkContain)
@@ -322,6 +433,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyUlContainDisplayValues(By ulXpath, List<string> expectedValues, bool checkContain = true)
         {
             if (checkContain)
@@ -335,6 +447,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyUlContainDisplayValues(IWebElement webElement, List<string> expectedValues, bool checkContain = true)
         {
             if (checkContain)
@@ -348,6 +461,7 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
         public BasePageCommonActions VerifyCellValue(TableElement tableElement, int rowIdx, int cellIdx, object expectedValue, bool checkEqual = true)
         {
             if (checkEqual)
@@ -368,6 +482,7 @@ namespace si_automated_tests.Source.Core
         /// <param name="rowIdx"></param>
         /// <param name="expectedValues">ordered list</param>
         /// <returns></returns>
+        [AllureStep]
         public BasePageCommonActions VerifyRowValue(TableElement tableElement, int rowIdx, List<object> expectedValues, bool checkEqual = true)
         {
             if (checkEqual)
@@ -380,5 +495,39 @@ namespace si_automated_tests.Source.Core
             }
             return this;
         }
+
+        [AllureStep]
+        public BasePageCommonActions VerifyInputIsReadOnly(By xpath)
+        {
+            IWebElement webElement = GetElement(xpath);
+            Assert.IsFalse(webElement.Enabled);
+            return this;
+        }
+
+        [AllureStep]
+        public BasePageCommonActions VerifyInputIsReadOnly(string xpath)
+        {
+            return VerifyInputIsReadOnly(By.XPath(xpath));
+        }
+
+        [AllureStep]
+        public BasePageCommonActions VerifyElementIsMandatory(By element, bool isMandatory = true)
+        {
+            string rgb = GetCssValue(element, "border-color");
+            string[] colorsOnly = rgb.Replace("rgb", "").Replace("(", "").Replace(")", "").Split(',');
+            int R = colorsOnly[0].AsInteger();
+            int G = colorsOnly[1].AsInteger();
+            int B = colorsOnly[2].AsInteger();
+            if (isMandatory)
+            {
+                Assert.IsTrue(R > 100 && R > G * 2 && R > B * 2);
+            }
+            else
+            {
+                Assert.IsFalse(R > 100 && R > G * 2 && R > B * 2);
+            }
+            return this;
+        }
+
     }
 }

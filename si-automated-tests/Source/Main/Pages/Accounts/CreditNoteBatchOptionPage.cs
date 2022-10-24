@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
@@ -16,6 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             IsOnBatchPage();
         }
+        [AllureStep]
         public CreditNoteBatchOptionPage IsOnBatchPage()
         {
             SwitchToLastWindow();
@@ -24,16 +26,19 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             WaitUtil.WaitForElementVisible(cancelBtn);
             return this;
         }
+        [AllureStep]
         public CreditNoteBatchPage ClickNewBatch()
         {
             ClickOnElement(newNoteBatchOption);
             return new CreditNoteBatchPage();
         }
+        [AllureStep]
         public CreditNoteBatchOptionPage ClickExistingBatch()
         {
             ClickOnElement(existingNoteBatchOption);
             return this;
         }
+        [AllureStep]
         public CreditNoteBatchOptionPage SelectBatchId(string batchId)
         {
             ClickOnElement(radioBtn, batchId);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -16,6 +17,7 @@ namespace si_automated_tests.Source.Test.EventTests
     public class UpdateEventTests : BaseTest
     {
         [Category("CreateEvent")]
+        [Category("Chang")]
         [Test(Description = "Event actions, event updates")]
         public void TC_112_Event_actions_event_updates()
         {
@@ -31,8 +33,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .Login(AutoUser60.UserName, AutoUser60.Password)
                 .IsOnHomePage(AutoUser60);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Events")
-                .OpenOption("North Star")
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EventsListingPage>()
@@ -146,22 +148,20 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
                 .InputNameInDataTab(newEventName)
-                //Click [Accept] btn
+                //Line 18: Click [Accept] btn 
                 .ClickAcceptInEventActionsPanel()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveEventMessage)
                 .VerifyDisplayToastMessage(MessageSuccessConstants.ActionSuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Verify new Status
             eventDetailPage
                 .VerifyValueInStatus("Under Investigation")
                 .VerifyValueInNameFieldInDataTab(newEventName);
-            //Verify value in [History] tab
+            //Line 19: Verify value in [History] tab
             eventDetailPage
                .ClickHistoryTab()
                .WaitForLoadingIconToDisappear();
             eventDetailPage
-                .VerifyRecordInHistoryTabAfterUpdate(newEventName, AutoUser60.DisplayName)
-                .VerifyRecordInHistoryTabAfterAccept("Under Investigation.", AutoUser60.DisplayName);
+                .VerifyRecordInHistoryTabAfterAccept("Under Investigation.", AutoUser60.DisplayName, newEventName);
             //Click [Add Note] btn
             eventDetailPage
                 .ClickAddNoteInEventsActionsPanel()
@@ -288,7 +288,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .SelectAnyAllocatedUnit("Ancillary")
                 .ClickSaveAndCloseBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(5)
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
                 .ExpandDetailToggle()

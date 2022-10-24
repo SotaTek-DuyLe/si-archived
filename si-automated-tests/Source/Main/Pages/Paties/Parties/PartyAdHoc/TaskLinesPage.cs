@@ -10,6 +10,7 @@ using si_automated_tests.Source.Main.Models.Adhoc;
 using TaskLineModel = si_automated_tests.Source.Main.Models.Adhoc.TaskLinesModel;
 using CanlendarServiceTask = si_automated_tests.Source.Main.Models.Suspension.ServiceTaskModel;
 using OpenQA.Selenium.Support.UI;
+using NUnit.Allure.Attributes;
 
 namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
 {
@@ -22,6 +23,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
         private readonly By scheduledAssetQuantityInput = By.XPath("//input[@id='scheduledAssetQuantity.id']");
         private readonly By scheduledProductQuantityInput = By.XPath("//input[@id='scheduledProductQuantity.id']");
 
+        [AllureStep]
         public List<TaskLineModel> GetAllTaskLines()
         {
             List<TaskLineModel> taskLines = new List<TaskLineModel>();
@@ -40,7 +42,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
             }
             return taskLines;
         }
-
+        [AllureStep]
         public TaskLinesPage VerifyTaskLine(TaskLineModel expectedResult)
         {
             TaskLineModel taskLines = GetAllTaskLines().FirstOrDefault();
@@ -53,13 +55,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
             Assert.IsTrue(taskLines.State == expectedResult.State);
             return this;
         }
-
+        [AllureStep]
         private string GetSelectedCombobox(IWebElement webElement, By xpath)
         {
             SelectElement select = new SelectElement(webElement.FindElement(xpath));
             return GetElementText(select.SelectedOption);
         }
-        
+        [AllureStep]
         private string GetSelectedCombobox(By xpath, int index)
         {
             SelectElement select = new SelectElement(GetAllElements(xpath).ElementAt(index));

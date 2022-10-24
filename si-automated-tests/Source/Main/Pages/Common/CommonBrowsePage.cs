@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
@@ -25,24 +26,28 @@ namespace si_automated_tests.Source.Main.Pages
         public CommonBrowsePage()
         {
         }
+        [AllureStep]
         public CommonBrowsePage FilterItem(int id)
         {
             WaitForLoadingIconToDisappear();
-            WaitUtil.WaitForAllElementsVisible(addNewItemBtn);
+            //WaitUtil.WaitForAllElementsVisible(addNewItemBtn);
             SendKeys(filterInputById, id.ToString());
             ClickOnElement(applyBtn);
             return this;
         }
+        [AllureStep]
         public CommonBrowsePage OpenFirstResult()
         {
             DoubleClickOnElement(firstResult);
             return this;
         }
+        [AllureStep]
         public CommonBrowsePage ClickAddNewItem()
         {
             ClickOnElement(addNewItemBtn);
             return this;
         }
+        [AllureStep]
         public CommonBrowsePage VerifyFirstResultValue(string field, string expected)
         {
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
@@ -56,6 +61,7 @@ namespace si_automated_tests.Source.Main.Pages
             }
             return this;
         }
+        [AllureStep]
         public CommonBrowsePage VerifyFirstResultValueInTab(string field, string expected)
         {
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headersInTabSection);
@@ -69,6 +75,7 @@ namespace si_automated_tests.Source.Main.Pages
             }
             return this;
         }
+        [AllureStep]
         public CommonBrowsePage VerifySecondResultValue(string field, string expected)
         {
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
@@ -82,16 +89,19 @@ namespace si_automated_tests.Source.Main.Pages
             }
             return this;
         }
+        [AllureStep]
         public CommonBrowsePage ClickButton(string _buttonName)
         {
             ClickOnElement(customBtn, _buttonName);
             return this;
         }
+        [AllureStep]
         public CommonBrowsePage ClickFirstItem()
         {
             ClickOnElement(firstResult);
             return this;
         }
+        [AllureStep]
         public string GetFirstResultValueOfField(string field)
         {
             string value = "";
@@ -106,6 +116,7 @@ namespace si_automated_tests.Source.Main.Pages
             }
             return value;
         }
+        [AllureStep]
         public List<string> GetListOfValueFilterBy(string filterValue)
         {
             List<string> result = new List<string>();

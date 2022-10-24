@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -25,12 +26,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
         private readonly By finishBtn = By.XPath("//div[@id='add-service-suspensions']//div[@class='modal-footer']//button[text()='Finish']");
         private const string AnyMessage = "//div[text()='{0}']";
 
+        [AllureStep]
         public EditSuspensionPage VerifyNextButtonIsEnable()
         {
             Assert.IsTrue(IsControlEnabled(nextBtn));
             return this;
         }
-
+        [AllureStep]
         public EditSuspensionPage VerifyServiceCheckboxsAreSelected()
         {
             List<IWebElement> checkboxs = GetAllElements(serviceCheckboxs);
@@ -40,7 +42,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
             }
             return this;
         }
-
+        [AllureStep]
         public EditSuspensionPage VerifyServiceTypeCheckboxsAreSelected()
         {
             List<IWebElement> checkboxs = GetAllElements(serviceTypeCheckboxs);
@@ -50,33 +52,33 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
             }
             return this;
         }
-
+        [AllureStep]
         public EditSuspensionPage ClickServiceCheckbox()
         {
             GetAllElements(serviceCheckboxs).ElementAtOrDefault(1)?.Click();
             return this;
         }
-
+        [AllureStep]
         public EditSuspensionPage ClickNextButton()
         {
             ClickOnElement(nextBtn);
             return this;
         }
-
+        [AllureStep]
         public List<string> GetSiteNames()
         {
             List<IWebElement> checkboxs = GetAllElements(siteItems);
             checkboxs.RemoveAt(1);
             return checkboxs.Select(x => GetElementText(x)).ToList();
         }
-
+        [AllureStep]
         public List<string> GetServiceNames()
         {
             List<IWebElement> checkboxs = GetAllElements(serviceItems);
             return checkboxs.Select(x => GetElementText(x)).ToList();
         }
 
-
+        [AllureStep]
         public EditSuspensionPage InputDaysAndVerifyDaysCalculationLbl(string fromDate, string lastDay)
         {
             IWebElement dateDiffEle = GetElement(dateDiffLabel);
@@ -89,19 +91,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
             Assert.IsTrue(GetElementText(dateDiffEle) == "15 days");
             return this;
         }
-
+        [AllureStep]
         public EditSuspensionPage VerifySaveMessage(string saveMsg)
         {
             Assert.IsTrue(IsControlDisplayed(String.Format(AnyMessage, saveMsg)));
             return this;
         }
-
+        [AllureStep]
         public EditSuspensionPage ClickFinish()
         {
             ClickOnElement(finishBtn);
             return this;
         }
-
+        [AllureStep]
         public EditSuspensionPage IsEditSuspensionModalInVisible()
         {
             Assert.IsTrue(IsControlUnDisplayed(modal));

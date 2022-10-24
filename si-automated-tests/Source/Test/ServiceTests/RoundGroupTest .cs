@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -31,10 +32,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
                 .OpenOption("Round Groups")
@@ -42,8 +43,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<CommonBrowsePage>()
                .ClickAddNewItem()
                .SwitchToLastWindow();
-            PageFactoryManager.Get<RoundGroupPage>()
-                .VerifyDefaultDataOnAddForm()
+            var roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.ClickOnElement(roundGroupPage.DetailTab);
+            roundGroupPage.VerifyDefaultDataOnAddForm()
                 .ClickSaveBtn()
                 .VerifyToastMessage("Field is required")
                 .WaitUntilToastMessageInvisible("Field is required");
@@ -79,10 +81,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
                 .OpenOption("Round Groups")
@@ -116,17 +118,15 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .DoubleClickRound(newRowIdx)
                 .SwitchToLastWindow();
 
-            PageFactoryManager.Get<RoundDetailPage>()
-                .WaitForLoadingIconToDisappear();
-
-            PageFactoryManager.Get<RoundDetailPage>()
-                .VerifyRoundInput("Test Round")
+            var roundDetailPage = PageFactoryManager.Get<RoundDetailPage>();
+            roundDetailPage.WaitForLoadingIconToDisappear();
+            roundDetailPage.ClickOnElement(roundDetailPage.DetailTab);
+            roundDetailPage.VerifyRoundInput("Test Round")
                 .VerifyRoundType("Skips")
                 .VerifyDispatchSite("Townmead Tip & Depot (East)")
                 .VerifyShift("PM: 14.00 - 21.30")
                 .ClickAllTabAndVerify()
                 .ClickCloseBtn()
-                .AcceptAlert()
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<RoundGroupPage>()
@@ -144,10 +144,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
                 .OpenOption("Round Groups")
@@ -196,7 +196,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickDayButtonOnWeekly("Tue")
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<RoundGroupPage>()
                 .VerifyRightPanelIsInVisible()
                 .ClickExpandButton(newRow);
@@ -244,7 +244,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<RoundGroupPage>()
                 .ClickSyncRoundResourceOnResourceTab()
                 .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage("Successfully saved Round Group");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<RoundGroupPage>()
                 .ClickRoundTab()
                 .WaitForLoadingIconToDisappear();
@@ -272,10 +272,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
                 .OpenOption("Round Groups")
@@ -312,10 +312,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RM)
                 .ExpandOption("Streets")
                 .ExpandOption("Street Cleansing")
                 .ExpandOption("Round Groups")
@@ -399,10 +399,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RM)
                 .ExpandOption("Streets")
                 .ExpandOption("Street Cleansing")
                 .ExpandOption("Round Groups")
@@ -439,6 +439,116 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyDefaultResourceIsInVisible("Sweeper");
         }
 
+        [Category("116_Add Schedule on Round")]
+        [Test]
+        public void TC_116_Add_Schedule_On_A_Round()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RM)
+                .ExpandOption("Streets")
+                .ExpandOption("Street Cleansing")
+                .ExpandOption("Round Groups")
+                .ExpandOption("East Zone 1")
+                .OpenOption("Wednesday BAR")
+                .SwitchNewIFrame();
+
+            RoundGroupPage roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            string tomorrow = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            string endDate = DateTime.Now.AddDays(1).AddYears(1).ToString("dd/MM/yyyy");
+            roundGroupPage
+                .EditPatternEnd("179", tomorrow)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Success");
+            roundGroupPage.ClickOnElement(roundGroupPage.AddNewScheduleBtn);
+            roundGroupPage.SwitchToLastWindow();
+            RoundSchedulePage roundSchedulePage = PageFactoryManager.Get<RoundSchedulePage>();
+            roundSchedulePage.WaitForLoadingIconToDisappear();
+            roundSchedulePage.ClickOnElement(roundSchedulePage.DetailTab);
+            roundSchedulePage.WaitForLoadingIconToDisappear();
+            roundSchedulePage
+                .VerifyInputValue(roundSchedulePage.StartDateInput, DateTime.Now.ToString("dd/MM/yyyy"))
+                .VerifyInputValue(roundSchedulePage.EndDateInput, "01/01/2050")
+                .VerifyElementVisibility(roundSchedulePage.SeasonSelect, true)
+                .SendKeys(roundSchedulePage.StartDateInput, tomorrow);
+            roundSchedulePage.SendKeys(roundSchedulePage.EndDateInput, endDate);
+            roundSchedulePage.ClickOnElement(roundSchedulePage.ScheduleTab);
+            roundSchedulePage.ClickPeriodTimeButton("Weekly")
+                .SelectTextFromDropDown(roundSchedulePage.weeklyFrequencySelect, "Every fortnight");
+            roundSchedulePage.ClickDayButtonOnWeekly("Wed")
+                .ClickSaveBtn()
+                .VerifyToastMessage("Success");
+            string detail = $"Every Wednesday fortnightly commencing {DateTime.Now.AddDays(1).ToString("dddd dd MMMM yyyy")}";
+            roundSchedulePage
+                .VerifyElementText(roundSchedulePage.RoundScheduleTitle, detail, true, true)
+                .VerifyElementText(roundSchedulePage.RoundScheduleStatus, "INACTIVE", toLowerCase: true)
+                .CloseCurrentWindow()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.VerifyNewSchedule(detail, tomorrow, endDate);
+        }
+
+        [Category("117_Retire existing Round schedule")]
+        [Test]
+        public void TC_117_Retire_Existing_Round_Schedule()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RM)
+                .ExpandOption("Streets")
+                .ExpandOption("Street Cleansing")
+                .ExpandOption("Round Groups")
+                .ExpandOption("East Zone 1")
+                .OpenOption("Friday MOR")
+                .SwitchNewIFrame();
+
+            RoundGroupPage roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.ClickScheduleDetail("181")
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            RoundSchedulePage roundSchedulePage = PageFactoryManager.Get<RoundSchedulePage>();
+            roundSchedulePage.ClickOnElement(roundSchedulePage.RetireButton);
+            roundSchedulePage.VerifyElementText(roundSchedulePage.RetireConfirmTitle, "Are you sure you want to retire this Round Schedule?")
+                .ClickOnElement(roundSchedulePage.OKButton);
+            roundSchedulePage.WaitForLoadingIconToDisappear();
+            string tomorrow = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
+            roundSchedulePage.VerifyInputValue(roundSchedulePage.EndDateInput, tomorrow)
+                .CloseCurrentWindow()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
+            roundGroupPage.WaitForLoadingIconToDisappear()
+                .ClickRefreshBtn();
+            roundGroupPage.VerifyPatternEnd("181", tomorrow)
+                .ClickCalendarTab()
+                .WaitForLoadingIconToDisappear();
+            roundGroupPage.RoundInstancesNotDisplayAfterEnddate(DateTime.Now.AddDays(1));
+        }
+
         [Category("119_Add and Remove Round Sites on a Round")]
         [Test]
         public void TC_119_Add_and_Remove_Round_Sites_on_a_Round()
@@ -450,10 +560,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser37.UserName, AutoUser37.Password)
                 .IsOnHomePage(AutoUser37);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
                 .ExpandOption("Collections")
                 .ExpandOption("Commercial Collections")
                 .ExpandOption("Round Groups")
@@ -481,6 +591,143 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
                 .VerifyToastMessage("Success");
+        }
+
+        [Category("Round Group")]
+        [Test]
+        public void TC_169_1_Round_and_Round_Group_issues()
+        {
+            //Verify that user can open Round Group and add Round Gr Resource Schedule on Default Resource
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
+                .ExpandOption("Collections")
+                .ExpandOption("Commercial Collections")
+                .ExpandOption("Round Groups")
+                .OpenOption("REC2-AM")
+                .SwitchNewIFrame();
+
+            var roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.ClickDefaultResourceTab()
+                .WaitForLoadingIconToDisappear();
+            int relTypeIdx = 0;
+            roundGroupPage.ClickExpandButton(relTypeIdx)
+                 .ClickAddResource(relTypeIdx)
+                 .VerifyRowDetailIsVisible(relTypeIdx)
+                 .SelectResourceType(relTypeIdx, 1)
+                 .ClickSaveBtn()
+                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                 .WaitForLoadingIconToDisappear();
+            string dateNow = DateTime.Now.ToString("dd/MM/yyyy");
+            roundGroupPage
+                .ClickExpandButton(relTypeIdx)
+                .ClickHasSchedule(relTypeIdx)
+                .VerifyRightPanelTitle("Round Group Resource Allocation")
+                .VerifyPatternStartDateContainString(dateNow)
+                .ClickPeriodTimeButton("Weekly")
+                .SelectWeeklyFrequency("Every week")
+                .ClickDayButtonOnWeekly("Mon")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            roundGroupPage
+                .VerifyRightPanelIsInVisible()
+                .ClickExpandButton(relTypeIdx);
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyResourceDetailRow(relTypeIdx, 1, true, $"Every Monday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true, true)
+                .ClickEditButton(0);
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyRightPanelTitle("Round Group Resource Allocation")
+                .IsPeriodButtonSelected("Weekly")
+                .IsDayButtonOnWeeklySelected("Mon")
+                .VerifySelectWeeklyFrequency("Every week")
+                .ClickDayButtonOnWeekly("Wed")
+                .ClickDayButtonOnWeekly("Fri")
+                .EnterQuantity(relTypeIdx, "2")
+                .EnterQuantity(relTypeIdx, "1")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage("Success");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .ClickExpandButton(relTypeIdx);
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+               .VerifyResourceDetailRow(relTypeIdx, 1, true, $"Every Monday, Wednesday and Friday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true, true);
+        }
+
+        [Category("Round Group")]
+        [Test]
+        public void TC_169_2_Round_and_Round_Group_issues()
+        {
+            //Verify that user can open Round and add Round Res Schedule on Default Resource
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
+                .ExpandOption("Collections")
+                .ExpandOption("Commercial Collections")
+                .ExpandOption("Round Groups")
+                .ExpandOption("REF3-PM (Narrow)")
+                .OpenOption("Tuesday")
+                .SwitchNewIFrame();
+
+            var roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.ClickDefaultResourceTab()
+                .WaitForLoadingIconToDisappear();
+            int driverTypeIdx = 0;
+            string dateNow = DateTime.Now.ToString("dd/MM/yyyy");
+            roundGroupPage
+                .ClickExpandButton(driverTypeIdx)
+                .ClickHasSchedule(driverTypeIdx)
+                .VerifyRightPanelTitle("Round Resource Allocation")
+                .VerifyPatternStartDateContainString(dateNow)
+                .ClickPeriodTimeButton("Weekly")
+                .SelectWeeklyFrequency("Every week")
+                .ClickDayButtonOnWeekly("Tue")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            roundGroupPage
+                .VerifyRightPanelIsInVisible()
+                .ClickExpandButton(driverTypeIdx);
+            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .VerifyResourceDetailRow(driverTypeIdx, "Hedy Lamarr", true, $"Every Tuesday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true);
+            roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.VerifyScheduleDetail("Every Tuesday commencing Monday 10 January 2022")
+                .ClickEditSchedule()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+
+            RoundSchedulePage roundSchedulePage = PageFactoryManager.Get<RoundSchedulePage>();
+            roundSchedulePage.ClickOnElement(roundSchedulePage.ScheduleTab);
+            roundSchedulePage.WaitForLoadingIconToDisappear();
+            roundSchedulePage.ClickDayButtonOnWeekly("Fri")
+                .ClickSaveAndCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            roundGroupPage.SleepTimeInMiliseconds(5000);
+            roundGroupPage.VerifyScheduleDetail("Every Tuesday and Friday commencing Monday 10 January 2022");
         }
     }
 }

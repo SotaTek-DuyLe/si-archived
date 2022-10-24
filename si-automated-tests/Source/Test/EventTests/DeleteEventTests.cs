@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -18,6 +19,7 @@ namespace si_automated_tests.Source.Test.EventTests
     {
         //BUG
         [Category("DeleteEvent")]
+        [Category("Chang")]
         [Test(Description = "Delete event")]
         public void TC_106_Delete_event()
         {
@@ -35,8 +37,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .Login(AutoUser7.UserName, AutoUser7.Password)
                 .IsOnHomePage(AutoUser7);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Events")
-                .OpenOption("North Star")
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.RM)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             EventsListingPage eventListingPage = PageFactoryManager.Get<EventsListingPage>();

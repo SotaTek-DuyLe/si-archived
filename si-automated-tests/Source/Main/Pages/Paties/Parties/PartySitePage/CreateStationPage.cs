@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -15,7 +16,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private readonly By prefixInput = By.CssSelector("input#station-prefix");
         private readonly By partyInput = By.CssSelector("input#station-party");
         private readonly By pinInput = By.CssSelector("input#station-pin");
-        private readonly By timeZoneTitle = By.XPath("//label[text()='Timezone']");
+        private readonly By timeZoneTitle = By.XPath("//label[text()='Time Zone']");
         private readonly By timeZoneDd = By.CssSelector("select#time-zone");
         private readonly By allowAddNewVehicleCheckbox = By.XPath("//label[text()='Allow Add New Vehicle']/following-sibling::div/input");
         private readonly By allowAddNewCustomerCheckbox = By.XPath("//label[text()='Allow Add New Customer']/following-sibling::div/input");
@@ -23,20 +24,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private readonly By allowStotedTareCheckbox = By.CssSelector("input#allowStoredTare");
         private readonly By useAssetTypeCheckbox = By.CssSelector("input#useAssetType");
         private readonly By tarePromtDayInput = By.CssSelector("input#tarePromptDays");
-        private readonly By errorMesRequiredTimeZone = By.XPath("//div[text()='[MISSING TRANSLATION Field_TimeZone] is required']/parent::div");
 
         //DYNAMIC
         private const string title = "//h4[text()='{0}']";
         private const string timezoneOption = "//select[@id='time-zone']/option[text()='{0}']";
         private const string defaultTicketOption = "//select[@id='ticket-type']/option[text()='{0}']";
 
+        [AllureStep]
         public CreateStationPage WaitForCreateStationPageLoaded(string siteName)
         {
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(title, siteName);
             return this;
         }
-
+        [AllureStep]
         public CreateStationPage IsCreateStationPage()
         {
             Assert.IsTrue(IsControlDisplayed(nameInput));
@@ -69,15 +70,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             Assert.AreEqual(GetCssValue(timeZoneDd, "border-color"), CommonConstants.BoderColorMandatory);
             return this;
         }
-
+        [AllureStep]
         public CreateStationPage VerifyDisplayErrorMesMissingTimezone()
         {
-            Assert.IsTrue(IsControlDisplayed(errorMesRequiredTimeZone));
+            VerifyDisplayToastMessage(MessageRequiredFieldConstants.MissingTimezoneMessage);
             //Verify color
-            Assert.AreEqual(GetCssValue(errorMesRequiredTimeZone, "color"), "rgba(159, 139, 64, 1)");
+            //Assert.AreEqual(GetCssValue(errorMesRequiredTimeZone, "color"), "rgba(159, 139, 64, 1)");
             return this;
         }
-
+        [AllureStep]
         public CreateStationPage SelectTimezone(string timezoneInput)
         {
             ClickOnElement(timeZoneDd);
@@ -86,13 +87,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             Assert.AreEqual(GetFirstSelectedItemInDropdown(timeZoneDd), timezoneInput);
             return this;
         }
-
+        [AllureStep]
         public CreateStationPage InputName(string stationName)
         {
             SendKeys(nameInput, stationName);
             return this;
         }
-
+        [AllureStep]
         public CreateStationPage SelectDefaultTicket(string ticketOption)
         {
             ClickOnElement(defaultTicketTypeDd);

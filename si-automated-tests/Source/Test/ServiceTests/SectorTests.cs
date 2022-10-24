@@ -1,15 +1,13 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Core;
+using NUnit.Framework;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
-using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Search.PointAreas;
 using si_automated_tests.Source.Main.Pages.Search.PointNodes;
 using si_automated_tests.Source.Main.Pages.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.ServiceTests
@@ -29,13 +27,14 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser27.UserName, AutoUser27.Password)
                 .IsOnHomePage(AutoUser27);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial")
-                .ExpandOption("Richmond Commercial");
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
+                .ExpandOptionLast(Contract.RMC);
         }
         [Category("PointNode")]
+        [Category("Dee")]
         [Test]
         public void TC_103_Create_point_node()
         {
@@ -51,11 +50,12 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<PointNodeDetailPage>()
                 .InputPointNodeDetails(_des, _lat, _long)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Point Node")
-                .WaitUntilToastMessageInvisible("Successfully saved Point Node")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .GoToAllTabAndConfirmNoError();
         }
         [Category("PointArea")]
+        [Category("Dee")]
         [Test]
         public void TC_104_Create_point_area()
         {
@@ -71,31 +71,34 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .InputAreaName(name)
                 .InputLatLong(latLong)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Point Area")
-                .WaitUntilToastMessageInvisible("Successfully saved Point Area")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .GoToAllTabAndConfirmNoError();
         }
         [Category("PointArea")]
+        [Category("Dee")]
         [Test]
         public void TC_107_Create_announcement()
         {
             //VERIFY ON CONTRACTS
             PageFactoryManager.Get<NavigationBase>()
-                .OpenOption("North Star Commercial")
+                .OpenOption(Contract.RMC)
                 .SwitchNewIFrame()
-                .SwitchToTab("Announcements");
+                .SwitchToTab("Announcements")
+                .WaitForLoadingIconToDisappear();
             CreateAnnouncementAndVerify();
             //VERIFY ON GROUP AND SERVICES
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Ancillary")
                 .OpenOption("Skips")
+                .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame()
                 .SwitchToTab("Announcements");
             CreateAnnouncementAndVerify();
             //VERIFY ON ROUND GROUPS AND ROUND
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Skips")
                 .ExpandOption("Round Groups")
                 .OpenOption("SKIP1")
@@ -104,7 +107,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             CreateAnnouncementAndVerify();
             //VERIFY ON CONTRACT UNIT
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Contract Units")
                 .OpenOption("Commercial")
                 .SwitchNewIFrame()
@@ -112,7 +115,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             CreateAnnouncementAndVerify();
             //VERIFY ON POINT ADDRESS
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .OpenOption("Point Addresses")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -126,7 +129,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToLastWindow();
             //VERIFY ON POINT Segments
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .OpenOption("Point Segments")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -140,7 +143,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToLastWindow();
             //VERIFY ON POINT Nodes
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .OpenOption("Point Nodes")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -154,7 +157,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToLastWindow();
             //VERIFY ON POINT Nodes
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .OpenOption("Point Areas")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -176,14 +179,14 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string from = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             string to = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT, 1);
             PageFactoryManager.Get<CommonBrowsePage>()
-               .ClickAddNewItem()
-               .SwitchToLastWindow();
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
             PageFactoryManager.Get<AnnouncementDetailPage>()
                 .IsOnDetailPage()
                 .InputDetails(type, text, impact, from, to)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Announcement")
-                .WaitUntilToastMessageInvisible("Successfully saved Announcement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
@@ -208,8 +211,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .IsOnDetailPage()
                 .InputDetails(type, text, impact, from, to)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Announcement")
-                .WaitUntilToastMessageInvisible("Successfully saved Announcement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -218,6 +221,124 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyFirstResultValueInTab("Valid From", from)
                 .VerifyFirstResultValueInTab("Valid To", to)
                 .SwitchToDefaultContent();
+        }
+
+        [Category("Sectors")]
+        [Category("Chang")]
+        [Test(Description = "Verify that a new sector form is opened ")]
+        public void TC_129_Verify_that_a_new_sector_form_is_opened()
+        {
+            string sector = Contract.RMC;
+
+            PageFactoryManager.Get<NavigationBase>()
+                   .OpenLastOption(Contract.RMC);
+            SectorPage sectorPage = PageFactoryManager.Get<SectorPage>();
+            sectorPage.WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+
+            sectorPage.ClickOnElement(sectorPage.DetailTab);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyElementVisibility(sectorPage.InputSector, true)
+                .VerifyElementVisibility(sectorPage.SelectContract, true)
+                .VerifyElementVisibility(sectorPage.SelectSectorType, true)
+                .VerifyElementVisibility(sectorPage.SelectParentSector, true);
+
+            //Verify that the top bar actions display and correctly
+            sectorPage.VerifyElementVisibility(sectorPage.ButtonSave, true)
+                .VerifyElementVisibility(sectorPage.ButtonRefresh, true)
+                .VerifyElementVisibility(sectorPage.ButtonHistory, true)
+                .VerifyElementVisibility(sectorPage.ButtonHelp, true);
+            sectorPage.VerifyElementEnable(sectorPage.ButtonSave, false);
+            
+            //Refresh btn
+            sectorPage.ClickOnElement(sectorPage.ButtonRefresh);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyInputValue(sectorPage.InputSector, sector);
+            //Help btn
+            sectorPage.ClickOnElement(sectorPage.ButtonHelp);
+            sectorPage.SwitchToChildWindow(2);
+            HelpPage helpPage = PageFactoryManager.Get<HelpPage>();
+            helpPage.VerifyElementVisibility(helpPage.HelpTitle, true)
+                .VerifyElementVisibility(helpPage.EchoWikiLink, true)
+                .VerifyElementVisibility(helpPage.ButtonClose, true)
+                .ClickOnElement(helpPage.ButtonClose);
+            helpPage.SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            //History button
+
+
+            //Object header
+            sectorPage.VerifyElementText(sectorPage.TitleSectorName, sectorPage.GetInputValue(sectorPage.InputSector))
+                .VerifyElementVisibility(sectorPage.SectorId, true)
+                .VerifyElementVisibility(sectorPage.IconSector, true)
+                .VerifyElementText(sectorPage.TitleSectorType, "Sector - " + sectorPage.GetFirstSelectedItemInDropdown(sectorPage.SelectSectorType), toLowerCase: true);
+
+            //Verify  that a last tab selected is remembered for the user
+            sectorPage.ClickOnElement(sectorPage.MapTab);
+            sectorPage.WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
+                .OpenLastOption(Contract.RMC)
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            sectorPage.VerifyElementVisibility(sectorPage.DivMap, true);
+
+            sectorPage.ClickOnElement(sectorPage.DetailTab);
+            sectorPage.WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
+                .OpenLastOption(Contract.RMC)
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            sectorPage.VerifyElementVisibility(sectorPage.InputSector, true)
+                .VerifyElementVisibility(sectorPage.SelectContract, true)
+                .VerifyElementVisibility(sectorPage.SelectSectorType, true)
+                .VerifyElementVisibility(sectorPage.SelectParentSector, true);
+
+            //Details tab
+            //Verify that mandatory fields are highlighted in red and warning message is displayed
+            sectorPage.SendKeys(sectorPage.InputSector, "");
+            sectorPage.SendKeys(sectorPage.InputSector, Keys.Enter);
+            sectorPage.SleepTimeInMiliseconds(200);
+            sectorPage.VerifyBorderColorIsRed(sectorPage.InputSector);
+            sectorPage.ClickOnElement(sectorPage.ButtonSave);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyToastMessage("Sector is required")
+                .WaitUntilToastMessageInvisible("Sector is required");
+            sectorPage.SendKeys(sectorPage.InputSector, sector);
+
+            sectorPage.SelectTextFromDropDown(sectorPage.SelectSectorType, "");
+            sectorPage.ClickOnElement(sectorPage.InputSector);
+            sectorPage.SleepTimeInMiliseconds(200);
+            sectorPage.VerifyBorderColorIsRed(sectorPage.SelectSectorType);
+            sectorPage.ClickOnElement(sectorPage.ButtonSave);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyToastMessage("Sector Type is required")
+                .WaitUntilToastMessageInvisible("Sector Type is required");
+            //can update
+            string contract = Contract.RM;
+            string parentSector = "Hampton Tip (West)";
+            string sectorType = "Ward";
+            sectorPage.SelectTextFromDropDown(sectorPage.SelectContract, contract)
+                .SelectTextFromDropDown(sectorPage.SelectParentSector, parentSector)
+                .SelectTextFromDropDown(sectorPage.SelectSectorType, sectorType)
+                .ClickOnElement(sectorPage.ButtonSave);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success");
+
+            sectorPage.ClickOnElement(sectorPage.ButtonRefresh);
+            sectorPage.WaitForLoadingIconToDisappear();
+            sectorPage.VerifyInputValue(sectorPage.InputSector, sector)
+                .VerifySelectedValue(sectorPage.SelectContract, contract)
+                .VerifySelectedValue(sectorPage.SelectParentSector, parentSector)
+                .VerifySelectedValue(sectorPage.SelectSectorType, sectorType);
         }
     }
 }

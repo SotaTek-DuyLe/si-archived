@@ -9,7 +9,7 @@ namespace si_automated_tests.Source.Core
 {
     public class DatabaseContext : IDisposable
     {
-        public SqlConnection Conection { get; private set; }
+        public SqlConnection Connection { get; private set; }
 
         public DatabaseContext(string host, string dbName, string userId, string password)
         {
@@ -18,7 +18,8 @@ namespace si_automated_tests.Source.Core
             builder.InitialCatalog = dbName;
             builder.UserID = userId;
             builder.Password = password;
-            Conection = new SqlConnection(builder.ConnectionString);
+            Connection = new SqlConnection(builder.ConnectionString);
+            Connection.Open();
         }
 
         public DatabaseContext()
@@ -31,8 +32,8 @@ namespace si_automated_tests.Source.Core
             builder.InitialCatalog = mSConfiguration.DBName;
             builder.UserID = mSConfiguration.UserId;
             builder.Password = mSConfiguration.Password;
-            Conection = new SqlConnection(builder.ConnectionString);
-            Conection.Open();
+            Connection = new SqlConnection(builder.ConnectionString);
+            Connection.Open();
         }
         public DatabaseContext(string host, string dbName)
         {
@@ -40,13 +41,13 @@ namespace si_automated_tests.Source.Core
             builder.DataSource = host;
             builder.InitialCatalog = dbName;
             builder.IntegratedSecurity = true;
-            Conection = new SqlConnection(builder.ConnectionString);
-            Conection.Open();
+            Connection = new SqlConnection(builder.ConnectionString);
+            Connection.Open();
         }
 
         public void Dispose()
         {
-            Conection?.Dispose();
+            Connection?.Dispose();
         }
     }
 

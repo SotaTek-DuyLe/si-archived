@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
-using si_automated_tests.Source.Main.Pages.Task;
 
 namespace si_automated_tests.Source.Main.Pages
 {
@@ -15,18 +15,20 @@ namespace si_automated_tests.Source.Main.Pages
         private string taskTypeName = "//span[text()='Task']/following-sibling::span";
 
         private readonly By taskRefInput = By.XPath("//label[contains(text(),'Task Reference')]/following-sibling::input");
+        private readonly By taskRefText = By.XPath("//label[contains(text(),'Task Reference')]");
 
         private readonly By dueDate = By.Id("dueDate.id");
         private readonly By completionDate = By.Id("completionDate.id");
         private readonly By endDate = By.Id("endDate.id");
-        private readonly By detailTaskState = By.Id("taskState.id");
+        public readonly By detailTaskState = By.Id("taskState.id");
         private readonly By taskNote = By.Id("taskNotes.id");
         private readonly By purchaseOrderNumberInput = By.Id("purchaseOrderNumber");
 
         private string detailsTaskStateOption = "//select[@name='taskState']//option[text()='{0}']";
 
-        private string purchaseOrderValue = "//div[contains(@data-bind, 'purchaseOrderNumberBadge') and text()='{0}']";
-        
+        private string purchaseOrderValue = "//div[text()='Purchase Order #']/following-sibling::div[text()='{0}']";
+
+        [AllureStep]
         public TaskDetailTab IsOnTaskDetailTab()
         {
             WaitUtil.WaitForElementVisible(taskTypeURL);
@@ -52,39 +54,51 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.IsTrue(IsControlDisplayed(taskTypeName));
             return this;
         }
+        [AllureStep]
         public TaskDetailTab VerifyDueDate(string expected)
         {
             //Not usable because text is hidden in DOM
             Assert.IsTrue(GetElementText(dueDate).Contains(expected));
             return this;
         }
+        [AllureStep]
+        public string GetDueDate()
+        {
+            return GetAttributeValue(dueDate, "value").Substring(0,10);
+        }
+        [AllureStep]
         public TaskDetailTab VerifyCompletionDate(string date)
         {
             Assert.IsTrue(GetAttributeValue(completionDate,"value").Contains(date));
             return this;
         }
+        [AllureStep]
         public TaskDetailTab VerifyEndDate(string date)
         {
             Assert.IsTrue(GetAttributeValue(endDate, "value").Contains(date));
             return this;
         }
+        [AllureStep]
         public TaskDetailTab VerifyTaskState(string _state)
         {
             string state = GetFirstSelectedItemInDropdown(detailTaskState);
             Assert.AreEqual(_state, state);
             return this;
         }
+        [AllureStep]
         public TaskDetailTab VerifyNote(string note)
         {
             Assert.IsTrue(GetAttributeValue(taskNote, "value").Contains(note));
             return this;
         }
+        [AllureStep]
         public TaskDetailTab ClickStateDetais()
         {
             ClickOnElement(detailTaskState);
             Thread.Sleep(1000);
             return this;
         }
+        [AllureStep]
         public TaskDetailTab ChooseTaskState(string status)
         {
 
@@ -92,21 +106,26 @@ namespace si_automated_tests.Source.Main.Pages
             Thread.Sleep(1000);
             return this;
         }
+        [AllureStep]
         public TaskDetailTab InputReferenceValue(string value)
         {
             SendKeys(taskRefInput, value);
+            ClickOnElement(taskRefText);
             return this;
         }
+        [AllureStep]
         public TaskDetailTab VerifyReferenceValue(string value)
         {
             Assert.AreEqual(GetAttributeValue(taskRefInput, "value"), value);
             return this;
         }
+        [AllureStep]
         public TaskDetailTab InputPurchaseOrderValue(string value)
         {
             SendKeys(purchaseOrderNumberInput, value);
             return this;
         }
+        [AllureStep]
         public TaskDetailTab VerifyPurchaseOrderValueAtInput(string value)
         {
             Assert.AreEqual(GetAttributeValue(purchaseOrderNumberInput, "value"), value);
@@ -119,6 +138,7 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.IsTrue(IsControlDisplayed(purchaseOrderValue, po));
             return this;
         }
+        [AllureStep]
         public TaskDetailTab VerifyPurchaseOrderValueNotPresent(string po)
         {
 

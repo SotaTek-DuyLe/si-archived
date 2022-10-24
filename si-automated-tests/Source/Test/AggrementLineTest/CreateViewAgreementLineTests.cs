@@ -16,13 +16,14 @@ using si_automated_tests.Source.Main.Pages.Task;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 
-namespace si_automated_tests.Source.Test
+namespace si_automated_tests.Source.Test.PartiesTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
     public class CreateViewAgreementLineTests : BaseTest
     {
         [Category("CreateAgreement")]
+        [Category("Dee")]
         [Test]
         public void TC_012_Create_Agreement_Line_With_Start_Date_In_The_Past()
         {
@@ -34,9 +35,9 @@ namespace si_automated_tests.Source.Test
                 .Login(AutoUser5.UserName, AutoUser5.Password)
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -61,7 +62,7 @@ namespace si_automated_tests.Source.Test
                .IsOnPartyAgreementPage()
                .SelectAgreementType("Commercial Collections")
                .ClickSaveBtn();
-            PageFactoryManager.Get<BasePage>().VerifyToastMessage("Successfully saved agreement");
+            PageFactoryManager.Get<BasePage>().VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyAgreementStatus("New")
                 .VerifyNewOptionsAvailable()
@@ -78,8 +79,9 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .OpenOption("Agreements");
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption("Agreements")
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(newAgreementId)
                 .OpenFirstResult()
@@ -107,6 +109,7 @@ namespace si_automated_tests.Source.Test
                 .ChooseEwcCode("150106")
                 .InputProductQuantity(600)
                 .VerifyTotalProductQuantity(2 * 600)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .VerifyAssetSummary(2, "660L", "Rental", 600, "General Recycling")
                 .ClickBack();
@@ -138,7 +141,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyServicePanelPresent()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(5000);
             PageFactoryManager.Get<PartyAgreementPage>()
@@ -156,8 +159,8 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -182,6 +185,7 @@ namespace si_automated_tests.Source.Test
         }
 
         [Category("CreateAgreement")]
+        [Category("Dee")]
         [Test]
         public void TC_013_Create_Agreement_Line_With_Start_Date_In_The_Future()
         {
@@ -193,9 +197,9 @@ namespace si_automated_tests.Source.Test
                 .Login(AutoUser5.UserName, AutoUser5.Password)
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -216,7 +220,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyStartDateIs(agreementStartDate)
                 .SelectAgreementType("Commercial Collections")
                 .ClickSaveBtn();
-            PageFactoryManager.Get<BasePage>().VerifyToastMessage("Successfully saved agreement");
+            PageFactoryManager.Get<BasePage>().VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyAgreementStatus("New")
                 .VerifyNewOptionsAvailable()
@@ -233,8 +237,9 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .OpenOption("Agreements");
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption("Agreements")
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(newAgreementId)
                 .OpenFirstResult()
@@ -260,6 +265,7 @@ namespace si_automated_tests.Source.Test
                 .ChooseEwcCode("150106")
                 .InputProductQuantity(600)
                 .VerifyTotalProductQuantity(2 * 600)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .VerifyAssetSummary(2, "660L", "Rental", 600, "General Recycling")
                 .ClickBack();
@@ -293,7 +299,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyServicePanelPresent()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(5000);
             PageFactoryManager.Get<PartyAgreementPage>()
@@ -311,8 +317,8 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -353,6 +359,7 @@ namespace si_automated_tests.Source.Test
         }
 
         [Category("CreateAgreement")]
+        [Category("Dee")]
         [Test]
         public void TC_014_Create_Agreement_Line_With_Start_Date_Is_Current_Date()
         {
@@ -364,9 +371,9 @@ namespace si_automated_tests.Source.Test
                 .Login(AutoUser5.UserName, AutoUser5.Password)
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -387,7 +394,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyStartDateIs(agreementStartDate)
                 .SelectAgreementType("Commercial Collections")
                 .ClickSaveBtn();
-            PageFactoryManager.Get<BasePage>().VerifyToastMessage("Successfully saved agreement");
+            PageFactoryManager.Get<BasePage>().VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyAgreementStatus("New")
                 .VerifyNewOptionsAvailable()
@@ -404,8 +411,9 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .OpenOption("Agreements");
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption("Agreements")
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(newAgreementId)
                 .OpenFirstResult()
@@ -431,6 +439,7 @@ namespace si_automated_tests.Source.Test
                 .ChooseEwcCode("200139")
                 .InputProductQuantity(1000)
                 .VerifyTotalProductQuantity(3 * 1000)
+                .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
                 .VerifyAssetSummary(3, "1100L", "Rental", 1000, "Plastic")
                 .ClickBack();
@@ -464,7 +473,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyServicePanelPresent()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(5000);
             PageFactoryManager.Get<PartyAgreementPage>()
@@ -482,8 +491,8 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser5);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
@@ -525,6 +534,7 @@ namespace si_automated_tests.Source.Test
 
         //View Agreement Line test 
         [Category("CreateAgreement")]
+        [Category("Dee")]
         [Test]
         public void TC_015_navigate_to_active_agreement_line_and_view_all_the_tabs_and_phases()
         {
@@ -537,8 +547,8 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser5);
             //Filter id
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();

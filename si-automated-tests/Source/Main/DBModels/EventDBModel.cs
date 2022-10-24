@@ -15,7 +15,7 @@ namespace si_automated_tests.Source.Main.DBModels
         public int eventcreatedbyuserID { get; set; }
         public int serviceID { get; set; }
         public int echoID { get; set; }
-
+        public int lastupdateduserID { get; set; }
 
         public EventDBModel()
         {

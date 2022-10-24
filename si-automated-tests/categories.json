@@ -1,0 +1,19 @@
+[
+    {
+        "name": "Web performance",
+        "messageRegex": "(.*Toast message doesn't appear.*)|(.*Loading icon doesn't disappear.*)"
+
+    },
+    {
+        "name": "Failed String validation",
+        "messageRegex": ".*Expected string length.*"
+    },
+    {
+        "name": "Timeout Exception",
+        "messageRegex": ".*WebDriverTimeoutException.*"
+    },
+    {
+        "name": "Automation Bug",
+        "messageRegex": "(.*ArgumentOutOfRangeException.*)|(.*System.FormatException.*)"
+    }
+]

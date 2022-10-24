@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Attributes;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace si_automated_tests.Source.Main.Pages.Round
     {
         private readonly By roundGroupInput = By.XPath("//input[@name='round']");
 
+        [AllureStep]
         public RoundDetailTab IsOnDetailTab()
         {
             WaitUtil.WaitForElementVisible(roundGroupInput);

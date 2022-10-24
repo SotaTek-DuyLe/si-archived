@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Core;
+using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
@@ -29,9 +30,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .Login(AutoUser30.UserName, AutoUser30.Password)
                 .IsOnHomePage(AutoUser30);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -54,7 +55,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyCustomerPath()
                 .InputNote(note1)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved party.")
+                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyDataPage>()
                 .VerifyCustomerPathHidden()
@@ -62,7 +63,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyCustomerPathWithNote(note1)
                 .InputNote(note2)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved party.")
+                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyDataPage>()
                .VerifyCustomerPathHidden()

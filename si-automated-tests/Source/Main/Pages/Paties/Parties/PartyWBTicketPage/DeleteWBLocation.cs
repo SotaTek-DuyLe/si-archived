@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
@@ -11,6 +12,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyWBTicketPage
         private readonly By yesBtn = By.XPath("//button[text()='Yes']");
         private readonly By noBtn = By.XPath("//button[text()='No']");
 
+        [AllureStep]
         public DeleteWBLocation IsWarningPopupDisplayed()
         {
             WaitUtil.WaitForPageLoaded();
@@ -20,7 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyWBTicketPage
             Assert.IsTrue(IsControlDisplayed(noBtn));
             return this;
         }
-
+        [AllureStep]
         public DeleteWBLocation ClickYesBtn()
         {
             ClickOnElement(yesBtn);

@@ -39,13 +39,27 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string UpdateEventTitle = "Update Event - Event";
         public static readonly string AddNoteEventTitle = "Add Note - Event";
         public static readonly string CancelEventTitle = "Cancel - Event";
+        public static readonly string[] ColumnInFindServiceUnitWindow = { "ID", "Service Unit", "Point Count", "Select" };        public static readonly string[] ServiceUpdateColumnHistoryTab = { "ActualAssetQuantity", "ActualProductQuantity", "State", "Resolution Code", "Completed Date", "Auto Confirmed" };
+        public static readonly string[] ServiceUpdateColumnNotCompletedHistoryTab = { "ActualAssetQuantity", "ActualProductQuantity", "State", "Completed Date", "Auto Confirmed" };        public static readonly string[] UpdateColumnHistoryTabFirst = { "Task notes", "Completed date", "State", "End date", "Resolution code" };
+        public static readonly string[] UpdateColumnHistoryTabSecond = { "Task notes", "Completed date", "State", "End date" };
+        public static readonly string[] ServiceUpdateTaskLineFromCancelledToNotCompleted = { "State", "Completed Date", "Auto Confirmed" };
+        public static readonly string[] HistoryStreetColumn = { "ID", "Date", "Update Type", "User", "Object Type", "Object ID" };
+        public static readonly string[] ActionEventBulkUpdate = { "Add Note" };
+        public static readonly string[] ActionMenuSDM = { "Add Service Task Schedule", "Set Assured", "Set Proximity Alert", "Add/Amend Crew Notes", "Retire Service Task Schedule" };
+        public static readonly string[] ActionMenuSU = { "Split Service Unit", "Remove Point" };
+        public static readonly string FUTURE_END_DATE = "01/01/2050";
+        public static readonly string[] HistoryTitleAfterUpdateWBTicketTab = { "Party", "Auto Print", "Driver Required", "Use Stored PO", "Use Manual PO", "External Round Required", "Use Stored Round", "Use Manual Round", "Allow Manual Name", "Authorize Tipping", "License Number", "License Number Expiry", "Dormant Date", "Restrict Products" };
 
+
+        //ICON IMAGE
+        public static readonly string StreetIconUrl = "web/content/images/street.svg";        
         //DATE
         public static readonly string DATE_DD_MM_YYYY_FORMAT = "dd/MM/yyyy";
         public static readonly string DATE_DD_MM_YYYY_FORMAT_DB = "dd-MM-yyyy";
         public static readonly string DATE_MM_DD_YYYY_FORMAT = "MM/dd/yyyy";
         public static readonly string DATE_DD_MM_YYYY_HH_MM_FORMAT = "dd/MM/yyyy HH:mm";
         public static readonly string DATE_DDD_D_MMM = "ddd d MMM";
+        public static readonly string DATE_YYYY_MM_DD_FORMAT_DB = "yyyy-MM-dd";
 
     }
 }

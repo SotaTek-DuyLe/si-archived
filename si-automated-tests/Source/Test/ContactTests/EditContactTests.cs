@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -18,28 +17,30 @@ namespace si_automated_tests.Source.Test.ContactTests
     [TestFixture]
     public class EditContactTests : BaseTest
     {
-        [Test]
+        [Category("CreateInspection")]
+        [Category("Chang")]
+        [Test(Description = "Verify user can edit contact for a party")]
         public void TC_038_01_verify_that_user_can_edit_contact_for_a_party()
         {
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser9.UserName, AutoUser9.Password)
-                .IsOnHomePage(AutoUser9);
+                .Login(AutoUser57.UserName, AutoUser57.Password)
+                .IsOnHomePage(AutoUser57);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
-                .FilterPartyById(51)
+                .FilterPartyById(1)
                 .OpenFirstResult()
                 .SwitchToLastWindow();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
-                .WaitForDetailPartyPageLoadedSuccessfully("The Angel & Crown")
+                .WaitForDetailPartyPageLoadedSuccessfully("Twisted Fish Limited")
                 .WaitForLoadingIconToDisappear();
             //Contact tab
             detailPartyPage
@@ -49,7 +50,6 @@ namespace si_automated_tests.Source.Test.ContactTests
             List<ContactModel> contactModelList = detailPartyPage
                .GetAllContact();
             detailPartyPage
-                //.VerifyContactCreated(contactModel, contactModelList[0])
                 .ClickFirstContact()
                 .SwitchToLastWindow();
             EditPartyContactPage editPartyContactPage = PageFactoryManager.Get<EditPartyContactPage>();
@@ -58,7 +58,10 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .IsEditPartyContactPage(contactModelList[0])
                 .EnterAllValueFields(contactModelEdit)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Contact");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            string completedDateDisplayed = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+            string timeNow = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+
             editPartyContactPage
                 .NavigateToNotesTab()
                 .IsNotesTab()
@@ -66,7 +69,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .WaitForLoadingIconToDisappear();
             editPartyContactPage
                 .VerifyTitleAndNoteAfter()
-                .GetAndVerifyNoteAfterAdding("Edit Contact: ", "New Edit", AutoUser14.UserName)
+                .GetAndVerifyNoteAfterAdding("Edit Contact: ", "New Edit", AutoUser57.DisplayName, completedDateDisplayed, timeNow)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             detailPartyPage
@@ -77,19 +80,22 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .VerifyContactCreated(contactModelEdit, getAllContactAfter[0]);
         }
 
-        [Test]
+
+        [Category("CreateInspection")]
+        [Category("Chang")]
+        [Test(Description = "Verify contact with start date more than current date will not display in primary contact and invoice contact")]
         public void TC_038_02_verify_contact_with_start_date_more_than_current_date_will_not_display_in_primary_contact_and_invoice_contact()
         {
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser9.UserName, AutoUser9.Password)
-                .IsOnHomePage(AutoUser9);
+                .Login(AutoUser57.UserName, AutoUser57.Password)
+                .IsOnHomePage(AutoUser57);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage

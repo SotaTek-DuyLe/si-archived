@@ -1,6 +1,8 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,11 +17,19 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By goBtn = By.XPath("//button[text()='Go']");
         private readonly By createResourceBtn = By.Id("t-create");
         private readonly By refreshBtn = By.Id("t-refresh");
-        private readonly By date = By.Id("date");
+        public readonly By date = By.Id("date");
 
         //Left panel Daily Allocation
         private readonly By firstRoundRow = By.XPath("//tbody[contains(@data-bind,'roundMenu')]/tr");
         private readonly string allocatedResource = "//span[@class='main-description resource-name' and contains(text(),'{0}')]";
+        private readonly By allocatedResources = By.XPath("//span[@class='main-description resource-name']");
+        private readonly string allocatedResourceInRoundGroup = "//tr[@class='round-group-dropdown']//span[@class='main-description resource-name']";
+        private readonly string allocatedResourceInRound = "//tr[@class='round-group-dropdown-item']//span[@class='main-description resource-name' and not(text()='')]";
+        private readonly string allocatedResourceType = "//span[@class='main-description resource-name' and text()='']";
+        private readonly string allocatedResourceTypeInRound = "//tr[@class='round-group-dropdown-item']//span[@class='main-description resource-name' and text()='']";
+        private readonly string allocatedResourceTypeInRoundGroup = "//tr[@class='round-group-dropdown']//span[@class='main-description resource-name' and text()='']";
+        private readonly By addResourceCellInRoundGroup = By.XPath("//tr[@class='round-group-dropdown']//td[@title='To allocate resource, select and drag resource from the panel on the right hand side.']");
+        private readonly By addResourceCellInRound = By.XPath("//tr[@class='round-group-dropdown-item']//td[@title='To allocate resource, select and drag resource from the panel on the right hand side.']");
         private readonly string allocatedResourceContainer = "//span[@class='main-description resource-name' and contains(text(),'{0}')]/parent::td";
         private readonly string resourceAbbreviation = "//span[@class='main-description resource-name' and contains(text(),'{0}')]/following-sibling::span[contains(@data-bind,'resourceStateAbbreviation')]";
         private readonly By resourcePresence = By.Id("resource-presence");
@@ -30,17 +40,25 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string whiteBackground = "background-color: rgb(255, 255, 255);";
         private readonly string greenBackground = "background-color: rgb(137, 203, 137);";
         private readonly string purpleBackground = "background-color: rgb(177, 156, 217);";
-        private readonly string redBackground = "background-color: rgb(255, 105, 98);";
+        private readonly string redBackground = "background-color: rgb(255, 49, 28);";
+        private readonly string red2Background = "background-color: rgb(255, 224, 152);";
+        private readonly string greenishBackground = "background-color: rgb(132, 255, 182);";
 
         //Left Panel Default Allocation
-        private readonly By firstColumn = By.XPath("//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')]");
-        private readonly String expandOptions = "(//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')])[{0}]//div[@id='toggle-actions']";
-        private readonly String secondColumnResource = "(//div[@id='rounds-scrollable']//tr[@class='round-group-dropdown'])[{0}]//span[text()='{1}']";
-        private readonly String roundName = "//span[@class='main-description round-name' and text()='{0}']";
+        private readonly By roundScrollable = By.Id("rounds-scrollable");
+        private readonly By roundGroups = By.XPath("//div[contains(@class,'layout-pane-west')]//tr[@class='round-group-dropdown']");
+        private readonly string firstResourceCustomRoundGroup = "//tr[@class='round-group-dropdown'][{0}]/td[@class='resource-container resource']";
+        private readonly string roundGroup = "//tr[@class='round-group-dropdown'][{0}]";
+        private readonly By roundContainer = By.XPath("//tr[@class='round-group-dropdown-item']/td[@class='round-container round']");
+        private readonly string blankResourceTypeInRoundGroup = "//tr[@class='round-group-dropdown']//span[@class='sub-description resource-type current-type' and text()='{0}']/preceding-sibling::span[@class='main-description resource-name' and text()='']";
+        private readonly string blankResourceTypeInRound = "//tr[@class='round-group-dropdown-item']//span[@class='sub-description resource-type current-type' and text()='{0}']/preceding-sibling::span[@class='main-description resource-name' and text()='']";
+        private readonly string expandOptions = "(//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')])[{0}]//div[@id='toggle-actions']";
+        private readonly string secondColumnResource = "(//div[@id='rounds-scrollable']//tr[@class='round-group-dropdown'])[{0}]//span[text()='{1}']";
+        private readonly string roundName = "//span[@class='main-description round-name' and text()='{0}']";
         private readonly By viewRoundBtn = By.XPath("//button[text()='VIEW ROUND']");
         private readonly By dateInput = By.XPath("//input[contains(@data-bind,'dateControl')]");
         private readonly By calendarIcon = By.XPath("//div[@class='date-control container' and contains(@style,'display: block;')]//span[@class='input-group-addon']");
-        private readonly String futreDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@style,'display: block;')]//td[not(contains(@class,'disable')) and text()='{0}'])[last()]";
+        private readonly string futreDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@style,'display: block;')]//td[not(contains(@class,'disable')) and text()='{0}'])[last()]";
 
         //Right panel
         private readonly By headers = By.XPath("//div[contains(@class,'active')]//div[@class='ui-state-default slick-header-column slick-header-sortable ui-sortable-handle']/span[1]");
@@ -52,23 +70,52 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string businessUnitExpandIcon = "//a[contains(@class,'jstree-anchor') and text()='{0}']/preceding-sibling::i";
         private readonly By businessUnitStaticOptions = By.XPath("(//*[@class='jstree-children'])[last()]//a");
 
+        //Resizer
+        private readonly By resizerWidth = By.XPath("//div[@title='Resize']");
+        private readonly By resizerHeight = By.XPath("(//div[@title='Close'])[3]");
+        private readonly By addResourceBtn = By.Id("t-create");
+        public readonly By SecondRoundInstanceRow = By.XPath("//div[@id='rounds-scrollable']//table[1]//tbody[1]/tr[3]");
+        public readonly By BusinessUnitInput = By.XPath("//input[@id='business-units']");
+
+        private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-1')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]", "./i[contains(@class, 'jstree-ocl')][1]");
+        private TreeViewElement ServicesTreeView
+        {
+            get => _treeViewElement;
+        }
+        [AllureStep]
+        public ResourceAllocationPage SelectRoundNode(string nodeName)
+        {
+            ServicesTreeView.ClickItem(nodeName);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ExpandRoundNode(string nodeName)
+        {
+            ServicesTreeView.ExpandNode(nodeName);
+            return this;
+        }
+
+        [AllureStep]
         public ResourceAllocationPage SelectContract(string contract)
         {
             SelectTextFromDropDown(contractSelect, contract);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage SelectBusinessUnit(string bu)
         {
             ClickOnElement(businessUnitInput);
             ClickOnElement(businessUnitOption, bu);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ExpandBusinessUnitOption(string option)
         {
             ClickOnElement(businessUnitInput);
             ClickOnElement(businessUnitExpandIcon, option);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyBusinessUnitsAre(List<string> expectedUnits)
         {
             List<string> buNameList = new List<string>();
@@ -84,21 +131,25 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             }
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage SelectShift(string shift)
         {
             SelectTextFromDropDown(shiftSelect, shift);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickGo()
         {
             ClickOnElement(goBtn);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickCreateResource()
         {
             ClickOnElement(createResourceBtn);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage FilterResource(string filter, string value)
         {
             IList<IWebElement> _headers = WaitUtil.WaitForAllElementsVisible(headers);
@@ -111,98 +162,149 @@ namespace si_automated_tests.Source.Main.Pages.Resources
                     return this;
                 }
             }
+            WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyFirstResultValue(string field, string expected)
         {
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
-            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
             for (int i = 0; i < hds.Count; i++)
             {
                 if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
                 {
+                    var f = GetResultNo(i+1);
                     //Temporary comment because of unfixed bug: Assert.AreEqual(expected, _firstResultFields[i].Text);
-                    Assert.IsTrue(_firstResultFields[i].Text.Contains(expected));
+                    Assert.IsTrue(f.Text.Contains(expected),"expected " + expected + " but found " + f.Text);
                 }
             }
             return this;
 
         }
+        [AllureStep]
         public ResourceAllocationPage DragAndDropFirstResourceToFirstRound()
         {
-            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
+            var source = GetFirstResult();
             IWebElement target = WaitUtil.WaitForElementVisible(firstRoundRow);
-            DragAndDrop(_firstResultFields[0], target);
+            DragAndDrop(source, target);
             return this;
         }
-        public ResourceAllocationPage DeallocateResourceByDragAndDrop(string _resourceName)
+        [AllureStep]
+        public ResourceAllocationPage DeallocateResource(string _resourceName)
         {
-            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
+            var target = GetFirstResult();
             IWebElement source = WaitUtil.WaitForElementVisible(allocatedResource, _resourceName);
-            DragAndDrop(source, _firstResultFields[0]);
+            DragAndDrop(source, target);
             return this;
         }
-
+        [AllureStep]
+        public ResourceAllocationPage DeallocateResourceInRound(int whichOne)
+        {
+            var target = GetFirstResult();
+            var source = WaitUtil.WaitForAllElementsVisible(allocatedResourceInRound)[whichOne - 1];
+            DragAndDrop(source, target);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage DeallocateResourceType(int whichOne)
+        {
+            var target = GetFirstResult();
+            var source = WaitUtil.WaitForAllElementsVisible(allocatedResourceType);
+            DragAndDrop(source[whichOne-1], target);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage DeallocateResourceType(string resourceType)
+        {
+            var target = GetFirstResult();
+            IWebElement source = WaitUtil.WaitForElementVisible(allocatedResourceType, resourceType);
+            DragAndDrop(source, target);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage DeallocateResourceTypeInRound(string resourceType)
+        {
+            var target = GetFirstResult();
+            IWebElement source = WaitUtil.WaitForElementVisible(allocatedResourceTypeInRound, resourceType);
+            DragAndDrop(source, target);
+            return this;
+        }
+        [AllureStep]
         public ResourceAllocationPage VerifyAllocatedResourceName(string _name)
         {
             WaitUtil.WaitForElementVisible(allocatedResource, _name);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyResourceDeallocated(string _name)
         {
             WaitUtil.WaitForElementInvisible(allocatedResource, _name);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickAllocatedResource(string _name)
         {
             ClickOnElement(allocatedResource, _name);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyPresenceOption(string _text)
         {
             Assert.AreEqual(_text, WaitUtil.WaitForElementVisible(resourcePresence).Text);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickPresenceOption()
         {
             ClickOnElement(resourcePresence);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage SelectResourceState(string state)
         {
             //Value: SICK, TRAINING, AWOL
             ClickOnElement(resourceState, state);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickViewShiftDetail()
         {
             ClickOnElement(viewShiftDetailBtn);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickResourceDetail()
         {
             ClickOnElement(resourceDetailBtn);
             return this;
         }
-
+        [AllureStep]
         public ResourceAllocationPage VerifyBackgroundColor(string _resourceName, string _color)
         {
             string style = WaitUtil.WaitForElementVisible(allocatedResourceContainer, _resourceName).GetAttribute("style");
             if (_color == "white")
             {
-                Assert.AreEqual(whiteBackground, style);
+                Assert.IsTrue(style.Contains(whiteBackground), "Incorrect color: Expected " + whiteBackground + " but found: " + style);
             }
             else if (_color == "green")
             {
-                Assert.AreEqual(greenBackground, style);
+                Assert.IsTrue(style.Contains(greenBackground), "Incorrect color: Expected " + greenBackground + " but found: " + style);
             }
             else if (_color == "purple")
             {
-                Assert.AreEqual(purpleBackground, style);
+                Assert.IsTrue(style.Contains(purpleBackground), "Incorrect color: Expected " + purpleBackground + " but found: " + style);
             }
             else if (_color == "red")
             {
-                Assert.AreEqual(redBackground, style);
+                Assert.IsTrue(style.Contains(redBackground), "Incorrect color: Expected " + redBackground + " but found: " + style);
+            }
+            else if (_color == "red2")
+            {
+                Assert.IsTrue(style.Contains(red2Background), "Incorrect color: Expected " + red2Background + " but found: " + style);
+            }
+            else if (_color == "greenish")
+            {
+                Assert.IsTrue(style.Contains(greenishBackground), "Incorrect color: Expected " + greenishBackground + " but found: " + style);
             }
             else
             {
@@ -210,17 +312,20 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             }
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage InsertDate(string _date)
         {
             SendKeys(date, _date);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage RefreshGrid()
         {
             ClickOnElement(refreshBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyStateAbbreviation(string _resourceName, string _abbr)
         {
             Assert.AreEqual(_abbr, WaitUtil.WaitForElementVisible(resourceAbbreviation, _resourceName).Text);
@@ -228,29 +333,80 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         }
 
         //DEFAULT ALLOCATION PAGE
-        public ResourceAllocationPage DragAndDropFirstResultToRound(int numberOfRow)
+        [AllureStep]
+        public ResourceAllocationPage DragAndDropFirstResultToRoundGroup(int whichRow)
         {
-            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
-            IList<IWebElement> rows = WaitUtil.WaitForAllElementsVisible(firstColumn);
-            DragAndDrop(_firstResultFields[0], rows[numberOfRow - 1]);
+            var source = GetFirstResult();
+            IList<IWebElement> roundGroup = WaitUtil.WaitForAllElementsVisible(roundGroups);
+            DragAndDrop(source, roundGroup[whichRow - 1]);
             return this;
         }
+        [AllureStep]
+        public ResourceAllocationPage DragAndDropSecondResultToRoundGroup(int whichOne, int whichRow)
+        {
+            var source = GetResultNo(whichOne);
+            IList<IWebElement> roundGroup = WaitUtil.WaitForAllElementsVisible(roundGroups);
+            DragAndDrop(source, roundGroup[whichRow - 1]);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage DragAndDropFirstResultToBlankResourceType(string resourceType)
+        {
+            var source = GetFirstResult();
+            IWebElement target = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType);
+            DragAndDrop(source, target);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage DragAndDropFirstResultToBlankResourceTypeInRound(string resourceType)
+        {
+            var source = GetFirstResult();
+            IWebElement target = WaitUtil.WaitForElementVisible(blankResourceTypeInRound, resourceType);
+            DragAndDrop(source, target);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage DragAndDropFirstResultToNewCellInRoundGroup()
+        {
+            ScrollLeft(roundScrollable);
+            ScrollLeft(roundScrollable);
+            var source = GetFirstResult();
+            IWebElement target = WaitUtil.WaitForElementVisible(addResourceCellInRoundGroup);
+            DragAndDrop(source, target);
+            ScrollRight(roundScrollable);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage DragAndDropFirstResultToNewCellInRound()
+        {
+            ScrollLeft(roundScrollable);
+            ScrollLeft(roundScrollable);
+            var source = GetFirstResult();
+            IWebElement target = WaitUtil.WaitForElementVisible(addResourceCellInRound);
+            DragAndDrop(source, target);
+            ScrollRight(roundScrollable);
+            return this;
+        }
+        [AllureStep]
         public ResourceAllocationPage ClickRound(string _roundName)
         {
             ClickOnElement(roundName, _roundName);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickViewRoundGroup()
         {
             ClickOnElement(viewRoundBtn);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickCalendar()
         {
             ClickOnElement(dateInput);
             ClickOnElement(calendarIcon);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage InsertDayInFutre(string dayOfMonth)
         {
             if (dayOfMonth.StartsWith("0"))
@@ -260,19 +416,130 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ClickOnElement(futreDayNumberInCalendar, dayOfMonth);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage DeallocateResourceFromRoundGroup(int whichRow, string whichResource)
         {
-            IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFields);
-            IWebElement target = _firstResultFields[0];
+            var target = GetFirstResult();
             var xpath = String.Format(secondColumnResource, whichRow, whichResource);
             IWebElement source = WaitUtil.WaitForElementVisible(xpath);
             DragAndDrop(source, target);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ExpandRoundGroup(int whichRow)
         {
             ClickOnElement(expandOptions, whichRow.ToString());
             SleepTimeInMiliseconds(200);
+            return this;
+        }
+        [AllureStep]
+        public string GetFirstAllocatedResource()
+        {
+            return GetAllElementsNotWait(allocatedResources)[0].Text;
+        }
+        public ResourceAllocationPage VerifyAllocatingToast(string expectedToast)
+        {
+            VerifyToastMessage(expectedToast);
+            WaitUntilToastMessageInvisible(expectedToast);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage VerifyAllocatingToast(List<string> expectedToasts)
+        {
+            VerifyToastMessages(expectedToasts);
+            expectedToasts.ForEach(t => WaitUntilToastMessageInvisible(t));
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage RelocateResourceTypeFromRoundGroupToRoundGroup(string resourceType, int targetRow)
+        {
+            IWebElement source = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType);
+            var targetElement = WaitUtil.WaitForElementVisible(roundGroup, targetRow.ToString());
+            DragAndDrop(source, targetElement);
+            return this;
+
+        }
+        [AllureStep]
+        public ResourceAllocationPage RelocateResourceTypeFromRoundGroupToRound(string resourceType, int targetRow)
+        {
+            IWebElement source = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType);
+            var targetElements = WaitUtil.WaitForAllElementsVisible(roundContainer);
+            DragAndDrop(source, targetElements[targetRow-1]);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage RelocateResourceTypeFromRoundToRoundGroup(string resourceType, int whichRow)
+        {
+            var source = WaitUtil.WaitForElementVisible(blankResourceTypeInRound, resourceType);
+            var targetElement = WaitUtil.WaitForElementVisible(roundGroup, whichRow.ToString());
+            DragAndDrop(source, targetElement);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage RelocateResourceTypeFromRoundToRound(int whichOne, int roundRow)
+        {
+            var resourceType = WaitUtil.WaitForAllElementsVisible(allocatedResourceType);
+            var rounds = WaitUtil.WaitForAllElementsVisible(roundContainer);
+            DragAndDrop(resourceType[whichOne -1], rounds[roundRow - 1]);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage AllocateFirstResultToResourceTypeInRound(int whichResourceTypeInRow)
+        {
+            var source = GetFirstResult();
+            var resourceTypeInRound = WaitUtil.WaitForAllElementsVisible(allocatedResourceTypeInRound);
+            DragAndDrop(source, resourceTypeInRound[whichResourceTypeInRow - 1]);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage AllocateFirstResultToResourceTypeInRoundGroup(int whichResourceTypeInRow)
+        {
+            var source = GetFirstResult();
+            var resourceTypeInRound = WaitUtil.WaitForAllElementsVisible(allocatedResourceTypeInRoundGroup);
+            DragAndDrop(source, resourceTypeInRound[whichResourceTypeInRow - 1]);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ResizePage()
+        {
+            ClickOnElement(resizerHeight);
+            var resizerElement = GetElement(resizerWidth);
+            var targetElement = GetElement(addResourceBtn);
+            DragAndDrop(resizerElement, targetElement);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage AllocateResultToResourceInRound(int whichOne, int whichRound)
+        {
+            var source = GetResultNo(whichOne);
+            var resourceInRound = WaitUtil.WaitForAllElementsVisible(allocatedResourceInRound);
+            DragAndDrop(source, resourceInRound[whichRound - 1]);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage AllocateFirstResultToResourceInRoundGroup(int whichRoundGroup)
+        {
+            var source = GetFirstResult();
+            var resourceInRoundGroup = WaitUtil.WaitForAllElementsVisible(allocatedResourceInRoundGroup);
+            DragAndDrop(source, resourceInRoundGroup[whichRoundGroup - 1]);
+            return this;
+        }
+        [AllureStep]
+        public IWebElement GetFirstResult()
+        {
+            return WaitUtil.WaitForAllElementsVisible(firstResultFields)[0];
+        }
+        [AllureStep]
+        public IWebElement GetResultNo(int whichOne)
+        {
+            return WaitUtil.WaitForAllElementsVisible(firstResultFields)[whichOne-1];
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ClickRoundInstance()
+        {
+            ClickOnElement(SecondRoundInstanceRow);
+            ClickOnElement(By.XPath("//div[@class='menu']//button[text()='VIEW ROUND INSTANCE']"));
             return this;
         }
     }

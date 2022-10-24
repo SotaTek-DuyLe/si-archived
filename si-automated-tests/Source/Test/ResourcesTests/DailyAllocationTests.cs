@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Core;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -16,6 +17,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
     public class DailyAllocationTests : BaseTest
     {
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_41_42_43_Create_Resource_And_Daily_Allocation()
         {
@@ -31,12 +33,12 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .Login(AutoUser22.UserName, AutoUser22.Password)
                 .IsOnHomePage(AutoUser22);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract("North Star")
-                .SelectBusinessUnit("North Star")
+                .SelectContract(Contract.RM)
+                .SelectBusinessUnit(Contract.RM)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -50,7 +52,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectResourceType(resourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame()
@@ -103,7 +105,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyBackgroundColor(resourceName, "white")
             //TC-43
             //Deallocate future resource
-                .DeallocateResourceByDragAndDrop(resourceName)
+                .DeallocateResource(resourceName)
                 .RefreshGrid()
                 .FilterResource("Resource", resourceName)
                 .VerifyResourceDeallocated(resourceName)
@@ -128,6 +130,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Status", "Available");
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_44_1_Create_Resource_And_Daily_Allocation()
         {
@@ -143,12 +146,12 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .Login(AutoUser22.UserName, AutoUser22.Password)
                 .IsOnHomePage(AutoUser22);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract("North Star")
-                .SelectBusinessUnit("North Star")
+                .SelectContract(Contract.RM)
+                .SelectBusinessUnit(Contract.RM)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -163,7 +166,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectResourceType(resourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
@@ -177,7 +180,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectResourceType(vehicleResourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame()
@@ -196,7 +199,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyBackgroundColor(resourceName, "red")
+                .VerifyBackgroundColor(resourceName, "greenish")
                 .VerifyStateAbbreviation(resourceName, "S")
                 .VerifyFirstResultValue("Status", "Sick");
             //Verify Vehicle
@@ -226,10 +229,11 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectState("Training")
                 .SelectResolutionCode("Paid")
                 .SaveDetail()
+                .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifyStateAbbreviation(resourceName, "T")
-                .VerifyBackgroundColor(resourceName, "red")
+                .VerifyBackgroundColor(resourceName, "red2")
                 .FilterResource("Resource", resourceName);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifyFirstResultValue("Status", "Training");
@@ -252,6 +256,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_44_2_Create_Resource_And_Daily_Allocation()
         {
@@ -270,12 +275,12 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .Login(AutoUser22.UserName, AutoUser22.Password)
                 .IsOnHomePage(AutoUser22);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract("North Star")
-                .SelectBusinessUnit("North Star")
+                .SelectContract(Contract.RM)
+                .SelectBusinessUnit(Contract.RM)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -290,21 +295,22 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectResourceType(resourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
             //Create vehicle
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceDetailTab>()
                 .IsOnDetailTab()
                 .InputResourceName(vehicleResourceName)
                 .SelectResourceType(vehicleResourceType)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame()
@@ -333,7 +339,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectLeaveType("Holiday")
                 .SelectLeaveReason("Paid")
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<LeaveEntryPage>()
                 .ApproveLeaveEntry()
                 .SwitchToLastWindow();

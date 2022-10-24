@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Models.Agreement;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 {
-    public class TaskTab : BasePage
+    public class TaskTab : BasePageCommonActions
     {
         private readonly By deleteItemBtn = By.XPath("//button[text()='Delete Item']");
         private readonly By bulkUpdateItemBtn = By.XPath("//button[text()='Bulk Update']");
@@ -35,48 +37,92 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         private string taskId = "//div[contains(@class,'r5')]/div[text()='{0}']";
         private string taskIdCheckBox = "//div[text()='{0}']/parent::div/preceding-sibling::div[contains(@class,'r0')]/input";
         private string retiredTaskWithId = "//div[text()='{0}']/parent::div/parent::div[contains(@class,'retired')]";
+
+        private string firstTaskId = "(//div[contains(@class, 'r5')])[4]/div";
+        private string secondTaskId = "(//div[contains(@class, 'r5')])[5]/div";
+        private string thirdTaskId = "(//div[contains(@class, 'r5')])[6]/div";
+        private string fourthTaskId = "(//div[contains(@class, 'r5')])[7]/div";
+
+        private string TaskTable = "//div[@id='tasks-tab']//div[@class='grid-canvas']";
+        private string TaskRow = "./div[contains(@class, 'slick-row')]";
+        private string TaskCheckboxCell = "./div[contains(@class, 'l0')]//input[@type='checkbox']";
+        private string TaskULCell = "./div[contains(@class, 'l1')]//img";
+        private string TaskStateImgCell = "./div[contains(@class, 'l2')]//img";
+        private string TaskCreateDateCell = "./div[contains(@class, 'l3')]";
+        private string TaskPartyCell = "./div[contains(@class, 'l4')]";
+        private string TaskIDCell = "./div[contains(@class, 'l5')]";
+        private string TaskStateCell = "./div[contains(@class, 'l6')]";
+        private string TaskTypeCell = "./div[contains(@class, 'l11')]";
+        private string TaskDescriptionCell = "./div[contains(@class, 'l12')]";
+        private string TaskDueDateCell = "./div[contains(@class, 'l13')]";
+
+        public readonly By TaskTypeSearch = By.XPath("//div[@id='tasks-tab']//div[contains(@class, 'slick-headerrow-column l11 r1')]//input");
+        public readonly By ApplyBtn = By.XPath("//div[@id='tasks-tab']//button[@title='Apply Filters']");
+
+        private TableElement taskTableEle;
+        public TableElement TaskTableEle
+        {
+            get => taskTableEle;
+        }
+
+        public TaskTab()
+        {
+            taskTableEle = new TableElement(TaskTable, TaskRow, new List<string>() { TaskCheckboxCell, TaskULCell, TaskStateImgCell, TaskCreateDateCell, TaskPartyCell, TaskIDCell, TaskStateCell, TaskTypeCell, TaskDescriptionCell, TaskDueDateCell });
+            taskTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+        }
+
+        [AllureStep]
         public TaskTab VerifyFirstTaskType(string expected)
         {
             IList<IWebElement> listTaskType = WaitUtil.WaitForAllElementsVisible(taskType);
             Assert.AreEqual(expected, GetElementText(listTaskType[0]));
             return this;
         }
+        [AllureStep]
         public TaskTab VerifyFirstTaskDueDate(string expected)
         {
             IList<IWebElement> listTaskDueDate = WaitUtil.WaitForAllElementsVisible(taskDueDate);
             Assert.IsTrue(GetElementText(listTaskDueDate[0]).Contains(expected));
             return this;
         }
+        [AllureStep]
         public TaskTab VerifySecondTaskType(string expected)
         {
             IList<IWebElement> listTaskType = WaitUtil.WaitForAllElementsVisible(taskType);
             Assert.AreEqual(expected, GetElementText(listTaskType[1]));
             return this;
         }
+        [AllureStep]
         public TaskTab VerifySecondTaskDueDate(string expected)
         {
             IList<IWebElement> listTaskDueDate = WaitUtil.WaitForAllElementsVisible(taskDueDate);
             Assert.IsTrue(GetElementText(listTaskDueDate[1]).Contains(expected));
             return this;
         }
+        [AllureStep]
         public TaskTab OpenFirstTask()
         {
             IList<IWebElement> listTaskType = WaitUtil.WaitForAllElementsVisible(taskType);
             DoubleClickOnElement(listTaskType[0]);
             return this;
         }
+        [AllureStep]
         public TaskTab OpenSecondTask()
         {
             IList<IWebElement> listTaskType = WaitUtil.WaitForAllElementsVisible(taskType);
             DoubleClickOnElement(listTaskType[1]);
             return this;
         }
-
+        [AllureStep]
         public TaskTab ClickTaskTabBtn()
         {
             ClickOnElement(taskTabBtn);
             return this;
         }
+        [AllureStep]
         public TaskTab VerifyRetiredTask(int num)
         {
             this.WaitForLoadingIconToDisappear();
@@ -103,6 +149,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return this;
         }
+        [AllureStep]
         public TaskTab VerifyTwoNewTaskAppear()
         {
             this.WaitForLoadingIconToDisappear();
@@ -132,7 +179,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 
             return this;
         }
-
+        [AllureStep]
         public List<IWebElement> VerifyNewDeliverCommercialBin(String dueDate, int num)
         {
             this.WaitForLoadingIconToDisappear();
@@ -162,6 +209,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             Assert.AreEqual(taskList.Count, num);
             return taskList;
         }
+        [AllureStep]
         public List<IWebElement> VerifyNewRemovedCommercialBin(String dueDate, int num)
         {
             this.WaitForLoadingIconToDisappear();
@@ -184,31 +232,34 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             List<IWebElement> taskList = GetAllElements(removeCommercialBinWithDateRows);
             return taskList;
         }
+        [AllureStep]
         public AgreementTaskDetailsPage GoToATask(IWebElement e)
         {
             SleepTimeInMiliseconds(1000);
             DoubleClickOnElement(e);
             return new AgreementTaskDetailsPage();
         }
+        [AllureStep]
         public AgreementTaskDetailsPage GoToATaskById(int id)
         {
             SleepTimeInMiliseconds(1000);
             DoubleClickOnElement(taskId, id.ToString());
             return new AgreementTaskDetailsPage();
         }
+        [AllureStep]
         public TaskTab GoToFirstTask()
         {
             DoubleClickOnElement(firstTask);
             return this;
         }
-
+        [AllureStep]
         public TaskTab GoToSecondTask()
         {
             DoubleClickOnElement(secondTask);
             return this;
         }
-        
 
+        [AllureStep]
         public int GetColumnIndexByColumnName(string name)
         {
             List<IWebElement> allTitles = GetAllElements(allColumnTitle);
@@ -221,7 +272,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return 0;
         }
-
+        [AllureStep]
         public List<AgreementTaskModel> GetAllTaskInList()
         {
             List<AgreementTaskModel> list = new List<AgreementTaskModel>();
@@ -282,7 +333,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return list;
         }
-
+        [AllureStep]
         public List<IWebElement> GetTasksAppear(string taskType, string dueDate)
         {
             List<AgreementTaskModel> list = this.GetAllTaskInList();
@@ -300,6 +351,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return availableRow;
         }
+        [AllureStep]
         public List<IWebElement> GetTasksAppear(string taskState, string createdDate, string dueDate)
         {
             List<AgreementTaskModel> list = this.GetAllTaskInList();
@@ -317,6 +369,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return availableRow;
         }
+        [AllureStep]
         public List<IWebElement> GetTasksAppear(string taskState, string taskType, string dueDate, string completedDate)
         {
             List<AgreementTaskModel> list = this.GetAllTaskInList();
@@ -335,6 +388,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return availableRow;
         }
+        [AllureStep]
         public List<IWebElement> VerifyNewTaskAppearWithNum(int num, string taskState, string taskType, string dueDate, string completedDate)
         {
             ClickOnElement(refreshBtn);
@@ -360,30 +414,33 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             Assert.AreEqual(availableRow.Count, num);
             return availableRow;
         }
-        
+        [AllureStep]
         public int GetAllTaskNum()
         {
             IList<IWebElement> all = WaitUtil.WaitForAllElementsVisible(allRows);
             return all.Count;
         }
-
+        [AllureStep]
         public TaskTab VerifyNoNewTaskAppear()
         {
             Assert.IsTrue(IsControlUnDisplayed(allRows));
             return this;
         }
+        [AllureStep]
         public TaskTab VerifyTaskNumUnchange(int before, int after)
         {
             Assert.AreEqual(before, after);
             return this;
         }
-        
+
         //Task
+        [AllureStep]
         public TaskTab VerifyTaskAppearWithID(int id)
         {
             Assert.IsTrue(IsControlDisplayed(taskId, id.ToString()));
             return this;
         }
+        [AllureStep]
         public TaskTab VerifyTaskDisappearWithID(int id)
         {
             int i = 5;
@@ -402,11 +459,13 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             Assert.IsTrue(IsControlUnDisplayed(taskId, id.ToString()));
             return this;
         }
+        [AllureStep]
         public TaskTab SelectATask(int id)
         {
             ClickOnElement(taskId, id.ToString());
             return this;
         }
+        [AllureStep]
         public TaskTab SelectMultipleTask(int[] id)
         {
             foreach(int task in id)
@@ -417,12 +476,14 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         }
 
         //Delete Item
+        [AllureStep]
         public RemoveTaskPage ClickDeleteItem()
         {
             ClickOnElement(deleteItemBtn);
             return new RemoveTaskPage();
         }
         //Bulk Update
+        [AllureStep]
         public BulkUpdatePage ClickBulkUpdateItem()
         {
             ClickOnElement(bulkUpdateItemBtn);
@@ -430,12 +491,27 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         }
 
         //Verify Retired Task
+        [AllureStep]
         public TaskTab VerifyRetiredTaskWithId(int id)
         {
-            WaitUtil.WaitForElementVisible(retiredTaskWithId, id.ToString());
+            int i = 5;
+            while (i > 0)
+            {
+                if(IsControlUnDisplayed(retiredTaskWithId, id.ToString())){
+                    ClickRefreshBtn();
+                    WaitForLoadingIconToDisappear();
+                    SleepTimeInMiliseconds(5000);
+                    i--;
+                }
+                else
+                {
+                    break;
+                }
+            }
             Assert.IsTrue(IsControlDisplayed(retiredTaskWithId, id.ToString()));
             return this;
         }
+        [AllureStep]
         public TaskTab VerifyRetiredTaskWithIds(int[] id)
         {
             foreach(int i in id)
@@ -444,15 +520,16 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return this;
         }
+        [AllureStep]
         public TaskTab VerifyTaskStateWithIds(int[] idList, string state)
         {
             List<AgreementTaskModel> listTasks = this.GetAllTaskInList();
             int n = 0;
-            for(int j = 0; j < idList.Length; j++)
-            { 
-                
+            for (int j = 0; j < idList.Length; j++)
+            {
+
                 int id = idList[j];
-                for(int i = 0; i < listTasks.Count; i++)
+                for (int i = 0; i < listTasks.Count; i++)
                 {
                     if ((listTasks[i].Id).Equals(id.ToString()))
                     {
@@ -465,6 +542,57 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             Assert.AreEqual(n, idList.Length);
             return this;
+        }
+        [AllureStep]
+        public int getFirstTaskId()
+        {
+            int firstId = int.Parse(GetElementText(firstTaskId));
+            return firstId;
+        }
+        [AllureStep]
+        public int getSecondTaskId()
+        {
+            int firstId = int.Parse(GetElementText(secondTaskId));
+            return firstId;
+        }
+        [AllureStep]
+
+        public TaskTab VerifyTaskDataType(string taskType)
+        {
+            List<IWebElement> rows = TaskTableEle.GetRows();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                VerifyCellValue(TaskTableEle, i, 7, taskType);
+            }
+            return this;
+        }
+        [AllureStep]
+        public TaskTab VerifyTaskDueDate(string dueDate)
+        {
+            List<IWebElement> rows = TaskTableEle.GetRows();
+            for (int i = 0; i < rows.Count; i++)
+            {
+                VerifyCellValue(TaskTableEle, i, 9, dueDate);
+            }
+            return this;
+        }
+        [AllureStep]
+        public TaskTab DoubleClickTask(int rowIdx)
+        {
+            TaskTableEle.DoubleClickRow(rowIdx);
+            return this;
+        }
+        [AllureStep]
+        public int getThirdTaskId()
+        {
+            int firstId = int.Parse(GetElementText(thirdTaskId));
+            return firstId;
+        }
+        [AllureStep]
+        public int getFourthTaskId()
+        {
+            int firstId = int.Parse(GetElementText(fourthTaskId));
+            return firstId;
         }
     }
 

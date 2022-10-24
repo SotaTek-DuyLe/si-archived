@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
+using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -42,6 +43,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 2")]
         public void TC_056_WB_Site_product_2()
         {
@@ -62,8 +64,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Create new Resource with type = Van in TC51
             PageFactoryManager.Get<NavigationBase>()
-                    .ClickMainOption("Resources")
-                    .OpenOption("North Star Commercial")
+                    .ClickMainOption(MainOption.Resources)
+                    .OpenOption(Contract.RMC)
                     .SwitchNewIFrame()
                     .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -82,16 +84,16 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToDefaultContent();
             //TC45+48+51
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //Create new party Haulier TC047
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameHaulier)
                 .SelectPartyType(2)
                 .ClickSaveBtn();
@@ -142,7 +144,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameCustomer)
                 .SelectPartyType(1)
                 .ClickSaveBtn();
@@ -230,10 +232,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
             //TC52: Create new active location
             siteDetailPage
                 .ClickOnLocationTab()
@@ -316,10 +314,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToChildWindow(3);
 
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
@@ -328,8 +323,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Tickets")
                 .SwitchNewIFrame();
             TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
@@ -409,6 +404,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 3")]
         public void TC_057_WB_Site_product_3()
         {
@@ -425,8 +421,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Create new Resource with type = Van in TC51
             PageFactoryManager.Get<NavigationBase>()
-                    .ClickMainOption("Resources")
-                    .OpenOption("North Star Commercial")
+                    .ClickMainOption(MainOption.Resources)
+                    .OpenOption(Contract.RMC)
                     .SwitchNewIFrame()
                     .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -445,16 +441,16 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToDefaultContent();
             //TC45+48+51
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //Create new party Haulier TC047
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameHaulier)
                 .SelectPartyType(2)
                 .ClickSaveBtn()
@@ -467,7 +463,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameCustomer)
                 .SelectPartyType(1)
                 .ClickSaveBtn();
@@ -558,10 +554,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
             //TC52: Create new active location
             siteDetailPage
                 .ClickOnLocationTab()
@@ -609,10 +601,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
@@ -621,8 +610,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Tickets")
                 .SwitchNewIFrame();
             TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
@@ -679,6 +668,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 4")]
         public void TC_058_WB_Site_product_4()
         {
@@ -695,8 +685,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Create new Resource with type = Van in TC51
             PageFactoryManager.Get<NavigationBase>()
-                    .ClickMainOption("Resources")
-                    .OpenOption("North Star Commercial")
+                    .ClickMainOption(MainOption.Resources)
+                    .OpenOption(Contract.RMC)
                     .SwitchNewIFrame()
                     .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -715,16 +705,16 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToDefaultContent();
             //TC45+48+51
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //Create new party Haulier TC047
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameHaulier)
                 .SelectPartyType(2)
                 .ClickSaveBtn()
@@ -737,7 +727,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameCustomer)
                 .SelectPartyType(1)
                 .ClickSaveBtn();
@@ -829,10 +819,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
+            //siteDetailPage
+            //    .ClickSaveBtn()
+            //    .WaitForLoadingIconToDisappear()
+            //    .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
             //TC52: Create new active location
             siteDetailPage
                 .ClickOnLocationTab()
@@ -882,10 +872,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                //.ClickSaveBtn()
+                //.WaitForLoadingIconToDisappear()
+                //.VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                //.ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
@@ -894,8 +885,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Tickets")
                 .SwitchNewIFrame();
             TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
@@ -946,6 +937,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 5")]
         public void TC_059_WB_Site_product_5()
         {
@@ -967,8 +959,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Create new Resource with type = Van in TC51
             PageFactoryManager.Get<NavigationBase>()
-                    .ClickMainOption("Resources")
-                    .OpenOption("North Star Commercial")
+                    .ClickMainOption(MainOption.Resources)
+                    .OpenOption(Contract.RMC)
                     .SwitchNewIFrame()
                     .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -987,16 +979,16 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToDefaultContent();
             //TC45+48+51
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //Create new party Haulier TC047
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameHaulier)
                 .SelectPartyType(2)
                 .ClickSaveBtn()
@@ -1009,7 +1001,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameCustomer)
                 .SelectPartyType(1)
                 .ClickSaveBtn();
@@ -1100,10 +1092,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
+            //siteDetailPage
+            //    .ClickSaveBtn()
+            //    .WaitForLoadingIconToDisappear()
+            //    .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
             //TC52: Create new active location 1
             siteDetailPage
                 .ClickOnLocationTab()
@@ -1243,10 +1235,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                //.ClickSaveBtn()
+                //.WaitForLoadingIconToDisappear()
+                //.VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                //.ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
@@ -1255,8 +1248,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Tickets")
                 .SwitchNewIFrame();
             TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
@@ -1334,6 +1327,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 6")]
         public void TC_060_WB_Site_product_6()
         {
@@ -1352,8 +1346,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Create new Resource with type = Van in TC51
             PageFactoryManager.Get<NavigationBase>()
-                    .ClickMainOption("Resources")
-                    .OpenOption("North Star Commercial")
+                    .ClickMainOption(MainOption.Resources)
+                    .OpenOption(Contract.RMC)
                     .SwitchNewIFrame()
                     .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -1372,16 +1366,16 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToDefaultContent();
             //TC45+48+51
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //Create new party Haulier TC047
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameHaulier)
                 .SelectPartyType(2)
                 .ClickSaveBtn();
@@ -1432,7 +1426,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameCustomer)
                 .SelectPartyType(1)
                 .ClickSaveBtn();
@@ -1520,10 +1514,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
             //TC52: Create new active location 1
             siteDetailPage
                 .ClickOnLocationTab()
@@ -1624,10 +1614,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                //.ClickSaveBtn()
+                //.WaitForLoadingIconToDisappear()
+                //.VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                //.ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
@@ -1636,8 +1627,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Tickets")
                 .SwitchNewIFrame();
             TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
@@ -1688,6 +1679,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 7")]
         public void TC_061_WB_Site_product_7()
         {
@@ -1705,8 +1697,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Create new Resource with type = Van in TC51
             PageFactoryManager.Get<NavigationBase>()
-                    .ClickMainOption("Resources")
-                    .OpenOption("North Star Commercial")
+                    .ClickMainOption(MainOption.Resources)
+                    .OpenOption(Contract.RMC)
                     .SwitchNewIFrame()
                     .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -1725,16 +1717,16 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToDefaultContent();
             //TC45+48+51
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //Create new party Haulier TC047
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameHaulier)
                 .SelectPartyType(2)
                 .ClickSaveBtn();
@@ -1785,7 +1777,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameCustomer)
                 .SelectPartyType(1)
                 .ClickSaveBtn();
@@ -1873,10 +1865,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
+            
             //TC52: Create new active location 1
             siteDetailPage
                 .ClickOnLocationTab()
@@ -1957,10 +1946,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                //.ClickSaveBtn()
+                //.WaitForLoadingIconToDisappear()
+                //.VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                //.ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
@@ -1969,8 +1959,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Tickets")
                 .SwitchNewIFrame();
             TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
@@ -2020,6 +2010,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 8")]
         public void TC_062_WB_Site_product_8()
         {
@@ -2038,8 +2029,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Create new Resource with type = Van in TC51
             PageFactoryManager.Get<NavigationBase>()
-                    .ClickMainOption("Resources")
-                    .OpenOption("North Star Commercial")
+                    .ClickMainOption(MainOption.Resources)
+                    .OpenOption(Contract.RMC)
                     .SwitchNewIFrame()
                     .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -2058,16 +2049,16 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToDefaultContent();
             //TC45+48+51
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //Create new party Haulier TC047
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameHaulier)
                 .SelectPartyType(2)
                 .ClickSaveBtn();
@@ -2118,7 +2109,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup("North Star Commercial")
+                .IsCreatePartiesPopup(Contract.RMC)
                 .SendKeyToThePartyInput(partyNameCustomer)
                 .SelectPartyType(1)
                 .ClickSaveBtn();
@@ -2206,10 +2197,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createStationPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage);
+            
             //TC52: Create new active location 1
             siteDetailPage
                 .ClickOnLocationTab()
@@ -2313,10 +2301,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             siteDetailPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
-                .ClickSaveAndCloseBtn()
+                //.ClickSaveBtn()
+                //.WaitForLoadingIconToDisappear()
+                //.VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                //.ClickSaveAndCloseBtn()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Back to the WB ticket menu
             detailPartyPage
@@ -2325,8 +2314,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Weighbridge")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Tickets")
                 .SwitchNewIFrame();
             TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
@@ -2380,11 +2369,12 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "WB Site product 9")]
         public void TC_063_WB_Site_product_9()
         {
             string query = "select * from wb_siteproducts where siteID=1174 and tickettypeid=1";
-            SqlCommand command = new SqlCommand(query, DbContext.Conection);
+            SqlCommand command = new SqlCommand(query, DbContext.Connection);
             SqlDataReader reader = command.ExecuteReader();
             List<WBSiteProduct> products = ObjectExtention.DataReaderMapToList<WBSiteProduct>(reader);
 

@@ -37,8 +37,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .Login(AutoUser31.UserName, AutoUser31.Password)
                 .IsOnHomePage(AutoUser31);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             //Go to agreement
@@ -60,7 +60,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnDataTab()
                 .InputNotes(note1)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DataTab>()
                 .VerifyNote(note1)
                 .ClickRefreshBtn();
@@ -73,7 +73,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnDataTab()
                 .InputNotes(note2)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved agreement");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DataTab>()
                 .VerifyNote(note2)
                 .ClickRefreshBtn();
@@ -81,6 +81,60 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DataTab>()
                 .VerifyNote(note2);
+        }
+
+        [Category("AgreementLine")]
+        [Test(Description = "Verify that 'Save' and 'Save and Close' buttons display on an Agreemen Line form")]
+        public void TC_151_Agreement_Line_form_Save_and_Save_Close_buttons()
+        {
+            int agreementId = 163;
+            PageFactoryManager.Get<LoginPage>()
+              .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser31.UserName, AutoUser31.Password)
+                .IsOnHomePage(AutoUser31);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption("Site Services")
+                .SwitchNewIFrame();
+            //Go to agreement
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+                .FilterId(agreementId)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            var agreementLinePage = PageFactoryManager.Get<AgreementLinePage>();
+            agreementLinePage.WaitForLoadingIconToDisappear();
+            agreementLinePage.ClickDetailTab();
+            var detailTab = PageFactoryManager.Get<DetailTab>();
+            detailTab.WaitForLoadingIconToDisappear();
+            string invoiceAddress = "29 GEORGE STREET, RICHMOND, TW9 1HY";
+            string billingRule = "Greater of Minimum or Actual";
+            detailTab.SelectTextFromDropDown(detailTab.InvoiceAddressSelect, invoiceAddress)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success")
+                .WaitForLoadingIconToDisappear();
+            detailTab.SelectTextFromDropDown(detailTab.BillingRuleSelect, billingRule)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success")
+                .WaitForLoadingIconToDisappear()
+                .ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            //In 'ID' column filter ID=163 and double click on the record
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+               .OpenFirstResult()
+               .SwitchToLastWindow();
+            agreementLinePage.WaitForLoadingIconToDisappear();
+            agreementLinePage.ClickDetailTab();
+            detailTab.WaitForLoadingIconToDisappear();
+            detailTab.VerifySelectedValue(detailTab.InvoiceAddressSelect, invoiceAddress);
+            detailTab.VerifySelectedValue(detailTab.BillingRuleSelect, billingRule);
         }
     }
 }

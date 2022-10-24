@@ -22,7 +22,7 @@ namespace si_automated_tests.Source.Test
         {
             new WebUrl();
             CustomTestListener.OnTestStarted();
-            IWebDriverManager.SetDriver("ie");
+            IWebDriverManager.SetDriver("chrome");
             new UserRegistry();
         }
         [TearDown]
@@ -32,11 +32,13 @@ namespace si_automated_tests.Source.Test
             IWebDriverManager.GetDriver().Quit();
         }
         [Category("User")]
-        [Test]
+        [Category("Dee")]
+        //[Test]
         public void TC_002_Create_User_Test([Random(1, 999999, 1)] int random)
         {
+            string newUserUrl = "https://test.echoweb.co.uk/echo2/echo2extra/PopupDefault.aspx?ObjectID=0&CTypeName=User&CReferenceName=none&CObjectID=0&TypeName=User&RefTypeName=none&ReferenceName=none&CreateNew=true&InEdit=true&CPath=";
             User user = new User();
-            user.UserName = "userName" + random;
+            user.UserName = CommonUtil.GetRandomString(5) + " userName " + random;
             user.DisplayName = "displayname" + random;
             user.Email = "userEmail" + random + "@gmail.com";
             user.Password = "newPassword" + random + "@#_";
@@ -49,16 +51,17 @@ namespace si_automated_tests.Source.Test
                 .SendKeyToUsername(AutoUser3.UserName)
                 .SendKeyToPassword(AutoUser3.Password + Keys.Enter);
             PageFactoryManager.Get<HomePage>()
-                .IsOnHomePage(AutoUser3)
-                .ClickSystemTool()
-                .ClickUserAndRole()
-                .ClickUser()
-                .ClickGroup()
-                .IsOnUserScreen()
-                .ClickAction()
-                .ClickNew();
-            PageFactoryManager.Get<BasePage>()
-                .SwitchToLastWindow();
+                //.IsOnHomePage(AutoUser3)
+                .GoToURL(newUserUrl);
+            //    .ClickSystemTool()
+            //    .ClickUserAndRole()
+            //    .ClickUser()
+            //    .ClickGroup()
+            //    .IsOnUserScreen()
+            //    .ClickAction()
+            //    .ClickNew();
+            //PageFactoryManager.Get<BasePage>()
+            //    .SwitchToLastWindow();
 
             PageFactoryManager.Get<UserDetailPage>()
                 .IsOnUserDetailPage()
@@ -74,10 +77,14 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<UserDetailPage>()
                 .IsOnUserDetailPage()
                 .EnterUserDetails(user.UserName, user.DisplayName, user.Email)
+                .ClickSave();
+            PageFactoryManager.Get<UserDetailPage>()
                 .ClickDataAccessRoles()
-                .ChooseAccessRole("")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<UserDetailPage>()
+                .ChooseNorthStarCommercialAsAccessRole("")
                 .ClickAdminRoles()
-                .ChooseAdminRole("")
+                .ChooseAdminRole("System Administrator")
                 .ClickSaveAndClose()
                 .IsOnUserScreen();
 
@@ -112,7 +119,8 @@ namespace si_automated_tests.Source.Test
         }
 
         [Category("User")]
-        [Test]
+        [Category("Dee")]
+        //[Test]
         public void TC_003_Reset_Password_Test([Random(1, 999999, 1)] int random)
         {
             string newPassword = "newPassword" + random + "@#_";

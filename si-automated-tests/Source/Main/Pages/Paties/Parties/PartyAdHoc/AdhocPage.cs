@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -22,6 +23,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
     {
         private readonly By adhocCells = By.XPath("//div[@id='adhoc-tab']//div[@class='grid-canvas']//div//*");
 
+        [AllureStep]
         public List<AdhocModel> GetAllAdhocTasks()
         {
             List<IWebElement> cells = GetAllElements(adhocCells);
@@ -34,12 +36,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
                 adhocModel.Service = cells.Count > i + 2 ? GetElementText(cells[i + 2]) : "";
                 adhocModel.TaskType = cells.Count > i + 3 ? GetElementText(cells[i + 3]) : "";
                 adhocModel.TaskLines = cells.Count > i + 4 ? GetElementText(cells[i + 4]) : "";
-                adhocModel.CreateAdHocBtn = cells.Count > i + 5 ? cells[i + 5].FindElement(By.XPath("//button[text()='Create Ad-hoc Task']")) : null;
+                adhocModel.CreateAdHocBtn = cells.Count > i + 5 ? cells[i + 5].FindElement(By.XPath("//button[text()='Create Ad-Hoc Task']")) : null;
                 adhocs.Add(adhocModel);
             }
             return adhocs;
         }
-
+        [AllureStep]
         public AdhocPage ClickCreateAdHocTask(string taskType)
         {
             AdhocModel adhoc = GetAllAdhocTasks().FirstOrDefault(x => x.TaskType == taskType);
