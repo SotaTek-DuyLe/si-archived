@@ -94,7 +94,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceUnitPointDetailPage VerifyPointTypeStartAndEndDate(string pointTypeVale, string startDateValue, string endDateValue)
         {
-            Assert.AreEqual(pointTypeVale, GetFirstSelectedItemInDropdown(pointTypeVale));
+            Assert.AreEqual(pointTypeVale, GetFirstSelectedItemInDropdown(pointTypeSelect));
             Assert.AreEqual(startDateValue, GetAttributeValue(startDateInput, "value"));
             Assert.AreEqual(endDateValue, GetAttributeValue(endDateInput, "value"));
             return this;

@@ -645,5 +645,12 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
+        public DetailTaskPage VerifyCurrentUrl(string taskId)
+        {
+            Assert.AreEqual(WebUrl.MainPageUrl + "web/tasks/" + taskId, GetCurrentUrl());
+            return this;
+        }
+
     }
 }

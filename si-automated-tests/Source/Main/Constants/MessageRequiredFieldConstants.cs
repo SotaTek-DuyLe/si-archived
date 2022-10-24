@@ -20,5 +20,6 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string NoEventsAvailableWarningMessage = "No Events Available";
         public static readonly string TooManyTaskItemsSelectedDeletedMessage = "Too many items selected. Please select exactly 1 item.";
         public static readonly string YouCannotCreateServiceTaskMessage = "You cannot create service tasks under own schedule header!";
+        public static readonly string WhoopsSomethingIsWrongAttributesConfig = "Whoops something is wrong in the Attributes config";
     }
 }

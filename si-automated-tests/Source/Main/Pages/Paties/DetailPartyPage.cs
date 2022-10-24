@@ -127,6 +127,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By downloadBtn = By.CssSelector("input#party-licence-number + span");
 
         private const string authoriseTypingOption = "//label[text()='Authorise Tipping']/following-sibling::div//label[text()='{0}']/input";
+        private const string anyRestrictedSites = "//span[text()='{0}']/parent::a/parent::li";
 
         //WB TICKET TAB
         private readonly By addNewItemWBTicket = By.XPath("//div[@id='weighbridgeTickets-tab']//button[text()='Add New Item']");
@@ -140,6 +141,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         public readonly By OnStopButton = By.XPath("//div[@id='account-tab']//button[text()='ON STOP']");
         public readonly By PartyStatus = By.XPath("//div[@title='Party Status']//span");
+
+        //HISTORY TAB
+        private readonly string historyItem = "(//span[text()='{0}']/following-sibling::span[1])[1]";
+        private readonly By firstUpdatedUser = By.XPath("(//strong[text()='Update - Party'])[1]/parent::div/following-sibling::div/strong[1]");
 
         //STEP
         [AllureStep]
@@ -699,6 +704,117 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             ClickOnElement(wBtab);
             return this;
         }
+
+        [AllureStep]
+        public DetailPartyPage ClickOnAutoPrintTickedCheckbox()
+        {
+            ClickOnElement(autoPrintTicketCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage ClickOnPurchaseOrderNumberRequiredCheckbox()
+        {
+            ClickOnElement(purcharseOrderNumberRequiredCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage ClickOnDriverNameRequiredCheckbox()
+        {
+            ClickOnElement(driverNameRequiredCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Click on [Use Store Purchase order number] checkout")]
+        public DetailPartyPage ClickOnUseStorePoNumberCheckbox()
+        {
+            ClickOnElement(userStorePoNumberCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Click on Allow Manual Purchase order number checkout")]
+        public DetailPartyPage ClickOnAllowManualPoNumberCheckbox()
+        {
+            ClickOnElement(allowManualPoNumberCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Click on [external round code required] checkout")]
+        public DetailPartyPage ClickOnExternalRoundCodeRequiredCheckbox()
+        {
+            ClickOnElement(externalRoundCodeCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Click on [allow manual external round code] checkout")]
+        public DetailPartyPage ClickOnAllowManualExternalRoundCodeCheckbox()
+        {
+            ClickOnElement(allowManualExternalCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Click on [use stored external round code] checkout")]
+        public DetailPartyPage ClickOnUseStoredExternalRoundCodeRequiredCheckbox()
+        {
+            ClickOnElement(userStoredExternalCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Click on [allow manual name entry] checkout")]
+        public DetailPartyPage ClickOnAllowManualNameEntryCheckbox()
+        {
+            ClickOnElement(allowManualNameEntryCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Click on [Restrict Products] checkout")]
+        public DetailPartyPage ClickOnRestrictProductsCheckbox()
+        {
+            ClickOnElement(restricProductCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Select any [Authorise Tipping]")]
+        public DetailPartyPage SelectAnyOptionAuthoriseTipping(string optionValue)
+        {
+            ClickOnElement(authoriseTypingOption, optionValue);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Select any [Restricted Sites]")]
+        public DetailPartyPage SelectAnyOptionRestrictedSites(string optionValue)
+        {
+            ClickOnElement(restrictedSiteDd);
+            ClickOnElement(anyRestrictedSites, optionValue);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Input [Dormant Date]")]
+        public DetailPartyPage InputDormantDate(string dormantDateValue)
+        {
+            SendKeys(dormantDateInput, dormantDateValue);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Clear text in [Warning Limit £]")]
+        public DetailPartyPage ClearTextInWarningLimit()
+        {
+            ClearInputValue(warningLimitInput);
+            return this;
+        }
+
         [AllureStep]
         public DetailPartyPage VerifyWBSettingTab()
         {
@@ -958,6 +1074,17 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             else
             {
                 ClickOnElement(historyTab);
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyInfoInHistoryTab(string[] historyTitle, string[] valueExp, string userUpdatedValue)
+        {
+            Assert.AreEqual(userUpdatedValue, GetElementText(firstUpdatedUser));
+            for(int i = 0; i < historyTitle.Length; i++)
+            {
+                Assert.AreEqual(valueExp[i], GetElementText(historyItem, historyTitle[i]), "Value at [" + historyTitle[i] + "] is not correct");
             }
             return this;
         }

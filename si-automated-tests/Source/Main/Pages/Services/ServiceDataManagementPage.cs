@@ -153,6 +153,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(anyServicesGroupByContract, serviceGroupName);
             return this;
         }
+
+
         [AllureStep]
         public ServiceDataManagementPage ClickOnServicesAndSelectGroupInTree(string contract, string serviceGroupName, string childServiceGroup)
         {

@@ -77,7 +77,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceTaskSchedulePage VerifyStatusOfServiceTaskSchedule(string statusValue)
         {
-            Assert.AreEqual(statusValue, GetElementText(statusText), "Status is not correct");
+            Assert.AreEqual(statusValue.ToLower(), GetElementText(statusText).ToLower(), "Status is not correct");
             return this;
         }
 

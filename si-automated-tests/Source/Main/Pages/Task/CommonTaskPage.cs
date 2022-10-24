@@ -26,10 +26,29 @@ namespace si_automated_tests.Source.Main.Pages.Task
             ClickOnElement(applyBtn);
             return this;
         }
+
+        [AllureStep]
+        public CommonTaskPage FilterTaskId(string id)
+        {
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForAllElementsVisible(deleteItemBtn);
+            SendKeys(taskIdInput, id);
+            SleepTimeInMiliseconds(1000);
+            ClickOnElement(applyBtn);
+            return this;
+        }
+
         [AllureStep]
         public AgreementTaskDetailsPage OpenTaskWithId(int id)
         {
             DoubleClickOnElement(taskWithId, id.ToString());
+            return new AgreementTaskDetailsPage();
+        }
+
+        [AllureStep]
+        public AgreementTaskDetailsPage OpenTaskWithId(string id)
+        {
+            DoubleClickOnElement(taskWithId, id);
             return new AgreementTaskDetailsPage();
         }
     }

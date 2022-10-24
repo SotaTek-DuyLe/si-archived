@@ -1892,7 +1892,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RM, "Recycling", "Communal Recycling")
+                .ClickOnServicesAndSelectGroupInTree("Recycling")
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -1901,9 +1901,9 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickOnSelectAndDeselectBtn()
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
-            string roundName = "WCREF3:Friday";
-            string roundNameWithFormat = "WCREF3 Friday";
-            string serviceUnitName = "1, BUTTS HOUSE, BUTTS CRESCENT, HANWORTH, FELTHAM, TW13 6HT";
+            string roundName = "WCREF3:Monday";
+            string roundNameWithFormat = "WCREF3 Monday";
+            string serviceUnitName = "3 WARWICK ROAD, HAMPTON WICK, KINGSTON UPON THAMES, KT1 4DW";
             string serviceTaskName = "Collect Communal Refuse";
             string serviceGroupName = "Waste";
             string serviceName = "Communal Refuse";
@@ -1941,7 +1941,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             PageFactoryManager.Get<ServicesTaskPage>()
                 .IsServiceTaskPage()
                 .ClickOnDetailTab()
-                .VerifyServiceAndServicegroupName(serviceGroupName, serviceName)
+                .VerifyServiceAndServicegroupName(serviceName, serviceGroupName)
                 .VerifyServiceScheduleTaskName(serviceUnitName)
                 .VerifyServiceTaskName(serviceTaskName)
                 .VerifyStartDateAndEndDate(tomorrowDate, CommonConstants.FUTURE_END_DATE)
@@ -1976,12 +1976,11 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickOnDetailTab()
                 .VerifyStartDateEndDateInDetailTab(CommonConstants.FUTURE_END_DATE)
                 .VerifyStartDateValueIsTomorrow()
-                .VerifyStartDateAndEndDateIsReadOnly()
                 //Service Task Schedules tab
                 .ClickOnServiceTaskSchedulesTab()
                 .VerifyEndDateAtFirstRowServiceTaskScheduleTab(CommonConstants.FUTURE_END_DATE, "1")
                 .VerifyStartDateAtFirstRowServiceTaskScheduleTab(tomorrowDate, "1")
-                .VerifyTaskTypeAllocationAtFirstRowServiceTaskScheduleTab(serviceTaskName, roundName, "1")
+                //.VerifyTaskTypeAllocationAtFirstRowServiceTaskScheduleTab(serviceTaskName, roundName, "1")
                 .VerifyEditScheduleEditServiceTaskBtnEnabled("1")
                 //Service Unit Points tab
                 .ClickOnServiceUnitPointsTab()
@@ -2002,36 +2001,36 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
             //Go to [Task Confirmation] to verify
-            //FRIDAY
+            //MONDAY
             string filterDate = "";
             DateTime today = DateTime.Today;
             if (today.DayOfWeek == DayOfWeek.Monday)
             {
-                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 4);
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
             }
             else if (today.DayOfWeek == DayOfWeek.Tuesday)
             {
-                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 6);
             }
             else if (today.DayOfWeek == DayOfWeek.Wednesday)
             {
-                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 5);
             }
             else if (today.DayOfWeek == DayOfWeek.Thursday)
             {
-                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 8);
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 4);
             }
             else if (today.DayOfWeek == DayOfWeek.Friday)
             {
-                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
             }
             else if (today.DayOfWeek == DayOfWeek.Saturday)
             {
-                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 6);
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
             }
             else if (today.DayOfWeek == DayOfWeek.Sunday)
             {
-                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 5);
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 8);
             }
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
@@ -2054,7 +2053,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .VerifyDisplayResultAfterSearchWithDesc(serviceUnitName)
                 .VerifyScheduledDateAndDueDateAfterSearchWithDesc(filterDate)
                 //Double Click on [Round]
-                .DoubleClickOnFirstRound()
+                .DoubleClickOnFirstRound(roundName)
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundInstanceDetailPage>()
@@ -2064,8 +2063,8 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             PageFactoryManager.Get<RoundInstanceDetailPage>()
                 .ClickOnMinimiseRoundsAndRoundLegsBtn()
                 .SendKeyInDesc(serviceUnitName)
-                .VerifyDisplayNotesAfterSearchWithDesc(serviceUnitName)
-                .ClickCloseBtn()
+                .VerifyDisplayRowAfterSearchWithDesc(serviceUnitName)
+                .CloseCurrentWindow()
                 .SwitchToChildWindow(1)
                 .SwitchNewIFrame()
                 .SwitchToDefaultContent();
@@ -2101,7 +2100,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             PageFactoryManager.Get<TaskAllocationPage>()
                 .DragAndDropUnAllocatedRoundToGridTask("WCREF3")
                 .SendKeyInDescInputToSearch(serviceUnitName)
-                .VerifyDisplayTaskWithAssuredChecked(serviceUnitName);
+                .VerifyDisplayTaskAfterFilter(serviceUnitName);
 
         }
 

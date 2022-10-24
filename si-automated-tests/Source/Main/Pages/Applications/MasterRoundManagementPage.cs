@@ -24,6 +24,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string descAtAnyRoundTab = "//div[contains(@id, '{0}')]//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]";
         private readonly string activeTab = "//div[@id='tabs-container']//li[contains(@class, 'active')]/a";
         private readonly string descInputAtAnyTab = "(//div[contains(@id, 'round-tab')]//div[contains(@class, 'l4')]//input)[{0}]";
+        private readonly string descAtFirstRowAnyTab = "(//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']//div[contains(@class, 'l4') and contains(string(), '{0}')])[1]";
 
         //unalocated task tab
         private readonly By tabContainer = By.XPath("//div[@id='tabs-container']/ul");
@@ -309,8 +310,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public MasterRoundManagementPage VerifyFirstRecordWithDescInTaskGrid(string descExp)
         {
             //Get active tab
-            string href = GetAttributeValue(activeTab, "href").Replace(WebUrl.MainPageUrl + "web/service-task-allocation#", "").Trim();
-            Assert.IsTrue(GetElementText(descAtAnyRoundTab, href).Trim().ToLower().Contains(descExp.Trim().ToLower()));
+            Assert.IsTrue(IsControlDisplayed(descAtFirstRowAnyTab, descExp));
             return this;
         }
     }
