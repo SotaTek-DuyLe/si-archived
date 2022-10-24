@@ -74,6 +74,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By resizerWidth = By.XPath("//div[@title='Resize']");
         private readonly By resizerHeight = By.XPath("(//div[@title='Close'])[3]");
         private readonly By addResourceBtn = By.Id("t-create");
+        public readonly By FirstRoundInstanceRow = By.XPath("//div[@id='rounds-scrollable']//table[2]//tbody[1]/tr[1]//td[1]");
         public readonly By SecondRoundInstanceRow = By.XPath("//div[@id='rounds-scrollable']//table[1]//tbody[1]/tr[3]");
         public readonly By BusinessUnitInput = By.XPath("//input[@id='business-units']");
 
@@ -540,6 +541,14 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         {
             ClickOnElement(SecondRoundInstanceRow);
             ClickOnElement(By.XPath("//div[@class='menu']//button[text()='VIEW ROUND INSTANCE']"));
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ClickFirstResouceDetail()
+        {
+            ClickOnElement(FirstRoundInstanceRow);
+            ClickOnElement(By.XPath("//div[@class='menu']//button[text()='RESOURCE DETAILS']"));
             return this;
         }
     }

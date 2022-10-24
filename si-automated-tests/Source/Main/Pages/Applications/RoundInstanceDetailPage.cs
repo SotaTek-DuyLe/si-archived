@@ -25,6 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
             };
         }
+        public readonly By OpenRoundTitle = By.XPath("//h4[@title='Open Round']");
         public readonly By WorkSheetTab = By.XPath("//a[@aria-controls='worksheet-tab']");
         public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']");
         public readonly By TaskLinesTab = By.XPath("//a[@aria-controls='taskLines-tab']");
