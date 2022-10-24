@@ -102,6 +102,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
             List<CanlendarServiceTask> serviceTasks = new List<CanlendarServiceTask>();
             int months = toDateTime.Month - fromDateTime.Month;
             int step = 0;
+            int diffMonths = fromDateTime.Month - DateTime.Now.Month;
+            while (diffMonths > 0)
+            {
+                ClickOnElement(nextCalendarBtn);
+                WaitForLoadingIconToDisappear();
+                Thread.Sleep(1000);
+                diffMonths--;
+            }
             while (step <= months)
             {
                 if (step > 0)
