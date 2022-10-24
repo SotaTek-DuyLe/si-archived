@@ -510,16 +510,16 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return roundInstances;
         }
         [AllureStep]
-        public TaskAllocationPage DragRoundLegRowToRoundInstance(string roundGroup, string round)
+        public TaskAllocationPage DragRoundLegRowToRoundInstance(string roundGroup, string round, int dropCellIdx = 4)
         {
-            IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(4, new Dictionary<int, object>()
+            IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(dropCellIdx, new Dictionary<int, object>()
             {
                 { 1, roundGroup },
                 { 2, round }
             });
             WaitUtil.WaitForElementClickable(cell).Click();
             WaitForLoadingIconToDisappear();
-            cell = RoundInstanceTableEle.GetCellByCellValues(4, new Dictionary<int, object>()
+            cell = RoundInstanceTableEle.GetCellByCellValues(dropCellIdx, new Dictionary<int, object>()
             {
                 { 1, roundGroup },
                 { 2, round }
