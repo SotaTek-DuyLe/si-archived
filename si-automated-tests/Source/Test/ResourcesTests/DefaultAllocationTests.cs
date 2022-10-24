@@ -385,6 +385,14 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Test]
         public void TC_137_default_allocation_test()
         {
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string vehicleResourceName = "Loader " + CommonUtil.GetRandomNumber(5);
+            string resourceName2 = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string vehicleResourceName2 = "Loader " + CommonUtil.GetRandomNumber(5);
+            string resourceName3 = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string resourceName4 = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string resourceType = "Driver";
+            string vehicleResourceType = "Loader";
             string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd", 5);
             listMessagesResourceType.Add(rscTypeSet);
             listMessagesResourceType.Add(rscTypeClear);
@@ -412,6 +420,93 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SleepTimeInMiliseconds(2000);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ResizePage();
+            //CREATE NEW DRIVER
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //CREATE NEW DRIVER
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName2)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //CREATE NEW DRIVER
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName3)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //CREATE NEW DRIVER
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName4)
+                .SelectResourceType(resourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //Create vehicle
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(vehicleResourceName)
+                .SelectResourceType(vehicleResourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            
+            //Create vehicle
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(vehicleResourceName2)
+                .SelectResourceType(vehicleResourceType)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             //ALLOCATING RESOURCE TYPE TO ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .SwitchToTab("Resource Types");
@@ -424,7 +519,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .SwitchToTab("All Resources");
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Type", "Driver");
+                .FilterResource("Resource", resourceName);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DragAndDropFirstResultToBlankResourceType("Driver")
                 .VerifyAllocatingToast("Default Resource Set");
@@ -510,11 +605,14 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .SwitchToTab("All Resources");
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Type", "Driver");
+                .FilterResource("Resource", resourceName2);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .DragAndDropSecondResultToRoundGroup(4, 1)
-                .VerifyAllocatingToast(rscSet)
-                .AllocateResultToResourceInRound(4, 1)
+                .DragAndDropSecondResultToRoundGroup(1, 1)
+                .VerifyAllocatingToast(rscSet);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName3);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .AllocateResultToResourceInRound(1, 1)
                 .VerifyAllocatingToast(rscSet);
             //OVERRIDE RESOURCE TO CELL WITH RESOURCE ON ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
@@ -533,7 +631,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .SwitchToTab("All Resources");
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Type", "Driver");
+                .FilterResource("Resource", resourceName4);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DragAndDropFirstResultToBlankResourceType("Driver")
                 .VerifyAllocatingToast(rscSet);

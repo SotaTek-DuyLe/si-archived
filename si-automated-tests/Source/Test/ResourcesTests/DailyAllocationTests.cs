@@ -199,7 +199,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyBackgroundColor(resourceName, "red")
+                .VerifyBackgroundColor(resourceName, "greenish")
                 .VerifyStateAbbreviation(resourceName, "S")
                 .VerifyFirstResultValue("Status", "Sick");
             //Verify Vehicle
@@ -233,7 +233,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifyStateAbbreviation(resourceName, "T")
-                .VerifyBackgroundColor(resourceName, "red")
+                .VerifyBackgroundColor(resourceName, "red2")
                 .FilterResource("Resource", resourceName);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifyFirstResultValue("Status", "Training");

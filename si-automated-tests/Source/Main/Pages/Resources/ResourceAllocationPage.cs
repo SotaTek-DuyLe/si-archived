@@ -40,7 +40,9 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string whiteBackground = "background-color: rgb(255, 255, 255);";
         private readonly string greenBackground = "background-color: rgb(137, 203, 137);";
         private readonly string purpleBackground = "background-color: rgb(177, 156, 217);";
-        private readonly string redBackground = "background-color: rgb(255, 105, 98);";
+        private readonly string redBackground = "background-color: rgb(255, 49, 28);";
+        private readonly string red2Background = "background-color: rgb(255, 224, 152);";
+        private readonly string greenishBackground = "background-color: rgb(132, 255, 182);";
 
         //Left Panel Default Allocation
         private readonly By roundScrollable = By.Id("rounds-scrollable");
@@ -295,6 +297,14 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             else if (_color == "red")
             {
                 Assert.IsTrue(style.Contains(redBackground), "Incorrect color: Expected " + redBackground + " but found: " + style);
+            }
+            else if (_color == "red2")
+            {
+                Assert.IsTrue(style.Contains(red2Background), "Incorrect color: Expected " + red2Background + " but found: " + style);
+            }
+            else if (_color == "greenish")
+            {
+                Assert.IsTrue(style.Contains(greenishBackground), "Incorrect color: Expected " + greenishBackground + " but found: " + style);
             }
             else
             {
