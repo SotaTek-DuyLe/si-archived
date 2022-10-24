@@ -15,7 +15,7 @@ namespace si_automated_tests.Source.Test.MapTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    public class SectorTests : BaseTest
+    public class MapTests : BaseTest
     {
         public override void Setup()
         {
@@ -98,7 +98,7 @@ namespace si_automated_tests.Source.Test.MapTests
 
             //Enter values in mandatory fields:
             sectorGroupDetailPage.SendKeys(sectorGroupDetailPage.SectorNameInput, "Monday");
-            sectorGroupDetailPage.SelectTextFromDropDown(sectorGroupDetailPage.SectorTypeSelect, "Zone");
+            sectorGroupDetailPage.SelectTextFromDropDown(sectorGroupDetailPage.SectorTypeSelect, "Round");
             sectorGroupDetailPage.ClickOnElement(sectorGroupDetailPage.FinishButton);
             sectorGroupDetailPage.SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
