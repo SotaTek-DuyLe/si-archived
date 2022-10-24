@@ -53,6 +53,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string anyRoundByDay = "//a[text()='{0}']/following-sibling::ul//a[text()='{1}']";
         private readonly string anyChildOfTree = "//a[text()='{0}']/parent::li/i";
         private readonly string chirldOfTree = "//a[text()='{0}']";
+        private readonly string firstRoundByRoundNameInGrid = "//span[contains(string(), '{0}')]/parent::div/parent::div";
 
         #region Bulk update
         public readonly By BulkUpdateStateSelect = By.XPath("//div[@class='bulk-confirmation']//select[1]");
@@ -145,8 +146,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public TaskConfirmationPage VerifyScheduledDateAndDueDateAfterSearchWithDesc(string dateValue)
         {
-            Assert.AreEqual(dateValue, GetElementText(scheduledDateAtFirstColumn), "Wrong [Scheduled Date]");
-            Assert.AreEqual(dateValue, GetElementText(dueDateAtFirstColumn), "Wrong [Due Date]");
+            Assert.IsTrue(GetElementText(scheduledDateAtFirstColumn).Contains(dateValue), "Wrong [Scheduled Date]");
+            Assert.IsTrue(GetElementText(dueDateAtFirstColumn).Contains(dateValue), "Wrong [Due Date]");
             return this;
         }
 
@@ -242,6 +243,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public RoundInstanceDetailPage DoubleClickOnFirstRound()
         {
             DoubleClickOnElement(firstRoundInGrid);
+            SleepTimeInMiliseconds(3000);
+            return PageFactoryManager.Get<RoundInstanceDetailPage>();
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage DoubleClickOnFirstRound(string roundName)
+        {
+            DoubleClickOnElement(firstRoundByRoundNameInGrid, roundName);
             SleepTimeInMiliseconds(3000);
             return PageFactoryManager.Get<RoundInstanceDetailPage>();
         }

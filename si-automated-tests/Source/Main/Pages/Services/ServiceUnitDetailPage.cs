@@ -14,6 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
     public class ServiceUnitDetailPage : BasePageCommonActions
     {
         private readonly By title = By.XPath("//div[@class='headers-container']//span[text()='Service Unit']");
+        private readonly By serviceUnitName = By.CssSelector("h5[data-bind='text: serviceUnit']");
         public readonly By StartDateInput = By.XPath("//div[@id='details-tab']//input[@id='startDate.id']");
         public readonly By EndDateInput = By.XPath("//div[@id='details-tab']//input[@id='endDate.id']");
         public readonly By ServiceUnitInput = By.XPath("//div[@id='details-tab']//input[@name='serviceUnit']");
@@ -63,6 +64,19 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceUnitDetailPage IsServiceUnitDetailPage()
         {
             WaitUtil.WaitForElementVisible(title);
+            return this;
+        }
+
+        [AllureStep]
+        public string GetServiceUnitName()
+        {
+            return GetElementText(serviceUnitName);
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyCurrentUrl(string serviceUnitIdValue)
+        {
+            Assert.AreEqual(WebUrl.MainPageUrl + "web/service-units/" + serviceUnitIdValue, GetCurrentUrl());
             return this;
         }
 
@@ -160,7 +174,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceUnitDetailPage VerifyServiceGroupAndServiceName(string serviceGroupValue, string serviceValue)
         {
             Assert.AreEqual(serviceGroupValue, GetElementText(serviceGroupName), "Service group is incorrect");
-            Assert.AreEqual(serviceName, GetElementText(serviceValue), "Service group is incorrect");
+            Assert.AreEqual(serviceValue, GetElementText(serviceName), "Service group is incorrect");
             return this;
         }
 
@@ -590,6 +604,34 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), GetAttributeValue(StartDateInput, "value"), "Wrong start date");
             return this;
         }
+
+        #region Asset tab
+        private readonly By assetTab = By.XPath("//li/a[@aria-controls='assets-tab']");
+        private readonly By addNewItemAtAssetTabBtn = By.XPath("//div[@id='assets-tab']//button[contains(string(), 'Add New Item')]");
+        private readonly By firstRowAtAssetTab = By.CssSelector("div[id='assets-tab'] tbody>tr:nth-child(1)");
+
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnAssetTab()
+        {
+            ClickOnElement(assetTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnAddNewItemBtn()
+        {
+            ClickOnElement(addNewItemAtAssetTabBtn);
+            return this;    
+        }
+
+        public ServiceUnitDetailPage DoubleClickOnFirstRowAtAssetTab()
+        {
+            DoubleClickOnElement(firstRowAtAssetTab);
+            return this;
+        }
+
+        #endregion
 
 
     }

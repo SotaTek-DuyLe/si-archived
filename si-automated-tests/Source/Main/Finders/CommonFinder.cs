@@ -201,6 +201,12 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from resourcestates where resourceclassID=" + resourceclassID + ";";
             return FindList<ResourceStateModel>(query);
         }
+
+        public List<PartyActionDBModel> GetPartyActionByPartyIdAndUserId(string partyID, string actioncreatedbyuserID)
+        {
+            string query = "SELECT * FROM SotatekTesting.dbo.partyactions WHERE partyID = " + partyID + " and actioncreatedbyuserID = " + actioncreatedbyuserID + ";";
+            return FindList<PartyActionDBModel>(query);
+        }
     }
 
 }

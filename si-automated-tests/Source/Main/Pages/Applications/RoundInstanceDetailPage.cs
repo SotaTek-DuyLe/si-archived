@@ -37,6 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly string UnallocatedID = "./div[contains(@class, 'slick-cell l3 r3')]";
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
         private readonly By noteAtFirstRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l20')]");
+        private readonly By descAtFirstRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
         private readonly By firstRowAfterFiltering = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]/parent::div");
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
 
@@ -144,6 +145,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public RoundInstanceDetailPage VerifyDisplayNotesAfterSearchWithDesc(string noteValue)
         {
             Assert.AreEqual(noteValue.Trim(), GetElementText(noteAtFirstRow).Trim());
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyDisplayRowAfterSearchWithDesc(string noteValue)
+        {
+            Assert.AreEqual(noteValue.Trim(), GetElementText(descAtFirstRow).Trim());
             return this;
         }
 
