@@ -404,7 +404,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             //Line 90: Double click on cell to display Service Task Schedule with Service Task
             serviceDataManagementPage
                 .DoubleClickOnFirstRowWithServiceTaskSchedule(descRedRow)
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceTaskSchedulePage>()
                 .IsServiceTaskSchedule()
@@ -1866,6 +1866,286 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             serviceTaskSchedulePage
                 .IsServiceTaskSchedule()
                 .VerifyRoundValue(initialRound);
+        }
+
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "Action 'Add Service Task Schedule' on Point without Service Unit under Service - ONE cell in column Round Schedule/Round ")]
+        public void TC_132_Test_2_Action_Add_Service_Task_Schedule_on_Point_without_Service_unit_under_service_one_cell_in_column_round_schedule_round()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.RM, "Recycling", "Communal Recycling")
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnSelectAndDeselectBtn()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            string roundName = "WCREF3:Friday";
+            string roundNameWithFormat = "WCREF3 Friday";
+            string serviceUnitName = "1, BUTTS HOUSE, BUTTS CRESCENT, HANWORTH, FELTHAM, TW13 6HT";
+            string serviceTaskName = "Collect Communal Refuse";
+            string serviceGroupName = "Waste";
+            string serviceName = "Communal Refuse";
+            string tomorrowDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
+
+            string[] otherAction = { CommonConstants.ActionMenuSDM[1], CommonConstants.ActionMenuSDM[2], CommonConstants.ActionMenuSDM[3], CommonConstants.ActionMenuSDM[4] };
+            serviceDataManagementPage
+                .RightClickOnFirstRowWithNoServiceUnitStep2(roundName)
+                .VerifyActionMenuDisplayedWithActions()
+                .VerifyActionInActionMenuDisabled(otherAction)
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[0])
+                .ClickOnApplyAtBottomBtn()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Verify cell
+            serviceDataManagementPage
+                .VerifyDisplayServiceUnitAfterAddServiceTaskSchedule(roundName)
+                .VerifyDisplayGreenBorderAfterAddServiceTaskSchedule(roundName)
+                //Double Click at [Service Task Schedule]
+                .DoubleClickOnFirstServiceTaskScheduleByRoundStep2(roundName)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            ServiceTaskSchedulePage serviceTaskSchedulePage = PageFactoryManager.Get<ServiceTaskSchedulePage>();
+            serviceTaskSchedulePage
+                .IsServiceTaskSchedule()
+                .VerifyStartDateAndEndDate()
+                .VerifyStatusOfServiceTaskSchedule("Inactive")
+                .VerifyRoundValue(roundName)
+                //Click on [Service Task] link
+                .ClickOnServiceTaskLink()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .ClickOnDetailTab()
+                .VerifyServiceAndServicegroupName(serviceGroupName, serviceName)
+                .VerifyServiceScheduleTaskName(serviceUnitName)
+                .VerifyServiceTaskName(serviceTaskName)
+                .VerifyStartDateAndEndDate(tomorrowDate, CommonConstants.FUTURE_END_DATE)
+                .ClickOnSchedulesTab()
+                .VerifyStartDateAndEndDateFirstRow(tomorrowDate, CommonConstants.FUTURE_END_DATE);
+                //Get service group
+            //string serviceGroupName = PageFactoryManager.Get<ServicesTaskPage>()
+            //    .GetServiceGroupName();
+            //string serviceName = PageFactoryManager.Get<ServicesTaskPage>()
+            //    .GetServiceName();
+            string roundAtFirstRow = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetRoundName();
+            string roundNameValue = roundAtFirstRow.Split(" ")[0];
+            string dayName = roundAtFirstRow.Split(" ")[1];
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+
+            //Double Click at [Service Unit] and verify
+            serviceDataManagementPage
+                .DoubleClickOnFirstUnitServiceByRoundStep2(roundName)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
+            serviceUnitDetailPage
+                .IsServiceUnitDetailPage()
+                .VerifyServiceGroupAndServiceName(serviceGroupName, serviceName)
+                //Detail tab
+                .ClickOnDetailTab()
+                .VerifyStartDateEndDateInDetailTab(CommonConstants.FUTURE_END_DATE)
+                .VerifyStartDateValueIsTomorrow()
+                .VerifyStartDateAndEndDateIsReadOnly()
+                //Service Task Schedules tab
+                .ClickOnServiceTaskSchedulesTab()
+                .VerifyEndDateAtFirstRowServiceTaskScheduleTab(CommonConstants.FUTURE_END_DATE, "1")
+                .VerifyStartDateAtFirstRowServiceTaskScheduleTab(tomorrowDate, "1")
+                .VerifyTaskTypeAllocationAtFirstRowServiceTaskScheduleTab(serviceTaskName, roundName, "1")
+                .VerifyEditScheduleEditServiceTaskBtnEnabled("1")
+                //Service Unit Points tab
+                .ClickOnServiceUnitPointsTab()
+                .VerifyEndDateAndDescAtAnyServiceUnitPoint(CommonConstants.FUTURE_END_DATE, serviceUnitName, "1")
+                .VerifyStartDateAtAnyServiceUnitPoint(tomorrowDate, "1")
+                //Service Unit Points tab => Double click at first row
+                .DoubleClickAtFirstRowInServiceUnitPointTab()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            ServiceUnitPointDetailPage serviceUnitPointDetailPage = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
+            serviceUnitPointDetailPage
+                .IsServiceUnitPointDetailPage(serviceUnitName)
+                .VerifyPointTypeStartAndEndDate("Point Address", tomorrowDate, CommonConstants.FUTURE_END_DATE)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            //Go to [Task Confirmation] to verify
+            //FRIDAY
+            string filterDate = "";
+            DateTime today = DateTime.Today;
+            if (today.DayOfWeek == DayOfWeek.Monday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 4);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Tuesday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Wednesday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Thursday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 8);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Friday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 6);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                filterDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 5);
+            }
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.TaskConfirmation)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .IsTaskConfirmationPage()
+                .SelectContract(Contract.RM)
+                .ClickServicesAndSelectServiceInTree(serviceGroupName, serviceName, roundNameValue, dayName)
+                .SendDateInScheduledDate(filterDate)
+                .ClickGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnExpandRoundsBtn()
+                .ClickOnExpandRoundLegsBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .SendKeyInDesc(serviceUnitName)
+                .VerifyDisplayResultAfterSearchWithDesc(serviceUnitName)
+                .VerifyScheduledDateAndDueDateAfterSearchWithDesc(filterDate)
+                //Double Click on [Round]
+                .DoubleClickOnFirstRound()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundInstanceDetailPage>()
+                .ClickOnWorksheetTab()
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundInstanceDetailPage>()
+                .ClickOnMinimiseRoundsAndRoundLegsBtn()
+                .SendKeyInDesc(serviceUnitName)
+                .VerifyDisplayNotesAfterSearchWithDesc(serviceUnitName)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            //Go to [Master Round Management] to verify
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.MasterRoundManagement)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MasterRoundManagementPage>()
+                .IsOnPage()
+                .InputSearchDetails(Contract.RM, serviceGroupName, serviceName, tomorrowDate)
+                .ClickOnSearchRoundBtn()
+                .SendKeyInSearchRound(roundNameWithFormat)
+                .DragAndDropFirstRoundToGrid()
+                .SwitchToTab(roundNameWithFormat);
+            PageFactoryManager.Get<MasterRoundManagementPage>()
+                .SendKeyInDescInput(serviceUnitName)
+                .VerifyFirstRecordWithDescInTaskGrid(serviceUnitName)
+                .SwitchToDefaultContent();
+            //Go to [Task Allocation] to verify
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.TaskAllocation)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskAllocationPage>()
+                .SelectContract(Contract.RM)
+                .SelectServices(serviceGroupName, serviceName)
+                .SendKeyInFrom(filterDate)
+                .ClickOnGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskAllocationPage>()
+                .DragAndDropUnAllocatedRoundToGridTask("WCREF3")
+                .SendKeyInDescInputToSearch(serviceUnitName)
+                .VerifyDisplayTaskWithAssuredChecked(serviceUnitName);
+
+        }
+
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "Verify the display of the message [You cannot create Service task under own schedule header]")]
+        public void TC_132_Test_2_Verify_the_display_of_the_message_you_cannot_create_service_task_under_own_schedule_header()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.RMC, "Collections", "Commercial Collections")
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnSelectAndDeselectBtn()
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            string roundName = "No Round";
+            string[] otherAction = { CommonConstants.ActionMenuSDM[1], CommonConstants.ActionMenuSDM[2], CommonConstants.ActionMenuSDM[3], CommonConstants.ActionMenuSDM[4] };
+            serviceDataManagementPage
+                .RightClickOnFirstRowWithNoServiceUnitStep2(roundName)
+                .VerifyActionMenuDisplayedWithActions()
+                .VerifyActionInActionMenuDisabled(otherAction)
+                .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[0])
+                .VerifyToastMessage(MessageRequiredFieldConstants.YouCannotCreateServiceTaskMessage);
         }
     }
 }

@@ -35,6 +35,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By AddServiceUnitPointDiv = By.XPath("//div[@id='add-service-unit-points']");
         public readonly By AddServiceUnitPointCloseButton = By.XPath("//div[@id='add-service-unit-points']//button[@class='close']");
         public readonly By retireBtn = By.XPath("button[title='Retire']");
+        private readonly By serviceGroupName = By.XPath("//div[text()='SERVICE GROUP']/following-sibling::div");
+        private readonly By serviceName = By.XPath("//div[text()='SERVICE']/following-sibling::div");
 
         #region
         public readonly By searchPointSegmentBtn = By.XPath("//div[@id='details-tab']//div[contains(@class,'searchButton')]/button");
@@ -51,6 +53,11 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By lockInput = By.XPath("//label[contains(string(), 'Lock')]/parent::span/parent::div/following-sibling::input");
         private readonly string anyStreetOption = "//div[@id='searchFields.street']//li[text()='{0}']";
         private readonly string endDateAtAnyRowServiceTaskScheduleTab = "//div[@id='serviceTaskSchedules-tab']//tr[{0}]//input[@id='endDate.id']";
+        private readonly string startDateAtAnyRowServiceTaskScheduleTab = "//div[@id='serviceTaskSchedules-tab']//tr[{0}]//input[@id='startDate.id']";
+        private readonly string tasktypeAtAnyRowServiceTaskScheduleTab = "//div[@id='serviceTaskSchedules-tab']//tr[{0}]//td[@class='retiredRow']";
+        private readonly string allocationAtAnyRowServiceTaskScheduleTab = "//div[@id='serviceTaskSchedules-tab']//tr[{0}]//td[5]";
+        private readonly string editScheduleBtnAnyRow = "//div[@id='serviceTaskSchedules-tab']//tr[{0}]//button[@title='Edit Schedule']";
+        private readonly string editServiceTaskBtnAnyRow = "//div[@id='serviceTaskSchedules-tab']//tr[{0}]//button[@title='Edit Service Task']";
 
         [AllureStep]
         public ServiceUnitDetailPage IsServiceUnitDetailPage()
@@ -149,6 +156,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyServiceGroupAndServiceName(string serviceGroupValue, string serviceValue)
+        {
+            Assert.AreEqual(serviceGroupValue, GetElementText(serviceGroupName), "Service group is incorrect");
+            Assert.AreEqual(serviceName, GetElementText(serviceValue), "Service group is incorrect");
+            return this;
+        }
+
         #endregion
 
         #region ServiceUnitPointTable
@@ -163,11 +178,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly string EndDateCell = "./td//input[@id='endDate.id']";
 
         //DYNAMIC
-        private readonly string endDateAtAnyRow = "//div[@id='serviceUnitPoints-tab']//tr[{0}]//input[@id='endDate.id']";
+        private readonly string endDateAtAnyRowServiceUnitPointTab = "//div[@id='serviceUnitPoints-tab']//tr[{0}]//input[@id='endDate.id']";
+        private readonly string startDateAtAnyRowServiceUnitPointTab = "//div[@id='serviceUnitPoints-tab']//tr[{0}]//input[@id='startDate.id']";
         private readonly string endDateByServuceUnitPoint = "//div[@id='serviceUnitPoints-tab']//a[text()='{0}']/parent::td/following-sibling::td//input[@id='endDate.id']";
         private readonly string startDateByServuceUnitPoint = "//div[@id='serviceUnitPoints-tab']//a[text()='{0}']/parent::td/following-sibling::td//input[@id='startDate.id']";
         private readonly string typeByServiceUnitPoint = "//div[@id='serviceUnitPoints-tab']//a[text()='{0}']/parent::td/following-sibling::td//select[@id='serviceUnitPointType.id']";
         private readonly string descAtAnyRow = "//div[@id='serviceUnitPoints-tab']//tr[{0}]//a";
+        private readonly By firstRowAtServiceUnitPointTab = By.XPath("//div[@id='serviceUnitPoints-tab']//tbody//tr[1]");
 
         public TableElement ServiceUnitPointTableEle
         {
@@ -474,10 +491,26 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceUnitDetailPage VerifyEndDateAndDescAtAnyServiceUnitPoint(string endDateValue, string descValue, string atRow)
         {
-            Assert.AreEqual(endDateValue, GetAttributeValue(string.Format(endDateAtAnyRow, atRow), "value"));
+            Assert.AreEqual(endDateValue, GetAttributeValue(string.Format(endDateAtAnyRowServiceUnitPointTab, atRow), "value"));
             //Cannot edit
-            Assert.AreEqual("true", GetAttributeValue(string.Format(endDateAtAnyRow, atRow), "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(string.Format(endDateAtAnyRowServiceUnitPointTab, atRow), "disabled"));
             Assert.AreEqual(descValue, GetElementText(string.Format(descAtAnyRow, atRow)));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyStartDateAtAnyServiceUnitPoint(string startDateValue, string atRow)
+        {
+            Assert.AreEqual(startDateValue, GetAttributeValue(string.Format(startDateAtAnyRowServiceUnitPointTab, atRow), "value"));
+            //Cannot edit
+            Assert.AreEqual("true", GetAttributeValue(string.Format(startDateAtAnyRowServiceUnitPointTab, atRow), "disabled"));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage DoubleClickAtFirstRowInServiceUnitPointTab()
+        {
+            DoubleClickOnElement(firstRowAtServiceUnitPointTab);
             return this;
         }
 
@@ -505,6 +538,33 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
+        public ServiceUnitDetailPage VerifyStartDateAtFirstRowServiceTaskScheduleTab(string startDateValue, string atRow)
+        {
+            Assert.AreEqual(GetAttributeValue(string.Format(startDateAtAnyRowServiceTaskScheduleTab, atRow), "value"), startDateValue);
+            Assert.AreEqual("true", GetAttributeValue(string.Format(startDateAtAnyRowServiceTaskScheduleTab, atRow), "disabled"));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyTaskTypeAllocationAtFirstRowServiceTaskScheduleTab(string taskTypeValue, string allocationValue, string atRow)
+        {
+            Assert.AreEqual(taskTypeValue, GetElementText(string.Format(tasktypeAtAnyRowServiceTaskScheduleTab, atRow)));
+
+            string allocationDisaplayed = GetElementText(string.Format(allocationAtAnyRowServiceTaskScheduleTab, atRow));
+            string allocationNotWhiteSpace = string.Concat(allocationDisaplayed.Where(c => !Char.IsWhiteSpace(c)));
+            Assert.AreEqual(allocationValue, allocationNotWhiteSpace);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyEditScheduleEditServiceTaskBtnEnabled(string atRow)
+        {
+            Assert.IsTrue(IsControlEnabled(string.Format(editScheduleBtnAnyRow, atRow)), "Edit schedule button is not enabled");
+            Assert.IsTrue(IsControlEnabled(string.Format(editServiceTaskBtnAnyRow, atRow)), "Edit service task button is not enabled");
+            return this;
+        }
+
+        [AllureStep]
         public ServiceUnitDetailPage VerifyEndStartDateAndDescAtAnyServiceUnitPoint(string endDateValue, string descValue, string type)
         {
             Assert.AreEqual(endDateValue, GetAttributeValue(string.Format(endDateByServuceUnitPoint, descValue), "value"), "Wrong end date");
@@ -523,6 +583,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(endDateValue, GetAttributeValue(EndDateInput, "value"), "Wrong end date");
             return this;
         }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyStartDateValueIsTomorrow()
+        {
+            Assert.AreEqual(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), GetAttributeValue(StartDateInput, "value"), "Wrong start date");
+            return this;
+        }
+
 
     }
 }

@@ -706,6 +706,46 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         #endregion
 
+        #region locators and steps for Step [2]
+        private readonly string firstRoundByRoundNameStep2 = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[text()='{0}']/preceding-sibling::td) + 1]";
+        private readonly string firstRoundByRoundNameWithServiceUnitStep2 = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[text()='{0}']/preceding-sibling::td) + 1]/preceding-sibling::td[1]//img[@src='content/style/images/service-unit.png']";
+        private readonly string firstRoundByRoundNameAfterAddServiceTaskScheduleStep2 = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[text()='{0}']/preceding-sibling::td) + 1]/span";
 
+        [AllureStep]
+        public ServiceDataManagementPage RightClickOnFirstRowWithNoServiceUnitStep2(string roundName)
+        {
+            RightClickOnElement(firstRoundByRoundNameStep2, roundName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyDisplayServiceUnitAfterAddServiceTaskSchedule(string roundName)
+        {
+            Assert.IsTrue(IsControlDisplayed(firstRoundByRoundNameWithServiceUnitStep2, roundName), "Service Unit icon is not displayed after [Add Service Task Schedule");
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyDisplayGreenBorderAfterAddServiceTaskSchedule(string roundName)
+        {
+            Assert.IsTrue(IsControlDisplayed(firstRoundByRoundNameAfterAddServiceTaskScheduleStep2, roundName), "Green border is not displayed after [Add Service Task Schedule");
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnFirstServiceTaskScheduleByRoundStep2(string roundName)
+        {
+            DoubleClickOnElement(firstRoundByRoundNameStep2, roundName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage DoubleClickOnFirstUnitServiceByRoundStep2(string roundName)
+        {
+            DoubleClickOnElement(firstRoundByRoundNameWithServiceUnitStep2, roundName);
+            return this;
+        }
+
+        #endregion
     }
 }
