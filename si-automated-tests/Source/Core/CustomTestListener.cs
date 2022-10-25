@@ -19,7 +19,6 @@ namespace si_automated_tests.Source.Core
         {
             var pageSource = IWebDriverManager.GetDriver().PageSource;
             var byteArray = Encoding.UTF8.GetBytes(pageSource);
-            AllureLifecycle.Instance.AddAttachment(pageSource);
             AllureLifecycle.Instance.AddAttachment("Page source","application/xml", byteArray, "xml");
         }
         [AllureStep("Screenshot of failure")]
