@@ -1,13 +1,10 @@
 ﻿using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
-using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Applications;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
@@ -28,8 +25,8 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Applications")
-                .OpenOption("Service Data Management")
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame();
 
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -62,8 +59,8 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Applications")
-                .OpenOption("Service Data Management")
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame();
 
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -111,8 +108,8 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Applications")
-                .OpenOption("Service Data Management")
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame();
 
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -150,8 +147,8 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Applications")
-                .OpenOption("Service Data Management")
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame();
 
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -198,8 +195,8 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Applications")
-                .OpenOption("Service Data Management")
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame();
 
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
@@ -265,8 +262,8 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .Login(AutoUser38.UserName, AutoUser38.Password)
                 .IsOnHomePage(AutoUser38);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Applications")
-                .OpenOption("Service Data Management")
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
                 .SwitchNewIFrame();
 
             ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();

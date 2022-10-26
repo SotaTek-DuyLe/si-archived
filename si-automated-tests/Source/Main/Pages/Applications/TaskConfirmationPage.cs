@@ -22,6 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
         private readonly By descAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
+        private readonly By statusAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l18')])[1]");
         private readonly By scheduledDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l16')]");
         private readonly By dueDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l17')]");
         private readonly By allRowInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div");
@@ -42,11 +43,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 
         public readonly string SlickRoundRow = "./div[contains(@class, 'slick-group')]";
         public readonly string RoundDescriptionCell = "./div[contains(@class, 'slick-cell l0')]";
+        private readonly By confirmationNeededTitlePopup = By.XPath("//h4[text()='Confirmation Needed']");
+        private readonly By confirmationNeededContent1Popup = By.XPath("//p[text()='You have selected a large number of routes, which may slow down the system.']");
+        private readonly By confiramtionNeededContent2Popup = By.XPath("//p[text()='Are you sure you want to load them all?']");
+        private readonly By confirmBtn = By.XPath("//button[text()='Confirm']");
+        private readonly By closeBtn = By.XPath("//button[text()='Close']");
 
         public readonly By ShowOutstandingTaskButton = By.XPath("//div[@id='tabs-container']//button[@id='t-outstanding']");
         public readonly By OutstandingTab = By.XPath("//div[@id='tabs-container']//li//a[@aria-controls='outstanding']");
         private readonly By firstRoundInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[1]");
         public readonly By BulkUpdateButton = By.XPath("//button[@title='Bulk Update']");
+        private readonly By statusDd = By.XPath("//label[text()='Status']/following-sibling::select[1]");
+        private readonly By closeBtnBulkUpdate = By.XPath("//button[@type='button' and text()='×']");
+
         //DYNAMIC
         private readonly string anyContractOption = "//label[text()='Contract']/following-sibling::span/select/option[text()='{0}']";
         private readonly string anyServicesByServiceGroup = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/preceding-sibling::i";
@@ -54,6 +63,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string anyChildOfTree = "//a[text()='{0}']/parent::li/i";
         private readonly string chirldOfTree = "//a[text()='{0}']";
         private readonly string firstRoundByRoundNameInGrid = "//span[contains(string(), '{0}')]/parent::div/parent::div";
+        private readonly string optionInStatusFirstRow = "(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l18')])[1]/select/option[{0}]";
+        private readonly string statusOptionInBulkUpdate = "//label[text()='Status']/following-sibling::select[1]/option[{0}]";
 
         #region Bulk update
         public readonly By BulkUpdateStateSelect = By.XPath("//div[@class='bulk-confirmation']//select[1]");
@@ -91,6 +102,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
+        public TaskConfirmationPage ClickServicesAndSelectServiceInTree(string serviceGroupName, string serviceName)
+        {
+            ClickOnElement(serviceInput);
+            ClickOnElement(anyServicesByServiceGroup, serviceGroupName);
+            ClickOnElement(chirldOfTree, serviceName);
+            return this;
+        }
+
+        [AllureStep]
         public TaskConfirmationPage ClickServicesAndSelectServiceInTree(string serviceGroupName, string serviceName, string roundName)
         {
             ClickOnElement(serviceInput);
@@ -111,6 +131,25 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TaskConfirmationPage ClickGoBtn()
         {
             ClickOnElement(goBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage IsConfirmationNeededPopup()
+        {
+            WaitUtil.WaitForElementVisible(confirmationNeededTitlePopup);
+            Assert.IsTrue(IsControlDisplayed(confirmationNeededTitlePopup));
+            Assert.IsTrue(IsControlDisplayed(confirmationNeededContent1Popup));
+            Assert.IsTrue(IsControlDisplayed(confiramtionNeededContent2Popup));
+            Assert.IsTrue(IsControlDisplayed(confirmBtn));
+            Assert.IsTrue(IsControlDisplayed(closeBtn));
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage ClickOnConfirmBtn()
+        {
+            ClickOnElement(confirmBtn);
             return this;
         }
 
@@ -260,6 +299,54 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             ClickOnElement(By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[2]//input[@type='checkbox']"));
             SleepTimeInMiliseconds(3000);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage ClickOnStatusAtFirstColumn()
+        {
+            ClickOnElement(statusAtFirstColumn);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage VerifyTheDisplayOfTheOrderStatus(string[] taskStateValues)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Assert.AreEqual(taskStateValues[i], GetElementText(optionInStatusFirstRow, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage ClickOnBulkUpdateBtn()
+        {
+            ClickOnElement(BulkUpdateButton);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage ClickOnStatusDdInBulkUpdatePopup()
+        {
+            ClickOnElement(statusDd);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage VerifyOrderInTaskStateDd(string[] taskStateValues)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Assert.AreEqual(taskStateValues[i], GetElementText(statusOptionInBulkUpdate, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage ClickOnCloseBulkUpdateModel()
+        {
+            ClickOnElement(closeBtnBulkUpdate);
             return this;
         }
     }

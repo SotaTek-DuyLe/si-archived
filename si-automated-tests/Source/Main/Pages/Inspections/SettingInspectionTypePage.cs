@@ -1,6 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;

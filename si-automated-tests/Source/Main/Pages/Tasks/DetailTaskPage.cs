@@ -56,6 +56,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private const string allocatedUnitOption = "//select[@id='allocated-unit']/option[text()='{0}']";
         private const string allocatedUserOption = "//select[@id='allocated-user']/option[text()='{0}']";
         private const string taskStateOption = "//select[@id='taskState.id']/option[text()='{0}']";
+        private const string taskStateOptionAndOrder = "//select[@id='taskState.id']/option[{0}]";
 
         [AllureStep]
         public DetailTaskPage IsDetailTaskPage()
@@ -281,6 +282,17 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             ClickOnElement(taskStateDd);
             return this;
         }
+
+        [AllureStep]
+        public DetailTaskPage VerifyOrderInTaskStateDd(string[] taskStateValues)
+        {
+            for(int i = 0; i < 5; i++)
+            {
+                Assert.AreEqual(taskStateValues[i], GetElementText(taskStateOptionAndOrder, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+            }
+            return this;
+        }
+
         [AllureStep]
         public DetailTaskPage SelectAnyTaskStateInDd(string taskStateValue)
         {

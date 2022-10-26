@@ -2,8 +2,6 @@
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
-using si_automated_tests.Source.Main.Constants;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -23,6 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By StatusSelect = By.XPath("//div[contains(@class, 'bs-container')]//ul");
         public readonly By ApplyFilterBtn = By.XPath("//div[@id='screen1']//button[@id='filter-button']");
         public readonly By ClearFilterBtn = By.XPath("//div[@id='screen1']//button[@id='clear-filters-button']");
+
         /// <summary>
         /// SDM: Service Data Management
         /// </summary>
@@ -58,19 +57,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                         SDMTableXPath,
                         SDMRowXPath,
                         new List<string>() { SDMCheckboxXPath, SDMPointAddressXPath, SDMTypeXPath, SDMDescriptionXPath, SDMPostcodeXPath, SDMStreetXPath, SDMStatusXPath });
-                    serviceDataManagementTableElement.GetDataView += ServiceDataManagementTableElement_GetDataView;
+                    serviceDataManagementTableElement.GetDataView = (IEnumerable<IWebElement> rows) =>
+                    {
+                        return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+                    }; ;
                 }
                 return serviceDataManagementTableElement;
             }
-        }
-
-        private List<IWebElement> ServiceDataManagementTableElement_GetDataView(List<IWebElement> originSource)
-        {
-            return originSource.OrderBy(x => 
-            {
-                string top = x.GetCssValue("top").Replace("px", "");
-                return top.AsInteger();
-            }).ToList();
         }
 
         public ServiceDataManagementPage SelectStatusOption(string status)

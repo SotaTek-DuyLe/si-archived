@@ -12,6 +12,7 @@ using si_automated_tests.Source.Main.Pages.PointAddress;
 using si_automated_tests.Source.Main.Pages.Services;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+using ServiceDataManagementPage = si_automated_tests.Source.Main.Pages.Services.ServiceDataManagementPage;
 using TaskAllocationPage = si_automated_tests.Source.Main.Pages.Applications.TaskAllocationPage;
 
 namespace si_automated_tests.Source.Test.SDMActionTests

@@ -411,6 +411,24 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
+        public BasePage AcceptAlertIfAny()
+        {
+            try
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    SleepTimeInMiliseconds(1000);
+                    this.driver.SwitchTo().Alert().Accept();
+                }
+            }
+            catch (NoAlertPresentException)
+            {
+                return this;
+            }
+            return this;
+        }
+
         //SWITCH WINDOW
         [AllureStep]
         public BasePage SwitchToFirstWindow()
