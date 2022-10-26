@@ -45,6 +45,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         [AllureStep]
         public TaskTypeEchoExtraPage InputNumberInSortOrder(string numberOfRow, string value)
         {
+            ClearInputValue(string.Format(sortOrderInputAtAnyRow, numberOfRow));
             if(!value.Equals("0"))
             {
                 SendKeys(string.Format(sortOrderInputAtAnyRow, numberOfRow), value);
