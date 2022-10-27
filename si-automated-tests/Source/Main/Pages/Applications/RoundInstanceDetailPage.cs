@@ -231,7 +231,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public RoundInstanceDetailPage VerifyOrderInTaskStateDd(string[] taskStateValues)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < taskStateValues.Length; i++)
             {
                 Assert.AreEqual(taskStateValues[i], GetElementText(statusOptionInBulkUpdate, (i + 2).ToString()), "Task state at " + i + "is incorrect");
             }

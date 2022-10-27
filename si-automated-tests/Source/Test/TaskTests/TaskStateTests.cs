@@ -151,12 +151,12 @@ namespace si_automated_tests.Source.Test.TaskTests
         [Category("Task State")]
         [Category("Chang")]
         [Test]
-        [TestCase(new object[] { "0", "0", "0", "0", "0" }, TestName = "adddf")]
-        public void TC_99_task_state_sort_web_set_on_stop_settings_on_Task_type(object[] orderNumber)
+        [TestCase(new string[] { "1", "2", "3", "4", "5" }, 1)]
+        public void TC_99_task_state_sort_web_set_on_stop_settings_on_Task_type(string[] orderNumber, int a)
         {
             string taskId = "14339";
             string partyName = "Tesco PLC";
-            string[] orderStateValues = { "Cancelled", "Inprogress" };
+            string[] orderStateValues = { "Cancelled", "In Progress" };
             string[] onlyCancelledStatus = { "Cancelled" };
             string roundName = "REF1-AM";
             string dayName = "Wednesday";
@@ -210,7 +210,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailPartyPage
                 .ClickOnElement(detailPartyPage.OnStopButton);
             detailPartyPage
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+                .WaitForLoadingIconToDisappear();
             detailPartyPage
                 .VerifyElementText(detailPartyPage.PartyStatus, "On Stop");
             detailPartyPage
