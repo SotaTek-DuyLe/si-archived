@@ -1,4 +1,6 @@
-﻿using NUnit.Allure.Attributes;
+﻿using System;
+using Newtonsoft.Json;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -54,6 +56,19 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         [AllureStep]
+        public TaskTypeEchoExtraPage InputNumberInSortOrder(string numberOfRow, object v2)
+        {
+            ClearInputValue(string.Format(sortOrderInputAtAnyRow, numberOfRow));
+            //string value = JsonConvert.SerializeObject(v2);
+            string value = v2.ToString();
+            if (!value.Equals("0"))
+            {
+                SendKeys(string.Format(sortOrderInputAtAnyRow, numberOfRow), value);
+            }
+            return this;
+        }
+
+        [AllureStep]
         public TaskTypeEchoExtraPage ClickSaveBtnToUpdateTaskType()
         {
             ClickOnElement(saveRoleBtn);
@@ -67,5 +82,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             GoToURL(WebUrl.MainPageUrl + "web/round-instances/" + roundInstanceId);
             return PageFactoryManager.Get<RoundInstanceDetailPage>();
         }
+
     }
 }

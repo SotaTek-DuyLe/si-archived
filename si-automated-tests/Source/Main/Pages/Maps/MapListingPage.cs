@@ -33,8 +33,6 @@ namespace si_automated_tests.Source.Main.Pages.Maps
             return this;
         }
 
-        
-
         #region ROUND TAB
         private readonly By firstShowRoundInstanceBtnRoundTab = By.XPath("(//div[@id='rounds-tab']//button[text()='Show Round Instance'])[1]");
 
@@ -57,8 +55,11 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         #region WORKSHEET TAB
         private readonly By workSheetTab = By.XPath("//a[@aria-controls='worksheet-tab']/parent::li");
         private readonly By idInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l3')]/input");
+        private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
+        private readonly By partyInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l6')]/input");
         private readonly By idValueInFistRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l3')]");
-        private readonly By statusValueInFirstRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l18')]");
+        private readonly By partyValueInFirstRow = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l6')])[1]");
+        private readonly By statusValueInFirstRow = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l18')])[1]");
         private readonly By frameWorksheet = By.CssSelector("iframe[id='worksheet-tab']");
 
         //DYNAMIC
@@ -86,9 +87,30 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         }
 
         [AllureStep]
+        public MapListingPage FilterWorksheetByDesc(string descValue)
+        {
+            SendKeys(descInput, descValue);
+            return this;
+        }
+
+        [AllureStep]
+        public MapListingPage FilterWorksheetByPartyName(string partyValue)
+        {
+            SendKeys(partyInput, partyValue);
+            return this;
+        }
+
+        [AllureStep]
         public MapListingPage VerifyTheDisplayOfTheWorksheetIdAfterFiltering(string id)
         {
             Assert.AreEqual(id, GetElementText(idValueInFistRow), "id in first row is incorrect");
+            return this;
+        }
+
+        [AllureStep]
+        public MapListingPage VerifyTheDisplayOfTheWorksheetIdAfterFilteringParty(string partyName)
+        {
+            Assert.AreEqual(partyName, GetElementText(partyValueInFirstRow), "party in first row is incorrect");
             return this;
         }
 
