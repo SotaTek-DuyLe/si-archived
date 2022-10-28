@@ -5,6 +5,7 @@ using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.IE_Configuration;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Services;
@@ -282,6 +283,44 @@ namespace si_automated_tests.Source.Test
             Assert.AreEqual(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 2), partyActionDBModel.wb_licencenumberexpiry.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), "Licence Number Expiry is incorrect");
             Assert.AreEqual(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 3), partyActionDBModel.wb_dormantdate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), "Dormant Date is incorrect");
             Assert.AreEqual(null, partyActionDBModel.wb_creditlimitwarning, "Warning Limit £ is incorrect");
+        }
+        [Category("Bug fix")]
+        [Category("Dee")]
+        [Test(Description = "Unable to add a new Resolution code (bug fix)")]
+        public void TC_178_The_Weighbridge_setting_is_not_recorded_in_party_actions()
+        {
+            string url = WebUrl.MainPageUrl + "web/grids/resolutioncodes";
+            string resoName = "Test resolution " + CommonUtil.GetRandomNumber(5);
+            string clientRef = "Test ref " + CommonUtil.GetRandomNumber(5);
+            PageFactoryManager.Get<LoginPage>()
+                 .GoToURL(url);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password);
+            PageFactoryManager.Get<ResolutionCodeGrid>()
+                .IsOnResolutionCodeGrid()
+                .DoubleClickFirstResolutionCode()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResolutionCodeDetailPage>()
+                .IsOnResolutionCodeDetailPage()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResolutionCodeGrid>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResolutionCodeDetailPage>()
+               .IsOnResolutionCodeDetailPage()
+               .VerifyNoIdIsGenerated()
+               .InputResolutionCodeDetails(resoName, clientRef)
+               .ClickSaveBtn()
+               .WaitForLoadingIconToDisappear()
+               .CloseCurrentWindow()
+               .SwitchToLastWindow()
+               .ClickRefreshBtn();
+            PageFactoryManager.Get<ResolutionCodeGrid>()
+                .IsOnResolutionCodeGrid()
+                .VerifyResolutionCodeIsCreated(resoName);
         }
     }
 }

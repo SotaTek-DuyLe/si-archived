@@ -806,6 +806,7 @@ namespace si_automated_tests.Source.Core
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@class,'loading-polygon')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='ui-widget-overlay shield' and contains(@data-bind,'shield: $root.isLoading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='ui-widget-overlay shield' and contains(@data-bind,'shield: loading')]");
+                WaitUtil.WaitForAllElementsInvisible60("//img[@src='images/ajax-loader.gif']");
                 WaitUtil.WaitForPageLoaded();
             }
             catch (WebDriverTimeoutException)
