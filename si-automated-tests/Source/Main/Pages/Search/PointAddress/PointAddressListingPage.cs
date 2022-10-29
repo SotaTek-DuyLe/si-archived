@@ -38,7 +38,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         [AllureStep]
         public PointAddressListingPage DoubleClickPointAddress(string pointId)
         {
-            PointAddressTableEle.DoubleClickCellOnCellValue(0, 1, pointId);
+            PointAddressTableEle.DoubleClickCellOnCellValue(1, 1, pointId);
             return this;
         }
 

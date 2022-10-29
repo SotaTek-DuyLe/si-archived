@@ -25,7 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         public readonly By AddPointButton = By.XPath("//button[@data-target='#add-service-unit-points']");
         public readonly By AddServiceUnitButton = By.XPath("//button[text()='Add Service Unit Points']");
         public readonly By SearchButton = By.XPath("//button[text()='Search']");
-        public readonly By NodeRadio = By.XPath("//input[@type='radio' and @value='Node']");
+        public readonly By NodeRadio = By.XPath("//input[@type='radio' and @value='Node']/parent::label");
         public readonly By SectorSelect = By.XPath("//select[contains(@data-bind, 'sector ')]");
         public readonly By ClientRefInput = By.XPath("//input[@id='client-reference']");
         private string SearchResultTable = "//div[@id='results-grid']//div[contains(@data-bind, 'selectedType() === \"Node\"')]//div[@class='grid-canvas']";
