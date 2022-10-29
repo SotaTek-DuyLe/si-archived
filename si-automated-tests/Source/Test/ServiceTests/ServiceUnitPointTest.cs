@@ -8,10 +8,12 @@ using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Common;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc;
+using si_automated_tests.Source.Main.Pages.PointAddress;
 using si_automated_tests.Source.Main.Pages.Services;
 using System;
 using System.Linq;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+using SiteServiceUnitPage = si_automated_tests.Source.Main.Pages.Paties.Sites.ServiceUnitPage;
 
 namespace si_automated_tests.Source.Test.ServiceTests
 {
@@ -68,6 +70,74 @@ namespace si_automated_tests.Source.Test.ServiceTests
             var mostCertainLanguage = languages.FirstOrDefault();
             Assert.IsNotNull(mostCertainLanguage);
             Assert.IsTrue(mostCertainLanguage.Item1.Iso639_2T == "fra");
+        }
+
+        [Category("ServiceUnitPoint")]
+        [Category("Huong")]
+        [Test(Description = "The enddate is not getting set on some PointNodes affecting search for nodes in Add service unit points")]
+        public void TC_183_The_enddate_is_not_getting_set_on_some_PointNodes()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser40.UserName, AutoUser40.Password)
+                .IsOnHomePage(AutoUser40);
+            var homePage = PageFactoryManager.Get<HomePage>();
+            homePage.ClickOnSearchBtn()
+                .IsSearchModel()
+                .ClickAnySearchForOption("Nodes")
+                .ClickAndSelectRichmondSectorValue()
+                .ClickOnSearchBtnInPopup()
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            var pointAddressListPage = PageFactoryManager.Get<PointAddressListingPage>();
+            pointAddressListPage.DoubleClickPointAddress("2")
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
+            pointAddressDetailPage.SendKeys(pointAddressDetailPage.ClientRefInput, "1478");
+            pointAddressDetailPage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear()
+                .ClickCloseBtn()
+                .SwitchToFirstWindow();
+            //Click on add new item in the point node grid 
+            pointAddressListPage.ClickOnElement(pointAddressListPage.addNewPointAddressBtn);
+            pointAddressListPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            string description = "Hiltribe, 18 Red lion street";
+            pointAddressDetailPage.SendKeys(pointAddressDetailPage.DescriptionInput, description);
+            pointAddressDetailPage.SendKeys(pointAddressDetailPage.ClientRefInput, "");
+            pointAddressDetailPage.SendKeys(pointAddressDetailPage.LatitudeInput, "51.4589021");
+            pointAddressDetailPage.SendKeys(pointAddressDetailPage.LongitudeInput, "-0.3070383");
+            pointAddressDetailPage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear()
+                .ClickCloseBtn()
+                .SwitchToFirstWindow();
+            pointAddressListPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            pointAddressListPage.VerifyPointAddressHasEndDate(description);
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl + "web/service-units/230012");
+            SiteServiceUnitPage serviceUnitPage = PageFactoryManager.Get<SiteServiceUnitPage>();
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickOnElement(serviceUnitPage.ServiceUnitPointTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickOnElement(serviceUnitPage.AddPointButton);
+            serviceUnitPage.ClickOnElement(serviceUnitPage.NodeRadio);
+            serviceUnitPage.SelectTextFromDropDown(serviceUnitPage.SectorSelect, "Richmond Commercial");
+            serviceUnitPage.SendKeys(serviceUnitPage.ClientRefInput, "1478");
+            serviceUnitPage.ClickOnElement(serviceUnitPage.SearchButton);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.VerifySearchResult("2")
+                .CheckSearchResult("2");
+            serviceUnitPage.ClickOnElement(serviceUnitPage.AddServiceUnitButton);
+            serviceUnitPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.VerifyPointIdOnServiceUnitPointList("2");
         }
     }
 }

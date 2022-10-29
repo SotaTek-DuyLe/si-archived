@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 
@@ -10,13 +12,43 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
 {
     public class PointAddressListingPage : BasePage
     {
-        private readonly By addNewPointAddressBtn = By.XPath("//button[text()='Add New Item']");
+        public readonly By addNewPointAddressBtn = By.XPath("//button[text()='Add New Item']");
         private readonly By firstPointAddressRow = By.XPath("//div[@class='grid-canvas']/div[not(contains(@style, 'display: none;'))][1]");
         private readonly By filterInputById = By.XPath("//div[contains(@class, 'l1 r1')]/descendant::input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
 
         //DYNAMIC LOCATOR
         private const string columnInRowPointAddress = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
+
+        private string PointAddressTable = "//div[@class='grid-canvas']";
+        private string PointAddressRow = "./div[contains(@class, 'slick-row')]";
+        private string CheckboxCell = "./div[contains(@class, 'l0')]//input[@type='checkbox']";
+        private string IdCell = "./div[contains(@class, 'l1')]";
+        private string NameCell = "./div[contains(@class, 'l2')]";
+        private string ClientRefCell = "./div[contains(@class, 'l3')]";
+        private string LatCell = "./div[contains(@class, 'l4')]";
+        private string LonCell = "./div[contains(@class, 'l5')]";
+        private string StartDateCell = "./div[contains(@class, 'l6')]";
+        private string EndDateCell = "./div[contains(@class, 'l7')]";
+        public TableElement PointAddressTableEle
+        {
+            get => new TableElement(PointAddressTable, PointAddressRow, new List<string>() { CheckboxCell, IdCell, NameCell, ClientRefCell, LatCell, LonCell, StartDateCell, EndDateCell });
+        }
+
+        [AllureStep]
+        public PointAddressListingPage DoubleClickPointAddress(string pointId)
+        {
+            PointAddressTableEle.DoubleClickCellOnCellValue(0, 1, pointId);
+            return this;
+        }
+
+        [AllureStep]
+        public PointAddressListingPage VerifyPointAddressHasEndDate(string description)
+        {
+            var cellVal = PointAddressTableEle.GetCellByCellValues(7, new Dictionary<int, object>() { { 2, description } });
+            Assert.IsNotEmpty(cellVal.Text);
+            return this;
+        }
 
         [AllureStep]
         public PointAddressListingPage WaitForPointAddressPageDisplayed()
