@@ -36,7 +36,9 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly string UnallocatedState = "./div[contains(@class, 'slick-cell l1 r1')]";
         public readonly string UnallocatedID = "./div[contains(@class, 'slick-cell l3 r3')]";
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
+        private readonly By idInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l3')]/input");
         private readonly By noteAtFirstRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l20')]");
+        private readonly By statusAtFirstRow = By.XPath("//div[@class='grid-canvas']//div[contains(@class, 'l18')]");
         private readonly By descAtFirstRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
         private readonly By firstRowAfterFiltering = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]/parent::div");
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
@@ -47,10 +49,16 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By rescheduleDateTitle = By.XPath("//label[text()='Reschedule Date']");
         public readonly By TaskStateSelect = By.XPath("//div[@id='details-tab']//select[@id='taskState.id']");
         public readonly By BulkUpdateButton = By.XPath("//button[@title='Bulk Update']");
+        private readonly string statusOptionInFirstRowBulkUpdate = "//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l18')]/select/option[{0}]";
+
         #region Bulk update
         public readonly By BulkUpdateStateSelect = By.XPath("//div[@class='bulk-confirmation']//select[1]");
         public readonly By BulkUpdateReasonSelect = By.XPath("//div[@class='bulk-confirmation']//select[2]");
         public readonly By ConfirmButton = By.XPath("//button[text()='Confirm']");
+        private readonly By statusDd = By.XPath("//label[text()='Status']/following-sibling::select[1]");
+
+        //DYNAMIC
+        private readonly string statusOptionInBulkUpdate = "//label[text()='Status']/following-sibling::select[1]/option[{0}]";
         #endregion
 
         private TableElement slickRoundTableEle;
@@ -120,7 +128,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public RoundInstanceDetailPage IsRoundInstancePage()
         {
             WaitUtil.WaitForElementVisible(title);
-            Assert.IsTrue(IsControlDisplayed(rescheduleDateTitle));
+            //WaitUtil.WaitForElementVisible(rescheduleDateTitle);
+            //Assert.IsTrue(IsControlDisplayed(rescheduleDateTitle));
             return this;
         }
 
@@ -170,6 +179,20 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
+        public RoundInstanceDetailPage SendKeyInId(string idValue)
+        {
+            SendKeys(idInput, idValue);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickOnStatusFirstRow()
+        {
+            ClickOnElement(statusAtFirstRow);
+            return this;
+        }
+
+        [AllureStep]
         public RoundInstanceDetailPage DoubleClickOnTask()
         {
             UnallocatedTableEle.DoubleClickRow(0);
@@ -181,6 +204,48 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             ClickOnElement(By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[2]//input[@type='checkbox']"));
             SleepTimeInMiliseconds(3000);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickOnSecondAfterClickingFirstRound()
+        {
+            ClickOnElement(By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[1]//input[@type='checkbox']"));
+            SleepTimeInMiliseconds(3000);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickOnBulkUpdateBtn()
+        {
+            ClickOnElement(BulkUpdateButton);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickOnStatusDdInBulkUpdatePopup()
+        {
+            ClickOnElement(statusDd);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyOrderInTaskStateDd(string[] taskStateValues)
+        {
+            for (int i = 0; i < taskStateValues.Length; i++)
+            {
+                Assert.AreEqual(taskStateValues[i], GetElementText(statusOptionInBulkUpdate, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyOrderTaskStateInFirstRowInWorksheerDd(string[] taskStateValues)
+        {
+            for (int i = 0; i < taskStateValues.Length; i++)
+            {
+                Assert.AreEqual(taskStateValues[i], GetElementText(statusOptionInFirstRowBulkUpdate, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+            }
             return this;
         }
     }

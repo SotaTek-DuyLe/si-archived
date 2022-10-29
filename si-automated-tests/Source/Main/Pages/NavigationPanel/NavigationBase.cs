@@ -80,22 +80,6 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
             ClickOnElement(pageTitle);
             return this;
         }
-        [AllureStep]
-        public NavigationBase AcceptAlertIfAny()
-        {
-            try
-            {
-                for(int i = 0; i < 2; i++)
-                {
-                    SleepTimeInMiliseconds(1000);
-                    this.driver.SwitchTo().Alert().Accept();
-                }
-            }
-            catch (NoAlertPresentException)
-            {
-                return this;
-            }
-            return this;
-        }
+        
     }
 }

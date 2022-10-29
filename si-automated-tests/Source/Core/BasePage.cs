@@ -411,6 +411,24 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
+        public BasePage AcceptAlertIfAny()
+        {
+            try
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    SleepTimeInMiliseconds(1000);
+                    this.driver.SwitchTo().Alert().Accept();
+                }
+            }
+            catch (NoAlertPresentException)
+            {
+                return this;
+            }
+            return this;
+        }
+
         //SWITCH WINDOW
         [AllureStep]
         public BasePage SwitchToFirstWindow()
@@ -454,6 +472,18 @@ namespace si_automated_tests.Source.Core
             {
                 throw new ApplicationException("New window did not open.");
             }
+        }
+
+        public void HoverElement(string xpath)
+        {
+            Actions action = new Actions(driver);
+            action.MoveToElement(GetElement(xpath)).Perform();
+        }
+
+        public void HoverElement(IWebElement webElement)
+        {
+            Actions action = new Actions(driver);
+            action.MoveToElement(webElement).Perform();
         }
 
         //ALERT
@@ -547,14 +577,17 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
-        [AllureStep]
+
         public BasePage ScrollDownToElement(IWebElement e)
         {
             WaitUtil.WaitForPageLoaded();
+            Thread.Sleep(2000);
             IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
             js.ExecuteScript("arguments[0].scrollIntoView(true);", e);
+
             return this;
         }
+
         [AllureStep]
         public BasePage ScrollLeft(By by)
         {
@@ -784,7 +817,13 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public BasePage WaitForLoadingIconToAppear()
         {
+            Thread.Sleep(750);
+            WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
+            WaitUtil.WaitForAllElementsInvisible60("//div[@data-bind='shield: loading']");
+            WaitUtil.WaitForElementInvisible60("//div[@id='loading-shield']");
+            WaitUtil.WaitForElementInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
             WaitUtil.WaitForElementVisible("//*[contains(@data-bind,'shield: isLoading')]");
+            WaitUtil.WaitForPageLoaded();
             return this;
         }
         public BasePage waitForLoadingIconDisappear() {

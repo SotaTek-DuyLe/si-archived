@@ -4,7 +4,6 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace si_automated_tests.Source.Core.WebElements
 {
@@ -14,6 +13,7 @@ namespace si_automated_tests.Source.Core.WebElements
         private string RowXpath;
         private List<string> CellXpaths;
         public Func<IEnumerable<IWebElement>, List<IWebElement>> GetDataView;
+
         public TableElement(string tableXPath, string rowXpath, List<string> cellXpaths)
         {
             TableXpath = tableXPath;
@@ -168,6 +168,38 @@ namespace si_automated_tests.Source.Core.WebElements
             return values;
         }
 
+        public List<object> GetRowValue(IWebElement row)
+        {
+            List<object> values = new List<object>();
+            foreach (var cellXpath in CellXpaths)
+            {
+                IWebElement webElement = row.FindElement(By.XPath(cellXpath));
+                string elementType = webElement.TagName;
+                switch (elementType)
+                {
+                    case "select":
+                        SelectElement selectedValue = new SelectElement(webElement);
+                        values.Add(selectedValue.SelectedOption.Text);
+                        break;
+                    case "input":
+                        string type = webElement.GetAttribute("type");
+                        if (type == "checkbox")
+                        {
+                            values.Add(webElement.Selected);
+                        }
+                        else
+                        {
+                            values.Add(webElement.GetAttribute("value"));
+                        }
+                        break;
+                    default:
+                        values.Add(webElement.Text);
+                        break;
+                }
+            }
+            return values;
+        }
+
         public bool GetCellVisibility(int rowIdx, int cellIdx)
         {
             return GetCell(rowIdx, cellIdx).Displayed;
@@ -213,6 +245,12 @@ namespace si_automated_tests.Source.Core.WebElements
                     break;
             }
         }
+
+        public string GetCellCss(int rowIdx, int cellIdx, string attribute)
+        {
+            return GetCell(rowIdx, cellIdx).GetCssValue(attribute);
+        }
+
 
         public void ClickCell(int rowIdx, int cellIdx)
         {

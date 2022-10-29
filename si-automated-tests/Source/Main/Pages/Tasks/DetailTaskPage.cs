@@ -22,6 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By historyTab = By.CssSelector("a[aria-controls='history-tab']");
         private readonly By verdictTab = By.CssSelector("a[aria-controls='verdict-tab']");
         public readonly By OnHoldImg = By.XPath("//img[@class='header-status-icon' and @src='/web/content/images/tasks/onHold.ico']");
+        private readonly By partyLink = By.XPath("//div[text()='Party']/following-sibling::a");
 
         //INSPECTION POPUP
         private readonly By inspectionPopupTitle = By.XPath("//h4[text()='Create ']");
@@ -56,6 +57,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private const string allocatedUnitOption = "//select[@id='allocated-unit']/option[text()='{0}']";
         private const string allocatedUserOption = "//select[@id='allocated-user']/option[text()='{0}']";
         private const string taskStateOption = "//select[@id='taskState.id']/option[text()='{0}']";
+        private const string taskStateOptionAndOrder = "//select[@id='taskState.id']/option[{0}]";
 
         [AllureStep]
         public DetailTaskPage IsDetailTaskPage()
@@ -87,6 +89,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public string GetServiceName()
         {
             return GetElementText(serviceName);
+        }
+
+        [AllureStep]
+        public DetailTaskPage ClickOnPartyLink()
+        {
+            ClickOnElement(partyLink);
+            return this;
         }
 
         //INSPECTION POPUP
@@ -281,6 +290,17 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             ClickOnElement(taskStateDd);
             return this;
         }
+
+        [AllureStep]
+        public DetailTaskPage VerifyOrderInTaskStateDd(string[] taskStateValues)
+        {
+            for(int i = 0; i < taskStateValues.Length; i++)
+            {
+                Assert.AreEqual(taskStateValues[i], GetElementText(taskStateOptionAndOrder, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+            }
+            return this;
+        }
+
         [AllureStep]
         public DetailTaskPage SelectAnyTaskStateInDd(string taskStateValue)
         {
