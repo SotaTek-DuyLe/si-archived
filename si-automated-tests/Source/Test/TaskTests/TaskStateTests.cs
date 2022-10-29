@@ -29,12 +29,11 @@ namespace si_automated_tests.Source.Test.TaskTests
         [TestCase(new string[] { "1", "3", "2", "5", "4" }, new string[] { "Unallocated", "Completed", "In Progress", "Cancelled", "Not Completed" }, TestName = "Scenario 1 - Sort order for ALL states")]
         [TestCase(new string[] { "1", "0", "2", "0", "3" }, new string[] { "Unallocated", "Completed", "Cancelled", "In Progress", "Not Completed" }, TestName = "Scenario 2 - Sort order for SOME states")]
         [TestCase(new string[] { "0", "0", "0", "0", "0" }, new string[] { "Unallocated", "In Progress", "Completed", "Not Completed", "Cancelled" }, TestName = "Scenario 3 - NO order for states")]
+        [TestCase(new string[] { "1", "1", "1", "3", "2" }, new string[] { "Unallocated", "In Progress", "Completed", "Cancelled", "Not Completed" }, TestName = "Scenario 3 - Sort order for states duplicated")]
         public void TC_99_task_state_sort_web_sort_order(string[] orderNumber, string[] orderStateValues)
         {
             string taskId = "14337";
-            string descAtTaskConfirmation = "Kennedy Roofing, UNIT B, TWICKENHAM TRADING ESTATE, RUGBY ROAD, TWICKENHAM, TW1 1DQ";
             string mapObjectName = "COM2 NST";
-            string taskIdInWorksheetMap = "19448";
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -112,8 +111,6 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnExpandRoundLegsBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
-                .SendKeyInDesc(descAtTaskConfirmation)
-                .VerifyDisplayResultAfterSearchWithDesc(descAtTaskConfirmation)
                 .ClickOnStatusAtFirstColumn()
                 .VerifyTheDisplayOfTheOrderStatus(orderStateValues);
             //Verify order in [Task Confirmation] Screen - Bulk Update form
@@ -132,14 +129,12 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<MapListingPage>()
                 .WaitForMapsTabDisplayed()
                 .ClickOnAnyMapObject(mapObjectName)
-                .ClickOnRoundTab()
-                .ClickOnFirstShowRoundInstanceBtnRoundTab()
+                .ClickOnRoundInRightHand()
+                .ClickOnRoundNameInLeftHand()
                 .ClickOnWorksheetTab()
                 .SwitchToWorksheetTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<MapListingPage>()
-                .FilterWorksheetById(taskIdInWorksheetMap)
-                .VerifyTheDisplayOfTheWorksheetIdAfterFiltering(taskIdInWorksheetMap)
                 .ClickOnStatusInFirstRow()
                 .VerifyOrderInTaskStateDd(orderStateValues)
                 //Verify order in [Bulk update] - Map tab
@@ -151,7 +146,8 @@ namespace si_automated_tests.Source.Test.TaskTests
         [Category("Task State")]
         [Category("Chang")]
         [Test]
-        [TestCase(new string[] { "1", "2", "3", "4", "5" }, 1)]
+        [TestCase(new string[] { "1", "3", "2", "5", "4" }, 1)]
+        [TestCase(new string[] { "0", "0", "0", "0", "0" }, 2)]
         public void TC_99_task_state_sort_web_set_on_stop_settings_on_Task_type(string[] orderNumber, int a)
         {
             string taskId = "14339";
@@ -236,7 +232,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnMinimiseRoundsAndRoundLegsBtn()
                 .SendKeyInId(taskId)
                 .ClickOnStatusFirstRow()
-                .VerifyOrderInTaskStateDd(onlyCancelledStatus)
+                .VerifyOrderTaskStateInFirstRowInWorksheerDd(onlyCancelledStatus)
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser44);
@@ -303,8 +299,8 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<MapListingPage>()
                 .WaitForMapsTabDisplayed()
                 .ClickOnAnyMapObject(mapObjectName)
-                .ClickOnRoundTab()
-                .ClickOnFirstShowRoundInstanceBtnRoundTab()
+                .ClickOnRoundInRightHand()
+                .ClickOnRoundNameInLeftHand()
                 .ClickOnWorksheetTab()
                 .SwitchToWorksheetTab()
                 .WaitForLoadingIconToDisappear();

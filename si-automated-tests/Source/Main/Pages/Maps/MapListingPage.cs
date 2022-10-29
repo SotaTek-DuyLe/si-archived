@@ -35,11 +35,27 @@ namespace si_automated_tests.Source.Main.Pages.Maps
 
         #region ROUND TAB
         private readonly By firstShowRoundInstanceBtnRoundTab = By.XPath("(//div[@id='rounds-tab']//button[text()='Show Round Instance'])[1]");
+        private readonly By roundInRightHand = By.XPath("//div[@title='Rounds']/ancestor::li[@id='Rounds']");
+        private readonly By roundNameInLeftHand = By.XPath("//span[@class='map-object-name']/ancestor::li");
 
         [AllureStep]
         public MapListingPage ClickOnRoundTab()
         {
             ClickOnElement(roundTab);
+            return this;
+        }
+
+        [AllureStep]
+        public MapListingPage ClickOnRoundInRightHand()
+        {
+            ClickOnElement(roundInRightHand);
+            return this;
+        }
+
+        [AllureStep]
+        public MapListingPage ClickOnRoundNameInLeftHand()
+        {
+            ClickOnElement(roundNameInLeftHand);
             return this;
         }
 
@@ -63,7 +79,7 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         private readonly By frameWorksheet = By.CssSelector("iframe[id='worksheet-tab']");
 
         //DYNAMIC
-        private readonly string statusOptionInFirstRow = "//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l18')]/select/option[{0}]";
+        private readonly string statusOptionInFirstRow = "//div[@id='grid']//div[@class='grid-canvas']//select/option[{0}]";
 
         [AllureStep]
         public MapListingPage ClickOnWorksheetTab()
@@ -124,7 +140,7 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         [AllureStep]
         public MapListingPage VerifyOrderInTaskStateDd(string[] taskStateValues)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < taskStateValues.Length; i++)
             {
                 Assert.AreEqual(taskStateValues[i], GetElementText(statusOptionInFirstRow, (i + 2).ToString()), "Task state at " + i + "is incorrect");
             }

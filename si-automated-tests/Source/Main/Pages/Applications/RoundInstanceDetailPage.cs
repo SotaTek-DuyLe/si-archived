@@ -3,7 +3,6 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
-using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +49,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By rescheduleDateTitle = By.XPath("//label[text()='Reschedule Date']");
         public readonly By TaskStateSelect = By.XPath("//div[@id='details-tab']//select[@id='taskState.id']");
         public readonly By BulkUpdateButton = By.XPath("//button[@title='Bulk Update']");
+        private readonly string statusOptionInFirstRowBulkUpdate = "//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l18')]/select/option[{0}]";
+
         #region Bulk update
         public readonly By BulkUpdateStateSelect = By.XPath("//div[@class='bulk-confirmation']//select[1]");
         public readonly By BulkUpdateReasonSelect = By.XPath("//div[@class='bulk-confirmation']//select[2]");
@@ -234,6 +235,16 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             for (int i = 0; i < taskStateValues.Length; i++)
             {
                 Assert.AreEqual(taskStateValues[i], GetElementText(statusOptionInBulkUpdate, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyOrderTaskStateInFirstRowInWorksheerDd(string[] taskStateValues)
+        {
+            for (int i = 0; i < taskStateValues.Length; i++)
+            {
+                Assert.AreEqual(taskStateValues[i], GetElementText(statusOptionInFirstRowBulkUpdate, (i + 2).ToString()), "Task state at " + i + "is incorrect");
             }
             return this;
         }

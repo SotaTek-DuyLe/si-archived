@@ -63,7 +63,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string anyChildOfTree = "//a[text()='{0}']/parent::li/i";
         private readonly string chirldOfTree = "//a[text()='{0}']";
         private readonly string firstRoundByRoundNameInGrid = "//span[contains(string(), '{0}')]/parent::div/parent::div";
-        private readonly string optionInStatusFirstRow = "(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l18')])[1]/select/option[{0}]";
+        private readonly string optionInStatusFirstRow = "(//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l18')])/select/option[{0}]";
         private readonly string statusOptionInBulkUpdate = "//label[text()='Status']/following-sibling::select[1]/option[{0}]";
 
         #region Bulk update
@@ -312,7 +312,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public TaskConfirmationPage VerifyTheDisplayOfTheOrderStatus(string[] taskStateValues)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < taskStateValues.Length; i++)
             {
                 Assert.AreEqual(taskStateValues[i], GetElementText(optionInStatusFirstRow, (i + 2).ToString()), "Task state at " + i + "is incorrect");
             }
