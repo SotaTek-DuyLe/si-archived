@@ -141,5 +141,58 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPage.WaitForLoadingIconToDisappear();
             serviceUnitPage.VerifyPointIdOnServiceUnitPointList("2");
         }
+
+        [Category("ServiceUnitPoint")]
+        [Category("Huong")]
+        [Test(Description = "Service Unit map does not display serviced points")]
+        public void TC_184_Service_Unit_map_does_not_display_serviced_points()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl + "web/service-units/230011");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser40.UserName, AutoUser40.Password);
+            SiteServiceUnitPage serviceUnitPage = PageFactoryManager.Get<SiteServiceUnitPage>();
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickOnElement(serviceUnitPage.ServiceUnitPointTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.VerifyServiceUnitType("Both Serviced and Point of Service");
+            serviceUnitPage.ClickOnElement(serviceUnitPage.MapTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.DragBluePointToAnotherPosition();
+            serviceUnitPage.VerifyBlueAndRedPointVisible();
+
+            //Click back to service unit points -> Change the type to Point of service -> Save -> Refresh the form
+            serviceUnitPage.ClickOnElement(serviceUnitPage.ServiceUnitPointTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.SelectServiceUnitPointType("Point of Service")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceUnitPage.VerifyServiceUnitType("Point of Service");
+
+            //Click map tab -> Drag blue pin away
+            serviceUnitPage.ClickOnElement(serviceUnitPage.MapTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.DragBluePointToAnotherPosition();
+            serviceUnitPage.VerifyBlueAndRedPointVisible();
+
+            //Click back to service unit points -> Change the type to Serviced point -> Save -> Refresh the form
+            serviceUnitPage.ClickOnElement(serviceUnitPage.ServiceUnitPointTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.SelectServiceUnitPointType("Serviced Point")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceUnitPage.VerifyServiceUnitType("Serviced Point");
+
+            //Click map tab -> Drag blue pin away
+            serviceUnitPage.ClickOnElement(serviceUnitPage.MapTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.DragBluePointToAnotherPosition();
+            serviceUnitPage.VerifyBlueAndRedPointVisible();
+        }
     }
 }

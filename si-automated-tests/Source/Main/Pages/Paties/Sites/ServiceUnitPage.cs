@@ -1,5 +1,7 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Models;
@@ -14,6 +16,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
     public class ServiceUnitPage : BasePageCommonActions
     {
         public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']");
+        public readonly By MapTab = By.XPath("//a[@aria-controls='map-tab']");
         public readonly By ServiceUnitPointTab = By.XPath("//a[@aria-controls='serviceUnitPoints-tab']");
         public readonly By LockCheckbox = By.XPath("//input[contains(@data-bind, 'locked.id')]");
         public readonly By LockReferenceInput = By.XPath("//input[@id='lockReference.id']");
@@ -47,11 +50,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         private string ServiceUnitPointRow = "./tr";
         private string ServiceUnitPointIdCell = "./td[@data-bind='text: id.value']";
         private string PointIdCell = "./td[@data-bind='text: pointId.value']";
+        private string DescriptionCell = "./td//a[contains(@data-bind, 'point.value')]";
+        private string ServiceUnitPointTypeCell = "./td//select[@id='serviceUnitPointType.id']";
+
         public TableElement ServiceUnitPointTableEle
         {
-            get => new TableElement(ServiceUnitPointTable, ServiceUnitPointRow, new List<string>() { ServiceUnitPointIdCell, PointIdCell });
+            get => new TableElement(ServiceUnitPointTable, ServiceUnitPointRow, new List<string>() { ServiceUnitPointIdCell, PointIdCell, DescriptionCell, ServiceUnitPointTypeCell });
         }
 
+        [AllureStep]
         public ServiceUnitPage VerifyPointIdOnServiceUnitPointList(string pointId)
         {
             var cell = ServiceUnitPointTableEle.GetRowByCellValue(1, pointId);
@@ -59,6 +66,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
             return this;
         }
 
+        [AllureStep]
+        public ServiceUnitPage VerifyServiceUnitType(string type)
+        {
+            VerifyCellValue(ServiceUnitPointTableEle, 0, 3, type);
+            return this;
+        }
+
+        [AllureStep]
         public ServiceUnitPage VerifySearchResult(string pointnodeId)
         {
             var cell = SearchResultTableEle.GetRowByCellValue(2, pointnodeId);
@@ -66,9 +81,41 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
             return this;
         }
 
+        [AllureStep]
         public ServiceUnitPage CheckSearchResult(string pointnodeId)
         {
             SearchResultTableEle.ClickCellOnCellValue(0, 2, pointnodeId);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitPage SelectServiceUnitPointType(string type)
+        {
+            ServiceUnitPointTableEle.SetCellValue(0, 3, type);
+            return this;
+        }
+        #endregion
+
+        #region Map
+        private readonly By BluePoint = By.XPath("(//div[@id='map-tab']//img[@src='https://maps.gstatic.com/mapfiles/transparent.png'])[1]//parent::div");
+        private readonly By RedPoint = By.XPath("(//div[@id='map-tab']//img[@src='https://maps.gstatic.com/mapfiles/transparent.png'])[2]//parent::div");
+
+        public ServiceUnitPage DragBluePointToAnotherPosition()
+        {
+            var builder = new Actions(IWebDriverManager.GetDriver());
+            var source = GetElement(BluePoint);
+            builder.ClickAndHold(source)
+                .MoveByOffset(100, 0)
+                .Release(source)
+                .Build()
+                .Perform();
+            return this;
+        }
+
+        public ServiceUnitPage VerifyBlueAndRedPointVisible()
+        {
+            VerifyElementVisibility(BluePoint, true);
+            VerifyElementVisibility(RedPoint, true);
             return this;
         }
         #endregion
