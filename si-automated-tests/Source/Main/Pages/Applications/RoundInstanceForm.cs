@@ -31,6 +31,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By taskName = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-group') and not(contains(@style, 'display: none;'))]");
 
         #region WorkSheetTab
+        public readonly By WorkSheetIFrame = By.XPath("//iframe[@id='worksheet-tab']");
         public readonly By ToggleRoundButton = By.XPath("//button[@id='t-toggle-rounds']");
         public readonly By ReallocateButton = By.XPath("//button[@id='t-bulk-reallocate']");
         private readonly By expandRoundBtn = By.XPath("//span[text()='Expand Rounds']/parent::button");
@@ -51,7 +52,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string townRows = "//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured') and not(contains(@style, 'display: none;'))][{0}]/div[contains(@class, 'l9 r9')]";
         private readonly string postcodeRows = "//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured') and not(contains(@style, 'display: none;'))][{0}]/div[contains(@class, 'l10 r10')]";
         private readonly By idSearch = By.XPath("//div[contains(@id, 'grid')]//div[contains(@class, 'ui-state-default')]//div[contains(@class, 'l3')]//input[contains(@class, 'value')]");
-
+        private readonly By AllFilteredHeaderInput = By.XPath("//div[@class='slick-headerrow-columns']//input");
         //DYNAMIC
         private readonly string checkboxRow = "//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured')][{0}]/div[contains(@class, 'l0 r0')]/input";
 
@@ -71,6 +72,23 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 RLITableEle.ClickCellOnCellValue(0, 1, RLIID);
             }
             return descriptions;
+        }
+
+        [AllureStep]
+        public RoundInstanceForm VerifyRITableVisible()
+        {
+            VerifyElementVisibility(By.XPath(RLITable), true);
+            return this;
+        }
+
+        public RoundInstanceForm VerifyNoFilterOnRITable()
+        {
+            var inputEles = driver.FindElements(AllFilteredHeaderInput);
+            foreach (var inputEle in inputEles)
+            {
+                VerifyInputValue(inputEle, "");
+            }
+            return this;
         }
         #endregion
 
