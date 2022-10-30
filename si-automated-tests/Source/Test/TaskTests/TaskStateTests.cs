@@ -147,7 +147,6 @@ namespace si_automated_tests.Source.Test.TaskTests
         [Category("Chang")]
         [Test]
         [TestCase(new string[] { "1", "3", "2", "5", "4" }, 1)]
-        [TestCase(new string[] { "0", "0", "0", "0", "0" }, 2)]
         public void TC_99_task_state_sort_web_set_on_stop_settings_on_Task_type(string[] orderNumber, int a)
         {
             string taskId = "14339";
@@ -308,11 +307,11 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .FilterWorksheetByPartyName(partyName)
                 .VerifyTheDisplayOfTheWorksheetIdAfterFilteringParty(partyName)
                 .ClickOnStatusInFirstRow()
-                .VerifyOrderInTaskStateDd(onlyCancelledStatus)
-                //Verify order in [Bulk update] - Map tab
-                .ClickOnBulkUpdateBtn()
-                .ClickOnStatusDdInBulkUpdatePopup()
-                .VerifyOrderInTaskStateDdInBulkUpdate(orderStateValues);
+                .VerifyOrderInTaskStateDd(onlyCancelledStatus);
+                ////Verify order in [Bulk update] - Map tab
+                //.ClickOnBulkUpdateBtn()
+                //.ClickOnStatusDdInBulkUpdatePopup()
+                //.VerifyOrderInTaskStateDdInBulkUpdate(orderStateValues);
         }
 
     }

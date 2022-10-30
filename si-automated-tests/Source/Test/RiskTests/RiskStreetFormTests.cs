@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -20,6 +19,7 @@ namespace si_automated_tests.Source.Test.RiskTests
     public class RiskStreetFormTests : BaseTest
     {
         [Category("Risk Street Form")]
+        [Category("Chang")]
         [Test(Description = "Street Form")]
         public void TC_131_Street_Form()
         {
@@ -45,7 +45,7 @@ namespace si_automated_tests.Source.Test.RiskTests
             PageFactoryManager.Get<RiskRegisterListingPage>()
                 .IsRiskStreetForm()
                 .FilterByRiskId(riskId)
-                .DoubleClickAtFirstRisk()
+                .DoubleClickAtFirstRisk(riskId)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RiskDetailPage>()
@@ -66,7 +66,7 @@ namespace si_automated_tests.Source.Test.RiskTests
             //=> Help btn
             streetDetailPage
                 .ClickAndVerifyHelp();
-                
+
             streetDetailPage
                 .IsStreetDetailPage(riskDesc)
                 //=> Close btn
