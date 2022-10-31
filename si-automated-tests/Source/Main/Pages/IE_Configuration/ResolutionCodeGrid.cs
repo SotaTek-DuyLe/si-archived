@@ -30,7 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
         public ResolutionCodeGrid DoubleClickFirstResolutionCode()
         {
             var firstResolutionCode = WaitUtil.WaitForAllElementsVisible(resolutionCodes)[0];
-            ClickOnElement(firstResolutionCode);
+            DoubleClickOnElement(firstResolutionCode);
             return this;
         }
         [AllureStep]
