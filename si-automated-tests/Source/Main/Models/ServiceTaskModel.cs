@@ -17,6 +17,10 @@ namespace si_automated_tests.Source.Main.Models
         private int partyId;
         private int agreementId;
         private int agreementlinetasktypeId;
+        public ServiceTaskModel()
+        {
+
+        }
         public ServiceTaskModel(string id, string name, string start, string end)
         {
             this.taskId = id;
