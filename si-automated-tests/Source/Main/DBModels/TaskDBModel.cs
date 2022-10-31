@@ -12,15 +12,15 @@ namespace si_automated_tests.Source.Main.DBModels
         public DateTime taskcreateddate { get; set; }
         public DateTime taskduedate { get; set; }
         public DateTime taskenddate { get; set; }
-        public string PartyId { get => partyId; set => partyId = value; }
-        public string AgreementId { get => agreementId; set => agreementId = value; }
-        public string AgreementlinetasktypeId { get => agreementlinetasktypeId; set => agreementlinetasktypeId = value; }
-        public string ServiceTaskId { get => serviceTaskId; set => serviceTaskId = value; }
+        public int PartyId { get => partyId; set => partyId = value; }
+        public int AgreementId { get => agreementId; set => agreementId = value; }
+        public int AgreementlinetasktypeId { get => agreementlinetasktypeId; set => agreementlinetasktypeId = value; }
+        public int ServiceTaskId { get => serviceTaskId; set => serviceTaskId = value; }
 
-        private string partyId;
-        private string agreementId;
-        private string agreementlinetasktypeId;
-        private string serviceTaskId;
+        private int partyId;
+        private int agreementId;
+        private int agreementlinetasktypeId;
+        private int serviceTaskId;
 
         public TaskDBModel()
         {
