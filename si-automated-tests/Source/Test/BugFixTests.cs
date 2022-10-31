@@ -390,7 +390,7 @@ namespace si_automated_tests.Source.Test
             Assert.AreEqual(firstTask.PartyId, firstServiceTask.PartyId);
             Assert.AreEqual(firstTask.AgreementId, firstServiceTask.AgreementId);
             Assert.AreEqual(firstTask.AgreementlinetasktypeId, firstServiceTask.AgreementlinetasktypeId);
-            Assert.AreEqual(firstTask.ServiceTaskId, serviceTaskId);
+            Assert.AreEqual(firstTask.ServiceTaskId, int.Parse(serviceTaskId));
         }
     }
 }
