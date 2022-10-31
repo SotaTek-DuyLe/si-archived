@@ -1,7 +1,9 @@
 ﻿using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.Models;
 using System.Collections.Generic;
 using System.Linq;
+using PointAddressModel = si_automated_tests.Source.Main.DBModels.PointAddressModel;
 
 namespace si_automated_tests.Source.Main.Finders
 {
@@ -123,6 +125,11 @@ namespace si_automated_tests.Source.Main.Finders
         {
             string query = "select * from tasks where taskID = " + taskId + ";";
             return FindList<TaskDBModel>(query);
+        }
+        public List<ServiceTaskModel> GetTaskService(int serviceTaskId)
+        {
+            string query = "select * from servicetasks where servicetaskID = " + serviceTaskId + ";";
+            return FindList<ServiceTaskModel>(query);
         }
 
         public List<StreetTypeDBModel> GetStreetWithDate()

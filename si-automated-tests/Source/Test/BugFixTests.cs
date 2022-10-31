@@ -4,6 +4,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Finders;
+using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.IE_Configuration;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
@@ -357,6 +358,9 @@ namespace si_automated_tests.Source.Test
             string serviceTask = PageFactoryManager.Get<ServicesTaskPage>()
                 .GetServiceName();
 
+            string serviceTaskId = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetServiceTaskId();
+
             PageFactoryManager.Get<ServicesTaskPage>()
                 .ClickCreateAdhocTaskButton()
                 .SwitchToLastWindow();
@@ -374,10 +378,22 @@ namespace si_automated_tests.Source.Test
             string service = PageFactoryManager.Get<DetailTaskPage>()
                 .GetServiceName();
 
+            string taskId = PageFactoryManager.Get<DetailTaskPage>()
+                .GetTaskId();
+
             Assert.AreEqual(serviceTaskDescription, taskDescription);
             Assert.AreEqual(serviceTaskSite, site);
             Assert.AreEqual(serviceTaskGroup, group);
             Assert.AreEqual(serviceTask, service);
+
+            CommonFinder finder = new CommonFinder(DbContext);
+            TaskDBModel firstTask = finder.GetTask(int.Parse(taskId))[0];
+            ServiceTaskModel firstServiceTask = finder.GetTaskService(int.Parse(serviceTaskId))[0];
+
+            Assert.AreEqual(firstTask.PartyId, firstServiceTask.PartyId);
+            Assert.AreEqual(firstTask.AgreementId, firstServiceTask.AgreementId);
+            Assert.AreEqual(firstTask.AgreementlinetasktypeId, firstServiceTask.AgreementlinetasktypeId);
+            Assert.AreEqual(firstTask.ServiceTaskId, serviceTaskId);
         }
     }
 }

@@ -214,6 +214,11 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             return GetElementText(serviceTaskScheduleName);
         }
+        [AllureStep]
+        public string GetServiceTaskId()
+        {
+            return GetCurrentUrl().Split("tasks/")[1];
+        }
 
         [AllureStep]
         public ServicesTaskPage VerifyStartDateAndEndDate(string startDateExp, string endDateExp)
