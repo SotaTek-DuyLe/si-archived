@@ -313,7 +313,7 @@ namespace si_automated_tests.Source.Test
                .IsOnResolutionCodeDetailPage()
                .VerifyNoIdIsGenerated()
                .InputResolutionCodeDetails(resoName, clientRef)
-               .ClickSaveBtn()
+               .SaveResolutionCode()
                .WaitForLoadingIconToDisappear()
                .CloseCurrentWindow()
                .SwitchToLastWindow()
