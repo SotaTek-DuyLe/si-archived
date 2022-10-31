@@ -26,7 +26,7 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
         [AllureStep]
         public ResolutionCodeDetailPage VerifyNoIdIsGenerated()
         {
-            Assert.AreEqual("-1", GetResolutionCodeId());
+            Assert.IsTrue(GetResolutionCodeId().Contains("-"),"Resolution code is already generated");
             return this;
         }
 
