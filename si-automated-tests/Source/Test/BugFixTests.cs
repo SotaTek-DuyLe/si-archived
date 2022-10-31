@@ -287,7 +287,7 @@ namespace si_automated_tests.Source.Test
         [Category("Bug fix")]
         [Category("Dee")]
         [Test(Description = "Unable to add a new Resolution code (bug fix)")]
-        public void TC_178_verify_new_resolution_can_be_added()
+        public void TC_178_verify_that_new_resolution_can_be_added()
         {
             string url = WebUrl.MainPageUrl + "web/grids/resolutioncodes";
             string resoName = "Test resolution " + CommonUtil.GetRandomNumber(5);
@@ -321,6 +321,63 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<ResolutionCodeGrid>()
                 .IsOnResolutionCodeGrid()
                 .VerifyResolutionCodeIsCreated(resoName);
+        }
+        [Category("Bug fix")]
+        [Category("Dee")]
+        [Test(Description = "The AdHoc tasks don't inherit the PartyID from ServiceTask (bug fix)")]
+        public void TC_179_verify_that_adhoc_task_can_inherit_partyID()
+        {
+            string url = WebUrl.MainPageUrl + "web/grids/resolutioncodes";
+            string resoName = "Test resolution " + CommonUtil.GetRandomNumber(5);
+            string clientRef = "Test ref " + CommonUtil.GetRandomNumber(5);
+            PageFactoryManager.Get<LoginPage>()
+                 .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.RMC)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .OpenFirstServiceTaskLink()
+                .SwitchToLastWindow();
+            string serviceTaskDescription = PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .GetServiceTaskDescription();
+
+            string serviceTaskSite = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetServiceSite();
+
+            string serviceTaskGroup = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetServiceGroupName();
+
+            string serviceTask = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetServiceName();
+
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickCreateAdhocTaskButton()
+                .SwitchToLastWindow();
+
+            string taskDescription = PageFactoryManager.Get<DetailTaskPage>()
+                .IsDetailTaskPage()
+                .GetLocationName();
+
+            string site = PageFactoryManager.Get<DetailTaskPage>()
+                .GetSite();
+
+            string group = PageFactoryManager.Get<DetailTaskPage>()
+                .GetServiceGroup();
+
+            string service = PageFactoryManager.Get<DetailTaskPage>()
+                .GetServiceName();
+
+            Assert.AreEqual(serviceTaskDescription, taskDescription);
+            Assert.AreEqual(serviceTaskSite, site);
+            Assert.AreEqual(serviceTaskGroup, group);
+            Assert.AreEqual(serviceTask, service);
         }
     }
 }

@@ -19,6 +19,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By title = By.XPath("//span[text()='Service Task']");
         private readonly By serviceGroupTitle = By.XPath("//div[text()='SERVICE GROUP']");
         private readonly By serviceGroupName = By.XPath("//div[text()='SERVICE GROUP']/following-sibling::div");
+        private readonly By servicesSite = By.XPath("//div[text()='SITE']/following-sibling::div");
         private readonly By serviceName = By.XPath("//div[text()='SERVICE']/following-sibling::div");
         private readonly By serviceTaskScheduleName = By.CssSelector("a.typeUrl");
 
@@ -196,11 +197,22 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             return GetElementText(serviceGroupName);
         }
+        
+        [AllureStep]
+        public string GetServiceSite()
+        {
+            return GetElementText(servicesSite);
+        }
 
         [AllureStep]
         public string GetServiceName()
         {
             return GetElementText(serviceName);
+        }
+        [AllureStep]
+        public string GetServiceTaskDescription()
+        {
+            return GetElementText(serviceTaskScheduleName);
         }
 
         [AllureStep]
@@ -251,7 +263,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServicesTaskPage VerifyServiceScheduleTaskName(string serviceScheduleTaskName)
         {
-            Assert.AreEqual(serviceScheduleTaskName, GetElementText(serviceTaskScheduleName));
+            Assert.AreEqual(serviceScheduleTaskName, GetServiceTaskDescription());
             return this;
         }
 
@@ -272,5 +284,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         #endregion
 
+
+        [AllureStep]
+        public ServicesTaskPage ClickCreateAdhocTaskButton()
+        {
+            ClickOnElement(CreateAdHocTaskButton);
+            return this;
+        }
     }
 }
