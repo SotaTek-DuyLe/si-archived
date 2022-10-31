@@ -19,7 +19,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By locationName = By.CssSelector("a[class='typeUrl']");
         private readonly By serviceName = By.XPath("//div[text()='Service']/following-sibling::div");
         private readonly By serviceGroupName = By.XPath("//div[text()='Service Group']/following-sibling::div");
-        private readonly By site = By.XPath("//div[text()='Site']/following-sibling::div");
+        private readonly By site = By.XPath("//div[text()='Site']/following-sibling::a");
         private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
         private readonly By historyTab = By.CssSelector("a[aria-controls='history-tab']");
         private readonly By verdictTab = By.CssSelector("a[aria-controls='verdict-tab']");
