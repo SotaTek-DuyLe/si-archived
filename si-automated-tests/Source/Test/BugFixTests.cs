@@ -287,7 +287,7 @@ namespace si_automated_tests.Source.Test
         [Category("Bug fix")]
         [Category("Dee")]
         [Test(Description = "Unable to add a new Resolution code (bug fix)")]
-        public void TC_178_The_Weighbridge_setting_is_not_recorded_in_party_actions()
+        public void TC_178_verify_new_resolution_can_be_added()
         {
             string url = WebUrl.MainPageUrl + "web/grids/resolutioncodes";
             string resoName = "Test resolution " + CommonUtil.GetRandomNumber(5);

@@ -45,7 +45,7 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
         }
         private String GetResolutionCodeId()
         {
-            return WaitUtil.WaitForElementVisible(resolutionCodeId).Text.Replace("(", "").Replace(")", "").Trim();
+            return WaitUtil.WaitForElementVisible(resolutionCodeId).Text.Replace(":","").Replace("(", "").Replace(")", "").Trim();
         }
     }
 }
