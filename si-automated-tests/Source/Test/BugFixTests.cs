@@ -328,9 +328,7 @@ namespace si_automated_tests.Source.Test
         [Test(Description = "The AdHoc tasks don't inherit the PartyID from ServiceTask (bug fix)")]
         public void TC_179_verify_that_adhoc_task_can_inherit_partyID()
         {
-            string url = WebUrl.MainPageUrl + "web/grids/resolutioncodes";
-            string resoName = "Test resolution " + CommonUtil.GetRandomNumber(5);
-            string clientRef = "Test ref " + CommonUtil.GetRandomNumber(5);
+            CommonFinder finder = new CommonFinder(DbContext);
             PageFactoryManager.Get<LoginPage>()
                  .GoToURL(WebUrl.MainPageUrl);
             //Login
@@ -386,9 +384,8 @@ namespace si_automated_tests.Source.Test
             Assert.AreEqual(serviceTaskGroup, group);
             Assert.AreEqual(serviceTask, service);
 
-            CommonFinder finder = new CommonFinder(DbContext);
             TaskDBModel firstTask = finder.GetTask(int.Parse(taskId))[0];
-            ServiceTaskModel firstServiceTask = finder.GetTaskService(int.Parse(serviceTaskId))[0];
+            ServiceTaskDBModel firstServiceTask = finder.GetTaskService(int.Parse(serviceTaskId))[0];
 
             Assert.AreEqual(firstTask.PartyId, firstServiceTask.PartyId);
             Assert.AreEqual(firstTask.AgreementId, firstServiceTask.AgreementId);

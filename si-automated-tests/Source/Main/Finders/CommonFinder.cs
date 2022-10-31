@@ -128,10 +128,10 @@ namespace si_automated_tests.Source.Main.Finders
             return FindList<TaskDBModel>(query);
         }
         [AllureStep]
-        public List<ServiceTaskModel> GetTaskService(int serviceTaskId)
+        public List<ServiceTaskDBModel> GetTaskService(int serviceTaskId)
         {
             string query = "select * from servicetasks where servicetaskID = " + serviceTaskId + ";";
-            return FindList<ServiceTaskModel>(query);
+            return FindList<ServiceTaskDBModel>(query);
         }
         [AllureStep]
         public List<StreetTypeDBModel> GetStreetWithDate()
