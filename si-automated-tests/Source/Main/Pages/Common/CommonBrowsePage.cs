@@ -135,6 +135,14 @@ namespace si_automated_tests.Source.Main.Pages
             }
             return result;
         }
+        //For task grid only
+        [AllureStep]
+        public CommonBrowsePage OpenFirstServiceTaskLink()
+        {
+            var firstServiceTaskLink = By.XPath("//a[text()='ServiceTask']");
+            ClickOnElement(firstServiceTaskLink);
+            return this;
+        }
 
     }
 }

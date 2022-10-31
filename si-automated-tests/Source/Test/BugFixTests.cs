@@ -4,7 +4,9 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Finders;
+using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.IE_Configuration;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Services;
@@ -282,6 +284,113 @@ namespace si_automated_tests.Source.Test
             Assert.AreEqual(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 2), partyActionDBModel.wb_licencenumberexpiry.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), "Licence Number Expiry is incorrect");
             Assert.AreEqual(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 3), partyActionDBModel.wb_dormantdate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), "Dormant Date is incorrect");
             Assert.AreEqual(null, partyActionDBModel.wb_creditlimitwarning, "Warning Limit £ is incorrect");
+        }
+        [Category("Bug fix")]
+        [Category("Dee")]
+        [Test(Description = "Unable to add a new Resolution code (bug fix)")]
+        public void TC_178_verify_that_new_resolution_can_be_added()
+        {
+            string url = WebUrl.MainPageUrl + "web/grids/resolutioncodes";
+            string resoName = "Test resolution " + CommonUtil.GetRandomNumber(5);
+            string clientRef = "Test ref " + CommonUtil.GetRandomNumber(5);
+            PageFactoryManager.Get<LoginPage>()
+                 .GoToURL(url);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password);
+            PageFactoryManager.Get<ResolutionCodeGrid>()
+                .IsOnResolutionCodeGrid()
+                .DoubleClickFirstResolutionCode()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResolutionCodeDetailPage>()
+                .IsOnResolutionCodeDetailPage()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResolutionCodeGrid>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResolutionCodeDetailPage>()
+               .IsOnResolutionCodeDetailPage()
+               .VerifyNoIdIsGenerated()
+               .InputResolutionCodeDetails(resoName, clientRef)
+               .SaveResolutionCode()
+               .WaitForLoadingIconToDisappear()
+               .CloseCurrentWindow()
+               .SwitchToLastWindow()
+               .ClickRefreshBtn();
+            PageFactoryManager.Get<ResolutionCodeGrid>()
+                .IsOnResolutionCodeGrid()
+                .VerifyResolutionCodeIsCreated(resoName);
+        }
+        [Category("Bug fix")]
+        [Category("Dee")]
+        [Test(Description = "The AdHoc tasks don't inherit the PartyID from ServiceTask (bug fix)")]
+        public void TC_179_verify_that_adhoc_task_can_inherit_partyID()
+        {
+            CommonFinder finder = new CommonFinder(DbContext);
+            PageFactoryManager.Get<LoginPage>()
+                 .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.RMC)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .OpenFirstServiceTaskLink()
+                .SwitchToLastWindow();
+            string serviceTaskDescription = PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .GetServiceTaskDescription();
+
+            string serviceTaskSite = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetServiceSite();
+
+            string serviceTaskGroup = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetServiceGroupName();
+
+            string serviceTask = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetServiceName();
+
+            string serviceTaskId = PageFactoryManager.Get<ServicesTaskPage>()
+                .GetServiceTaskId();
+
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickCreateAdhocTaskButton()
+                .SwitchToLastWindow();
+
+            string taskDescription = PageFactoryManager.Get<DetailTaskPage>()
+                .IsDetailTaskPage()
+                .GetLocationName();
+
+            string site = PageFactoryManager.Get<DetailTaskPage>()
+                .GetSite();
+
+            string group = PageFactoryManager.Get<DetailTaskPage>()
+                .GetServiceGroup();
+
+            string service = PageFactoryManager.Get<DetailTaskPage>()
+                .GetServiceName();
+
+            string taskId = PageFactoryManager.Get<DetailTaskPage>()
+                .GetTaskId();
+
+            Assert.AreEqual(serviceTaskDescription, taskDescription);
+            Assert.AreEqual(serviceTaskSite, site);
+            Assert.AreEqual(serviceTaskGroup, group);
+            Assert.AreEqual(serviceTask, service);
+
+            TaskDBModel firstTask = finder.GetTask(int.Parse(taskId))[0];
+            ServiceTaskDBModel firstServiceTask = finder.GetTaskService(int.Parse(serviceTaskId))[0];
+
+            Assert.AreEqual(firstTask.PartyId, firstServiceTask.PartyId);
+            Assert.AreEqual(firstTask.AgreementId, firstServiceTask.AgreementId);
+            Assert.AreEqual(firstTask.AgreementlinetasktypeId, firstServiceTask.AgreementlinetasktypeId);
+            Assert.AreEqual(firstTask.ServiceTaskId, int.Parse(serviceTaskId));
         }
     }
 }
