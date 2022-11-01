@@ -18,7 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
         private readonly By firstResult = By.XPath("//div[contains(@class,'ui-widget-content slick-row')]");
         private readonly By firstResultValues = By.XPath("//div[contains(@class,'ui-widget-content slick-row')][1]/div");
 
-        public CommonGridPage IsOnResolutionCodeGrid()
+        public CommonGridPage IsOnGrid()
         {
             WaitUtil.WaitForElementVisible(deleteItemBtn);
             WaitUtil.WaitForElementVisible(addNewItemBtn);
@@ -45,7 +45,7 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
             DoubleClickOnElement(firstResult);
             return this;
         }
-        public CommonGridPage VerifyFistResultValue(string field, string expected)
+        public CommonGridPage VerifyFirstResultValue(string field, string expected)
         {
             var hds = WaitUtil.WaitForAllElementsVisible(headerCollumns);
             for (int i = 0; i < hds.Count; i++)
@@ -56,6 +56,11 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
                     Assert.AreEqual(expected, _firstResultValues[i].Text);
                 }
             }
+            return this;
+        }
+        public CommonGridPage ClickAddNewItem()
+        {
+            ClickOnElement(addNewItemBtn);
             return this;
         }
     }
