@@ -70,6 +70,8 @@ namespace si_automated_tests.Source.Main.Pages.Maps
 
         #region WORKSHEET TAB
         private readonly By workSheetTab = By.XPath("//a[@aria-controls='worksheet-tab']/parent::li");
+        private readonly By fromDateInput = By.XPath("//input[@id='from-date']");
+        private readonly By goBtn = By.XPath("//button[contains(@class, 'btn-go')]");
         private readonly By idInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l3')]/input");
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
         private readonly By partyInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l6')]/input");
@@ -113,6 +115,20 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         public MapListingPage FilterWorksheetByPartyName(string partyValue)
         {
             SendKeys(partyInput, partyValue);
+            return this;
+        }
+
+        [AllureStep]
+        public MapListingPage SendDateInFromDateInput(string dateValue)
+        {
+            InputCalendarDate(fromDateInput, dateValue);
+            return this;
+        }
+
+        [AllureStep]
+        public MapListingPage ClickOnGoBtn()
+        {
+            ClickOnElement(goBtn);
             return this;
         }
 

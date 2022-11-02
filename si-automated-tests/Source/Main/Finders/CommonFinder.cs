@@ -207,6 +207,18 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "SELECT * FROM SotatekTesting.dbo.partyactions WHERE partyID = " + partyID + " and actioncreatedbyuserID = " + actioncreatedbyuserID + ";";
             return FindList<PartyActionDBModel>(query);
         }
+
+        public List<TaskLineDBModel> GetTaskLineStateByTaskLineId(string tasklineId)
+        {
+            string query = "SELECT t2.tasklinestate  FROM SotatekTesting.dbo.tasklines t join SotatekTesting.dbo.tasklinestates t2 on t.tasklinestateID = t2.tasklinestateID WHERE t.tasklineID = " + tasklineId + ";";
+            return FindList<TaskLineDBModel>(query);
+        }
+
+        public List<TaskStateDBModel> GetTaskStateByTaskId(string taskId)
+        {
+            string query = "SELECT t2.taskstate  FROM SotatekTesting.dbo.tasks t join SotatekTesting.dbo.taskstates t2 on t.taskstateID = t2.taskstateID  WHERE t.taskID = " + taskId + "; ";
+            return FindList<TaskStateDBModel>(query);
+        }
     }
 
 }
