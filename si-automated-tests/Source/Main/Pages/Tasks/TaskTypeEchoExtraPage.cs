@@ -1,6 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-using NUnit.Allure.Attributes;
+﻿using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
