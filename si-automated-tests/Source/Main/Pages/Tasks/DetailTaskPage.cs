@@ -304,6 +304,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         [AllureStep]
+        public DetailTaskPage VerifyCurrentTaskState(string currentTaskStateValue)
+        {
+            Assert.AreEqual(currentTaskStateValue, GetFirstSelectedItemInDropdown(taskStateDd));
+            return this;
+        }
+
+        [AllureStep]
         public DetailTaskPage VerifyOrderInTaskStateDd(string[] taskStateValues)
         {
             for(int i = 0; i < taskStateValues.Length; i++)
@@ -561,6 +568,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By secondStateTaskLine = By.CssSelector("tbody>tr:nth-child(2) select[id='itemState.id']");
         private readonly By secondProductTaskLine = By.XPath("//tbody/tr[2]//echo-select[contains(@params, 'name: product')]/select");
         private readonly By secondResolutionCodeTaskLine = By.CssSelector("tbody>tr:nth-child(2) select[id='resCode.id']");
+        private readonly string optionInStatusFirstRow = "//tbody/tr[1]//select[@id='itemState.id']/option[{0}]";
         private readonly string TaskLineTable = "//div[@id='taskLines-tab']//table";
         private readonly string TaskLineRow = "./tbody//tr[contains(@data-bind,'with: $data.getFields()')]";
         private readonly string TaskLineOrderCell = "./td//input[@id='order.id']";
@@ -674,6 +682,18 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifyDisplayNoRecordDisplayed()
         {
             Assert.IsTrue(IsControlUnDisplayed(numberOfTaskLine));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage ClickOnStateOnFirstTaskLineRowAndVerifyOrder(string[] taskStateValues)
+        {
+            ClickOnElement(firstStateTaskLine);
+            //Verify
+            for (int i = 0; i < taskStateValues.Length; i++)
+            {
+                Assert.AreEqual(taskStateValues[i], GetElementText(optionInStatusFirstRow, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+            }
             return this;
         }
 

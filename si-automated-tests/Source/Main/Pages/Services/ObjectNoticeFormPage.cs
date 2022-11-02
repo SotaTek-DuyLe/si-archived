@@ -17,6 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
     {
         public readonly By NoticeTypeSelect = By.XPath("//div[@id='details-tab']//select[@id='noticeType.id']");
         public readonly By SystemSelect = By.XPath("//div[@id='details-tab']//select[@id='echoSystem.id']");
+        public readonly By StandardNoticeTypeSelect = By.XPath("//div[@id='details-tab']//select[@id='standardNoticeType.id']");
         public readonly By DescriptionText = By.XPath("//div[@id='details-tab']//textarea[@id='description.id']");
         public readonly By HeaderStatus = By.XPath("//h5[@id='header-status']//span");
         public readonly By StartDateInput = By.XPath("//div[@id='details-tab']//input[@id='startDate.id']");

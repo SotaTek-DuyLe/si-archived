@@ -619,5 +619,107 @@ namespace si_automated_tests.Source.Test.ServiceTests
             CommonFinder finder = new CommonFinder(DbContext);
             finder.IsObjectNoticeExist("135", objectNoticeTab.GetIdNewObjectNotice());
         }
+
+        [Category("ObjectNotice")]
+        [Category("Huong")]
+        [Test(Description = "Verify that object notice form works correctly")]
+        public void TC_188_Object_notice_issues()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                  .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser38.UserName, AutoUser38.Password)
+                .IsOnHomePage(AutoUser38);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
+                .OpenOption("Ancillary")
+                .SwitchNewIFrame();
+            ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
+            objectNoticeTab.WaitForLoadingIconToDisappear(false);
+            objectNoticeTab.ClickOnElement(objectNoticeTab.objectNoticeTab);
+            objectNoticeTab.WaitForLoadingIconToDisappear(false);
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClickAddNewItem()
+               .SwitchToChildWindow(2);
+
+            ObjectNoticeFormPage objectNoticeForm = PageFactoryManager.Get<ObjectNoticeFormPage>();
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            objectNoticeForm.VerifyInputValue(objectNoticeForm.StartDateInput, londonCurrentDate.ToString("dd/MM/yyyy"));
+            string description = "Test for Object Notice";
+            string system = "Echo OnBoard";
+            objectNoticeForm
+                .WaitForLoadingIconToDisappear(false);
+            objectNoticeForm
+                .SelectTextFromDropDown(objectNoticeForm.NoticeTypeSelect, "OnBoard")
+                .SelectTextFromDropDown(objectNoticeForm.SystemSelect, system)
+                .SendKeys(objectNoticeForm.DescriptionText, description);
+            objectNoticeForm.SelectTextFromDropDown(objectNoticeForm.StandardNoticeTypeSelect, "Round Finish notice");
+            objectNoticeForm
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            objectNoticeForm
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+
+            //Refresh the grid 
+            objectNoticeTab
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear(false);
+            objectNoticeTab.VerifyNewObjectNotice(description, system, londonCurrentDate.ToString("dd/MM/yyyy"));
+
+            //Hard refresh the form
+            objectNoticeTab.SwitchToChildWindow(2);
+            objectNoticeForm.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            objectNoticeForm.VerifySelectedValue(objectNoticeForm.NoticeTypeSelect, "OnBoard")
+                .VerifySelectedValue(objectNoticeForm.SystemSelect, system)
+                .VerifySelectedValue(objectNoticeForm.StandardNoticeTypeSelect, "Round Finish notice")
+                .VerifyInputValue(objectNoticeForm.DescriptionText, description);
+
+            //Update use standard notice field -> Save -> Hard refresh the form
+            objectNoticeForm.SelectTextFromDropDown(objectNoticeForm.StandardNoticeTypeSelect, "Round Start notice");
+            objectNoticeForm
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            objectNoticeForm.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            objectNoticeForm.VerifySelectedValue(objectNoticeForm.StandardNoticeTypeSelect, "Round Start notice");
+
+            //Update use standard notice field to blank -> Save -> Hard refresh the form
+            objectNoticeForm.SelectTextFromDropDown(objectNoticeForm.StandardNoticeTypeSelect, "");
+            objectNoticeForm
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            objectNoticeForm.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            objectNoticeForm.VerifySelectedValue(objectNoticeForm.StandardNoticeTypeSelect, "");
+
+            //Add new item -> Select notice type and system -> Save -> Hard refresh the form
+            objectNoticeForm.ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickAddNewItem()
+                .SwitchToChildWindow(2);
+            objectNoticeForm
+               .WaitForLoadingIconToDisappear(false);
+            objectNoticeForm
+                .SelectTextFromDropDown(objectNoticeForm.NoticeTypeSelect, "OnBoard")
+                .SelectTextFromDropDown(objectNoticeForm.SystemSelect, system);
+            objectNoticeForm
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            objectNoticeForm.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            objectNoticeForm.VerifySelectedValue(objectNoticeForm.StandardNoticeTypeSelect, "");
+        }
     }
 }

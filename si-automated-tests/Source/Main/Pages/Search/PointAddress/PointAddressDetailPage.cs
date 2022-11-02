@@ -28,7 +28,10 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         //private readonly By toProperty = By.Id("toProperty");
         //private readonly By pointSegment = By.Id("point-segment");
         private readonly By pointAddressTypeSelect = By.Id("point-address-type");
-
+        public readonly By ClientRefInput = By.Id("client-ref");
+        public readonly By DescriptionInput = By.Id("description");
+        public readonly By LatitudeInput = By.Id("latitude");
+        public readonly By LongitudeInput = By.Id("longitude");
 
         //POPUP
         private readonly By createTitle = By.XPath("//div[@id='inspection-modal']//h4[text()='Create ']");
