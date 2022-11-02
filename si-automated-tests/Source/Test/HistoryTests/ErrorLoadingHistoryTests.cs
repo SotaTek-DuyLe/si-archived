@@ -213,5 +213,38 @@ namespace si_automated_tests.Source.Test.HistoryTests
                 .SendKeyInId(listTasks[1].id)
                 .VerifyTaskNoLongerDisplayedInGrid();
         }
+
+        [Category("TaskConfirmation")]
+        [Category("Chang")]
+        [Test(Description = "Verify that worksheet grid is loading in round instance from")]
+        public void TC_186_Task_confirmation_screen_loads_in_the_RI_worksheet_grid()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .SendKeyToUsername(AutoUser47.UserName)
+                .SendKeyToPassword(AutoUser47.Password)
+                .ClickOnSignIn();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser47);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .ExpandOption(MainOption.ServiceStatus)
+                .OpenOption(Contract.RM)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            //Filter any service status
+            PageFactoryManager.Get<ServiceStatusPage>()
+                .OpenFirstResult()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            RoundInstanceForm roundInstanceForm = PageFactoryManager.Get<RoundInstanceForm>();
+            roundInstanceForm.ClickOnWorksheetTab()
+                .WaitForLoadingIconToDisappear();
+            roundInstanceForm.SwitchToFrame(roundInstanceForm.WorkSheetIFrame);
+            roundInstanceForm.WaitForLoadingIconToDisappear();
+            roundInstanceForm.VerifyRITableVisible()
+                .VerifyNoFilterOnRITable();
+        }
     }
 }
