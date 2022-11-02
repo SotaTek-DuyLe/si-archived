@@ -8,10 +8,12 @@ using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Common;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc;
+using si_automated_tests.Source.Main.Pages.PointAddress;
 using si_automated_tests.Source.Main.Pages.Services;
 using System;
 using System.Linq;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+using SiteServiceUnitPage = si_automated_tests.Source.Main.Pages.Paties.Sites.ServiceUnitPage;
 
 namespace si_automated_tests.Source.Test.ServiceTests
 {
@@ -68,6 +70,129 @@ namespace si_automated_tests.Source.Test.ServiceTests
             var mostCertainLanguage = languages.FirstOrDefault();
             Assert.IsNotNull(mostCertainLanguage);
             Assert.IsTrue(mostCertainLanguage.Item1.Iso639_2T == "fra");
+        }
+
+        [Category("ServiceUnitPoint")]
+        [Category("Huong")]
+        [Test(Description = "The enddate is not getting set on some PointNodes affecting search for nodes in Add service unit points")]
+        public void TC_183_The_enddate_is_not_getting_set_on_some_PointNodes()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser40.UserName, AutoUser40.Password)
+                .IsOnHomePage(AutoUser40);
+            var homePage = PageFactoryManager.Get<HomePage>();
+            homePage.ClickOnSearchBtn()
+                .IsSearchModel()
+                .ClickAnySearchForOption("Nodes")
+                .ClickAndSelectRichmondSectorValue()
+                .ClickOnSearchBtnInPopup()
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            var pointAddressListPage = PageFactoryManager.Get<PointAddressListingPage>();
+            pointAddressListPage.DoubleClickPointAddress("2")
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
+            pointAddressDetailPage.SendKeys(pointAddressDetailPage.ClientRefInput, "1478");
+            pointAddressDetailPage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear()
+                .ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            //Click on add new item in the point node grid
+            pointAddressListPage.ClickOnElement(pointAddressListPage.addNewPointAddressBtn);
+            pointAddressListPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            string description = "Hiltribe, 18 Red lion street";
+            pointAddressDetailPage.SendKeys(pointAddressDetailPage.DescriptionInput, description);
+            pointAddressDetailPage.SendKeys(pointAddressDetailPage.ClientRefInput, "");
+            pointAddressDetailPage.SendKeys(pointAddressDetailPage.LatitudeInput, "51.4589021");
+            pointAddressDetailPage.SendKeys(pointAddressDetailPage.LongitudeInput, "-0.3070383");
+            pointAddressDetailPage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear()
+                .ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            pointAddressListPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            //pointAddressListPage.VerifyPointAddressHasEndDate(description);
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl + "web/service-units/230012");
+            SiteServiceUnitPage serviceUnitPage = PageFactoryManager.Get<SiteServiceUnitPage>();
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickOnElement(serviceUnitPage.ServiceUnitPointTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickOnElement(serviceUnitPage.AddPointButton);
+            serviceUnitPage.ClickOnElement(serviceUnitPage.NodeRadio);
+            serviceUnitPage.SelectTextFromDropDown(serviceUnitPage.SectorSelect, "Richmond Commercial");
+            serviceUnitPage.SendKeys(serviceUnitPage.ClientRefInput, "1478");
+            serviceUnitPage.ClickOnElement(serviceUnitPage.SearchButton);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.VerifySearchResult("2")
+                .CheckSearchResult("2");
+            serviceUnitPage.ClickOnElement(serviceUnitPage.AddServiceUnitButton);
+            serviceUnitPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.VerifyPointIdOnServiceUnitPointList("2");
+        }
+
+        [Category("ServiceUnitPoint")]
+        [Category("Huong")]
+        [Test(Description = "Service Unit map does not display serviced points")]
+        public void TC_184_Service_Unit_map_does_not_display_serviced_points()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl + "web/service-units/230011");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser40.UserName, AutoUser40.Password);
+            SiteServiceUnitPage serviceUnitPage = PageFactoryManager.Get<SiteServiceUnitPage>();
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickOnElement(serviceUnitPage.ServiceUnitPointTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.VerifyServiceUnitType("Both Serviced and Point of Service");
+            serviceUnitPage.ClickOnElement(serviceUnitPage.MapTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.DragBluePointToAnotherPosition();
+            serviceUnitPage.VerifyBlueAndRedPointVisible();
+
+            //Click back to service unit points -> Change the type to Point of service -> Save -> Refresh the form
+            serviceUnitPage.ClickOnElement(serviceUnitPage.ServiceUnitPointTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.SelectServiceUnitPointType("Point of Service")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceUnitPage.VerifyServiceUnitType("Point of Service");
+
+            //Click map tab -> Drag blue pin away
+            serviceUnitPage.ClickOnElement(serviceUnitPage.MapTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.DragBluePointToAnotherPosition();
+            serviceUnitPage.VerifyBlueAndRedPointVisible();
+
+            //Click back to service unit points -> Change the type to Serviced point -> Save -> Refresh the form
+            serviceUnitPage.ClickOnElement(serviceUnitPage.ServiceUnitPointTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.SelectServiceUnitPointType("Serviced Point")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceUnitPage.VerifyServiceUnitType("Serviced Point");
+
+            //Click map tab -> Drag blue pin away
+            serviceUnitPage.ClickOnElement(serviceUnitPage.MapTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.DragBluePointToAnotherPosition();
+            serviceUnitPage.VerifyBlueAndRedPointVisible();
         }
     }
 }
