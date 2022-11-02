@@ -16,7 +16,7 @@ namespace si_automated_tests.Source.Core
     {
         protected IWebDriver driver;
         private IJavaScriptExecutor javascriptExecutor;
-
+        private readonly By FrameMessage = By.XPath("//div[@class='notifyjs-corner']/div");
         private readonly By closeBtn = By.XPath("//button[@title='Close Without Saving']");
         private readonly By refreshBtn = By.XPath("//button[@title='Refresh']");
         private readonly By saveBtn = By.XPath("//button[@title='Save']");
@@ -766,6 +766,12 @@ namespace si_automated_tests.Source.Core
                 Assert.Fail("Toast message doesn't appear after 30 seconds");
                 return null;
             }
+        }
+        [AllureStep]
+        public BasePage VerifyNotDisplayErrorMessage()
+        {
+            Assert.IsFalse(IsControlDisplayedNotThrowEx(FrameMessage));
+            return this;
         }
         [AllureStep]
         public BasePage VerifyToastMessage(string message)
