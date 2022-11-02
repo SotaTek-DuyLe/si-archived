@@ -20,6 +20,13 @@ namespace si_automated_tests.Source.Test.MapTests
         public override void Setup()
         {
             base.Setup();
+        }
+
+        [Category("Sectors")]
+        [Category("Huong")]
+        [Test(Description = "Verify that user can add Sector Group from the Maps")]
+        public void TC_195_Verify_that_user_can_add_Sector_Group_from_the_Maps()
+        {
             //LOGIN AND GO TO POINT ADDRESS
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -30,13 +37,6 @@ namespace si_automated_tests.Source.Test.MapTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Maps)
                 .ExpandOption(Contract.RMC);
-        }
-
-        [Category("Sectors")]
-        [Category("Huong")]
-        [Test(Description = "Verify that user can add Sector Group from the Maps")]
-        public void TC_195_Verify_that_user_can_add_Sector_Group_from_the_Maps()
-        {
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("Sector Groups")
                 .SwitchNewIFrame();
@@ -108,6 +108,86 @@ namespace si_automated_tests.Source.Test.MapTests
             sectorGroupLayerTypePage.VerifyInputValue(sectorGroupLayerTypePage.SectorGroupNameInput, "Week 1")
                 .VerifySelectedValue(sectorGroupLayerTypePage.SectorGroupTypeSelect, "Allocations")
                 .VerifyInputValue(sectorGroupLayerTypePage.SectorInput, "Richmond Commercial");
+        }
+
+        [Category("Sectors")]
+        [Category("Huong")]
+        [Test(Description = "The GpsTrailData not loaded when add GpsEventData columns into grid")]
+        public void TC_184_The_GpsTrailData_not_loaded_when_add_GpsEventData_columns_into_grid()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser27.UserName, AutoUser27.Password)
+                .IsOnHomePage(AutoUser27);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Maps)
+                .OpenOption(Contract.RMC);
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            MapListingPage mapListingPage = PageFactoryManager.Get<MapListingPage>();
+            mapListingPage.InputCalendarDate(mapListingPage.FromInput, "26/08/2022 00:00");
+            mapListingPage.ClickOnElement(mapListingPage.ToInput);
+            mapListingPage.ClickOnElement(mapListingPage.GoButton);
+            mapListingPage.WaitForLoadingIconToDisappear();
+            mapListingPage.VerifyElementVisibility(mapListingPage.ResourceCom, true)
+                .VerifyElementVisibility(mapListingPage.RightHandLayer, true)
+                .VerifyElementVisibility(mapListingPage.RoundsLayer, true);
+            mapListingPage.ClickOnElement(mapListingPage.TrailTab);
+            //Right click on any column in the grid
+            mapListingPage.RightClickOnElement(mapListingPage.GetHeaderColumn("Lat"));
+            mapListingPage.ClickOnElement(mapListingPage.MoreButton);
+            mapListingPage.WaitForLessButtonDisplayed();
+            mapListingPage.WaitForLoadingIconToDisappear();
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("Lift Time"));
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("Lifter Speed"));
+            mapListingPage.ClickOnElement(mapListingPage.UpdateButton);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("Lift Time"), true);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("Lifter Speed"), true);
+
+            //Right click on any column in the grid -> Click more -> Select 3 more options e.g. Bin count, gross weight, RFID number -> Update
+            mapListingPage.RightClickOnElement(mapListingPage.GetHeaderColumn("Lat"));
+            mapListingPage.ClickOnElement(mapListingPage.MoreButton);
+            mapListingPage.WaitForLessButtonDisplayed();
+            mapListingPage.WaitForLoadingIconToDisappear();
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("Bin Count"));
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("Gross Weight"));
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("RFID Number"));
+            mapListingPage.ClickOnElement(mapListingPage.UpdateButton);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("Bin Count"), true);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("Gross Weight"), true);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("RFID Number"), true);
+
+            //Right click on any column in the grid -> Click more -> Unselect the ticket options and set 5 different options -> Update 
+            mapListingPage.RightClickOnElement(mapListingPage.GetHeaderColumn("Lat"));
+            mapListingPage.ClickOnElement(mapListingPage.MoreButton);
+            mapListingPage.WaitForLessButtonDisplayed();
+            mapListingPage.WaitForLoadingIconToDisappear();
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("Lift Time"));
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("Lifter Speed"));
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("Bin Count"));
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("Gross Weight"));
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("RFID Number"));
+
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("Dismissed Date"));
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("Driver door status"));
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("Full Message"));
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("Gps Event Image"));
+            mapListingPage.ClickOnElement(mapListingPage.GetExtraCheckbox("GPS Threshold Alert Level"));
+            mapListingPage.ClickOnElement(mapListingPage.UpdateButton);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("Lift Time"), false);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("Lifter Speed"), false);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("Bin Count"), false);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("Gross Weight"), false);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("RFID Number"), false);
+
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("Dismissed Date"), true);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("Driver door status"), true);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("Full Message"), true);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("Gps Event Image"), true);
+            mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("GPS Threshold Alert Level"), true);
         }
     }
 }
