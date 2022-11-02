@@ -11,6 +11,7 @@ using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Services;
 using si_automated_tests.Source.Main.Pages.Tasks;
+using si_automated_tests.Source.Main.Pages.UserAndRole;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test
@@ -299,15 +300,15 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser46.UserName, AutoUser46.Password);
-            PageFactoryManager.Get<ResolutionCodeGrid>()
-                .IsOnResolutionCodeGrid()
-                .DoubleClickFirstResolutionCode()
+            PageFactoryManager.Get<CommonGridPage>()
+                .IsOnGrid()
+                .OpenFirstResult()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ResolutionCodeDetailPage>()
                 .IsOnResolutionCodeDetailPage()
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
-            PageFactoryManager.Get<ResolutionCodeGrid>()
+            PageFactoryManager.Get<CommonGridPage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ResolutionCodeDetailPage>()
@@ -319,9 +320,9 @@ namespace si_automated_tests.Source.Test
                .CloseCurrentWindow()
                .SwitchToLastWindow()
                .ClickRefreshBtn();
-            PageFactoryManager.Get<ResolutionCodeGrid>()
-                .IsOnResolutionCodeGrid()
-                .VerifyResolutionCodeIsCreated(resoName);
+            PageFactoryManager.Get<CommonGridPage>()
+                .IsOnGrid()
+                .VerifyFirstResultValue("Name",resoName);
         }
         [Category("Bug fix")]
         [Category("Dee")]
