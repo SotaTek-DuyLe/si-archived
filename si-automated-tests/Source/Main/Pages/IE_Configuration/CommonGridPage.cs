@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -10,7 +11,8 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
     public class CommonGridPage : BasePage
     {
         private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
-        private readonly By deleteItemBtn = By.XPath("//button[text()='Add New Item']");
+        private readonly By deleteItemBtn = By.XPath("//button[text()='Delete Item']");
+        private readonly By applyFilter = By.XPath("//button[@title='Apply Filters']");
         private readonly By mainColumns = By.XPath("//div[contains(@class,'slick-header-column') and not(@unselectable='on')]");
 
         private readonly By headerCollumns = By.XPath("//span[@class='slick-column-name']");
@@ -25,6 +27,7 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
             WaitUtil.WaitForAllElementsVisible(mainColumns);
             return this;
         }
+        [AllureStep]
 
         public CommonGridPage FilterItem(string filterName, string filterValue)
         {
@@ -40,11 +43,19 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
             }
             return this;
         }
+        [AllureStep]
+        public CommonGridPage ApplyFilter()
+        {
+            ClickOnElement(applyFilter);
+            return this;
+        }
+        [AllureStep]
         public CommonGridPage OpenFirstResult()
         {
             DoubleClickOnElement(firstResult);
             return this;
         }
+        [AllureStep]
         public CommonGridPage VerifyFirstResultValue(string field, string expected)
         {
             var hds = WaitUtil.WaitForAllElementsVisible(headerCollumns);
@@ -58,6 +69,7 @@ namespace si_automated_tests.Source.Main.Pages.IE_Configuration
             }
             return this;
         }
+        [AllureStep]
         public CommonGridPage ClickAddNewItem()
         {
             ClickOnElement(addNewItemBtn);

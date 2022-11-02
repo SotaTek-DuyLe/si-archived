@@ -11,6 +11,7 @@ using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Services;
 using si_automated_tests.Source.Main.Pages.Tasks;
+using si_automated_tests.Source.Main.Pages.UserAndRole;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test
@@ -391,20 +392,6 @@ namespace si_automated_tests.Source.Test
             Assert.AreEqual(firstTask.AgreementId, firstServiceTask.AgreementId);
             Assert.AreEqual(firstTask.AgreementlinetasktypeId, firstServiceTask.AgreementlinetasktypeId);
             Assert.AreEqual(firstTask.ServiceTaskId, int.Parse(serviceTaskId));
-        }
-        [Category("Bug fix")]
-        [Category("Dee")]
-        [Test(Description = "The error 500 occurs when user without home contract loads the forms (bug fix)")]
-        public void TC_191_verify_that_user_without_home_contract_can_load_forms()
-        {
-            string url = WebUrl.MainPageUrl + "web/grids/uesrs";
-            PageFactoryManager.Get<LoginPage>()
-                 .GoToURL(url);
-            //Login
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser46.UserName, AutoUser46.Password)
-                .IsOnHomePage(AutoUser46);
         }
     }
 }
