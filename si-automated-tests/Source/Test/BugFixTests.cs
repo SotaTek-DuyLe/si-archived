@@ -4,7 +4,6 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Finders;
-using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.IE_Configuration;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
@@ -16,6 +15,7 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 namespace si_automated_tests.Source.Test
 {
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
+    [Author("Dee", "duy.le@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
     public class BugFixTests : BaseTest
@@ -285,6 +285,7 @@ namespace si_automated_tests.Source.Test
             Assert.AreEqual(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 3), partyActionDBModel.wb_dormantdate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), "Dormant Date is incorrect");
             Assert.AreEqual(null, partyActionDBModel.wb_creditlimitwarning, "Warning Limit £ is incorrect");
         }
+
         [Category("Bug fix")]
         [Category("Dee")]
         [Test(Description = "Unable to add a new Resolution code (bug fix)")]
@@ -323,6 +324,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnResolutionCodeGrid()
                 .VerifyResolutionCodeIsCreated(resoName);
         }
+
         [Category("Bug fix")]
         [Category("Dee")]
         [Test(Description = "The AdHoc tasks don't inherit the PartyID from ServiceTask (bug fix)")]
@@ -392,5 +394,6 @@ namespace si_automated_tests.Source.Test
             Assert.AreEqual(firstTask.AgreementlinetasktypeId, firstServiceTask.AgreementlinetasktypeId);
             Assert.AreEqual(firstTask.ServiceTaskId, int.Parse(serviceTaskId));
         }
+
     }
 }
