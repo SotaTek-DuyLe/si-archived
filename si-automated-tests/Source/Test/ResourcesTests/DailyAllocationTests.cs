@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.Applications;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
@@ -389,6 +390,57 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .FilterResource("Resource", vehicleResourceName)
                 .VerifyFirstResultValue("Status", "Maintenance");
+        }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_192_Unable_to_navigate_to_round_instance_from_resource_calendar()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
+            resourceAllocationPage.SelectContract(Contract.RMC);
+            resourceAllocationPage.SelectShift("AM");
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
+            resourceAllocationPage.ExpandRoundNode(Contract.RMC)
+                .SelectRoundNode("Collections")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+               .ClickFirstResouceDetail()
+               .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>().SwitchToTab("Calendar");
+            var resourceCalendarTab = PageFactoryManager.Get<ResourceCalendarTab>();
+            resourceCalendarTab
+                .SwitchDateView("Month")
+                .WaitForLoadingIconToDisappear();
+            resourceCalendarTab
+                .ClickRoundIntansceDetail(0)
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            var roundinstanceDetailPage = PageFactoryManager.Get<RoundInstanceDetailPage>();
+            roundinstanceDetailPage.VerifyElementVisibility(roundinstanceDetailPage.OpenRoundTitle, true)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            resourceCalendarTab
+                .ClickRoundIntansceDetail(2)
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            roundinstanceDetailPage.VerifyElementVisibility(roundinstanceDetailPage.OpenRoundTitle, true)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
         }
     }
 }
