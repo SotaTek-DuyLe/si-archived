@@ -105,16 +105,16 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 if (unselectedRows.Count == 0)
                 {
                     int retry = 0;
-                    while (retry <= 3)
+                    while (retry <= 10)
                     {
                         retry++;
-                        Thread.Sleep(500);
+                        Thread.Sleep(100);
                         unselectedRows = ServiceDataManagementTableElement.GetRows().Where(x => !x.FindElement(By.XPath(SDMCheckboxXPath)).Selected).ToList();
                         if (unselectedRows.Count != 0)
                         {
                             break;
                         }
-                        else if (retry == 3)
+                        else if (retry == 10)
                         {
                             return rows;
                         }
@@ -125,6 +125,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                     rows.Add(i, ServiceDataManagementTableElement.GetRowValue(unselectedRows[0]));
                     unselectedRows[0].FindElement(By.XPath(SDMCheckboxXPath)).Click();
                 }
+                if(i >= 299) WaitForLoadingIconToDisappear();
             }
             return rows;
         }
@@ -138,7 +139,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 
         public ServiceDataManagementPage VerifyDescriptionLayout(List<object> pointValues, int selectedRowIdx = 0, bool checkMaster = false)
         {
-            ScrollDownToElement(DescriptionTableElement.GetRow(selectedRowIdx));
+            ScrollDownToElement(DescriptionTableElement.GetRow(selectedRowIdx), false);
             Assert.IsTrue(DescriptionTableElement.GetCellVisibility(selectedRowIdx, 0));
             Assert.IsTrue(DescriptionTableElement.GetCellValue(selectedRowIdx, 2).AsString() == pointValues[3].AsString());
             Assert.IsTrue(GetDescriptionStatus(DescriptionTableElement.GetCellAttribute(selectedRowIdx, 1, "src")).Contains(pointValues[6].AsString()));
