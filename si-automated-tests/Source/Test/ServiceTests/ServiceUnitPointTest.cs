@@ -194,5 +194,44 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPage.DragBluePointToAnotherPosition();
             serviceUnitPage.VerifyBlueAndRedPointVisible();
         }
+
+        [Category("ServiceUnitPoint")]
+        [Category("Huong")]
+        [Test(Description = "selected street is cleared out from filter when changing the sectors")]
+        public void TC_189_Service_Unit_form_Add_SUP()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl + "web/service-units/229673");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser40.UserName, AutoUser40.Password);
+            SiteServiceUnitPage serviceUnitPage = PageFactoryManager.Get<SiteServiceUnitPage>();
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickOnElement(serviceUnitPage.ServiceUnitPointTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickOnElement(serviceUnitPage.AddPointButton);
+            //Type the street ‘Church Terrace’ and select the street CHURCH TERRACE,TW10,RICHMOND and then select a sector East
+            serviceUnitPage.SendKeys(serviceUnitPage.StreetInput, "Church Terrace");
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.SelectByDisplayValueOnUlElement(serviceUnitPage.StreetAutoCompleteTextBox, "CHURCH TERRACE,TW10,RICHMOND");
+            serviceUnitPage.SelectTextFromDropDown(serviceUnitPage.SectorSelect, "East");
+            serviceUnitPage.VerifyInputValue(serviceUnitPage.StreetInput, "CHURCH TERRACE,TW10,RICHMOND");
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            //After switch back to sector from step 1 - Richmond
+            serviceUnitPage.SelectTextFromDropDown(serviceUnitPage.SectorSelect, "Richmond");
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.VerifyInputValue(serviceUnitPage.StreetInput, "");
+            //Type the street ‘Church Terrace’ and select the street CHURCH TERRACE,TW10,RICHMOND and then select a sector Richmond commercial
+            serviceUnitPage.SendKeys(serviceUnitPage.StreetInput, "Church Terrace");
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.SelectByDisplayValueOnUlElement(serviceUnitPage.StreetAutoCompleteTextBox, "CHURCH TERRACE,TW10,RICHMOND");
+            serviceUnitPage.SelectTextFromDropDown(serviceUnitPage.SectorSelect, "Richmond Commercial");
+            serviceUnitPage.VerifyInputValue(serviceUnitPage.StreetInput, "CHURCH TERRACE,TW10,RICHMOND");
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            //After switch back to sector from step 1 - Richmond
+            serviceUnitPage.SelectTextFromDropDown(serviceUnitPage.SectorSelect, "Richmond");
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.VerifyInputValue(serviceUnitPage.StreetInput, "CHURCH TERRACE,TW10,RICHMOND");
+        }
     }
 }
