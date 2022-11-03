@@ -121,9 +121,11 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             Thread.Sleep(1000);
             Dictionary<int, List<object>> rowDatas = serviceDataManagementPage.ClickMultiPointAddress(305);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.NextButton);
-            serviceDataManagementPage.WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .VerifyElementText(serviceDataManagementPage.TotalSpan, $"Total = {rowDatas.Count}", true);
+                .VerifyTheDisplayOfPopupOver300Point()
+                .ClickOnOkBtn();
+
+            serviceDataManagementPage.WaitForLoadingIconToDisappear();
             int i = 0;
             foreach (var item in rowDatas)
             {
@@ -134,6 +136,8 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 i++;
                 serviceDataManagementPage.VerifyDescriptionLayout(item.Value, item.Key);
             }
+            serviceDataManagementPage
+                .VerifyElementText(serviceDataManagementPage.TotalSpan, $"Total = 300", true);
         }
 
         [Category("TC_122_4 Verify that only max. 300 Addresses/Nodes are displayed in the Grid")]
@@ -157,8 +161,8 @@ namespace si_automated_tests.Source.Test.ApplicationTests
 
             List<(int rowCount, string selectPoint)> testCases = new List<(int rowCount, string selectPoint)>()
             {
-                (300, "Address"),
-                (300, "Node"),
+                (305, "Address"),
+                (305, "Node"),
             };
             foreach (var testCase in testCases)
             {
@@ -168,9 +172,13 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 Thread.Sleep(1000);
                 Dictionary<int, List<object>> rowDatas = serviceDataManagementPage.ClickMultiPointAddress(testCase.rowCount);
                 serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.NextButton);
-                serviceDataManagementPage.WaitForLoadingIconToDisappear();
                 serviceDataManagementPage
-                    .VerifyElementText(serviceDataManagementPage.TotalSpan, $"Total = {rowDatas.Count}", true);
+                    .VerifyTheDisplayOfPopupOver300Point()
+                    .ClickOnOkBtn();
+                serviceDataManagementPage.WaitForLoadingIconToDisappear();
+
+                serviceDataManagementPage
+                    .VerifyElementText(serviceDataManagementPage.TotalSpan, $"Total = 300", true);
                 foreach (var item in rowDatas)
                 {
                     serviceDataManagementPage.VerifyDescriptionLayout(item.Value, item.Key);
