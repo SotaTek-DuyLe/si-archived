@@ -81,8 +81,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public RoundGroupPage ClickScheduleDetail(string id)
         {
-            int rowIdx = ScheduleTableElement.GetRows().IndexOf(ScheduleTableElement.GetRowByCellValue(0, id));
-            ScheduleTableElement.ClickCell(rowIdx, 1);
+            ScheduleTableElement.ClickCellOnCellValue(1, 0, id);
             return this;
         }
         [AllureStep]
