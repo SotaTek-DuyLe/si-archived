@@ -268,8 +268,6 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyElementVisibility(taskAllocationPage.AllocatingConfirmMsg, true)
                 .ClickOnElement(taskAllocationPage.AllocateAllButton);
             taskAllocationPage.WaitForLoadingIconToDisappear();
-            taskAllocationPage.VerifyElementVisibility(taskAllocationPage.AllocatingConfirmMsg2, true)
-                .ClickOnElement(taskAllocationPage.AllocateAllButton);
             taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.AllocationReasonSelect, "Incident")
                 .ClickOnElement(taskAllocationPage.AllocationConfirmReasonButton);
             taskAllocationPage.WaitForLoadingIconToDisappear();
