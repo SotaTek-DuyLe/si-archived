@@ -59,8 +59,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By dateDetailCells = By.XPath("//div[@id='calendar-tab']//table//tbody//div[contains(@class, 'fc-row')]//div[@class='fc-content-skeleton']//tbody//td");
         private readonly By leftSiteColumn = By.XPath("//div[@id='sites-tab']//ul[@data-bind='foreach: allSites']");
         private readonly By rightSiteColumn = By.XPath("//div[@id='sites-tab']//ul[@data-bind='foreach: addedSites']");
-        private readonly By addSiteButton = By.XPath("//div[@id='sites-tab']//button[@data-bind='click: addSites']");
-        private readonly By removeSiteButton = By.XPath("//div[@id='sites-tab']//button[@data-bind='click: removeSites']");
+        private readonly By addSiteButton = By.XPath("//div[@id='sites-tab']//button[contains(@data-bind, 'click: addSites')]");
+        private readonly By removeSiteButton = By.XPath("//div[@id='sites-tab']//button[contains(@data-bind, 'click: removeSites')]");
 
         #region Schedule Tab
         public readonly By ScheduleTab = By.XPath("//a[@aria-controls='schedules-tab']");
