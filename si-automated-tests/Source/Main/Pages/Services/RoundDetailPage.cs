@@ -12,7 +12,7 @@ using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
-    public class RoundDetailPage : BasePage
+    public class RoundDetailPage : BasePageCommonActions
     {
         private readonly By roundInput = By.XPath("//div[@id='details-tab']//input[@name='round']");
         private readonly By roundTypeSelect = By.XPath("//div[@id='details-tab']//select[@id='roundType.id']");
@@ -37,7 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public RoundDetailPage VerifyRoundInput(string expectedValue)
         {
-            Assert.IsTrue(GetElement(roundInput).GetAttribute("value") == expectedValue);
+            VerifyInputValue(roundInput, expectedValue);
             return this;
         }
         [AllureStep]
