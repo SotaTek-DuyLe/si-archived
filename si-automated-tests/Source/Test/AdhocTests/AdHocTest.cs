@@ -293,7 +293,10 @@ namespace si_automated_tests.Source.Test.AdHocTests
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
 
-            PageFactoryManager.Get<AdhocTaskDetailPage>()
+            AdhocTaskDetailPage adhocTaskDetailPage = PageFactoryManager.Get<AdhocTaskDetailPage>();
+            adhocTaskDetailPage.ClickOnElement(adhocTaskDetailPage.DetailTab);
+            adhocTaskDetailPage.WaitForLoadingIconToDisappear();
+            adhocTaskDetailPage
                 .VerifyPoNumber()
                 .VerifyPurchaseOrderField(inputPO)
                 .ClickTaskLinesTab()
@@ -307,7 +310,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
                     Product = "General Refuse",
                     ScheduledProductQuantity = "0",
                     Unit = "Kilograms",
-                    State = "Unallocated"
+                    State = ""
                 });
         }
 
@@ -361,11 +364,12 @@ namespace si_automated_tests.Source.Test.AdHocTests
             PageFactoryManager.Get<BasePage>()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
-
-            PageFactoryManager.Get<AdhocTaskDetailPage>()
+            AdhocTaskDetailPage adhocTaskDetailPage = PageFactoryManager.Get<AdhocTaskDetailPage>();
+            adhocTaskDetailPage.ClickOnElement(adhocTaskDetailPage.DetailTab);
+            adhocTaskDetailPage.WaitForLoadingIconToDisappear();
+            adhocTaskDetailPage
                 .VerifyPoNumber()
                 .VerifyPurchaseOrderField(inputPO)
-                .VerifyPurchaseOrderNumber(inputPO)
                 .ClickTaskLinesTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskLinesPage>()
@@ -377,7 +381,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
                     Product = "General Refuse",
                     ScheduledProductQuantity = "0",
                     Unit = "Kilograms",
-                    State = "Unallocated"
+                    State = ""
                 });
         }
     }
