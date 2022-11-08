@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
@@ -45,6 +46,9 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string SDMMasterRowXPath = "./tbody//tr";
         private readonly string SDMMasterServiceUnitCellXPath = "./td//img";
         private readonly string SDMMasterServiceTaskCellXPath = "./td[2]//span";
+        private readonly string popup300PointsDisplayedMessage = "//div[text()='Only first 300 points will be displayed on the next screen']";
+        private readonly string okBtn = "//button[text()='OK']";
+        private readonly string cancelBtn = "//button[text()='Cancel']";
 
         private TableElement serviceDataManagementTableElement;
         public TableElement ServiceDataManagementTableElement
@@ -66,6 +70,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
         }
 
+        [AllureStep]
         public ServiceDataManagementPage SelectStatusOption(string status)
         {
             List<IWebElement> options = GetElement(StatusSelect).FindElements(By.XPath("option")).ToList();
@@ -105,16 +110,16 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 if (unselectedRows.Count == 0)
                 {
                     int retry = 0;
-                    while (retry <= 3)
+                    while (retry <= 10)
                     {
                         retry++;
-                        Thread.Sleep(500);
+                        Thread.Sleep(100);
                         unselectedRows = ServiceDataManagementTableElement.GetRows().Where(x => !x.FindElement(By.XPath(SDMCheckboxXPath)).Selected).ToList();
                         if (unselectedRows.Count != 0)
                         {
                             break;
                         }
-                        else if (retry == 3)
+                        else if (retry == 10)
                         {
                             return rows;
                         }
@@ -125,6 +130,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                     rows.Add(i, ServiceDataManagementTableElement.GetRowValue(unselectedRows[0]));
                     unselectedRows[0].FindElement(By.XPath(SDMCheckboxXPath)).Click();
                 }
+                if(i >= 299) WaitForLoadingIconToDisappear();
             }
             return rows;
         }
@@ -136,9 +142,10 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return ServiceDataManagementTableElement.GetRowValue(rowIdx);
         }
 
+        [AllureStep]
         public ServiceDataManagementPage VerifyDescriptionLayout(List<object> pointValues, int selectedRowIdx = 0, bool checkMaster = false)
         {
-            ScrollDownToElement(DescriptionTableElement.GetRow(selectedRowIdx));
+            ScrollDownToElement(DescriptionTableElement.GetRow(selectedRowIdx), false);
             Assert.IsTrue(DescriptionTableElement.GetCellVisibility(selectedRowIdx, 0));
             Assert.IsTrue(DescriptionTableElement.GetCellValue(selectedRowIdx, 2).AsString() == pointValues[3].AsString());
             Assert.IsTrue(GetDescriptionStatus(DescriptionTableElement.GetCellAttribute(selectedRowIdx, 1, "src")).Contains(pointValues[6].AsString()));
@@ -150,12 +157,29 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        [AllureStep]
         public ServiceDataManagementPage VerifyDescriptionLayout(List<object> pointValues, string imgName, int selectedRowIdx = 0)
         {
             ScrollDownToElement(DescriptionTableElement.GetRow(selectedRowIdx));
             Assert.IsTrue(DescriptionTableElement.GetCellVisibility(selectedRowIdx, 0));
             Assert.IsTrue(DescriptionTableElement.GetCellValue(selectedRowIdx, 2).AsString() == pointValues[3].AsString());
             Assert.IsTrue(DescriptionTableElement.GetCellAttribute(selectedRowIdx, 1, "src").Contains(imgName));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyTheDisplayOfPopupOver300Point()
+        {
+            Assert.IsTrue(IsControlDisplayed(popup300PointsDisplayedMessage));
+            Assert.IsTrue(IsControlEnabled(okBtn));
+            Assert.IsTrue(IsControlEnabled(cancelBtn));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage ClickOnOkBtn()
+        {
+            ClickOnElement(okBtn);
             return this;
         }
 

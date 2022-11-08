@@ -13,7 +13,7 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.RiskTests
 {
-
+    [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
     public class RiskStreetFormTests : BaseTest
@@ -25,10 +25,10 @@ namespace si_automated_tests.Source.Test.RiskTests
         {
             CommonFinder finder = new CommonFinder(DbContext);
 
-            string riskId = "19";
-            string riskDesc = "TREE CLOSE";
+            string riskId = "12";
+            string riskDesc = "NITON ROAD";
             string riskName = "Proximity to School";
-            string streetId = "6059";
+            string streetId = "6434";
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -126,6 +126,7 @@ namespace si_automated_tests.Source.Test.RiskTests
             streetDetailPage
                 .ClickOnDataTab()
                 .VerifyToastMessagesIsUnDisplayed();
+            //Bug
             //Check in latest version
             //    .VerifyDataTabAfterSelectStreetType()
             //    .SendKeyInAccessPoint(accessPointValue)

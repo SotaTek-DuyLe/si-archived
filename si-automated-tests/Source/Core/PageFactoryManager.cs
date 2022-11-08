@@ -5,7 +5,8 @@ namespace si_automated_tests.Source.Core
     {
         public static T Get<T>() where T: new()
         {
-            return new T();
+            var page =(T)Activator.CreateInstance(typeof(T));
+            return page;
         }
     }
 }

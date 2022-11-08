@@ -578,10 +578,10 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
-        public BasePage ScrollDownToElement(IWebElement e)
+        public BasePage ScrollDownToElement(IWebElement e, bool implicitSleep = true)
         {
             WaitUtil.WaitForPageLoaded();
-            Thread.Sleep(2000);
+            if(implicitSleep) Thread.Sleep(2000);
             IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
             js.ExecuteScript("arguments[0].scrollIntoView(true);", e);
 
@@ -841,14 +841,17 @@ namespace si_automated_tests.Source.Core
             return WaitUtil.WaitForElementVisible(xpath).Selected;
         }
         [AllureStep]
-        public BasePage WaitForLoadingIconToAppear()
+        public BasePage WaitForLoadingIconToAppear(bool implicitSleep = true)
         {
-            Thread.Sleep(750);
-            WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
-            WaitUtil.WaitForAllElementsInvisible60("//div[@data-bind='shield: loading']");
-            WaitUtil.WaitForElementInvisible60("//div[@id='loading-shield']");
-            WaitUtil.WaitForElementInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
-            WaitUtil.WaitForElementVisible("//*[contains(@data-bind,'shield: isLoading')]");
+            if (implicitSleep)
+            {
+                Thread.Sleep(750);
+                WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
+                WaitUtil.WaitForAllElementsInvisible60("//div[@data-bind='shield: loading']");
+                WaitUtil.WaitForElementInvisible60("//div[@id='loading-shield']");
+                WaitUtil.WaitForElementInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
+            }
+            WaitUtil.WaitForElementVisible(By.XPath("//*[contains(@data-bind,'shield: loading') or contains(@data-bind,'shield: isLoading')]"));
             WaitUtil.WaitForPageLoaded();
             return this;
         }
