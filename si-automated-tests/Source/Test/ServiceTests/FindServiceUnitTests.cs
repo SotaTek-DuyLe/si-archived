@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -10,7 +9,6 @@ using si_automated_tests.Source.Main.DBModels.GetAllServicesForPoint2;
 using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Models.Services;
 using si_automated_tests.Source.Main.Pages;
-using si_automated_tests.Source.Main.Pages.Events;
 using si_automated_tests.Source.Main.Pages.PointAddress;
 using si_automated_tests.Source.Main.Pages.Search.PointAreas;
 using si_automated_tests.Source.Main.Pages.Search.PointNodes;
@@ -140,7 +138,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             serviceUnitPointDetailPage
                 .ClickOnMapTab()
-                .VerifyValueInMapTab(address, segment);
+                .VerifyValueInMapTabAddressType(address, segment);
             //Step 15: Click [Save] btn
             serviceUnitPointDetailPage
                 .ClickSaveBtn()
@@ -165,7 +163,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
             //Step 17: Navigate back to point address -> Refresh the form
             pointAddressDetailPage
                 .Refresh()
-                .WaitForLoadingIconToAppear()
                 .WaitForLoadingIconToDisappear();
             pointAddressDetailPage
                 .ClickOnAllServicesTab()
@@ -228,8 +225,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             CommonFinder finder = new CommonFinder(DbContext);
             string searchForSegment = "Segments";
             string idSegment = "32839";
-            string segment = "Summerwood Road 95 To 237 (Single Carriageway) Local Road";
-            string address = "213 SUMMERWOOD ROAD, ISLEWORTH, TW7 7QH";
+            string segment = "Selkirk Road 1 To 3 Near Gloucester Road";
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -334,7 +330,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             serviceUnitPointDetailPage
                 .ClickOnMapTab()
-                .VerifyValueInMapTab(address, segment);
+                .VerifyValueInMapTabSegmentType(segment);
             //Step 15: Click [Save] btn
             serviceUnitPointDetailPage
                 .ClickSaveBtn()
@@ -419,8 +415,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         {
             string searchForAreas = "Areas";
             string idArea = "13";
-            string address = "HOBBLEDOWN WEST LONDON, STAINES ROAD, HOUNSLOW, TW4 5DS";
-            string segment = "Staines Road 12 To 14 Near Roman Close";
+            string area = "Heathfield Recreation Ground";
 
             CommonFinder finder = new CommonFinder(DbContext);
             PageFactoryManager.Get<LoginPage>()
@@ -529,7 +524,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             serviceUnitPointDetailPage
                 .ClickOnMapTab()
-                .VerifyValueInMapTab(address, segment);
+                .VerifyValueInMapTabAreaType(area);
             //Step 15: Click [Save] btn
             serviceUnitPointDetailPage
                 .ClickSaveBtn()
@@ -615,8 +610,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         {
             string searchForPointNodes = "Nodes";
             string idNode = "5";
-            string address = "2 CASTLE PLACE, CHISWICK, LONDON, W4 1RT";
-            string segment = "Windmill Road 1 To 51 Near Chiswick Common Road";
+            string note = "Holly Road Bring Site";
 
             CommonFinder finder = new CommonFinder(DbContext);
             PageFactoryManager.Get<LoginPage>()
@@ -724,7 +718,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             serviceUnitPointDetailPage
                 .ClickOnMapTab()
-                .VerifyValueInMapTab(address, segment);
+                .VerifyValueInMapTabNoteType(note);
             //Step 15: Click [Save] btn
             serviceUnitPointDetailPage
                 .ClickSaveBtn()
