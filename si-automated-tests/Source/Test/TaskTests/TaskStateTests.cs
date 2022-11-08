@@ -29,13 +29,13 @@ namespace si_automated_tests.Source.Test.TaskTests
         [Category("Task State")]
         [Category("Chang")]
         [Test]
-        [TestCase(new string[] { "1", "3", "2", "5", "4" }, new string[] { "Unallocated", "Completed", "In Progress", "Cancelled", "Not Completed" }, TestName = "Scenario 1 - Sort order for ALL states")]
-        [TestCase(new string[] { "1", "0", "2", "0", "3" }, new string[] { "Unallocated", "Completed", "Cancelled", "In Progress", "Not Completed" }, TestName = "Scenario 2 - Sort order for SOME states")]
-        [TestCase(new string[] { "0", "0", "0", "0", "0" }, new string[] { "Unallocated", "In Progress", "Completed", "Not Completed", "Cancelled" }, TestName = "Scenario 3 - NO order for states")]
-        [TestCase(new string[] { "1", "1", "1", "3", "2" }, new string[] { "Unallocated", "In Progress", "Completed", "Cancelled", "Not Completed" }, TestName = "Scenario 4 - Sort order for states duplicated")]
-        [TestCase(new string[] { "1", "0", "3", "0", "2" }, new string[] { "Unallocated", "Cancelled", "Completed", "In Progress", "Not Completed" }, TestName = "Scenario 5 - Verify if the sort order one or more  integers are skipped, the sort order is applied first and then based on the ID asc order is applied")]
-        public void TC_99_task_state_sort_web_sort_order(string[] orderNumber, string[] orderStateValues)
-        //public void TC_99_task_state_sort_web_sort_order()
+        //[TestCase(new string[] { "1", "3", "2", "5", "4" }, new string[] { "Unallocated", "Completed", "In Progress", "Cancelled", "Not Completed" }, TestName = "Scenario 1 - Sort order for ALL states")]
+        //[TestCase(new string[] { "1", "0", "2", "0", "3" }, new string[] { "Unallocated", "Completed", "Cancelled", "In Progress", "Not Completed" }, TestName = "Scenario 2 - Sort order for SOME states")]
+        //[TestCase(new string[] { "0", "0", "0", "0", "0" }, new string[] { "Unallocated", "In Progress", "Completed", "Not Completed", "Cancelled" }, TestName = "Scenario 3 - NO order for states")]
+        //[TestCase(new string[] { "1", "1", "1", "3", "2" }, new string[] { "Unallocated", "In Progress", "Completed", "Cancelled", "Not Completed" }, TestName = "Scenario 4 - Sort order for states duplicated")]
+        //[TestCase(new string[] { "1", "0", "3", "0", "2" }, new string[] { "Unallocated", "Cancelled", "Completed", "In Progress", "Not Completed" }, TestName = "Scenario 5 - Verify if the sort order one or more  integers are skipped, the sort order is applied first and then based on the ID asc order is applied")]
+        //public void TC_99_task_state_sort_web_sort_order(string[] orderNumber, string[] orderStateValues)
+        public void TC_99_task_state_sort_web_sort_order()
         {
             CommonFinder commonFinder = new CommonFinder(DbContext);
             string taskId = "14337";
@@ -44,6 +44,8 @@ namespace si_automated_tests.Source.Test.TaskTests
             //API: Get current task state
             List<TaskStateDBModel> taskStateDBModels = commonFinder.GetTaskStateByTaskId(taskId);
             string currentTaskState = taskStateDBModels[0].taskstate;
+            string[] orderNumber = new string[] { "0", "0", "0", "0", "0" };
+            string[] orderStateValues = new string[] { "Unallocated", "In Progress", "Completed", "Not Completed", "Cancelled" };
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -89,7 +91,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1);
             PageFactoryManager.Get<RoundInstanceDetailPage>()
-                .ClickRefreshBtn()
+                .Refresh()
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             //Verify order in [Task Bulk Update] - Task State detail form
@@ -248,7 +250,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchToChildWindow(1);
             PageFactoryManager.Get<RoundInstanceDetailPage>()
                 .IsRoundInstancePage()
-                .ClickRefreshBtn()
+                .Refresh()
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             //Verify order in [Task Bulk Update] - Task State detail form

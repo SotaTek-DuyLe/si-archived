@@ -69,6 +69,8 @@ namespace si_automated_tests.Source.Test.HistoryTests
                 .IsRoundInstanceEventDetailPage()
                 .SelectRoundEventTypeAndResource("Tipping", "COM2 NST")
                 .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Click On - History tab
             PageFactoryManager.Get<RoundInstanceEventDetailPage>()

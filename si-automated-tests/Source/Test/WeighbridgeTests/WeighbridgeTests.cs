@@ -74,6 +74,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             string clientRef = "ClientRef55" + CommonUtil.GetRandomNumber(2);
             string product = "Food";
             string ticketType = "Incoming";
+            string businessUnit = "Collections - Recycling";
 
             //Create new Resource with type = Van in TC51
             PageFactoryManager.Get<NavigationBase>()
@@ -88,6 +89,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsOnDetailTab()
                 .InputResourceName(resourceName)
                 .SelectResourceType(resourceType)
+                .SelectBusinessUnit(businessUnit)
                 .TickContractRoam()
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveResourceSuccessMessage)
@@ -720,6 +722,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         {
             string resourceName = "Auto WB50 " + CommonUtil.GetRandomNumber(2);
             string resourceType = "Driver";
+            string businessUnit = "Collections - Recycling";
 
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Resources)
@@ -732,6 +735,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsOnDetailTab()
                 .InputResourceName(resourceName)
                 .SelectResourceType(resourceType)
+                .SelectBusinessUnit(businessUnit)
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
@@ -776,6 +780,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             resourceName = "Auto WB Van" + CommonUtil.GetRandomNumber(2);
             string resourceType = "Van";
             string vehicleNotActiveName = "COM7 NST";
+            string businessUnit = "Collections - Recycling";
 
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Resources)
@@ -789,6 +794,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsOnDetailTab()
                 .InputResourceName(resourceName)
                 .SelectResourceType(resourceType)
+                .SelectBusinessUnit(businessUnit)
                 .TickContractRoam()
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)

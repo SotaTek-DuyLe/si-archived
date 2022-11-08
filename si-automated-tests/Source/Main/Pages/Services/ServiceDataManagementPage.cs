@@ -75,19 +75,19 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceDataManagementPage DragServiceUnitPointCToServicePointA()
         {
             IWebElement schedulePointC = GetElement(SchedulePointC);
-            var shedulePointCContentEle = schedulePointC.FindElements(By.XPath("./span[contains(@class, 'existing-schedule')]"));
-            Assert.IsTrue(shedulePointCContentEle.Count != 0);
-            DragAndDrop(ServiceUnitPointC, ServiceUnitPointA);
+            //var shedulePointCContentEle = schedulePointC.FindElements(By.XPath("./span[contains(@class, 'existing-schedule')]"));
+            //Assert.IsTrue(shedulePointCContentEle.Count != 0);
+            DragAndDrop(SchedulePointC, ServiceUnitPointA);
             SleepTimeInMiliseconds(300);
             schedulePointC = GetElement(SchedulePointC);
-            shedulePointCContentEle = schedulePointC.FindElements(By.XPath("./span[contains(@class, 'existing-schedule')]"));
-            Assert.IsTrue(shedulePointCContentEle.Count == 0);
-            IWebElement imgServiceUnitPointC = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[4])//td[@class='unit-cell'])[5]//img[@class='action-image'][1]"));
-            IWebElement imgMergeUnitPointC = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[4])//td[@class='unit-cell'])[5]//img[@class='action-image'][2]"));
+            //shedulePointCContentEle = schedulePointC.FindElements(By.XPath("./span[contains(@class, 'existing-schedule')]"));
+            //Assert.IsTrue(shedulePointCContentEle.Count == 0);
+            IWebElement imgServiceUnitPointC = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[4])//td)[12]//img[@class='action-image'][1]"));
+            IWebElement imgMergeUnitPointC = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[4])//td)[12]//img[@class='action-image'][2]"));
             Assert.IsTrue(GetAttributeValue(imgServiceUnitPointC, "src").Contains("service-unit.png"));
             Assert.IsTrue(GetAttributeValue(imgMergeUnitPointC, "src").Contains("merged-unit.png"));
-            IWebElement imgServiceUnitPointA = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[5])//td[@class='unit-cell'])[5]//img[@class='action-image'][1]"));
-            IWebElement imgMergeUnitPointA = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[5])//td[@class='unit-cell'])[5]//img[@class='action-image'][2]"));
+            IWebElement imgServiceUnitPointA = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[5])//td)[12]//img[@class='action-image'][1]"));
+            IWebElement imgMergeUnitPointA = GetElement(By.XPath("((//table[@id='master-table']//tbody//tr[5])//td)[12]//img[@class='action-image'][2]"));
             Assert.IsTrue(GetAttributeValue(imgServiceUnitPointA, "src").Contains("service-unit.png"));
             Assert.IsTrue(GetAttributeValue(imgMergeUnitPointA, "src").Contains("merged-unit.png"));
             return this;
@@ -709,7 +709,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         #endregion
 
         #region locators and steps for Step [2]
-        private readonly string firstRoundByRoundNameStep2 = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[text()='{0}']/preceding-sibling::td) + 1]";
+        private readonly string firstRoundByRoundNameStep2 = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count((//td[text()='No Round'])[1]/preceding-sibling::td) + 1]";
         private readonly string firstRoundByRoundNameWithServiceUnitStep2 = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[text()='{0}']/preceding-sibling::td) + 1]/preceding-sibling::td[1]//img[@src='content/style/images/service-unit.png']";
         private readonly string firstRoundByRoundNameAfterAddServiceTaskScheduleStep2 = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[text()='{0}']/preceding-sibling::td) + 1]/span";
 

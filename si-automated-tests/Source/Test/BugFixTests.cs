@@ -4,14 +4,12 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Finders;
-using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.IE_Configuration;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Services;
 using si_automated_tests.Source.Main.Pages.Tasks;
-using si_automated_tests.Source.Main.Pages.UserAndRole;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test
@@ -187,6 +185,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyToastMessagesIsUnDisplayed();
         }
 
+        //BUG
         [Category("Bug fix")]
         [Category("Chang")]
         [Test(Description = "The Weighbridge setting is not recorded in party actions (bug fix)")]
@@ -226,9 +225,10 @@ namespace si_automated_tests.Source.Test
             //Change some fields in tab
             detailPartyPage
                 //Change [Auto-print Weighbridge Ticket] - Before: Ticked
-                .ClickOnAutoPrintTickedCheckbox()
-                //Change [purchase order number required] - Before: UnTicked
-                .ClickOnPurchaseOrderNumberRequiredCheckbox()
+                .ClickOnAutoPrintTickedCheckbox();
+            //Change [purchase order number required] - Before: UnTicked
+            detailPartyPage
+                //.ClickOnPurchaseOrderNumberRequiredCheckbox()
                 //Change [driver name required] - Before: UnTicked
                 .ClickOnDriverNameRequiredCheckbox()
                 //Change [use stored purchase order number] - Before: UnTicked
@@ -267,14 +267,16 @@ namespace si_automated_tests.Source.Test
                 .ClickRefreshBtn();
             string[] valueChangedExp = { ".", "NO.", "YES.", "YES.", "NO.", "YES.", "YES.", "NO.", "YES.", "NO.", licenceNumber + ".", licenceNumberExp + " 00:00.", dormanceDate + " 00:00.", "YES." };
             detailPartyPage
-                .VerifyInfoInHistoryTab(CommonConstants.HistoryTitleAfterUpdateWBTicketTab, valueChangedExp, AutoUser46.DisplayName);
+                .VerifyInfoInHistoryTab(CommonConstants.HistoryTitleAfterUpdateWBTicketTab, valueChangedExp, AutoUser46.DisplayName)
+                .VerifyRestrictedSite("Kingston Tip.");
+
             //API to verify
-            List<PartyActionDBModel> list= commonFinder.GetPartyActionByPartyIdAndUserId(partyId, userId);
-            PartyActionDBModel partyActionDBModel = list[0];
+            List <PartyActionDBModel> list= commonFinder.GetPartyActionByPartyIdAndUserId(partyId, userId);
+            PartyActionDBModel partyActionDBModel = list[1];
             Assert.AreEqual(licenceNumber, partyActionDBModel.wb_licencenumber, "Licence number is incorrect");
             Assert.IsFalse(partyActionDBModel.wb_autoprint, "Auto-print is incorrect");
             Assert.IsTrue(partyActionDBModel.wb_driverrequired, "Driver Name Required is incorrect");
-            Assert.IsTrue(partyActionDBModel.wb_driverrequired, "Purchase Order Number Required is incorrect");
+            //Assert.IsTrue(partyActionDBModel.wb_driverrequired, "Purchase Order Number Required is incorrect");
             Assert.IsTrue(partyActionDBModel.wb_usestoredpo, "Use Stored Purchase Order Number is incorrect");
             Assert.IsFalse(partyActionDBModel.wb_usemanualpo, "Allow Manual Purchase Order Number is incorrect");
             Assert.IsTrue(partyActionDBModel.wb_externalroundrequired, "External Round Code Required is incorrect");

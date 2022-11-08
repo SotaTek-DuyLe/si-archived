@@ -14,7 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By LastUpdatedInput = By.XPath("//input[@id='lastUpdated']");
         public readonly By EndDateInput = By.XPath("//input[@id='endDate.id']");
         private readonly By title = By.XPath("//span[text()='Service Unit Point']");
-        private readonly By serviceUnitPointName = By.XPath("//h5[@data-bind='text: pointAddress']");
+        private readonly By serviceUnitPointName = By.XPath("//h5[@data-bind='text: pointName']");
         private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
         private readonly By mapTab = By.CssSelector("a[aria-controls='map-tab']");
 
