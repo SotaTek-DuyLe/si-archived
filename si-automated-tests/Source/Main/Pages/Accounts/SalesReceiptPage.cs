@@ -174,7 +174,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             return receiptLines;
         }
         [AllureStep]
-        public SalesReceiptPage VerifyNotDisplayErrorMessage()
+        public new SalesReceiptPage VerifyNotDisplayErrorMessage()
         {
             Assert.IsFalse(IsControlDisplayedNotThrowEx(FrameMessage));
             return this;
