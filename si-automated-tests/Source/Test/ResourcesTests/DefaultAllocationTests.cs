@@ -428,7 +428,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnDetailTab()
                 .InputResourceName(resourceName)
                 .SelectResourceType(resourceType)
-                .SelectBusinessUnit(BusinessUnit.EastCollections)
+                .SelectBusinessUnit(BusinessUnit.CollectionRecycling)
                 .TickContractRoam()
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)

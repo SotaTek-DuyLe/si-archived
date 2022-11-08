@@ -77,10 +77,6 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
         [AllureStep]
         public ResourceDetailTab SelectBusinessUnit(string bu)
         {
-            //ClickOnElement(resourceBtn);
-            //ClickOnElement(String.Format(resourceOptions, type));
-
-            //Unable to interact with this select 
             SelectTextFromDropDown(businessUnit, bu);
             return this;
         }
