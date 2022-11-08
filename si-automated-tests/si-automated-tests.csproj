@@ -5,7 +5,6 @@
     <RootNamespace>si_automated_tests</RootNamespace>
 
     <IsPackable>false</IsPackable>
-
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -24,7 +23,6 @@
     <PackageReference Include="NUnit.Engine.Api" Version="3.15.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
-    <PackageReference Include="SharpAvi.ImageSharp" Version="3.0.0" />
     <PackageReference Include="WebDriverManager" Version="2.12.3" />
     <PackageReference Include="DotNetSeleniumExtras.PageObjects" Version="3.11.0" />
     <PackageReference Include="DotNetSeleniumExtras.PageObjects.Core" Version="4.0.1" />
