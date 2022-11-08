@@ -21,7 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By serviceGroupName = By.XPath("//div[text()='SERVICE GROUP']/following-sibling::div");
         private readonly By servicesSite = By.XPath("//div[text()='SITE']/following-sibling::a");
         private readonly By serviceName = By.XPath("//div[text()='SERVICE']/following-sibling::div");
-        private readonly By serviceTaskScheduleName = By.CssSelector("a.typeUrl");
+        private readonly By serviceTaskScheduleName = By.ClassName("typeUrl");
 
         private string serviceTaskName = "//span[text()='Service Task']/following-sibling::span[contains(text(),'{0}')]";
         private string headerPartyName = "//div[@class='headers-container']//a[contains(text(), '{0}')]";
