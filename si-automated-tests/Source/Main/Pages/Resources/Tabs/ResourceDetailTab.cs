@@ -75,6 +75,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             return this;
         }
         [AllureStep]
+        public ResourceDetailTab SelectBusinessUnit(string bu)
+        {
+            SelectTextFromDropDown(businessUnit, bu);
+            return this;
+        }
+
+        [AllureStep]
         public ResourceDetailTab SelectService(string _service)
         {
             SelectTextFromDropDown(service, _service);

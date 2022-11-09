@@ -621,7 +621,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
 
             PageFactoryManager.Get<AccountStatementPage>()
                .ClickTakePayment()
-               .SwitchToLastWindow();
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SalesReceiptPage>()
                 .IsAccountRefReadOnly()
                 .CloseCurrentWindow()

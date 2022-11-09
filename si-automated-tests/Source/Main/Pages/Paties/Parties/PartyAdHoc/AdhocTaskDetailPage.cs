@@ -22,7 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
     public class AdhocTaskDetailPage : BasePage
     {
         private readonly By title = By.XPath("//div[@class='popup-container']//h4[@class='id']");
-        private readonly By purchaseOrderValue = By.XPath("//div[@class='popup-container']//div[@class='header-block-name' and text()='Purchase Order #']//following-sibling::div");
+        private readonly By purchaseOrderValue = By.Id("purchaseOrderNumber");
         private readonly By tasklineTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='taskLines-tab']");
         public readonly By DetailTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='details-tab']");
         private readonly By purchaseOrderInput = By.XPath("//div[@id='details-tab']//input[@id='purchaseOrderNumber']");
