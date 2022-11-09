@@ -179,15 +179,16 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickExpandButton(newRow);
             Thread.Sleep(300);
             string dateNow = DateTime.Now.ToString("dd/MM/yyyy");
-            PageFactoryManager.Get<RoundGroupPage>()
-                .ClickAddResource(newRow)
-                .VerifyRowDetailIsVisible(newRow);
-            int countOpt = PageFactoryManager.Get<RoundGroupPage>().GetResourceOptionCount(newRow);
+            var roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.ClickAddResource(newRow);
+            int relTypeIdx = roundGroupPage.GetIndexNewRowDetail(newRow);
+            roundGroupPage.VerifyRowDetailIsVisible(newRow, relTypeIdx);
+            int countOpt = PageFactoryManager.Get<RoundGroupPage>().GetResourceOptionCount(newRow, relTypeIdx);
             Random rnd = new Random();
             int index = rnd.Next(0, countOpt);
             PageFactoryManager.Get<RoundGroupPage>()
-                .SelectResourceType(newRow, index)
-                .ClickHasSchedule(newRow)
+                .SelectResourceType(newRow, relTypeIdx, index)
+                .ClickHasSchedule(newRow, relTypeIdx)
                 .VerifyRightPanelTitle("Round Group Resource Allocation")
                 .VerifyPatternStartDateContainString(dateNow)
                 .VerifyAllPeriodTimeOptions(new System.Collections.Generic.List<string>() { "Daily", "Weekly", "Monthly", "Yearly" })
@@ -202,8 +203,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickExpandButton(newRow);
             Thread.Sleep(300);
             PageFactoryManager.Get<RoundGroupPage>()
-                .VerifyResourceDetailRow(newRow, index, true, $"Every Tuesday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true, true)
-                .ClickEditButton(newRow);
+                .VerifyResourceDetailRow(newRow, relTypeIdx, index, true, $"Every Tuesday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true, true)
+                .ClickEditButton(newRow, relTypeIdx);
             Thread.Sleep(300);
             PageFactoryManager.Get<RoundGroupPage>()
                 .VerifyRightPanelTitle("Round Group Resource Allocation")
@@ -219,7 +220,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickExpandButton(newRow);
             Thread.Sleep(300);
             PageFactoryManager.Get<RoundGroupPage>()
-                .VerifyResourceDetailRow(newRow, index, true, $"Daily commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true, true);
+                .VerifyResourceDetailRow(newRow, relTypeIdx, index, true, $"Daily commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true, true);
 
             //Verify that user can sync Round Resources on a Round Group
             PageFactoryManager.Get<RoundGroupPage>()
@@ -354,12 +355,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyStartDateInputIsDisable(newRow)
                 .ClickExpandButton(newRow);
             Thread.Sleep(300);
-            PageFactoryManager.Get<RoundGroupPage>()
-                .ClickAddResource(newRow);
+            RoundGroupPage roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.ClickAddResource(newRow);
             Thread.Sleep(300);
+            int relTypeIdx = roundGroupPage.GetIndexNewRowDetail(newRow);
             PageFactoryManager.Get<RoundGroupPage>()
-                .SelectResourceType(newRow, "PK2 NST")
-                .ClickHasSchedule(newRow)
+                .SelectResourceType(newRow, relTypeIdx, "PK2 NST")
+                .ClickHasSchedule(newRow, relTypeIdx)
                 .VerifyRightPanelTitle("Round Resource Allocation")
                 .VerifyPatternStartDateContainString(dateNow)
                 .VerifyAllPeriodTimeOptions(new System.Collections.Generic.List<string>() { "Daily", "Weekly", "Monthly", "Yearly" })
@@ -374,7 +376,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickExpandButton(newRow);
             Thread.Sleep(300);
             PageFactoryManager.Get<RoundGroupPage>()
-                .VerifyResourceDetailRow(newRow, "PK2 NST", true, $"Every Monday and Tuesday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", startDate.ToString("dd/MM/yyyy"), endDate.ToString("dd/MM/yyyy"), true, true)
+                .VerifyResourceDetailRow(newRow, relTypeIdx, "PK2 NST", true, $"Every Monday and Tuesday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", startDate.ToString("dd/MM/yyyy"), endDate.ToString("dd/MM/yyyy"), true, true)
                 .ClickCalendarTab()
                 .DoubleClickRoundGroup(startDate, endDate, new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday })
                 .SwitchToChildWindow(2);
@@ -420,7 +422,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickExpandButton(index);
             Thread.Sleep(300);
             PageFactoryManager.Get<RoundGroupPage>()
-                .VerifyResourceDetailRow(index, "Liz Tudor", false, "", "15/12/2021", "01/01/2050", true, false)
+                .VerifyResourceDetailRow(index, 0, "Liz Tudor", false, "", "15/12/2021", "01/01/2050", true, false)
                 .ClickRetireDefaultResourceButton("Liz Tudor")
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
@@ -619,18 +621,20 @@ namespace si_automated_tests.Source.Test.ServiceTests
             roundGroupPage.WaitForLoadingIconToDisappear();
             roundGroupPage.ClickDefaultResourceTab()
                 .WaitForLoadingIconToDisappear();
-            int relTypeIdx = 0;
-            roundGroupPage.ClickExpandButton(relTypeIdx)
-                 .ClickAddResource(relTypeIdx)
-                 .VerifyRowDetailIsVisible(relTypeIdx)
-                 .SelectResourceType(relTypeIdx, 1)
+            int resourceRowIdx = 0;
+            roundGroupPage.ClickExpandButton(resourceRowIdx)
+                 .ClickAddResource(resourceRowIdx);
+            int relTypeIdx = roundGroupPage.GetIndexNewRowDetail(resourceRowIdx);
+            roundGroupPage
+                 .VerifyRowDetailIsVisible(resourceRowIdx, relTypeIdx)
+                 .SelectResourceType(resourceRowIdx, relTypeIdx, 1)
                  .ClickSaveBtn()
                  .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                  .WaitForLoadingIconToDisappear();
             string dateNow = DateTime.Now.ToString("dd/MM/yyyy");
             roundGroupPage
-                .ClickExpandButton(relTypeIdx)
-                .ClickHasSchedule(relTypeIdx)
+                .ClickExpandButton(resourceRowIdx)
+                .ClickHasSchedule(resourceRowIdx, relTypeIdx)
                 .VerifyRightPanelTitle("Round Group Resource Allocation")
                 .VerifyPatternStartDateContainString(dateNow)
                 .ClickPeriodTimeButton("Weekly")
@@ -641,11 +645,11 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             roundGroupPage
                 .VerifyRightPanelIsInVisible()
-                .ClickExpandButton(relTypeIdx);
+                .ClickExpandButton(resourceRowIdx);
             Thread.Sleep(300);
             PageFactoryManager.Get<RoundGroupPage>()
-                .VerifyResourceDetailRow(relTypeIdx, 1, true, $"Every Monday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true, true)
-                .ClickEditButton(0);
+                .VerifyResourceDetailRow(resourceRowIdx, relTypeIdx, 1, true, $"Every Monday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true, true)
+                .ClickEditButton(resourceRowIdx, relTypeIdx);
             Thread.Sleep(300);
             PageFactoryManager.Get<RoundGroupPage>()
                 .VerifyRightPanelTitle("Round Group Resource Allocation")
@@ -654,16 +658,16 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifySelectWeeklyFrequency("Every week")
                 .ClickDayButtonOnWeekly("Wed")
                 .ClickDayButtonOnWeekly("Fri")
-                .EnterQuantity(relTypeIdx, "2")
-                .EnterQuantity(relTypeIdx, "1")
+                .EnterQuantity(resourceRowIdx, "2")
+                .EnterQuantity(resourceRowIdx, "1")
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
                 .VerifyToastMessage("Success");
             PageFactoryManager.Get<RoundGroupPage>()
-                .ClickExpandButton(relTypeIdx);
+                .ClickExpandButton(resourceRowIdx);
             Thread.Sleep(300);
             PageFactoryManager.Get<RoundGroupPage>()
-               .VerifyResourceDetailRow(relTypeIdx, 1, true, $"Every Monday, Wednesday and Friday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true, true);
+               .VerifyResourceDetailRow(resourceRowIdx, relTypeIdx, 1, true, $"Every Monday, Wednesday and Friday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true, true);
         }
 
         [Category("Round Group")]
@@ -694,10 +698,11 @@ namespace si_automated_tests.Source.Test.ServiceTests
             roundGroupPage.ClickDefaultResourceTab()
                 .WaitForLoadingIconToDisappear();
             int driverTypeIdx = 0;
+            int relTypeIdx = roundGroupPage.GetIndexNewRowDetail(driverTypeIdx);
             string dateNow = DateTime.Now.ToString("dd/MM/yyyy");
             roundGroupPage
                 .ClickExpandButton(driverTypeIdx)
-                .ClickHasSchedule(driverTypeIdx)
+                .ClickHasSchedule(driverTypeIdx, relTypeIdx)
                 .VerifyRightPanelTitle("Round Resource Allocation")
                 .VerifyPatternStartDateContainString(dateNow)
                 .ClickPeriodTimeButton("Weekly")
@@ -711,7 +716,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickExpandButton(driverTypeIdx);
             Thread.Sleep(300);
             PageFactoryManager.Get<RoundGroupPage>()
-                .VerifyResourceDetailRow(driverTypeIdx, "Hedy Lamarr", true, $"Every Tuesday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true);
+                .VerifyResourceDetailRow(driverTypeIdx, relTypeIdx, "Hedy Lamarr", true, $"Every Tuesday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true);
             roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
             roundGroupPage.WaitForLoadingIconToDisappear();
             roundGroupPage.VerifyScheduleDetail("Every Tuesday commencing Monday 10 January 2022")

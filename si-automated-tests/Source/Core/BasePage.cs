@@ -122,6 +122,7 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public void SendKeys(By by, string value)
         {
+            WaitUtil.WaitForElementClickable(by);
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             element.Clear();
             element.SendKeys(value);

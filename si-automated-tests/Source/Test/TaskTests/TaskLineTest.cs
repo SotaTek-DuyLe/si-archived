@@ -133,7 +133,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskLineDetailPage.ClickOnElement(taskLineDetailPage.DetailTab);
             taskLineDetailPage.WaitForLoadingIconToDisappear();
             //Bug
-            taskLineDetailPage.VerifyInputValue(taskLineDetailPage.CompleteDateInput, "")
+            taskLineDetailPage.VerifyInputValue(taskLineDetailPage.CompleteDateInput, completedDateDisplayed)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();

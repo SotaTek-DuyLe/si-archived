@@ -100,9 +100,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
         public List<CanlendarServiceTask> GetAllDataInMonth(DateTime fromDateTime, DateTime toDateTime)
         {
             List<CanlendarServiceTask> serviceTasks = new List<CanlendarServiceTask>();
-            int months = toDateTime.Month - fromDateTime.Month;
+            int months = ((toDateTime.Year - fromDateTime.Year) * 12) + toDateTime.Month - fromDateTime.Month;
             int step = 0;
-            int diffMonths = fromDateTime.Month - DateTime.Now.Month;
+            int diffMonths = ((fromDateTime.Year - DateTime.Now.Year) * 12) + fromDateTime.Month - DateTime.Now.Month;
             while (diffMonths > 0)
             {
                 ClickOnElement(nextCalendarBtn);

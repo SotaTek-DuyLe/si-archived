@@ -513,7 +513,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .EditAssetQuantity(4)
                 .ClickAssetType();
             assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
-            assetAndProductTab.VerifyDeliveryDate("12/10/2022")
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            assetAndProductTab.VerifyDeliveryDate(londonCurrentDate.AddDays(8).ToString("dd/MM/yyyy"))
                 .EditAssertClickDoneBtn()
                 .ClickNext()
                 .WaitForLoadingIconToDisappear();
@@ -544,7 +545,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             taskTab.SendKeys(taskTab.TaskTypeSearch, "Deliver Commercial Bin");
             taskTab.ClickOnElement(taskTab.ApplyBtn);
             taskTab.VerifyTaskDataType("Deliver Commercial Bin");
-            taskTab.VerifyTaskDueDate("12/10/2022 00:00");
+            taskTab.VerifyTaskDueDate(londonCurrentDate.AddDays(8).ToString("dd/MM/yyyy 00:00"));
         }
 
         [Category("AgreementTask")]
@@ -592,7 +593,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnAssetTab()
                 .ClickAddAsset()
                 .VerifyInputValue(assetAndProductTab.assetQuantity, "1");
-            assetAndProductTab.VerifyDeliveryDate(DateTime.Now.AddDays(7).ToString("dd/MM/yyyy"))
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            assetAndProductTab.VerifyDeliveryDate(londonCurrentDate.AddDays(7).ToString("dd/MM/yyyy"))
                 .ChooseAssetType("1100L")
                 .ChooseTenure("Rental")
                 .ChooseProduct("General Recycling")
@@ -652,7 +654,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             assetAndProductTab.EditAssetQuantity(2)
                 .ClickAssetType();
             assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
-            assetAndProductTab.VerifyDeliveryDate(DateTime.Now.AddDays(8).ToString("dd/MM/yyyy"))
+            assetAndProductTab.VerifyDeliveryDate(londonCurrentDate.AddDays(8).ToString("dd/MM/yyyy"))
                 .EditAssertClickDoneBtn()
                 .ClickNext()
                 .WaitForLoadingIconToDisappear();

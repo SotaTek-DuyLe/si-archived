@@ -37,7 +37,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By syncRoundResourceOnResourceTab = By.XPath("//div[@id='defaultResources-tab']//button[contains(string(), 'Sync Round Resource')]");
         private readonly By roundRows = By.XPath("//div[@id='rounds-tab']//table//tbody//tr");
         private readonly By resourceRows = By.XPath("//div[@id='defaultResources-tab']//table//tbody//tr[contains(@data-bind, 'with: $data.getFields()')][not(ancestor::tr)]");
-        private readonly By resourceDetailRows = By.XPath("//div[@id='defaultResources-tab']//table//tbody//tr[contains(@class, 'child-container-row')]");
+        private readonly string resourceDetailContainerRows = "//div[@id='defaultResources-tab']//table//tbody//tr[contains(@id, 'child-target{0}')]";
+        private readonly string resourceDetailRows = "//div[@id='defaultResources-tab']//table//tbody//tr[contains(@id, 'child-target{0}')]//tr[@data-bind='with: $data.getFields()']";
         private readonly By typeSelect = By.XPath("./td//select[@id='type.id']");
         private readonly By resourceSelect = By.XPath("./td//select[@id='resource.id']");
         private readonly By resourceSelectOpt = By.XPath("./td//select[@id='resource.id']//option");
@@ -59,8 +60,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By dateDetailCells = By.XPath("//div[@id='calendar-tab']//table//tbody//div[contains(@class, 'fc-row')]//div[@class='fc-content-skeleton']//tbody//td");
         private readonly By leftSiteColumn = By.XPath("//div[@id='sites-tab']//ul[@data-bind='foreach: allSites']");
         private readonly By rightSiteColumn = By.XPath("//div[@id='sites-tab']//ul[@data-bind='foreach: addedSites']");
-        private readonly By addSiteButton = By.XPath("//div[@id='sites-tab']//button[@data-bind='click: addSites']");
-        private readonly By removeSiteButton = By.XPath("//div[@id='sites-tab']//button[@data-bind='click: removeSites']");
+        private readonly By addSiteButton = By.XPath("//div[@id='sites-tab']//button[contains(@data-bind, 'click: addSites')]");
+        private readonly By removeSiteButton = By.XPath("//div[@id='sites-tab']//button[contains(@data-bind, 'click: removeSites')]");
 
         #region Schedule Tab
         public readonly By ScheduleTab = By.XPath("//a[@aria-controls='schedules-tab']");
@@ -81,8 +82,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public RoundGroupPage ClickScheduleDetail(string id)
         {
-            int rowIdx = ScheduleTableElement.GetRows().IndexOf(ScheduleTableElement.GetRowByCellValue(0, id));
-            ScheduleTableElement.ClickCell(rowIdx, 1);
+            ScheduleTableElement.ClickCellOnCellValue(1, 0, id);
             return this;
         }
         [AllureStep]
@@ -342,34 +342,39 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public RoundGroupPage ClickAddResource(int rowIdx)
         {
-            IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailContainerRows, rowIdx));
+            IWebElement webElement = this.driver.FindElement(resourceDetailXPath);
             ClickOnElement(webElement.FindElement(addResourceBtn));
             return this;
         }
         [AllureStep]
-        public RoundGroupPage SelectResourceType(int rowIdx, int index)
+        public RoundGroupPage SelectResourceType(int resourceRowIdx, int resourceDetailRowIdx, int index)
         {
-            IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
+            IWebElement webElement = this.driver.FindElements(resourceDetailXPath)[resourceDetailRowIdx];
             SelectIndexFromDropDown(webElement.FindElement(resourceSelect), index);
             return this;
         }
         [AllureStep]
-        public RoundGroupPage SelectResourceType(int rowIdx, string value)
+        public RoundGroupPage SelectResourceType(int resourceRowIdx, int resourceDetailRowIdx, string value)
         {
-            IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
+            IWebElement webElement = this.driver.FindElements(resourceDetailXPath)[resourceDetailRowIdx];
             SelectTextFromDropDown(webElement.FindElement(resourceSelect), value);
             return this;
         }
         [AllureStep]
-        public int GetResourceOptionCount(int rowIdx)
+        public int GetResourceOptionCount(int resourceRowIdx, int resourceDetailRowIdx)
         {
-            IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
+            IWebElement webElement = this.driver.FindElements(resourceDetailXPath)[resourceDetailRowIdx];
             return webElement.FindElements(resourceSelectOpt).Count;
         }
         [AllureStep]
-        public RoundGroupPage ClickHasSchedule(int rowIdx)
+        public RoundGroupPage ClickHasSchedule(int resourceRowIdx, int resourceDetailRowIdx)
         {
-            IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
+            IWebElement webElement = this.driver.FindElements(resourceDetailXPath)[resourceDetailRowIdx];
             ClickOnElement(webElement.FindElement(hasScheduleCheckbox));
             return this;
         }
@@ -395,9 +400,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
         [AllureStep]
-        public RoundGroupPage VerifyResourceDetailRow(int rowIdx, int resourceSelectedIdx, bool hasSchedule, string schedule, bool isVisibleRetireBtn, bool isVisibleEditBtn)
+        public RoundGroupPage VerifyResourceDetailRow(int resourceRowIdx, int resourceDetailRowIdx, int resourceSelectedIdx, bool hasSchedule, string schedule, bool isVisibleRetireBtn, bool isVisibleEditBtn)
         {
-            IWebElement row = this.driver.FindElements(resourceDetailRows)[rowIdx];
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
+            IWebElement row = this.driver.FindElements(resourceDetailXPath)[resourceDetailRowIdx];
             IWebElement select = row.FindElement(resourceSelect);
             List<string> options = row.FindElements(resourceSelectOpt).Select(x => x.Text).ToList();
             string selectedValue = GetFirstSelectedItemInDropdown(select);
@@ -414,9 +420,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
-        public RoundGroupPage VerifyResourceDetailRow(int rowIdx, string resourceSelected, bool hasSchedule, string schedule, bool isVisibleRetireBtn)
+        public RoundGroupPage VerifyResourceDetailRow(int resourceRowIdx, int resourceDetailRowIdx, string resourceSelected, bool hasSchedule, string schedule, bool isVisibleRetireBtn)
         {
-            IWebElement row = this.driver.FindElements(resourceDetailRows)[rowIdx];
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
+            IWebElement row = this.driver.FindElements(resourceDetailXPath)[resourceDetailRowIdx];
             IWebElement select = row.FindElement(resourceSelect);
             string selectedValue = GetFirstSelectedItemInDropdown(select);
             Assert.IsTrue(selectedValue == resourceSelected);
@@ -430,9 +437,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
-        public RoundGroupPage VerifyResourceDetailRow(int rowIdx, string resourceSelected, bool hasSchedule, string schedule, string startDateValue, string endDateValue, bool isVisibleRetireBtn, bool checkEnable)
+        public RoundGroupPage VerifyResourceDetailRow(int resourceRowIdx, int resourceDetailRowIdx, string resourceSelected, bool hasSchedule, string schedule, string startDateValue, string endDateValue, bool isVisibleRetireBtn, bool checkEnable)
         {
-            IWebElement row = this.driver.FindElements(resourceDetailRows)[rowIdx];
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
+            IWebElement row = this.driver.FindElements(resourceDetailXPath)[resourceDetailRowIdx];
             IWebElement select = row.FindElement(resourceSelect);
             string selectedValue = GetFirstSelectedItemInDropdown(select);
             Assert.IsTrue(selectedValue == resourceSelected);
@@ -458,9 +466,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
         [AllureStep]
-        public RoundGroupPage ClickEditButton(int rowIdx)
+        public RoundGroupPage ClickEditButton(int resourceRowIdx, int resourceDetailRowIdx)
         {
-            IWebElement row = this.driver.FindElements(resourceDetailRows)[rowIdx];
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
+            IWebElement row = this.driver.FindElements(resourceDetailXPath)[resourceDetailRowIdx];
             IWebElement editButton = row.FindElement(editBtn);
             ClickOnElement(editButton);
             return this;
@@ -468,6 +477,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public RoundGroupPage ClickPeriodTimeButton(string period)
         {
+            SleepTimeInMiliseconds(500);
             IWebElement webElement = GetAllElements(periodTimeButtons).FirstOrDefault(x => x.Text.Contains(period));
             ClickOnElement(webElement);
             return this;
@@ -519,11 +529,19 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(IsControlUnDisplayed(rightPanelTitle));
             return this;
         }
+
         [AllureStep]
-        public RoundGroupPage VerifyRowDetailIsVisible(int rowIdx)
+        public int GetIndexNewRowDetail(int resourceRowIdx)
         {
-            Assert.IsTrue(this.driver.FindElements(resourceDetailRows).Count > rowIdx);
-            IWebElement webElement = this.driver.FindElements(resourceDetailRows)[rowIdx];
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
+            return this.driver.FindElements(resourceDetailXPath).Count - 1;
+        }
+
+        [AllureStep]
+        public RoundGroupPage VerifyRowDetailIsVisible(int resourceRowIdx, int resourceDetailRowIdx)
+        {
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
+            IWebElement webElement = this.driver.FindElements(resourceDetailXPath)[resourceDetailRowIdx];
             Assert.IsTrue(webElement.Displayed);
             return this;
         }
@@ -600,7 +618,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         public RoundGroupPage ClickRetireDefaultResourceButton(string resource)
         {
-            List<IWebElement> webElements = this.driver.FindElements(resourceDetailRows).ToList();
+            List<IWebElement> webElements = new List<IWebElement>();
             for (int i = 0; i < webElements.Count; i++)
             {
                 if (GetFirstSelectedItemInDropdown(webElements[i].FindElement(resourceSelect)) == resource)
@@ -625,7 +643,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public RoundGroupPage VerifyDetailDefaultResourceIsInVisible(string driverType, string resource)
         {
             List<IWebElement> webElements = GetAllElements(resourceRows);
-            List<IWebElement> detailWebElements = this.driver.FindElements(resourceDetailRows).ToList();
+            List<IWebElement> detailWebElements = new List<IWebElement>();
             for (int i = 0; i < webElements.Count; i++)
             {
                 if (GetFirstSelectedItemInDropdown(webElements[i].FindElement(typeSelect)) == driverType)
@@ -649,7 +667,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             List<DefaultResourceModel> defaultResources = new List<DefaultResourceModel>();
             List<IWebElement> webElements = GetAllElements(resourceRows);
-            List<IWebElement> webDetailElements = this.driver.FindElements(resourceDetailRows).ToList();
+            List<IWebElement> webDetailElements = new List<IWebElement>();
             for (int i = 0; i < webElements.Count; i++)
             {
                 DefaultResourceModel defaultResource = new DefaultResourceModel();

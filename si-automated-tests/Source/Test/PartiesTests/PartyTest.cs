@@ -765,7 +765,6 @@ namespace si_automated_tests.Source.Test.PartiesTests
             detailTaskPage.SelectTextFromDropDown(detailTaskPage.taskStateDd, "Cancelled");
             detailTaskPage.ClickSaveBtn()
                 .ClickCloseBtn()
-                .AcceptAlert()
                 .SwitchToChildWindow(2);
             //Edit Task 3
             partyCalendarPage.ClickDayInstance(CommonUtil.StringToDateTime("2022-08-17", "yyyy-MM-dd"))
