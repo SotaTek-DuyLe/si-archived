@@ -3,6 +3,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
+using si_automated_tests.Source.Main.Constants;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,12 +31,14 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string allocatedResourceTypeInRoundGroup = "//tr[@class='round-group-dropdown']//span[@class='main-description resource-name' and text()='']";
         private readonly By addResourceCellInRoundGroup = By.XPath("//tr[@class='round-group-dropdown']//td[@title='To allocate resource, select and drag resource from the panel on the right hand side.']");
         private readonly By addResourceCellInRound = By.XPath("//tr[@class='round-group-dropdown-item']//td[@title='To allocate resource, select and drag resource from the panel on the right hand side.']");
-        private readonly string allocatedResourceContainer = "//span[@class='main-description resource-name' and contains(text(),'{0}')]/parent::td";
-        private readonly string resourceAbbreviation = "//span[@class='main-description resource-name' and contains(text(),'{0}')]/following-sibling::span[contains(@data-bind,'resourceStateAbbreviation')]";
+        private readonly string allocatedResourceContainer = "//span[@class='main-description resource-name' and contains(text(),'{0}')]/ancestor::td";
+        private readonly string resourceAbbreviation = "//span[@class='main-description resource-name' and contains(text(),'{0}')]/parent::span/following-sibling::span[contains(@data-bind,'resourceStateAbv')]";
         private readonly By resourcePresence = By.Id("resource-presence");
         private readonly string resourceState = "//button[contains(@class,'resource-state') and text()='{0}']";
         private readonly By viewShiftDetailBtn = By.XPath("//button[text()='VIEW SHIFT DETAILS']");
         private readonly By resourceDetailBtn = By.XPath("//button[text()='RESOURCE DETAILS']");
+        private readonly By reasonSelect = By.Id("reasons.id");
+        private readonly By confirmButton = By.XPath("//button[text()='Confirm']");
 
         private readonly string whiteBackground = "background-color: rgb(255, 255, 255);";
         private readonly string greenBackground = "background-color: rgb(137, 203, 137);";
@@ -172,6 +175,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
             for (int i = 0; i < hds.Count; i++)
             {
+                Console.WriteLine(hds[i].Text + " ---- " + GetResultNo(i+1).Text);
                 if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
                 {
                     var f = GetResultNo(i+1);
@@ -549,6 +553,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         {
             ClickOnElement(FirstRoundInstanceRow);
             ClickOnElement(By.XPath("//div[@class='menu']//button[text()='RESOURCE DETAILS']"));
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage SelectReason(ResourceReason reason)
+        {
+            SelectTextFromDropDown(reasonSelect, reason.AsString());
+            ClickOnElement(confirmButton);
             return this;
         }
     }
