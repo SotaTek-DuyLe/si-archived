@@ -175,7 +175,6 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
             for (int i = 0; i < hds.Count; i++)
             {
-                Console.WriteLine(hds[i].Text + " ---- " + GetResultNo(i+1).Text);
                 if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
                 {
                     var f = GetResultNo(i+1);
