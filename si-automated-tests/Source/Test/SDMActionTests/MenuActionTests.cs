@@ -1508,18 +1508,19 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
 
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
             PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
             pointAddressDetailPage.ClickOnAllServicesTab()
                 .WaitForLoadingIconToDisappear();
             pointAddressDetailPage
-                .ClickServiceUnit(8)
+                .ClickOnServiceUnitWithServiceNameAndActive("Recycling:Domestic Recycling", "HAM HOUSE STABLES, HAM STREET, HAM, RICHMOND, TW10 7RS")
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
 
             ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
             serviceUnitDetailPage.ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
-            serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, CommonConstants.FUTURE_END_DATE);
+            serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, londonCurrentDate.AddDays(1).ToString("dd/MM/yyyy"));
 
             //Double click on Service Task ID
             serviceUnitDetailPage.ClickOnElement(serviceUnitDetailPage.ServiceTaskScheduleTab);
@@ -1530,7 +1531,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
             servicesTaskPage.ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
-            servicesTaskPage.VerifyInputValue(servicesTaskPage.EndDateInput, CommonConstants.FUTURE_END_DATE)
+            servicesTaskPage.VerifyInputValue(servicesTaskPage.EndDateInput, londonCurrentDate.AddDays(1).ToString("dd/MM/yyyy"))
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
@@ -1545,7 +1546,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             ServiceUnitPointDetailPage serviceUnitPointDetail = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
             serviceUnitPointDetail.ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
-            serviceUnitPointDetail.VerifyInputValue(serviceUnitPointDetail.EndDateInput, CommonConstants.FUTURE_END_DATE)
+            serviceUnitPointDetail.VerifyInputValue(serviceUnitPointDetail.EndDateInput, londonCurrentDate.AddDays(1).ToString("dd/MM/yyyy"))
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
@@ -1556,7 +1557,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
             pointAddressDetailPage.ClickOnAllServicesTab()
                 .WaitForLoadingIconToDisappear();
-            pointAddressDetailPage.ClickServiceUnit(13)
+            pointAddressDetailPage.ClickOnServiceUnitWithServiceNameAndNonActive("Recycling:Domestic Recycling", "HAM HOUSE STABLES, HAM STREET, HAM, RICHMOND, TW10 7RS")
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             serviceUnitDetailPage.ClickOnDetailTab()
