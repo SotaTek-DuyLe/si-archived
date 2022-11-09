@@ -86,6 +86,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
         public EditPartyContactPage NavigateToNotesTab()
         {
             ClickOnElement(notesTab);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -99,6 +100,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
         [AllureStep]
         public EditPartyContactPage IsNotesTab()
         {
+            WaitUtil.WaitForElementVisible(titleNotes);
+            WaitUtil.WaitForElementVisible(noteArea);
             Assert.IsTrue(IsControlDisplayed(titleNotes));
             Assert.IsTrue(IsControlDisplayed(noteArea));
             //Add Btn disabled

@@ -709,7 +709,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         #endregion
 
         #region locators and steps for Step [2]
-        private readonly string firstRoundByRoundNameStep2 = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count((//td[text()='No Round'])[1]/preceding-sibling::td) + 1]";
+        private readonly string firstRoundByRoundNameStep2 = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count((//td[text()='{0}'])[1]/preceding-sibling::td) + 1]";
         private readonly string firstRoundByRoundNameWithServiceUnitStep2 = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[text()='{0}']/preceding-sibling::td) + 1]/preceding-sibling::td[1]//img[@src='content/style/images/service-unit.png']";
         private readonly string firstRoundByRoundNameAfterAddServiceTaskScheduleStep2 = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[text()='{0}']/preceding-sibling::td) + 1]/span";
 
