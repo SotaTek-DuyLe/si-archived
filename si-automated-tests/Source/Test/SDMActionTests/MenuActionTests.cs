@@ -516,17 +516,17 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             {
                 filterDayOutOfDateRange = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 12);
             }
-            //PageFactoryManager.Get<TaskConfirmationPage>()
-            //    .SendDateInScheduledDate(filterDayOutOfDateRange)
-            //    .ClickGoBtn()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<TaskConfirmationPage>()
-            //    .ClickOnExpandRoundsBtn()
-            //    .ClickOnExpandRoundLegsBtn()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<TaskConfirmationPage>()
-            //    .VerifyDisplayResultAfterSearchWithDesc(descRedRow)
-            //    .SwitchToDefaultContent();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .SendDateInScheduledDate(filterDayOutOfDateRange)
+                .ClickGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnExpandRoundsBtn()
+                .ClickOnExpandRoundLegsBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .VerifyDisplayResultAfterSearchWithDesc(descRedRow)
+                .SwitchToDefaultContent();
             //Go to [Task Allocation] to check
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
@@ -1493,13 +1493,13 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SelectCheckboxByReferenceId("117464")
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
-            //serviceDataManagementPage
-            //    .DragServiceUnitPointCToServicePointA()
-            //    .ClickOnApplyAtBottomBtn()
-            //    .AcceptAlert()
-            //    .WaitForLoadingIconToDisappear()
-            //    .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
-            //    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceDataManagementPage
+                .DragServiceUnitPointCToServicePointA()
+                .ClickOnApplyAtBottomBtn()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
 
             //verify database
 

@@ -594,7 +594,7 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForPageLoaded();
             IWebElement e = GetElement(by);
             IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
-            js.ExecuteScript("arguments[0].scrollLeft -= 250", e);
+            js.ExecuteScript("arguments[0].scrollLeft += 250", e);
 
             return this;
         }
@@ -604,7 +604,7 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForPageLoaded();
             IWebElement e = GetElement(by);
             IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
-            js.ExecuteScript("arguments[0].scrollLeft += 250", e);
+            js.ExecuteScript("arguments[0].scrollLeft -= 250", e);
 
             return this;
         }
@@ -618,16 +618,7 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
-        [AllureStep]
-        public BasePage ScrollRight(string locator, string value)
-        {
-            WaitUtil.WaitForPageLoaded();
-            IWebElement e = GetElement(locator, value);
-            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
-            js.ExecuteScript("arguments[0].scrollLeft += 250", e);
-
-            return this;
-        }
+        
         [AllureStep]
         public BasePage ScrollDownToElement(string locator, string value)
         {
