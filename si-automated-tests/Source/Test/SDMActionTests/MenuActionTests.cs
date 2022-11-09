@@ -1517,6 +1517,8 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
 
             ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
+            serviceUnitDetailPage.ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
             serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, CommonConstants.FUTURE_END_DATE);
 
             //Double click on Service Task ID
@@ -1541,6 +1543,8 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
 
             ServiceUnitPointDetailPage serviceUnitPointDetail = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
+            serviceUnitPointDetail.ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
             serviceUnitPointDetail.VerifyInputValue(serviceUnitPointDetail.EndDateInput, CommonConstants.FUTURE_END_DATE)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3)
@@ -1554,6 +1558,8 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
             pointAddressDetailPage.ClickServiceUnit(13)
                 .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, CommonConstants.FUTURE_END_DATE);
         }
