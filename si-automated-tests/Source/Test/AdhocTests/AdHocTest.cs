@@ -310,7 +310,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
                     Product = "General Refuse",
                     ScheduledProductQuantity = "0",
                     Unit = "Kilograms",
-                    State = ""
+                    State = "Unallocated"
                 });
         }
 
@@ -381,7 +381,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
                     Product = "General Refuse",
                     ScheduledProductQuantity = "0",
                     Unit = "Kilograms",
-                    State = ""
+                    State = "Unallocated"
                 });
         }
     }
