@@ -371,6 +371,8 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<DetailTaskPage>()
                 .IsDetailTaskPage()
                 .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             string taskDescription = PageFactoryManager.Get<DetailTaskPage>()
                 .GetLocationName();
