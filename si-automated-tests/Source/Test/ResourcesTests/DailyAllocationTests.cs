@@ -200,11 +200,14 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyAllocatedResourceName(resourceName)
                 .ClickAllocatedResource(resourceName)
                 .SelectResourceState("SICK")
+                .SelectReason(ResourceReason.Paid)
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifyBackgroundColor(resourceName, "greenish")
                 .VerifyStateAbbreviation(resourceName, "S")
+                .RefreshGrid()
+                .FilterResource("Resource", resourceName)
                 .VerifyFirstResultValue("Status", "Sick");
             //Verify Vehicle
             PageFactoryManager.Get<ResourceAllocationPage>()

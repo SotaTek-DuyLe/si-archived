@@ -348,7 +348,8 @@ namespace si_automated_tests.Source.Test
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .OpenFirstServiceTaskLink()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             string serviceTaskDescription = PageFactoryManager.Get<ServicesTaskPage>()
                 .IsServiceTaskPage()
                 .GetServiceTaskDescription();
@@ -367,10 +368,16 @@ namespace si_automated_tests.Source.Test
 
             PageFactoryManager.Get<ServicesTaskPage>()
                 .ClickCreateAdhocTaskButton()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
 
-            string taskDescription = PageFactoryManager.Get<DetailTaskPage>()
+            PageFactoryManager.Get<DetailTaskPage>()
                 .IsDetailTaskPage()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            string taskDescription = PageFactoryManager.Get<DetailTaskPage>()
                 .GetLocationName();
 
             string site = PageFactoryManager.Get<DetailTaskPage>()
