@@ -867,12 +867,13 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .VerifyDisplayResultAfterSearchWithDesc(firstDescRedRow)
                 .ClickOnSelectAndDeselectBtn()
                 .DoubleClickOnFirstTask()
+                .SleepTimeInMiliseconds(3000);
+            PageFactoryManager.Get<TaskConfirmationPage>()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             string firstTaskId = PageFactoryManager.Get<DetailTaskPage>()
                 .GetTaskId();
             CommonFinder finder = new CommonFinder(DbContext);
-            //API Check => Bug
             List<TaskDBModel> taskDBModels = finder.GetTask(int.Parse(firstTaskId));
             Assert.AreEqual(1, taskDBModels[0].proximityalert);
 
@@ -896,7 +897,6 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
             string secondTaskId = PageFactoryManager.Get<DetailTaskPage>()
                 .GetTaskId();
-            //API Check => Bug
             List<TaskDBModel> secondtaskDBModels = finder.GetTask(int.Parse(secondTaskId));
             Assert.IsTrue(secondtaskDBModels[0].proximityalert, "proximityalert is not correct");
 
