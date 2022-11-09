@@ -38,8 +38,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly string UnallocatedID = "./div[contains(@class, 'slick-cell l3 r3')]";
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
         private readonly By idInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l3')]/input");
-        private readonly By noteAtFirstRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l20')]");
-        private readonly By statusAtFirstRow = By.XPath("//div[@class='grid-canvas']//div[contains(@class, 'l18')]");
+        private readonly By noteAtFirstRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l21')]");
+        private readonly By statusAtFirstRow = By.XPath("//div[@class='grid-canvas']//div[contains(@class, 'l19')]");
         private readonly By descAtFirstRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
         private readonly By firstRowAfterFiltering = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]/parent::div");
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
@@ -50,7 +50,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By rescheduleDateTitle = By.XPath("//label[text()='Reschedule Date']");
         public readonly By TaskStateSelect = By.XPath("//div[@id='details-tab']//select[@id='taskState.id']");
         public readonly By BulkUpdateButton = By.XPath("//button[@title='Bulk Update']");
-        private readonly string statusOptionInFirstRowBulkUpdate = "//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l18')]/select/option[{0}]";
+        private readonly string statusOptionInFirstRowBulkUpdate = "//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l19')]/select/option[{0}]";
 
         #region Bulk update
         public readonly By BulkUpdateStateSelect = By.XPath("//div[@class='bulk-confirmation']//select[1]");

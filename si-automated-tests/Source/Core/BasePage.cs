@@ -609,6 +609,17 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         [AllureStep]
+        public BasePage ScrollRightOffset(By by)
+        {
+            WaitUtil.WaitForPageLoaded();
+            IWebElement e = GetElement(by);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollLeft = arguments[0].offsetWidth", e);
+
+            return this;
+        }
+        
+        [AllureStep]
         public BasePage ScrollDownToElement(string locator, string value)
         {
             WaitUtil.WaitForPageLoaded();

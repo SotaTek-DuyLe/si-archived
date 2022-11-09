@@ -690,6 +690,8 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .VerifyDisplayResultAfterSearchWithDesc(descRedRow)
                 .ClickOnSelectAndDeselectBtn()
                 .DoubleClickOnFirstTask()
+                .SleepTimeInMiliseconds(3000);
+            PageFactoryManager.Get<TaskConfirmationPage>()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             string taskId = PageFactoryManager.Get<DetailTaskPage>()
@@ -697,7 +699,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
 
             //API Check => Bug
             List<TaskDBModel> taskDBModels = finder.GetTask(int.Parse(taskId));
-            Assert.AreEqual(1, taskDBModels[0].proximityalert);
+            Assert.IsTrue(taskDBModels[0].proximityalert, "proximityalert is not correct");
         }
 
         [Category("SDM Actions")]
@@ -865,12 +867,13 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .VerifyDisplayResultAfterSearchWithDesc(firstDescRedRow)
                 .ClickOnSelectAndDeselectBtn()
                 .DoubleClickOnFirstTask()
+                .SleepTimeInMiliseconds(3000);
+            PageFactoryManager.Get<TaskConfirmationPage>()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             string firstTaskId = PageFactoryManager.Get<DetailTaskPage>()
                 .GetTaskId();
             CommonFinder finder = new CommonFinder(DbContext);
-            //API Check => Bug
             List<TaskDBModel> taskDBModels = finder.GetTask(int.Parse(firstTaskId));
             Assert.AreEqual(1, taskDBModels[0].proximityalert);
 
@@ -888,13 +891,14 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .VerifyDisplayResultAfterSearchWithDesc(secondDescRedRow)
                 .ClickOnSelectAndDeselectBtn()
                 .DoubleClickOnFirstTask()
+                .SleepTimeInMiliseconds(3000);
+            PageFactoryManager.Get<TaskConfirmationPage>()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             string secondTaskId = PageFactoryManager.Get<DetailTaskPage>()
                 .GetTaskId();
-            //API Check => Bug
             List<TaskDBModel> secondtaskDBModels = finder.GetTask(int.Parse(secondTaskId));
-            Assert.AreEqual(1, secondtaskDBModels[0].proximityalert);
+            Assert.IsTrue(secondtaskDBModels[0].proximityalert, "proximityalert is not correct");
 
         }
 
@@ -1172,37 +1176,37 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             if (today.DayOfWeek == DayOfWeek.Monday)
             {
                 filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -4);
-                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
             }
             else if (today.DayOfWeek == DayOfWeek.Tuesday)
             {
                 filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -5);
-                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
             }
             else if (today.DayOfWeek == DayOfWeek.Wednesday)
             {
                 filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -6);
-                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 8);
             }
             else if (today.DayOfWeek == DayOfWeek.Thursday)
             {
                 filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -7);
-                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 14);
             }
             else if (today.DayOfWeek == DayOfWeek.Friday)
             {
                 filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -1);
-                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 6);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 13);
             }
             else if (today.DayOfWeek == DayOfWeek.Saturday)
             {
                 filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -2);
-                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 5);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 12);
             }
             else if (today.DayOfWeek == DayOfWeek.Sunday)
             {
                 filterDatePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -3);
-                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 4);
+                filterDateFuture = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
             }
             PageFactoryManager.Get<MasterRoundManagementPage>()
                 .IsOnPage()
@@ -1489,7 +1493,8 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SelectCheckboxByReferenceId("117464")
                 .ClickOnNextBtn()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.DragServiceUnitPointCToServicePointA()
+            serviceDataManagementPage
+                .DragServiceUnitPointCToServicePointA()
                 .ClickOnApplyAtBottomBtn()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear()
@@ -1503,15 +1508,19 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
 
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
             PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
             pointAddressDetailPage.ClickOnAllServicesTab()
                 .WaitForLoadingIconToDisappear();
-            pointAddressDetailPage.ClickServiceUnit(13)
+            pointAddressDetailPage
+                .ClickOnServiceUnitWithServiceNameAndActive("Recycling:Domestic Recycling", "HAM HOUSE STABLES, HAM STREET, HAM, RICHMOND, TW10 7RS")
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
 
             ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
-            serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, CommonConstants.FUTURE_END_DATE);
+            serviceUnitDetailPage.ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, londonCurrentDate.AddDays(1).ToString("dd/MM/yyyy"));
 
             //Double click on Service Task ID
             serviceUnitDetailPage.ClickOnElement(serviceUnitDetailPage.ServiceTaskScheduleTab);
@@ -1522,7 +1531,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
             servicesTaskPage.ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
-            servicesTaskPage.VerifyInputValue(servicesTaskPage.EndDateInput, CommonConstants.FUTURE_END_DATE)
+            servicesTaskPage.VerifyInputValue(servicesTaskPage.EndDateInput, londonCurrentDate.AddDays(1).ToString("dd/MM/yyyy"))
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
@@ -1535,7 +1544,9 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
 
             ServiceUnitPointDetailPage serviceUnitPointDetail = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
-            serviceUnitPointDetail.VerifyInputValue(serviceUnitPointDetail.EndDateInput, CommonConstants.FUTURE_END_DATE)
+            serviceUnitPointDetail.ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            serviceUnitPointDetail.VerifyInputValue(serviceUnitPointDetail.EndDateInput, londonCurrentDate.AddDays(1).ToString("dd/MM/yyyy"))
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
@@ -1546,8 +1557,10 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
             pointAddressDetailPage.ClickOnAllServicesTab()
                 .WaitForLoadingIconToDisappear();
-            pointAddressDetailPage.ClickServiceUnit(13)
+            pointAddressDetailPage.ClickOnServiceUnitWithServiceNameAndNonActive("Recycling:Domestic Recycling", "HAM HOUSE STABLES, HAM STREET, HAM, RICHMOND, TW10 7RS")
                 .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             serviceUnitDetailPage.VerifyInputValue(serviceUnitDetailPage.EndDateInput, CommonConstants.FUTURE_END_DATE);
         }

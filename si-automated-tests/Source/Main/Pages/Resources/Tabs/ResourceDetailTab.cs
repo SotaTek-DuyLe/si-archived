@@ -2,8 +2,6 @@
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
 {
@@ -11,6 +9,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
     {
         private readonly By resourceName = By.Id("resource");
         private readonly By resourceBtn = By.XPath("//button[@data-id='resource-type']");
+        private readonly By businessUnitDd = By.CssSelector("select[id='businessUnit']");
         private readonly By resourceType = By.Id("resource-type"); 
         private readonly By clientReference = By.Id("clientReference");
         private readonly By contract = By.Id("contract");
@@ -75,9 +74,9 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             return this;
         }
         [AllureStep]
-        public ResourceDetailTab SelectBusinessUnit(string bu)
+        public ResourceDetailTab SelectBusinessUnit(string businessUnitValue)
         {
-            SelectTextFromDropDown(businessUnit, bu);
+            SelectTextFromDropDown(businessUnitDd, businessUnitValue);
             return this;
         }
 

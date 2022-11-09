@@ -109,8 +109,9 @@ namespace si_automated_tests.Source.Test.RiskTests
                 //Road Type
                 .ClickRoadTypeDdAndVerify(roadTypeDBModels)
                 //Step 11
-                .VerifyRoadTypeOptionDisplayOrderAlphabet()
+                .VerifyRoadTypeOptionDisplayOrderAlphabet();
                 //Step 12
+           streetDetailPage
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageRequiredFieldConstants.StreetNameRequiredMessage)
                 .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.StreetNameRequiredMessage);

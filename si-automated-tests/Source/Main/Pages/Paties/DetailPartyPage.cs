@@ -1088,5 +1088,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return this;
         }
+
+        [AllureStep]
+        public DetailPartyPage VerifyRestrictedSite(string restrictedSiteValue)
+        {
+            Assert.AreEqual(restrictedSiteValue, GetElementText(historyItem, "Restricted Site"));
+            return this;
+        }
     }
 }

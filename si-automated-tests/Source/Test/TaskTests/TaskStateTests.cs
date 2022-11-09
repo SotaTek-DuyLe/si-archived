@@ -89,7 +89,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1);
             PageFactoryManager.Get<RoundInstanceDetailPage>()
-                .ClickRefreshBtn()
+                .Refresh()
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             //Verify order in [Task Bulk Update] - Task State detail form
@@ -248,7 +248,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchToChildWindow(1);
             PageFactoryManager.Get<RoundInstanceDetailPage>()
                 .IsRoundInstancePage()
-                .ClickRefreshBtn()
+                .Refresh()
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             //Verify order in [Task Bulk Update] - Task State detail form

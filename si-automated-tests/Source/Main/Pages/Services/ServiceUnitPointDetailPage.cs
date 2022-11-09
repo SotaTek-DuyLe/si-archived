@@ -14,7 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By LastUpdatedInput = By.XPath("//input[@id='lastUpdated']");
         public readonly By EndDateInput = By.XPath("//input[@id='endDate.id']");
         private readonly By title = By.XPath("//span[text()='Service Unit Point']");
-        private readonly By serviceUnitPointName = By.XPath("//h5[@data-bind='text: pointAddress']");
+        private readonly By serviceUnitPointName = By.XPath("//h5[@data-bind='text: pointName']");
         private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
         private readonly By mapTab = By.CssSelector("a[aria-controls='map-tab']");
 
@@ -28,6 +28,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         //MAP TAB
         private readonly By typeValue = By.XPath("//td[text()='Address']/following-sibling::td");
         private readonly By segmentValue = By.XPath("//td[text()='Segment']/following-sibling::td");
+        private readonly By noteValue = By.XPath("//td[text()='Node']/following-sibling::td");
+        private readonly By areaValue = By.XPath("//td[text()='Area']/following-sibling::td");
 
         [AllureStep]
         public ServiceUnitPointDetailPage IsServiceUnitPointDetailPage(string serviceUnitPointNameExp)
@@ -63,10 +65,28 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
         [AllureStep]
-        public ServiceUnitPointDetailPage VerifyValueInMapTab(string typeExp, string segmentExp)
+        public ServiceUnitPointDetailPage VerifyValueInMapTabAddressType(string addressExp, string segmentExp)
         {
-            Assert.AreEqual(GetElementText(typeValue), typeExp);
+            Assert.AreEqual(GetElementText(typeValue), addressExp);
             Assert.AreEqual(GetElementText(segmentValue), segmentExp);
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitPointDetailPage VerifyValueInMapTabSegmentType(string segmentExp)
+        {
+            Assert.AreEqual(segmentExp, GetElementText(segmentValue));
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitPointDetailPage VerifyValueInMapTabNoteType(string noteExp)
+        {
+            Assert.AreEqual(noteExp, GetElementText(noteValue));
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitPointDetailPage VerifyValueInMapTabAreaType(string areaExp)
+        {
+            Assert.AreEqual(areaExp, GetElementText(areaValue));
             return this;
         }
         [AllureStep]

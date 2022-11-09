@@ -278,13 +278,13 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
-            string completionDateFirstTask = detailTaskPage.CompareDueDateWithTimeNow(secondTaskDB, timeNow);
+            //string completionDateFirstTask = detailTaskPage.CompareDueDateWithTimeNow(secondTaskDB, timeNow);
 
             //Failed
             detailTaskPage
                 .IsDetailTaskPage()
                 .ClickOnDetailTab()
-                .VerifyFieldAfterBulkUpdate(noteSecond, timeNow, "Not Completed", completionDateFirstTask, "Not Out");
+                .VerifyFieldAfterBulkUpdate(noteSecond, timeNow, "Not Completed", timeNow, "Not Out");
         }
 
         //Two tasks with state = Cancelled 
@@ -520,20 +520,21 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
-            string[] valueExpUpdateSecondTask = { topNote + " " + noteSecondTask, completedDateEndDateSecondTask, "Completed", completedDateEndDateSecondTask};
+            string[] valueExpUpdateSecondTask = { topNote + " " + noteSecondTask, completedDateEndDateSecondTask, "Unallocated", completedDateEndDateSecondTask};
 
             detailTaskPage
                 .IsDetailTaskPage()
                 .ClickOnDetailTab()
-                .VerifyFieldAfterBulkUpdate(topNote, noteSecondTask, completedDateEndDateSecondTask, "Completed", completedDateEndDateSecondTask, "")
+                .VerifyFieldAfterBulkUpdate(topNote, noteSecondTask, completedDateEndDateSecondTask, "Unallocated", completedDateEndDateSecondTask, "")
                 //History tab
                 .ClickOnHistoryTab()
                 .VerifyTitleUpdate()
                 .VerifyHistoryTabUpdate(AutoUser55.DisplayName, completedDateDisplayed, CommonConstants.UpdateColumnHistoryTabSecond, valueExpUpdateSecondTask)
                 //Step 4: Line 56 - Verdict tab
                 .ClickOnVerdictTab()
-                .ClickOnTaskInformation()
-                .VerifyTaskInformationAfterBulkUpdating(completedDateEndDateSecondTask, "Completed", "", "Manually Confirmed on Web")
+                .ClickOnTaskInformation();
+            detailTaskPage
+                .VerifyTaskInformationAfterBulkUpdating(completedDateEndDateSecondTask, "Unallocated", "", "Manually Confirmed on Web")
                 .ClickOnTaskLineVerdictTab()
                 //Step 4: Line 56 - Task line tab
                 .ClickOnTaskLineTab()
@@ -545,7 +546,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<TasksListingPage>()
                 .ClickClearBtn()
                 .WaitForLoadingIconToDisappear();
-            string[] valueExpUpdateFirstTask = { topNote + " " + noteFirstTask, completedDateEndDateFirstTask, "Completed", completedDateEndDateFirstTask };
+            string[] valueExpUpdateFirstTask = { topNote + " " + noteFirstTask, completedDateEndDateFirstTask, "Unallocated", completedDateEndDateFirstTask };
             PageFactoryManager.Get<TasksListingPage>()
                 .FilterByTaskId(firstTaskId)
                 .ClickOnFirstRecord()
@@ -554,7 +555,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage
                 .IsDetailTaskPage()
                 .ClickOnDetailTab()
-                .VerifyFieldAfterBulkUpdate(topNote, noteFirstTask, completedDateEndDateFirstTask, "Completed", completedDateEndDateFirstTask, "")
+                .VerifyFieldAfterBulkUpdate(topNote, noteFirstTask, completedDateEndDateFirstTask, "Unallocated", completedDateEndDateFirstTask, "")
                 //Step 4: Line 56 - History tab
                 .ClickOnHistoryTab()
                 .VerifyTitleUpdate()
@@ -563,7 +564,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage
                 .ClickOnVerdictTab()
                 .ClickOnTaskInformation()
-                .VerifyTaskInformationAfterBulkUpdating(completedDateEndDateFirstTask, "Completed", "", "Manually Confirmed on Web");
+                .VerifyTaskInformationAfterBulkUpdating(completedDateEndDateFirstTask, "Unallocated", "", "Manually Confirmed on Web");
         }
 
         [Category("Bulk update Task form")]
