@@ -221,7 +221,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage DeallocateResourceType(string resourceType)
         {
             var target = GetFirstResult();
-            IWebElement source = WaitUtil.WaitForElementVisible(allocatedResourceType, resourceType);
+            IWebElement source = WaitUtil.WaitForElementVisible(allocatedResourceType, resourceType.ToUpper());
             DragAndDrop(source, target);
             return this;
         }
@@ -229,7 +229,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage DeallocateResourceTypeInRound(string resourceType)
         {
             var target = GetFirstResult();
-            IWebElement source = WaitUtil.WaitForElementVisible(allocatedResourceTypeInRound, resourceType);
+            IWebElement source = WaitUtil.WaitForElementVisible(allocatedResourceTypeInRound, resourceType.ToUpper());
             DragAndDrop(source, target);
             return this;
         }
@@ -357,7 +357,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage DragAndDropFirstResultToBlankResourceType(string resourceType)
         {
             var source = GetFirstResult();
-            IWebElement target = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType);
+            IWebElement target = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType.ToUpper());
             DragAndDrop(source, target);
             return this;
         }
@@ -365,7 +365,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage DragAndDropFirstResultToBlankResourceTypeInRound(string resourceType)
         {
             var source = GetFirstResult();
-            IWebElement target = WaitUtil.WaitForElementVisible(blankResourceTypeInRound, resourceType);
+            IWebElement target = WaitUtil.WaitForElementVisible(blankResourceTypeInRound, resourceType.ToUpper());
             DragAndDrop(source, target);
             return this;
         }
@@ -457,7 +457,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         [AllureStep]
         public ResourceAllocationPage RelocateResourceTypeFromRoundGroupToRoundGroup(string resourceType, int targetRow)
         {
-            IWebElement source = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType);
+            IWebElement source = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType.ToUpper());
             var targetElement = WaitUtil.WaitForElementVisible(roundGroup, targetRow.ToString());
             DragAndDrop(source, targetElement);
             return this;
@@ -466,7 +466,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         [AllureStep]
         public ResourceAllocationPage RelocateResourceTypeFromRoundGroupToRound(string resourceType, int targetRow)
         {
-            IWebElement source = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType);
+            IWebElement source = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType.ToUpper());
             var targetElements = WaitUtil.WaitForAllElementsVisible(roundContainer);
             DragAndDrop(source, targetElements[targetRow-1]);
             return this;
@@ -474,7 +474,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         [AllureStep]
         public ResourceAllocationPage RelocateResourceTypeFromRoundToRoundGroup(string resourceType, int whichRow)
         {
-            var source = WaitUtil.WaitForElementVisible(blankResourceTypeInRound, resourceType);
+            var source = WaitUtil.WaitForElementVisible(blankResourceTypeInRound, resourceType.ToUpper());
             var targetElement = WaitUtil.WaitForElementVisible(roundGroup, whichRow.ToString());
             DragAndDrop(source, targetElement);
             return this;
