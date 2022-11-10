@@ -564,13 +564,13 @@ namespace si_automated_tests.Source.Test.PartiesTests
         public void TC_076_PO_Number_Require_Is_True()
         {
             string todayUTCDate = CommonUtil.GetUtcTimeNow("dd/MM/yyyy");
-            int partyId = 73;
-            string partyName = "Greggs";
+            int partyId = 55;
+            string partyName = "Kiss the Hippo Coffee";
             string refValue = "test12 of PO 00011";
             string refValue1 = "upate012 test of PO";
             string PO_Number = "PO00111 test 12345";
-            string refUpdateValue = "Task reference: " + refValue;
-            string refUpdateValue1 = "Task reference: " + refValue1;
+            string refUpdateValue = refValue;
+            string refUpdateValue1 = refValue1;
             string PONumberCreatedValue = "PurchaseOrder = " + PO_Number;
 
             PageFactoryManager.Get<LoginPage>()
