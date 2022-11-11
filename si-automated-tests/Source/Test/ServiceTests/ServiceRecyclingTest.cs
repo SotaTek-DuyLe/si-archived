@@ -29,7 +29,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser39.UserName, AutoUser39.Password)
-                .IsOnHomePage(AutoUser44);
+                .IsOnHomePage(AutoUser39);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
@@ -189,9 +189,14 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SleepTimeInMiliseconds(1000);
             string assetType2 = "660L_19";
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.MainAssetDropDownButton);
-            serviceUnitDetail.SelectByDisplayValueOnUlElement(serviceUnitDetail.MainAssetSelect, assetType2);
+           // serviceUnitDetail
+           //     .SelectByDisplayValueOnUlElement(serviceUnitDetail.MainAssetSelect, assetType2);
+            //serviceUnitDetail.ClickOnElement(serviceUnitDetail.ConfirmButton);
+            //serviceUnitDetail.VerifyToastMessage("Successfully saved Asset");
+            serviceUnitDetail
+                .SelectAnyExistingAsset(assetType2);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.ConfirmButton);
-            serviceUnitDetail.VerifyToastMessage("Successfully saved Asset");
+            serviceUnitDetail.VerifyToastMessage("Success");
             serviceUnitDetail.VerifyAssetAddedByAddExistItemButton("660L")
                 .ClickAssetCheckBox(0)
                 .ClickOnElement(serviceUnitDetail.DeleteAssetItemButton);
@@ -217,7 +222,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             announcementDetailPage.SendKeys(announcementDetailPage.valiToInput, to);
             announcementDetailPage.ClickSaveBtn()
                 .WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage("Successfully saved Announcement")
+                .VerifyToastMessage("Success")
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             serviceUnitDetail.VerifyNewAnnouncement(announcement, announcementType, from, to);
@@ -253,7 +258,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             RiskRegisterModel riskRegisterModel = riskRegisterPage.GetReviewRiskData();
             riskRegisterPage.ClickOnElement(riskRegisterPage.FinishButton);
             riskRegisterPage.ClickOnElement(riskRegisterPage.OKButton);
-            riskRegisterPage.VerifyToastMessage("Successfully saved Risk Register")
+            riskRegisterPage.VerifyToastMessage("Success")
                 .SwitchToChildWindow(2)
                 .SwitchToFrame(serviceUnitDetail.RiskTabIframe);
             serviceUnitDetail.VerifyNewRiskRegister(riskRegisterModel);
@@ -286,7 +291,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.MobileInput, mobile);
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.NotesInput, notes);
             subscriptionsDetailPage.ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Subscription")
+                .VerifyToastMessage("Success")
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.SubscriptionTabIframe);
@@ -413,8 +418,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<AnnouncementDetailPage>()
                 .InputDetails("Collection services", text, impact, from, to)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Announcement")
-                .WaitUntilToastMessageInvisible("Successfully saved Announcement")
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success")
                 .CloseCurrentWindow()
                 .SwitchToChildWindow(2);
             announcementTaskTab.VerifyAnnouncementTaskData(text, "Collection services", from, to);
@@ -468,7 +473,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             RiskRegisterModel riskRegisterModel = riskRegisterPage.GetReviewRiskData();
             riskRegisterPage.ClickOnElement(riskRegisterPage.FinishButton);
             riskRegisterPage.ClickOnElement(riskRegisterPage.OKButton);
-            riskRegisterPage.VerifyToastMessage("Successfully saved Risk Register")
+            riskRegisterPage.VerifyToastMessage("Success")
                 .SwitchToChildWindow(2)
                 .SwitchToFrame(serviceUnitDetail.RiskTabIframe);
             serviceUnitDetail.VerifyNewRiskRegister(riskRegisterModel);
@@ -501,7 +506,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.MobileInput, mobile);
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.NotesInput, notes);
             subscriptionsDetailPage.ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Subscription")
+                .VerifyToastMessage("Success")
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.SubscriptionTabIframe);

@@ -453,6 +453,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
         [AllureStep]
+        public ServiceUnitDetailPage SelectAnyExistingAsset(string assetName)
+        {
+            ClickOnElement("//ul[@class='dropdown-menu inner']//li//span[text()='{0}']", assetName);
+            return this;
+        }
+
+        [AllureStep]
         public ServiceUnitDetailPage DoubleClickServiceUnitPoint(int rowIdx)
         {
             ServiceUnitPointTableEle.DoubleClickRow(rowIdx);
