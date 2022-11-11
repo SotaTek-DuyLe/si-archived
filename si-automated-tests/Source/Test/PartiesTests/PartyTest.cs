@@ -784,6 +784,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .WaitForLoadingIconToDisappear();
             detailPartyPage.ClickOnElement(detailPartyPage.OnStopButton);
             detailPartyPage.VerifyToastMessage("Success");
+            WaitUtil.TextToBePresentInElementValue(detailPartyPage.PartyStatus, "On Stop");
             detailPartyPage.VerifyElementText(detailPartyPage.PartyStatus, "On Stop");
             detailPartyPage.ClickCalendarTab()
                 .WaitForLoadingIconToDisappear();

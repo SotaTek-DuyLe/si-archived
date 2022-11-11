@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using NUnit.Allure.Core;
 using NUnit.Framework;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
@@ -528,7 +529,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             RoundGroupPage roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
             roundGroupPage.WaitForLoadingIconToDisappear();
             roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
-            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(5000);
             roundGroupPage.ClickScheduleDetail("181")
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
@@ -571,7 +573,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Round Groups")
                 .ExpandOption("REF1-AM")
                 .OpenOption("Monday ")
-                .SwitchNewIFrame();
+                .SwitchToFrame(By.XPath("//iframe[@name='main']"));
 
             PageFactoryManager.Get<RoundGroupPage>()
                 .WaitForLoadingIconToDisappear();
