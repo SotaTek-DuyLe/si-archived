@@ -807,6 +807,7 @@ namespace si_automated_tests.Source.Core
             {
                 SleepTimeInMiliseconds(50);
                 notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
+                retryCount++;
             }
             CollectionAssert.AreEquivalent(messages, notifyMsgs);
             return this;
