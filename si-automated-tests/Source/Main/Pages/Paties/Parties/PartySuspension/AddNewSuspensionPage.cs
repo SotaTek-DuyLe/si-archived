@@ -178,6 +178,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
         [AllureStep]
         public AddNewSuspensionPage IsAddSuspensionModalInVisible()
         {
+            WaitUtil.WaitForElementInvisible(modal);
             Assert.IsTrue(IsControlUnDisplayed(modal));
             return this;
         }
