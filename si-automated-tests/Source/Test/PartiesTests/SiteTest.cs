@@ -31,6 +31,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
     public class SiteTest : BaseTest
     {
         [Category("140_Task_Locked Tasks")]
+        [Category("Huong")]
         [Test(Description = "Verify that Site form displays  'Lock' and 'Lock Reference' fields")]
         [Order(1)]
         public void TC_140_1_Verify_that_Site_form_displays_Lock_and_Lock_Reference_fields()
@@ -60,6 +61,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("140_Task_Locked Tasks")]
+        [Category("Huong")]
         [Test(Description = "Verify that Service Unit form displays 'Lock' and 'Lock Reference' fields")]
         [Order(2)]
         public void TC_140_2_Verify_that_ServiceUnit_form_displays_Lock_and_Lock_Reference_fields()
@@ -96,6 +98,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("140_Task_Locked Tasks")]
+        [Category("Huong")]
         [Test(Description = "Verify that Site's  'locked' and 'Lock Reference' values are inherited by SU(s) created for this Site")]
         [Order(3)]
         public void TC_140_3_Verify_that_Site_Locked_and_Lock_Reference_values_are_inherited_by_SU_created_for_this_Site()
@@ -158,6 +161,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("140_Task_Locked Tasks")]
+        [Category("Huong")]
         [Test(Description = "Verify that individual Service Unit (SU) can be unlocked ")]
         [Order(4)]
         public void TC_140_4_Verify_that_individual_Service_Unit_can_be_unlocked()
@@ -215,6 +219,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("140_Task_Locked Tasks")]
+        [Category("Huong")]
         [Test(Description = "Verify that if user attempts to reallocate Tasks which are locked (Task -> ServiceUnits.ISLocked = TRUE) from Round Instance in Core Round State other than 'Outstanding', then warning message will display")]
         [Order(5)]
         public void TC_140_5_Verify_that_if_user_attempts_to_reallocate_Tasks()
@@ -275,6 +280,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("143_1_Task Allocation_Rellocation of Round Legs and Tasks")]
+        [Category("Huong")]
         [Test(Description = "Verify that Round Legs are successfully reallocated to a new Round Instance")]
         public void TC_143_1_Verify_that_Round_Legs_are_successfully_reallocated_to_a_new_Round_Instance()
         {
@@ -322,6 +328,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("143_2_Task Allocation_Rellocation of Round Legs and Tasks")]
+        [Category("Huong")]
         [Test(Description = "Verify that Tasks are successfully reallocated to a new Round Instance")]
         public void TC_143_2_Verify_that_Tasks_are_successfully_reallocated_to_a_new_Round_Instance()
         {
@@ -366,6 +373,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("143_3_Task Allocation_Rellocation of Round Legs and Tasks")]
+        [Category("Huong")]
         [Test(Description = "Verify that Round Leg Instance will be reallocated if ALL Tasks under this RLI are reallocated ")]
         public void TC_143_3_Verify_that_Round_Leg_Instance_will_be_reallocated_if_ALL_Tasks_under_this_RLI_are_reallocated()
         {

@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
     public class PartyDataTest : BaseTest
     {
         [Category("PartyData")]
+        [Category("Huong")]
         [Test]
         public void TC_039_Save_Extend_Data_From_Partytype_Customer()
         {

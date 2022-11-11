@@ -36,6 +36,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         }
 
         [Category("RoundCalendarTests")]
+        [Category("Huong")]
         [Test(Description = "Verify that Round Calendar displays correctly")]
         public void TC_135_1_Verify_that_Round_Calendar_displays_correctly()
         {
@@ -123,6 +124,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         }
 
         [Category("RoundCalendarTests")]
+        [Category("Huong")]
         [Test(Description = "Verify that user can find a Round using 'Round Finder' option")]
         public void TC_135_2_Verify_that_user_can_find_a_Round_using_Round_Finder_option()
         {

@@ -22,6 +22,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
     public class ServiceUnitPointTest : BaseTest
     {
         [Category("ServiceUnitPoint")]
+        [Category("Huong")]
         [Test(Description = "Verify that correct info displays in add Service Unit Point pop up")]
         public void TC_166_Service_Unit_Point()
         {
@@ -145,7 +146,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         [Category("ServiceUnitPoint")]
         [Category("Huong")]
         [Test(Description = "Service Unit map does not display serviced points")]
-        public void TC_184_Service_Unit_map_does_not_display_serviced_points()
+        public void TC_185_Service_Unit_map_does_not_display_serviced_points()
         {
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl + "web/service-units/230011");

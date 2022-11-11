@@ -24,6 +24,7 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
     public class DriverDebriefTest : BaseTest
     {
         [Category("Driver Debrief")]
+        [Category("Huong")]
         [Test(Description = "Driver Debrief - GPS event matching - tasks are not immediately updated to show changes to task and task lines after matching/unmatching (bug fix) ")]
         public void TC_194_Driver_Debrief_GPS_event_matching()
         {
@@ -78,6 +79,7 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
         }
 
         [Category("Driver Debrief")]
+        [Category("Huong")]
         [Test(Description = "Verify whether Debrief form's GPS events - Unmatch is working as expected")]
         public void TC_172_1_Debrief_Results_screen()
         {

@@ -45,6 +45,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         }
 
         [Category("Add Suspension")]
+        [Category("Huong")]
         [Test(Description = "Add new suspension")]
         public void TC_089_Add_New_Suspension()
         {
@@ -153,6 +154,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         }
 
         [Category("Edit Suspension")]
+        [Category("Huong")]
         [Test(Description = "Edit suspension")]
         public void TC_090_Edit_Suspension()
         {
@@ -235,6 +237,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         }
 
         [Category("Delete Suspension")]
+        [Category("Huong")]
         [Test(Description = "Delete suspension")]
         public void TC_181_Deleting_Service_Suspensions()
         {

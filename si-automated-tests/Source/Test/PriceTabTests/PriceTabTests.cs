@@ -26,6 +26,7 @@ namespace si_automated_tests.Source.Test.PriceTabTests
     public class PriceTabTests : BaseTest
     {
         [Category("Create price record")]
+        [Category("Huong")]
         [Test(Description = "Verify whether the Minimum price value saved on newly created prices from Party")]
         public void TC_171_1_Verify_whether_the_Minimum_price_value_saved_on_newly_created_prices_from_Party()
         {
@@ -65,6 +66,7 @@ namespace si_automated_tests.Source.Test.PriceTabTests
         }
 
         [Category("Create price record")]
+        [Category("Huong")]
         [Test(Description = "Verify whether the Minimum price value saved on newly created prices from Agreement")]
         public void TC_171_2_Verify_whether_the_Minimum_price_value_saved_on_newly_created_prices_from_Agreement()
         {
@@ -103,6 +105,7 @@ namespace si_automated_tests.Source.Test.PriceTabTests
         }
 
         [Category("Create price record")]
+        [Category("Huong")]
         [Test(Description = "Verify whether the Minimum price value saved on newly created prices from Contracts")]
         public void TC_171_3_Verify_whether_the_Minimum_price_value_saved_on_newly_created_prices_from_Contracts()
         {
