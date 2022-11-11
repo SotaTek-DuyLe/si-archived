@@ -217,7 +217,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
         }
 
         [Category("TaskConfirmation")]
-        [Category("Chang")]
+        [Category("Huong")]
         [Test(Description = "Verify that worksheet grid is loading in round instance from")]
         public void TC_186_Task_confirmation_screen_loads_in_the_RI_worksheet_grid()
         {

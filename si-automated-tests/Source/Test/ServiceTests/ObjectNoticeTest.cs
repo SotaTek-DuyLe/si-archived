@@ -22,6 +22,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
     public class ObjectNoticeTest : BaseTest
     {
         [Category("Verify if a new Object Notice can be created from Contracts")]
+        [Category("Huong")]
         [Test]
         public void TC_123_1_Verify_if_a_new_Object_Notice_can_be_created_from_Contracts()
         {
@@ -103,6 +104,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Verify if a new Object Notice can be created from Region")]
+        [Category("Huong")]
         [Test]
         public void TC_123_2_Verify_if_a_new_Object_Notice_can_be_created_from_Region()
         {
@@ -184,6 +186,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Verify if a new Object Notice can be created from Service Groups")]
+        [Category("Huong")]
         [Test]
         public void TC_123_3_Verify_if_a_new_Object_Notice_can_be_created_from_Service_Groups()
         {
@@ -267,6 +270,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Verify if a new Object Notice can be created from Service")]
+        [Category("Huong")]
         [Test]
         public void TC_123_4_Verify_if_a_new_Object_Notice_can_be_created_from_Service()
         {
@@ -351,6 +355,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Verify if a new Object Notice can be created from Round Groups")]
+        [Category("Huong")]
         [Test]
         public void TC_123_5_Verify_if_a_new_Object_Notice_can_be_created_from_Round_Groups()
         {
@@ -437,6 +442,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Verify if a new Object Notice can be created from Round")]
+        [Category("Huong")]
         [Test]
         public void TC_123_6_Verify_if_a_new_Object_Notice_can_be_created_from_Round()
         {
@@ -524,6 +530,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Verify if a new Object Notice can be created from Round Instance")]
+        [Category("Huong")]
         [Test]
         public void TC_123_7_Verify_if_a_new_Object_Notice_can_be_created_from_Round_Instance()
         {

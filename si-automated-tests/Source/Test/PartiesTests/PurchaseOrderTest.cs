@@ -24,6 +24,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
     public class PurchaseOrderTest : BaseTest
     {
         [Category("Agreement")]
+        [Category("Huong")]
         [Test(Description = "Verify that Agreement with multiple agreement lines for the same Site/Service/Asset Types/ Products creates correct Mobilization and when retired then it creates correct Demobilization tasks"), Order(1)]
         public void TC_149_A_Verify_that_Agreement_with_multiple_agreement_lines()
         {
@@ -193,6 +194,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("Agreement")]
+        [Category("Huong")]
         [Test(Description = "Verify that Service tasks were created correctly as result of creating Agreement with 2 Agreement Lines in TC 149A"), Order(2)]
         public void TC_149_B_Verify_that_Service_tasks_were_created_correctly_as_result_of_creating_Agreement_with_2_Agreement_Lines_in_TC_149A()
         {
@@ -322,6 +324,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("Agreement")]
+        [Category("Huong")]
         [Test(Description = "Verify that Demobilization tasks were created correctly as result of editing Agreement with 2 Agreement Lines in TC 149B"), Order(3)]
         public void TC_149_C_Verify_that_Demobilization_tasks_were_created_correctly_as_result_of_editing_Agreement_with_2_Agreement_Lines_in_TC_149B()
         {
@@ -376,6 +379,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("PurchaseOrder")]
+        [Category("Huong")]
         [Test, Order(4)]
         public void TC_074_Add_Purchase_Order()
         {
@@ -469,6 +473,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             }
         }
         [Category("PurchaseOrder")]
+        [Category("Huong")]
         [Test, Order(5)]
         public void TC_075_Remove_Purchase_Order()
         {
@@ -560,6 +565,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("PurchaseOrder")]
+        [Category("Huong")]
         [Test, Order(6)]
         public void TC_076_PO_Number_Require_Is_True()
         {

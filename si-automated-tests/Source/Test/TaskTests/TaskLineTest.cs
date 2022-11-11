@@ -21,6 +21,7 @@ namespace si_automated_tests.Source.Test.TaskTests
     public class TaskLineTest : BaseTest
     {
         [Category("TaskLine")]
+        [Category("Huong")]
         [Test(Description = "Verify whether the history in TaskLine, is updating the Min and Max Asset and Product Qty correctly")]
         public void TC_170_Verify_whether_the_history_in_TaskLine_is_updating_the_Min_and_Max_Asset_and_Product_Qty_correctly()
         {
@@ -89,6 +90,7 @@ namespace si_automated_tests.Source.Test.TaskTests
         }
 
         [Category("AgreementTask")]
+        [Category("Huong")]
         [Test(Description = "Verify whether Taskline form is inheriting Completed Date from Task form when user set Not Completed Status on Task form(when core state default is tick)")]
         public void TC_204_Taskline_is_not_inheriting_Completed_Date()
         {
@@ -143,6 +145,7 @@ namespace si_automated_tests.Source.Test.TaskTests
         }
 
         [Category("AgreementTask")]
+        [Category("Huong")]
         [Test(Description = "")]
         public void TC_150_Taskstate_Overrides_Tasklinestate()
         {
@@ -506,6 +509,7 @@ namespace si_automated_tests.Source.Test.TaskTests
         }
 
         [Category("TaskLine")]
+        [Category("Huong")]
         [Test(Description = "Verify that it is possible to set  tasks where Task Line State Resolution Code is not configured")]
         public void TC_165_Task_Line_State_Resolution_Code()
         {

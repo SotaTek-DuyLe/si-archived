@@ -21,6 +21,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
     public class AgreementDataTest : BaseTest
     {
         [Category("AgreementTask")]
+        [Category("Huong")]
         [Test]
         public void TC_040_Save_Extend_Data_From_Agreement()
         {
@@ -84,6 +85,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("AgreementLine")]
+        [Category("Huong")]
         [Test(Description = "Verify that 'Save' and 'Save and Close' buttons display on an Agreemen Line form")]
         public void TC_151_Agreement_Line_form_Save_and_Save_Close_buttons()
         {

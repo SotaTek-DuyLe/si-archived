@@ -23,6 +23,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
     public class RoundGroupTest : BaseTest
     {
         [Category("109_Add a Round Group")]
+        [Category("Huong")]
         [Test]
         public void TC_109_Add_Round_Group()
         {
@@ -72,6 +73,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("110_Add Round on a Round Group")]
+        [Category("Huong")]
         [Test]
         public void TC_110_Add_Round_on_a_Round_Group()
         {
@@ -135,6 +137,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("111_Add Default Resource on a Round Group")]
+        [Category("Huong")]
         [Test]
         public void TC_111_Add_Default_Resource_on_a_Round_Group()
         {
@@ -264,6 +267,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("113_Retire Default Resource on a Round Group")]
+        [Category("Huong")]
         [Test]
         public void TC_113_Retire_Default_Resource_on_a_Round_Group()
         {
@@ -304,6 +308,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("114_Add Default Resource on Round")]
+        [Category("Huong")]
         [Test]
         public void TC_114_Add_Default_Resource_on_a_Round()
         {
@@ -392,6 +397,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("115_Retire Default Resource on a Round ")]
+        [Category("Huong")]
         [Test]
         public void TC_115_Retire_Default_Resource_On_A_Round()
         {
@@ -443,6 +449,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("116_Add Schedule on Round")]
+        [Category("Huong")]
         [Test]
         public void TC_116_Add_Schedule_On_A_Round()
         {
@@ -505,6 +512,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("117_Retire existing Round schedule")]
+        [Category("Huong")]
         [Test]
         public void TC_117_Retire_Existing_Round_Schedule()
         {
@@ -554,6 +562,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("119_Add and Remove Round Sites on a Round")]
+        [Category("Huong")]
         [Test]
         public void TC_119_Add_and_Remove_Round_Sites_on_a_Round()
         {
@@ -598,6 +607,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Round Group")]
+        [Category("Huong")]
         [Test]
         public void TC_169_1_Round_and_Round_Group_issues()
         {

@@ -20,6 +20,7 @@ namespace si_automated_tests.Source.Test.ReceiptTests
     public class CreateReceiptTest : BaseTest
     {
         [Category("102_Create a Receipt")]
+        [Category("Huong")]
         [Test]
         public void TC_102_Create_a_Receipt()
         {

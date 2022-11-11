@@ -153,6 +153,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("SiteAddress")]
+        [Category("Huong")]
         [Test]
         public void TC_007_CreateASiteFromPartyDetailsTab()
         {
@@ -231,6 +232,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("SiteAddress")]
+        [Category("Huong")]
         [Test]
         public void TC_008_CreateASiteFromPartySideTab()
         {
@@ -305,6 +307,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("SiteAddress")]
+        [Category("Huong")]
         [Test]
         public void TC_009_CreateASiteNegaTive()
         {
@@ -709,6 +712,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("Edit Party")]
+        [Category("Huong")]
         [Test(Description = "Verify that Tasks in Core Task State: Closed, Cancelled, Failed don't display 'On Stop' icon when a Party is On Stop")]
         public void TC_164_Tasks_On_Stop_Status_icon()
         {

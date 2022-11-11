@@ -26,6 +26,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
     public class TaskAllocationTest : BaseTest
     {
         [Category("TaskAllocationTests")]
+        [Category("Huong")]
         [Test(Description = "152_Task Allocation>Outstanding Tasks")]
         public void TC_152_Verify_that_Outstanding_tasks_display_in_the_Task_Allocation()
         {
@@ -77,6 +78,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         }
 
         [Category("TaskAllocationTests")]
+        [Category("Huong")]
         [Test(Description = "156_Reallocation Reasons-Round Legs and Tasks")]
         public void TC_156_1_Verify_that_Reallocation_reasons_display_correctly_and_are_set_when_user_reallocates_item_by_dragging_abd_dropping_them_TASKS()
         {
@@ -142,6 +144,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         }
 
         [Category("TaskAllocationTests")]
+        [Category("Huong")]
         [Test(Description = "156_Reallocation Reasons-Round Legs and Tasks")]
         public void TC_156_2_Verify_that_Reallocation_reasons_display_correctly_and_are_set_when_user_reallocates_item_by_using_REALLOCATE_button()
         {
@@ -227,6 +230,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         }
 
         [Category("TaskAllocationTests")]
+        [Category("Huong")]
         [Test(Description = "182_Round Instance Events grid")]
         public void TC_182_Round_Instance_Events_grid()
         {
@@ -281,6 +285,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         }
 
         [Category("TaskAllocationTests")]
+        [Category("Huong")]
         [Test(Description = "190_A negative slot count appears on round from which the tasks were reallocated")]
         public void TC_190_A_negative_slot_count_appears_on_round_from_which_the_tasks_were_reallocated()
         {

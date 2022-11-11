@@ -31,6 +31,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
     public class EditAgreementLineTest_022_029 : BaseTest
     {
         [Category("EditAgreement")]
+        [Category("Huong")]
         [Test(Description = "022A_Create Agreement without Mobilization and Demobilization phases")]
         public void TC_022()
         {
@@ -251,6 +252,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("EditAgreement")]
+        [Category("Huong")]
         [Test(Description = "023A_Edit Agreement Line (Increase Asset Type Qty) on active Agreement without Mobilization and Demobilization phases")]
         public void TC_023()
         {
@@ -502,6 +504,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("EditAgreement")]
+        [Category("Huong")]
         [Test(Description = "Edit Agreement Line (Decrease Asset Type Qty) on active Agreement without Mobilization and Demobilization phases")]
         public void TC_024()
         {
@@ -742,6 +745,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("EditAgreement")]
+        [Category("Huong")]
         [Test(Description = "Edit Agreement Line (Remove Asset Type and Add new Asset Type) on active Agreement without Mobilization and Demobilization phases")]
         public void TC_025()
         {
@@ -963,6 +967,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("EditAgreement")]
+        [Category("Huong")]
         [Test]
         public void TC_026_A()
         {
@@ -1135,6 +1140,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("EditAgreement")]
+        [Category("Huong")]
         [Test]
         public void TC_026_BC()
         {
@@ -1430,6 +1436,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("EditAgreement")]
+        [Category("Huong")]
         [Test]
         public void TC_027_A()
         {
@@ -1601,6 +1608,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("EditAgreement")]
+        [Category("Huong")]
         [Test]
         public void TC_027_BC()
         {
@@ -1883,6 +1891,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("EditAgreement")]
+        [Category("Huong")]
         [Test]
         public void TC_029A()
         {
@@ -1931,6 +1940,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .VerifyAgreementLineDisappear();
         }
         [Category("EditAgreement")]
+        [Category("Huong")]
         [Test]
         public void TC_029B()
         {
@@ -1992,6 +2002,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             }
         }
         [Category("EditAgreement")]
+        [Category("Huong")]
         [Test]
         public void TC_029C()
         {

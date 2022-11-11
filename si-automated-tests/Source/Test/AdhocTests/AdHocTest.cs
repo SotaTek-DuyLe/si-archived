@@ -250,6 +250,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
         }
 
         [Category("Create ad-hoc task")]
+        [Category("Huong")]
         [Test(Description = "Create ad-hoc task"), Order(3)]
         public void TC_091_CreateAdHocTask()
         {
@@ -315,6 +316,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
         }
 
         [Category("Create Ad-Hoc Task from an Agreement form")]
+        [Category("Huong")]
         [Test(Description = "Create ad-hoc task from an Agreement form"), Order(4)]
         public void TC_092_CreateAdHocTask()
         {

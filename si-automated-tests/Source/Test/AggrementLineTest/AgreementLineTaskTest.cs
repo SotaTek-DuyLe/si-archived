@@ -26,6 +26,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
     public class AgreementLineTaskTest : BaseTest
     {
         [Category("AgreementTask")]
+        [Category("Huong")]
         [Test]
         public void TC_072_Delete_Agreement_Line_Task()
         {
@@ -131,6 +132,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("AgreementTask")]
+        [Category("Huong")]
         [Test]
         public void TC_073_Bulk_Update_Tasks_A()
         {
@@ -258,6 +260,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("AgreementTask")]
+        [Category("Huong")]
         [Test]
         public void TC_073_Bulk_Update_Tasks_B()
         {
@@ -385,6 +388,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("AgreementTask")]
+        [Category("Huong")]
         [Test(Description = "Verify whether task form is loading when childtask line is there")]
         public void TC_173_Tasklines_with_details_loaded_in_Task_Form()
         {
@@ -413,6 +417,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             agreementTaskDetailPage.VerifyHeaderColumn();
         }
 
+
+        [Category("Huong")]
         [Test(Description = "Verify that 'Requested Delivery Date' displays correctly on New Agreement with Start Date <current Date")]
         public void TC_180_1_Agreements_displaying_Requested_Delivery_Date()
         {
@@ -549,6 +555,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("AgreementTask")]
+        [Category("Huong")]
         [Test(Description = "Verify that 'Requested Delivery Date' displays when user creates new Agreement Line and Asset Qty = 1 on NEW Agreement")]
         public void TC_180_2_Agreements_displaying_Requested_Delivery_Date()
         {
@@ -661,6 +668,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("AgreementTask")]
+        [Category("Huong")]
         [Test(Description = "Verify whether productcode field is not resetting value to 0 when user update taskline from task form")]
         public void TC_174_1_Taskline_Productcode()
         {
@@ -718,6 +726,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("AgreementTask")]
+        [Category("Huong")]
         [Test(Description = "Verify whether any other field in taskline form clearing when user update taskline from task form")]
         public void TC_174_2_Taskline_Productcode()
         {
@@ -762,6 +771,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         }
 
         [Category("AgreementTask")]
+        [Category("Huong")]
         [Test(Description = "Verify that a product code has been added to agreement line wizard")]
         public void TC_193_Add_product_code_description_to_the_AgreementLineAssetProduct()
         {
