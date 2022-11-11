@@ -234,5 +234,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPage.WaitForLoadingIconToDisappear();
             serviceUnitPage.VerifyInputValue(serviceUnitPage.StreetInput, "CHURCH TERRACE,TW10,RICHMOND");
         }
+
     }
 }

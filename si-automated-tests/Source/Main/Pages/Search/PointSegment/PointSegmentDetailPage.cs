@@ -40,9 +40,10 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
         private const string columnInRowPointHistoryTab = "//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private readonly By filterInputById = By.XPath("//div[@id='pointHistory-tab']//div[contains(@class, 'l2 r2')]/descendant::input");
 
-        //ALL SERVICES TAB
+        //ACTIVE SERVICES TAB
         private readonly By activeServicesTab = By.CssSelector("a[aria-controls='activeServices-tab']");
         private readonly By serviceWithoutServiceUnit = By.XPath("//div[@class='parent-row']//span[@title='0']");
+        private readonly By serviceUnitAtFirstRow = By.XPath("//div[@class='parent-row'][1]//div[@title='Open Service Unit']/span");
 
         private readonly By allActiveServiceParentRow = By.CssSelector("div.parent-row");
         private readonly By serviceUnitParent = By.XPath("//div[@class='parent-row']//div[@title='Open Service Unit']");
@@ -138,7 +139,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
             return this;
         }
 
-        //ACTIVE SERVICE TAB
+        #region ACTIVE SERVICE TAB
         [AllureStep]
         public PointSegmentDetailPage ClickOnActiveServiceTab()
         {
@@ -274,7 +275,15 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
             return this;
         }
 
-        //INSPECTION MODEL
+        [AllureStep]
+        public PointSegmentDetailPage ClickOnFirstServiceUnit()
+        {
+            ClickOnElement(serviceUnitAtFirstRow);
+            return this;
+        }
+        #endregion
+
+        #region INSPECTION MODEL
         [AllureStep]
         public PointSegmentDetailPage IsCreateInspectionPopup()
         {
@@ -357,6 +366,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
             ClickOnElement("//a[@id='echo-notify-success-link']");
             return this;
         }
+        #endregion
 
         //POINT HISTORY TAB
         [AllureStep]
@@ -511,5 +521,24 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
 
             return this;
         }
+
+        #region MAP TAB
+        private readonly By mapTab = By.CssSelector("a[aria-controls='map-tab']");
+        private readonly By segmentDescInMapTab = By.XPath("//td[text()='Segment']/following-sibling::td");
+
+        [AllureStep]
+        public PointSegmentDetailPage ClickOnMapTab()
+        {
+            ClickOnElement(mapTab);
+            return this;
+        }
+
+        [AllureStep]
+        public string GetDescInMapTab()
+        {
+            return GetElementText(segmentDescInMapTab);
+        }
+
+        #endregion
     }
 }

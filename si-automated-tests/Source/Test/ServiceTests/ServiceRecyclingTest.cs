@@ -1,5 +1,4 @@
-﻿using NUnit.Allure.Core;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models.Services;
@@ -17,11 +16,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
     public class ServiceRecyclingTest : BaseTest
     {
         [Category("Recycling")]
+        [Category("Chang")]
         [Test(Description = "Restrict Edit Feature on new style forms on Service Unit tab")]
         public void TC_128_1_Restrict_Edit_Feature_on_new_style_forms_on_Service_Unit()
         {
             string valueStreet = "COURT CLOSE AVENUE,TW2,TWICKENHAM";
             string serviceUnitId = "223695";
+            string serviceName = "Communal Recycling";
 
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
@@ -35,10 +36,12 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RM)
                 .ExpandOption("Recycling")
-                .OpenOption("Communal Recycling");
+                .OpenOption(serviceName);
             ServiceRecyclingPage sectorRecycling = PageFactoryManager.Get<ServiceRecyclingPage>();
             sectorRecycling.SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
+            sectorRecycling
+                .WaitForServiceRecyclingPageLoaded(serviceName);
 
             //Verify that user is unable to update sections of the forms when the restrict edit is set in the service
             sectorRecycling
@@ -186,9 +189,14 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SleepTimeInMiliseconds(1000);
             string assetType2 = "660L_19";
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.MainAssetDropDownButton);
-            serviceUnitDetail.SelectByDisplayValueOnUlElement(serviceUnitDetail.MainAssetSelect, assetType2);
+           // serviceUnitDetail
+           //     .SelectByDisplayValueOnUlElement(serviceUnitDetail.MainAssetSelect, assetType2);
+            //serviceUnitDetail.ClickOnElement(serviceUnitDetail.ConfirmButton);
+            //serviceUnitDetail.VerifyToastMessage("Successfully saved Asset");
+            serviceUnitDetail
+                .SelectAnyExistingAsset(assetType2);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.ConfirmButton);
-            serviceUnitDetail.VerifyToastMessage("Successfully saved Asset");
+            serviceUnitDetail.VerifyToastMessage("Success");
             serviceUnitDetail.VerifyAssetAddedByAddExistItemButton("660L")
                 .ClickAssetCheckBox(0)
                 .ClickOnElement(serviceUnitDetail.DeleteAssetItemButton);
@@ -214,7 +222,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             announcementDetailPage.SendKeys(announcementDetailPage.valiToInput, to);
             announcementDetailPage.ClickSaveBtn()
                 .WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage("Successfully saved Announcement")
+                .VerifyToastMessage("Success")
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             serviceUnitDetail.VerifyNewAnnouncement(announcement, announcementType, from, to);
@@ -250,7 +258,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             RiskRegisterModel riskRegisterModel = riskRegisterPage.GetReviewRiskData();
             riskRegisterPage.ClickOnElement(riskRegisterPage.FinishButton);
             riskRegisterPage.ClickOnElement(riskRegisterPage.OKButton);
-            riskRegisterPage.VerifyToastMessage("Successfully saved Risk Register")
+            riskRegisterPage.VerifyToastMessage("Success")
                 .SwitchToChildWindow(2)
                 .SwitchToFrame(serviceUnitDetail.RiskTabIframe);
             serviceUnitDetail.VerifyNewRiskRegister(riskRegisterModel);
@@ -283,7 +291,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.MobileInput, mobile);
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.NotesInput, notes);
             subscriptionsDetailPage.ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Subscription")
+                .VerifyToastMessage("Success")
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.SubscriptionTabIframe);
@@ -299,6 +307,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Recycling")]
+        [Category("Chang")]
         [Test(Description = "Restrict Edit Feature on new style forms on Service Task tab")]
         public void TC_128_2_Restrict_Edit_Feature_on_new_style_forms_on_Service_Task()
         {
@@ -326,6 +335,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToLastWindow();
             var serviceTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
             serviceTaskPage.WaitForLoadingIconToDisappear();
+            serviceTaskPage
+                .IsServiceTaskPage();
             serviceTaskPage.ClickOnElement(serviceTaskPage.DetailTab);
             serviceTaskPage.VerifyElementEnable(serviceTaskPage.StartDateInput, false)
                 .VerifyElementEnable(serviceTaskPage.EndDateInput, false)
@@ -407,8 +418,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<AnnouncementDetailPage>()
                 .InputDetails("Collection services", text, impact, from, to)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Announcement")
-                .WaitUntilToastMessageInvisible("Successfully saved Announcement")
+                .VerifyToastMessage("Success")
+                .WaitUntilToastMessageInvisible("Success")
                 .CloseCurrentWindow()
                 .SwitchToChildWindow(2);
             announcementTaskTab.VerifyAnnouncementTaskData(text, "Collection services", from, to);
@@ -462,7 +473,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             RiskRegisterModel riskRegisterModel = riskRegisterPage.GetReviewRiskData();
             riskRegisterPage.ClickOnElement(riskRegisterPage.FinishButton);
             riskRegisterPage.ClickOnElement(riskRegisterPage.OKButton);
-            riskRegisterPage.VerifyToastMessage("Successfully saved Risk Register")
+            riskRegisterPage.VerifyToastMessage("Success")
                 .SwitchToChildWindow(2)
                 .SwitchToFrame(serviceUnitDetail.RiskTabIframe);
             serviceUnitDetail.VerifyNewRiskRegister(riskRegisterModel);
@@ -495,7 +506,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.MobileInput, mobile);
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.NotesInput, notes);
             subscriptionsDetailPage.ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Subscription")
+                .VerifyToastMessage("Success")
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.SubscriptionTabIframe);

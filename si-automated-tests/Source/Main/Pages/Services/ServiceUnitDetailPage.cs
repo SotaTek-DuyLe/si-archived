@@ -198,6 +198,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string startDateByServuceUnitPoint = "//div[@id='serviceUnitPoints-tab']//a[text()='{0}']/parent::td/following-sibling::td//input[@id='startDate.id']";
         private readonly string typeByServiceUnitPoint = "//div[@id='serviceUnitPoints-tab']//a[text()='{0}']/parent::td/following-sibling::td//select[@id='serviceUnitPointType.id']";
         private readonly string descAtAnyRow = "//div[@id='serviceUnitPoints-tab']//tr[{0}]//a";
+        private readonly string serviceUnitPointById = "//td[text()='{0}']/preceding-sibling::td";
         private readonly By firstRowAtServiceUnitPointTab = By.XPath("//div[@id='serviceUnitPoints-tab']//tbody//tr[1]");
 
         public TableElement ServiceUnitPointTableEle
@@ -452,6 +453,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
         [AllureStep]
+        public ServiceUnitDetailPage SelectAnyExistingAsset(string assetName)
+        {
+            ClickOnElement("//ul[@class='dropdown-menu inner']//li//span[text()='{0}']", assetName);
+            return this;
+        }
+
+        [AllureStep]
         public ServiceUnitDetailPage DoubleClickServiceUnitPoint(int rowIdx)
         {
             ServiceUnitPointTableEle.DoubleClickRow(rowIdx);
@@ -499,6 +507,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceUnitDetailPage ClickOnDetailTab()
         {
             ClickOnElement(DetailTab);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage DoubleClickOnServiceUnitPointId(string pointId)
+        {
+            DoubleClickOnElement(serviceUnitPointById, pointId);
             return this;
         }
 

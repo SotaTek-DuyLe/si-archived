@@ -58,6 +58,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(mapTab);
             return this;
         }
+
         [AllureStep]
         public ServiceUnitPointDetailPage ClickOnDetailTab()
         {

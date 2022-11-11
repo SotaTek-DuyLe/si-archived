@@ -875,7 +875,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .GetTaskId();
             CommonFinder finder = new CommonFinder(DbContext);
             List<TaskDBModel> taskDBModels = finder.GetTask(int.Parse(firstTaskId));
-            Assert.AreEqual(1, taskDBModels[0].proximityalert);
+            Assert.IsTrue(taskDBModels[0].proximityalert, "proximityalert is not correct");
 
             //Second taskId
             PageFactoryManager.Get<TaskConfirmationPage>()

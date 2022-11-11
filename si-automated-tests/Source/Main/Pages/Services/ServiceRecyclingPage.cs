@@ -2,10 +2,8 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
-using si_automated_tests.Source.Main.Constants;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
@@ -13,6 +11,20 @@ namespace si_automated_tests.Source.Main.Pages.Services
     {
         public readonly By PointTypeSelect = By.XPath("//select[@id='pointType.id']");
         public readonly By RestrictEditCheckbox = By.XPath("//input[contains(@data-bind, 'restrictEdit.id')]");
+        private readonly By titleService = By.XPath("//span[text()='Service']");
+        private readonly By serviceInput = By.CssSelector("input[name='service']");
+
+        //DYNAMIC
+        private readonly string serviceName = "//h5[text()='{0}']";
+
+        [AllureStep]
+        public ServiceRecyclingPage WaitForServiceRecyclingPageLoaded(string serviceNameValue)
+        {
+            WaitUtil.WaitForElementVisible(titleService);
+            WaitUtil.WaitForElementVisible(serviceInput);
+            WaitUtil.WaitForElementVisible(serviceName, serviceNameValue);
+            return this;
+        }
 
         [AllureStep]
         public ServiceRecyclingPage SelectRandomPointType()
