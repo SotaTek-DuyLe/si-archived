@@ -529,7 +529,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             RoundGroupPage roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
             roundGroupPage.WaitForLoadingIconToDisappear();
             roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
-            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(5000);
             roundGroupPage.ClickScheduleDetail("181")
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
