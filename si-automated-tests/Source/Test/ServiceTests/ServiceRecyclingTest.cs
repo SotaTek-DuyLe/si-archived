@@ -1,5 +1,4 @@
-﻿using NUnit.Allure.Core;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models.Services;
@@ -17,28 +16,32 @@ namespace si_automated_tests.Source.Test.ServiceTests
     public class ServiceRecyclingTest : BaseTest
     {
         [Category("Recycling")]
+        [Category("Chang")]
         [Test(Description = "Restrict Edit Feature on new style forms on Service Unit tab")]
         public void TC_128_1_Restrict_Edit_Feature_on_new_style_forms_on_Service_Unit()
         {
             string valueStreet = "COURT CLOSE AVENUE,TW2,TWICKENHAM";
             string serviceUnitId = "223695";
+            string serviceName = "Communal Recycling";
 
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser39.UserName, AutoUser39.Password)
-                .IsOnHomePage(AutoUser39);
+                .IsOnHomePage(AutoUser44);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.RM)
                 .ExpandOption("Recycling")
-                .OpenOption("Communal Recycling");
+                .OpenOption(serviceName);
             ServiceRecyclingPage sectorRecycling = PageFactoryManager.Get<ServiceRecyclingPage>();
             sectorRecycling.SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
+            sectorRecycling
+                .WaitForServiceRecyclingPageLoaded(serviceName);
 
             //Verify that user is unable to update sections of the forms when the restrict edit is set in the service
             sectorRecycling
@@ -299,6 +302,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Recycling")]
+        [Category("Chang")]
         [Test(Description = "Restrict Edit Feature on new style forms on Service Task tab")]
         public void TC_128_2_Restrict_Edit_Feature_on_new_style_forms_on_Service_Task()
         {
@@ -326,6 +330,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToLastWindow();
             var serviceTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
             serviceTaskPage.WaitForLoadingIconToDisappear();
+            serviceTaskPage
+                .IsServiceTaskPage();
             serviceTaskPage.ClickOnElement(serviceTaskPage.DetailTab);
             serviceTaskPage.VerifyElementEnable(serviceTaskPage.StartDateInput, false)
                 .VerifyElementEnable(serviceTaskPage.EndDateInput, false)

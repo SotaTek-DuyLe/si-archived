@@ -58,6 +58,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
         private readonly By allocation = By.XPath("//div[@class='parent-row']//span[contains(@data-bind, 'text: $parents[0].getParentAllocationText($data)')]");
         private const string eventDynamicLocator = "//div[@class='parent-row'][{0}]//div[text()='Event']";
         private const string eventOptions = "//div[@id='create-event-dropdown']//li[text()='{0}']";
+        private readonly By serviceUnitAtFirstRow = By.XPath("//div[@class='parent-row'][1]//div[@title='Open Service Unit']/span");
 
         //CHRILD
         private readonly By scheduleChildRow = By.XPath("//div[@class='services-grid--root']/div[@class='services-grid--row']//div[@class='child-row' and not(contains(@style, 'display: none'))]//div[@data-bind='text: $data']");
@@ -474,6 +475,32 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
                 }
             }
 
+            return this;
+        }
+
+        #region MAP TAB
+        private readonly By mapTab = By.CssSelector("a[aria-controls='map-tab']");
+        private readonly By nodeDescInMapTab = By.XPath("//td[text()='Node']/following-sibling::td");
+
+        [AllureStep]
+        public PointNodeDetailPage ClickOnMapTab()
+        {
+            ClickOnElement(mapTab);
+            return this;
+        }
+
+        [AllureStep]
+        public string GetDescInMapTab()
+        {
+            return GetElementText(nodeDescInMapTab);
+        }
+
+        #endregion
+
+        [AllureStep]
+        public PointNodeDetailPage ClickOnFirstServiceUnit()
+        {
+            ClickOnElement(serviceUnitAtFirstRow);
             return this;
         }
 
