@@ -28,6 +28,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             {
                 return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
             };
+
+            _outstandingTableEle = new TableElement(OutStandingTable, OutStandingRow, new List<string>() { OutStandingCheckbox, OutStandingId, OutStandingDescription, OutStandingService, OutStandingScheduledDate });
+            _outstandingTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
         }
 
         private int maxRetryCount = 30;
@@ -127,15 +133,38 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string descRows = "//div[contains(@id, 'reallocated')]//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'l4')]";
         private readonly string serviceRows = "//div[contains(@id, 'reallocated')]//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'l5')]";
 
+        private TableElement _outstandingTableEle;
         public TableElement OutstandingTableEle
         {
-            get => new TableElement(OutStandingTable, OutStandingRow, new List<string>() { OutStandingCheckbox, OutStandingId, OutStandingDescription, OutStandingService, OutStandingScheduledDate });
+            get => _outstandingTableEle;
         }
 
         public TaskAllocationPage VerifyOutStandingData(List<OutstandingTaskModel> dataFromDbs)
         {
             foreach (var item in dataFromDbs)
             {
+                int count = 0;
+                while(count < 5)
+                {
+                    count++;
+                    var cell = OutstandingTableEle.GetCellByValue(1, item.ID);
+                    if (cell == null)
+                    {
+                        var lastRow = OutstandingTableEle.GetRows().LastOrDefault();
+                        if (lastRow != null)
+                        {
+                            var checkboxCell = lastRow.FindElement(By.XPath(OutStandingCheckbox));
+                            Actions actions = new Actions(driver);
+                            actions.MoveToElement(checkboxCell).Build().Perform();
+                            WaitForLoadingIconToDisappear();
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+               
                 Assert.IsNotNull(OutstandingTableEle.GetCellByValue(1, item.ID));
             }
             return this;
