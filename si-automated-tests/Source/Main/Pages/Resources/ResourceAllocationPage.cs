@@ -39,6 +39,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By resourceDetailBtn = By.XPath("//button[text()='RESOURCE DETAILS']");
         private readonly By reasonSelect = By.Id("reasons.id");
         private readonly By confirmButton = By.XPath("//button[text()='Confirm']");
+        private readonly By closeReasonPopupButton = By.XPath("//button[@data-bind='click: cancelReason']");
 
         private readonly string whiteBackground = "background-color: rgb(255, 255, 255);";
         private readonly string greenBackground = "background-color: rgb(137, 203, 137);";
@@ -555,10 +556,35 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             return this;
         }
         [AllureStep]
+        public ResourceAllocationPage IsReasonPopupDisplayed()
+        {
+            WaitUtil.WaitForElementVisible(reasonSelect);
+            WaitUtil.WaitForElementVisible(confirmButton);
+            WaitUtil.WaitForElementVisible(closeReasonPopupButton);
+            return this;
+        }
+        [AllureStep]
         public ResourceAllocationPage SelectReason(ResourceReason reason)
         {
             SelectTextFromDropDown(reasonSelect, reason.AsString());
             ClickOnElement(confirmButton);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickConfirmButton()
+        {
+            ClickOnElement(confirmButton);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage CloseReasonPopup()
+        {
+            ClickOnElement(closeReasonPopupButton);
+            return this;
+        }
+        public ResourceAllocationPage VerifyConfirmButtonEnabled(bool isEnabled)
+        {
+            Assert.AreEqual(WaitUtil.WaitForElementVisible(confirmButton).Enabled, isEnabled);
             return this;
         }
     }
