@@ -683,6 +683,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("Round Group")]
+        [Category("Huong")]
         [Test]
         public void TC_169_2_Round_and_Round_Group_issues()
         {

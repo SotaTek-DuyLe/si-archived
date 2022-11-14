@@ -800,7 +800,6 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public BasePage VerifyToastMessages(List<string> messages)
         {
-            GetToastMessage();
             var notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
             int retryCount = 0;
             while(notifyMsgs.Count < messages.Count && retryCount < 10)

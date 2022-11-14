@@ -583,6 +583,28 @@ namespace si_automated_tests.Source.Test
         //        .IsServiceUnitPointDetailPage(areaDesc)
         //        .ClickOnMapTab()
         //        .VerifyValueInMapTabAreaType(areaDesc);
-        //}
+
+        [Category("Dee")]
+        [Test(Description = "Add a hyperlink to Round form for easier access of round group form")]
+        public void TC_207_hyper_link_for_round_group()
+        {
+            string url= WebUrl.MainPageUrl + "rounds/37";
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .WaitForLoadingIconToDisappear();
+            var roundName = PageFactoryManager.Get<RoundDetailPage>()
+                .GetRoundName();
+            PageFactoryManager.Get<RoundDetailPage>()
+                .ClickRoundGroupHyperLink()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            var roundGroupName = PageFactoryManager.Get<RoundGroupPage>()
+                .GetRoundGroupName();
+            Assert.IsTrue(roundName.Contains(roundGroupName));
+        }
     }
 }
