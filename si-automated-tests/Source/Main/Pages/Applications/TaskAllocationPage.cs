@@ -116,7 +116,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         #region Outstanding Table
         private readonly string OutStandingTable = "//div[@id='outstanding']//div[@class='grid-canvas']";
         private readonly string OutStandingRow = "./div[contains(@class, 'slick-row')]";
-        private readonly string OutStandingCheckbox = "./div[contains(@class, 'slick-cell l1 r1')]//input";
+        private readonly string OutStandingCheckbox = "./div[contains(@class, 'slick-cell l0 r0')]//input";
         private readonly string OutStandingId = "./div[contains(@class, 'slick-cell l2 r2')]";
         private readonly string OutStandingDescription = "./div[contains(@class, 'slick-cell l3 r3')]";
         private readonly string OutStandingService = "./div[contains(@class, 'slick-cell l4 r4')]";

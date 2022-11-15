@@ -4,6 +4,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Finders;
+using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.IE_Configuration;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
@@ -475,7 +476,7 @@ namespace si_automated_tests.Source.Test
             string idNode = "3";
 
             PageFactoryManager.Get<LoginPage>()
-                   .GoToURL(WebUrl.MainPageUrl);
+                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser46.UserName, AutoUser46.Password)
@@ -584,5 +585,171 @@ namespace si_automated_tests.Source.Test
         //        .ClickOnMapTab()
         //        .VerifyValueInMapTabAreaType(areaDesc);
         //}
+
+        [Category("ServiceUnitPoint")]
+        [Category("Chang")]
+        [Test(Description = "Name is required error displays and party form cannot be updated (bug fix)")]
+        public void TC_211_Name_is_required_error_displays_and_party_form_cannot_be_updated()
+        {
+            string partyId = "1091";
+            string partyName = "AutoPartyy " + CommonUtil.GetRandomNumber(4);
+            PartyModel partyModel = new PartyModel(partyName, Contract.RMC, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.RMC)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
+            CreatePartyPage createPartyPage = PageFactoryManager.Get<CreatePartyPage>();
+            partyCommonPage
+                .ClickAddNewItem()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            //Missing name when creating a party
+            createPartyPage
+                .IsCreatePartiesPopup(Contract.RMC)
+                .SelectStartDate(-1)
+                .SelectPartyType(1)
+                .ClickSaveBtn();
+            createPartyPage
+                .VerifyDisplayErrorMessage(MessageRequiredFieldConstants.NameRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.NameRequiredMessage);
+            createPartyPage
+                .SendKeyToThePartyInput(partyModel.PartyName)
+                .ClickSaveBtn();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifyDisplaySuccessfullyMessage()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            //Missing name when updating a party
+            partyCommonPage
+                .FilterPartyById(partyId)
+                .OpenFirstResult()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
+                .ClearPartyNameInput()
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.NameRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.NameRequiredMessage);
+
+        }
+
+        [Category("ServiceUnitPoint")]
+        [Category("Chang")]
+        [Test(Description = "Service task form - tabs are not loading on first time (bug fix)")]
+        public void TC_214_Service_task_form_tabs_are_not_loading_on_first_time()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/service-tasks/120851");
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
+            servicesTaskPage
+                .IsServiceTaskPage()
+                //Click on [Detail] tab and verify
+                .ClickOnDetailTab()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Click on [Data] tab and verify
+            servicesTaskPage
+                .ClickOnDataTab()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Click on [Task Lines] tab and verify
+            servicesTaskPage
+                .ClickOnTaskLineTab()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Click on [Announcements] tab and verify
+            servicesTaskPage
+                .ClickOnAnnouncementTab()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Click on [Schedules] tab and verify
+            servicesTaskPage
+                .ClickOnSchedulesTab()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Click on [Schedules] tab and verify
+            servicesTaskPage
+                .ClickOnSchedulesTab()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Click on [History] tab and verify
+            servicesTaskPage
+                .ClickOnHistoryTab()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Click on [Map] tab and verify
+            servicesTaskPage
+                .ClickOnMapTab()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Click on [Risks] tab and verify
+            servicesTaskPage
+                .ClickOnRisksTab()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Click on [Subscriptions] tab and verify
+            servicesTaskPage
+                .ClickOnSubscriptionsTab()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Click on [Notifications] tab and verify
+            servicesTaskPage
+                .ClickOnNotificationsTab()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Click on [Indicators] tab and verify
+            servicesTaskPage
+                .ClickOnIndicatorsTab()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+        }
+
+        [Category("ServiceUnitPoint")]
+        [Category("Chang")]
+        [Test(Description = "The read only images are black & white (bug fix)")]
+        public void TC_209_The_read_only_images_are_black_and_white()
+        {
+            string inspectionId = "1804";
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>();
+        }
     }
 }

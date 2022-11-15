@@ -52,11 +52,9 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .SelectRoundNode("Recycling");
             taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
             taskAllocationPage.SleepTimeInMiliseconds(1000);
-            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Control + "a");
-            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Delete);
-            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
+            taskAllocationPage.InputCalendarDate(taskAllocationPage.FromInput, from);
             taskAllocationPage.SleepTimeInMiliseconds(3000);
-            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
+            taskAllocationPage.InputCalendarDate(taskAllocationPage.ToInput, to);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ContractSelect);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
             taskAllocationPage.WaitForLoadingIconToDisappear(false);
@@ -73,6 +71,11 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             using (SqlDataReader reader = command.ExecuteReader())
             {
                 var outstandingTasks = ObjectExtention.DataReaderMapToList<OutstandingTaskModel>(reader);
+                foreach(var item in outstandingTasks)
+                {
+                    Console.WriteLine("xxxx" + outstandingTasks.Count);
+                    Console.WriteLine(item.ID);
+                }
                 taskAllocationPage.VerifyOutStandingData(outstandingTasks);
             }
         }

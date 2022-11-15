@@ -15,6 +15,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private string taskLineTab = "//a[@aria-controls='tasklines-tab']";
         public string AnnouncementTab = "//a[@aria-controls='announcements-tab']";
         public string  DetailTab = "//a[@aria-controls='details-tab']";
+        private readonly By dataTab = By.CssSelector("a[aria-controls='data-tab']");
+        private readonly By historyTab = By.CssSelector("a[aria-controls='history-tab']");
+        private readonly By mapTab = By.CssSelector("a[aria-controls='map-tab']");
+        private readonly By risksTab = By.CssSelector("a[aria-controls='risks-tab']");
+        private readonly By subscriptionTab = By.CssSelector("a[aria-controls='subscriptions-tab']");
+        private readonly By notificationsTab = By.CssSelector("a[aria-controls='notifications-tab']");
+        private readonly By indicatorsTab = By.CssSelector("a[aria-controls='objectIndicators-tab']");
         public string ScheduleTab = "//a[@aria-controls='schedules-tab']";
         private readonly By title = By.XPath("//span[text()='Service Task']");
         private readonly By serviceGroupTitle = By.XPath("//div[text()='SERVICE GROUP']");
@@ -178,6 +185,78 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         [AllureStep]
         public ServicesTaskPage ClickOnDetailTab()
+        {
+            ClickOnElement(DetailTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnDataTab()
+        {
+            ClickOnElement(dataTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnAnnouncementTab()
+        {
+            ClickOnElement(AnnouncementTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnHistoryTab()
+        {
+            ClickOnElement(historyTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnMapTab()
+        {
+            ClickOnElement(mapTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnRisksTab()
+        {
+            ClickOnElement(risksTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnSubscriptionsTab()
+        {
+            ClickOnElement(subscriptionTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnNotificationsTab()
+        {
+            ClickOnElement(notificationsTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnIndicatorsTab()
+        {
+            ClickOnElement(indicatorsTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnDTab()
         {
             ClickOnElement(DetailTab);
             WaitForLoadingIconToDisappear();

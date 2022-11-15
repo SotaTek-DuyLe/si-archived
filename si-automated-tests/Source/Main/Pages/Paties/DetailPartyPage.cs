@@ -66,6 +66,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By InvoiceContactDd = By.CssSelector("select#invoice-contact");
         private readonly By primaryContactAddBtn = By.XPath("//select[@id='primary-contact']/following-sibling::span[text()='Add']");
         private readonly By internalInputCheckbox = By.CssSelector("input#is-internal");
+        private readonly By partyNameInput = By.CssSelector("input#party-name");
 
         //DETAIL TAB DYNAMIC LOCATOR
         private const string InvoiceAddressValue = "//label[text()='Invoice Address']/following-sibling::div//option[text()='{0}']";
@@ -154,6 +155,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(string.Format(partyName, name));
             WaitUtil.WaitForPageLoaded();
+            return this;
+        }
+
+
+        [AllureStep]
+        public DetailPartyPage ClearPartyNameInput()
+        {
+            ClearInputValue(partyNameInput);
             return this;
         }
 
