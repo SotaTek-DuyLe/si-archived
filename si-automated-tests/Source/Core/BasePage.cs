@@ -801,13 +801,13 @@ namespace si_automated_tests.Source.Core
         public BasePage VerifyToastMessages(List<string> messages)
         {
             var notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
-            int retryCount = 0;
-            while(notifyMsgs.Count < messages.Count && retryCount < 10)
-            {
-                SleepTimeInMiliseconds(50);
-                notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
-                retryCount++;
-            }
+            //int retryCount = 0;
+            //while(notifyMsgs.Count < messages.Count && retryCount < 10)
+            //{
+            //    SleepTimeInMiliseconds(50);
+            //    notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
+            //    retryCount++;
+            //}
             CollectionAssert.AreEquivalent(messages, notifyMsgs);
             return this;
         }
