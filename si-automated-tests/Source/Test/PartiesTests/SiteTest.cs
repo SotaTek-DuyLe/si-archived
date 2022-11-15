@@ -50,6 +50,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyCheckboxIsSelected(sitePage.LockCheckbox, false)
                 .VerifyElementVisibility(sitePage.LockReferenceInput, true)
                 .VerifyElementIsMandatory(sitePage.LockReferenceInput, false);
+            sitePage.ScrollDownToElement(sitePage.LockHelpButton)
+                .SleepTimeInMiliseconds(300);
             sitePage.ClickOnElement(sitePage.LockHelpButton);
             sitePage.VerifyElementText(sitePage.LockHelpContent, "Set to true, if a Task should be locked to a Round Instance")
                 .VerifyElementContainAttributeValue(sitePage.LockReferenceInput, "maxlength", "40");
