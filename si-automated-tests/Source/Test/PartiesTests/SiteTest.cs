@@ -368,7 +368,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.AllocationReasonSelect, "Incident")
                 .ClickOnElement(taskAllocationPage.AllocationConfirmReasonButton);
             taskAllocationPage.WaitForLoadingIconToDisappear()
-                .VerifyToastMessages(new List<string>() { "Allocated 1 round leg(s)", "Task(s) Allocated" }); ;
+                .VerifyToastMessages(new List<string>() { "Allocated 1 round leg(s)", "Task(s) Allocated" });
             taskAllocationPage.DragRoundInstanceToRoundGrid("WCREC1", "Friday", 4);
             taskAllocationPage.WaitForLoadingIconToDisappear(false);
             taskAllocationPage.VerifyRoundLegIsAllocated(roundInstanceDetails);

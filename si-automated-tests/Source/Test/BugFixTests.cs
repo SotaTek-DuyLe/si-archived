@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
@@ -8,6 +9,8 @@ using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.IE_Configuration;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties;
+using si_automated_tests.Source.Main.Pages.Resources;
+using si_automated_tests.Source.Main.Pages.Resources.Tabs;
 using si_automated_tests.Source.Main.Pages.Search.PointAreas;
 using si_automated_tests.Source.Main.Pages.Search.PointNodes;
 using si_automated_tests.Source.Main.Pages.Search.PointSegment;
@@ -583,6 +586,89 @@ namespace si_automated_tests.Source.Test
         //        .IsServiceUnitPointDetailPage(areaDesc)
         //        .ClickOnMapTab()
         //        .VerifyValueInMapTabAreaType(areaDesc);
-        //}
+
+        [Category("Dee")]
+        [Test(Description = "Add a hyperlink to Round form for easier access of round group form")]
+        public void TC_207_hyper_link_for_round_group()
+        {
+            string url= WebUrl.MainPageUrl + "rounds/37";
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .WaitForLoadingIconToDisappear();
+            var roundName = PageFactoryManager.Get<RoundDetailPage>()
+                .GetRoundName();
+            PageFactoryManager.Get<RoundDetailPage>()
+                .ClickRoundGroupHyperLink()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            var roundGroupName = PageFactoryManager.Get<RoundGroupPage>()
+                .GetRoundGroupName();
+            Assert.IsTrue(roundName.Contains(roundGroupName));
+        }
+        [Category("Dee")]
+        [Test(Description = "Daily Allocation - Prompt user with resolution code dropdown when resolution code is mandatory for Resource State")]
+        public void TC_219_daily_allocation_prompt_user_with_resolution_code()
+        {
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string resourceType = "Driver";
+            string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 5);
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.RM)
+                .SelectBusinessUnit(Contract.RM)
+                .SelectShift("AM")
+                .InsertDate(dateInFutre + Keys.Enter)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            //Create driver
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.EastCollections)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //Verify popup
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName)
+                .VerifyFirstResultValue("Resource", resourceName)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName)
+                .ClickAllocatedResource(resourceName)
+                .SelectResourceState("SICK")
+                .IsReasonPopupDisplayed()
+                .VerifyConfirmButtonEnabled(false)
+                .CloseReasonPopup()
+                .ClickAllocatedResource(resourceName)
+                .SelectResourceState("TRAINING")
+                .IsReasonPopupDisplayed()
+                .VerifyConfirmButtonEnabled(false)
+                .SelectReason(ResourceReason.Paid)
+                .VerifyConfirmButtonEnabled(true);
+        }
     }
 }

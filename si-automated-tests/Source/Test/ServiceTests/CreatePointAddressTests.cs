@@ -39,6 +39,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchNewIFrame();
         }
         [Category("PointAddress")]
+        [Category("Dee")]
         [Test]
         public void TC_101_Create_point_address()
         {
