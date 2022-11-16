@@ -3,13 +3,19 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Inspections;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PointAddress;
+using si_automated_tests.Source.Main.Pages.Search.PointAreas;
+using si_automated_tests.Source.Main.Pages.Search.PointNodes;
 using si_automated_tests.Source.Main.Pages.Search.PointSegment;
+using si_automated_tests.Source.Main.Pages.Services;
+using si_automated_tests.Source.Main.Pages.Tasks;
 using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
 using si_automated_tests.Source.Main.Pages.UserAndRole;
+using System;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.InspectionTests
@@ -822,5 +828,112 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .VerifyNotesFieldInDataTabReadOnly();
         }
 
+        [Category("Point address subscription")]
+        [Category("Huong")]
+        [Test()]
+        public void TC_201_Subscriptions_grid_spelling_error()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/point-addresses/483986");
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser59.UserName, AutoUser59.Password);
+            PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
+            pointAddressDetailPage.ClickOnElement(pointAddressDetailPage.SubscriptionTab);
+            pointAddressDetailPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(pointAddressDetailPage.SubscriptionIFrame);
+            pointAddressDetailPage.ClickOnElement(pointAddressDetailPage.AddNewSubscriptionButton);
+            pointAddressDetailPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            SubscriptionsDetailPage subscriptionsDetailPage = PageFactoryManager.Get<SubscriptionsDetailPage>();
+            Random rnd = new Random();
+            int number = rnd.Next(1, 13);
+            string title = "Title" + number;
+            string firstName = "FirstName" + number;
+            string lastName = "LastName" + number;
+            string mobile = "+4471274";
+            subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.TitleInput, title);
+            subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.FirstNameInput, firstName);
+            subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.LastNameInput, lastName);
+            subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.MobileInput, mobile);
+            subscriptionsDetailPage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            string subjectDescription = subscriptionsDetailPage.GetElementText(subscriptionsDetailPage.SubjectDescriptionText);
+            string id = subscriptionsDetailPage.GetElementText(subscriptionsDetailPage.IdTitle);
+            subscriptionsDetailPage.ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchToFrame(pointAddressDetailPage.SubscriptionIFrame);
+            pointAddressDetailPage.VerifyNewSubscription(id, firstName, lastName, mobile, subjectDescription);
+            string contractId = pointAddressDetailPage.GetNewContractId();
+            //Verify DB
+            CommonFinder finder = new CommonFinder(DbContext);
+            var subscriptions = finder.GetSubscriptionById(id);
+            Assert.IsTrue(subscriptions.Count != 0);
+            var contracts = finder.GetContractById(contractId);
+            Assert.IsTrue(contracts.Count != 0);
+
+            System.Collections.Generic.List<string> columnNames = new System.Collections.Generic.List<string>() { "ID", "Contact ID", "Contact", "Mobile", "Subscription State", "Start Date", "End Date", "Notes", "Subject", "Subject Description" };
+            //Navigate to point segment form URL: point - segments / 32799->Click on subscriptions tab
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/point-segments/32799");
+            PointSegmentDetailPage pointSegmentDetailPage = PageFactoryManager.Get<PointSegmentDetailPage>();
+            pointSegmentDetailPage.WaitForLoadingIconToDisappear();
+            pointSegmentDetailPage.ClickOnElement(pointSegmentDetailPage.SubscriptionTab);
+            pointSegmentDetailPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(pointSegmentDetailPage.SubscriptionIFrame);
+            pointSegmentDetailPage.VerifyColumnsDisplay(columnNames);
+
+            //Navigate to point node form URL: point-nodes/5 -> Click on subscriptions tab
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/point-nodes/5");
+            PointNodeDetailPage pointNodeDetailPage = PageFactoryManager.Get<PointNodeDetailPage>();
+            pointNodeDetailPage.WaitForLoadingIconToDisappear();
+            pointNodeDetailPage.ClickOnElement(pointNodeDetailPage.SubscriptionTab);
+            pointNodeDetailPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(pointNodeDetailPage.SubscriptionIFrame);
+            pointNodeDetailPage.VerifyColumnsDisplay(columnNames);
+
+            //Navigate to point area form URL: point-areas/5 -> Click on subscriptions tab
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/point-areas/5");
+            PointAreaDetailPage pointAreaDetailPage = PageFactoryManager.Get<PointAreaDetailPage>();
+            pointAreaDetailPage.WaitForLoadingIconToDisappear();
+            pointAreaDetailPage.ClickOnElement(pointAreaDetailPage.SubscriptionTab);
+            pointAreaDetailPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(pointAreaDetailPage.SubscriptionIFrame);
+            pointAreaDetailPage.VerifyColumnsDisplay(columnNames);
+
+            //Navigate to service unit form URL: service-units/229980 -> Click on subscriptions tab
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/service-units/229980");
+            ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
+            serviceUnitDetailPage.WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.ClickOnElement(serviceUnitDetailPage.SubscriptionTab);
+            serviceUnitDetailPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(serviceUnitDetailPage.SubscriptionTabIframe);
+            serviceUnitDetailPage.VerifyColumnsDisplay(columnNames);
+
+            //Navigate to service task form URL: service-tasks/120785 -> Click on subscriptions tab
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/service-tasks/120785");
+            ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
+            servicesTaskPage.WaitForLoadingIconToDisappear();
+            servicesTaskPage.ClickOnElement(servicesTaskPage.SubscriptionTab);
+            servicesTaskPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(servicesTaskPage.SubscriptionIFrame);
+            servicesTaskPage.VerifyColumnsDisplay(columnNames);
+
+            //Navigate to task form URL: tasks/17075 -> Click on subscriptions tab
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/tasks/17075");
+            DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.ClickOnElement(detailTaskPage.SubscriptionTab);
+            detailTaskPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(detailTaskPage.SubscriptionIFrame);
+            detailTaskPage.VerifyColumnsDisplay(columnNames);
+        }
     }
 }

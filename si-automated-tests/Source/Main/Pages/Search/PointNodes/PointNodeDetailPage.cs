@@ -5,6 +5,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels.GetAllServicesForPoint2;
 using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
@@ -15,7 +16,7 @@ using static si_automated_tests.Source.Main.Models.ActiveSeviceModel;
 
 namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
 {
-    public class PointNodeDetailPage : BasePage
+    public class PointNodeDetailPage : BasePageCommonActions
     {
         private readonly By titleDetail = By.XPath("//h4[text()='Point Node']");
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
@@ -84,6 +85,57 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
         private readonly By allScheduledCountRows = By.CssSelector("tbody[data-bind='foreach: allServices'] td[data-bind='text: $data.scheduleCount']");
         private readonly By allStatusRows = By.CssSelector("tbody[data-bind='foreach: allServices'] td:nth-child(6)");
         private const string serviceUnitLink = "//tbody/tr[{0}]//a[@title='Open Service Unit' and not(contains(@style, 'display: none;'))]";
+
+        public readonly By SubscriptionTab = By.XPath("//a[@aria-controls='subscriptions-tab']");
+        #region SubscriptionTab
+        public readonly By AddNewSubscriptionButton = By.XPath("//button[@data-bind='click: createSubscription']");
+        public readonly By SubscriptionIFrame = By.XPath("//div[@id='subscriptions-tab']//iframe");
+        private readonly string SubcriptionTable = "//div[@class='grid-canvas']";
+        private readonly string SubscriptionRow = "./div[contains(@class, 'slick-row')]";
+        private readonly string SubscriptionIdCell = "./div[contains(@class, 'l0')]";
+        private readonly string SubscriptionContractIdCell = "./div[contains(@class, 'l1')]";
+        private readonly string SubscriptionContractCell = "./div[contains(@class, 'l2')]";
+        private readonly string SubscriptionMobileCell = "./div[contains(@class, 'l3')]";
+        private readonly string SubscriptionStateCell = "./div[contains(@class, 'l4')]";
+        private readonly string SubscriptionStartDateCell = "./div[contains(@class, 'l5')]";
+        private readonly string SubscriptionEndDateCell = "./div[contains(@class, 'l6')]";
+        private readonly string SubscriptionNotesCell = "./div[contains(@class, 'l7')]";
+        private readonly string SubscriptionSubjectCell = "./div[contains(@class, 'l8')]";
+        private readonly string SubscriptionSubjectDesCell = "./div[contains(@class, 'l9')]";
+
+        public TableElement SubscriptionTableEle
+        {
+            get => new TableElement(SubcriptionTable, SubscriptionRow,
+                new List<string>() {
+                    SubscriptionIdCell, SubscriptionContractIdCell, SubscriptionContractCell,
+                    SubscriptionMobileCell, SubscriptionStateCell, SubscriptionStartDateCell,
+                    SubscriptionEndDateCell, SubscriptionNotesCell, SubscriptionSubjectCell, SubscriptionSubjectDesCell
+                });
+        }
+
+        [AllureStep]
+        public PointNodeDetailPage VerifyNewSubscription(string id, string firstName, string lastName, string mobile, string subjectDescription)
+        {
+            int newIdx = SubscriptionTableEle.GetRows().Count - 1;
+            VerifyCellValue(SubscriptionTableEle, newIdx, 0, id);
+            VerifyCellValue(SubscriptionTableEle, newIdx, 2, firstName + " " + lastName);
+            VerifyCellValue(SubscriptionTableEle, newIdx, 3, mobile);
+            string subjectDescriptionCellValue = SubscriptionTableEle.GetCellValue(newIdx, 9).AsString();
+            Assert.IsTrue(subjectDescription.Contains(subjectDescriptionCellValue));
+            return this;
+        }
+
+        [AllureStep]
+        public PointNodeDetailPage VerifyColumnsDisplay(List<string> columnNames)
+        {
+            var headerEles = GetAllElements(By.XPath("//div[contains(@class, 'slick-header-columns')]//span[@class='slick-column-name']"));
+            foreach (var item in headerEles)
+            {
+                Assert.IsTrue(columnNames.Contains(item.Text));
+            }
+            return this;
+        }
+        #endregion
 
         [AllureStep]
         public PointNodeDetailPage ClickOnActiveServicesTab()

@@ -228,6 +228,18 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "SELECT t2.taskstate  FROM SotatekTesting.dbo.tasks t join SotatekTesting.dbo.taskstates t2 on t.taskstateID = t2.taskstateID  WHERE t.taskID = " + taskId + "; ";
             return FindList<TaskStateDBModel>(query);
         }
+
+        public List<SubscriptionDBModel> GetSubscriptionById(string subscriptionId)
+        {
+            string query = "select * from subscriptions where subscriptionid=" + subscriptionId + ";";
+            return FindList<SubscriptionDBModel>(query);
+        }
+
+        public List<ContractDBModel> GetContractById(string contractId)
+        {
+            string query = "select * from contacts where contactid=" + contractId + ";";
+            return FindList<ContractDBModel>(query);
+        }
     }
 
 }
