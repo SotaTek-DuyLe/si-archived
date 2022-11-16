@@ -13,10 +13,16 @@ using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
-    public class RoundInstancePage : BasePage
+    public class RoundInstancePage : BasePageCommonActions
     {
+        public readonly By DetailsTab = By.XPath("//a[@aria-controls='details-tab']");
         private readonly By allocatedResourceTab = By.XPath("//a[@aria-controls='allocated-resources-tab']");
         private readonly By allocatedResourceRows = By.XPath("//div[@id='allocated-resources-tab']//table//tbody//tr");
+        public readonly By SelectDropdown = By.XPath("//ul[@role='listbox' and @aria-expanded='true']");
+        #region Detail tab
+        public readonly By StatusInput = By.XPath("//button[@data-id='status']");
+        public readonly By SelectedStatusText = By.XPath("//button[@data-id='status']//span[@class='filter-option pull-left']");
+        #endregion
 
         [AllureStep]
         public RoundInstancePage ClickAllocatedResourcesTab()
