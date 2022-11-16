@@ -62,6 +62,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By rightSiteColumn = By.XPath("//div[@id='sites-tab']//ul[@data-bind='foreach: addedSites']");
         private readonly By addSiteButton = By.XPath("//div[@id='sites-tab']//button[contains(@data-bind, 'click: addSites')]");
         private readonly By removeSiteButton = By.XPath("//div[@id='sites-tab']//button[contains(@data-bind, 'click: removeSites')]");
+        private readonly By roundGroupName = By.XPath("//h5[@data-bind='text: fields.roundGroup.value']");
 
         #region Schedule Tab
         public readonly By ScheduleTab = By.XPath("//a[@aria-controls='schedules-tab']");
@@ -814,6 +815,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             ClickOnElement(addSiteButton);
             return this;
+        }
+        public string GetRoundGroupName()
+        {
+            return GetElementText(roundGroupName);
         }
     }
 }

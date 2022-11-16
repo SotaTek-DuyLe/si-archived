@@ -160,9 +160,16 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
 
         [AllureStep]
-        public DetailPartyPage ClearPartyNameInput()
+        public DetailPartyPage InputPartyNameInput(string partyName)
         {
-            ClearInputValue(partyNameInput);
+            SendKeys(partyNameInput, partyName);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyPartyNameAfterUpdated(string partyNameValue)
+        {
+            Assert.AreEqual(partyNameValue, GetAttributeValue(partyNameInput, "value"));
             return this;
         }
 

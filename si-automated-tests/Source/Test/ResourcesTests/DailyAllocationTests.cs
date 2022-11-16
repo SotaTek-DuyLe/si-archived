@@ -200,7 +200,9 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyAllocatedResourceName(resourceName)
                 .ClickAllocatedResource(resourceName)
                 .SelectResourceState("SICK")
+                .IsReasonPopupDisplayed()
                 .SelectReason(ResourceReason.Paid)
+                .ClickConfirmButton()
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()

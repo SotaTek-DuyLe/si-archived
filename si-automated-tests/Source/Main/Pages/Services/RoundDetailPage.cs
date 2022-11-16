@@ -33,6 +33,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By scheduleInput = By.XPath("./td//input[@id='schedule.id']");
         private readonly By retireBtn = By.XPath("./td//button[@title='Retire']");
         private readonly By editBtn = By.XPath("./td//button[@title='Edit']");
+        private readonly By roundGroupHyperLink = By.XPath("//a[@class='typeUrl']");
 
         [AllureStep]
         public RoundDetailPage VerifyRoundInput(string expectedValue)
@@ -120,6 +121,15 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             Assert.That(actual, Is.EquivalentTo(expected));
             return this;
+        }
+        public string GetRoundName()
+        {
+            return GetElementText(roundGroupHyperLink);
+        }
+        public RoundGroupPage ClickRoundGroupHyperLink()
+        {
+            ClickOnElement(roundGroupHyperLink);
+            return PageFactoryManager.Get<RoundGroupPage>();
         }
     }
 }

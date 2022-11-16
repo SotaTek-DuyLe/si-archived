@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Mail;
+using System.Reflection;
 using NUnit.Framework;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
@@ -7,14 +12,20 @@ using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.IE_Configuration;
+using si_automated_tests.Source.Main.Pages.Inspections;
+using si_automated_tests.Source.Main.Pages.Maps;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties;
-using si_automated_tests.Source.Main.Pages.Search.PointAreas;
+using si_automated_tests.Source.Main.Pages.Paties.Sites;
+using si_automated_tests.Source.Main.Pages.Resources;
+using si_automated_tests.Source.Main.Pages.Resources.Tabs;
 using si_automated_tests.Source.Main.Pages.Search.PointNodes;
 using si_automated_tests.Source.Main.Pages.Search.PointSegment;
 using si_automated_tests.Source.Main.Pages.Services;
 using si_automated_tests.Source.Main.Pages.Tasks;
+using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+using ServiceUnitPage = si_automated_tests.Source.Main.Pages.Services.ServiceUnitPage;
 
 namespace si_automated_tests.Source.Test
 {
@@ -410,7 +421,7 @@ namespace si_automated_tests.Source.Test
             Assert.AreEqual(firstTask.ServiceTaskId, int.Parse(serviceTaskId));
         }
 
-        [Category("ServiceUnitPoint")]
+        [Category("BugFix")]
         [Category("Chang")]
         [Test(Description = "Service Unit point map showing incorrect data (bug fix) - Point Segment")]
         public void TC_205_Service_Unit_point_map_showing_incorrect_data_point_segment()
@@ -468,7 +479,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyValueInMapTabSegmentType(segmentDesc);
         }
 
-        [Category("ServiceUnitPoint")]
+        [Category("BugFix")]
         [Category("Chang")]
         [Test(Description = "Service Unit point map showing incorrect data (bug fix) - Point Note")]
         public void TC_205_Service_Unit_point_map_showing_incorrect_data_point_note()
@@ -527,6 +538,29 @@ namespace si_automated_tests.Source.Test
                 .VerifyValueInMapTabNoteType(nodeDesc);
         }
 
+        [Category("Dee")]
+        [Test(Description = "Add a hyperlink to Round form for easier access of round group form")]
+        public void TC_207_hyper_link_for_round_group()
+        {
+            string url= WebUrl.MainPageUrl + "rounds/37";
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .WaitForLoadingIconToDisappear();
+            var roundName = PageFactoryManager.Get<RoundDetailPage>()
+                .GetRoundName();
+            PageFactoryManager.Get<RoundDetailPage>()
+                .ClickRoundGroupHyperLink()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            var roundGroupName = PageFactoryManager.Get<RoundGroupPage>()
+                .GetRoundGroupName();
+            Assert.IsTrue(roundName.Contains(roundGroupName));
+        }
+        
         //[Category("ServiceUnitPoint")]
         //[Category("Chang")]
         //[Test(Description = "Service Unit point map showing incorrect data (bug fix) - Point Area")]
@@ -586,14 +620,14 @@ namespace si_automated_tests.Source.Test
         //        .VerifyValueInMapTabAreaType(areaDesc);
         //}
 
-        [Category("ServiceUnitPoint")]
+        [Category("BugFix")]
         [Category("Chang")]
         [Test(Description = "Name is required error displays and party form cannot be updated (bug fix)")]
         public void TC_211_Name_is_required_error_displays_and_party_form_cannot_be_updated()
         {
-            string partyId = "1091";
-            string partyName = "AutoPartyy " + CommonUtil.GetRandomNumber(4);
-            PartyModel partyModel = new PartyModel(partyName, Contract.RMC, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
+            string partyId = "1090";
+            string partyName = "Network Rail";
+            PartyModel partyModel = new PartyModel("AutoPartyy " + CommonUtil.GetRandomNumber(4), Contract.RMC, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
 
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
@@ -616,19 +650,18 @@ namespace si_automated_tests.Source.Test
             //Missing name when creating a party
             createPartyPage
                 .IsCreatePartiesPopup(Contract.RMC)
+                .SendKeyToThePartyInput(partyModel.PartyName)
                 .SelectStartDate(-1)
                 .SelectPartyType(1)
                 .ClickSaveBtn();
-            createPartyPage
-                .VerifyDisplayErrorMessage(MessageRequiredFieldConstants.NameRequiredMessage)
-                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.NameRequiredMessage);
-            createPartyPage
-                .SendKeyToThePartyInput(partyModel.PartyName)
-                .ClickSaveBtn();
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyDisplaySuccessfullyMessage()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName);
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickAllTabAndVerify()
+                .ClickAllTabInDropdownAndVerify()
                 .ClickCloseBtn()
-                .SwitchToChildWindow(1);
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
             //Missing name when updating a party
             partyCommonPage
                 .FilterPartyById(partyId)
@@ -636,16 +669,20 @@ namespace si_automated_tests.Source.Test
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            string partyNameUpdated = "Update party " + CommonUtil.GetRandomNumber(4);
             detailPartyPage
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClearPartyNameInput()
+                .ClickOnDetailsTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .InputPartyNameInput(partyNameUpdated)
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.NameRequiredMessage)
-                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.NameRequiredMessage);
-
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .VerifyPartyNameAfterUpdated(partyNameUpdated);
         }
 
-        [Category("ServiceUnitPoint")]
+        [Category("BugFix")]
         [Category("Chang")]
         [Test(Description = "Service task form - tabs are not loading on first time (bug fix)")]
         public void TC_214_Service_task_form_tabs_are_not_loading_on_first_time()
@@ -736,12 +773,16 @@ namespace si_automated_tests.Source.Test
                 .VerifyToastMessagesIsUnDisplayed();
         }
 
-        [Category("ServiceUnitPoint")]
+        [Category("BugFix")]
         [Category("Chang")]
         [Test(Description = "The read only images are black & white (bug fix)")]
         public void TC_209_The_read_only_images_are_black_and_white()
         {
             string inspectionId = "1804";
+            string inspectionTypeValue = "Street Cleansing Assessment";
+
+            string relLogo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Source/Main/Resources/echo.jpeg");
+            string newPath = new Uri(relLogo).LocalPath;
 
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
@@ -749,7 +790,273 @@ namespace si_automated_tests.Source.Test
                 .IsOnLoginPage()
                 .Login(AutoUser46.UserName, AutoUser46.Password)
                 .IsOnHomePage(AutoUser46);
-            PageFactoryManager.Get<NavigationBase>();
+            PageFactoryManager.Get<HomePage>()
+                 .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Inspections)
+                .OpenOption("All Inspections")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .FilterInspectionById(inspectionId + Keys.Enter)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .DoubleClickFirstInspectionRow()
+                .SwitchToLastWindow();
+            DetailInspectionPage detailInspectionPage = PageFactoryManager.Get<DetailInspectionPage>();
+            detailInspectionPage
+                .WaitForInspectionDetailDisplayed(inspectionTypeValue)
+                .VerifyInspectionId(inspectionId.ToString())
+                //Click on [Data] tab
+                .ClickOnDataTab()
+                .WaitForLoadingIconToDisappear();
+            detailInspectionPage
+                .UploadImage(newPath)
+                .SelectStreetGrade("A")
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Update the state to completed
+            detailInspectionPage
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            detailInspectionPage
+                .ClickCompleteBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+            detailInspectionPage
+                .VerifyAllFieldsInPopupDisabled()
+                .VerifyStateInspection("Complete")
+                .ClickOnDataTab()
+                .WaitForLoadingIconToDisappear();
+            //Line 35 => Verify data tab
+            detailInspectionPage
+                .VerifyAllFieldsInDataTabDisabled()
+                .VerifyTheImageIsReadOnly();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Site form - update with validation is not handled correctly (bug fix)")]
+        public void TC_210_Site_form_update_with_validation_is_not_handed_correctly()
+        {
+            string siteId1 = "1200";
+            string siteId2 = "1199";
+            string accountingRefTheSame = "1234";
+            string accountingRefDifferent = CommonUtil.GetRandomNumber(5);
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/parties/1121");
+            PartyDetailsTab partyDetailsTab = PageFactoryManager.Get<PartyDetailsTab>();
+            partyDetailsTab
+                .WaitForLoadingIconToDisappear();
+            partyDetailsTab
+                .ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            partyDetailsTab
+                .FilterBySiteId(siteId2)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            SitePage sitePage = PageFactoryManager.Get<SitePage>();
+            sitePage
+                .IsSiteDetailPage()
+                .ClickOnDetailTab()
+                .InputAccountingRef(accountingRefTheSame)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            partyDetailsTab
+                .ClickOnClearBtn()
+                .WaitForLoadingIconToDisappear();
+            partyDetailsTab
+                .FilterBySiteId(siteId1)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            //Step line 8: Update the accounting ref to the same number with others
+            sitePage
+                .IsSiteDetailPage()
+                .ClickOnDetailTab()
+                .InputAccountingRef(accountingRefTheSame)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.TheAccountingRefAlreadyUsed)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.TheAccountingRefAlreadyUsed);
+            sitePage
+                .VerifyAccountingRefAfterSaving(accountingRefTheSame)
+                //Step line 9: Update the accouting ref to the different number
+                .InputAccountingRef(accountingRefDifferent)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            sitePage
+                .VerifyAccountingRefAfterSaving(accountingRefDifferent)
+                //Step line 10: Remove accounting ref and Save
+                .RemoveAccountingRef()
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            sitePage
+                .VerifyAccountingRefAfterSaving("")
+                //Step line 11: Update the accounting ref to the same number with others
+                .InputAccountingRef(accountingRefTheSame)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.TheAccountingRefAlreadyUsed)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            //Step line 12: Go back to sites grid and Check the value of the accounting value
+            partyDetailsTab
+                .ClickOnClearBtn()
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            partyDetailsTab
+                .VerifyAccountingRefAnyRow("1", accountingRefTheSame)
+                .VerifyAccountingRefAnyRow("2", accountingRefTheSame);
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Endless loading of statistics on sector group (bug fix)")]
+        public void TC_216_Endless_loading_of_statistics_on_sector_group()
+        {
+            string firstSectorId = "3";
+            string secondSectorId = "4";
+            string firstSectorGroupName = "Richmond Waste Collection";
+            string secondSectorGroupName = "Richmond Recycling Collection";
+            string[] serviceName = { "Clinical Waste", "Bulky Collections" };
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<HomePage>()
+                 .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Maps)
+                .ExpandOption(Contract.RM)
+                .OpenOption("Sector Groups")
+                .SwitchNewIFrame();
+            SectorGroupPage sectorGroupPage = PageFactoryManager.Get<SectorGroupPage>();
+            sectorGroupPage
+                .VerifyElementVisibility(sectorGroupPage.AddNewItemButton, true)
+                .VerifyElementVisibility(sectorGroupPage.CopyItemButton, true);
+
+            sectorGroupPage
+                .FilterSectorById(firstSectorId)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            DetailSectorGroupPage detailSectorGroupPage = PageFactoryManager.Get<DetailSectorGroupPage>();
+            //Step line 7
+            detailSectorGroupPage
+                .IsDetailSectorGroupPage(firstSectorGroupName)
+                .ClickOnStatisticTab()
+                .SelectService(serviceName)
+                .ClickOnLoadInStatisticTabBtn()
+                .WaitForLoadingIconToDisappear();
+            detailSectorGroupPage
+                .VerifyDisplayDataAfterSelectSection()
+                .VerifyNotDisplayErrorMessage()
+                .CloseCurrentWindow()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+
+            //Step line 8
+            sectorGroupPage
+                .ClickOnClearBtn()
+                .WaitForLoadingIconToDisappear();
+            sectorGroupPage
+                .FilterSectorById(secondSectorId)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            detailSectorGroupPage
+                .IsDetailSectorGroupPage(secondSectorGroupName)
+                .ClickOnStatisticTab()
+                .SelectService(serviceName)
+                .ClickOnLoadInStatisticTabBtn()
+                .WaitForLoadingIconToDisappear();
+            detailSectorGroupPage
+                .VerifyDisplayDataAfterSelectSection()
+                .VerifyNotDisplayErrorMessage();
+            //Step line 9: Unselect some service and select diferent one
+            detailSectorGroupPage
+                .UnselectAllSectorService()
+                .SelectService(serviceName)
+                .ClickOnLoadInStatisticTabBtn()
+                .WaitForLoadingIconToDisappear();
+            detailSectorGroupPage
+                .VerifyDisplayDataAfterSelectSection()
+                .VerifyNotDisplayErrorMessage();
+        }
+
+        [Category("Dee")]
+        [Test(Description = "Daily Allocation - Prompt user with resolution code dropdown when resolution code is mandatory for Resource State")]
+        public void TC_219_daily_allocation_prompt_user_with_resolution_code()
+        {
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string resourceType = "Driver";
+            string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 5);
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.RM)
+                .SelectBusinessUnit(Contract.RM)
+                .SelectShift("AM")
+                .InsertDate(dateInFutre + Keys.Enter)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            //Create driver
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.EastCollections)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //Verify popup
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName)
+                .VerifyFirstResultValue("Resource", resourceName)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName)
+                .ClickAllocatedResource(resourceName)
+                .SelectResourceState("SICK")
+                .IsReasonPopupDisplayed()
+                .VerifyConfirmButtonEnabled(false)
+                .CloseReasonPopup()
+                .ClickAllocatedResource(resourceName)
+                .SelectResourceState("TRAINING")
+                .IsReasonPopupDisplayed()
+                .VerifyConfirmButtonEnabled(false)
+                .SelectReason(ResourceReason.Paid)
+                .VerifyConfirmButtonEnabled(true);
         }
     }
 }

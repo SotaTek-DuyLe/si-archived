@@ -128,6 +128,12 @@ namespace si_automated_tests.Source.Core
             element.SendKeys(value);
         }
         [AllureStep]
+        public void SendKeysWithUrl(By by, string value)
+        {
+            IWebElement element = driver.FindElement(by);
+            element.SendKeys(value);
+        }
+        [AllureStep]
         public void SendKeysWithoutClear(By by, string value)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(by);
@@ -800,13 +806,13 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public BasePage VerifyToastMessages(List<string> messages)
         {
-            GetToastMessage();
             var notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
             int retryCount = 0;
             while(notifyMsgs.Count < messages.Count && retryCount < 10)
             {
                 SleepTimeInMiliseconds(50);
                 notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
+                retryCount++;
             }
             CollectionAssert.AreEquivalent(messages, notifyMsgs);
             return this;
@@ -1005,10 +1011,15 @@ namespace si_automated_tests.Source.Core
         {
             return IWebDriverManager.GetDriver().Title;
         }
-
+        [AllureStep]
         public bool IsCheckboxChecked(By by)
         {
             return GetElement(by).Selected;
+        }
+        [AllureStep]
+        public bool IsCheckboxChecked(IWebElement e)
+        {
+            return e.Selected;
         }
         [AllureStep]
         public BasePage GoToAllTabAndConfirmNoError()

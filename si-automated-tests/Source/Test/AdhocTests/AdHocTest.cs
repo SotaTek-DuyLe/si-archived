@@ -58,6 +58,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
         }
 
         [Category("EditAgreement")]
+        [Category("Huong")]
         [Test, Order(1)]
         public void TC_028A()
         {
@@ -195,6 +196,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
             }
         }
         [Category("EditAgreement")]
+        [Category("Huong")]
         [Test, Order(2)]
         public void TC_028B()
         {
