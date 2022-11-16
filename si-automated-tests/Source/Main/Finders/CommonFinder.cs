@@ -240,6 +240,12 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from contacts where contactid=" + contractId + ";";
             return FindList<ContractDBModel>(query);
         }
+        
+        public List<ServiceTaskScheduleDBModel> GetServiceTaskScheduleBySTSID(string servicetaskscheduleID)
+        {
+            string query = "select * from servicetaskschedules where servicetaskscheduleID=" + servicetaskscheduleID + ";";
+            return FindList<ServiceTaskScheduleDBModel>(query);
+        }
     }
 
 }

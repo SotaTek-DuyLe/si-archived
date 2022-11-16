@@ -16,6 +16,7 @@ using si_automated_tests.Source.Main.Pages.Tasks;
 using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
 using si_automated_tests.Source.Main.Pages.UserAndRole;
 using System;
+using System.Linq;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.InspectionTests
@@ -934,6 +935,53 @@ namespace si_automated_tests.Source.Test.InspectionTests
             detailTaskPage.WaitForLoadingIconToDisappear()
                 .SwitchToFrame(detailTaskPage.SubscriptionIFrame);
             detailTaskPage.VerifyColumnsDisplay(columnNames);
+        }
+
+        [Category("ServiceTaskSchedule")]
+        [Category("Huong")]
+        [Test()]
+        public void TC_202_Cannot_duplicate_ServiceTaskSchedule()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/service-tasks/120842");
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser59.UserName, AutoUser59.Password);
+            ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
+            servicesTaskPage.WaitForLoadingIconToDisappear();
+            servicesTaskPage.ClickOnScheduleTask()
+                .WaitForLoadingIconToDisappear();
+            servicesTaskPage.ClickDuplicateButton(0);
+            servicesTaskPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            ServiceTaskSchedulePage serviceTaskSchedulePage = PageFactoryManager.Get<ServiceTaskSchedulePage>();
+            string startDate = DateTime.Now.ToString("dd/MM/yyyy");
+            string endDate = "01/01/2050";
+            string round = "REF1-AM:Monday";
+            serviceTaskSchedulePage.VerifyInputValue(serviceTaskSchedulePage.StartDateInput, startDate)
+                .VerifyInputValue(serviceTaskSchedulePage.EndDateInput, endDate)
+                .SelectTextFromDropDown(serviceTaskSchedulePage.RoundSelect, round)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            string serviceTaskScheduleId = serviceTaskSchedulePage.GetServiceTaskScheduleID(WebUrl.MainPageUrl + "web/service-task-schedules/");
+            serviceTaskSchedulePage
+                .ClickCloseBtn()
+                .SwitchToFirstWindow();
+            servicesTaskPage.WaitForLoadingIconToDisappear();
+            servicesTaskPage.VerifyNewSchedule(startDate, endDate, round);
+
+            CommonFinder finder = new CommonFinder(DbContext);
+            var serviceTaskSchedule = finder.GetServiceTaskScheduleBySTSID(serviceTaskScheduleId).FirstOrDefault();
+            //Click on the hyperlink in the header
+            servicesTaskPage.ClickOnElement(servicesTaskPage.OpenServiceUnitLink);
+            servicesTaskPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
+            serviceUnitDetailPage.WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.ClickOnElement(serviceUnitDetailPage.ServiceTaskScheduleTab);
+            serviceUnitDetailPage.WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.VerifyServiceTaskScheduleId(serviceTaskSchedule.servicetaskID.ToString());
         }
     }
 }

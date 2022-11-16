@@ -20,6 +20,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By statusText = By.XPath("//h5[@id='header-status']/span[1]");
 
         [AllureStep]
+        public string GetServiceTaskScheduleID(string url)
+        {
+            return GetCurrentUrl().Replace(url, "");
+        }
+
+        [AllureStep]
         public ServiceTaskSchedulePage IsServiceTaskSchedule()
         {
             WaitUtil.WaitForElementVisible(title);
