@@ -29,6 +29,11 @@ namespace si_automated_tests.Source.Core.WebElements
             return WaitUtil.WaitForElementVisible(TreeViewXPath);
         }
 
+        public void ReleaseNode()
+        {
+            SelectedNode = null;
+        }
+
         public IWebElement SelectedNode { get; set; }
 
         public void ClickItem(string nodeName)

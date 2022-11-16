@@ -4,6 +4,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.Maps
@@ -21,6 +22,12 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         private readonly string sectorNameInSectorGroup = "//div[@id='selection-panel']//div[text()='{0}']";
         private readonly string sectorColumnInStatisticTab = "//span[text()='{0}']/parent::td/parent::tr";
         private readonly string parentColumnInStatisticTab = "//span[text()='{0}']/parent::td/following-sibling::td/span[text()='Richmond']";
+
+        private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-1')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]");
+        private TreeViewElement ServicesTreeView
+        {
+            get => _treeViewElement;
+        }
 
         [AllureStep]
         public DetailSectorGroupPage IsDetailSectorGroupPage(string segtorValue)
@@ -53,16 +60,14 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         }
 
         [AllureStep]
-        public DetailSectorGroupPage UnselectAllSectorService()
+        public DetailSectorGroupPage UnselectAllSectorService(string[] serviceName)
         {
             ClickOnElement(serviceTree);
-            List<IWebElement> list = GetAllElements(allCheckboxSector);
-            foreach(IWebElement webElement in list)
+            foreach (var item in serviceName)
             {
-                if(IsCheckboxChecked(webElement))
-                {
-                    ClickOnElement(webElement);
-                }
+                ServicesTreeView.ExpandNode("Ancillary");
+                ServicesTreeView.ClickItem(item);
+                ServicesTreeView.ReleaseNode();
             }
             return this;
 

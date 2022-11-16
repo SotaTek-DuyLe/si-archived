@@ -989,7 +989,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyNotDisplayErrorMessage();
             //Step line 9: Unselect some service and select diferent one
             detailSectorGroupPage
-                .UnselectAllSectorService()
+                .UnselectAllSectorService(serviceName)
                 .SelectService(serviceName)
                 .ClickOnLoadInStatisticTabBtn()
                 .WaitForLoadingIconToDisappear();
