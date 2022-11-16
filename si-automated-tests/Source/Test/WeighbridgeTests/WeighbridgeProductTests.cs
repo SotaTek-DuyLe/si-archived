@@ -2380,10 +2380,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Test(Description = "WB Site product 9")]
         public void TC_063_WB_Site_product_9()
         {
-            string query = "select * from wb_siteproducts where siteID=1174 and tickettypeid=1";
-            SqlCommand command = new SqlCommand(query, DbContext.Connection);
-            SqlDataReader reader = command.ExecuteReader();
-            List<WBSiteProduct> products = ObjectExtention.DataReaderMapToList<WBSiteProduct>(reader);
+            //string query = "select * from wb_siteproducts where siteID=1174 and tickettypeid=1";
+            //SqlCommand command = new SqlCommand(query, DbContext.Connection);
+            //SqlDataReader reader = command.ExecuteReader();
+            //List<WBSiteProduct> products = ObjectExtention.DataReaderMapToList<WBSiteProduct>(reader);
 
 
         }
