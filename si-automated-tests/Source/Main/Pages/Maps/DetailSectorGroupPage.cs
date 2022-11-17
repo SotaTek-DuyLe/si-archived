@@ -63,12 +63,7 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         public DetailSectorGroupPage UnselectAllSectorService(string[] serviceName)
         {
             ClickOnElement(serviceTree);
-            foreach (var item in serviceName)
-            {
-                ServicesTreeView.ExpandNode("Ancillary");
-                ServicesTreeView.ClickItem(item);
-                ServicesTreeView.ReleaseNode();
-            }
+            ServicesTreeView.UnSelectAllNode();
             return this;
 
         }
