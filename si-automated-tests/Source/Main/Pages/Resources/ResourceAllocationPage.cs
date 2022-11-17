@@ -47,6 +47,9 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string redBackground = "background-color: rgb(255, 49, 28);";
         private readonly string red2Background = "background-color: rgb(255, 224, 152);";
         private readonly string greenishBackground = "background-color: rgb(132, 255, 182);";
+        private readonly string lightBlueBackground = "background-color: rgb(209, 230, 241);";
+        private readonly string darkerRedBackground = "background-color: rgb(222, 16, 28);";
+        private readonly string darkerGreenBackground = "background-color: rgb(132, 222, 150);";
 
         //Left Panel Default Allocation
         private readonly By roundScrollable = By.Id("rounds-scrollable");
@@ -281,6 +284,31 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage ClickResourceDetail()
         {
             ClickOnElement(resourceDetailBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage HoverAndVerifyBackgroundColor(string _resourceName, string _color)
+        {
+            //Hover to element
+            var resource = WaitUtil.WaitForElementVisible(allocatedResourceContainer, _resourceName);
+            HoverElement(resource);
+            string style = WaitUtil.WaitForElementVisible(allocatedResourceContainer, _resourceName).GetAttribute("style");
+            if (_color == "light blue")
+            {
+                Assert.IsTrue(style.Contains(lightBlueBackground), "Incorrect color: Expected " + lightBlueBackground + " but found: " + style);
+            }
+            else if (_color == "darker green")
+            {
+                Assert.IsTrue(style.Contains(darkerGreenBackground), "Incorrect color: Expected " + darkerGreenBackground + " but found: " + style);
+            }
+            else if (_color == "darker red")
+            {
+                Assert.IsTrue(style.Contains(darkerRedBackground), "Incorrect color: Expected " + darkerRedBackground + " but found: " + style);
+            }
+            else
+            {
+                Assert.AreEqual(0, 1, "Incorrect color");
+            }
             return this;
         }
         [AllureStep]
