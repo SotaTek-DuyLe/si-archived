@@ -281,7 +281,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
 
         [Category("143_1_Task Allocation_Rellocation of Round Legs and Tasks")]
         [Category("Huong")]
-        [Test(Description = "Verify that Round Legs are successfully reallocated to a new Round Instance")]
+        //[Test(Description = "Verify that Round Legs are successfully reallocated to a new Round Instance")]
         public void TC_143_1_Verify_that_Round_Legs_are_successfully_reallocated_to_a_new_Round_Instance()
         {
             PageFactoryManager.Get<LoginPage>()
@@ -329,7 +329,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
 
         [Category("143_2_Task Allocation_Rellocation of Round Legs and Tasks")]
         [Category("Huong")]
-        [Test(Description = "Verify that Tasks are successfully reallocated to a new Round Instance")]
+        //[Test(Description = "Verify that Tasks are successfully reallocated to a new Round Instance")]
         public void TC_143_2_Verify_that_Tasks_are_successfully_reallocated_to_a_new_Round_Instance()
         {
             PageFactoryManager.Get<LoginPage>()
@@ -376,7 +376,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
 
         [Category("143_3_Task Allocation_Rellocation of Round Legs and Tasks")]
         [Category("Huong")]
-        [Test(Description = "Verify that Round Leg Instance will be reallocated if ALL Tasks under this RLI are reallocated ")]
+        //[Test(Description = "Verify that Round Leg Instance will be reallocated if ALL Tasks under this RLI are reallocated ")]
         public void TC_143_3_Verify_that_Round_Leg_Instance_will_be_reallocated_if_ALL_Tasks_under_this_RLI_are_reallocated()
         {
             PageFactoryManager.Get<LoginPage>()
