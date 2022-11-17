@@ -40,6 +40,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By UnallocatedTable = By.XPath("//div[@id='unallocated']//div[@class='grid-canvas']");
         public readonly By LockFilterInput = By.XPath("//div[contains(@id, 'round-tab')]//div[contains(@class, 'l27')]//input");
         public readonly By IdFilterInput = By.XPath("//div[contains(@id, 'round-tab')]//div[contains(@class, 'l3')]//input");
+        public readonly By DescriptionFilterInput = By.XPath("//div[contains(@id, 'round-tab') and contains(@class, 'active')]//div[contains(@class, 'l4')]//input");
         public readonly By ToggleRoundLegsButton = By.XPath("//button[@id='t-toggle-roundlegs']");
         private readonly By fromDateInput = By.XPath("//label[text()='From']/following-sibling::input");
         private readonly By toDateInput = By.XPath("//label[text()='To']/following-sibling::input");
@@ -542,41 +543,10 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             foreach (var item in roundLegs)
             {
-                int count = 0;
-                while (true)
-                {
-                    count++;
-                    IWebElement cell = UnallocatedTableEle.GetCellByValue(1, item.Description);
-                    if (cell == null)
-                    {
-                        IWebElement row = UnallocatedTableEle.GetRows().LastOrDefault();
-                        Actions actions = new Actions(this.driver);
-                        actions.MoveToElement(row).Perform();
-                        SleepTimeInMiliseconds(300);
-                    }
-                    else if(cell != null || count > maxRetryCount)
-                    {
-                        break;
-                    }
-                }
-                Assert.IsTrue(count < maxRetryCount);
-                List<IWebElement> rowDetails = UnallocatedTableEle.GetRows().Where(row =>
-                {
-                    IWebElement cell = row.FindElement(By.XPath(UnallocatedDescription));
-                    var details = cell.FindElements(By.XPath("./span[@class='toggle']"));
-                    return details.FirstOrDefault() != null;
-                }).ToList();
-                List<RoundInstanceModel> roundInstanceDetails = new List<RoundInstanceModel>();
-                foreach (var rowDetail in rowDetails)
-                {
-                    RoundInstanceModel model = new RoundInstanceModel()
-                    {
-                        Description = rowDetail.FindElement(By.XPath(UnallocatedDescription)).Text.Trim(),
-                        Service = rowDetail.FindElement(By.XPath(UnallocatedService)).Text.Trim()
-                    };
-                    if (!roundInstanceDetails.Any(x => x.Description == model.Description)) roundInstanceDetails.Add(model);
-                }
-                Assert.IsTrue(roundInstanceDetails.Any(x => x.Description == item.Description));
+                SendKeys(DescriptionFilterInput, item.Description);
+                SleepTimeInMiliseconds(300);
+                IWebElement cell = UnallocatedTableEle.GetCellByValue(1, item.Description);
+                Assert.IsNotNull(cell);
             }
             return this;
         }
