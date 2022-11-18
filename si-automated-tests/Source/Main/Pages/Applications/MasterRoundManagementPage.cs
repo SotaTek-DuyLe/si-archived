@@ -30,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By tabContainer = By.XPath("//div[@id='tabs-container']/ul");
         private readonly By unallocatedHeaders = By.XPath("//div[@id='unallocated']//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
         private readonly By firstUnallocatedTask = By.XPath("//div[@id='unallocated']//div[@class='grid-canvas']/div[1]");
+        private readonly By UnallocatedTaskGrid = By.XPath("//div[@id='unallocated']//div[@class='grid-canvas']");
         private readonly By activeUnallocatedTask = By.XPath("//div[@id='unallocated']//div[@class='grid-canvas']/div[contains(@class,'active')]");
         private readonly By activeUnallocatedTaskField = By.XPath("//div[@id='unallocated']//div[@class='grid-canvas']/div[contains(@class,'active')]/div");
 
@@ -44,8 +45,47 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly String taskField = "//div[contains(@id,'round-tab') and contains(@class,'active')]//div[@class='grid-canvas']/div[contains(@class,'content slick-row')]/div[contains(@class,'{0}')]";
         private readonly By slickViewport = By.XPath("(//div[@class='slick-viewport'])[last()]");
 
+        public readonly By Subcontract = By.XPath("//button[@id='t-selected-rows-subcontract']");
+        public readonly By SubcontractSelect = By.XPath("//select[@id='subcontractReasons']");
+        public readonly By SubcontractConfirmButton = By.XPath("//button[text()='Confirm']");
+        private readonly string roundItem = "//li[contains(@class, 'list-group-item round')]//span[text()='{0}']";
         //round grid
         private readonly By rounds = By.XPath("//ul[@id='rounds']/li[not(contains(@style, 'display: none;'))]");
+
+        [AllureStep]
+        public MasterRoundManagementPage DragRoundToGrid()
+        {
+            By roundItemXpath = By.XPath(string.Format(roundItem, "REF1-AM Monday "));
+            DragAndDrop(roundItemXpath, UnallocatedTaskGrid);
+            return this;
+        }
+
+        [AllureStep]
+        public MasterRoundManagementPage ScrollToSubcontractHeader()
+        {
+            ClickOnElement(By.XPath("(//div[contains(@id,'round-tab') and contains(@class,'active')]//div[contains(@class,'ui-state-default slick-header-column')]/span[1])[26]"));
+            return this;
+        }
+
+        [AllureStep]
+        public MasterRoundManagementPage SelectFirstAndSecondTask()
+        {
+            List<IWebElement> tasks = GetAllElements(firstAllocatedTask);
+            if (tasks.Count > 1)
+            {
+                tasks[0].Click();
+                tasks[1].Click();
+
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public MasterRoundManagementPage VerifyFirstAndSecondTask(string subcontract, string reason)
+        {
+            
+            return this;
+        }
 
         [AllureStep]
         public MasterRoundManagementPage IsOnPage()
@@ -90,7 +130,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             ClickOnElement(servicesInput);
             ClickOnElement(serviceExpandIcon, service);
             ClickOnElement(serviceOption, subService);
-            SendKeys(dateInput, date);
+            if(!string.IsNullOrEmpty(date)) SendKeys(dateInput, date);
             ClickOnElement(goBtn);
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForPageLoaded();

@@ -109,5 +109,33 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .DragAndDropFirstRoundToGrid()
                 .VerifyTaskModelDescriptionAndEndDate(expectedModel2);
         }
+
+        [Category("RoundInstance")]
+        [Category("Huong")]
+        [Test]
+        public void TC_199_tasks_and_round_legs_can_be_reallocated()
+        {
+            //Verify that tasks and round legs can be reallocated
+            string contract = Contract.RMC;
+            string service = "Commercial";
+            string subService = "Commercial Collections";
+            string date = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
+            MasterRoundManagementPage masterRoundManagementPage = PageFactoryManager.Get<MasterRoundManagementPage>();
+            masterRoundManagementPage
+                .IsOnPage()
+                .InputSearchDetails(contract, service, subService, date)
+                .WaitForLoadingIconToDisappear();
+            masterRoundManagementPage.DragRoundToGrid()
+                .WaitForLoadingIconToDisappear();
+
+            //Select couple of rows and click Subcontract (make a note of the descriptions) -> Select a subcontract reason and click Confirm 
+            masterRoundManagementPage.SelectFirstAndSecondTask();
+            masterRoundManagementPage.ClickOnElement(masterRoundManagementPage.Subcontract);
+            masterRoundManagementPage.SelectTextFromDropDown(masterRoundManagementPage.SubcontractSelect, "No Service")
+                .ClickOnElement(masterRoundManagementPage.SubcontractConfirmButton);
+            masterRoundManagementPage.WaitForLoadingIconToDisappear();
+            //Scroll right
+            masterRoundManagementPage.ScrollToSubcontractHeader();
+        }
     }
 }
