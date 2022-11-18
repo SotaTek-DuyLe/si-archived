@@ -98,7 +98,7 @@ namespace si_automated_tests.Source.Test.MapTests
 
             //Enter values in mandatory fields:
             sectorGroupDetailPage.SendKeys(sectorGroupDetailPage.SectorNameInput, "Monday");
-            sectorGroupDetailPage.SelectTextFromDropDown(sectorGroupDetailPage.SectorTypeSelect, "Round");
+            sectorGroupDetailPage.SelectTextFromDropDown(sectorGroupDetailPage.SectorTypeSelect, "Zone");
             sectorGroupDetailPage.ClickOnElement(sectorGroupDetailPage.FinishButton);
             sectorGroupDetailPage.SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();

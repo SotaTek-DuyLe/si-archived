@@ -110,7 +110,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 var priceTab = PageFactoryManager.Get<PriceTab>();
                 priceTab.WaitForLoadingIconToDisappear();
                 priceTab.VerifyElementEnable(priceTab.nextBtn, false);
-                priceTab.ClickOnRemoveButton(new List<string>() { "Commercial Customers: Collection", "Commercial Customers: Bin Removal", "Commercial Customers: Bin Delivery" })
+                priceTab.ClickOnRemoveButton(new List<string>() { "Commercial Customers: Bin Removal", "Commercial Customers: Bin Delivery" })
                     .VerifyElementEnable(priceTab.nextBtn, true);
                 priceTab.ClickNext();
                 PageFactoryManager.Get<InvoiceDetailTab>()
@@ -184,7 +184,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                     .ClickToDetailsTab();
                 var taskDetailTab = PageFactoryManager.Get<TaskDetailTab>();
                 PageFactoryManager.Get<TaskDetailTab>()
-                    .SelectTextFromDropDown(taskDetailTab.detailTaskState, "Completed")
+                    .SelectTextFromDropDown(taskDetailTab.detailTaskState, "Completed");
+                taskDetailTab.InputPurchaseOrderValue(i.ToString())
                     .ClickSaveBtn()
                     .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                     .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
