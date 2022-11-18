@@ -443,8 +443,8 @@ namespace si_automated_tests.Source.Test
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.Commercial)
-                .ExpandOptionLast(Contract.Commercial)
+                .ExpandOption(Contract.Municipal)
+                .ExpandOptionLast(Contract.RM)
                 .OpenOption("Point Segments")
                 .SwitchNewIFrame();
             //Step line 8: Open a point segment
@@ -501,8 +501,8 @@ namespace si_automated_tests.Source.Test
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.Commercial)
-                .ExpandOptionLast(Contract.Commercial)
+                .ExpandOption(Contract.Municipal)
+                .ExpandOptionLast(Contract.RM)
                 .OpenOption("Point Nodes")
                 .SwitchNewIFrame();
             //Step line 8: Open a point node
@@ -644,8 +644,8 @@ namespace si_automated_tests.Source.Test
         //        .ClickMainOption(MainOption.Services)
         //        .ExpandOption("Regions")
         //        .ExpandOption(Region.UK)
-        //        .ExpandOption(Contract.RMC)
-        //        .ExpandOptionLast(Contract.RMC)
+        //        ExpandOption(Contract.Municipal)
+                //.ExpandOptionLast(Contract.RM)
         //        .OpenOption("Point Areas")
         //        .SwitchNewIFrame();
         //    //Step line 8: Open a point node
@@ -693,7 +693,7 @@ namespace si_automated_tests.Source.Test
         {
             string partyId = "1090";
             string partyName = "Network Rail";
-            PartyModel partyModel = new PartyModel("AutoPartyy " + CommonUtil.GetRandomNumber(4), Contract.RMC, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
+            PartyModel partyModel = new PartyModel("AutoPartyy " + CommonUtil.GetRandomNumber(4), Contract.Commercial, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
 
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
@@ -703,7 +703,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser46);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
@@ -715,7 +715,7 @@ namespace si_automated_tests.Source.Test
                 .WaitForLoadingIconToDisappear();
             //Missing name when creating a party
             createPartyPage
-                .IsCreatePartiesPopup(Contract.RMC)
+                .IsCreatePartiesPopup(Contract.Commercial)
                 .SendKeyToThePartyInput(partyModel.PartyName)
                 .SelectStartDate(-1)
                 .SelectPartyType(1)
@@ -1142,7 +1142,7 @@ namespace si_automated_tests.Source.Test
                  .IsOnHomePage(AutoUser46);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Maps)
-                .ExpandOption(Contract.RM)
+                .ExpandOption(Contract.Municipal)
                 .OpenOption("Sector Groups")
                 .SwitchNewIFrame();
             SectorGroupPage sectorGroupPage = PageFactoryManager.Get<SectorGroupPage>();
