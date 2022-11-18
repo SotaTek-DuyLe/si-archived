@@ -452,5 +452,98 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
         }
+        [Category("Resources")]
+        [Category("Dee")]
+        [Test]
+        public void TC_222_verify_color_of_resource_when_hovered()
+        {
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string vehicleResourceName = "Van " + CommonUtil.GetRandomNumber(5);
+            string resourceType = "Driver";
+            string vehicleResourceType = "Van";
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.RM)
+                .SelectBusinessUnit(Contract.RM)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            //Create driver
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.EastCollections)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //Create vehicle
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(vehicleResourceName)
+                .SelectResourceType(vehicleResourceType)
+                .SelectBusinessUnit(BusinessUnit.EastCollections)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear()
+                .SwitchToTab("All Resources");
+            //Verify Driver
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName)
+                .VerifyFirstResultValue("Resource", resourceName)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName)
+                .HoverAndVerifyBackgroundColor(resourceName, "light blue")
+                .ClickAllocatedResource(resourceName)
+                .SelectResourceState("SICK")
+                .IsReasonPopupDisplayed()
+                .SelectReason(ResourceReason.Paid)
+                .ClickConfirmButton()
+                .WaitForLoadingIconToDisappear();
+            Thread.Sleep(500);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .HoverAndVerifyBackgroundColor(resourceName, "darker green");
+
+            //Verify Vehicle
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", vehicleResourceName)
+                .VerifyFirstResultValue("Resource", vehicleResourceName)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(vehicleResourceName)
+                .ClickAllocatedResource(vehicleResourceName)
+                .SelectResourceState("MAINTENANCE")
+                .WaitForLoadingIconToDisappear();
+            Thread.Sleep(500);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .HoverAndVerifyBackgroundColor(vehicleResourceName, "darker red");
+        }
     }
 }
