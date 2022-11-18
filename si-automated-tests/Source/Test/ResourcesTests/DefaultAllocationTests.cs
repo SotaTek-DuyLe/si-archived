@@ -45,8 +45,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Default Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.RMC)
-                .SelectBusinessUnit(Contract.RMC)
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -144,8 +144,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Default Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.RMC)
-                .SelectBusinessUnit(Contract.RMC)
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -270,8 +270,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Default Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.RMC)
-                .SelectBusinessUnit(Contract.RMC)
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -412,8 +412,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.RMC)
-                .SelectBusinessUnit(Contract.RMC)
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
                 .SelectShift("AM")
                 .ClickCalendar()
                 .InsertDayInFutre(dateInFutre)

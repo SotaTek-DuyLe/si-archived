@@ -34,7 +34,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnHomePage(AutoUser23);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Resources)
-                .OpenOption(Contract.RM)
+                .OpenOption(Contract.Municipal)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
@@ -63,7 +63,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RM)
+                .ExpandOption(Contract.Municipal)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Clinical Waste")
                 .ExpandOption("Round Groups")
@@ -82,7 +82,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //TC-32-33
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Resources)
-                .OpenOption(Contract.RM)
+                .OpenOption(Contract.Municipal)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .OpenFirstResult()
@@ -119,7 +119,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //TC-34
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Resources)
-                .OpenOption(Contract.RM)
+                .OpenOption(Contract.Municipal)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .OpenFirstResult()
@@ -161,7 +161,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnHomePage(AutoUser23);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Resources)
-                .OpenOption(Contract.RM)
+                .OpenOption(Contract.Municipal)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
@@ -188,7 +188,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RM)
+                .ExpandOption(Contract.Municipal)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Clinical Waste")
                 .ExpandOption("Round Groups")
@@ -223,8 +223,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Default Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.RMC)
-                .SelectBusinessUnit(Contract.RMC)
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -250,7 +250,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Resrouce", resourceName)
                 .VerifyFirstResultValue("Class", "Human")
                 .VerifyFirstResultValue("Type", resourceType)
-                .VerifyFirstResultValue("Contract", Contract.RMC);
+                .VerifyFirstResultValue("Contract", Contract.Commercial);
         }
     }
 }

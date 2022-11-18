@@ -160,7 +160,7 @@ namespace si_automated_tests.Source.Test.RiskTests
                 .VerifyToastMessagesIsUnDisplayed();
             List<RiskModel> riskModels = streetDetailPage
                 .GetAllRiskInTab();
-            string[] allContracts = { Contract.RM, Contract.RMC };
+            string[] allContracts = { Contract.Municipal, Contract.Commercial };
             string[] allRiskName = { "Proximity to School", "Proximity to School" };
             streetDetailPage
                 .VerifyRisksWithContractAndName(riskModels, allContracts, allRiskName);

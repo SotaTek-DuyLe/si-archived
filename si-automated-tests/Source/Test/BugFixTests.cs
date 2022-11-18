@@ -99,7 +99,7 @@ namespace si_automated_tests.Source.Test
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .ExpandOption("Collections")
                 .ExpandOptionLast("Commercial Collections")
                 .OpenOption("Active Service Units")
@@ -151,7 +151,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser46);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RM)
+                .OpenOption(Contract.Municipal)
                 .SwitchNewIFrame();
             //Double click on row where [Party] column is blank [RM]
             PageFactoryManager.Get<TasksListingPage>()
@@ -175,7 +175,7 @@ namespace si_automated_tests.Source.Test
             //Doube click on row where [Party] column is populated [RMC]
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                .WaitForTaskListinPageDisplayed()
@@ -217,7 +217,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser46);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(partyId)
@@ -350,7 +350,7 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser46);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .OpenFirstServiceTaskLink()
@@ -429,8 +429,8 @@ namespace si_automated_tests.Source.Test
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
-                .ExpandOptionLast(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
+                .ExpandOptionLast(Contract.Commercial)
                 .OpenOption("Point Segments")
                 .SwitchNewIFrame();
             //Step line 8: Open a point segment
@@ -487,8 +487,8 @@ namespace si_automated_tests.Source.Test
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
-                .ExpandOptionLast(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
+                .ExpandOptionLast(Contract.Commercial)
                 .OpenOption("Point Nodes")
                 .SwitchNewIFrame();
             //Step line 8: Open a point node
@@ -591,10 +591,10 @@ namespace si_automated_tests.Source.Test
         [Test(Description = "Add a hyperlink to Round form for easier access of round group form")]
         public void TC_207_hyper_link_for_round_group()
         {
-            string url= WebUrl.MainPageUrl + "rounds/37";
+            string url= WebUrl.MainPageUrl + "web/rounds/37";
 
             PageFactoryManager.Get<LoginPage>()
-                   .GoToURL(WebUrl.MainPageUrl);
+                   .GoToURL(url);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser46.UserName, AutoUser46.Password)
@@ -628,8 +628,8 @@ namespace si_automated_tests.Source.Test
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.RM)
-                .SelectBusinessUnit(Contract.RM)
+                .SelectContract(Contract.Municipal)
+                .SelectBusinessUnit(Contract.Municipal)
                 .SelectShift("AM")
                 .InsertDate(dateInFutre + Keys.Enter)
                 .ClickGo()

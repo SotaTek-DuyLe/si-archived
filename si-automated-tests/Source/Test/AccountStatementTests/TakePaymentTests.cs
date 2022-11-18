@@ -36,7 +36,7 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                 .IsOnHomePage(AutoUser48);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             List<PartyModel> partyModels = PageFactoryManager.Get<PartyCommonPage>()

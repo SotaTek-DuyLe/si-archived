@@ -36,7 +36,7 @@ namespace si_automated_tests.Source.Test.MapTests
                 .IsOnHomePage(AutoUser27);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Maps)
-                .ExpandOption(Contract.RMC);
+                .ExpandOption(Contract.Commercial);
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("Sector Groups")
                 .SwitchNewIFrame();
@@ -123,7 +123,7 @@ namespace si_automated_tests.Source.Test.MapTests
                 .IsOnHomePage(AutoUser27);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Maps)
-                .OpenOption(Contract.RMC);
+                .OpenOption(Contract.Commercial);
             PageFactoryManager.Get<NavigationBase>()
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();

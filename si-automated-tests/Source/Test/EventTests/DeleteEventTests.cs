@@ -38,7 +38,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .IsOnHomePage(AutoUser7);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Events)
-                .OpenOption(Contract.RM)
+                .OpenOption(Contract.Municipal)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             EventsListingPage eventListingPage = PageFactoryManager.Get<EventsListingPage>();

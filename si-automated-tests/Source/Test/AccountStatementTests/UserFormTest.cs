@@ -32,7 +32,7 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                 //Events -> Click on the contract -> Double click on any event
                 PageFactoryManager.Get<NavigationBase>()
                     .ClickMainOption(MainOption.Events)
-                    .OpenOption(Contract.RM)
+                    .OpenOption(Contract.Municipal)
                     .SwitchNewIFrame()
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<EventsListingPage>()
@@ -50,7 +50,7 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                 //Tasks -> Click on contract -> Double click on any task
                 PageFactoryManager.Get<NavigationBase>()
                    .ClickMainOption(MainOption.Tasks)
-                   .OpenOption(Contract.RM)
+                   .OpenOption(Contract.Municipal)
                    .SwitchNewIFrame()
                    .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<CommonTaskPage>()
@@ -70,7 +70,7 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                    .ClickMainOption(MainOption.Services)
                    .ExpandOption("Regions")
                    .ExpandOption(Region.UK)
-                   .ExpandOption(Contract.RM)
+                   .ExpandOption(Contract.Municipal)
                    .ExpandOptionLast("Richmond")
                    .OpenOption("Point Addresses")
                    .SwitchNewIFrame()
@@ -94,8 +94,8 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                    .ClickMainOption(MainOption.Services)
                    .ExpandOption("Regions")
                    .ExpandOption(Region.UK)
-                   .ExpandOption(Contract.RM)
-                   .ExpandOption(Contract.RM)
+                   .ExpandOption(Contract.Municipal)
+                   .ExpandOption(Contract.Municipal)
                    .OpenOption("Point Segments")
                    .SwitchNewIFrame()
                    .WaitForLoadingIconToDisappear();
@@ -118,8 +118,8 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                    .ClickMainOption(MainOption.Services)
                    .ExpandOption("Regions")
                    .ExpandOption(Region.UK)
-                   .ExpandOption(Contract.RM)
-                   .ExpandOption(Contract.RM)
+                   .ExpandOption(Contract.Municipal)
+                   .ExpandOption(Contract.Municipal)
                    .OpenOption("Point Nodes")
                    .SwitchNewIFrame()
                    .WaitForLoadingIconToDisappear();
@@ -142,8 +142,8 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                    .ClickMainOption(MainOption.Services)
                    .ExpandOption("Regions")
                    .ExpandOption(Region.UK)
-                   .ExpandOption(Contract.RM)
-                   .ExpandOption(Contract.RM)
+                   .ExpandOption(Contract.Municipal)
+                   .ExpandOption(Contract.Municipal)
                    .OpenOption("Point Areas")
                    .SwitchNewIFrame()
                    .WaitForLoadingIconToDisappear();
@@ -166,7 +166,7 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                     .ClickMainOption(MainOption.Services)
                     .ExpandOption("Regions")
                     .ExpandOption(Region.UK)
-                    .ExpandOption(Contract.RM)
+                    .ExpandOption(Contract.Municipal)
                     .ExpandOption("Recycling")
                     .ExpandOption("Communal Recycling")
                     .OpenOption("Active Service Units");

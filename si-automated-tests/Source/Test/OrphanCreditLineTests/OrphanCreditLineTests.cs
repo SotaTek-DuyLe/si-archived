@@ -34,7 +34,7 @@ namespace si_automated_tests.Source.Test.OrphanCreditLineTests
                 .IsOnHomePage(AutoUser50);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Accounts)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.SalesInvoiceBatches)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SalesInvoiceBatchesPage>()
@@ -131,7 +131,7 @@ namespace si_automated_tests.Source.Test.OrphanCreditLineTests
                 .IsOnHomePage(AutoUser50);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Accounts)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.SalesInvoiceBatches)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SalesInvoiceBatchesPage>()

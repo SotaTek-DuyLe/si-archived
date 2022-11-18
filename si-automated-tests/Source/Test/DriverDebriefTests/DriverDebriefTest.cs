@@ -93,10 +93,10 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            resourceAllocationPage.SelectContract(Contract.RMC);
+            resourceAllocationPage.SelectContract(Contract.Commercial);
             resourceAllocationPage.SelectShift("AM");
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
-            resourceAllocationPage.ExpandRoundNode(Contract.RMC)
+            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
                 .SelectRoundNode("Collections")
                 .InputCalendarDate(resourceAllocationPage.date, "25/07/2022");
             resourceAllocationPage.ClickGo();

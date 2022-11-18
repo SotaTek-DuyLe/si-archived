@@ -32,7 +32,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         [Test]
         public void TC_004_Create_a_party_customer_type_form_grid()
         {
-            PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), Contract.RMC, CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
+            PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), Contract.Commercial, CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
 
             //login
             PageFactoryManager.Get<LoginPage>()
@@ -45,7 +45,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //create new party 
@@ -53,7 +53,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup(Contract.RMC)
+                .IsCreatePartiesPopup(Contract.Commercial)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -79,7 +79,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         [Test]
         public void TC_005_Create_party_customer_type_from_action_dropdown()
         {
-            PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(5), Contract.RMC, CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
+            PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(5), Contract.Commercial, CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
 
             //login
             PageFactoryManager.Get<LoginPage>()
@@ -94,7 +94,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .GoToThePatiesByCreateEvenDropdown()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup(Contract.RM)
+                .IsCreatePartiesPopup(Contract.Municipal)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -135,7 +135,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //create new party 
@@ -143,7 +143,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup(Contract.RMC)
+                .IsCreatePartiesPopup(Contract.Commercial)
                 .SendKeyToThePartyInput("Auto" + CommonUtil.GetRandomString(2))
                 .SelectStartDatePlusOneDay()
                 .SelectPartyType(1)
@@ -165,7 +165,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             CreatePartyPage createPartyPage = new CreatePartyPage();
             DetailPartyPage detailPartyPage = new DetailPartyPage();
             string PartyName = "AutoPartyy " + CommonUtil.GetRandomNumber(4);
-            PartyModel partyModel = new PartyModel(PartyName, Contract.RMC, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
+            PartyModel partyModel = new PartyModel(PartyName, Contract.Commercial, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
             string address = "Twickenham";
             string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
             //login
@@ -178,7 +178,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //create new party 
@@ -188,7 +188,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SwitchToChildWindow(2);
             createPartyPage.WaitForLoadingIconToDisappear();
             createPartyPage
-                .IsCreatePartiesPopup(Contract.RMC)
+                .IsCreatePartiesPopup(Contract.Commercial)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -244,7 +244,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             CreatePartyPage createPartyPage = new CreatePartyPage();
             DetailPartyPage detailPartyPage = new DetailPartyPage();
             string PartyName = "AutoPartyy " + CommonUtil.GetRandomNumber(4);
-            PartyModel partyModel = new PartyModel(PartyName, Contract.RMC, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
+            PartyModel partyModel = new PartyModel(PartyName, Contract.Commercial, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
             string address = "Twickenham";
             string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
             //login
@@ -258,7 +258,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //create new party 
@@ -267,7 +267,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             createPartyPage
-                .IsCreatePartiesPopup(Contract.RMC)
+                .IsCreatePartiesPopup(Contract.Commercial)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -319,7 +319,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             CreatePartyPage createPartyPage = new CreatePartyPage();
             DetailPartyPage detailPartyPage = new DetailPartyPage();
             string PartyName = "AutoPartyy " + CommonUtil.GetRandomNumber(4);
-            PartyModel partyModel = new PartyModel(PartyName, Contract.RMC, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
+            PartyModel partyModel = new PartyModel(PartyName, Contract.Commercial, CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -1));
             string address = "Twickenham";
             string addressSite1 = "Site Twickenham " + CommonUtil.GetRandomNumber(4);
             string addressSite2 = "Site Twickenham 2" + CommonUtil.GetRandomNumber(4);
@@ -334,7 +334,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //create new party
@@ -343,7 +343,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             createPartyPage
-                .IsCreatePartiesPopup(Contract.RMC)
+                .IsCreatePartiesPopup(Contract.Commercial)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -408,7 +408,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         public void TC_010_Create_manual_site()
         {
             string PartyName = "AutoPartyTC10 " + CommonUtil.GetRandomNumber(4);
-            PartyModel partyModel = new PartyModel(PartyName, Contract.RMC, CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
+            PartyModel partyModel = new PartyModel(PartyName, Contract.Commercial, CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             //login
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -420,7 +420,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //create new party 
@@ -428,7 +428,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup(Contract.RMC)
+                .IsCreatePartiesPopup(Contract.Commercial)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -480,7 +480,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             AddressDetailModel addressDetailModel = new AddressDetailModel(siteName, postCode);
 
             string PartyName = "AutoPartyTC11 " + CommonUtil.GetRandomNumber(4);
-            PartyModel partyModel = new PartyModel(PartyName, Contract.RMC, CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
+            PartyModel partyModel = new PartyModel(PartyName, Contract.Commercial, CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             //login
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -492,7 +492,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //create new party 
@@ -500,7 +500,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup(Contract.RMC)
+                .IsCreatePartiesPopup(Contract.Commercial)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -571,7 +571,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             //create new party 
@@ -579,7 +579,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup(Contract.RMC)
+                .IsCreatePartiesPopup(Contract.Commercial)
                 .VerifyContractDropdownVlues()
                 .VerifyAllPartyTypes()
                 .SendKeyToThePartyInput(partyModel.PartyName)
@@ -727,7 +727,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -832,9 +832,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
             TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
             string from = "03/08/2022";
             string to = "03/08/2022";
-            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.RMC);
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.Commercial);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
-            taskAllocationPage.ExpandRoundNode(Contract.RMC)
+            taskAllocationPage.ExpandRoundNode(Contract.Commercial)
                 .ExpandRoundNode("Collections")
                 .SelectRoundNode("Commercial Collections");
             taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
@@ -861,9 +861,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<NavigationBase>()
                 .SwitchNewIFrame();
             TaskConfirmationPage taskConfirmationPage = PageFactoryManager.Get<TaskConfirmationPage>();
-            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, Contract.RMC);
+            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, Contract.Commercial);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ServiceInput);
-            taskConfirmationPage.ExpandRoundNode(Contract.RMC)
+            taskConfirmationPage.ExpandRoundNode(Contract.Commercial)
                 .ExpandRoundNode("Collections")
                 .ExpandRoundNode("Commercial Collections")
                 .SelectRoundNode("REC1-AM");
