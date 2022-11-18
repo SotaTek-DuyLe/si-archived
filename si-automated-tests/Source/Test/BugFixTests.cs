@@ -11,12 +11,17 @@ using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.Accounts;
+using si_automated_tests.Source.Main.Pages.Agrrements;
 using si_automated_tests.Source.Main.Pages.IE_Configuration;
 using si_automated_tests.Source.Main.Pages.Inspections;
 using si_automated_tests.Source.Main.Pages.Maps;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
+using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Paties.Sites;
+using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
 using si_automated_tests.Source.Main.Pages.Search.PointNodes;
@@ -560,7 +565,68 @@ namespace si_automated_tests.Source.Test
                 .GetRoundGroupName();
             Assert.IsTrue(roundName.Contains(roundGroupName));
         }
-        
+
+        [Category("Dee")]
+        [Test(Description = "Daily Allocation - Prompt user with resolution code dropdown when resolution code is mandatory for Resource State")]
+        public void TC_219_daily_allocation_prompt_user_with_resolution_code()
+        {
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string resourceType = "Driver";
+            string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 5);
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.RM)
+                .SelectBusinessUnit(Contract.RM)
+                .SelectShift("AM")
+                .InsertDate(dateInFutre + Keys.Enter)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            //Create driver
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.EastCollections)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            //Verify popup
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName)
+                .VerifyFirstResultValue("Resource", resourceName)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName)
+                .ClickAllocatedResource(resourceName)
+                .SelectResourceState("SICK")
+                .IsReasonPopupDisplayed()
+                .VerifyConfirmButtonEnabled(false)
+                .CloseReasonPopup()
+                .ClickAllocatedResource(resourceName)
+                .SelectResourceState("TRAINING")
+                .IsReasonPopupDisplayed()
+                .VerifyConfirmButtonEnabled(false)
+                .SelectReason(ResourceReason.Paid)
+                .VerifyConfirmButtonEnabled(true);
+        }
+
         //[Category("ServiceUnitPoint")]
         //[Category("Chang")]
         //[Test(Description = "Service Unit point map showing incorrect data (bug fix) - Point Area")]
@@ -775,12 +841,10 @@ namespace si_automated_tests.Source.Test
 
         [Category("BugFix")]
         [Category("Chang")]
-        [Test(Description = "The read only images are black & white (bug fix)")]
-        public void TC_209_The_read_only_images_are_black_and_white()
+        [Test(Description = "The read only images are black & white (bug fix) - Update inspection Unallocated to Completed")]
+        public void TC_209_The_read_only_images_are_black_and_white_unallocated_to_completed()
         {
-            string inspectionId = "1804";
-            string inspectionTypeValue = "Street Cleansing Assessment";
-
+            string unallocatedStatus = "Unallocated";
             string relLogo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Source/Main/Resources/echo.jpeg");
             string newPath = new Uri(relLogo).LocalPath;
 
@@ -797,15 +861,20 @@ namespace si_automated_tests.Source.Test
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
-                .FilterInspectionById(inspectionId + Keys.Enter)
+                .FilterInspectionByStatus(unallocatedStatus)
+                .WaitForLoadingIconToDisappear();
+            List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
+                .getAllInspectionInList(2);
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .FilterInspectionById(inspectionModels[0].ID + Keys.Enter)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AllInspectionListingPage>()
                 .DoubleClickFirstInspectionRow()
                 .SwitchToLastWindow();
             DetailInspectionPage detailInspectionPage = PageFactoryManager.Get<DetailInspectionPage>();
             detailInspectionPage
-                .WaitForInspectionDetailDisplayed(inspectionTypeValue)
-                .VerifyInspectionId(inspectionId.ToString())
+                .WaitForInspectionDetailDisplayed(inspectionModels[0].inspectionType)
+                .VerifyInspectionId(inspectionModels[0].ID)
                 //Click on [Data] tab
                 .ClickOnDataTab()
                 .WaitForLoadingIconToDisappear();
@@ -830,7 +899,137 @@ namespace si_automated_tests.Source.Test
                 .WaitForLoadingIconToDisappear();
             //Line 35 => Verify data tab
             detailInspectionPage
-                .VerifyAllFieldsInDataTabDisabled()
+                .VerifyTheImageIsReadOnly();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "The read only images are black & white (bug fix) - Update inspection Unallocated to Cancelled")]
+        public void TC_209_The_read_only_images_are_black_and_white_unallocated_to_cancelled ()
+        {
+            string unallocatedStatus = "Unallocated";
+            string relLogo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Source/Main/Resources/echo.jpeg");
+            string newPath = new Uri(relLogo).LocalPath;
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<HomePage>()
+                 .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Inspections)
+                .OpenOption("All Inspections")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .FilterInspectionByStatus(unallocatedStatus)
+                .WaitForLoadingIconToDisappear();
+            List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
+                .getAllInspectionInList(2);
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .FilterInspectionById(inspectionModels[0].ID + Keys.Enter)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .DoubleClickFirstInspectionRow()
+                .SwitchToLastWindow();
+            DetailInspectionPage detailInspectionPage = PageFactoryManager.Get<DetailInspectionPage>();
+            detailInspectionPage
+                .WaitForInspectionDetailDisplayed(inspectionModels[0].inspectionType)
+                .VerifyInspectionId(inspectionModels[0].ID)
+                //Click on [Data] tab
+                .ClickOnDataTab()
+                .WaitForLoadingIconToDisappear();
+            detailInspectionPage
+                .UploadImage(newPath)
+                .SelectStreetGrade("B")
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Update the state to cancelled
+            detailInspectionPage
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            detailInspectionPage
+                .ClickCancelBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+            detailInspectionPage
+                .VerifyAllFieldsInPopupDisabled()
+                .VerifyStateInspection("Cancelled")
+                .ClickOnDataTab()
+                .WaitForLoadingIconToDisappear();
+            //Line 35 => Verify data tab
+            detailInspectionPage
+                .VerifyTheImageIsReadOnly();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "The read only images are black & white (bug fix) - Update inspection Unallocated to Expired")]
+        public void TC_209_The_read_only_images_are_black_and_white_unallocated_to_Expired()
+        {
+            string unallocatedStatus = "Unallocated";
+            string relLogo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Source/Main/Resources/echo.jpeg");
+            string newPath = new Uri(relLogo).LocalPath;
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<HomePage>()
+                 .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Inspections)
+                .OpenOption("All Inspections")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .FilterInspectionByStatus(unallocatedStatus)
+                .WaitForLoadingIconToDisappear();
+            List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
+                .getAllInspectionInList(2);
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .FilterInspectionById(inspectionModels[0].ID + Keys.Enter)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .DoubleClickFirstInspectionRow()
+                .SwitchToLastWindow();
+            DetailInspectionPage detailInspectionPage = PageFactoryManager.Get<DetailInspectionPage>();
+            detailInspectionPage
+                .WaitForInspectionDetailDisplayed(inspectionModels[0].inspectionType)
+                .VerifyInspectionId(inspectionModels[0].ID)
+                //Click on [Data] tab
+                .ClickOnDataTab()
+                .WaitForLoadingIconToDisappear();
+            detailInspectionPage
+                .UploadImage(newPath)
+                .SelectStreetGrade("C")
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Update the state to cancelled
+            detailInspectionPage
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            string validFromValue = CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT, -2);
+            string validToValue = CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT, -1);
+            detailInspectionPage
+               .VerifyStateInspection("Unallocated")
+               .InputValidFrom(validFromValue)
+               .InputValidTo(validToValue)
+               .ClickSaveBtn()
+               .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            detailInspectionPage
+                .VerifyAllFieldsInPopupDisabled()
+                .VerifyStateInspection("Expired")
+                .ClickOnDataTab()
+                .WaitForLoadingIconToDisappear();
+            //Line 35 => Verify data tab
+            detailInspectionPage
                 .VerifyTheImageIsReadOnly();
         }
 
@@ -931,7 +1130,7 @@ namespace si_automated_tests.Source.Test
             string secondSectorId = "4";
             string firstSectorGroupName = "Richmond Waste Collection";
             string secondSectorGroupName = "Richmond Recycling Collection";
-            string[] serviceName = { "Clinical Waste", "Bulky Collections" };
+            string[] sectorName = { "Clinical Waste", "Bulky Collections" };
 
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
@@ -960,7 +1159,7 @@ namespace si_automated_tests.Source.Test
             detailSectorGroupPage
                 .IsDetailSectorGroupPage(firstSectorGroupName)
                 .ClickOnStatisticTab()
-                .SelectService(serviceName)
+                .SelectSector(sectorName)
                 .ClickOnLoadInStatisticTabBtn()
                 .WaitForLoadingIconToDisappear();
             detailSectorGroupPage
@@ -981,16 +1180,17 @@ namespace si_automated_tests.Source.Test
             detailSectorGroupPage
                 .IsDetailSectorGroupPage(secondSectorGroupName)
                 .ClickOnStatisticTab()
-                .SelectService(serviceName)
+                .SelectSector(sectorName)
                 .ClickOnLoadInStatisticTabBtn()
                 .WaitForLoadingIconToDisappear();
             detailSectorGroupPage
                 .VerifyDisplayDataAfterSelectSection()
                 .VerifyNotDisplayErrorMessage();
             //Step line 9: Unselect some service and select diferent one
+            string[] otherSectors = { "Bring Banks", "Domestic Recycling" };
             detailSectorGroupPage
-                .UnselectAllSectorService(serviceName)
-                .SelectService(serviceName)
+                .UnselectAllSectorService()
+                .SelectSector(otherSectors)
                 .ClickOnLoadInStatisticTabBtn()
                 .WaitForLoadingIconToDisappear();
             detailSectorGroupPage
@@ -998,65 +1198,98 @@ namespace si_automated_tests.Source.Test
                 .VerifyNotDisplayErrorMessage();
         }
 
-        [Category("Dee")]
-        [Test(Description = "Daily Allocation - Prompt user with resolution code dropdown when resolution code is mandatory for Resource State")]
-        public void TC_219_daily_allocation_prompt_user_with_resolution_code()
-        {
-            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
-            string resourceType = "Driver";
-            string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 5);
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser46.UserName, AutoUser46.Password)
-                .IsOnHomePage(AutoUser46);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Resources)
-                .OpenOption("Daily Allocation")
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.RM)
-                .SelectBusinessUnit(Contract.RM)
-                .SelectShift("AM")
-                .InsertDate(dateInFutre + Keys.Enter)
-                .ClickGo()
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
-            //Create driver
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .ClickCreateResource()
-                .SwitchToLastWindow();
-            PageFactoryManager.Get<ResourceDetailTab>()
-                .IsOnDetailTab()
-                .InputResourceName(resourceName)
-                .SelectResourceType(resourceType)
-                .SelectBusinessUnit(BusinessUnit.EastCollections)
-                .TickContractRoam()
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
-                .SwitchToLastWindow()
-                .SwitchNewIFrame();
-            //Verify popup
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Resource", resourceName)
-                .VerifyFirstResultValue("Resource", resourceName)
-                .DragAndDropFirstResourceToFirstRound()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyAllocatedResourceName(resourceName)
-                .ClickAllocatedResource(resourceName)
-                .SelectResourceState("SICK")
-                .IsReasonPopupDisplayed()
-                .VerifyConfirmButtonEnabled(false)
-                .CloseReasonPopup()
-                .ClickAllocatedResource(resourceName)
-                .SelectResourceState("TRAINING")
-                .IsReasonPopupDisplayed()
-                .VerifyConfirmButtonEnabled(false)
-                .SelectReason(ResourceReason.Paid)
-                .VerifyConfirmButtonEnabled(true);
-        }
+        //[Category("BugFix")]
+        //[Category("Chang")]
+        //[Test(Description = "The agreementaction not created when update Billing Rules, Invoice Address, Invoice Contact and Invoice Schedule on agreementlines (bug fix)")]
+        //public void TC_217_The_agreement_action_not_created_when_update_billing_rules_invoice_address_invoice_contact_and_invoice_schedule_on_agreement_lines()
+        //{
+        //    string partyId = "1097";
+        //    string partyName = "Linden Hall Community Centre";
+        //    string agreementLineId = "428";
+        //    string billingOption = "Bill as scheduled";
+        //    string invoiceAddress = "Unit 3, Ivybridge, Isleworth, TW1 1EU";
+        //    string invoiceContact = "";
+        //    string invoiceSchedule = "";
+
+        //    PageFactoryManager.Get<LoginPage>()
+        //           .GoToURL(WebUrl.MainPageUrl);
+        //    PageFactoryManager.Get<LoginPage>()
+        //        .IsOnLoginPage()
+        //        .Login(AutoUser46.UserName, AutoUser46.Password)
+        //        .IsOnHomePage(AutoUser46);
+        //    PageFactoryManager.Get<HomePage>()
+        //         .IsOnHomePage(AutoUser46);
+        //    //Precondition: Open a party and add contact for a party
+        //    PageFactoryManager.Get<NavigationBase>()
+        //        .ClickMainOption(MainOption.Parties)
+        //        .ExpandOption(Contract.RMC)
+        //        .OpenOption(MainOption.Parties)
+        //        .SwitchNewIFrame()
+        //        .WaitForLoadingIconToDisappear();
+        //    PageFactoryManager.Get<PartyCommonPage>()
+        //        .FilterPartyById(partyId)
+        //        .OpenFirstResult()
+        //        .SwitchToChildWindow(2)
+        //        .WaitForLoadingIconToDisappear();
+        //    DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+        //    detailPartyPage
+        //        .WaitForDetailPartyPageLoadedSuccessfully(partyName)
+        //        .ClickOnContactTab()
+        //        .ClickAddNewItemAtContactTab()
+        //        .SwitchToChildWindow(3)
+        //        .WaitForLoadingIconToDisappear();
+        //    ContactModel contactModel = new ContactModel();
+        //    PageFactoryManager.Get<CreatePartyContactPage>()
+        //        .IsCreatePartyContactPage()
+        //        .EnterFirstName(contactModel.FirstName)
+        //        .EnterLastName(contactModel.LastName)
+        //        .ClickSaveBtn()
+        //        .VerifyToastMessage(MessageRequiredFieldConstants.ContactDetailsWarningMessage)
+        //        .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.ContactDetailsWarningMessage);
+        //    PageFactoryManager.Get<CreatePartyContactPage>()
+        //        .EnterMobileValue(contactModel.Mobile)
+        //        .ClickSaveBtn()
+        //        .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+        //        .ClickCloseBtn()
+        //        .SwitchToChildWindow(2);
+        //    detailPartyPage
+        //        .OpenAgreementTab()
+        //        .IsOnAgreementTab()
+        //        .OpenFirstAgreementRow()
+        //        .SwitchToLastWindow()
+        //        .WaitForLoadingIconToDisappear();
+        //    AgreementDetailPage agreementDetailPage = PageFactoryManager.Get<AgreementDetailPage>()
+        //        .WaitForDetailAgreementLoaded();
+
+
+        //    //TC217
+        //    PageFactoryManager.Get<NavigationBase>()
+        //        .ClickMainOption(MainOption.Parties)
+        //        .ExpandOption(Contract.RMC)
+        //        .OpenOption(MainOption.SiteServices)
+        //        .SwitchNewIFrame()
+        //        .WaitForLoadingIconToDisappear();
+        //    PageFactoryManager.Get<SiteServicesCommonPage>()
+        //        .FilterAgreementId(agreementLineId)
+        //        .OpenFirstResult()
+        //        .SwitchToLastWindow()
+        //        .WaitForLoadingIconToDisappear();
+        //    PageFactoryManager.Get<AgreementLinePage>()
+        //        .WaitForWindowLoadedSuccess(agreementLineId)
+        //        .ClickDetailTab()
+        //        //Step line 8: Update [Billing Rules]
+        //        .ClickOnBillingRuleDd()
+        //        .SelectAnyBillingRuleOption(billingOption)
+        //        //Step line 8: Update [Invoice Address]
+        //        .ClickOnInvoiceAddress()
+        //        .SelectAnyInvoiceAddress(invoiceAddress)
+        //        //Step line 8: Update [Invoice Contact]
+        //        .ClickOnInvoiceContact()
+        //        .SelectAnyInvoiceAddress(invoiceContact)
+        //        //Step line 8: Update [Invoice Schedule]
+        //        .ClickOnInvoiceSchedule()
+        //        .SelectAnyInvoiceAddress(invoiceSchedule);
+        //}
+
     }
 }

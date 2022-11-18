@@ -95,6 +95,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         //Agreement tab
         private readonly By agreementTab = By.XPath("//a[text()='Agreements']");
         private readonly By partyStartDate = By.XPath("//span[@title='Start Date']");
+        private readonly By agreementIdInput = By.XPath("//div[@id='agreements-tab']//div[contains(@class, 'l1 r1')]//input");
 
         //Contact tab
         private readonly By contactTab = By.XPath("//a[text()='Contacts']");

@@ -297,6 +297,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
         }
 
+        [AllureStep]
+        public DetailInspectionPage InputValidFrom(string validFromValue)
+        {
+            SendKeys(validFromInput, validFromValue);
+            return this;
+        }
+
         //DATA TAB
         [AllureStep]
         public DetailInspectionPage AddNotesInDataTab(string notesInput)
@@ -406,9 +413,10 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         [AllureStep]
         public DetailInspectionPage VerifyTheImageIsReadOnly()
         {
+            Assert.AreEqual("true", GetAttributeValue(addNewBtnImage, "disabled"));
             Assert.IsTrue(GetAttributeValue(imgThumbnailTag, "class").Contains("disabled"));
             Assert.IsTrue(GetAttributeValue(closeImgBtn, "class").Contains("disabled"));
-            Assert.AreEqual(GetAttributeValue(inputImage, "disabled"), "disabled");
+            Assert.AreEqual("true", GetAttributeValueElementPresent(inputImage, "disabled"));
             return this;
         }
 

@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
         private readonly By firstInspectionRow= By.XPath("//div[@class='grid-canvas']/div[not(contains(@style, 'display: none;'))][1]");
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
         private readonly By clearBtn = By.CssSelector("button[title='Clear Filters']");
+        private readonly By statusInput = By.XPath("//div[contains(@class, 'l9')]//input");
 
 
         //DYNAMIC LOCATOR
@@ -106,6 +107,12 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
         {
             DoubleClickOnElement(firstInspectionRow);
             return PageFactoryManager.Get<DetailInspectionPage>();
+        }
+        [AllureStep]
+        public AllInspectionListingPage FilterInspectionByStatus(string statusValue)
+        {
+            SendKeys(statusInput, statusValue);
+            return this;
         }
         [AllureStep]
         public AllInspectionListingPage FilterInspectionById(string id)

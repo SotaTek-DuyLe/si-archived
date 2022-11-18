@@ -15,6 +15,9 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
         private readonly By title = By.XPath("//h4[text()='AGREEMENTLINE']");
         private readonly By closeWithoutSavingBtn = By.XPath("//a[@aria-controls='details-tab']/ancestor::body//button[@title='Close Without Saving']");
         private readonly By billingRuleDd = By.XPath("//select[@id='billing-rule']");
+        private readonly By invoiceAddress = By.CssSelector("select[id='invoice-address']");
+        private readonly By invoiceContact = By.CssSelector("select[id='invoice-contact']");
+        private readonly By invoiceSchedule = By.CssSelector("select[id='invoice-schedule']");
         private readonly By historyTab = By.CssSelector("a[aria-controls='history-tab']");
 
         private const string frameMessage = "//div[@class='notifyjs-corner']/div";
@@ -29,7 +32,9 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
         private const string titleContainsId = "//p[text()='Agreement ID {0}']";
         private const string anyTab = "//a[text()='{0}']";
         private const string billingRuleOption = "//select[@id='billing-rule']/option[text()='{0}']";
-
+        private const string invoiceAddressOption = "//select[@id='invoice-address']/option[text()='{0}']";
+        private const string invoiceContactOption = "//select[@id='invoice-contact']/option[text()='{0}']";
+        private const string invoiceScheduleOption = "//select[@id='invoice-schedule']/option[text()='{0}']";
 
         [AllureStep]
         public new AgreementLinePage GoToAllTabAndConfirmNoError()
@@ -69,20 +74,62 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
             ClickOnElement(string.Format(anyTab, "Tasks"));
             return this;
         }
-        [AllureStep]
 
+        [AllureStep]
         public AgreementLinePage ClickOnBillingRuleDd()
         {
             ClickOnElement(billingRuleDd);
             return this;
         }
         [AllureStep]
-
         public AgreementLinePage SelectAnyBillingRuleOption(string option)
         {
             ClickOnElement(billingRuleOption, option);
             return this;
         }
+
+        [AllureStep]
+        public AgreementLinePage ClickOnInvoiceAddress()
+        {
+            ClickOnElement(invoiceAddress);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementLinePage SelectAnyInvoiceAddress(string invoiceAddressValue)
+        {
+            ClickOnElement(invoiceAddressOption, invoiceAddressValue);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementLinePage ClickOnInvoiceContact()
+        {
+            ClickOnElement(invoiceContact);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementLinePage SelectAnyInvoiceContact(string invoiceContactValue)
+        {
+            ClickOnElement(invoiceContactOption, invoiceContactValue);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementLinePage ClickOnInvoiceSchedule()
+        {
+            ClickOnElement(invoiceSchedule);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementLinePage SelectAnyInvoiceSchedule(string invoiceScheduleValue)
+        {
+            ClickOnElement(invoiceScheduleOption, invoiceScheduleValue);
+            return this;
+        }
+
         [AllureStep]
         public AgreementLinePage ClickOnHistoryTab()
         {
@@ -91,7 +138,6 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
             return this;
         }
         [AllureStep]
-
         public AgreementLinePage VerifyHistoryAfterUpdatingAgreementLine(string billingRuleExp, string userUpdatedExp, string timeUpdatedExp)
         {
             Assert.IsTrue(IsControlDisplayed(updateAgreementLineTitle));

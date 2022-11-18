@@ -45,7 +45,7 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         }
 
         [AllureStep]
-        public DetailSectorGroupPage SelectService(string[] serviceName)
+        public DetailSectorGroupPage SelectSector(string[] serviceName)
         {
             string sectorValue = GetAttributeValue(serviceTree, "value");
             if(sectorValue.Equals("")) {
@@ -60,7 +60,7 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         }
 
         [AllureStep]
-        public DetailSectorGroupPage UnselectAllSectorService(string[] serviceName)
+        public DetailSectorGroupPage UnselectAllSectorService()
         {
             ClickOnElement(serviceTree);
             ServicesTreeView.UnSelectAllNode();
