@@ -20,5 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By TelephoneInput = By.XPath("//input[@id='contact-telephone']");
         public readonly By MobileInput = By.XPath("//input[@id='contact-mobile']");
         public readonly By NotesInput = By.XPath("//textarea[@id='subcription-notes']");
+        public readonly By SubjectDescriptionText = By.XPath("//p[contains(@data-bind, 'objectType')]");
+        public readonly By IdTitle = By.XPath("//h4[@title='Id']");
     }
 }
