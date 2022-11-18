@@ -9,6 +9,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace si_automated_tests.Source.Core
 {
@@ -528,6 +529,18 @@ namespace si_automated_tests.Source.Core
         {
             WaitUtil.WaitForAlert();
             IWebDriverManager.GetDriver().SwitchTo().Alert().Dismiss();
+            return this;
+        }
+
+        [AllureStep]
+        public BasePage AceptAlertIfPresent()
+        {
+            SleepTimeInMiliseconds(200);
+            IAlert alert = ExpectedConditions.AlertIsPresent().Invoke(driver);
+            if ((alert != null))
+            {
+                alert.Accept();
+            }
             return this;
         }
 

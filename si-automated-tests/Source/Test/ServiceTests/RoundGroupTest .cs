@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using NUnit.Allure.Core;
 using NUnit.Framework;
@@ -746,6 +747,116 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchNewIFrame();
             roundGroupPage.SleepTimeInMiliseconds(5000);
             roundGroupPage.VerifyScheduleDetail("Every Tuesday and Friday commencing Monday 10 January 2022");
+        }
+
+        [Category("Round Group")]
+        [Category("Huong")]
+        [Test]
+        public void TC_118_Display_Round_Instance_in_Calendar_on_a_Round()
+        {
+            //Verify that user can view Round Instance in the Calendar on a Round form
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.RMC)
+                .ExpandOption("Collections")
+                .ExpandOption("Commercial Collections")
+                .ExpandOption("Round Groups")
+                .ExpandOption("REF1-AM")
+                .OpenLastOption("Monday ")
+                .SwitchNewIFrame();
+            DateTime startDate = DateTime.Now;
+            DateTime endDate = DateTime.Now.AddYears(1);
+            var roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.ClickCalendarTab()
+                .WaitForLoadingIconToDisappear();
+
+            DateTime roundInstanceA = roundGroupPage.DoubleClickRoundGroup(startDate, endDate, new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday }, null);
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            RoundInstancePage roundInstancePage = PageFactoryManager.Get<RoundInstancePage>();
+            roundInstancePage.ClickOnElement(roundInstancePage.DetailsTab);
+            roundInstancePage.WaitForLoadingIconToDisappear();
+            roundInstancePage.ClickOnElement(roundInstancePage.StatusInput);
+            roundInstancePage.SelectByDisplayValueOnUlElement(roundInstancePage.SelectDropdown, "Complete")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            roundInstancePage.VerifyElementText(roundInstancePage.SelectedStatusText, "Complete")
+                .ClickCloseBtn()
+                .AceptAlertIfPresent()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            roundGroupPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear()
+                .WaitForLoadingIconToDisappear();
+            roundGroupPage.VerifyRoundInstanceState(roundInstanceA, "coreroundstate/3.svg");
+
+            DateTime roundInstanceB = roundGroupPage.DoubleClickRoundGroup(startDate, endDate, new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday }, new List<DateTime>() { roundInstanceA });
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            roundInstancePage.ClickOnElement(roundInstancePage.DetailsTab);
+            roundInstancePage.WaitForLoadingIconToDisappear();
+            roundInstancePage.ClickOnElement(roundInstancePage.StatusInput);
+            roundInstancePage.SelectByDisplayValueOnUlElement(roundInstancePage.SelectDropdown, "Delayed")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            roundInstancePage.VerifyElementText(roundInstancePage.SelectedStatusText, "Delayed")
+                .ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            roundGroupPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear()
+                .WaitForLoadingIconToDisappear();
+            roundGroupPage.VerifyRoundInstanceState(roundInstanceB, "coreroundstate/5.svg");
+
+            DateTime roundInstanceC = roundGroupPage.DoubleClickRoundGroup(startDate, endDate, new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday }, new List<DateTime>() { roundInstanceA, roundInstanceB });
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            roundInstancePage.ClickOnElement(roundInstancePage.DetailsTab);
+            roundInstancePage.WaitForLoadingIconToDisappear();
+            roundInstancePage.ClickOnElement(roundInstancePage.StatusInput);
+            roundInstancePage.SelectByDisplayValueOnUlElement(roundInstancePage.SelectDropdown, "Not Done")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            roundInstancePage.VerifyElementText(roundInstancePage.SelectedStatusText, "Not Done")
+                .ClickCloseBtn()
+                .AceptAlertIfPresent()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            roundGroupPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear()
+                .WaitForLoadingIconToDisappear();
+            roundGroupPage.VerifyRoundInstanceState(roundInstanceC, "coreroundstate/4.svg");
+
+            DateTime roundInstanceD = roundGroupPage.DoubleClickRoundGroup(startDate, endDate, new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday }, new List<DateTime>() { roundInstanceA, roundInstanceB, roundInstanceC });
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            roundInstancePage.ClickOnElement(roundInstancePage.DetailsTab);
+            roundInstancePage.WaitForLoadingIconToDisappear();
+            roundInstancePage.ClickOnElement(roundInstancePage.StatusInput);
+            roundInstancePage.SelectByDisplayValueOnUlElement(roundInstancePage.SelectDropdown, "In Progress")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            roundInstancePage.VerifyElementText(roundInstancePage.SelectedStatusText, "In Progress")
+                .ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            roundGroupPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear()
+                .WaitForLoadingIconToDisappear();
+            roundGroupPage.VerifyRoundInstanceState(roundInstanceD, "coreroundstate/2.svg");
         }
     }
 }
