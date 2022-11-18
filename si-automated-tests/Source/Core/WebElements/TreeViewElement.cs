@@ -36,13 +36,17 @@ namespace si_automated_tests.Source.Core.WebElements
 
         public IWebElement SelectedNode { get; set; }
 
+        public int MaxRetryCount = 10;
+
         public void ClickItem(string nodeName)
         {
             if (SelectedNode != null)
             {
                 List<IWebElement> HierarchicalTemplates = SelectedNode.FindElements(By.XPath(HierarchicalXpath)).ToList();
-                while (HierarchicalTemplates.Count == 0)
+                int retryCount = 0;
+                while (HierarchicalTemplates.Count == 0 && retryCount < MaxRetryCount)
                 {
+                    retryCount++;
                     Thread.Sleep(100);
                     HierarchicalTemplates = SelectedNode.FindElements(By.XPath(HierarchicalXpath)).ToList();
                 }
@@ -65,8 +69,10 @@ namespace si_automated_tests.Source.Core.WebElements
             {
                 IWebElement treeView = GetTreeView();
                 List<IWebElement> HierarchicalTemplates = treeView.FindElements(By.XPath(HierarchicalXpath)).ToList();
-                while (HierarchicalTemplates.Count == 0)
+                int retryCount = 0;
+                while (HierarchicalTemplates.Count == 0 && retryCount < MaxRetryCount)
                 {
+                    retryCount++;
                     Thread.Sleep(100);
                     HierarchicalTemplates = SelectedNode.FindElements(By.XPath(HierarchicalXpath)).ToList();
                 }
@@ -92,8 +98,10 @@ namespace si_automated_tests.Source.Core.WebElements
             if (SelectedNode != null)
             {
                 List<IWebElement> HierarchicalTemplates = SelectedNode.FindElements(By.XPath(HierarchicalXpath)).ToList();
-                while (HierarchicalTemplates.Count == 0)
+                int retryCount = 0;
+                while (HierarchicalTemplates.Count == 0 && retryCount < MaxRetryCount)
                 {
+                    retryCount++;
                     Thread.Sleep(100);
                     HierarchicalTemplates = SelectedNode.FindElements(By.XPath(HierarchicalXpath)).ToList();
                 }
@@ -119,8 +127,10 @@ namespace si_automated_tests.Source.Core.WebElements
             {
                 IWebElement treeView = GetTreeView();
                 List<IWebElement> HierarchicalTemplates = treeView.FindElements(By.XPath(HierarchicalXpath)).ToList();
-                while (HierarchicalTemplates.Count == 0)
+                int retryCount = 0;
+                while (HierarchicalTemplates.Count == 0 && retryCount < MaxRetryCount)
                 {
+                    retryCount++;
                     Thread.Sleep(100);
                     HierarchicalTemplates = SelectedNode.FindElements(By.XPath(HierarchicalXpath)).ToList();
                 }
@@ -148,8 +158,10 @@ namespace si_automated_tests.Source.Core.WebElements
         {
             IWebElement treeView = GetTreeView();
             List<IWebElement> HierarchicalTemplates = treeView.FindElements(By.XPath(HierarchicalXpath)).ToList();
-            while (HierarchicalTemplates.Count == 0)
+            int retryCount = 0;
+            while (HierarchicalTemplates.Count == 0 && retryCount < MaxRetryCount)
             {
+                retryCount++;
                 Thread.Sleep(100);
                 HierarchicalTemplates = treeView.FindElements(By.XPath(HierarchicalXpath)).ToList();
             }
