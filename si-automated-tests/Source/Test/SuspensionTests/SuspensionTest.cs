@@ -54,7 +54,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
             SuspensionInputData inputData = new SuspensionInputData();
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -163,7 +163,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
             SuspensionInputData inputData = new SuspensionInputData();
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -245,7 +245,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()

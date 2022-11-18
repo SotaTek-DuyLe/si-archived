@@ -1087,7 +1087,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Events)
-                .OpenOption(Contract.RM)
+                .OpenOption(Contract.Municipal)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EventsListingPage>()
@@ -1250,7 +1250,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Events)
-                .OpenOption(Contract.RM)
+                .OpenOption(Contract.Municipal)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EventsListingPage>()

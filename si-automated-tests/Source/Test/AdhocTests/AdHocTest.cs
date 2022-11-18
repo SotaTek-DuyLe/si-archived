@@ -77,7 +77,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
 
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -221,7 +221,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
                .ClickMainOption(MainOption.Services)
                .ExpandOption("Regions")
                .ExpandOption(Region.UK)
-               .ExpandOption(Contract.RMC)
+               .ExpandOption(Contract.Commercial)
                .ExpandOption("Collections")
                .ExpandOption("Commercial Collections")
                .OpenOption("Active Service Tasks")
@@ -261,7 +261,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
             string inputPO = "PO ad hoc task 1";
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -327,7 +327,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
             string inputPO = "PO ad hoc task 2";
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()

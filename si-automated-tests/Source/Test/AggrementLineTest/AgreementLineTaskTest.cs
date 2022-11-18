@@ -40,7 +40,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             //Verify that user can delete a task from an Agreement
@@ -150,7 +150,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             //Filter Agreement
@@ -230,7 +230,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Go to Task Page and Verify
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -278,7 +278,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Site Services")
                 .SwitchNewIFrame();
             //Filter Agreement
@@ -358,7 +358,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Go to Task Page and Verify
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -400,7 +400,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -432,7 +432,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
 
@@ -567,7 +567,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -680,7 +680,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -738,7 +738,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -783,7 +783,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnHomePage(AutoUser12);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()

@@ -40,7 +40,7 @@ namespace si_automated_tests.Source.Test.PriceTabTests
                 .IsOnHomePage(AutoUser58);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
@@ -80,7 +80,7 @@ namespace si_automated_tests.Source.Test.PriceTabTests
                 .IsOnHomePage(AutoUser58);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Agreements")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -121,7 +121,7 @@ namespace si_automated_tests.Source.Test.PriceTabTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .WaitForLoadingIconToDisappear();

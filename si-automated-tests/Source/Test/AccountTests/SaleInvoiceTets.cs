@@ -27,7 +27,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .IsOnHomePage(AutoUser24);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Accounts)
-                .ExpandOption(Contract.RMC);
+                .ExpandOption(Contract.Commercial);
         }
 
         [Category("Account")]

@@ -41,10 +41,10 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         public void TC_135_1_Verify_that_Round_Calendar_displays_correctly()
         {
             RoundCalendarPage roundCalendarPage = PageFactoryManager.Get<RoundCalendarPage>();
-            roundCalendarPage.SelectTextFromDropDown(roundCalendarPage.SelectContact, Contract.RM);
+            roundCalendarPage.SelectTextFromDropDown(roundCalendarPage.SelectContact, Contract.Municipal);
             roundCalendarPage
                 .ClickInputService()
-                .SelectServiceNode(Contract.RM)
+                .SelectServiceNode(Contract.Municipal)
                 .SelectServiceNode("Recycling")
                 .SelectServiceNode("Domestic Recycling")
                 .SelectTextFromDropDown(roundCalendarPage.SelectShiftGroup, "AM")
@@ -129,10 +129,10 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         public void TC_135_2_Verify_that_user_can_find_a_Round_using_Round_Finder_option()
         {
             RoundCalendarPage roundCalendarPage = PageFactoryManager.Get<RoundCalendarPage>();
-            roundCalendarPage.SelectTextFromDropDown(roundCalendarPage.SelectContact, Contract.RMC);
+            roundCalendarPage.SelectTextFromDropDown(roundCalendarPage.SelectContact, Contract.Commercial);
             roundCalendarPage
                 .ClickInputService()
-                .SelectServiceNode(Contract.RMC)
+                .SelectServiceNode(Contract.Commercial)
                 .SelectServiceNode("Collections")
                 .SelectServiceNode("Commercial Collections")
                 .SelectTextFromDropDown(roundCalendarPage.SelectShiftGroup, "AM")

@@ -36,7 +36,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
                 .ExpandOption(MainOption.ServiceStatus)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             //Filter any service status
@@ -105,7 +105,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
             //Line 13: Verify in [Weighbridge ticket]
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Weighbridge)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Tickets")
                 .SwitchNewIFrame();
             string ticketId = "7";
@@ -146,7 +146,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
                 .ExpandOption(MainOption.ServiceStatus)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             //Filter any service status
@@ -232,7 +232,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
                 .ExpandOption(MainOption.ServiceStatus)
-                .OpenOption(Contract.RM)
+                .OpenOption(Contract.Municipal)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             //Filter any service status

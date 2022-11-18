@@ -38,8 +38,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.RM)
-                .SelectBusinessUnit(Contract.RM)
+                .SelectContract(Contract.Municipal)
+                .SelectBusinessUnit(Contract.Municipal)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -152,8 +152,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.RM)
-                .SelectBusinessUnit(Contract.RM)
+                .SelectContract(Contract.Municipal)
+                .SelectBusinessUnit(Contract.Municipal)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -288,8 +288,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.RM)
-                .SelectBusinessUnit(Contract.RM)
+                .SelectContract(Contract.Municipal)
+                .SelectBusinessUnit(Contract.Municipal)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -418,10 +418,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            resourceAllocationPage.SelectContract(Contract.RMC);
+            resourceAllocationPage.SelectContract(Contract.Commercial);
             resourceAllocationPage.SelectShift("AM");
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
-            resourceAllocationPage.ExpandRoundNode(Contract.RMC)
+            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
                 .SelectRoundNode("Collections")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -473,8 +473,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.RM)
-                .SelectBusinessUnit(Contract.RM)
+                .SelectContract(Contract.Municipal)
+                .SelectBusinessUnit(Contract.Municipal)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()

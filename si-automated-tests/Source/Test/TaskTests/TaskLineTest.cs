@@ -34,7 +34,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnHomePage(AutoUser56);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
@@ -108,7 +108,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
@@ -158,7 +158,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnHomePage(AutoUser56);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -188,7 +188,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RM)
+                .OpenOption(Contract.Municipal)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
@@ -221,7 +221,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RM)
+                .OpenOption(Contract.Municipal)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
@@ -254,7 +254,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
@@ -291,7 +291,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RM)
+                .OpenOption(Contract.Municipal)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
@@ -335,10 +335,10 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<NavigationBase>()
                 .SwitchNewIFrame();
             TaskConfirmationPage taskConfirmationPage = PageFactoryManager.Get<TaskConfirmationPage>();
-            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, Contract.RMC);
+            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, Contract.Commercial);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ServiceInput);
             Thread.Sleep(1000);
-            taskConfirmationPage.ExpandRoundNode(Contract.RMC)
+            taskConfirmationPage.ExpandRoundNode(Contract.Commercial)
                 .ExpandRoundNode("Collections")
                 .ExpandRoundNode("Commercial Collections")
                 .SelectRoundNode("REC1-AM");
@@ -380,10 +380,10 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<NavigationBase>()
                 .SwitchNewIFrame();
             taskConfirmationPage = PageFactoryManager.Get<TaskConfirmationPage>();
-            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, Contract.RMC);
+            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, Contract.Commercial);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ServiceInput);
             Thread.Sleep(1000);
-            taskConfirmationPage.ExpandRoundNode(Contract.RMC)
+            taskConfirmationPage.ExpandRoundNode(Contract.Commercial)
                 .ExpandRoundNode("Collections")
                 .ExpandRoundNode("Commercial Collections")
                 .SelectRoundNode("REC1-AM");
@@ -422,11 +422,11 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            resourceAllocationPage.SelectContract(Contract.RMC);
+            resourceAllocationPage.SelectContract(Contract.Commercial);
             resourceAllocationPage.SelectShift("AM");
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
             Thread.Sleep(1000);
-            resourceAllocationPage.ExpandRoundNode(Contract.RMC)
+            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
                 .ExpandRoundNode("Collections")
                 .SelectRoundNode("Collections - Recycling")
                 .InputCalendarDate(resourceAllocationPage.date, "27/09/2022");
@@ -469,11 +469,11 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            resourceAllocationPage.SelectContract(Contract.RMC);
+            resourceAllocationPage.SelectContract(Contract.Commercial);
             resourceAllocationPage.SelectShift("AM");
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
             Thread.Sleep(1000);
-            resourceAllocationPage.ExpandRoundNode(Contract.RMC)
+            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
                 .ExpandRoundNode("Collections")
                 .SelectRoundNode("Collections - Recycling")
                 .InputCalendarDate(resourceAllocationPage.date, "27/09/2022");
@@ -521,7 +521,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnHomePage(AutoUser56);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();

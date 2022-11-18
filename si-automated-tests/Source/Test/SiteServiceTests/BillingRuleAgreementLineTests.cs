@@ -38,7 +38,7 @@ namespace si_automated_tests.Source.Test.SiteServiceTests
                 .IsOnHomePage(AutoUser49);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.SiteServices)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()

@@ -45,7 +45,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RMC)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Commercial)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -112,7 +112,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RM)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Municipal)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -153,7 +153,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Segment")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RM)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Municipal)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -218,7 +218,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Node")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RM)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Municipal)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -283,7 +283,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Area")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RM)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Municipal)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -337,7 +337,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RMC)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Commercial)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -375,7 +375,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RM)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Municipal)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -474,7 +474,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .IsTaskConfirmationPage()
-                .SelectContract(Contract.RM)
+                .SelectContract(Contract.Municipal)
                 .ClickServicesAndSelectServiceInTree(serviceGroupName, serviceName, roundName, dayName)
                 .SendDateInScheduledDate(filterDate)
                 .ClickGoBtn()
@@ -534,7 +534,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskAllocationPage>()
-                .SelectContract(Contract.RM)
+                .SelectContract(Contract.Municipal)
                 .SelectServices(serviceGroupName, serviceName)
                 .SendKeyInFrom(filterDate)
                 .ClickOnGoBtn()
@@ -578,7 +578,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RMC)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Commercial)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -676,7 +676,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .IsTaskConfirmationPage()
-                .SelectContract(Contract.RM)
+                .SelectContract(Contract.Municipal)
                 .ClickServicesAndSelectServiceInTree(serviceGroupName, serviceName, roundName, dayName)
                 .SendDateInScheduledDate(filterDate)
                 .ClickGoBtn()
@@ -725,7 +725,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RM)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Municipal)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -853,7 +853,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .IsTaskConfirmationPage()
-                .SelectContract(Contract.RM)
+                .SelectContract(Contract.Municipal)
                 .ClickServicesAndSelectServiceInTree(firstServiceGroupName, firstServiceName, firstRoundName, firstDayName)
                 .SendDateInScheduledDate(filterDayOutOfDateRange)
                 .ClickGoBtn()
@@ -928,7 +928,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RMC)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Commercial)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -1042,7 +1042,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .IsTaskConfirmationPage()
-                .SelectContract(Contract.RM)
+                .SelectContract(Contract.Municipal)
                 .ClickServicesAndSelectServiceInTree(serviceGroupName, serviceName, roundName, dayName)
                 .SendDateInScheduledDate(filterDate)
                 .ClickGoBtn()
@@ -1087,7 +1087,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskAllocationPage>()
-                .SelectContract(Contract.RM)
+                .SelectContract(Contract.Municipal)
                 .SelectServices(serviceGroupName, serviceName)
                 .SendKeyInFrom(filterDate)
                 .ClickOnGoBtn()
@@ -1129,7 +1129,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RMC)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Commercial)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -1167,7 +1167,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .OpenOption(SubOption.MasterRoundManagement)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
-            string contract = Contract.RMC;
+            string contract = Contract.Commercial;
             string service = "Collections";
             string filterDatePast = "";
             string filterDateFuture = "";
@@ -1236,7 +1236,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
             //=> Filter with date in the past [round Retired]
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .IsTaskConfirmationPage()
-                .SelectContract(Contract.RMC)
+                .SelectContract(Contract.Commercial)
                 .ClickServicesAndSelectServiceInTree(serviceGroupName, serviceName, roundName)
                 .SendDateInScheduledDate(filterDatePast)
                 .ClickGoBtn()
@@ -1265,7 +1265,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
             //=> Filter with date in the past
             PageFactoryManager.Get<TaskAllocationPage>()
-                .SelectContract(Contract.RMC)
+                .SelectContract(Contract.Commercial)
                 .SelectServices(serviceGroupName, serviceName)
                 .SendKeyInFrom(filterDatePast)
                 .ClickOnGoBtn()
@@ -1310,7 +1310,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RM, "Waste", "Domestic Refuse")
+                .ClickOnServicesAndSelectGroupInTree(Contract.Municipal, "Waste", "Domestic Refuse")
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -1473,7 +1473,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RMC)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Commercial)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -1589,7 +1589,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RM)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Municipal)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -1759,7 +1759,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RM)
+                .ClickOnServicesAndSelectGroupInTree(Contract.Municipal)
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -1853,7 +1853,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RMC, "Collections", "Commercial Collections")
+                .ClickOnServicesAndSelectGroupInTree(Contract.Commercial, "Collections", "Commercial Collections")
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()
@@ -2053,7 +2053,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .IsTaskConfirmationPage()
-                .SelectContract(Contract.RM)
+                .SelectContract(Contract.Municipal)
                 .ClickServicesAndSelectServiceInTree(serviceGroupName, serviceName, roundNameValue, dayName)
                 .SendDateInScheduledDate(filterDate)
                 .ClickGoBtn()
@@ -2090,7 +2090,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<MasterRoundManagementPage>()
                 .IsOnPage()
-                .InputSearchDetails(Contract.RM, serviceGroupName, serviceName, tomorrowDate)
+                .InputSearchDetails(Contract.Municipal, serviceGroupName, serviceName, tomorrowDate)
                 .ClickOnSearchRoundBtn()
                 .SendKeyInSearchRound(roundNameWithFormat)
                 .DragAndDropFirstRoundToGrid()
@@ -2106,7 +2106,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskAllocationPage>()
-                .SelectContract(Contract.RM)
+                .SelectContract(Contract.Municipal)
                 .SelectServices(serviceGroupName, serviceName)
                 .SendKeyInFrom(filterDate)
                 .ClickOnGoBtn()
@@ -2142,7 +2142,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickServiceLocationTypeDdAndSelectOption("Address")
                 .WaitForLoadingIconToDisappear();
             serviceDataManagementPage
-                .ClickOnServicesAndSelectGroupInTree(Contract.RMC, "Collections", "Commercial Collections")
+                .ClickOnServicesAndSelectGroupInTree(Contract.Commercial, "Collections", "Commercial Collections")
                 .ClickOnApplyFiltersBtn()
                 .VerifyWarningPopupDisplayed()
                 .ClickOnOkBtn()

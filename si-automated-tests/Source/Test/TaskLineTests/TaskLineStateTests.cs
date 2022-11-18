@@ -35,7 +35,7 @@ namespace si_automated_tests.Source.Test.TaskLineTests
                 .IsOnHomePage(AutoUser51);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()

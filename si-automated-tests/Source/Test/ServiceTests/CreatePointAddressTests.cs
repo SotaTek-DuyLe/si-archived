@@ -33,7 +33,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Point Addresses")
                 .SwitchNewIFrame();

@@ -111,7 +111,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .IsTaskConfirmationPage()
-                .SelectContract(Contract.RMC)
+                .SelectContract(Contract.Commercial)
                 .ClickServicesAndSelectServiceInTree(serviceGroupName, serviceName)
                 .ClickGoBtn()
                 .IsConfirmationNeededPopup()
@@ -134,7 +134,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             //Verify order in [Maps]
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Maps)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<MapListingPage>()
@@ -296,7 +296,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             }
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .IsTaskConfirmationPage()
-                .SelectContract(Contract.RMC)
+                .SelectContract(Contract.Commercial)
                 .ClickServicesAndSelectServiceInTree(serviceGroupName, serviceName, roundName, dayName)
                 .SendDateInScheduledDate(filterDate)
                 .ClickGoBtn()
@@ -314,7 +314,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             //Verify order in [Maps]
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Maps)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<MapListingPage>()

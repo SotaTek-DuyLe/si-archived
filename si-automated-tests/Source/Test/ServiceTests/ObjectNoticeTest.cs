@@ -36,7 +36,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
             objectNoticeTab.WaitForLoadingIconToDisappear(false);
@@ -200,7 +200,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Ancillary")
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
@@ -284,7 +284,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .ExpandOption("Ancillary")
                 .OpenOption("Skips")
                 .SwitchNewIFrame();
@@ -369,7 +369,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
                 .ExpandOption("Round Groups")
@@ -456,7 +456,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
                 .ExpandOption("Round Groups")
@@ -544,7 +544,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .ExpandOption("Ancillary")
                 .ExpandOption("Skips")
                 .ExpandOption("Round Groups")
@@ -642,7 +642,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Ancillary")
                 .SwitchNewIFrame();
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();

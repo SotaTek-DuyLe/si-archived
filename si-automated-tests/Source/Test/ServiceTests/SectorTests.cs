@@ -30,8 +30,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
-                .ExpandOptionLast(Contract.RMC);
+                .ExpandOption(Contract.Commercial)
+                .ExpandOptionLast(Contract.Commercial);
         }
         [Category("PointNode")]
         [Category("Dee")]
@@ -82,7 +82,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         {
             //VERIFY ON CONTRACTS
             PageFactoryManager.Get<NavigationBase>()
-                .OpenOption(Contract.RMC)
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame()
                 .SwitchToTab("Announcements")
                 .WaitForLoadingIconToDisappear();
@@ -228,10 +228,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
         [Test(Description = "Verify that a new sector form is opened ")]
         public void TC_129_Verify_that_a_new_sector_form_is_opened()
         {
-            string sector = Contract.RMC;
+            string sector = Contract.Commercial;
 
             PageFactoryManager.Get<NavigationBase>()
-                   .OpenLastOption(Contract.RMC);
+                   .OpenLastOption(Contract.Commercial);
             SectorPage sectorPage = PageFactoryManager.Get<SectorPage>();
             sectorPage.WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
@@ -280,8 +280,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
-                .OpenLastOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
+                .OpenLastOption(Contract.Commercial)
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             sectorPage.VerifyElementVisibility(sectorPage.DivMap, true);
@@ -292,8 +292,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
-                .OpenLastOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
+                .OpenLastOption(Contract.Commercial)
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             sectorPage.VerifyElementVisibility(sectorPage.InputSector, true)
@@ -322,7 +322,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             sectorPage.VerifyToastMessage("Sector Type is required")
                 .WaitUntilToastMessageInvisible("Sector Type is required");
             //can update
-            string contract = Contract.RM;
+            string contract = Contract.Municipal;
             string parentSector = "Hampton Tip (West)";
             string sectorType = "Ward";
             sectorPage.SelectTextFromDropDown(sectorPage.SelectContract, contract)
