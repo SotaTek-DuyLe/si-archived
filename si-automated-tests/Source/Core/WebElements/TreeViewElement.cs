@@ -29,6 +29,11 @@ namespace si_automated_tests.Source.Core.WebElements
             return WaitUtil.WaitForElementVisible(TreeViewXPath);
         }
 
+        public void ReleaseNode()
+        {
+            SelectedNode = null;
+        }
+
         public IWebElement SelectedNode { get; set; }
 
         public void ClickItem(string nodeName)
@@ -133,6 +138,44 @@ namespace si_automated_tests.Source.Core.WebElements
                             IWebElement expandElement = item.FindElement(By.XPath(ExpandIconXpath));
                             expandElement?.Click();
                             return;
+                        }
+                    }
+                }
+            }
+        }
+
+        public virtual void UnSelectAllNode()
+        {
+            IWebElement treeView = GetTreeView();
+            List<IWebElement> HierarchicalTemplates = treeView.FindElements(By.XPath(HierarchicalXpath)).ToList();
+            while (HierarchicalTemplates.Count == 0)
+            {
+                Thread.Sleep(100);
+                HierarchicalTemplates = treeView.FindElements(By.XPath(HierarchicalXpath)).ToList();
+            }
+            foreach (var HierarchicalTemplate in HierarchicalTemplates)
+            {
+                List<IWebElement> treeViewItems = HierarchicalTemplate.FindElements(By.XPath(TreeViewItemXpath)).ToList();
+                foreach (var item in treeViewItems)
+                {
+                    List<IWebElement> InnerHierarchicalTemplates = item.FindElements(By.XPath(HierarchicalXpath)).ToList();
+                    int count = 0;
+                    while (InnerHierarchicalTemplates.Count == 0 && count < 5)
+                    {
+                        count++;
+                        Thread.Sleep(100);
+                        InnerHierarchicalTemplates = item.FindElements(By.XPath(HierarchicalXpath)).ToList();
+                    }
+                    foreach (var InnerHierarchicalTemplate in InnerHierarchicalTemplates)
+                    {
+                        List<IWebElement> innertreeViewItems = InnerHierarchicalTemplate.FindElements(By.XPath(TreeViewItemXpath)).ToList();
+                        foreach (var inneritem in innertreeViewItems)
+                        {
+                            IWebElement textElement = inneritem.FindElement(By.XPath(TreeViewItemTextElementXpath));
+                            if (textElement != null && textElement.GetAttribute("class").Contains("jstree-clicked"))
+                            {
+                                inneritem.Click();
+                            }
                         }
                     }
                 }

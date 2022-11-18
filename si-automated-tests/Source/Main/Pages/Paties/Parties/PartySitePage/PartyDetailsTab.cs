@@ -14,12 +14,18 @@ namespace si_automated_tests.Source.Main.Pages
         private const string SuccessfullyToastMessage = "//div[@class='notifyjs-corner']//div[text()='Success']";
         private readonly By InvoiceAddressButton = By.Id("party-invoice-address");
 
+        //SITES TAB
+        private readonly By siteIdInput = By.XPath("//div[@id='sites-tab']//div[contains(@class, 'l1')]//input");
+        private readonly By applyBtnSiteTab = By.XPath("//div[@id='sites-tab']//button[@title='Apply Filters']");
+        private readonly By clearBtnSiteTab = By.XPath("//div[@id='sites-tab']//button[@title='Clear Filters']");
+        private readonly By firstCheckboxAtRow = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']//div[contains(@class, 'l0')]");
+        private readonly By firstSiteRow = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']/div[1]");
+
         //DYNAMIC
         private const string InvoiceAddressOnPage = "//div[contains(@data-bind,'invoiceAddress')]/p[text()='{0}']";
         private const string SiteAddressValue = "//label[text()='Correspondence Address']/following-sibling::div//option[text()='{0}']";
         private const string AddressTitle = "//div[text()='{0}']";
-
-
+        private const string AccountingAtRow = "//div[@class='grid-canvas']/div[{0}]/div[contains(@class, 'l8')]";
         private const string InvoiceAddressValue = "//select[@id='party-invoice-address']/option[text()='{0}']";
 
         [AllureStep]
@@ -90,7 +96,31 @@ namespace si_automated_tests.Source.Main.Pages
             return this;
         }
 
-        
+        //SITE TAB
+        [AllureStep]
+        public PartyDetailsTab FilterBySiteId(string siteIdValue)
+        {
+            SendKeys(siteIdInput, siteIdValue);
+            ClickOnElement(applyBtnSiteTab);
+            WaitForLoadingIconToDisappear();
+            ClickOnElement(firstCheckboxAtRow);
+            DoubleClickOnElement(firstSiteRow);
+            return this;
+        }
+
+        [AllureStep]
+        public PartyDetailsTab ClickOnClearBtn()
+        {
+            ClickOnElement(clearBtnSiteTab);
+            return this;
+        }
+
+        [AllureStep]
+        public PartyDetailsTab VerifyAccountingRefAnyRow(string rowNumber, string accountingValue)
+        {
+            Assert.AreEqual(accountingValue, GetElementText(AccountingAtRow, rowNumber), "Accounting Ref at row " + rowNumber + " is incorrect");
+            return this;
+        }
 
     }
 }

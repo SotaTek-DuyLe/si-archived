@@ -42,6 +42,7 @@
     <None Remove="Source\Core\" />
     <None Remove="Source\Main\" />
     <None Remove="Source\Main\Data\Core14.profile.xml" />
+    <None Remove="Source\Main\Resources\echo.jpeg" />
     <None Remove="Source\Test\" />
     <None Remove="WebDriverManager" />
     <None Remove="Source\Main\Pages\" />
@@ -107,6 +108,7 @@
     <None Remove="Source\Test\HistoryTests\" />
     <None Remove="Source\Main\Pages\Applications\ServiceStatus\" />
     <None Remove="Source\Main\Models\ServiceStatus\" />
+    <None Remove="Source\Main\Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
@@ -158,6 +160,9 @@
     </EmbeddedResource>
 	  <EmbeddedResource Include="Source\Main\Data\Core14.profile.xml">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Source\Main\Resources\echo.jpeg">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
 	  <Resource Include="allureConfig.json">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>

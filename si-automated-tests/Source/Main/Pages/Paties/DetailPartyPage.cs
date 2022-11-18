@@ -66,6 +66,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By InvoiceContactDd = By.CssSelector("select#invoice-contact");
         private readonly By primaryContactAddBtn = By.XPath("//select[@id='primary-contact']/following-sibling::span[text()='Add']");
         private readonly By internalInputCheckbox = By.CssSelector("input#is-internal");
+        private readonly By partyNameInput = By.CssSelector("input#party-name");
 
         //DETAIL TAB DYNAMIC LOCATOR
         private const string InvoiceAddressValue = "//label[text()='Invoice Address']/following-sibling::div//option[text()='{0}']";
@@ -94,6 +95,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         //Agreement tab
         private readonly By agreementTab = By.XPath("//a[text()='Agreements']");
         private readonly By partyStartDate = By.XPath("//span[@title='Start Date']");
+        private readonly By agreementIdInput = By.XPath("//div[@id='agreements-tab']//div[contains(@class, 'l1 r1')]//input");
 
         //Contact tab
         private readonly By contactTab = By.XPath("//a[text()='Contacts']");
@@ -154,6 +156,21 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(string.Format(partyName, name));
             WaitUtil.WaitForPageLoaded();
+            return this;
+        }
+
+
+        [AllureStep]
+        public DetailPartyPage InputPartyNameInput(string partyName)
+        {
+            SendKeys(partyNameInput, partyName);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyPartyNameAfterUpdated(string partyNameValue)
+        {
+            Assert.AreEqual(partyNameValue, GetAttributeValue(partyNameInput, "value"));
             return this;
         }
 

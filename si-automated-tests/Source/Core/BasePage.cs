@@ -129,6 +129,13 @@ namespace si_automated_tests.Source.Core
             element.SendKeys(value);
         }
         [AllureStep]
+        public void SendKeysWithUrl(By by, string value)
+        {
+            WaitUtil.WaitForElementsPresent(by);
+            IWebElement element = driver.FindElement(by);
+            element.SendKeys(value);
+        }
+        [AllureStep]
         public void SendKeysWithoutClear(By by, string value)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(by);
@@ -696,6 +703,13 @@ namespace si_automated_tests.Source.Core
         }
 
         [AllureStep]
+        public string GetAttributeValueElementPresent(By by, string attributeName)
+        {
+            IWebElement element = WaitUtil.WaitForElementsPresent(by);
+            return element.GetAttribute(attributeName);
+        }
+
+        [AllureStep]
         public string GetAttributeValue(IWebElement element, string attributeName)
         {
             return element.GetAttribute(attributeName);
@@ -1018,10 +1032,15 @@ namespace si_automated_tests.Source.Core
         {
             return IWebDriverManager.GetDriver().Title;
         }
-
+        [AllureStep]
         public bool IsCheckboxChecked(By by)
         {
             return GetElement(by).Selected;
+        }
+        [AllureStep]
+        public bool IsCheckboxChecked(IWebElement e)
+        {
+            return e.Selected;
         }
         [AllureStep]
         public BasePage GoToAllTabAndConfirmNoError()
