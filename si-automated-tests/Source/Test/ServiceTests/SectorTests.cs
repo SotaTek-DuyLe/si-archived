@@ -31,7 +31,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.Commercial)
-                .ExpandOptionLast(Contract.Commercial);
+                .ExpandOptionLast(Contract.RMC);
         }
         [Category("PointNode")]
         [Category("Dee")]
@@ -109,7 +109,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Contract Units")
-                .OpenOption("Commercial")
+                .OpenOption(Contract.Commercial)
                 .SwitchNewIFrame()
                 .SwitchToTab("Announcements");
             CreateAnnouncementAndVerify();
