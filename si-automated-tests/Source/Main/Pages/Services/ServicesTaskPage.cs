@@ -13,6 +13,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
 {
     public class ServicesTaskPage : BasePageCommonActions
     {
+        public readonly By OpenServiceUnitLink = By.XPath("//a[@data-bind='text: serviceUnitDesc, click: openServiceUnit']");
         private string taskLineTab = "//a[@aria-controls='tasklines-tab']";
         public string AnnouncementTab = "//a[@aria-controls='announcements-tab']";
         public string  DetailTab = "//a[@aria-controls='details-tab']";
@@ -94,6 +95,40 @@ namespace si_automated_tests.Source.Main.Pages.Services
             {
                 Assert.IsTrue(columnNames.Contains(item.Text));
             }
+            return this;
+        }
+        #endregion
+
+        #region Schedule Tab
+        public readonly By DuplicateButton = By.XPath("(//div[@id='schedules-tab']//button[@title='Duplicate'])[1]");
+        private string TaskScheduleTable = "//tbody[@data-bind='foreach: fields.serviceTaskSchedules.value']";
+        private string TaskScheduleRow = "./tr";
+        private string ScheduleCell = "./td[@data-bind='text: schedule.value']";
+        private string ScheduleStartDateCell = "./td[@data-bind='text: startDate.value']";
+        private string ScheduleEndDateCell = "./td[@data-bind='text: endDate.value']";
+        private string ScheduleRolloverCell = "./td//input[@type='checkbox']";
+        private string ScheduleRoundGroupCell = "./td[@data-bind='text: roundGroup.value']";
+        private string ScheduleRoundCell = "./td[@data-bind='text: round.value']";
+        private string ScheduleDuplicateButtonCell = "./td//button[@title='Duplicate']";
+        
+        public TableElement ScheduleTableEle
+        {
+            get => new TableElement(TaskScheduleTable, TaskScheduleRow, new List<string>() { ScheduleCell, ScheduleStartDateCell, ScheduleEndDateCell, ScheduleRolloverCell, ScheduleRoundGroupCell, ScheduleRoundCell, ScheduleDuplicateButtonCell });
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickDuplicateButton(int rowIdx)
+        {
+            ScheduleTableEle.ClickCell(rowIdx, 6);
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage VerifyNewSchedule(string startdate, string enddate, string round)
+        {
+            VerifyCellValue(ScheduleTableEle, 0, 1, startdate);
+            VerifyCellValue(ScheduleTableEle, 0, 2, enddate);
+            VerifyCellValue(ScheduleTableEle, 0, 5, round.Replace(":", ""));
             return this;
         }
         #endregion

@@ -435,9 +435,17 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 new List<string>() { STSId, STSTaskType, STSTaskLineUnit, STSIsRollOver, STSAllocation, STSAssureTask, STSStartDate, STSEndDate, STSEditSchedule, STSEditServiceTask });
         }
 
+        [AllureStep]
         public ServiceUnitDetailPage ClickEditServiceTask(int rowIdx)
         {
             ServiceTaskScheduleTableEle.ClickCell(rowIdx, 9);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyServiceTaskScheduleId(string taskId)
+        {
+            Assert.IsNotNull(ServiceTaskScheduleTableEle.GetRowByCellValue(0, taskId));
             return this;
         }
         #endregion
