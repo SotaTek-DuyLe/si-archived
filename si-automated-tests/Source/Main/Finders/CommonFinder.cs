@@ -246,6 +246,19 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from servicetaskschedules where servicetaskscheduleID=" + servicetaskscheduleID + ";";
             return FindList<ServiceTaskScheduleDBModel>(query);
         }
+
+        public List<UserDBModel> GetUser()
+        {
+            string query = "select * from SotatekTesting.dbo.users where enddate > getdate () order by displayname asc;";
+            return FindList<UserDBModel>(query);
+        }
+
+        public List<ContractUnitDBModel> GetContractUnitByContractId(string contractId)
+        {
+            string query = "select * from SotatekTesting.dbo.contractunits where contractID = " + contractId + ";";
+            return FindList<ContractUnitDBModel>(query);
+        }
+
     }
 
 }

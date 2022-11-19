@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Mail;
 using System.Reflection;
 using NUnit.Framework;
@@ -13,6 +14,7 @@ using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Accounts;
 using si_automated_tests.Source.Main.Pages.Agrrements;
+using si_automated_tests.Source.Main.Pages.Events;
 using si_automated_tests.Source.Main.Pages.IE_Configuration;
 using si_automated_tests.Source.Main.Pages.Inspections;
 using si_automated_tests.Source.Main.Pages.Maps;
@@ -1196,6 +1198,90 @@ namespace si_automated_tests.Source.Test
             detailSectorGroupPage
                 .VerifyDisplayDataAfterSelectSection()
                 .VerifyNotDisplayErrorMessage();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Icon needs updating in retiring inherited indicators (bug fix)")]
+        public void TC_218_Icon_needs_updating_in_retiring_inherited_indicators()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<HomePage>()
+                 .IsOnHomePage(AutoUser46);
+
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Invalid users listed in the users list in contract unit form (bug fix)")]
+        public void TC_215_Invalid_users_listed_in_the_users_list_in_contract_unit_form()
+        {
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+            string creditId = "11";
+            string partyName = "CHICKEN CITY";
+            string eventIdTypeComplaint = "34";
+
+            //API: Get all assigned user
+            List<UserDBModel> userDBModels = commonFinder.GetUser();
+            List<string> allDisplayUserName = new List<string>();
+            allDisplayUserName.Add("Select...");
+            foreach(UserDBModel userDBModel in userDBModels)
+            {
+                allDisplayUserName.Add(userDBModel.displayname);
+            }
+            //userDBModels.Select(q => q.displayname).ToList();
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<HomePage>()
+                 .IsOnHomePage(AutoUser46);
+            //Step line 7:
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Accounts)
+                .OpenOption("Credit Notes")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CreditNotePage>()
+                .FilterByCreditId(creditId)
+                .ClickOnFirstCreditRow()
+                .DoubleClickOnFirstCreditRow()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            List<string> allAssignedUser = PageFactoryManager.Get<DetailCreditNotePage>()
+                .IsCreditNoteDetailPage(partyName)
+                .ClickOnDetailTab()
+                .GetAllAssignedUser();
+            //Assert.AreEqual(allDisplayUserName, allAssignedUser, "Display name is not the same in the list");
+            //Step line 9
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.Municipal)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<EventsListingPage>()
+                .FilterByEventId(eventIdTypeComplaint)
+                //Click row with icon
+                .ClickOnFirstRecord()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<EventDetailPage>()
+                .WaitForEventDetailDisplayed();
+            //API: Get all allocated unit
+            List<ContractUnitDBModel> contractUnitDBModels = commonFinder.GetContractUnitByContractId("1");
+            List<string> allContractUnitName = contractUnitDBModels.Select(p => p.contractunit).ToList();
+
         }
 
         //[Category("BugFix")]
