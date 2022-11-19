@@ -176,6 +176,19 @@ namespace si_automated_tests.Source.Core
                 .WaitForElementClickable(by)
                 .Click();
         }
+
+        [AllureStep]
+        public void ClickOnElementIfItVisible(By by)
+        {
+            SleepTimeInMiliseconds(500);
+            if (IsControlDisplayedNotThrowEx(by))
+            {
+                WaitUtil
+                    .WaitForElementClickable(by)
+                    .Click();
+            }
+        }
+
         [AllureStep]
         public void ClickOnElement(IWebElement element)
         {
@@ -639,6 +652,14 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
+
+        public BasePage ScrollRightToElement(By by)
+        {
+            IWebElement horizontal_scroll = GetElement(by);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollIntoView(true);", horizontal_scroll);
+            return this;
+        }
         
         [AllureStep]
         public BasePage ScrollDownToElement(string locator, string value)
@@ -818,6 +839,13 @@ namespace si_automated_tests.Source.Core
             Assert.AreEqual(message, GetToastMessage());
             return this;
         }
+        [AllureStep]
+        public BasePage VerifyContainToastMessage(string message)
+        {
+            Assert.IsTrue(GetToastMessage().Contains(message));
+            return this;
+        }
+
         [AllureStep]
         public BasePage VerifyDisplayToastMessage(string message)
         {

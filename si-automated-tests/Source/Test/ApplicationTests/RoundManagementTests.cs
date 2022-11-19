@@ -117,25 +117,76 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         {
             //Verify that tasks and round legs can be reallocated
             string contract = Contract.RMC;
-            string service = "Commercial";
+            string service = "Collections";
             string subService = "Commercial Collections";
-            string date = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
-            MasterRoundManagementPage masterRoundManagementPage = PageFactoryManager.Get<MasterRoundManagementPage>();
-            masterRoundManagementPage
-                .IsOnPage()
-                .InputSearchDetails(contract, service, subService, date)
-                .WaitForLoadingIconToDisappear();
-            masterRoundManagementPage.DragRoundToGrid()
-                .WaitForLoadingIconToDisappear();
+            string date = "";
+            //MasterRoundManagementPage masterRoundManagementPage = PageFactoryManager.Get<MasterRoundManagementPage>();
+            //masterRoundManagementPage
+            //    .IsOnPage()
+            //    .InputSearchDetails(contract, service, subService, date)
+            //    .WaitForLoadingIconToDisappear();
+            //masterRoundManagementPage.DragRoundToGrid()
+            //    .WaitForLoadingIconToDisappear()
+            //    .SleepTimeInMiliseconds(1000);
 
-            //Select couple of rows and click Subcontract (make a note of the descriptions) -> Select a subcontract reason and click Confirm 
-            masterRoundManagementPage.SelectFirstAndSecondTask();
-            masterRoundManagementPage.ClickOnElement(masterRoundManagementPage.Subcontract);
-            masterRoundManagementPage.SelectTextFromDropDown(masterRoundManagementPage.SubcontractSelect, "No Service")
-                .ClickOnElement(masterRoundManagementPage.SubcontractConfirmButton);
-            masterRoundManagementPage.WaitForLoadingIconToDisappear();
-            //Scroll right
-            masterRoundManagementPage.ScrollToSubcontractHeader();
+            ////Select couple of rows and click Subcontract (make a note of the descriptions) -> Select a subcontract reason and click Confirm 
+            //masterRoundManagementPage.SelectFirstAndSecondTask();
+            //masterRoundManagementPage.ClickOnElement(masterRoundManagementPage.Subcontract);
+            //masterRoundManagementPage.SelectTextFromDropDown(masterRoundManagementPage.SubcontractSelect, "No Service")
+            //    .ClickOnElement(masterRoundManagementPage.SubcontractConfirmButton);
+            //masterRoundManagementPage.WaitForLoadingIconToDisappear();
+            ////Scroll right
+            //masterRoundManagementPage.ScrollToSubcontractHeader()
+            //    .VerifyFirstAndSecondConfirmedTask("No Service");
+            //Navigate to task confirmation screen -> Filter the same contract, service and round 
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption("Task Confirmation")
+                .SwitchNewIFrame();
+            TaskConfirmationPage taskConfirmationPage = PageFactoryManager.Get<TaskConfirmationPage>();
+            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, contract);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ServiceInput);
+            taskConfirmationPage.SleepTimeInMiliseconds(1000);
+            taskConfirmationPage.ExpandRoundNode("Commercial")
+                .ExpandRoundNode(service)
+                .ExpandRoundNode(subService)
+                .ExpandRoundNode("REF1-AM")
+                .SelectRoundNode("Monday");
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ScheduleDateInput);
+            taskConfirmationPage.SleepTimeInMiliseconds(1000);
+            DateTime firstMondayInNextMonth = CommonUtil.GetFirstMondayInMonth(DateTime.Now.AddMonths(1));
+            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.ScheduleDateInput, firstMondayInNextMonth.ToString("dd/MM/yyyy"));
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
+            taskConfirmationPage.WaitForLoadingIconToDisappear(false);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ExpandRoundsGo);
+            taskConfirmationPage.SleepTimeInMiliseconds(2000);
+            //Select the 2 service tasks you updated earlier and click reallocate
+            taskConfirmationPage.ClickServiceTask(0)
+                .ClickServiceTask(1)
+                .ClickOnElement(taskConfirmationPage.BulkReallocateButton);
+            taskConfirmationPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            //taskConfirmationPage.VerifyReallocatedTask("No Service");
+
+            //Select the 2 service tasks in the grid -> Update the from filter -> Go 
+            IEnumerable<string> descriptions = taskConfirmationPage.SelectServiceTaskAllocation();
+            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.FromInput, firstMondayInNextMonth.ToString("dd/MM/yyyy"));
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            //Drag and drop the service tasks to a different round (confirm the pop up modal if allocating to a different day) 
+            descriptions = taskConfirmationPage.SelectServiceTaskAllocation();
+            taskConfirmationPage.DragDropTaskAllocationToRoundGrid("REC1-AM", "Monday")
+                .VerifyContainToastMessage("Task(s) Allocated");
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.VerifyTaskAllocated("REC1-AM", "Monday");
+            //Drag and drop the round you allocated the tasks to to the grid
+            taskConfirmationPage.DragRoundInstanceToReallocattedGrid("REC1-AM", "Monday");
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            //Scroll down and right to find your tasks
+            taskConfirmationPage.ScrollDownToElementAndVerifyTaskSubcontract(descriptions, "No Service");
         }
     }
 }

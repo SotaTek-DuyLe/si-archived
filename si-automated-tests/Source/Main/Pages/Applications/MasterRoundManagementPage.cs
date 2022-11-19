@@ -1,15 +1,18 @@
 ﻿using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace si_automated_tests.Source.Main.Pages.Applications
 {
-    public class MasterRoundManagementPage : BasePage
+    public class MasterRoundManagementPage : BasePageCommonActions
     {
         private readonly By contractSelect = By.Id("contract");
         private readonly By servicesInput = By.Id("services");
@@ -49,8 +52,29 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By SubcontractSelect = By.XPath("//select[@id='subcontractReasons']");
         public readonly By SubcontractConfirmButton = By.XPath("//button[text()='Confirm']");
         private readonly string roundItem = "//li[contains(@class, 'list-group-item round')]//span[text()='{0}']";
+
         //round grid
         private readonly By rounds = By.XPath("//ul[@id='rounds']/li[not(contains(@style, 'display: none;'))]");
+        private readonly string taskTable = "//div[contains(@id,'round-tab') and contains(@class,'active')]//div[@class='grid-canvas']";
+        private readonly string taskRow = "./div[contains(@class, 'slick-row')]";
+        private readonly string taskCheckboxCell = "./div[contains(@class, 'l1 r1')]//input";
+        private readonly string taskSubcontractCell = "./div[contains(@class, 'l23 r23')]";
+        private readonly string taskSubcontractReasonCell = "./div[contains(@class, 'l24 r24')]";
+
+        private TableElement taskTableEle;
+        public TableElement TaskTableEle
+        {
+            get => taskTableEle;
+        }
+
+        public MasterRoundManagementPage()
+        {
+            taskTableEle = new TableElement(taskTable, taskRow, new List<string>() { taskCheckboxCell, taskSubcontractCell, taskSubcontractReasonCell });
+            taskTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+        }
 
         [AllureStep]
         public MasterRoundManagementPage DragRoundToGrid()
@@ -63,27 +87,28 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public MasterRoundManagementPage ScrollToSubcontractHeader()
         {
-            ClickOnElement(By.XPath("(//div[contains(@id,'round-tab') and contains(@class,'active')]//div[contains(@class,'ui-state-default slick-header-column')]/span[1])[26]"));
+            IWebElement e = TaskTableEle.GetCell(0, 1);
+            Actions actions = new Actions(this.driver);
+            actions.MoveToElement(e).Build().Perform();
             return this;
         }
 
         [AllureStep]
         public MasterRoundManagementPage SelectFirstAndSecondTask()
         {
-            List<IWebElement> tasks = GetAllElements(firstAllocatedTask);
-            if (tasks.Count > 1)
-            {
-                tasks[0].Click();
-                tasks[1].Click();
-
-            }
+            TaskTableEle.ClickCell(0, 0);
+            SleepTimeInMiliseconds(1000);
+            TaskTableEle.ClickCell(1, 0);
             return this;
         }
 
         [AllureStep]
-        public MasterRoundManagementPage VerifyFirstAndSecondTask(string subcontract, string reason)
+        public MasterRoundManagementPage VerifyFirstAndSecondConfirmedTask(string reason)
         {
-            
+            VerifyCellValue(TaskTableEle, 0, 1, "✓");
+            VerifyCellValue(TaskTableEle, 1, 1, "✓");
+            VerifyCellValue(TaskTableEle, 0, 2, reason);
+            VerifyCellValue(TaskTableEle, 1, 2, reason);
             return this;
         }
 

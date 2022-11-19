@@ -29,6 +29,20 @@ namespace si_automated_tests.Source.Core
         {
             return DateTime.Now;
         }
+        public static DateTime GetFirstMondayInMonth(DateTime dateTime)
+        {
+            int days = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
+            for (int day = 1; day <= days; day++)
+            {
+                DateTime dateTime1 = new DateTime(dateTime.Year, dateTime.Month, day);
+                if (dateTime1.DayOfWeek == DayOfWeek.Monday)
+                {
+                    return dateTime1;
+                }
+            }
+            return DateTime.MinValue;
+        }
+
         public static string GetLocalTimeMinusDay(string format, int day)
         {
             return DateTime.Now.AddDays(day).ToString(format).Replace('-', '/');
