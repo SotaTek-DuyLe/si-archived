@@ -148,6 +148,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
         }
 
+        public TaskConfirmationPage ClickFirstCheckbox()
+        {
+            ClickOnElement("//div[contains(@id, 'reallocated')]//div[@title='Select/Deselect All']//input");
+            return this;
+        }
+
         public TaskConfirmationPage ScrollDownToElementAndVerifyTaskSubcontract(IEnumerable<string> descriptions, string reason)
         {
             foreach (var description in descriptions)
