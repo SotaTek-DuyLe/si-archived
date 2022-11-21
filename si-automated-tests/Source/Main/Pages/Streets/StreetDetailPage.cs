@@ -5,6 +5,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Models;
@@ -72,6 +73,34 @@ namespace si_automated_tests.Source.Main.Pages.Streets
         private const string streetTypeOption = "//select[@id='streetType.id']/option[text()='{0}']";
         private const string roadTypeOption = "//select[@id='roadType.id']/option[text()='{0}']";
         private const string anySectorRow = "//div[@id='sectors-tab']//td[text()='{0}']";
+
+        #region Risk
+        public readonly By RiskTab = By.XPath("//a[@aria-controls='risks-tab']");
+        public readonly By RiskIframe = By.XPath("//div[@id='risks-tab']//iframe");
+        public readonly By BulkCreateButton = By.XPath("//button[@title='Add risk register(s)']");
+        private readonly string riskTable = "//div[@id='risk-grid']//div[@class='grid-canvas']";
+        private readonly string riskRow = "./div[contains(@class,'slick-row')]";
+        private readonly string riskCheckboxCell = "./div[@class='slick-cell l0 r0']//input";
+        private readonly string riskNameCell = "./div[@class='slick-cell l2 r2']";
+        private readonly string riskStartDateCell = "./div[@class='slick-cell l9 r9']";
+        private readonly string riskEndDateCell = "./div[@class='slick-cell l10 r10']";
+        public TableElement RiskTableEle
+        {
+            get => new TableElement(riskTable, riskRow, new List<string>() { riskCheckboxCell, riskNameCell, riskStartDateCell, riskEndDateCell });
+        }
+
+        [AllureStep]
+        public StreetDetailPage VerifyRiskSelect(string riskName, string startdate, string endDate)
+        {
+            Assert.IsNotNull(RiskTableEle.GetCellByCellValues(0, new Dictionary<int, object>()
+            {
+                { RiskTableEle.GetCellIndex(riskNameCell), riskName },
+                { RiskTableEle.GetCellIndex(riskStartDateCell), startdate },
+                { RiskTableEle.GetCellIndex(riskEndDateCell), endDate },
+            }));
+            return this;
+        }
+        #endregion
 
 
         [AllureStep]
