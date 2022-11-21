@@ -645,5 +645,30 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValueInTab("Business Unit", BusinessUnit.CollectionRecycling);
 
         }
+        [Category("Resources")]
+        [Category("Dee")]
+        [Test]
+        public void TC_220_verify_round_sort_order()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Municipal)
+                .SelectBusinessUnit(Contract.Municipal)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifySortOrderOfRoundInstances();
+        }
     }
 }
