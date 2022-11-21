@@ -138,7 +138,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             //Scroll right
             masterRoundManagementPage.ScrollToSubcontractHeader()
                 .VerifyFirstAndSecondConfirmedTask("No Service");
-            //Navigate to task confirmation screen -> Filter the same contract, service and round 
+            //Navigate to task confirmation screen->Filter the same contract, service and round
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
                 .OpenOption("Task Confirmation")
@@ -185,7 +185,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskConfirmationPage.DragRoundInstanceToReallocattedGrid("REC1-AM", "Monday");
             taskConfirmationPage.WaitForLoadingIconToDisappear();
             //Scroll down and right to find your tasks
-            taskConfirmationPage.ScrollDownToElementAndVerifyTaskSubcontract(descriptions, "No Service");
+            taskConfirmationPage.VerifyTaskSubcontract(descriptions, "No Service");
         }
 
         [Category("RoundInstance")]
