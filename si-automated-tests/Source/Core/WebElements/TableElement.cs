@@ -21,6 +21,11 @@ namespace si_automated_tests.Source.Core.WebElements
             CellXpaths = cellXpaths;
         }
 
+        public int GetCellIndex(string xpath)
+        {
+            return CellXpaths.IndexOf(xpath);
+        }
+
         public IWebElement GetTable()
         {
             return WaitUtil.WaitForElementVisible(TableXpath);

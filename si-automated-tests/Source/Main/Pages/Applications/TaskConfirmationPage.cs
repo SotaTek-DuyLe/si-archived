@@ -41,6 +41,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly string UnallocatedRow = "./div[contains(@class, 'assured')]";
         public readonly string ServiceTaskRow = "./div[contains(@class, 'virtual')]";
         public readonly string UnallocatedCheckbox = "./div[contains(@class, 'slick-cell l0 r0')]//input";
+        public readonly string UnallocatedDescription = "./div[contains(@class, 'slick-cell l4 r4')]";
         public readonly string UnallocatedState = "./div[contains(@class, 'slick-cell l1 r1')]";
         public readonly string UnallocatedID = "./div[contains(@class, 'slick-cell l3 r3')]";
 
@@ -81,7 +82,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private string reallocatedTable = "//div[contains(@id, 'reallocated')]//div[@class='grid-canvas']";
         private string reallocatedRow = "./div[contains(@class, 'slick-row')]";
         private string reallocatedCheckboxCell = "./div[@class='slick-cell l1 r1']//input";
-        private string descriptionCell = "./div[@class='slick-cell l21 r21']";
+        private string descriptionCell = "./div[@class='slick-cell l4 r4']";
+        private string taskRefCell = "./div[@class='slick-cell l13 r13']";
         private string townCell = "./div[@class='slick-cell l21 r21']";
         private string subcontractCell = "./div[@class='slick-cell l31 r31']";
         private string subcontractReasonCell = "./div[@class='slick-cell l32 r32']";
@@ -105,26 +107,27 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             get => new TableElement(RoundInstanceTable, RoundInstanceRow, new List<string>() { RoundInstanceServiceCell, RoundInstanceRoundGroupCell, RoundInstanceRoundCell, RoundInstanceFromCell, RoundInstanceToCell });
         }
 
+        [AllureStep]
         public TaskConfirmationPage VerifyReallocatedTask(string reason)
         {
-            IWebElement e = ReallocatedTableEle.GetCell(0, 0);
+            IWebElement e = ReallocatedTableEle.GetCell(0, ReallocatedTableEle.GetCellIndex(townCell));
             Actions actions = new Actions(this.driver);
             actions.MoveToElement(e).Build().Perform();
             SleepTimeInMiliseconds(500);
-            reallocatedTableEle = new TableElement(reallocatedTable, reallocatedRow, new List<string>() { townCell, subcontractCell, subcontractReasonCell, descriptionCell, reallocatedCheckboxCell });
+            reallocatedTableEle = new TableElement(reallocatedTable, reallocatedRow, new List<string>() { townCell, subcontractCell, subcontractReasonCell, taskRefCell });
             reallocatedTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
             {
                 return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
             };
-            e = ReallocatedTableEle.GetCell(0, 1);
+            e = ReallocatedTableEle.GetCell(0, ReallocatedTableEle.GetCellIndex(subcontractCell));
             actions = new Actions(this.driver);
             actions.MoveToElement(e).Build().Perform();
             SleepTimeInMiliseconds(500);
             int rowCount = ReallocatedTableEle.GetRows().Count;
             for (int i = 0; i < rowCount; i++)
             {
-                VerifyCellValue(ReallocatedTableEle, i, 1, "✓");
-                VerifyCellValue(ReallocatedTableEle, i, 2, reason);
+                VerifyCellValue(ReallocatedTableEle, i, ReallocatedTableEle.GetCellIndex(subcontractCell), "✓");
+                VerifyCellValue(ReallocatedTableEle, i, ReallocatedTableEle.GetCellIndex(subcontractReasonCell), reason);
             }
             return this;
         }
@@ -133,32 +136,41 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         /// SelectServiceTaskAllocation
         /// </summary>
         /// <returns>Task Descriptions</returns>
-        public IEnumerable<string> SelectServiceTaskAllocation()
+        [AllureStep]
+        public List<string> SelectServiceTaskAllocation()
         {
+            IWebElement e = ReallocatedTableEle.GetCell(0, ReallocatedTableEle.GetCellIndex(taskRefCell));
+            Actions actions = new Actions(this.driver);
+            actions.MoveToElement(e).Build().Perform();
+            SleepTimeInMiliseconds(500);
+            reallocatedTableEle = new TableElement(reallocatedTable, reallocatedRow, new List<string>() { townCell, descriptionCell, reallocatedCheckboxCell });
+            reallocatedTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+            e = ReallocatedTableEle.GetCell(0, ReallocatedTableEle.GetCellIndex(reallocatedCheckboxCell));
+            actions = new Actions(this.driver);
+            actions.MoveToElement(e).Build().Perform();
+            List<string> descriptions = new List<string>();
             int rowCount = ReallocatedTableEle.GetRows().Count;
             for (int i = 0; i < rowCount; i++)
             {
-                ReallocatedTableEle.ClickCell(i, 4);
+                descriptions.Add(ReallocatedTableEle.GetCellValue(i, ReallocatedTableEle.GetCellIndex(descriptionCell)).AsString());
+                ReallocatedTableEle.ClickCell(i, ReallocatedTableEle.GetCellIndex(reallocatedCheckboxCell));
+                if (i == 1)
+                {
+                    break;
+                }
             }
-            SleepTimeInMiliseconds(300);
-            rowCount = ReallocatedTableEle.GetRows().Count;
-            for (int i = 0; i < rowCount; i++)
-            {
-                yield return ReallocatedTableEle.GetCellValue(i, 3).AsString();
-            }
+            return descriptions;
         }
 
-        public TaskConfirmationPage ClickFirstCheckbox()
-        {
-            ClickOnElement("//div[contains(@id, 'reallocated')]//div[@title='Select/Deselect All']//input");
-            return this;
-        }
-
+        [AllureStep]
         public TaskConfirmationPage ScrollDownToElementAndVerifyTaskSubcontract(IEnumerable<string> descriptions, string reason)
         {
             foreach (var description in descriptions)
             {
-                var row = ReallocatedTableEle.GetRowByCellValue(3, description);
+                var row = ReallocatedTableEle.GetRowByCellValue(ReallocatedTableEle.GetCellIndex(descriptionCell), description);
                 if (row != null)
                 {
                     Actions actions = new Actions(this.driver);
@@ -181,7 +193,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                         Actions focusactions = new Actions(this.driver);
                         focusactions.MoveToElement(lastRow).Build().Perform();
                         WaitForLoadingIconToDisappear();
-                        row = ReallocatedTableEle.GetRowByCellValue(3, description);
+                        row = ReallocatedTableEle.GetRowByCellValue(ReallocatedTableEle.GetCellIndex(descriptionCell), description);
                         count++;
                     }
                     Assert.IsNotNull(row);
@@ -201,6 +213,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        [AllureStep]
         public TaskConfirmationPage DragDropTaskAllocationToRoundGrid(string roundGroup, string round)
         {
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(3, new Dictionary<int, object>()
@@ -226,7 +239,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public TaskConfirmationPage VerifyTaskAllocated(string roundGroup, string round)
         {
-            SleepTimeInMiliseconds(200);
+            SleepTimeInMiliseconds(300);
             IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(4, new Dictionary<int, object>()
             {
                 { 1, roundGroup },
@@ -247,6 +260,61 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             });
             IWebElement grid = GetElement(By.XPath("//div[contains(@id, 'reallocated')]//div[contains(@class, 'grid-canvas')]"));
             DragAndDrop(cell, grid);
+            return this;
+        }
+        #endregion
+
+        #region Round Leg
+        private readonly By toggleRoundLeg = By.XPath("//button[@id='t-toggle-roundlegs']");
+        private readonly By expandThirdRoundGroup = By.XPath("(//div[contains(@class, 'slick-group')][4])//span[contains(@class, 'slick-group-toggle')]");
+        private readonly By FirstRoundLegCheckbox = By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row') and contains(@style, 'top:150px')]//div//input");
+        private readonly By SecondRoundLegCheckbox = By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row') and contains(@style, 'top:175px')]//div//input");
+        
+        [AllureStep]
+        public TaskConfirmationPage SelectRoundLegsOnSecondRoundGroup()
+        {
+            ClickOnElement(expandThirdRoundGroup);
+            SleepTimeInMiliseconds(300);
+            ClickOnElement(FirstRoundLegCheckbox);
+            ClickOnElement(SecondRoundLegCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage ExpandRoundLegAndSelectTask()
+        {
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage SelectAllRoundLeg()
+        {
+            ClickOnElement(toggleRoundLeg);
+            ClickOnElement(selectAndDeselectAllCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage DragDropRoundLegToRoundInstance(string roundGroup, string round)
+        {
+            SleepTimeInMiliseconds(300);
+            IWebElement cell = RoundInstanceTableEle.GetCellByCellValues(3, new Dictionary<int, object>()
+            {
+                { 1, roundGroup },
+                { 2, round }
+            });
+            WaitUtil.WaitForElementClickable(cell).Click();
+            WaitForLoadingIconToDisappear();
+            cell = RoundInstanceTableEle.GetCellByCellValues(3, new Dictionary<int, object>()
+            {
+                { 1, roundGroup },
+                { 2, round }
+            });
+            IWebElement row = ReallocatedTableEle.GetRow(0);
+            Actions a = new Actions(driver);
+            a.ClickAndHold(row).Perform();
+            a.MoveToElement(cell).Perform();
+            a.Release().Perform();
             return this;
         }
         #endregion

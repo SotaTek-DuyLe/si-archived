@@ -652,14 +652,6 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
-
-        public BasePage ScrollRightToElement(By by)
-        {
-            IWebElement horizontal_scroll = GetElement(by);
-            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
-            js.ExecuteScript("arguments[0].scrollIntoView(true);", horizontal_scroll);
-            return this;
-        }
         
         [AllureStep]
         public BasePage ScrollDownToElement(string locator, string value)
