@@ -230,15 +230,20 @@ namespace si_automated_tests.Source.Test.RiskTests
             //Select contract -> Click on preview 
             riskRegisterPage.SelectTextFromDropDown(riskRegisterPage.ContractSelect, Contract.Commercial)
                 .ClickOnElement(riskRegisterPage.PreviewResultButton);
+            riskRegisterPage.SleepTimeInMiliseconds(500);
             //Select an ID you want to work with -> Click on filter and ad this ID -> Preview -> Next
             string id = riskRegisterPage.SelectFirstIdAndFilter();
             riskRegisterPage.ClickOnElement(riskRegisterPage.NextButtonOnStep1);
             //Select a risk/s you want to add -> Add selected
+            riskRegisterPage.SleepTimeInMiliseconds(500);
             string riskName = riskRegisterPage.SelectRisk();
             riskRegisterPage.ClickOnElement(riskRegisterPage.AddSelectRiskbutton);
             riskRegisterPage.VerifyRiskSelect(riskName);
             //Update the second grid e.g. add proximity alert, change start date, end date and mitigation notes -> Next 
-            riskRegisterPage.InputRiskSelect("02/05/2022 00:00", "31/01/2040 00:00", "Slow down")
+            string startDate = "02/05/2022 00:00";
+            string endDate = "31/01/2040 00:00";
+            string migitationNote = "Slow down";
+            riskRegisterPage.InputRiskSelect(startDate, endDate, migitationNote)
                 .ClickOnElement(riskRegisterPage.NextButtonOnScreen2);
             riskRegisterPage.VerifyCheckboxIsSelected(riskRegisterPage.InAllServiceCheckbox, true);
             //Click previous, previous
@@ -250,7 +255,7 @@ namespace si_automated_tests.Source.Test.RiskTests
             //Next
             riskRegisterPage.ClickOnElement(riskRegisterPage.NextButtonOnStep1);
             riskRegisterPage.WaitForLoadingIconToDisappear();
-            riskRegisterPage.VerifyRiskSelect(true, "02/05/2022 00:00", "31/01/2040 00:00", "Slow down");
+            riskRegisterPage.VerifyRiskSelect(true, startDate, endDate, migitationNote);
             //Next, next
             riskRegisterPage.ClickOnElement(riskRegisterPage.NextButtonOnScreen2);
             riskRegisterPage.WaitForLoadingIconToDisappear();
@@ -268,10 +273,12 @@ namespace si_automated_tests.Source.Test.RiskTests
             //Double click on the added data 
             riskRegisterListingPage.ClickOnElement(riskRegisterListingPage.StartDateHeaderInput);
             riskRegisterListingPage.SleepTimeInMiliseconds(500);
-            riskRegisterListingPage.InputCalendarDate(riskRegisterListingPage.StartDateHeaderInput, "02/05/2022");
+            riskRegisterListingPage.InputCalendarDate(riskRegisterListingPage.StartDateHeaderInput, startDate.Replace(" 00:00", ""));
+            riskRegisterListingPage.WaitForLoadingIconToAppear(false);
             riskRegisterListingPage.WaitForLoadingIconToDisappear();
             riskRegisterListingPage.ClickOnElement(riskRegisterListingPage.ToggleFilterStartDateHeader);
-            riskRegisterListingPage.SelectByDisplayValueOnUlElement(riskRegisterListingPage.SelectFilterDropdown, "Less than including");
+            riskRegisterListingPage.SelectByDisplayValueOnUlElement(riskRegisterListingPage.SelectFilterDropdown, "Equal to");
+            riskRegisterListingPage.WaitForLoadingIconToAppear(false);
             riskRegisterListingPage.WaitForLoadingIconToDisappear();
             riskRegisterListingPage.DoubleClickAtFirstRisk()
                 .SwitchToChildWindow(2)
@@ -279,10 +286,10 @@ namespace si_automated_tests.Source.Test.RiskTests
             var riskDetailPage = PageFactoryManager.Get<RiskDetailPage>();
             riskDetailPage.ClickOnElement(riskDetailPage.DetailTab);
             riskDetailPage.WaitForLoadingIconToDisappear();
-            riskDetailPage.VerifyInputValue(riskDetailPage.StartDateInput, "11/03/2022")
-                .VerifyInputValue(riskDetailPage.EndDateInput, "01/01/2050")
+            riskDetailPage.VerifyInputValue(riskDetailPage.StartDateInput, startDate.Replace(" 00:00", ""))
+                .VerifyInputValue(riskDetailPage.EndDateInput, endDate.Replace(" 00:00", ""))
                 .VerifyCheckboxIsSelected(riskDetailPage.ProximityInput, false)
-                .VerifyInputValue(riskDetailPage.NoteInput, "Caution between: 0800 & 0900");
+                .VerifyInputValue(riskDetailPage.NoteInput, migitationNote);
             riskDetailPage.ClickOnElement(riskDetailPage.HyperLink);
             riskDetailPage.SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
