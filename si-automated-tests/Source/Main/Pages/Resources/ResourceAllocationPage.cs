@@ -19,6 +19,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By createResourceBtn = By.Id("t-create");
         private readonly By refreshBtn = By.Id("t-refresh");
         public readonly By date = By.Id("date");
+        private readonly By roundFilterBtn = By.XPath("//span[text()='Round Filters']/parent::a");
 
         //Left panel Daily Allocation
         private readonly By firstRoundRow = By.XPath("//tbody[contains(@data-bind,'roundMenu')]/tr");
@@ -62,6 +63,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string expandOptions = "(//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')])[{0}]//div[@id='toggle-actions']";
         private readonly string secondColumnResource = "(//div[@id='rounds-scrollable']//tr[@class='round-group-dropdown'])[{0}]//span[text()='{1}']";
         private readonly string roundName = "//span[@class='main-description round-name' and text()='{0}']";
+        private readonly string roundInstances = "//span[@class='main-description round-name']";
+        private readonly string serviceNames = "//span[@class='sub-description' and contains(@data-bind,'name: service')]";
         private readonly By viewRoundBtn = By.XPath("//button[text()='VIEW ROUND']");
         private readonly By dateInput = By.XPath("//input[contains(@data-bind,'dateControl')]");
         private readonly By calendarIcon = By.XPath("//div[@class='date-control container' and contains(@style,'display: block;')]//span[@class='input-group-addon']");
@@ -69,7 +72,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
 
         //Right panel
         private readonly By headers = By.XPath("//div[contains(@class,'active')]//div[@class='ui-state-default slick-header-column slick-header-sortable ui-sortable-handle']/span[1]");
-        private readonly By inputBoxes = By.XPath("//div[contains(@class,'active')]//div[@class='slick-headerrow ui-state-default']//input");
+        private readonly By inputBoxes = By.XPath("//div[contains(@class,'active')]//div[@class='slick-headerrow ui-state-default']//*[contains(@class,'form-control')]");
         private readonly By firstResultFields = By.XPath("//div[contains(@class,'active')]//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
 
         //business unit option
@@ -612,7 +615,30 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         }
         public ResourceAllocationPage VerifyConfirmButtonEnabled(bool isEnabled)
         {
-            Assert.AreEqual(WaitUtil.WaitForElementVisible(confirmButton).Enabled, isEnabled);
+            Assert.AreEqual(isEnabled, WaitUtil.WaitForElementVisible(confirmButton).Enabled);
+            return this;
+        }
+        public ResourceAllocationPage VerifyRoundFilterButtonEnabled(bool isEnabled)
+        {
+            if (isEnabled)
+            {
+                Assert.AreEqual("btn", GetAttributeValue(roundFilterBtn, "class"));
+            }
+            else
+            {
+                Assert.AreEqual("btn disabled", GetAttributeValue(roundFilterBtn, "class"));
+            }
+            return this;
+        }
+        public ResourceAllocationPage VerifyBusinessUnitIsOptional()
+        {
+            Assert.AreEqual("Optionally select Business Unit", GetAttributeValue(businessUnitInput, "placeholder"));
+            return this;
+        }
+        public ResourceAllocationPage VerifyUnassignedBusinessUnitIsDisplayed()
+        {
+            ClickOnElement(businessUnitInput);
+            WaitUtil.WaitForElementVisible(businessUnitOption, "*Unassigned");
             return this;
         }
     }

@@ -16,9 +16,9 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
         private readonly By firstResult = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')]");
         private readonly By headers = By.XPath("//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
-        private readonly By headersInTabSection = By.XPath("//div[@class='tab-pane active']//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
+        private readonly By headersInTabSection = By.XPath("//div[contains(@class,'tab-pane') and contains(@class,'active')]//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
         private readonly By firstResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
-        private readonly By firstResultFieldsInTabSection = By.XPath("//div[@class='tab-pane active']//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
+        private readonly By firstResultFieldsInTabSection = By.XPath("//div[contains(@class,'tab-pane') and contains(@class,'active')]//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
         private readonly By secondResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row odd')][1]/div");
         private readonly By availableRows = By.XPath("//div[contains(@class,'ui-widget-content slick-row')]");
         private readonly String resultFields = "//div[contains(@class,'ui-widget-content slick-row')][{0}]/div";
