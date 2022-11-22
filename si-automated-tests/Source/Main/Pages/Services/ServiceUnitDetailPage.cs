@@ -362,6 +362,29 @@ namespace si_automated_tests.Source.Main.Pages.Services
             VerifyCellValue(SubscriptionTableEle, 0, 3, mobile);
             return this;
         }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyNewSubscription(string id, string firstName, string lastName, string mobile, string subjectDescription)
+        {
+            int newIdx = SubscriptionTableEle.GetRows().Count - 1;
+            VerifyCellValue(SubscriptionTableEle, newIdx, 0, id);
+            VerifyCellValue(SubscriptionTableEle, newIdx, 2, firstName + " " + lastName);
+            VerifyCellValue(SubscriptionTableEle, newIdx, 3, mobile);
+            string subjectDescriptionCellValue = SubscriptionTableEle.GetCellValue(newIdx, 9).AsString();
+            Assert.IsTrue(subjectDescription.Contains(subjectDescriptionCellValue));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyColumnsDisplay(List<string> columnNames)
+        {
+            var headerEles = GetAllElements(By.XPath("//div[contains(@class, 'slick-header-columns')]//span[@class='slick-column-name']"));
+            foreach (var item in headerEles)
+            {
+                Assert.IsTrue(columnNames.Contains(item.Text));
+            }
+            return this;
+        }
         #endregion
 
         #region notifications tab
@@ -412,9 +435,17 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 new List<string>() { STSId, STSTaskType, STSTaskLineUnit, STSIsRollOver, STSAllocation, STSAssureTask, STSStartDate, STSEndDate, STSEditSchedule, STSEditServiceTask });
         }
 
+        [AllureStep]
         public ServiceUnitDetailPage ClickEditServiceTask(int rowIdx)
         {
             ServiceTaskScheduleTableEle.ClickCell(rowIdx, 9);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyServiceTaskScheduleId(string taskId)
+        {
+            Assert.IsNotNull(ServiceTaskScheduleTableEle.GetRowByCellValue(0, taskId));
             return this;
         }
         #endregion

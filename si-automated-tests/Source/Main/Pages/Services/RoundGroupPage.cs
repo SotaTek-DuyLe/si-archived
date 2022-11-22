@@ -25,6 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By defaultWorkSheetSelect = By.XPath("//div[@id='details-tab']//select[@id='defaultWorkSheet.id']");
         private readonly By recordWorkingTimeSelect = By.XPath("//div[@id='details-tab']//select[@id='recordWorkingTime.id']");
         private readonly By copyBtn = By.XPath("//button[@title='Copy']");
+        private readonly By lastMonthBtn = By.XPath("//button[@title='Last month']");
         private readonly By nextMonthBtn = By.XPath("//button[@title='Next month']");
         private readonly By optimiseBtn = By.XPath("//button[@title='Optimise']");
         private readonly By roundTab = By.XPath("//a[@aria-controls='rounds-tab']");
@@ -731,6 +732,83 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
+
+        [AllureStep]
+        public DateTime DoubleClickRoundGroup(DateTime startDate, DateTime endDate, List<DayOfWeek> dayOfWeeks, List<DateTime> ignoreDateTimes = null)
+        {
+            while (true)
+            {
+                List<IWebElement> headerCells = GetAllElements(dateHeaderCells);
+                List<IWebElement> detailCells = GetAllElements(dateDetailCells);
+                DateTime maxDate = DateTime.MinValue;
+                for (int i = 0; i < headerCells.Count; i++)
+                {
+                    DateTime dateTime = DateTime.ParseExact(headerCells[i].GetAttribute("data-date"), "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    maxDate = dateTime;
+                    if (startDate >= dateTime || !dayOfWeeks.Contains(dateTime.DayOfWeek) || (ignoreDateTimes != null && ignoreDateTimes.Contains(dateTime))) continue;
+                    IWebElement webElement = detailCells[i];
+                    bool isRoundGroup = webElement.FindElements(By.XPath("./a")).Count != 0;
+                    if (!isRoundGroup) continue;
+                    DoubleClickOnElement(detailCells[i]);
+                    return dateTime;
+                }
+                if (maxDate >= endDate)
+                {
+                    break;
+                }
+                ClickOnElement(nextMonthBtn);
+                WaitForLoadingIconToDisappear();
+                Thread.Sleep(1000);
+                WaitForLoadingIconToDisappear();
+            }
+            return DateTime.MinValue;
+        }
+
+        public RoundGroupPage VerifyRoundInstanceState(DateTime roundDate, string state)
+        {
+            List<IWebElement> headerCells = GetAllElements(dateHeaderCells);
+            List<IWebElement> detailCells = GetAllElements(dateDetailCells);
+            List<DateTime> currentDates = headerCells.Select(x => DateTime.ParseExact(x.GetAttribute("data-date"), "yyyy-MM-dd", CultureInfo.InvariantCulture)).ToList();
+            DateTime minDate = currentDates.Min();
+            while (minDate > roundDate)
+            {
+                ClickOnElement(lastMonthBtn);
+                WaitForLoadingIconToDisappear();
+                Thread.Sleep(1000);
+                WaitForLoadingIconToDisappear();
+                headerCells = GetAllElements(dateHeaderCells);
+                detailCells = GetAllElements(dateDetailCells);
+                currentDates = headerCells.Select(x => DateTime.ParseExact(x.GetAttribute("data-date"), "yyyy-MM-dd", CultureInfo.InvariantCulture)).ToList();
+                minDate = currentDates.Min();
+            }
+            
+            DateTime maxDate = currentDates.Max();
+            while (maxDate < roundDate)
+            {
+                ClickOnElement(nextMonthBtn);
+                WaitForLoadingIconToDisappear();
+                Thread.Sleep(1000);
+                WaitForLoadingIconToDisappear();
+                headerCells = GetAllElements(dateHeaderCells);
+                detailCells = GetAllElements(dateDetailCells);
+                currentDates = headerCells.Select(x => DateTime.ParseExact(x.GetAttribute("data-date"), "yyyy-MM-dd", CultureInfo.InvariantCulture)).ToList();
+                maxDate = currentDates.Max();
+            }
+           
+            for (int i = 0; i < headerCells.Count; i++)
+            {
+                DateTime dateTime = DateTime.ParseExact(headerCells[i].GetAttribute("data-date"), "yyyy-MM-dd", CultureInfo.InvariantCulture);
+                if (dateTime != roundDate) continue;
+                IWebElement webElement = detailCells[i];
+                bool isRoundGroup = webElement.FindElements(By.XPath("./a")).Count != 0;
+                if (!isRoundGroup) continue;
+                IWebElement roundContent = webElement.FindElements(By.XPath("./a")).FirstOrDefault();
+                Assert.IsTrue(roundContent.GetCssValue("background-image").Contains(state));
+                return this;
+            }
+            return this;
+        }
+
         [AllureStep]
         public RoundGroupPage RoundInstancesNotDisplayAfterEnddate(DateTime endDate)
         {

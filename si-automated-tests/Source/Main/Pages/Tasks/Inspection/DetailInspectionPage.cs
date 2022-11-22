@@ -39,7 +39,9 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private readonly By issueFoundCheckbox = By.XPath("//label[text()='Issue found?']/following-sibling::input");
         private readonly By addNewBtnImage = By.XPath("//label[text()='Image']/following-sibling::div/button");
         private readonly By imageData = By.XPath("//label[text()='Image']/following-sibling::div");
-        private readonly By inputImage = By.XPath("//label[text()='Image']/following-sibling::div//div[@class='img-thumbnail']");
+        private readonly By imgThumbnailTag = By.XPath("//div[contains(@class, 'img-thumbnail')]");
+        private readonly By closeImgBtn = By.XPath("//div[contains(@class, 'img-thumbnail')]/img[@aria-label='Close']");
+        private readonly By inputImage = By.CssSelector("input[type='file']");
         private readonly By streetGradeDd = By.XPath("//label[text()='Street Grade']/following-sibling::select");
         private readonly By accessPointInputInDataTab = By.XPath("//label[text()='Access Point']/following-sibling::input");
 
@@ -210,6 +212,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             ClickOnElement(dataTab);
             return this;
         }
+
         [AllureStep]
         public DetailInspectionPage VerifyStreetGradeMandatory()
         {
@@ -294,6 +297,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
         }
 
+        [AllureStep]
+        public DetailInspectionPage InputValidFrom(string validFromValue)
+        {
+            SendKeys(validFromInput, validFromValue);
+            return this;
+        }
+
         //DATA TAB
         [AllureStep]
         public DetailInspectionPage AddNotesInDataTab(string notesInput)
@@ -323,7 +333,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         public DetailInspectionPage UploadImage(string urlImage)
         {
             ClickOnElement(addNewBtnImage);
-            SendKeys(inputImage, urlImage);
+            SendKeysWithUrl(inputImage, urlImage);
             return this;
         }
         [AllureStep]
@@ -394,11 +404,22 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         [AllureStep]
         public DetailInspectionPage VerifyAllFieldsInDataTabDisabled()
         {
-            Assert.IsTrue(GetAttributeValue(imageData, "class").Contains("disabled"));
+            Assert.AreEqual(GetAttributeValue(addNewBtnImage, "disabled"), "true");
             Assert.AreEqual(GetAttributeValue(accessPointInputInDataTab, "disabled"), "true");
             Assert.AreEqual(GetAttributeValue(notesInputInDataTab, "disabled"), "true");
             return this;
         }
+
+        [AllureStep]
+        public DetailInspectionPage VerifyTheImageIsReadOnly()
+        {
+            Assert.AreEqual("true", GetAttributeValue(addNewBtnImage, "disabled"));
+            Assert.IsTrue(GetAttributeValue(imgThumbnailTag, "class").Contains("disabled"));
+            Assert.IsTrue(GetAttributeValue(closeImgBtn, "class").Contains("disabled"));
+            Assert.AreEqual("true", GetAttributeValueElementPresent(inputImage, "disabled"));
+            return this;
+        }
+
         [AllureStep]
         public DetailInspectionPage VerifyHistoryAfterCompleted(string userName, string timeCompleted)
         {

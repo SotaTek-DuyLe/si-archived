@@ -9,6 +9,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace si_automated_tests.Source.Core
 {
@@ -125,6 +126,13 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForElementClickable(by);
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             element.Clear();
+            element.SendKeys(value);
+        }
+        [AllureStep]
+        public void SendKeysWithUrl(By by, string value)
+        {
+            WaitUtil.WaitForElementsPresent(by);
+            IWebElement element = driver.FindElement(by);
             element.SendKeys(value);
         }
         [AllureStep]
@@ -536,6 +544,18 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
+        public BasePage AceptAlertIfPresent()
+        {
+            SleepTimeInMiliseconds(200);
+            IAlert alert = ExpectedConditions.AlertIsPresent().Invoke(driver);
+            if ((alert != null))
+            {
+                alert.Accept();
+            }
+            return this;
+        }
+
         //REFRESH
         [AllureStep]
         public BasePage Refresh()
@@ -684,6 +704,13 @@ namespace si_automated_tests.Source.Core
         public string GetAttributeValue(By by, string attributeName)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(by);
+            return element.GetAttribute(attributeName);
+        }
+
+        [AllureStep]
+        public string GetAttributeValueElementPresent(By by, string attributeName)
+        {
+            IWebElement element = WaitUtil.WaitForElementsPresent(by);
             return element.GetAttribute(attributeName);
         }
 
@@ -1010,10 +1037,15 @@ namespace si_automated_tests.Source.Core
         {
             return IWebDriverManager.GetDriver().Title;
         }
-
+        [AllureStep]
         public bool IsCheckboxChecked(By by)
         {
             return GetElement(by).Selected;
+        }
+        [AllureStep]
+        public bool IsCheckboxChecked(IWebElement e)
+        {
+            return e.Selected;
         }
         [AllureStep]
         public BasePage GoToAllTabAndConfirmNoError()

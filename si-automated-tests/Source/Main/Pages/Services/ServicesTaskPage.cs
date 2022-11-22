@@ -5,6 +5,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Models.DBModels;
 
@@ -12,9 +13,17 @@ namespace si_automated_tests.Source.Main.Pages.Services
 {
     public class ServicesTaskPage : BasePageCommonActions
     {
+        public readonly By OpenServiceUnitLink = By.XPath("//a[@data-bind='text: serviceUnitDesc, click: openServiceUnit']");
         private string taskLineTab = "//a[@aria-controls='tasklines-tab']";
         public string AnnouncementTab = "//a[@aria-controls='announcements-tab']";
         public string  DetailTab = "//a[@aria-controls='details-tab']";
+        private readonly By dataTab = By.CssSelector("a[aria-controls='data-tab']");
+        private readonly By historyTab = By.CssSelector("a[aria-controls='history-tab']");
+        private readonly By mapTab = By.CssSelector("a[aria-controls='map-tab']");
+        private readonly By risksTab = By.CssSelector("a[aria-controls='risks-tab']");
+        private readonly By subscriptionTab = By.CssSelector("a[aria-controls='subscriptions-tab']");
+        private readonly By notificationsTab = By.CssSelector("a[aria-controls='notifications-tab']");
+        private readonly By indicatorsTab = By.CssSelector("a[aria-controls='objectIndicators-tab']");
         public string ScheduleTab = "//a[@aria-controls='schedules-tab']";
         private readonly By title = By.XPath("//span[text()='Service Task']");
         private readonly By serviceGroupTitle = By.XPath("//div[text()='SERVICE GROUP']");
@@ -45,6 +54,92 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By ProximityAlertCheckbox = By.XPath("//div[@id='details-tab']//input[contains(@data-bind, 'proximityAlert.id')]");
         public readonly By RetireButton = By.XPath("//div[@class='navbar-right pull-right']//button[@title='Retire']");
         public readonly By CreateAdHocTaskButton = By.XPath("//button[contains(text(), 'Create Ad-Hoc Task')]");
+
+        public readonly By SubscriptionTab = By.XPath("//a[@aria-controls='subscriptions-tab']");
+        #region SubscriptionTab
+        public readonly By AddNewSubscriptionButton = By.XPath("//button[@data-bind='click: createSubscription']");
+        public readonly By SubscriptionIFrame = By.XPath("//iframe[@id='subscriptions-tab']");
+        private readonly string SubcriptionTable = "//div[@class='grid-canvas']";
+        private readonly string SubscriptionRow = "./div[contains(@class, 'slick-row')]";
+        private readonly string SubscriptionIdCell = "./div[contains(@class, 'l0')]";
+        private readonly string SubscriptionContractIdCell = "./div[contains(@class, 'l1')]";
+        private readonly string SubscriptionContractCell = "./div[contains(@class, 'l2')]";
+        private readonly string SubscriptionMobileCell = "./div[contains(@class, 'l3')]";
+        private readonly string SubscriptionStateCell = "./div[contains(@class, 'l4')]";
+        private readonly string SubscriptionStartDateCell = "./div[contains(@class, 'l5')]";
+        private readonly string SubscriptionEndDateCell = "./div[contains(@class, 'l6')]";
+        private readonly string SubscriptionNotesCell = "./div[contains(@class, 'l7')]";
+        private readonly string SubscriptionSubjectCell = "./div[contains(@class, 'l8')]";
+        private readonly string SubscriptionSubjectDesCell = "./div[contains(@class, 'l9')]";
+
+        public TableElement SubscriptionTableEle
+        {
+            get => new TableElement(SubcriptionTable, SubscriptionRow,
+                new List<string>() {
+                    SubscriptionIdCell, SubscriptionContractIdCell, SubscriptionContractCell,
+                    SubscriptionMobileCell, SubscriptionStateCell, SubscriptionStartDateCell,
+                    SubscriptionEndDateCell, SubscriptionNotesCell, SubscriptionSubjectCell, SubscriptionSubjectDesCell
+                });
+        }
+
+        [AllureStep]
+        public ServicesTaskPage VerifyNewSubscription(string id, string firstName, string lastName, string mobile, string subjectDescription)
+        {
+            int newIdx = SubscriptionTableEle.GetRows().Count - 1;
+            VerifyCellValue(SubscriptionTableEle, newIdx, 0, id);
+            VerifyCellValue(SubscriptionTableEle, newIdx, 2, firstName + " " + lastName);
+            VerifyCellValue(SubscriptionTableEle, newIdx, 3, mobile);
+            string subjectDescriptionCellValue = SubscriptionTableEle.GetCellValue(newIdx, 9).AsString();
+            Assert.IsTrue(subjectDescription.Contains(subjectDescriptionCellValue));
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage VerifyColumnsDisplay(List<string> columnNames)
+        {
+            var headerEles = GetAllElements(By.XPath("//div[contains(@class, 'slick-header-columns')]//span[@class='slick-column-name']"));
+            foreach (var item in headerEles)
+            {
+                Assert.IsTrue(columnNames.Contains(item.Text));
+            }
+            return this;
+        }
+        #endregion
+
+        #region Schedule Tab
+        public readonly By DuplicateButton = By.XPath("(//div[@id='schedules-tab']//button[@title='Duplicate'])[1]");
+        private string TaskScheduleTable = "//tbody[@data-bind='foreach: fields.serviceTaskSchedules.value']";
+        private string TaskScheduleRow = "./tr";
+        private string ScheduleCell = "./td[@data-bind='text: schedule.value']";
+        private string ScheduleStartDateCell = "./td[@data-bind='text: startDate.value']";
+        private string ScheduleEndDateCell = "./td[@data-bind='text: endDate.value']";
+        private string ScheduleRolloverCell = "./td//input[@type='checkbox']";
+        private string ScheduleRoundGroupCell = "./td[@data-bind='text: roundGroup.value']";
+        private string ScheduleRoundCell = "./td[@data-bind='text: round.value']";
+        private string ScheduleDuplicateButtonCell = "./td//button[@title='Duplicate']";
+        
+        public TableElement ScheduleTableEle
+        {
+            get => new TableElement(TaskScheduleTable, TaskScheduleRow, new List<string>() { ScheduleCell, ScheduleStartDateCell, ScheduleEndDateCell, ScheduleRolloverCell, ScheduleRoundGroupCell, ScheduleRoundCell, ScheduleDuplicateButtonCell });
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickDuplicateButton(int rowIdx)
+        {
+            ScheduleTableEle.ClickCell(rowIdx, 6);
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage VerifyNewSchedule(string startdate, string enddate, string round)
+        {
+            VerifyCellValue(ScheduleTableEle, 0, 1, startdate);
+            VerifyCellValue(ScheduleTableEle, 0, 2, enddate);
+            VerifyCellValue(ScheduleTableEle, 0, 5, round.Replace(":", ""));
+            return this;
+        }
+        #endregion
+
 
         [AllureStep]
         public ServicesTaskPage WaitForTaskPageLoadedSuccessfully(String service, String partyname)
@@ -178,6 +273,78 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         [AllureStep]
         public ServicesTaskPage ClickOnDetailTab()
+        {
+            ClickOnElement(DetailTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnDataTab()
+        {
+            ClickOnElement(dataTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnAnnouncementTab()
+        {
+            ClickOnElement(AnnouncementTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnHistoryTab()
+        {
+            ClickOnElement(historyTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnMapTab()
+        {
+            ClickOnElement(mapTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnRisksTab()
+        {
+            ClickOnElement(risksTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnSubscriptionsTab()
+        {
+            ClickOnElement(subscriptionTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnNotificationsTab()
+        {
+            ClickOnElement(notificationsTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnIndicatorsTab()
+        {
+            ClickOnElement(indicatorsTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnDTab()
         {
             ClickOnElement(DetailTab);
             WaitForLoadingIconToDisappear();
