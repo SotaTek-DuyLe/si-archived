@@ -633,7 +633,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow()
                 .SwitchNewIFrame()
                 .SwitchToTab("All Resources");
-            //Drag resource type to round
+            //Verify Default Allocation changes
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .FilterResource("Resource", dResourceName);
             PageFactoryManager.Get<CommonBrowsePage>()

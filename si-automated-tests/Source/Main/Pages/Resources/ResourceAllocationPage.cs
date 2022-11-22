@@ -614,11 +614,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ClickOnElement(closeReasonPopupButton);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyConfirmButtonEnabled(bool isEnabled)
         {
             Assert.AreEqual(isEnabled, WaitUtil.WaitForElementVisible(confirmButton).Enabled);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyRoundFilterButtonEnabled(bool isEnabled)
         {
             if (isEnabled)
@@ -631,17 +633,20 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             }
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyBusinessUnitIsOptional()
         {
             Assert.AreEqual("Optionally select Business Unit", GetAttributeValue(businessUnitInput, "placeholder"));
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyUnassignedBusinessUnitIsDisplayed()
         {
             ClickOnElement(businessUnitInput);
             WaitUtil.WaitForElementVisible(businessUnitOption, "*Unassigned");
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifySortOrderOfRoundInstances()
         {
             List<RoundModel> rounds = new List<RoundModel>();
