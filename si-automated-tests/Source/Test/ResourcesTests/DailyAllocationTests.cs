@@ -545,5 +545,130 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .HoverAndVerifyBackgroundColor(vehicleResourceName, "darker red");
         }
+        [Category("Resources")]
+        [Category("Dee")]
+        [Test]
+        public void TC_223_verify_daily_and_default_allocation_page_ui_changes()
+        {
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string resourceType = "Driver";
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyRoundFilterButtonEnabled(false)
+                .SelectContract(Contract.Municipal)
+                .VerifyBusinessUnitIsOptional()
+                .SelectBusinessUnit(Contract.Municipal)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            //Create driver
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyRoundFilterButtonEnabled(true)
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.EastCollections)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear()
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName);
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValueInTab("Business Unit", BusinessUnit.EastCollections);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .RefreshGrid()
+                .FilterResource("Business Unit", BusinessUnit.EastCollections);
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValueInTab("Business Unit", BusinessUnit.EastCollections);
+
+
+            string dResourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string dResourceType = "Driver";
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Default Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .VerifyUnassignedBusinessUnitIsDisplayed()
+                .SelectBusinessUnit(Contract.Commercial)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            //Create new default resource
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(dResourceName)
+                .SelectResourceType(dResourceType)
+                .SelectBusinessUnit(BusinessUnit.CollectionRecycling)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .SwitchToTab("All Resources");
+            //Drag resource type to round
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", dResourceName);
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValueInTab("Business Unit", BusinessUnit.CollectionRecycling);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .RefreshGrid()
+                .FilterResource("Business Unit", BusinessUnit.CollectionRecycling);
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValueInTab("Business Unit", BusinessUnit.CollectionRecycling);
+
+        }
+        [Category("Resources")]
+        [Category("Dee")]
+        [Test]
+        public void TC_220_verify_round_sort_order()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Municipal)
+                .SelectBusinessUnit(Contract.Municipal)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifySortOrderOfRoundInstances();
+        }
     }
 }

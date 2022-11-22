@@ -375,6 +375,11 @@ namespace si_automated_tests.Source.Core
         {
             return WaitUtil.WaitForElementVisible(by).Text;
         }
+        public string GetElementTextByJS(IWebElement e)
+        {
+            this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
+            return (string)javascriptExecutor.ExecuteScript("return arguments[0].textContent;", e);
+        }
 
         public string GetInputValue(By by)
         {
