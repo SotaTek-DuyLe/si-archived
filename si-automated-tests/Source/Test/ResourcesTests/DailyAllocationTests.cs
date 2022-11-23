@@ -10,6 +10,7 @@ using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
 using System.Threading;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+using static si_automated_tests.Source.Main.Pages.Resources.ResourceAllocationPage;
 
 namespace si_automated_tests.Source.Test.ResourcesTests
 {
@@ -669,6 +670,47 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SleepTimeInMiliseconds(2000);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifySortOrderOfRoundInstances();
+        }
+        [Category("Resources")]
+        [Category("Dee")]
+        [Test]
+        public void TC_221_adding_adhoc_round()
+        {
+            string roundName = "adhoc autotest round " + CommonUtil.GetRandomNumber(5);
+            int templateNo = 1;
+            string reason = "Service Recovery";
+            string note = "adhoc autotest not " + CommonUtil.GetRandomNumber(5);
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Municipal)
+                .SelectBusinessUnit(Contract.Municipal)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickAddAdhocRoundBtn()
+                .IsOnAddAdhocRoundPage()
+                .InputAdhocRoundDetails(templateNo, reason, note, roundName)
+                .ClickCreateBtn()
+                .VerifyFirstRoundName("(Adhoc) " + roundName)
+                .ClickAddAdhocRoundBtn()
+                .IsOnAddAdhocRoundPage()
+                .InputAdhocRoundDetails(1, reason, note);
+            string templateValue = PageFactoryManager.Get<AddAdhocRoundPopup>()
+                .GetSelectedTemplate();
+            PageFactoryManager.Get<AddAdhocRoundPopup>()
+                .ClickCreateBtn()
+                .VerifyFirstRoundName("(Adhoc) " + templateValue);
         }
     }
 }

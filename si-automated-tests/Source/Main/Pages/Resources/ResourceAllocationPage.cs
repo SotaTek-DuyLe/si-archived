@@ -42,6 +42,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By reasonSelect = By.Id("reasons.id");
         private readonly By confirmButton = By.XPath("//button[text()='Confirm']");
         private readonly By closeReasonPopupButton = By.XPath("//button[@data-bind='click: cancelReason']");
+        private readonly By addAdhocRoundBtn = By.XPath("//button[@data-target='#addhoc-rounds']");
 
         private readonly string whiteBackground = "background-color: rgb(255, 255, 255);";
         private readonly string greenBackground = "background-color: rgb(137, 203, 137);";
@@ -671,6 +672,56 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             });
             Assert.AreEqual(unsortedRounds, rounds);
             return this;
+        }
+        [AllureStep]
+        public AddAdhocRoundPopup ClickAddAdhocRoundBtn()
+        {
+            ClickOnElement(addAdhocRoundBtn);
+            return PageFactoryManager.Get<AddAdhocRoundPopup>(); ;
+        }
+        public ResourceAllocationPage VerifyFirstRoundName(string expected)
+        {
+            var firstRoundName = GetAllElements(roundInstances)[0].Text;
+            Assert.AreEqual(expected, firstRoundName);
+            return this;
+        }
+
+        public class AddAdhocRoundPopup : BasePage
+        {
+            private readonly By createBtn = By.XPath("//*[@id='addhoc-rounds']//button[text()='Create']");
+            private readonly By roundNameInput = By.Id("round-name");
+            private readonly By templateSelect = By.Id("template-rounds");
+            private readonly By reasonSelect = By.Id("reasons");
+            private readonly By noteInput = By.Id("notes");
+            
+            public AddAdhocRoundPopup IsOnAddAdhocRoundPage()
+            {
+                WaitUtil.WaitForElementVisible(roundNameInput);
+                WaitUtil.WaitForElementVisible(templateSelect);
+                WaitUtil.WaitForElementVisible(reasonSelect);
+                WaitUtil.WaitForElementVisible(noteInput);
+                WaitUtil.WaitForElementVisible(createBtn);
+                return this;
+            }
+
+            public AddAdhocRoundPopup InputAdhocRoundDetails(int templateNo, string reason, string note, string roundName = "")
+            {
+                SendKeys(roundNameInput, roundName);
+                SelectIndexFromDropDown(templateSelect, templateNo);
+                SelectTextFromDropDown(reasonSelect, reason);
+                SendKeys(noteInput, note);
+                return this;
+            }
+            public string GetSelectedTemplate()
+            {
+                return GetSelectElement(templateSelect).SelectedOption.Text;
+            }
+            public ResourceAllocationPage ClickCreateBtn()
+            {
+                ClickOnElement(createBtn);
+                WaitForLoadingIconToDisappear();
+                return PageFactoryManager.Get<ResourceAllocationPage>();
+            }
         }
     }
 }
