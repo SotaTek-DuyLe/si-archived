@@ -129,6 +129,34 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         }
         #endregion
 
+        #region Risk tab
+        public readonly By RiskTab = By.XPath("//a[@aria-controls='risks-tab']");
+        public readonly By RiskIframe = By.XPath("//iframe[@id='risks-tab']");
+        public readonly By BulkCreateButton = By.XPath("//button[@title='Add risk register(s)']");
+        private readonly string riskTable = "//div[@id='risk-grid']//div[@class='grid-canvas']";
+        private readonly string riskRow = "./div[contains(@class,'slick-row')]";
+        private readonly string riskCheckboxCell = "./div[@class='slick-cell l0 r0']//input";
+        private readonly string riskNameCell = "./div[@class='slick-cell l2 r2']";
+        private readonly string riskStartDateCell = "./div[@class='slick-cell l9 r9']";
+        private readonly string riskEndDateCell = "./div[@class='slick-cell l10 r10']";
+        public TableElement RiskTableEle
+        {
+            get => new TableElement(riskTable, riskRow, new List<string>() { riskCheckboxCell, riskNameCell, riskStartDateCell, riskEndDateCell });
+        }
+
+        [AllureStep]
+        public PointAreaDetailPage VerifyRiskSelect(string riskName, string startdate, string endDate)
+        {
+            Assert.IsNotNull(RiskTableEle.GetCellByCellValues(0, new Dictionary<int, object>()
+            {
+                { RiskTableEle.GetCellIndex(riskNameCell), riskName },
+                { RiskTableEle.GetCellIndex(riskStartDateCell), startdate },
+                { RiskTableEle.GetCellIndex(riskEndDateCell), endDate },
+            }));
+            return this;
+        }
+        #endregion
+
         [AllureStep]
         public PointAreaDetailPage ClickOnActiveServicesTab()
         {

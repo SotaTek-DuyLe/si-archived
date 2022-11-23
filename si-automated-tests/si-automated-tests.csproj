@@ -137,7 +137,6 @@
     <Folder Include="Source\Main\DBModels\GetPointHistory\" />
     <Folder Include="Source\Main\DBModels\GetAllServicesForPoint2\" />
     <Folder Include="Source\Test\RiskTests\" />
-    <Folder Include="Source\Main\Pages\Applications\RiskRegister\" />
     <Folder Include="Source\Main\Pages\Streets\" />
     <Folder Include="Source\Test\SDMActionTests\" />
     <Folder Include="Source\Test\TaskLineTests\" />

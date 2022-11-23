@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
     public class ServiceUnitPage : BasePageCommonActions
     {
         public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']");
+        public readonly By RiskTab = By.XPath("//a[@aria-controls='risks-tab']");
         public readonly By MapTab = By.XPath("//a[@aria-controls='map-tab']");
         public readonly By ServiceUnitPointTab = By.XPath("//a[@aria-controls='serviceUnitPoints-tab']");
         public readonly By LockCheckbox = By.XPath("//input[contains(@data-bind, 'locked.id')]");
@@ -118,6 +119,33 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         {
             VerifyElementVisibility(BluePoint, true);
             VerifyElementVisibility(RedPoint, true);
+            return this;
+        }
+        #endregion
+
+        #region Risk
+        public readonly By RiskIframe = By.XPath("//iframe[@id='risks-tab']");
+        public readonly By BulkCreateButton = By.XPath("//button[@title='Add risk register(s)']");
+        private readonly string riskTable = "//div[@id='risk-grid']//div[@class='grid-canvas']";
+        private readonly string riskRow = "./div[contains(@class,'slick-row')]";
+        private readonly string riskCheckboxCell = "./div[@class='slick-cell l0 r0']//input";
+        private readonly string riskNameCell = "./div[@class='slick-cell l2 r2']";
+        private readonly string riskStartDateCell = "./div[@class='slick-cell l9 r9']";
+        private readonly string riskEndDateCell = "./div[@class='slick-cell l10 r10']";
+        public TableElement RiskTableEle
+        {
+            get => new TableElement(riskTable, riskRow, new List<string>() { riskCheckboxCell, riskNameCell, riskStartDateCell, riskEndDateCell });
+        }
+
+        [AllureStep]
+        public ServiceUnitPage VerifyRiskSelect(string riskName, string startdate, string endDate)
+        {
+            Assert.IsNotNull(RiskTableEle.GetCellByCellValues(0, new Dictionary<int, object>()
+            {
+                { RiskTableEle.GetCellIndex(riskNameCell), riskName },
+                { RiskTableEle.GetCellIndex(riskStartDateCell), startdate },
+                { RiskTableEle.GetCellIndex(riskEndDateCell), endDate },
+            }));
             return this;
         }
         #endregion
