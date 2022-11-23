@@ -24,8 +24,8 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser1.UserName, AutoUser1.Password)
-                .IsOnHomePage(AutoUser1);
+                .Login(AutoUser28.UserName, AutoUser28.Password)
+                .IsOnHomePage(AutoUser28);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
                 .OpenOption("Master Round Management")
