@@ -386,6 +386,20 @@ namespace si_automated_tests.Source.Core
             return element.Text;
         }
 
+        public List<string> GetAllElementText(By by)
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allOptions = GetAllElements(by);
+            foreach (IWebElement e in allOptions)
+            {
+                if ((GetElementText(e) != "") || (GetElementText(e) != "Select..."))
+                {
+                    results.Add(GetElementText(e));
+                }
+            }
+            return results;
+        }
+
         //SWITCH FRAME
         [AllureStep]
         public void SwitchToFrame(By by)
@@ -986,6 +1000,12 @@ namespace si_automated_tests.Source.Core
         public BasePage SleepTimeInMiliseconds(int num)
         {
             Thread.Sleep(num);
+            return this;
+        }
+        [AllureStep]
+        public BasePage SleepTimeInSeconds(int num)
+        {
+            Thread.Sleep(num * 1000);
             return this;
         }
         [AllureStep]

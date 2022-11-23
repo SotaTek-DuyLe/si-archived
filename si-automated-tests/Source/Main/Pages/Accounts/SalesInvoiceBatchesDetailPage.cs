@@ -12,9 +12,13 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By title = By.XPath("//h4[text()='Sales Invoice Batch']");
         private readonly By id = By.XPath("//h4[@title='Id']");
         private readonly By invoicesTab = By.CssSelector("a[aria-controls='salesInvoices-tab']");
+        private readonly By detailsTab = By.CssSelector("a[aria-controls='details-tab']");
         private readonly By firstRecordRow = By.XPath("//div[@class='grid-canvas']/div[not(contains(@style, 'display: none;'))][1]");
         private readonly By filterInputById = By.XPath("//div[contains(@class, 'l1 r1')]/descendant::input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
+        private readonly By firstPeriodTo = By.XPath("(//select[contains(@data-bind, 'options: periodToOptions')])[1]");
+        private readonly By firstPeriodFrom = By.XPath("(//select[contains(@data-bind, 'options: periodFromOptions')])[1]");
+        private readonly By historyBtn = By.CssSelector("button[title='History']");
 
         //WANRING POPUP
         private readonly By warningTitle = By.XPath("//h4[text()='Warning']");
@@ -31,9 +35,29 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             WaitUtil.WaitForElementVisible(title);
             Assert.AreEqual(GetElementText(id), idValue);
-            Assert.IsTrue(IsControlDisplayed(statusSaleInvoice, statusValue));
+            //Assert.IsTrue(IsControlDisplayed(statusSaleInvoice, statusValue));
             return this;
         }
+
+        [AllureStep]
+        public SalesInvoiceBatchesDetailPage ClickOnDetailsTab()
+        {
+            ClickOnElement(detailsTab);
+            return this;
+        }
+
+        [AllureStep]
+        public string GetFirstPeriodTo()
+        {
+            return GetFirstSelectedItemInDropdown(firstPeriodTo);
+        }
+
+        [AllureStep]
+        public string GetFirstPeriodFrom()
+        {
+            return GetFirstSelectedItemInDropdown(firstPeriodFrom);
+        }
+
         [AllureStep]
         public SalesInvoiceBatchesDetailPage ClickOnInvoiceTab()
         {
@@ -73,6 +97,13 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             ClickOnElement(yesBtn);
             VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
             return PageFactoryManager.Get<SalesInvoiceBatchesPage>();
+        }
+
+        [AllureStep]
+        public SalesInvoiceBatchesDetailPage ClickOnHistoryBtn()
+        {
+            ClickOnElement(historyBtn);
+            return this;
         }
 
     }

@@ -6,5 +6,6 @@ namespace si_automated_tests.Source.Main.DBModels
         public int userID { get; set; }
         public string username { get; set; }
         public string displayname { get; set; }
+        public string UserName { get; set; }
     }
 }
