@@ -189,5 +189,122 @@ namespace si_automated_tests.Source.Test.MapTests
             mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("Gps Event Image"), true);
             mapListingPage.VerifyElementVisibility(mapListingPage.GetHeaderColumn("GPS Threshold Alert Level"), true);
         }
+
+        [Category("Sectors")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_196_Sector_Group()
+        {
+            //Verify that user can add new Sectors (parent sectors) under the Sector Group
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser27.UserName, AutoUser27.Password)
+                .IsOnHomePage(AutoUser27);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Maps)
+                .ExpandOption(Contract.Commercial);
+            PageFactoryManager.Get<NavigationBase>()
+                .OpenOption("Sector Groups")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItem(1)
+                .OpenFirstResult()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            SectorGroupLayerTypePage sectorGroupLayerTypePage = PageFactoryManager.Get<SectorGroupLayerTypePage>();
+            sectorGroupLayerTypePage.ClickOnElement(sectorGroupLayerTypePage.AddSectorButton);
+            sectorGroupLayerTypePage.VerifyElementVisibility(sectorGroupLayerTypePage.NewSectorNameInput, true)
+                .VerifyElementVisibility(sectorGroupLayerTypePage.NewSectorColorInput, true)
+                .VerifyElementVisibility(sectorGroupLayerTypePage.NewSectorTypeSelect, true)
+                .VerifyElementVisibility(sectorGroupLayerTypePage.NewParentSectorInput, true)
+                .VerifyElementEnable(sectorGroupLayerTypePage.NewSectorTypeSelect, false);
+            //Click on 'Create'
+            sectorGroupLayerTypePage.ClickOnElement(sectorGroupLayerTypePage.CreateButton);
+            sectorGroupLayerTypePage.VerifyToastMessage("Sector Name is required")
+                .WaitUntilToastMessageInvisible("Sector Name is required");
+
+            //Enter Sector Name: Tuesday
+            //Click on 'Create'
+            string sectorName = "Tuesday";
+            string colorInput = sectorGroupLayerTypePage.GetInputValue(sectorGroupLayerTypePage.NewSectorColorInput);
+            string parentSector = sectorGroupLayerTypePage.GetInputValue(sectorGroupLayerTypePage.NewParentSectorInput);
+            string sectorType = sectorGroupLayerTypePage.GetFirstSelectedItemInDropdown(sectorGroupLayerTypePage.NewSectorTypeSelect);
+            sectorGroupLayerTypePage.SendKeys(sectorGroupLayerTypePage.NewSectorNameInput, sectorName);
+            sectorGroupLayerTypePage.ClickOnElement(sectorGroupLayerTypePage.CreateButton);
+            sectorGroupLayerTypePage.VerifyElementVisibility(sectorGroupLayerTypePage.NewSectorNameInput, false)
+                .VerifyElementVisibility(sectorGroupLayerTypePage.NewSectorColorInput, false)
+                .VerifyElementVisibility(sectorGroupLayerTypePage.NewSectorTypeSelect, false)
+                .VerifyElementVisibility(sectorGroupLayerTypePage.NewParentSectorInput, false);
+            sectorGroupLayerTypePage.VerifyNewSectorInLeftPanel(sectorName, "0 polygon(s)");
+
+            //In left panel, click on Tuesday sector
+            sectorGroupLayerTypePage.ClickOnSector(sectorName)
+                .SleepTimeInMiliseconds(300);
+
+            //Under the map, navigate to Sector tab
+            sectorGroupLayerTypePage.ClickOnElement(sectorGroupLayerTypePage.SectorTab);
+            sectorGroupLayerTypePage.WaitForLoadingIconToDisappear();
+            sectorGroupLayerTypePage.VerifySectorTab(sectorName, colorInput, sectorType, parentSector);
+
+            //Edit 'Sector Name' field: 'Sector Name'=Tuesday X
+            //Click 'Save' button
+            sectorName = "Tuesday33";
+            sectorGroupLayerTypePage.SendKeysWithoutClear(sectorGroupLayerTypePage.SectorNameInSectorTab, "33");
+            sectorGroupLayerTypePage.SleepTimeInMiliseconds(2000);
+            sectorGroupLayerTypePage.ClickOnElement(sectorGroupLayerTypePage.UpdateSectorGroupButton);
+            sectorGroupLayerTypePage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            sectorGroupLayerTypePage.VerifyInputValue(sectorGroupLayerTypePage.SectorNameInSectorTab, sectorName);
+
+            ///Verify that user can add child Sectors under the parent Sectors
+            //On the same Sector Group form, click '+' by 'Monday' Sector
+            sectorGroupLayerTypePage.ClickAddSectorInChildSector("Monday");
+            sectorGroupLayerTypePage.VerifyElementVisibility(sectorGroupLayerTypePage.NewSectorNameInput, true)
+                .VerifyElementVisibility(sectorGroupLayerTypePage.NewSectorColorInput, true)
+                .VerifyElementVisibility(sectorGroupLayerTypePage.NewSectorTypeSelect, true)
+                .VerifyElementVisibility(sectorGroupLayerTypePage.NewParentSectorInput, true)
+                .VerifyElementEnable(sectorGroupLayerTypePage.NewSectorTypeSelect, true)
+                .VerifyInputValue(sectorGroupLayerTypePage.NewParentSectorInput, "Monday");
+            //Click on 'Create'
+            sectorGroupLayerTypePage.ClickOnElement(sectorGroupLayerTypePage.CreateButton);
+            sectorGroupLayerTypePage.VerifyToastMessage("Sector Name is required")
+                .WaitUntilToastMessageInvisible("Sector Name is required");
+
+            //Enter Sector Name: 'Child sector for Monday'
+            //Click on 'Create'
+            string childSectorName = "Child sector for Monday";
+            sectorGroupLayerTypePage.SendKeys(sectorGroupLayerTypePage.NewSectorNameInput, childSectorName);
+            sectorGroupLayerTypePage.ClickOnElement(sectorGroupLayerTypePage.CreateButton);
+            sectorGroupLayerTypePage.VerifyToastMessage("Sector Type is required")
+                .WaitUntilToastMessageInvisible("Sector Type is required");
+            sectorGroupLayerTypePage.SelectTextFromDropDown(sectorGroupLayerTypePage.NewSectorTypeSelect, "Zone");
+            sectorGroupLayerTypePage.ClickOnElement(sectorGroupLayerTypePage.CreateButton);
+            sectorGroupLayerTypePage.SleepTimeInMiliseconds(1000);
+            sectorGroupLayerTypePage.VerifyElementVisibility(sectorGroupLayerTypePage.NewSectorNameInput, false)
+               .VerifyElementVisibility(sectorGroupLayerTypePage.NewSectorColorInput, false)
+               .VerifyElementVisibility(sectorGroupLayerTypePage.NewSectorTypeSelect, false)
+               .VerifyElementVisibility(sectorGroupLayerTypePage.NewParentSectorInput, false);
+            sectorGroupLayerTypePage.VerifyNewChildSectorInLeftPanel(childSectorName, "3 polygon(s)");
+            sectorGroupLayerTypePage.VerifyNewParentSectorInLeftPanel("Monday", "1 sector(s)");
+
+            ///Verify that user can delete child sector if it's the only child sector for the Parent Sector
+            sectorGroupLayerTypePage.ClickDeleteSectorInChildSector(childSectorName)
+                .SleepTimeInMiliseconds(300);
+            sectorGroupLayerTypePage.VerifySectorInLeftPanelDisappear(childSectorName);
+            sectorGroupLayerTypePage.ClickOnElement(sectorGroupLayerTypePage.UpdateSectorGroupButton);
+            sectorGroupLayerTypePage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+
+            //Verify that user can delete Parent Sector if it doesn't have children
+            sectorGroupLayerTypePage.CloseCurrentWindow()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .FilterItem(2)
+               .OpenFirstResult()
+               .SwitchToChildWindow(2)
+               .WaitForLoadingIconToDisappear();
+        }
     }
 }
