@@ -245,5 +245,34 @@ namespace si_automated_tests.Source.Test.AccountTests
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValue("Credit Status", "REJECTED");
         }
+
+        [Category("Account")]
+        [Category("Huong")]
+        [Test(Description = "Add Orphan Credit Notes to batch shows Rejected credit notes")]
+        public void TC_187_Add_Orphan_Credit_Notes_to_batch_shows_Rejected_credit_notes()
+        {
+            //Verify that rejected credit note is not included in orphan credit notes
+            PageFactoryManager.Get<NavigationBase>()
+                .OpenLastOption("Credit Note Batches")
+                .SwitchNewIFrame();
+            CreditNoteBatchListPage creditNoteBatchListPage = PageFactoryManager.Get<CreditNoteBatchListPage>();
+            creditNoteBatchListPage.WaitForLoadingIconToDisappear();
+            creditNoteBatchListPage.ClickCreditNote("NEW")
+                .ClickOnElement(creditNoteBatchListPage.AddOrphanCreditNoteButton);
+            creditNoteBatchListPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            AddOrphanNotePage addOrphanNotePage = PageFactoryManager.Get<AddOrphanNotePage>();
+            addOrphanNotePage.VerifyNetValueHasValueGreaterThanZero()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Accounts)
+                .ExpandOption(Contract.RMC)
+                .OpenLastOption("Credit Notes")
+                .SwitchNewIFrame();
+            CreditNoteListPage creditNoteListPage = PageFactoryManager.Get<CreditNoteListPage>();
+            creditNoteListPage.WaitForLoadingIconToDisappear();
+            creditNoteListPage.VerifyCreditNoteStatus("3", new System.Collections.Generic.List<string>() { "NEW", "APPROVED" });
+        }
     }
 }
