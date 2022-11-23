@@ -176,6 +176,19 @@ namespace si_automated_tests.Source.Core
                 .WaitForElementClickable(by)
                 .Click();
         }
+
+        [AllureStep]
+        public void ClickOnElementIfItVisible(By by)
+        {
+            SleepTimeInMiliseconds(500);
+            if (IsControlDisplayedNotThrowEx(by))
+            {
+                WaitUtil
+                    .WaitForElementClickable(by)
+                    .Click();
+            }
+        }
+
         [AllureStep]
         public void ClickOnElement(IWebElement element)
         {
@@ -823,6 +836,13 @@ namespace si_automated_tests.Source.Core
             Assert.AreEqual(message, GetToastMessage());
             return this;
         }
+        [AllureStep]
+        public BasePage VerifyContainToastMessage(string message)
+        {
+            Assert.IsTrue(GetToastMessage().Contains(message));
+            return this;
+        }
+
         [AllureStep]
         public BasePage VerifyDisplayToastMessage(string message)
         {
