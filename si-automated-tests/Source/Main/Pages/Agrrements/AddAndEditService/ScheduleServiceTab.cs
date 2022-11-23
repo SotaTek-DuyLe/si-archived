@@ -28,6 +28,25 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         private readonly By weeklyBtn = By.XPath("//span[text()='Weekly']");
 
         private readonly By startDateInput = By.XPath("//div[@data-bind='visible: recurrenceType() == 1']//label[text()='Starting on']/following-sibling::div/span/span");
+        private readonly By assestQtyInput = By.XPath("//div[@id='asset-selection']//input[@data-bind='value: assetQty']");
+        private readonly By minAssestQtyInput = By.XPath("//div[@id='asset-selection']//input[@data-bind='value: minAssetQty']");
+
+        [AllureStep]
+        public ScheduleServiceTab InputAssestQtyAndVerifyStateDoneBtn(string qty, bool isEnable)
+        {
+            SendKeys(assestQtyInput, qty);
+            ClickOnElement(minAssestQtyInput);
+            VerifyElementEnable(doneCurrentAssetScheduleBtn, isEnable);
+            return this;
+        }
+
+        [AllureStep]
+        public ScheduleServiceTab InputAssestQty(string qty)
+        {
+            SendKeys(assestQtyInput, qty);
+            ClickOnElement(minAssestQtyInput);
+            return this;
+        }
 
         //Dynamic locator
         private string scheduleLink = "//a[text()='{0}']";
