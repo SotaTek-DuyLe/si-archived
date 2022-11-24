@@ -20,7 +20,12 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By createResourceBtn = By.Id("t-create");
         private readonly By refreshBtn = By.Id("t-refresh");
         public readonly By date = By.Id("date");
-        private readonly By roundFilterBtn = By.XPath("//span[text()='Round Filters']/parent::a");
+        //Round filter
+        private readonly By roundFilterBtn = By.XPath("//span[contains(text(),'Round Filters')]/parent::a");
+        private readonly By roundFilterTitle = By.XPath("//div[@class='popover-content']//h4[contains(text(),'Advanced Round Filters')]");
+        private readonly By applyBtn = By.XPath("//div[@class='popover-content']//button[contains(text(),'Apply')]");
+        private readonly string roundFilterOption = "//div[contains(@id,'popover')]//input[@title='{0}']";
+        private readonly By rememberOtionBtn = By.Id("remember-selection");
 
         //Left panel Daily Allocation
         private readonly By firstRoundRow = By.XPath("//tbody[contains(@data-bind,'roundMenu')]/tr");
@@ -43,6 +48,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By confirmButton = By.XPath("//button[text()='Confirm']");
         private readonly By closeReasonPopupButton = By.XPath("//button[@data-bind='click: cancelReason']");
         private readonly By addAdhocRoundBtn = By.XPath("//button[@data-target='#addhoc-rounds']");
+        private readonly By viewRoundInstanceBtn = By.XPath("//button[text()='VIEW ROUND INSTANCE']");
 
         private readonly string whiteBackground = "background-color: rgb(255, 255, 255);";
         private readonly string greenBackground = "background-color: rgb(137, 203, 137);";
@@ -78,7 +84,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By firstResultFields = By.XPath("//div[contains(@class,'active')]//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
 
         //business unit option
-        private readonly string businessUnitOption = "//a[contains(@class,'jstree-anchor') and text()='{0}']";
+        private readonly string jstreeOption = "//a[contains(@class,'jstree-anchor') and text()='{0}']";
         private readonly string businessUnitExpandIcon = "//a[contains(@class,'jstree-anchor') and text()='{0}']/preceding-sibling::i";
         private readonly By businessUnitStaticOptions = By.XPath("(//*[@class='jstree-children'])[last()]//a");
 
@@ -118,7 +124,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage SelectBusinessUnit(string bu)
         {
             ClickOnElement(businessUnitInput);
-            ClickOnElement(businessUnitOption, bu);
+            ClickOnElement(jstreeOption, bu);
             return this;
         }
         [AllureStep]
@@ -577,7 +583,14 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage ClickRoundInstance()
         {
             ClickOnElement(SecondRoundInstanceRow);
-            ClickOnElement(By.XPath("//div[@class='menu']//button[text()='VIEW ROUND INSTANCE']"));
+            ClickOnElement(By.XPath("//button[text()='VIEW ROUND INSTANCE']"));
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage OpenFirstRoundInstance()
+        {
+            ClickOnElement(GetAllElements(roundInstances)[0]);
+            ClickOnElement(viewRoundInstanceBtn);
             return this;
         }
 
@@ -644,7 +657,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage VerifyUnassignedBusinessUnitIsDisplayed()
         {
             ClickOnElement(businessUnitInput);
-            WaitUtil.WaitForElementVisible(businessUnitOption, "*Unassigned");
+            WaitUtil.WaitForElementVisible(jstreeOption, "*Unassigned");
             return this;
         }
         [AllureStep]
@@ -679,10 +692,60 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ClickOnElement(addAdhocRoundBtn);
             return PageFactoryManager.Get<AddAdhocRoundPopup>(); ;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyFirstRoundName(string expected)
         {
             var firstRoundName = GetAllElements(roundInstances)[0].Text;
             Assert.AreEqual(expected, firstRoundName);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickRoundFilterBtn()
+        {
+            ClickOnElement(roundFilterBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage SelectContractUnit(string contractUnit)
+        {
+            ClickOnElement(roundFilterTitle); //Click header to close other popover
+            ClickOnElement(roundFilterOption, "Contract Unit");
+            ClickOnElement(jstreeOption, contractUnit);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage SelectDisapatchSite(string dispatchSite)
+        {
+            ClickOnElement(roundFilterTitle); //Click header to close other popover
+            ClickOnElement(roundFilterOption, "Dispatch Site");
+            ClickOnElement(jstreeOption, dispatchSite);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage SelectShiftFilter(string shift)
+        {
+            ClickOnElement(roundFilterTitle); //Click header to close other popover
+            ClickOnElement(roundFilterOption, "Shift");
+            ClickOnElement(jstreeOption, shift);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickRememberOption()
+        {
+            ClickOnElement(roundFilterTitle);
+            ClickOnElement(rememberOtionBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickApplyBtn()
+        {
+            ClickOnElement(applyBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage VerifyNumberOfFilter(int expected)
+        {
+            Assert.AreEqual(GetElementText(roundFilterBtn), String.Format("Round Filters ({0})", expected));
             return this;
         }
 

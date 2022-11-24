@@ -43,6 +43,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By descAtFirstRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
         private readonly By firstRowAfterFiltering = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]/parent::div");
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
+        private readonly By openRoundBtn = By.ClassName("header-round");
 
         public readonly string SlickRoundRow = "./div[contains(@class, 'slick-group')]";
         public readonly string RoundDescriptionCell = "./div[contains(@class, 'slick-cell l0')]";
@@ -247,6 +248,11 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             {
                 Assert.AreEqual(taskStateValues[i], GetElementText(statusOptionInFirstRowBulkUpdate, (i + 2).ToString()), "Task state at " + i + "is incorrect");
             }
+            return this;
+        }
+        public RoundInstanceDetailPage OpenRound()
+        {
+            ClickOnElement(openRoundBtn);
             return this;
         }
     }
