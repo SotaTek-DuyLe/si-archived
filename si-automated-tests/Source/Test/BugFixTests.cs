@@ -548,7 +548,7 @@ namespace si_automated_tests.Source.Test
         [Test(Description = "Add a hyperlink to Round form for easier access of round group form")]
         public void TC_207_hyper_link_for_round_group()
         {
-            string url= WebUrl.MainPageUrl + "web/rounds/37";
+            string url = WebUrl.MainPageUrl + "web/rounds/37";
 
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(url);
@@ -646,7 +646,7 @@ namespace si_automated_tests.Source.Test
         //        .ExpandOption("Regions")
         //        .ExpandOption(Region.UK)
         //        ExpandOption(Contract.Municipal)
-                //.ExpandOptionLast(Contract.RM)
+        //.ExpandOptionLast(Contract.RM)
         //        .OpenOption("Point Areas")
         //        .SwitchNewIFrame();
         //    //Step line 8: Open a point node
@@ -906,7 +906,7 @@ namespace si_automated_tests.Source.Test
         [Category("BugFix")]
         [Category("Chang")]
         [Test(Description = "The read only images are black & white (bug fix) - Update inspection Unallocated to Cancelled")]
-        public void TC_209_The_read_only_images_are_black_and_white_unallocated_to_cancelled ()
+        public void TC_209_The_read_only_images_are_black_and_white_unallocated_to_cancelled()
         {
             string unallocatedStatus = "Unallocated";
             string relLogo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Source/Main/Resources/echo.jpeg");
@@ -1214,7 +1214,7 @@ namespace si_automated_tests.Source.Test
             List<UserDBModel> userDBModels = commonFinder.GetUserActive();
             List<string> allDisplayUserNameDB = new List<string>();
             allDisplayUserNameDB.Add("Select...");
-            foreach(UserDBModel userDBModel in userDBModels)
+            foreach (UserDBModel userDBModel in userDBModels)
             {
                 allDisplayUserNameDB.Add(userDBModel.displayname);
             }
@@ -1772,7 +1772,36 @@ namespace si_automated_tests.Source.Test
                 //History tab
                 .ClickOnHistoryTab()
                 .VerifyTitleUpdateInHistoryTab("Update - AgreementLine")
-                .VerifyHistoryAfterUpdateFirstServiced(CommonConstants.HistoryInAgreementDetail, secondValueExp, AutoUser46.DisplayName);
+                .VerifyHistoryAfterUpdateSecondServiced(CommonConstants.HistoryInAgreementDetail, secondValueExp, AutoUser46.DisplayName);
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Map screen - Remove the option Show road trail for selected resource (bug fix)")]
+        public void TC_227_Map_screen_remove_the_option_show_road_trail_for_selected_resource()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<HomePage>()
+                 .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Maps)
+                .OpenOption(Contract.Municipal)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MapListingPage>()
+                .WaitForMapsTabDisplayed()
+                .SendKeyInFromDate("13/10/2022 00:00")
+                .ClickOnGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MapListingPage>()
+                .ClickOnFirstRoundInRightHand()
+                .ClickOnOptionsTab()
+                .VerifyOptionIsNotDisplay("Show Road Trail For Selected Resource");
         }
     }
 }

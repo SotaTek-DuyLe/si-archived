@@ -26,7 +26,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
         private readonly By firstBillingRuleDd = By.XPath("(//label[text()='Billing Rule:']/following-sibling::div/select)[1]");
         private readonly By historyTab = By.CssSelector("a[aria-controls='history-tab']");
         private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
-        private readonly By secondHistoryItem = By.XPath("(//strong[text()='Amendment - AgreementLine']/following-sibling::div)[2]");
+        private readonly By secondHistoryItem = By.XPath("(//strong[text()='Update - AgreementLine']/following-sibling::div)[1]");
+        private readonly By firstHistoryItem = By.XPath("(//strong[text()='Amendment - AgreementLine']/following-sibling::div)[2]");
         private readonly By secondUpdatedUser = By.XPath("(//strong[@data-bind='text: $data.createdByUser'])[2]");
         private readonly By secondInvoiceScheduleDd = By.XPath("(//label[text()='Invoice Schedule:']/following-sibling::div/select)[2]");
         private readonly By secondInvoiceContactDd = By.XPath("(//label[text()='Invoice Contact:']/following-sibling::div/select)[2]");
@@ -233,6 +234,18 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
 
         [AllureStep]
         public AgreementDetailPage VerifyHistoryAfterUpdateFirstServiced(string[] historyTitle, string[] valueExp, string userUpdatedValue)
+        {
+            Assert.AreEqual(userUpdatedValue, GetElementText(secondUpdatedUser));
+            string[] allInfoDisplayed = GetElementText(firstHistoryItem).Split(Environment.NewLine);
+            for (int i = 0; i < historyTitle.Length; i++)
+            {
+                Assert.AreEqual(historyTitle[i] + ": " + valueExp[i] + ".", allInfoDisplayed[i]);
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage VerifyHistoryAfterUpdateSecondServiced(string[] historyTitle, string[] valueExp, string userUpdatedValue)
         {
             Assert.AreEqual(userUpdatedValue, GetElementText(secondUpdatedUser));
             string[] allInfoDisplayed = GetElementText(secondHistoryItem).Split(Environment.NewLine);
