@@ -25,7 +25,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By roundFilterTitle = By.XPath("//div[@class='popover-content']//h4[contains(text(),'Advanced Round Filters')]");
         private readonly By applyBtn = By.XPath("//div[@class='popover-content']//button[contains(text(),'Apply')]");
         private readonly string roundFilterOption = "//div[contains(@id,'popover')]//input[@title='{0}']";
-        private readonly By rememberOtionBtn = By.Id("remember-selection");
+        private readonly By rememberOtionBtn = By.XPath("//div[contains(@id,'popover')]//input[@id='remember-selection']");
+        private readonly By clearOptionBtn = By.XPath("//div[contains(@id,'popover')]//button[@title='Clear All']");
 
         //Left panel Daily Allocation
         private readonly By firstRoundRow = By.XPath("//tbody[contains(@data-bind,'roundMenu')]/tr");
@@ -746,6 +747,15 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage VerifyNumberOfFilter(int expected)
         {
             Assert.AreEqual(GetElementText(roundFilterBtn), String.Format("Round Filters ({0})", expected));
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClearFilterOptionIfAny()
+        {
+            if (IsControlDisplayedNotThrowEx(clearOptionBtn))
+            {
+                ClickOnElement(clearOptionBtn);
+            }
             return this;
         }
 

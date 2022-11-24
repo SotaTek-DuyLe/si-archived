@@ -622,6 +622,11 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(2000);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickRoundFilterBtn()
+                .ClearFilterOptionIfAny()
+                .ClickApplyBtn()
+                .WaitForLoadingIconToDisappear();
             //Create driver
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifyRoundFilterButtonEnabled(true)

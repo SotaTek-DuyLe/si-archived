@@ -7,6 +7,7 @@ using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models.Services;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 
@@ -57,7 +58,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public RoundDetailPage VerifyShift(string expectedValue)
         {
-            Assert.AreEqual(GetFirstSelectedItemInDropdown(shiftSelect),expectedValue);
+            int result = String.Compare(GetFirstSelectedItemInDropdown(shiftSelect), expectedValue, CultureInfo.CurrentCulture, CompareOptions.IgnoreSymbols);
+            Assert.AreEqual(0, result);
             return this;
         }
         [AllureStep]
