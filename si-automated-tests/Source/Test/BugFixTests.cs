@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
-using System.Reflection;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -1670,10 +1668,6 @@ namespace si_automated_tests.Source.Test
                 .IsCreatePartyContactPage()
                 .EnterFirstName(contactModel.FirstName)
                 .EnterLastName(contactModel.LastName)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageRequiredFieldConstants.ContactDetailsWarningMessage)
-                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.ContactDetailsWarningMessage);
-            PageFactoryManager.Get<CreatePartyContactPage>()
                 .EnterMobileValue(contactModel.Mobile)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
@@ -1688,7 +1682,7 @@ namespace si_automated_tests.Source.Test
             AgreementDetailPage agreementDetailPage = PageFactoryManager.Get<AgreementDetailPage>();
             string invoiceContact = contactModel.FirstName + " " + contactModel.LastName;
             agreementDetailPage
-                .WaitForDetailAgreementLoaded()
+                .WaitForDetailAgreementLoaded("COMMERCIAL COLLECTIONS", "PRET A MANGER")
                 //Update [Invoice Schedule] in first Serviced
                 .ClickOnFirstInvoiceScheduleAndSelectAnyOption("Daily in Arrears")
                 //Update [Invoice Contact] in first Serviced
@@ -1701,7 +1695,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
-            string[] valueExp = { invoiceSchedule, invoiceAddress, invoiceContact, billingRule };
+            string[] valueExp = { invoiceSchedule, invoiceAddress, contactModel.FirstName + contactModel.LastName, billingRule };
             //Click on [History] tab and verify
             agreementDetailPage
                 .ClickOnHistoryTab()
@@ -1742,15 +1736,15 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<AgreementLinePage>()
                 .WaitForWindowLoadedSuccess(agreementLineId)
                 .ClickDetailTab()
+                //Step line 8: Update [Invoice Schedule]
+                .ClickOnInvoiceSchedule()
+                .SelectAnyInvoiceSchedule(invoiceSchedule)
+                //Step line 8: Update [Invoice Contact]
+                .ClickOnInvoiceContact()
+                .SelectAnyInvoiceContact(invoiceContact)
                 //Step line 8: Update [Invoice Address]
                 .ClickOnInvoiceAddress()
                 .SelectAnyInvoiceAddress(invoiceAddress)
-                //Step line 8: Update [Invoice Contact]
-                .ClickOnInvoiceContact()
-                .SelectAnyInvoiceAddress(invoiceContact)
-                //Step line 8: Update [Invoice Schedule]
-                .ClickOnInvoiceSchedule()
-                .SelectAnyInvoiceAddress(invoiceSchedule)
                 //Step line 8: Update [Billint Rule]
                 .ClickOnBillingRuleDd()
                 .SelectAnyBillingRuleOption("Bill as actual")
@@ -1758,7 +1752,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
-            string[] secondValueExp = { invoiceSchedule, invoiceAddress, invoiceContact, "Bill as actual" };
+            string[] secondValueExp = { invoiceSchedule, invoiceAddress, contactModel.FirstName + contactModel.LastName, "Bill as actual" };
             //Step line 9: Click on [History tab]
             PageFactoryManager.Get<AgreementLinePage>()
                 .ClickOnHistoryTab()
@@ -1768,11 +1762,13 @@ namespace si_automated_tests.Source.Test
                 .ClickOnAgreementLineHyperlink(agreementLineId)
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
+            string[] firstNewValueExp = { invoiceSchedule, invoiceAddress, contactModel.FirstName + " " + contactModel.LastName, billingRule };
+            string[] secondNewValueExp = { invoiceSchedule, invoiceAddress, contactModel.FirstName + " " + contactModel.LastName, "Bill as actual" };
             agreementDetailPage
-                .WaitForDetailAgreementLoaded()
+                .WaitForDetailAgreementLoaded("COMMERCIAL COLLECTIONS", "PRET A MANGER")
                 //Detail tab
                 .ClickOnDetailTab()
-                .VerifyValueSelectedInSeviced(valueExp, secondValueExp)
+                .VerifyValueSelectedInSeviced(firstNewValueExp, secondNewValueExp)
                 //History tab
                 .ClickOnHistoryTab()
                 .VerifyTitleUpdateInHistoryTab("Update - AgreementLine")
