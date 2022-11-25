@@ -109,9 +109,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
                    .ClickNext();
                 var priceTab = PageFactoryManager.Get<PriceTab>();
                 priceTab.WaitForLoadingIconToDisappear();
-                priceTab.VerifyElementEnable(priceTab.nextBtn, false);
-                priceTab.ClickOnRemoveButton(new List<string>() { "Commercial Customers: Collection", "Commercial Customers: Bin Removal", "Commercial Customers: Bin Delivery" })
-                    .VerifyElementEnable(priceTab.nextBtn, true);
+                priceTab.ClosePriceRecords();
+                //priceTab.ClickOnRemoveButton(new List<string>() { "Commercial Customers: Collection", "Commercial Customers: Bin Removal", "Commercial Customers: Bin Delivery" })
+                priceTab.VerifyElementEnable(priceTab.nextBtn, true);
                 priceTab.ClickNext();
                 PageFactoryManager.Get<InvoiceDetailTab>()
                     .VerifyInvoiceOptions("Use Agreement")
@@ -296,9 +296,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                    .ClickNext();
             var priceTab = PageFactoryManager.Get<PriceTab>();
             priceTab.WaitForLoadingIconToDisappear();
-            priceTab.VerifyElementEnable(priceTab.nextBtn, false);
-            priceTab.ClickOnRemoveButton(new List<string>() { "Commercial Customers: Collection", "Commercial Customers: Collection", "Commercial Customers: Bin Removal", "Commercial Customers: Bin Delivery" })
-                     .VerifyElementEnable(priceTab.nextBtn, true);
+            priceTab.ClosePriceRecords();
+            priceTab.VerifyElementEnable(priceTab.nextBtn, true);
             priceTab.ClickNext();
             PageFactoryManager.Get<InvoiceDetailTab>()
                 .VerifyInvoiceOptions("Use Agreement")

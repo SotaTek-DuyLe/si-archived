@@ -137,7 +137,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab();
             PageFactoryManager.Get<PriceTab>()
-               .RemoveAllRedundantPrices()
+               .ClosePriceRecords()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()

@@ -607,7 +607,7 @@ namespace si_automated_tests.Source.Test
                 .WaitForLoadingIconToDisappear();
             var roundGroupName = PageFactoryManager.Get<RoundGroupPage>()
                 .GetRoundGroupName();
-            Assert.IsTrue(roundName.Contains(roundGroupName));
+            Assert.IsTrue(roundName.Contains(roundGroupName), "Expected " + roundName + " to contain " + roundGroupName);
         }
         [Category("Dee")]
         [Test(Description = "Daily Allocation - Prompt user with resolution code dropdown when resolution code is mandatory for Resource State")]
