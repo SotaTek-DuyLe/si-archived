@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.Accounts
@@ -41,6 +44,45 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         //New tabs
         private readonly By lineTab = By.XPath("//a[@aria-controls='creditNoteLines-tab']");
         private readonly By noteTab = By.XPath("//a[@aria-controls='notes-tab']");
+
+        private string saleCreditLineTable = "//div[@id='credit-note-tickets']//div[@class='grid-canvas']";
+        private string saleCreditLineRow = "./div[contains(@class, 'slick-row')]";
+        private string checkboxCell = "./div[@class='slick-cell l0 r0']//input";
+        private string idCell = "./div[@class='slick-cell l1 r1']";
+        private string itemCell = "./div[@class='slick-cell l2 r2']";
+        private string typeDateCell = "./div[@class='slick-cell l3 r3']";
+
+        private TableElement saleCreditLineTableEle;
+        public TableElement SaleCreditLineTableEle
+        {
+            get => saleCreditLineTableEle;
+        }
+
+        public CreditNotePage()
+        {
+            saleCreditLineTableEle = new TableElement(saleCreditLineTable, saleCreditLineRow, new List<string>() { checkboxCell, idCell, itemCell, typeDateCell });
+            saleCreditLineTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+        }
+
+        [AllureStep]
+        public CreditNotePage VerifyNotDuplicateSaleCreditLine()
+        {
+            int rowCount = SaleCreditLineTableEle.GetRows().Count;
+            List<string> ids = new List<string>();
+            for (int i = 0; i < rowCount; i++)
+            {
+                ids.Add(SaleCreditLineTableEle.GetCellValue(i, SaleCreditLineTableEle.GetCellIndex(idCell)).AsString());
+            }
+            var duplicates = ids.GroupBy(x => x)
+                                .Where(g => g.Count() > 1)
+                                .Select(y => y.Key)
+                                .ToList();
+            Assert.IsTrue(duplicates.Count == 0);
+            return this;
+        }
 
         [AllureStep]
         public CreditNotePage IsOnCreditNotePage()

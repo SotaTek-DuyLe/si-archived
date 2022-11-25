@@ -277,6 +277,12 @@ namespace si_automated_tests.Source.Main.Finders
             return FindList<UserDBModel>(query).Select(x => x.UserName).ToList();
         }
 
-    }
 
+        [AllureStep]
+        public List<SaleCreditLineDBModel> GetSaleCreditLineDBs()
+        {
+            string query = "select * from salescreditlines where partyID = 68 and salescreditID is NULL";
+            return FindList<SaleCreditLineDBModel>(query).ToList();
+        }
+    }
 }

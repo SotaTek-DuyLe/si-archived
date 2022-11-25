@@ -22,6 +22,8 @@ using TaskConfirmationPage = si_automated_tests.Source.Main.Pages.Applications.T
 using RoundInstanceDetailPage = si_automated_tests.Source.Main.Pages.Applications.RoundInstanceDetailPage;
 using si_automated_tests.Source.Main.Pages.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
+using si_automated_tests.Source.Main.Finders;
+using System.Linq;
 
 namespace si_automated_tests.Source.Test.PartiesTests
 {
@@ -1028,6 +1030,34 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyTasklineInAgreement(2, "1100L", "3", "General Recycling", "1000", "Kilograms")
                 .ExpandAgreementHeader("Ad-hoc")
                 .VerifyTasklineInAgreement(3, "1100L", "3", "General Recycling", "1000", "Kilograms");
+        }
+
+        [Category("Credit note")]
+        [Category("Huong")]
+        [Test(Description = "Verify no duplication occur in salescreditlines grid")]
+        public void TC_230_The_orphan_salescreditlines_are_duplicated_in_the_grid()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/parties/68");
+            PageFactoryManager.Get<LoginPage>()
+                .SendKeyToUsername(AutoUser6.UserName)
+                .SendKeyToPassword(AutoUser6.Password)
+                .ClickOnSignIn();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickOnAccountStatement()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AccountStatementPage>()
+               .ClickCreateCreditNote()
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CreditNotePage>().VerifyNotDuplicateSaleCreditLine();
+            CommonFinder finder = new CommonFinder(DbContext);
+            var saleCreditLines = finder.GetSaleCreditLineDBs();
+            var duplicates = saleCreditLines.GroupBy(x => x.salescreditlineID)
+                                .Where(g => g.Count() > 1)
+                                .Select(y => y.Key)
+                                .ToList();
+            Assert.IsTrue(duplicates.Count == 0);
         }
     }
 }
