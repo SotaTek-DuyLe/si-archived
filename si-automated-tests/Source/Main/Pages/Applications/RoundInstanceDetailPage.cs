@@ -250,6 +250,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
+        [AllureStep]
         public RoundInstanceDetailPage OpenRound()
         {
             ClickOnElement(openRoundBtn);

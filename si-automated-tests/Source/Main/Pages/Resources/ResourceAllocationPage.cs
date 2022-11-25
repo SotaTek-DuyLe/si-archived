@@ -774,6 +774,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             }
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage VerifyOnlyAllResourceTabIsDisplayed()
         {
             var tabs = GetAllElements(tabLocator);
@@ -789,7 +790,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             private readonly By templateSelect = By.Id("template-rounds");
             private readonly By reasonSelect = By.Id("reasons");
             private readonly By noteInput = By.Id("notes");
-            
+
+            [AllureStep]
             public AddAdhocRoundPopup IsOnAddAdhocRoundPage()
             {
                 WaitUtil.WaitForElementVisible(roundNameInput);
@@ -799,7 +801,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
                 WaitUtil.WaitForElementVisible(createBtn);
                 return this;
             }
-
+            [AllureStep]
             public AddAdhocRoundPopup InputAdhocRoundDetails(int templateNo, string reason, string note, string roundName = "")
             {
                 SendKeys(roundNameInput, roundName);
@@ -808,10 +810,12 @@ namespace si_automated_tests.Source.Main.Pages.Resources
                 SendKeys(noteInput, note);
                 return this;
             }
+            [AllureStep]
             public string GetSelectedTemplate()
             {
                 return GetSelectElement(templateSelect).SelectedOption.Text;
             }
+            [AllureStep]
             public ResourceAllocationPage ClickCreateBtn()
             {
                 ClickOnElement(createBtn);
