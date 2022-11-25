@@ -1096,6 +1096,21 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         [AllureStep]
+        public DetailPartyPage ClickOnNoteTab()
+        {
+            if (!IsControlDisplayedNotThrowEx("//ul[contains(@class,'nav-tabs')]/li[contains(@style,'visible')]/a[@aria-controls='notes-tab']"))
+            {
+                ClickTabDropDown();
+                ClickOnElement("//span[text()='Notes']/parent::a");
+            }
+            else
+            {
+                ClickOnElement("//ul[contains(@class,'nav-tabs')]/li[contains(@style,'visible')]/a[@aria-controls='notes-tab']");
+            }
+            return this;
+        }
+
+        [AllureStep]
         public DetailPartyPage VerifyInfoInHistoryTab(string[] historyTitle, string[] valueExp, string userUpdatedValue)
         {
             Assert.AreEqual(userUpdatedValue, GetElementText(firstUpdatedUser));
