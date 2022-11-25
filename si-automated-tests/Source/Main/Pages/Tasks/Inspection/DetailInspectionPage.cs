@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -32,6 +33,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private readonly By detailTab = By.XPath("//a[text()='Details']");
         private readonly By endDateAndTimeCalender = By.XPath("//input[@id='end-date-and-time']/following-sibling::span");
         private readonly By cancelledDateCalender = By.XPath("//input[@id='cancelled-date']/following-sibling::span");
+        private readonly By allOptionsInAllocatedUserDd = By.CssSelector("select[id='allocated-unit']>option");
+        private readonly By allOptionsInAssignedUserDd = By.CssSelector("select[id='allocated-user']>option");
 
         //DATA TAB
         private readonly By dataTab = By.XPath("//a[text()='Data']");
@@ -44,6 +47,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private readonly By inputImage = By.CssSelector("input[type='file']");
         private readonly By streetGradeDd = By.XPath("//label[text()='Street Grade']/following-sibling::select");
         private readonly By accessPointInputInDataTab = By.XPath("//label[text()='Access Point']/following-sibling::input");
+        private readonly By firstAllocatedUnitOption = By.XPath("//select[@id='allocated-unit']/option[1]");
 
         //HISTORY TAB
         private readonly By historyTab = By.XPath("//a[text()='History']");
@@ -66,6 +70,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private const string streetGradeOption = "//label[text()='Street Grade']/following-sibling::select/option[text()='{0}']";
         private const string dataFirstRow = "//div[@id='history-tab']//div[contains(@class, 'panel-default')][1]//span[text()='{0}']";
         private const string dataSecondRow = "//div[@id='history-tab']//div[contains(@class, 'panel-default')][2]//span[text()='{0}']";
+        private const string anyAllocatedUnitOption = "//select[@id='allocated-unit']/option[text()='{0}']";
 
         [AllureStep]
         public DetailInspectionPage WaitForInspectionDetailDisplayed(string inspectionTypeValue)
@@ -249,6 +254,88 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/inspections/", "");
             Assert.AreEqual(inspectionIdValue, idActual);
             return this;
+        }
+
+        [AllureStep]
+        public DetailInspectionPage ClickOnSelectionOptionInAllocatedUnit()
+        {
+            string allocatedUnitDefaultValue = GetFirstSelectedItemInDropdown(allocatedUnitDd);
+            if(!allocatedUnitDefaultValue.Contains("Select..."))
+            {
+                ClickOnElement(firstAllocatedUnitOption);
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public DetailInspectionPage ClickOnAllocatedUnitInDetailTab()
+        {
+            ClickOnElement(allocatedUnitDd);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailInspectionPage SelectAnyAllocatedUnit(string allocatedUnitValue)
+        {
+            ClickOnElement(anyAllocatedUnitOption, allocatedUnitValue);
+            SleepTimeInMiliseconds(500);
+            return this;
+        }
+
+        [AllureStep]
+        public List<string> GetAllOptionInAllocatedUnit()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allOptions = GetAllElements(allOptionsInAllocatedUserDd);
+            foreach (IWebElement e in allOptions)
+            {
+                if (GetElementText(e) != "Select...")
+                {
+                    results.Add(GetElementText(e));
+                }
+            }
+            return results;
+        }
+
+        [AllureStep]
+        public DetailInspectionPage ClickOnAllocatedUnitLabel()
+        {
+            ClickOnElement("//div[@id='details-tab']//label[text()='Allocated Unit']");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailInspectionPage ClickOnAssignedUserInDetailTab()
+        {
+            ClickOnElement(assignedUserDd);
+            return this;
+        }
+
+        [AllureStep]
+        public List<string> GetAllOptionInAssignedUser()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allOptions = GetAllElements(allOptionsInAssignedUserDd);
+            foreach (IWebElement e in allOptions)
+            {
+                results.Add(GetElementText(e));
+            }
+            return results;
+        }
+
+        [AllureStep]
+        public List<string> GetAllOptionInAssignedUserNoSelected()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allOptions = GetAllElements(allOptionsInAssignedUserDd);
+            foreach (IWebElement e in allOptions)
+            {
+                if(GetElementText(e) != "Select...")
+                {
+                    results.Add(GetElementText(e));
+                }
+            }
+            return results;
         }
 
         //HISTORY TAB

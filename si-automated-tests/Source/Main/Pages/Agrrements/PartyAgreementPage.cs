@@ -94,6 +94,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private string expandAgreementLineByServicesName = "//span[text()='{0}' and contains(@data-bind, 'serviceName')]/ancestor::div[@class='panel-heading']//button[@title='Expand/close agreement line']";
         private string regularFrequency = "//td[text()='Commercial Collection']/following-sibling::td/p[text()='{0}']";
         private string editAgreementByAddress = "//p[text()='{0}']//ancestor::div[@class='panel-heading']//button[text()='Edit']";
+        private string expandAgreementHeader = "//div[contains(@id, 'agreement-line')]//span[@data-bind='text: name' and text()='{0}']//preceding-sibling::span";
 
         private string agreementType = "//h4[contains(.,'{0}')]";
         private string agreementName = "//p[text()='{0}']";
@@ -120,6 +121,35 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
                 return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
             };
         }
+
+        [AllureStep]
+        public PartyAgreementPage VerifyTasklineInAgreement(int agreementIdx, string assestType, string assestQty, string product, string amountProduct, string unit)
+        {
+            string assestTypeCell = "./td[@data-bind='text: assetType']";
+            string assestQtyCell = "./td[@data-bind='text: assetQty']";
+            string productCell = "./td[@data-bind='text: product']";
+            string amountProductCell = "./td[@data-bind='text: productQty']";
+            string unitCell = "./td[@data-bind='text: unit']";
+            TableElement taskLineTableEle = new TableElement(
+                $"//div[@id='service-phase-collapse-0-{agreementIdx}']//tbody[@data-bind='foreach: taskLines']", 
+                "./tr", 
+                new List<string>() { assestTypeCell, assestQtyCell, productCell, amountProductCell, unitCell });
+            VerifyCellValue(taskLineTableEle, 0, 0, assestType);
+            VerifyCellValue(taskLineTableEle, 0, 1, assestQty);
+            VerifyCellValue(taskLineTableEle, 0, 2, product);
+            VerifyCellValue(taskLineTableEle, 0, 3, amountProduct);
+            VerifyCellValue(taskLineTableEle, 0, 4, unit);
+            return this;
+        }
+
+        [AllureStep]
+        public PartyAgreementPage ExpandAgreementHeader(string headerName)
+        {
+            ClickOnElement(By.XPath(string.Format(expandAgreementHeader, headerName)));
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
         [AllureStep]
         public PartyAgreementPage VerifyServicePanelUnDisplay()
         {

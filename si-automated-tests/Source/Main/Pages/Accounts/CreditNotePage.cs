@@ -19,6 +19,9 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By linesTab = By.CssSelector("a[aria-controls='creditNoteLines-tab']");
         private readonly By rejectBtn = By.XPath("//button[text()='Reject']");
         private readonly By approveBtn = By.XPath("//button[text()='Approve']");
+        private readonly By idInput = By.XPath("//div[contains(@class, 'l1 r1')]//input");
+        private readonly By applyFilterBtn = By.CssSelector("button[title='Apply Filters']");
+        private readonly By firstCreditLineRow = By.XPath("//div[@class='grid-canvas']/div[1]");
 
         //LINES TAB
         private readonly By idOfFirstLine = By.XPath("//div[@id='creditNoteLines-tab']//div[@class='grid-canvas']/div[1]/div[contains(@class, 'l1 r1')]");
@@ -63,6 +66,12 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         public CreditNotePage ClickOnFirstCreditRow()
         {
             ClickOnElement(firstCheckboxItemRowCredit);
+            return this;
+        }
+        [AllureStep]
+        public CreditNotePage DoubleClickOnFirstCreditRow()
+        {
+            DoubleClickOnElement(firstCreditLineRow);
             return this;
         }
         [AllureStep]
@@ -155,6 +164,15 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         public CreditNotePage VerifyRejectButtonDisabled()
         {
             Assert.AreEqual(false, GetElement(rejectBtn).Enabled);
+            return this;
+        }
+
+        [AllureStep]
+        public CreditNotePage FilterByCreditId(string creditIdValue)
+        {
+            SendKeys(idInput, creditIdValue);
+            ClickOnElement(applyFilterBtn);
+            WaitForLoadingIconToDisappear();
             return this;
         }
     }

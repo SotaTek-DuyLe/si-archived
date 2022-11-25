@@ -27,6 +27,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
         private readonly By billingRuleUpdated = By.XPath("//div[contains(text(), 'Billing Rule: ')]");
         private readonly By displayUserUpdated = By.XPath("//strong[text()='Update - AgreementLine']/parent::div/following-sibling::div/strong[1]");
         private readonly By timeUpdated = By.XPath("//strong[text()='Update - AgreementLine']/parent::div/following-sibling::div/strong[2]");
+        private readonly By recordUpdated = By.XPath("//strong[text()='Update - AgreementLine']/following-sibling::div");
 
         //DYNAMIC LOCATOR
         private const string titleContainsId = "//p[text()='Agreement ID {0}']";
@@ -60,6 +61,12 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
         {
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(string.Format(titleContainsId, id));
+            return this;
+        }
+        [AllureStep]
+        public AgreementLinePage ClickOnAgreementLineHyperlink(string id)
+        {
+            ClickOnElement(titleContainsId, id);
             return this;
         }
         [AllureStep]
@@ -144,6 +151,29 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
             Assert.AreEqual("Billing Rule: " + billingRuleExp + ".", GetElementText(billingRuleUpdated));
             Assert.AreEqual(userUpdatedExp, GetElementText(displayUserUpdated));
             Assert.AreEqual(timeUpdatedExp, GetElementText(timeUpdated));
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementLinePage VerifyDefaulValueInISICIABR(string invoiceScheduleExp, string invoiceContactExp, string invoiceAddressExp, string billingRuleExp)
+        {
+            Assert.AreEqual(invoiceScheduleExp, GetFirstSelectedItemInDropdown(invoiceSchedule), "Value in [Invoice Schedule] is incorrect");
+            Assert.AreEqual(invoiceContactExp, GetFirstSelectedItemInDropdown(invoiceContact), "Value in [Invoice Contact] is incorrect");
+            Assert.AreEqual(invoiceAddressExp, GetFirstSelectedItemInDropdown(invoiceAddress), "Value in [Invoice Address] is incorrect");
+            Assert.AreEqual(billingRuleExp, GetFirstSelectedItemInDropdown(billingRuleDd), "Value in [Billing Rule] is incorrect");
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementLinePage VerifyHistoryAfterUpdatingAgreementLine(string[] historyTitle, string[] valueExp, string userUpdatedExp)
+        {
+            Assert.IsTrue(IsControlDisplayed(updateAgreementLineTitle));
+            Assert.AreEqual(userUpdatedExp, GetElementText(displayUserUpdated));
+            string[] allInfoDisplayed = GetElementText(recordUpdated).Split(Environment.NewLine);
+            for (int i = 0; i < historyTitle.Length; i++)
+            {
+                Assert.AreEqual(historyTitle[i] + ": " + valueExp[i] + ".", allInfoDisplayed[i]);
+            }
             return this;
         }
     }

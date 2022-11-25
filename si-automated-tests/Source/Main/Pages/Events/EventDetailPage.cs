@@ -46,7 +46,9 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By resolvedDateInput = By.CssSelector("div#details-content input#resolved-date");
         private readonly By endDateInput = By.CssSelector("div#details-content input#end-date");
         private readonly By clientRefInput = By.CssSelector("div#details-content input#client-reference");
+        private readonly By firstAllocatedUnitInDd = By.CssSelector("select[id='allocated-unit']>option:nth-child(1)");
         private const string allocatedUnitDetailOption = "//div[@id='details-content']//select[@id='allocated-unit']/option[text()='{0}']";
+
 
         //DATA TAB
         private readonly By allActiveServiceRow = By.XPath("//div[@class='parent-row']//span[@title='Open Service Task']");
@@ -811,6 +813,13 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventDetailPage SelectAnyAllocatedUnit(string allocatedUnitValue)
         {
             ClickOnElement(allocatedUnitDetailOption, allocatedUnitValue);
+            SleepTimeInMiliseconds(500);
+            return this;
+        }
+        [AllureStep]
+        public EventDetailPage ClickOnFirstAllocatedUnit()
+        {
+            ClickOnElement(firstAllocatedUnitInDd);
             return this;
         }
         [AllureStep]
@@ -820,7 +829,10 @@ namespace si_automated_tests.Source.Main.Pages.Events
             List<IWebElement> allAllocatedOptions = GetAllElements(allAllocatedUnitInDetailSubTab);
             foreach(IWebElement e in allAllocatedOptions)
             {
-                results.Add(GetElementText(e));
+                if(GetElementText(e) != "")
+                {
+                    results.Add(GetElementText(e));
+                }
             }
             return results;
         }
@@ -831,7 +843,10 @@ namespace si_automated_tests.Source.Main.Pages.Events
             List<IWebElement> allAllocatedOptions = GetAllElements(allAssignedUserInDetailSubTab);
             foreach (IWebElement e in allAllocatedOptions)
             {
-                results.Add(GetElementText(e));
+                if (GetElementText(e) != "")
+                {
+                    results.Add(GetElementText(e));
+                }
             }
             return results;
         }

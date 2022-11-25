@@ -22,6 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         public readonly By RoundsLayer = By.XPath("//li[@id='Rounds']");
         //DYNAMIC
         private readonly string anyMapOpject = "//span[text()='{0}']/ancestor::li";
+        private readonly string anyOptionInOptionsTab = "//label[contains(string(), '{0}')]/parent::div";
 
         #region Trail tab
         private readonly string HeaderColumn = "//span[@class='slick-column-name' and text()='{0}']";
@@ -70,6 +71,7 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         private readonly By firstShowRoundInstanceBtnRoundTab = By.XPath("(//div[@id='rounds-tab']//button[text()='Show Round Instance'])[1]");
         private readonly By roundInRightHand = By.XPath("//div[@title='Rounds']/ancestor::li[@id='Rounds']");
         private readonly By roundNameInLeftHand = By.XPath("//span[@class='map-object-name']/ancestor::li");
+        private readonly By firstRoundNameInLeftHand = By.XPath("(//span[@class='map-object-name']/ancestor::li)[1]");
 
         [AllureStep]
         public MapListingPage ClickOnRoundTab()
@@ -86,9 +88,29 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         }
 
         [AllureStep]
+        public MapListingPage ClickOnFirstRoundInRightHand()
+        {
+            ClickOnElement(firstRoundNameInLeftHand);
+            return this;
+        }
+
+        [AllureStep]
+        public MapListingPage ClickOnOptionsTab()
+        {
+            ClickOnElement(optionTab);
+            return this;
+        }
+        [AllureStep]
         public MapListingPage ClickOnRoundNameInLeftHand()
         {
             ClickOnElement(roundNameInLeftHand);
+            return this;
+        }
+
+        [AllureStep]
+        public MapListingPage VerifyOptionIsNotDisplay(string optionName)
+        {
+            Assert.IsTrue(IsControlUnDisplayed(anyOptionInOptionsTab, optionName), optionName + "is displayed in the [Options] tab");
             return this;
         }
 
@@ -115,6 +137,13 @@ namespace si_automated_tests.Source.Main.Pages.Maps
 
         //DYNAMIC
         private readonly string statusOptionInFirstRow = "//div[@id='grid']//div[@class='grid-canvas']//select/option[{0}]";
+
+        [AllureStep]
+        public MapListingPage SendKeyInFromDate(string dateValue)
+        {
+            InputCalendarDate(FromInput, dateValue);
+            return this;
+        }
 
         [AllureStep]
         public MapListingPage ClickOnWorksheetTab()
