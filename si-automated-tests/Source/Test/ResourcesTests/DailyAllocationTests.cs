@@ -8,8 +8,10 @@ using si_automated_tests.Source.Main.Pages.Applications;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
+using si_automated_tests.Source.Main.Pages.Services;
 using System.Threading;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+using static si_automated_tests.Source.Main.Pages.Resources.ResourceAllocationPage;
 
 namespace si_automated_tests.Source.Test.ResourcesTests
 {
@@ -552,6 +554,9 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         {
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string resourceType = "Driver";
+            string contractUnit = "Ancillary";
+            string dispatchSite = "Langhorn Road Depot (West)";
+            string shift = "AM : 05.00 - 14.00";
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -559,48 +564,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnLoginPage()
                 .Login(AutoUser22.UserName, AutoUser22.Password)
                 .IsOnHomePage(AutoUser22);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Resources)
-                .OpenOption("Daily Allocation")
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyRoundFilterButtonEnabled(false)
-                .SelectContract(Contract.Municipal)
-                .VerifyBusinessUnitIsOptional()
-                .SelectBusinessUnit(Contract.Municipal)
-                .SelectShift("AM")
-                .ClickGo()
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
-            //Create driver
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyRoundFilterButtonEnabled(true)
-                .ClickCreateResource()
-                .SwitchToLastWindow();
-            PageFactoryManager.Get<ResourceDetailTab>()
-                .IsOnDetailTab()
-                .InputResourceName(resourceName)
-                .SelectResourceType(resourceType)
-                .SelectBusinessUnit(BusinessUnit.EastCollections)
-                .TickContractRoam()
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
-                .SwitchToLastWindow()
-                .SwitchNewIFrame()
-                .WaitForLoadingIconToDisappear()
-                .SwitchToTab("All Resources");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Resource", resourceName);
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .VerifyFirstResultValueInTab("Business Unit", BusinessUnit.EastCollections);
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .RefreshGrid()
-                .FilterResource("Business Unit", BusinessUnit.EastCollections);
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .VerifyFirstResultValueInTab("Business Unit", BusinessUnit.EastCollections);
-
-
+            //Verify on Default Allocation
             string dResourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string dResourceType = "Driver";
 
@@ -633,7 +597,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow()
                 .SwitchNewIFrame()
                 .SwitchToTab("All Resources");
-            //Drag resource type to round
+            //Verify Default Allocation changes
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .FilterResource("Resource", dResourceName);
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -643,6 +607,114 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .FilterResource("Business Unit", BusinessUnit.CollectionRecycling);
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValueInTab("Business Unit", BusinessUnit.CollectionRecycling);
+            
+            //Verify on Daily Allocation
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyRoundFilterButtonEnabled(false)
+                .SelectContract(Contract.Municipal)
+                .VerifyBusinessUnitIsOptional()
+                .SelectBusinessUnit(BusinessUnit.Unassigned)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyOnlyAllResourceTabIsDisplayed();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectBusinessUnit(Contract.Municipal)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickRoundFilterBtn()
+                .ClearFilterOptionIfAny()
+                .ClickApplyBtn()
+                .WaitForLoadingIconToDisappear();
+            //Create driver
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyRoundFilterButtonEnabled(true)
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.EastCollections)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear()
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName);
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValueInTab("Business Unit", BusinessUnit.EastCollections);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .RefreshGrid()
+                .FilterResource("Business Unit", BusinessUnit.EastCollections);
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValueInTab("Business Unit", BusinessUnit.EastCollections);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .OpenFirstRoundInstance()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundInstanceDetailPage>()
+                .OpenRound()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundDetailPage>()
+                .ClickRoundGroupHyperLink()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            string bu = PageFactoryManager.Get<RoundGroupPage>()
+                .GetBusinessUnit();
+            Assert.AreEqual(BusinessUnit.EastCollections, bu);
+            //Assert.AreEqual("An", contractUnit);
+            PageFactoryManager.Get<BasePage>()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickRoundFilterBtn()
+                .SelectContractUnit(contractUnit)
+                .SelectDisapatchSite(dispatchSite)
+                //.SelectServiceUnit("Ancillary")
+                .SelectShiftFilter(shift)
+                .ClickRememberOption()
+                .ClickApplyBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyNumberOfFilter(3)
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyNumberOfFilter(3)
+                //.VerifyFirstRoundService("CLINICAL WASTE")
+                .OpenFirstRoundInstance()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundInstanceDetailPage>()
+                .OpenRound()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(5000);
+            PageFactoryManager.Get<RoundDetailPage>()
+                .VerifyContractUnit(contractUnit)
+                .VerifyDispatchSite(dispatchSite)
+                .VerifyShift(shift);
 
         }
         [Category("Resources")]
@@ -669,6 +741,47 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SleepTimeInMiliseconds(2000);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifySortOrderOfRoundInstances();
+        }
+        [Category("Resources")]
+        [Category("Dee")]
+        [Test]
+        public void TC_221_adding_adhoc_round()
+        {
+            string roundName = "adhoc autotest round " + CommonUtil.GetRandomNumber(5);
+            int templateNo = 1;
+            string reason = "Service Recovery";
+            string note = "adhoc autotest not " + CommonUtil.GetRandomNumber(5);
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Municipal)
+                .SelectBusinessUnit(Contract.Municipal)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickAddAdhocRoundBtn()
+                .IsOnAddAdhocRoundPage()
+                .InputAdhocRoundDetails(templateNo, reason, note, roundName)
+                .ClickCreateBtn()
+                .VerifyFirstRoundName("(Adhoc) " + roundName)
+                .ClickAddAdhocRoundBtn()
+                .IsOnAddAdhocRoundPage()
+                .InputAdhocRoundDetails(1, reason, note);
+            string templateValue = PageFactoryManager.Get<AddAdhocRoundPopup>()
+                .GetSelectedTemplate();
+            PageFactoryManager.Get<AddAdhocRoundPopup>()
+                .ClickCreateBtn()
+                .VerifyFirstRoundName("(Adhoc) " + templateValue);
         }
     }
 }
