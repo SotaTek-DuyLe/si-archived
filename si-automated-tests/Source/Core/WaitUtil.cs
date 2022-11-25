@@ -190,6 +190,17 @@ namespace si_automated_tests.Source.Core
             });
         }
         [AllureStep]
+        public static void WaitForElementSize(By by)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(shortTimeOut));
+            driverWait.Until((driver) =>
+            {
+                IWebElement webElement = driver.FindElement(by);
+                var elementSize = webElement.Size;
+                return elementSize != new System.Drawing.Size(0,0);
+            });
+        }
+        [AllureStep]
         public static void WaitCssAttributeChange(By by, string attribute, string originalValue)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(shortTimeOut));

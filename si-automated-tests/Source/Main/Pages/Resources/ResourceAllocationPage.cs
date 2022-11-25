@@ -26,7 +26,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By applyBtn = By.XPath("//div[@class='popover-content']//button[contains(text(),'Apply')]");
         private readonly string roundFilterOption = "//div[contains(@id,'popover')]//input[@title='{0}']";
         private readonly By rememberOtionBtn = By.XPath("//div[contains(@id,'popover')]//input[@id='remember-selection']");
-        private readonly By clearOptionBtn = By.XPath("//div[contains(@id,'popover')]//button[@title='Clear All']");
+        private readonly By clearOptionBtn = By.XPath("//div[contains(@id,'popover')]//button[@title='Clear All' and not(@style='display: none;')]");
 
         //Left panel Daily Allocation
         private readonly By firstRoundRow = By.XPath("//tbody[contains(@data-bind,'roundMenu')]/tr");
@@ -83,6 +83,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By headers = By.XPath("//div[contains(@class,'active')]//div[@class='ui-state-default slick-header-column slick-header-sortable ui-sortable-handle']/span[1]");
         private readonly By inputBoxes = By.XPath("//div[contains(@class,'active')]//div[@class='slick-headerrow ui-state-default']//*[contains(@class,'form-control')]");
         private readonly By firstResultFields = By.XPath("//div[contains(@class,'active')]//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
+        private readonly By tabLocator = By.XPath("//ul[@id='tabs']/li[not(contains(@class,'hide'))]/a");
 
         //business unit option
         private readonly string jstreeOption = "//a[contains(@class,'jstree-anchor') and text()='{0}']";
@@ -701,6 +702,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             return this;
         }
         [AllureStep]
+        public ResourceAllocationPage VerifyFirstRoundService(string expected)
+        {
+            var firstRoundService = GetAllElements(serviceNames)[0].Text;
+            Assert.AreEqual(expected, firstRoundService);
+            return this;
+        }
+        [AllureStep]
         public ResourceAllocationPage ClickRoundFilterBtn()
         {
             ClickOnElement(roundFilterBtn);
@@ -720,6 +728,14 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ClickOnElement(roundFilterTitle); //Click header to close other popover
             ClickOnElement(roundFilterOption, "Dispatch Site");
             ClickOnElement(jstreeOption, dispatchSite);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage SelectServiceUnit(string serviceUnit)
+        {
+            ClickOnElement(roundFilterTitle); //Click header to close other popover
+            ClickOnElement(roundFilterOption, "Service");
+            ClickOnElement(jstreeOption, serviceUnit);
             return this;
         }
         [AllureStep]
@@ -756,6 +772,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             {
                 ClickOnElement(clearOptionBtn);
             }
+            return this;
+        }
+        public ResourceAllocationPage VerifyOnlyAllResourceTabIsDisplayed()
+        {
+            var tabs = GetAllElements(tabLocator);
+            Assert.AreEqual(1, tabs.Count);
+            Assert.AreEqual("All Resources", tabs[0].Text);
             return this;
         }
 

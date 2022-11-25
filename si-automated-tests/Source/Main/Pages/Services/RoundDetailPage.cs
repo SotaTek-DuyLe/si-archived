@@ -133,7 +133,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public RoundGroupPage ClickRoundGroupHyperLink()
         {
-            WaitUtil.WaitForElementVisible(roundGroupHyperLink);
+            WaitUtil.WaitForElementSize(roundGroupHyperLink);
+            //Console.WriteLine(e.Size.ToString());
             ClickOnElement(roundGroupHyperLink);
             return PageFactoryManager.Get<RoundGroupPage>();
         }

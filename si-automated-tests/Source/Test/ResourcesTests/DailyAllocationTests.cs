@@ -552,7 +552,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Test]
         public void TC_223_verify_daily_and_default_allocation_page_ui_changes()
         {
-            string resourceName = "ANeil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string resourceType = "Driver";
             string contractUnit = "Ancillary";
             string dispatchSite = "Langhorn Road Depot (West)";
@@ -565,7 +565,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .Login(AutoUser22.UserName, AutoUser22.Password)
                 .IsOnHomePage(AutoUser22);
             //Verify on Default Allocation
-            string dResourceName = "ANeil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string dResourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string dResourceType = "Driver";
 
             PageFactoryManager.Get<NavigationBase>()
@@ -617,6 +617,14 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyRoundFilterButtonEnabled(false)
                 .SelectContract(Contract.Municipal)
                 .VerifyBusinessUnitIsOptional()
+                .SelectBusinessUnit(BusinessUnit.Unassigned)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyOnlyAllResourceTabIsDisplayed();
+            PageFactoryManager.Get<ResourceAllocationPage>()
                 .SelectBusinessUnit(Contract.Municipal)
                 .SelectShift("AM")
                 .ClickGo()
@@ -661,8 +669,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<RoundInstanceDetailPage>()
                 .OpenRound()
                 .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(5000);
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundDetailPage>()
                 .ClickRoundGroupHyperLink()
                 .SwitchToLastWindow()
@@ -684,12 +691,18 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRoundFilterBtn()
                 .SelectContractUnit(contractUnit)
                 .SelectDisapatchSite(dispatchSite)
+                //.SelectServiceUnit("Ancillary")
                 .SelectShiftFilter(shift)
                 .ClickRememberOption()
                 .ClickApplyBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifyNumberOfFilter(3)
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyNumberOfFilter(3)
+                //.VerifyFirstRoundService("CLINICAL WASTE")
                 .OpenFirstRoundInstance()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
