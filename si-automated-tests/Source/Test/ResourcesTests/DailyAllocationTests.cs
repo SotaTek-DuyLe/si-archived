@@ -562,8 +562,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser22.UserName, AutoUser22.Password)
-                .IsOnHomePage(AutoUser22);
+                .Login(AutoUser32.UserName, AutoUser32.Password)
+                .IsOnHomePage(AutoUser32);
             //Verify on Default Allocation
             string dResourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string dResourceType = "Driver";

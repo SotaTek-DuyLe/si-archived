@@ -564,7 +564,7 @@ namespace si_automated_tests.Source.Test
                 .WaitForLoadingIconToDisappear();
             var roundGroupName = PageFactoryManager.Get<RoundGroupPage>()
                 .GetRoundGroupName();
-            Assert.IsTrue(roundName.Contains(roundGroupName));
+            Assert.IsTrue(roundName.Contains(roundGroupName), "Expected " + roundName + " to contain " + roundGroupName);
         }
 
         [Category("Dee")]
