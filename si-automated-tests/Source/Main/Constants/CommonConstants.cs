@@ -49,7 +49,9 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] ActionMenuSU = { "Split Service Unit", "Remove Point" };
         public static readonly string FUTURE_END_DATE = "01/01/2050";
         public static readonly string[] HistoryTitleAfterUpdateWBTicketTab = { "Party", "Auto Print", "Driver Required", "Use Stored PO", "Use Manual PO", "External Round Required", "Use Stored Round", "Use Manual Round", "Allow Manual Name", "Authorise Tipping", "License Number", "License Number Expiry", "Dormant Date", "Restrict Products" };
-
+        public static readonly string[] SectorInStatisticTab = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+        public static readonly string[] ParentInStatisticTab = { "Richmond" };
+        public static readonly string[] HistoryInAgreementDetail = { "Invoice Schedule", "Invoice Site", "Invoice Contact", "Billing Rule" };
 
         //ICON IMAGE
         public static readonly string StreetIconUrl = "web/content/images/street.svg";        

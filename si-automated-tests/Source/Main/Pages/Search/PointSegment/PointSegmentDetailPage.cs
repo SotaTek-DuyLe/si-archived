@@ -4,6 +4,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels.GetAllServicesForPoint2;
 using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
@@ -14,12 +15,91 @@ using static si_automated_tests.Source.Main.Models.ActiveSeviceModel;
 
 namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
 {
-    public class PointSegmentDetailPage : BasePage
+    public class PointSegmentDetailPage : BasePageCommonActions
     {
+        public readonly By SubscriptionTab = By.XPath("//a[@aria-controls='subscriptions-tab']");
         private readonly By titleDetail = By.XPath("//h4[text()='Point Segment']");
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
         private readonly By segmentName = By.XPath("//p[@class='object-name']");
         private readonly By allAservicesTab = By.CssSelector("a[aria-controls='allServices-tab']");
+
+        #region SubscriptionTab
+        public readonly By AddNewSubscriptionButton = By.XPath("//button[@data-bind='click: createSubscription']");
+        public readonly By SubscriptionIFrame = By.XPath("//div[@id='subscriptions-tab']//iframe");
+        private readonly string SubcriptionTable = "//div[@class='grid-canvas']";
+        private readonly string SubscriptionRow = "./div[contains(@class, 'slick-row')]";
+        private readonly string SubscriptionIdCell = "./div[contains(@class, 'l0')]";
+        private readonly string SubscriptionContractIdCell = "./div[contains(@class, 'l1')]";
+        private readonly string SubscriptionContractCell = "./div[contains(@class, 'l2')]";
+        private readonly string SubscriptionMobileCell = "./div[contains(@class, 'l3')]";
+        private readonly string SubscriptionStateCell = "./div[contains(@class, 'l4')]";
+        private readonly string SubscriptionStartDateCell = "./div[contains(@class, 'l5')]";
+        private readonly string SubscriptionEndDateCell = "./div[contains(@class, 'l6')]";
+        private readonly string SubscriptionNotesCell = "./div[contains(@class, 'l7')]";
+        private readonly string SubscriptionSubjectCell = "./div[contains(@class, 'l8')]";
+        private readonly string SubscriptionSubjectDesCell = "./div[contains(@class, 'l9')]";
+
+        public TableElement SubscriptionTableEle
+        {
+            get => new TableElement(SubcriptionTable, SubscriptionRow,
+                new List<string>() {
+                    SubscriptionIdCell, SubscriptionContractIdCell, SubscriptionContractCell,
+                    SubscriptionMobileCell, SubscriptionStateCell, SubscriptionStartDateCell,
+                    SubscriptionEndDateCell, SubscriptionNotesCell, SubscriptionSubjectCell, SubscriptionSubjectDesCell
+                });
+        }
+
+        [AllureStep]
+        public PointSegmentDetailPage VerifyNewSubscription(string id, string firstName, string lastName, string mobile, string subjectDescription)
+        {
+            int newIdx = SubscriptionTableEle.GetRows().Count - 1;
+            VerifyCellValue(SubscriptionTableEle, newIdx, 0, id);
+            VerifyCellValue(SubscriptionTableEle, newIdx, 2, firstName + " " + lastName);
+            VerifyCellValue(SubscriptionTableEle, newIdx, 3, mobile);
+            string subjectDescriptionCellValue = SubscriptionTableEle.GetCellValue(newIdx, 9).AsString();
+            Assert.IsTrue(subjectDescription.Contains(subjectDescriptionCellValue));
+            return this;
+        }
+
+        [AllureStep]
+        public PointSegmentDetailPage VerifyColumnsDisplay(List<string> columnNames)
+        {
+            var headerEles = GetAllElements(By.XPath("//div[contains(@class, 'slick-header-columns')]//span[@class='slick-column-name']"));
+            foreach (var item in headerEles)
+            {
+                Assert.IsTrue(columnNames.Contains(item.Text));
+            }
+            return this;
+        }
+        #endregion
+
+        #region Risk tab
+        public readonly By RiskTab = By.XPath("//a[@aria-controls='risks-tab']");
+        public readonly By RiskIframe = By.XPath("//iframe[@id='risks-tab']");
+        public readonly By BulkCreateButton = By.XPath("//button[@title='Add risk register(s)']");
+        private readonly string riskTable = "//div[@id='risk-grid']//div[@class='grid-canvas']";
+        private readonly string riskRow = "./div[contains(@class,'slick-row')]";
+        private readonly string riskCheckboxCell = "./div[@class='slick-cell l0 r0']//input";
+        private readonly string riskNameCell = "./div[@class='slick-cell l2 r2']";
+        private readonly string riskStartDateCell = "./div[@class='slick-cell l9 r9']";
+        private readonly string riskEndDateCell = "./div[@class='slick-cell l10 r10']";
+        public TableElement RiskTableEle
+        {
+            get => new TableElement(riskTable, riskRow, new List<string>() { riskCheckboxCell, riskNameCell, riskStartDateCell, riskEndDateCell });
+        }
+
+        [AllureStep]
+        public PointSegmentDetailPage VerifyRiskSelect(string riskName, string startdate, string endDate)
+        {
+            Assert.IsNotNull(RiskTableEle.GetCellByCellValues(0, new Dictionary<int, object>()
+            {
+                { RiskTableEle.GetCellIndex(riskNameCell), riskName },
+                { RiskTableEle.GetCellIndex(riskStartDateCell), startdate },
+                { RiskTableEle.GetCellIndex(riskEndDateCell), endDate },
+            }));
+            return this;
+        }
+        #endregion
 
         //POPUP
         private readonly By createTitle = By.XPath("//div[@id='inspection-modal']//h4[text()='Create ']");

@@ -9,6 +9,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras.WaitHelpers;
 
 namespace si_automated_tests.Source.Core
 {
@@ -128,6 +129,13 @@ namespace si_automated_tests.Source.Core
             element.SendKeys(value);
         }
         [AllureStep]
+        public void SendKeysWithUrl(By by, string value)
+        {
+            WaitUtil.WaitForElementsPresent(by);
+            IWebElement element = driver.FindElement(by);
+            element.SendKeys(value);
+        }
+        [AllureStep]
         public void SendKeysWithoutClear(By by, string value)
         {
             IWebElement element = WaitUtil.WaitForElementVisible(by);
@@ -168,6 +176,19 @@ namespace si_automated_tests.Source.Core
                 .WaitForElementClickable(by)
                 .Click();
         }
+
+        [AllureStep]
+        public void ClickOnElementIfItVisible(By by)
+        {
+            SleepTimeInMiliseconds(500);
+            if (IsControlDisplayedNotThrowEx(by))
+            {
+                WaitUtil
+                    .WaitForElementClickable(by)
+                    .Click();
+            }
+        }
+
         [AllureStep]
         public void ClickOnElement(IWebElement element)
         {
@@ -383,6 +404,20 @@ namespace si_automated_tests.Source.Core
             return element.Text;
         }
 
+        public List<string> GetAllElementText(By by)
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allOptions = GetAllElements(by);
+            foreach (IWebElement e in allOptions)
+            {
+                if ((GetElementText(e) != "") || (GetElementText(e) != "Select..."))
+                {
+                    results.Add(GetElementText(e));
+                }
+            }
+            return results;
+        }
+
         //SWITCH FRAME
         [AllureStep]
         public void SwitchToFrame(By by)
@@ -533,6 +568,18 @@ namespace si_automated_tests.Source.Core
         {
             WaitUtil.WaitForAlert();
             IWebDriverManager.GetDriver().SwitchTo().Alert().Dismiss();
+            return this;
+        }
+
+        [AllureStep]
+        public BasePage AceptAlertIfPresent()
+        {
+            SleepTimeInMiliseconds(200);
+            IAlert alert = ExpectedConditions.AlertIsPresent().Invoke(driver);
+            if ((alert != null))
+            {
+                alert.Accept();
+            }
             return this;
         }
 
@@ -688,6 +735,13 @@ namespace si_automated_tests.Source.Core
         }
 
         [AllureStep]
+        public string GetAttributeValueElementPresent(By by, string attributeName)
+        {
+            IWebElement element = WaitUtil.WaitForElementsPresent(by);
+            return element.GetAttribute(attributeName);
+        }
+
+        [AllureStep]
         public string GetAttributeValue(IWebElement element, string attributeName)
         {
             return element.GetAttribute(attributeName);
@@ -796,6 +850,13 @@ namespace si_automated_tests.Source.Core
             Assert.AreEqual(message, GetToastMessage());
             return this;
         }
+        [AllureStep]
+        public BasePage VerifyContainToastMessage(string message)
+        {
+            Assert.IsTrue(GetToastMessage().Contains(message));
+            return this;
+        }
+
         [AllureStep]
         public BasePage VerifyDisplayToastMessage(string message)
         {
@@ -967,6 +1028,12 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         [AllureStep]
+        public BasePage SleepTimeInSeconds(int num)
+        {
+            Thread.Sleep(num * 1000);
+            return this;
+        }
+        [AllureStep]
         public BasePage DragAndDrop(IWebElement sourceElement, IWebElement targetElement)
         {
             var builder = new Actions(IWebDriverManager.GetDriver());
@@ -1010,10 +1077,15 @@ namespace si_automated_tests.Source.Core
         {
             return IWebDriverManager.GetDriver().Title;
         }
-
+        [AllureStep]
         public bool IsCheckboxChecked(By by)
         {
             return GetElement(by).Selected;
+        }
+        [AllureStep]
+        public bool IsCheckboxChecked(IWebElement e)
+        {
+            return e.Selected;
         }
         [AllureStep]
         public BasePage GoToAllTabAndConfirmNoError()

@@ -184,7 +184,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                     .ClickToDetailsTab();
                 var taskDetailTab = PageFactoryManager.Get<TaskDetailTab>();
                 PageFactoryManager.Get<TaskDetailTab>()
-                    .SelectTextFromDropDown(taskDetailTab.detailTaskState, "Completed")
+                    .SelectTextFromDropDown(taskDetailTab.detailTaskState, "Completed");
+                taskDetailTab.InputPurchaseOrderValue(i.ToString())
                     .ClickSaveBtn()
                     .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                     .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)

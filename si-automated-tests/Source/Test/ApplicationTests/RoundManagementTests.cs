@@ -109,5 +109,125 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .DragAndDropFirstRoundToGrid()
                 .VerifyTaskModelDescriptionAndEndDate(expectedModel2);
         }
+
+        [Category("RoundInstance")]
+        [Category("Huong")]
+        [Test]
+        public void TC_199_1_tasks_and_round_legs_can_be_reallocated()
+        {
+            //Verify that tasks and round legs can be reallocated
+            string contract = Contract.RMC;
+            string service = "Collections";
+            string subService = "Commercial Collections";
+            string date = "";
+            MasterRoundManagementPage masterRoundManagementPage = PageFactoryManager.Get<MasterRoundManagementPage>();
+            masterRoundManagementPage
+                .IsOnPage()
+                .InputSearchDetails(contract, service, subService, date)
+                .WaitForLoadingIconToDisappear();
+            masterRoundManagementPage.DragRoundToGrid()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(1000);
+
+            //Select couple of rows and click Subcontract (make a note of the descriptions) -> Select a subcontract reason and click Confirm 
+            masterRoundManagementPage.SelectFirstAndSecondTask();
+            masterRoundManagementPage.ClickOnElement(masterRoundManagementPage.Subcontract);
+            masterRoundManagementPage.SelectTextFromDropDown(masterRoundManagementPage.SubcontractSelect, "No Service")
+                .ClickOnElement(masterRoundManagementPage.SubcontractConfirmButton);
+            masterRoundManagementPage.WaitForLoadingIconToDisappear();
+            //Scroll right
+            masterRoundManagementPage.ScrollToSubcontractHeader()
+                .VerifyFirstAndSecondConfirmedTask("No Service");
+            //Navigate to task confirmation screen->Filter the same contract, service and round
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption("Task Confirmation")
+                .SwitchNewIFrame();
+            TaskConfirmationPage taskConfirmationPage = PageFactoryManager.Get<TaskConfirmationPage>();
+            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, contract);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ServiceInput);
+            taskConfirmationPage.SleepTimeInMiliseconds(1000);
+            taskConfirmationPage.ExpandRoundNode("Commercial")
+                .ExpandRoundNode(service)
+                .ExpandRoundNode(subService)
+                .ExpandRoundNode("REF1-AM")
+                .SelectRoundNode("Monday");
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ScheduleDateInput);
+            taskConfirmationPage.SleepTimeInMiliseconds(1000);
+            DateTime firstMondayInNextMonth = CommonUtil.GetFirstMondayInMonth(DateTime.Now.AddMonths(1));
+            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.ScheduleDateInput, firstMondayInNextMonth.ToString("dd/MM/yyyy"));
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
+            taskConfirmationPage.WaitForLoadingIconToDisappear(false);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ExpandRoundsGo);
+            taskConfirmationPage.SleepTimeInMiliseconds(2000);
+            //Select the 2 service tasks you updated earlier and click reallocate
+            taskConfirmationPage.ClickServiceTask(0)
+                .ClickServiceTask(1)
+                .ClickOnElement(taskConfirmationPage.BulkReallocateButton);
+            taskConfirmationPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            taskConfirmationPage.VerifyReallocatedTask("No Service");
+
+            //Select the 2 service tasks in the grid -> Update the from filter -> Go 
+            List<string> descriptions = taskConfirmationPage.SelectServiceTaskAllocation();
+            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.FromInput, firstMondayInNextMonth.ToString("dd/MM/yyyy"));
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            //Drag and drop the service tasks to a different round (confirm the pop up modal if allocating to a different day) 
+            taskConfirmationPage.DragDropTaskAllocationToRoundGrid("REC1-AM", "Monday")
+                .VerifyContainToastMessage("Task(s) Allocated");
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.VerifyTaskAllocated("REC1-AM", "Monday");
+            //Drag and drop the round you allocated the tasks to to the grid
+            taskConfirmationPage.DragRoundInstanceToReallocattedGrid("REC1-AM", "Monday");
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            //Scroll down and right to find your tasks
+            taskConfirmationPage.VerifyTaskSubcontract(descriptions, "No Service");
+        }
+
+        [Category("RoundInstance")]
+        [Category("Huong")]
+        [Test]
+        public void TC_199_2_tasks_and_round_legs_can_be_reallocated()
+        {
+            string contract = Contract.RM;
+            string service = "Recycling";
+            string subService = "Communal Recycling";
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption("Task Confirmation")
+                .SwitchNewIFrame();
+            TaskConfirmationPage taskConfirmationPage = PageFactoryManager.Get<TaskConfirmationPage>();
+            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, contract);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ServiceInput);
+            taskConfirmationPage.SleepTimeInMiliseconds(1000);
+            taskConfirmationPage.ExpandRoundNode("Municipal")
+                .ExpandRoundNode(service)
+                .SelectRoundNode(subService);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ScheduleDateInput);
+            taskConfirmationPage.SleepTimeInMiliseconds(1000);
+            DateTime firstMondayInNextMonth = CommonUtil.GetFirstMondayInMonth(DateTime.Now.AddMonths(1));
+            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.ScheduleDateInput, firstMondayInNextMonth.ToString("dd/MM/yyyy"));
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.SelectRoundLegsOnSecondRoundGroup()
+                .ClickOnElement(taskConfirmationPage.BulkReallocateButton);
+            taskConfirmationPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.FromInput, firstMondayInNextMonth.ToString("dd/MM/yyyy"));
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.SelectAllRoundLeg()
+                .DragDropRoundLegToRoundInstance("WCREC2", "Monday");
+            taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
+            taskConfirmationPage.VerifyToastMessage("Allocated 2 round leg(s)");
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+        }
     }
 }

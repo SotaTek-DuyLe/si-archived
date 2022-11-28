@@ -1118,121 +1118,132 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Test]
         public void TC_021()
         {
-            //string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
-            //string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
+            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+            string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
 
-            //PageFactoryManager.Get<LoginPage>()
-            //   .GoToURL(WebUrl.MainPageUrl);
-            //PageFactoryManager.Get<LoginPage>()
-            //    .IsOnLoginPage()
-            //    .Login(AutoUser33.UserName, AutoUser33.Password)
-            //    .IsOnHomePage(AutoUser33);
-            //PageFactoryManager.Get<NavigationBase>()
-            //    .ClickMainOption(MainOption.Parties)
-            //    .ExpandOption(Contract.NSC)
-            //    .OpenOption("Agreements")
-            //    .SwitchNewIFrame();
-            //PageFactoryManager.Get<CommonBrowsePage>()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<CommonBrowsePage>()
-            //    .FilterItem(29)
-            //    .OpenFirstResult()
-            //    .SwitchToLastWindow();
-            //PageFactoryManager.Get<PartyAgreementPage>()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<PartyAgreementPage>()
-            //   .ClickTaskTabBtn()
-            //   .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser33.UserName, AutoUser33.Password)
+                .IsOnHomePage(AutoUser33);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Agreements")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItem(29)
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickTaskTabBtn()
+               .WaitForLoadingIconToDisappear();
 
             //Verify DeliverCommercialBin task at TaskTab
-            //List<IWebElement> mobilizationRows = PageFactoryManager.Get<TaskTab>()
-            //   .VerifyNewDeliverCommercialBin("08/01/2022", 1);
-            ////Edit Task 
-            //for (int j = 0; j < mobilizationRows.Count; j++)
-            //{
-            //    PageFactoryManager.Get<TaskTab>()
-            //        .GoToATask(mobilizationRows[j])
-            //        .SwitchToLastWindow();
-            //    PageFactoryManager.Get<AgreementTaskDetailsPage>()
-            //    .WaitForLoadingIconToDisappear();
-            //    PageFactoryManager.Get<AgreementTaskDetailsPage>()
-            //        .ClickToTaskLinesTab()
-            //        .WaitForLoadingIconToDisappear();
-            //    PageFactoryManager.Get<TaskLineTab>()
-            //        .VerifyTaskLineInfo("Deliver", "1100L", "1", "General Recycling", "Kilograms", "Unallocated")
-            //        .InputActuaAssetQuantity(1)
-            //        .ClickOnAcualAssetQuantityText()
-            //        .SelectCompletedState()
-            //        .ClickOnAcualAssetQuantityText();
-            //    PageFactoryManager.Get<BasePage>()
-            //        .ClickSaveBtn()
-            //        .VerifyToastMessage("Success")
-            //        .WaitForLoadingIconToDisappear();
-            //    PageFactoryManager.Get<AgreementTaskDetailsPage>()
-            //        .ClickToDetailsTab();
-            //    PageFactoryManager.Get<TaskDetailTab>()
-            //        .ClickStateDetais()
-            //        .ChooseTaskState("Completed");
-            //    PageFactoryManager.Get<BasePage>()
-            //        .ClickSaveBtn()
-            //        .VerifyToastMessage("Success")
-            //        .WaitForLoadingIconToDisappear();
-            //    PageFactoryManager.Get<AgreementTaskDetailsPage>()
-            //        .ClickCloseWithoutSaving()
-            //        .SwitchToFirstWindow();
-            //}
+            List<IWebElement> mobilizationRows = PageFactoryManager.Get<TaskTab>()
+               .VerifyNewDeliverCommercialBin("08/01/2022", 1);
+            //Edit Task 
+            for (int j = 0; j < mobilizationRows.Count; j++)
+            {
+                PageFactoryManager.Get<TaskTab>()
+                    .GoToATask(mobilizationRows[j])
+                    .SwitchToLastWindow();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .ClickToTaskLinesTab()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                   .VerifyTaskLine("Deliver", "1100L", "1", "General Recycling", "0", "Kilograms", "Unallocated")
+                   .InputActuaAssetQuantity(1)
+                   .ClickOnAcualAssetQuantityText()
+                   .SelectCompletedState()
+                   .ClickOnAcualAssetQuantityText()
+                   .CLickOnSaveBtn()
+                   .VerifyToastMessage("Success")
+                   .WaitForLoadingIconToDisappear();
+                //PageFactoryManager.Get<TaskLineTab>()
+                //    .VerifyTaskLine("Deliver", "1100L", "1", "General Recycling", "95", "Kilograms", "Unallocated")
 
-            //PageFactoryManager.Get<PartyAgreementPage>()
-            //    .SwitchToFirstWindow();
+                //    .VerifyTaskLineInfo("Deliver", "1100L", "1", "General Recycling", "Kilograms", "Unallocated")
+                //    .InputActuaAssetQuantity(1)
+                //    .ClickOnAcualAssetQuantityText()
+                //    .SelectCompletedState()
+                //    .ClickOnAcualAssetQuantityText();
+                //PageFactoryManager.Get<BasePage>()
+                //    .ClickSaveBtn()
+                //    .VerifyToastMessage("Success")
+                //    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .ClickToDetailsTab();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .ClickStateDetais()
+                    .ChooseTaskState("Completed");
+                PageFactoryManager.Get<BasePage>()
+                    .ClickSaveBtn()
+                    .VerifyToastMessage("Success")
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<AgreementTaskDetailsPage>()
+                    .ClickCloseWithoutSaving()
+                    .SwitchToFirstWindow();
+            }
 
-            ////Go to service and verify 
-            //PageFactoryManager.Get<NavigationBase>()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<NavigationBase>()
-            //   .ClickMainOption(MainOption.Services)
-            //   .ExpandOption("Regions")
-            //   .ExpandOption(Region.UK)
-            //   .ExpandOption(Contract.NSC)
-            //   .ExpandOption("Collections")
-            //   .ExpandOption("Commercial Collections")
-            //   .OpenOption("Active Service Tasks")
-            //   .SwitchNewIFrame();
-            //PageFactoryManager.Get<CommonActiveServicesTaskPage>()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<CommonActiveServicesTaskPage>()
-            //    .InputPartyNameToFilter("Jaflong Tandoori")
-            //    .ClickApplyBtn()
-            //    .OpenTaskWithPartyNameAndDate("Jaflong Tandoori", todayDate, "STARTDATE")
-            //    .SwitchToLastWindow();
-            //PageFactoryManager.Get<ServicesTaskPage>()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<ServicesTaskPage>()
-            //    .ClickOnTaskLineTab();
-            //PageFactoryManager.Get<ServiceTaskLineTab>()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<ServiceTaskLineTab>()
-            //    .verifyTaskInfo("1100L", "1", "General Recycling", "Kilograms", todayDate, tommorowDate);
-            //PageFactoryManager.Get<ServicesTaskPage>()
-            //    .ClickOnScheduleTask();
-            //PageFactoryManager.Get<ServiceScheduleTab>()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<ServiceScheduleTab>()
-            //    .verifyScheduleStartDate(todayDate)
-            //    .verifyScheduleEndDate("01/01/2050")
-            //    .CloseCurrentWindow()
-            //    .SwitchToChildWindow(2);
-            //PageFactoryManager.Get<PartyAgreementPage>()
-            //   .ClickOnDetailsTab()
-            //   .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .SwitchToFirstWindow();
 
-            ////Remove Agreement Line 
-            //PageFactoryManager.Get<PartyAgreementPage>()
-            //    .ClickRemoveAgreementBtn()
-            //    .VerifyDotRedBorder()
-            //    .ClickKeepAgreementBtn()
-            //    .VerifyDotRedBorderDisappear()
-            //    .ClickRemoveAgreementBtn()
-            //    .VerifyAgreementLineDisappear();
+            //Go to service and verify 
+            PageFactoryManager.Get<NavigationBase>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Services)
+               .ExpandOption("Regions")
+               .ExpandOption(Region.UK)
+               .ExpandOption(Contract.Commercial)
+               .ExpandOption("Collections")
+               .ExpandOption("Commercial Collections")
+               .OpenOption("Active Service Tasks")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .InputPartyNameToFilter("JAFLONG TANDOORI")
+                .ClickApplyBtn()
+                .OpenTaskWithPartyNameAndDate("Jaflong Tandoori", todayDate, "STARTDATE", 15)
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .verifyTaskInfo("1100L", "1", "General Recycling", "Kilograms", todayDate, tommorowDate);
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnScheduleTask();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceScheduleTab>()
+                .verifyScheduleStartDate(todayDate)
+                .verifyScheduleEndDate("01/01/2050")
+                .CloseCurrentWindow()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<PartyAgreementPage>()
+               .ClickOnDetailsTab()
+               .WaitForLoadingIconToDisappear();
+
+            //Remove Agreement Line 
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .ClickRemoveAgreementBtn()
+                .VerifyDotRedBorder()
+                .ClickKeepAgreementBtn()
+                .VerifyDotRedBorderDisappear()
+                .ClickRemoveAgreementBtn()
+                .VerifyAgreementLineDisappear();
         }
 
     }

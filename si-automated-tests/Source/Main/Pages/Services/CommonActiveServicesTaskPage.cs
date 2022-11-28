@@ -123,6 +123,54 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return new ServicesTaskPage();
         }
+
+        //date type are STARTDATE or ENDDATE
+        [AllureStep]
+        public ServicesTaskPage OpenTaskWithPartyNameAndDate(string name, string date, string dateType, int num)
+        {
+            int n = num;
+            List<IWebElement> allRowsList = new List<IWebElement>();
+            List<IWebElement> partyNameList = new List<IWebElement>();
+            List<IWebElement> dateList = new List<IWebElement>();
+            while (n > 0)
+            {
+                allRowsList = GetAllElementsNotWait(allRows);
+                partyNameList = GetAllElementsNotWait(partyNameColumns);
+
+                if (dateType.Equals("STARTDATE"))
+                {
+                    dateList = GetAllElementsNotWait(startDateColumns);
+                }
+                else
+                {
+                    dateList = GetAllElementsNotWait(endDateColumns);
+                }
+                for (int i = 0; i < allRowsList.Count; i++)
+                {
+                    if (GetElementText(partyNameList[i]) == name && GetElementText(dateList[i]) == date)
+                    {
+                        DoubleClickOnElement(allRowsList[i]);
+                        n = 0;
+                    }
+                }
+                if (n > 0)
+                {
+                    ClickRefreshBtn();
+                    WaitForLoadingIconToDisappear();
+                    SleepTimeInMiliseconds(10000);
+                    n--;
+                    allRowsList.Clear();
+                    dateList.Clear();
+                    partyNameList.Clear();
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return new ServicesTaskPage();
+        }
+
         [AllureStep]
         public List<IWebElement> VerifyTaskWithPartyNameAndDate(int num, string name, string date, string dateType)
         {

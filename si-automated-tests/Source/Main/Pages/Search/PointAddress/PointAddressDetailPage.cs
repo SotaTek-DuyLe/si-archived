@@ -5,6 +5,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels.GetAllServicesForPoint2;
 using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
@@ -15,12 +16,59 @@ using static si_automated_tests.Source.Main.Models.ActiveSeviceModel;
 
 namespace si_automated_tests.Source.Main.Pages.PointAddress
 {
-    public class PointAddressDetailPage : BasePage
+    public class PointAddressDetailPage : BasePageCommonActions
     {
+        public readonly By SubscriptionTab = By.XPath("//a[@aria-controls='subscriptions-tab']");
         private readonly By titleDetail = By.XPath("//h4[text()='Point Address']");
         private readonly By pointAddressName = By.XPath("//span[@class='object-name']");
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
         private readonly By allAservicesTab = By.CssSelector("a[aria-controls='allServices-tab']");
+
+        #region SubscriptionTab
+        public readonly By AddNewSubscriptionButton = By.XPath("//button[@data-bind='click: createSubscription']");
+        public readonly By SubscriptionIFrame = By.XPath("//div[@id='subscriptions-tab']//iframe");
+        private readonly string SubcriptionTable = "//div[@class='grid-canvas']";
+        private readonly string SubscriptionRow = "./div[contains(@class, 'slick-row')]";
+        private readonly string SubscriptionIdCell = "./div[contains(@class, 'l0')]";
+        private readonly string SubscriptionContractIdCell = "./div[contains(@class, 'l1')]";
+        private readonly string SubscriptionContractCell = "./div[contains(@class, 'l2')]";
+        private readonly string SubscriptionMobileCell = "./div[contains(@class, 'l3')]";
+        private readonly string SubscriptionStateCell = "./div[contains(@class, 'l4')]";
+        private readonly string SubscriptionStartDateCell = "./div[contains(@class, 'l5')]";
+        private readonly string SubscriptionEndDateCell = "./div[contains(@class, 'l6')]";
+        private readonly string SubscriptionNotesCell = "./div[contains(@class, 'l7')]";
+        private readonly string SubscriptionSubjectCell = "./div[contains(@class, 'l8')]";
+        private readonly string SubscriptionSubjectDesCell = "./div[contains(@class, 'l9')]";
+
+        public TableElement SubscriptionTableEle
+        {
+            get => new TableElement(SubcriptionTable, SubscriptionRow, 
+                new List<string>() { 
+                    SubscriptionIdCell, SubscriptionContractIdCell, SubscriptionContractCell, 
+                    SubscriptionMobileCell, SubscriptionStateCell, SubscriptionStartDateCell,
+                    SubscriptionEndDateCell, SubscriptionNotesCell, SubscriptionSubjectCell, SubscriptionSubjectDesCell
+                });
+        }
+
+        [AllureStep]
+        public PointAddressDetailPage VerifyNewSubscription(string id, string firstName, string lastName, string mobile, string subjectDescription)
+        {
+            int newIdx = SubscriptionTableEle.GetRows().Count - 1;
+            VerifyCellValue(SubscriptionTableEle, newIdx, 0, id);
+            VerifyCellValue(SubscriptionTableEle, newIdx, 2, firstName + " " + lastName);
+            VerifyCellValue(SubscriptionTableEle, newIdx, 3, mobile);
+            //string subjectDescriptionCellValue = SubscriptionTableEle.GetCellValue(newIdx, 9).AsString().ToLower();
+            //Assert.IsTrue(subjectDescription.ToLower().Contains(subjectDescriptionCellValue));
+            return this;
+        }
+
+        [AllureStep]
+        public string GetNewContractId()
+        {
+            int newIdx = SubscriptionTableEle.GetRows().Count - 1;
+            return SubscriptionTableEle.GetCellValue(newIdx, 1).AsString(); 
+        }
+        #endregion
 
         //DETAILS TAB
         //private readonly By propertyName = By.Id("propertyName");

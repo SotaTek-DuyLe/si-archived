@@ -20,6 +20,10 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 using TaskAllocationPage = si_automated_tests.Source.Main.Pages.Applications.TaskAllocationPage;
 using TaskConfirmationPage = si_automated_tests.Source.Main.Pages.Applications.TaskConfirmationPage;
 using RoundInstanceDetailPage = si_automated_tests.Source.Main.Pages.Applications.RoundInstanceDetailPage;
+using si_automated_tests.Source.Main.Pages.PartyAgreement;
+using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
+using si_automated_tests.Source.Main.Finders;
+using System.Linq;
 
 namespace si_automated_tests.Source.Test.PartiesTests
 {
@@ -892,6 +896,168 @@ namespace si_automated_tests.Source.Test.PartiesTests
             roundInstanceDetailPage.SendKeys(roundInstanceDetailPage.IdFilterInput, "9292");
             roundInstanceDetailPage.SleepTimeInMiliseconds(200);
             roundInstanceDetailPage.VerifyRoundInstanceStatusCompleted();
+        }
+
+        [Category("Edit Party")]
+        [Category("Huong")]
+        [Test(Description = "Verify that user can enter in step 3 Asset Qty equal or less than number of assets on agreementlineassetproducts defined in Step 2.")]
+        public void TC_157_Agreement_Line_Amendment_of_Asset_Qty()
+        {
+            //Verify that user can enter in step 3 Asset Qty equal or less than number of assets on agreementlineassetproducts defined in Step 2.
+            int partyId = 73;
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .SendKeyToUsername(AutoUser6.UserName)
+                .SendKeyToPassword(AutoUser6.Password)
+                .ClickOnSignIn();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser6);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(partyId)
+                .OpenFirstResult();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            //PartyId=73 (Greggs)-> navigate to Agreements tab->Click 'Add New Item'
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully("Greggs")
+                .OpenAgreementTab()
+                .WaitForLoadingIconToDisappear();
+            AgreementTab agreementTab = PageFactoryManager.Get<AgreementTab>();
+            agreementTab.ClickAddNewItem()
+                .SwitchToChildWindow(3);
+            PartyAgreementPage partyAgreementPage = PageFactoryManager.Get<PartyAgreementPage>();
+            string selectedValue = "Use Customer";
+            string agreementType = "Commercial Collections";
+            partyAgreementPage
+               .IsOnPartyAgreementPage()
+               .VerifyStartDateIsCurrentDate()
+               .VerifyEndDateIsPredefined()
+               .VerifyElementIsMandatory(partyAgreementPage.agreementTypeInput)
+               .VerifySelectedValue(partyAgreementPage.primaryContract, selectedValue)
+               .VerifySelectedValue(partyAgreementPage.invoiceContact, selectedValue)
+               .VerifySelectedValue(partyAgreementPage.correspondenceAddressInput, selectedValue)
+               .VerifySelectedValue(partyAgreementPage.invoiceAddressInput, selectedValue)
+               .VerifySelectedValue(partyAgreementPage.invoiceScheduleInput, selectedValue);
+            partyAgreementPage
+               .SelectAgreementType(agreementType)
+               .ClickSaveBtn()
+               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+               .WaitForLoadingIconToDisappear();
+            partyAgreementPage
+               .WaitForAgreementPageLoadedSuccessfully("COMMERCIAL COLLECTIONS", "Greggs")
+               .VerifyAgreementStatus("New")
+               .VerifyElementVisibility(partyAgreementPage.addServiceBtn, true)
+               .VerifyElementVisibility(partyAgreementPage.approveBtn, true)
+               .VerifyElementVisibility(partyAgreementPage.cancelBtn, true);
+            //On the opened Agreement, click 'Add Services'
+            partyAgreementPage
+               .ClickAddService()
+               .IsOnAddServicePage();
+            PageFactoryManager.Get<SiteAndServiceTab>()
+               .IsOnSiteServiceTab()
+               .SelectServiceSite("Greggs - 8 KING STREET, TWICKENHAM, TW1 3SN")
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SiteAndServiceTab>()
+               .SelectService("Commercial")
+               .ClickNext();
+            PageFactoryManager.Get<AssetAndProducTab>()
+               .WaitForLoadingIconToDisappear();
+            //'Click ' +Add'
+            string assetType = AgreementConstants.ASSET_TYPE_1100L;
+            int assetQty = 3;
+            string product = AgreementConstants.GENERAL_RECYCLING;
+            string tenure = AgreementConstants.TENURE_RENTAL;
+            int productQty = 1000;
+            PageFactoryManager.Get<AssetAndProducTab>()
+                .IsOnAssetTab()
+                .ClickAddAsset()
+                .SelectAssetType(assetType)
+                .InputAssetQuantity(assetQty)
+                .ChooseTenure(tenure)
+                .TickAssetOnSite()
+                .InputAssetOnSiteNum(1)
+                .ChooseProduct(product)
+                .ChooseEwcCode("150106")
+                .InputProductQuantity(productQty)
+                .SelectKiloGramAsUnit()
+                .ClickDoneBtn()
+                .ClickNext();
+            //Click on '+Add regular service'
+            PageFactoryManager.Get<ScheduleServiceTab>()
+                  .IsOnScheduleTab()
+                  .ClickAddService()
+                  .SleepTimeInMiliseconds(300);
+            PageFactoryManager.Get<ScheduleServiceTab>()
+                .InputAssestQtyAndVerifyStateDoneBtn("4", false)
+                .InputAssestQtyAndVerifyStateDoneBtn("2", true);
+            PageFactoryManager.Get<ScheduleServiceTab>()
+                  .ClickDoneScheduleBtn()
+                  .ClickOnNotSetLink()
+                  .ClickOnWeeklyBtn()
+                  .UntickAnyDayOption()
+                  .SelectDayOfWeek("Mon")
+                  .ClickDoneRequirementBtn()
+                  .VerifyScheduleSummary("Once Every week on any Monday")
+                  .ClickNext();
+            var priceTab = PageFactoryManager.Get<PriceTab>();
+            priceTab.WaitForLoadingIconToDisappear();
+            priceTab.ClickNext();
+            PageFactoryManager.Get<InvoiceDetailTab>()
+                .VerifyInvoiceOptions("Use Agreement")
+                .ClickFinish();
+            partyAgreementPage
+                .VerifyServicePanelPresent()
+                .VerifyAgreementLineFormHasGreenBorder()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(5000);
+            partyAgreementPage.ExpandAgreementLine()
+                .ExpandAgreementHeader("Mobilization")
+                .VerifyTasklineInAgreement(0, "1100L", "3", "General Recycling", "1000", "Kilograms")
+                .ExpandAgreementHeader("Regular")
+                .VerifyTasklineInAgreement(1, "1100L", "2", "General Recycling", "1000", "Kilograms")
+                .ExpandAgreementHeader("De-Mobilization")
+                .VerifyTasklineInAgreement(2, "1100L", "3", "General Recycling", "1000", "Kilograms")
+                .ExpandAgreementHeader("Ad-hoc")
+                .VerifyTasklineInAgreement(3, "1100L", "3", "General Recycling", "1000", "Kilograms");
+        }
+
+        [Category("Credit note")]
+        [Category("Huong")]
+        [Test(Description = "Verify no duplication occur in salescreditlines grid")]
+        public void TC_230_The_orphan_salescreditlines_are_duplicated_in_the_grid()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/parties/68");
+            PageFactoryManager.Get<LoginPage>()
+                .SendKeyToUsername(AutoUser6.UserName)
+                .SendKeyToPassword(AutoUser6.Password)
+                .ClickOnSignIn();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickOnAccountStatement()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AccountStatementPage>()
+               .ClickCreateCreditNote()
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CreditNotePage>().VerifyNotDuplicateSaleCreditLine();
+            CommonFinder finder = new CommonFinder(DbContext);
+            var saleCreditLines = finder.GetSaleCreditLineDBs();
+            var duplicates = saleCreditLines.GroupBy(x => x.salescreditlineID)
+                                .Where(g => g.Count() > 1)
+                                .Select(y => y.Key)
+                                .ToList();
+            Assert.IsTrue(duplicates.Count == 0);
         }
     }
 }

@@ -133,6 +133,12 @@ namespace si_automated_tests.Source.Core
             return driverWait.Until(ExpectedConditions.PresenceOfAllElementsLocatedBy(by));
         }
         [AllureStep]
+        public static IWebElement WaitForElementsPresent(By by)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(shortTimeOut));
+            return driverWait.Until(ExpectedConditions.ElementExists(by));
+        }
+        [AllureStep]
         public static IList<IWebElement> WaitForAllElementsVisible(string xpath)
         {
             By by = By.XPath(xpath);

@@ -37,6 +37,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
         [AllureStep]
+        public EventActionPage ClickOnAllocatedUnitLabel()
+        {
+            ClickOnElement("//label[text()='Allocated Unit']");
+            return this;
+        }
+        [AllureStep]
         public EventActionPage ClickOnAllocatedUser()
         {
             ClickOnElement(allocatedUserDd);
@@ -46,6 +52,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventActionPage SelectAnyAllocatedUnit(string allocatedUnitOption)
         {
             ClickOnElement(anyOptionInAllocatedUnitDd, allocatedUnitOption);
+            SleepTimeInMiliseconds(500);
             return this;
         }
         [AllureStep]
@@ -61,7 +68,10 @@ namespace si_automated_tests.Source.Main.Pages.Events
             List<IWebElement> allOptions = GetAllElements(allOptionsInAllocatedUnitDd);
             foreach(IWebElement e in allOptions)
             {
-                results.Add(GetElementText(e));
+                if (GetElementText(e) != "")
+                {
+                    results.Add(GetElementText(e));
+                }
             }
             return results;
         }
@@ -72,7 +82,10 @@ namespace si_automated_tests.Source.Main.Pages.Events
             List<IWebElement> allOptions = GetAllElements(allOptionsInAllocatedUserDd);
             foreach (IWebElement e in allOptions)
             {
-                results.Add(GetElementText(e));
+                if (GetElementText(e) != "")
+                {
+                    results.Add(GetElementText(e));
+                }
             }
             return results;
         }
