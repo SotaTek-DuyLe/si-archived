@@ -476,7 +476,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
                 .IsOnPriceTab()
-                .RemoveAllRedundantPrices()
+                .ClosePriceRecords()
                 .ClickNext()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
