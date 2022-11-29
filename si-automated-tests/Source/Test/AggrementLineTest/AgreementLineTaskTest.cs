@@ -601,9 +601,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickAddAsset()
                 .VerifyInputValue(assetAndProductTab.assetQuantity, "1");
             DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
-            assetAndProductTab.VerifyDeliveryDate(londonCurrentDate.AddDays(7).ToString("dd/MM/yyyy"))
+            assetAndProductTab
                 .ChooseAssetType("1100L")
                 .ChooseTenure("Rental")
+                .VerifyDeliveryDate(londonCurrentDate.AddDays(7).ToString("dd/MM/yyyy"))
                 .ChooseProduct("General Recycling")
                 .ChooseEwcCode("150106")
                 .EditAssertClickDoneBtn()
@@ -624,7 +625,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab();
             PageFactoryManager.Get<PriceTab>()
-               .RemoveAllRedundantPrices()
+               .RemoveAllRedundantPricesIfNeededToEnableNextButton()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
