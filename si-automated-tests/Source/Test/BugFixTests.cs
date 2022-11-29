@@ -24,6 +24,7 @@ using si_automated_tests.Source.Main.Pages.Paties.Sites;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
+using si_automated_tests.Source.Main.Pages.Search.PointAreas;
 using si_automated_tests.Source.Main.Pages.Search.PointNodes;
 using si_automated_tests.Source.Main.Pages.Search.PointSegment;
 using si_automated_tests.Source.Main.Pages.Services;
@@ -631,64 +632,64 @@ namespace si_automated_tests.Source.Test
                 .VerifyConfirmButtonEnabled(true);
         }
 
-        //[Category("ServiceUnitPoint")]
-        //[Category("Chang")]
-        //[Test(Description = "Service Unit point map showing incorrect data (bug fix) - Point Area")]
-        //public void TC_205_Service_Unit_point_map_showing_incorrect_data_point_area()
-        //{
-        //    string idArea = "6";
+        [Category("ServiceUnitPoint")]
+        [Category("Chang")]
+        [Test(Description = "Service Unit point map showing incorrect data (bug fix) - Point Area")]
+        public void TC_205_Service_Unit_point_map_showing_incorrect_data_point_area()
+        {
+            string idArea = "6";
 
-        //    PageFactoryManager.Get<LoginPage>()
-        //           .GoToURL(WebUrl.MainPageUrl);
-        //    PageFactoryManager.Get<LoginPage>()
-        //        .IsOnLoginPage()
-        //        .Login(AutoUser46.UserName, AutoUser46.Password)
-        //        .IsOnHomePage(AutoUser46);
-        //    PageFactoryManager.Get<NavigationBase>()
-        //        .ClickMainOption(MainOption.Services)
-        //        .ExpandOption("Regions")
-        //        .ExpandOption(Region.UK)
-        //        ExpandOption(Contract.Municipal)
-        //.ExpandOptionLast(Contract.RM)
-        //        .OpenOption("Point Areas")
-        //        .SwitchNewIFrame();
-        //    //Step line 8: Open a point node
-        //    PageFactoryManager.Get<PointAreaListingPage>()
-        //        .WaitForPointAreaListingPageDisplayed()
-        //        .FilterAreaById(idArea)
-        //        .DoubleClickFirstPointAreaRow()
-        //        .SwitchToChildWindow(2)
-        //        .WaitForLoadingIconToDisappear();
-        //    PointAreaDetailPage pointAreaDetailPage = PageFactoryManager.Get<PointAreaDetailPage>();
-        //    pointAreaDetailPage
-        //        .WaitForAreaDetailDisplayed();
-        //    string areaDesc = pointAreaDetailPage
-        //        .ClickOnMapTab()
-        //        .GetDescInMapTab();
-        //    pointAreaDetailPage
-        //        .ClickOnActiveServicesTab()
-        //        .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.Municipal)
+                .ExpandOptionLast(Contract.RM)
+                .OpenOption("Point Areas")
+                .SwitchNewIFrame();
+            //Step line 8: Open a point node
+            PageFactoryManager.Get<PointAreaListingPage>()
+                .WaitForPointAreaListingPageDisplayed()
+                .FilterAreaById(idArea)
+                .DoubleClickFirstPointAreaRow()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PointAreaDetailPage pointAreaDetailPage = PageFactoryManager.Get<PointAreaDetailPage>();
+            pointAreaDetailPage
+                .WaitForAreaDetailDisplayed();
+            string areaDesc = pointAreaDetailPage
+                .ClickOnMapTab()
+                .GetDescInMapTab();
+            pointAreaDetailPage
+                .ClickOnActiveServicesTab()
+                .WaitForLoadingIconToDisappear();
 
-        //    //Step line 9: Open [Service unit]
-        //    pointAreaDetailPage
-        //        .ClickOnFirstServiceUnit()
-        //        .SwitchToChildWindow(3)
-        //        .WaitForLoadingIconToDisappear();
-        //    ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
-        //    //Step line 10: At [Service Unit] detail click on [Service Unit Points]
-        //    serviceUnitDetailPage
-        //        .IsServiceUnitDetailPage()
-        //        .ClickOnServiceUnitPointsTab()
-        //        .DoubleClickOnServiceUnitPointId(idArea)
-        //        .SwitchToChildWindow(4)
-        //        .WaitForLoadingIconToDisappear();
+            //Step line 9: Open [Service unit]
+            pointAreaDetailPage
+                .ClickOnFirstServiceUnit()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
+            //Step line 10: At [Service Unit] detail click on [Service Unit Points]
+            serviceUnitDetailPage
+                .IsServiceUnitDetailPage()
+                .ClickOnServiceUnitPointsTab()
+                .DoubleClickOnServiceUnitPointId(idArea)
+                .SwitchToChildWindow(4)
+                .WaitForLoadingIconToDisappear();
 
-        //    ServiceUnitPointDetailPage serviceUnitPointDetailPage = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
-        //    serviceUnitPointDetailPage
-        //        .IsServiceUnitPointDetailPage(areaDesc)
-        //        .ClickOnMapTab()
-        //        .VerifyValueInMapTabAreaType(areaDesc);
-        //}
+            ServiceUnitPointDetailPage serviceUnitPointDetailPage = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
+            serviceUnitPointDetailPage
+                .IsServiceUnitPointDetailPage(areaDesc)
+                .ClickOnMapTab()
+                .VerifyValueInMapTabAreaType(areaDesc);
+        }
 
         [Category("BugFix")]
         [Category("Chang")]
@@ -725,7 +726,7 @@ namespace si_automated_tests.Source.Test
                 .SelectPartyType(1)
                 .ClickSaveBtn();
             PageFactoryManager.Get<DetailPartyPage>()
-                .SleepTimeInSeconds(1);
+                .SleepTimeInSeconds(4);
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName)
                 .ClickAllTabAndVerify()

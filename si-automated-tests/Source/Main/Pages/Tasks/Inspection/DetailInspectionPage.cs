@@ -452,7 +452,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         [AllureStep]
         public DetailInspectionPage VerifyFieldsInDataTabDisabled(string streetGradeExp)
         {
-            Assert.IsTrue(IsControlUnDisplayed(addNewBtnImage), "Add New Item is displayed");
             Assert.AreEqual(GetAttributeValue(issueFoundCheckbox, "disabled"), "true");
             Assert.AreEqual(GetAttributeValue(streetGradeDd, "disabled"), "true");
             Assert.AreEqual(GetFirstSelectedItemInDropdown(streetGradeDd), streetGradeExp);
