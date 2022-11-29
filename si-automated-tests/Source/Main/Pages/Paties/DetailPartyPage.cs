@@ -44,6 +44,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By accountStatementTabAlt = By.XPath("//span[text()='Account Statement']/parent::a");
         private readonly By historyTab = By.XPath("//ul[contains(@class,'nav-tabs')]/li[contains(@style,'visible')]/a[@aria-controls='partyHistory-tab']");
         private readonly By historyTabAlt = By.XPath("//span[text()='History']/parent::a");
+        private readonly By notesTab = By.XPath("//ul[contains(@class,'nav-tabs')]/li[contains(@style,'visible')]/a[@aria-controls='notes-tab']");
+        private readonly By notesTabAlt = By.XPath("(//ul[contains(@class,'nav-tabs')]//a[@aria-controls='notes-tab'])[2]");
 
         //COMMON DYNAMIC LOCATOR
         private const string partyName = "//p[text()='{0}']";
@@ -147,6 +149,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         //HISTORY TAB
         private readonly string historyItem = "(//span[text()='{0}']/following-sibling::span[1])[1]";
         private readonly By firstUpdatedUser = By.XPath("(//strong[text()='Update - Party'])[1]/parent::div/following-sibling::div/strong[1]");
+
+        //NOTES TAB
+        private readonly By titleInNotesTab = By.XPath("//label[text()='Title']/following-sibling::input");
+        private readonly By notesInNotesTab = By.XPath("//label[text()='Note']/following-sibling::textarea");
 
         //STEP
         [AllureStep]
@@ -1096,6 +1102,21 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         [AllureStep]
+        public DetailPartyPage ClickOnNotesTab()
+        {
+            if (!IsControlDisplayedNotThrowEx(notesTab))
+            {
+                ClickTabDropDown();
+                ClickOnElement(notesTabAlt);
+            }
+            else
+            {
+                ClickOnElement(notesTab);
+            }
+            return this;
+        }
+
+        [AllureStep]
         public DetailPartyPage VerifyInfoInHistoryTab(string[] historyTitle, string[] valueExp, string userUpdatedValue)
         {
             Assert.AreEqual(userUpdatedValue, GetElementText(firstUpdatedUser));
@@ -1110,6 +1131,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage VerifyRestrictedSite(string restrictedSiteValue)
         {
             Assert.AreEqual(restrictedSiteValue, GetElementText(historyItem, "Restricted Site"));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyDisplayNotesTab()
+        {
+            Assert.IsTrue(IsControlDisplayed(titleInNotesTab), "Title input in Notes tab is not displayed");
+            Assert.IsTrue(IsControlDisplayed(notesInNotesTab), "Notes input in Notes tab is not displayed");
             return this;
         }
     }

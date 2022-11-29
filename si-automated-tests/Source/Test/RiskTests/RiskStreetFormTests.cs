@@ -288,7 +288,7 @@ namespace si_automated_tests.Source.Test.RiskTests
             riskDetailPage.WaitForLoadingIconToDisappear();
             riskDetailPage.VerifyInputValue(riskDetailPage.StartDateInput, startDate.Replace(" 00:00", ""))
                 .VerifyInputValue(riskDetailPage.EndDateInput, endDate.Replace(" 00:00", ""))
-                .VerifyCheckboxIsSelected(riskDetailPage.ProximityInput, false)
+                .VerifyCheckboxIsSelected(riskDetailPage.ProximityInput, true)
                 .VerifyInputValue(riskDetailPage.NoteInput, migitationNote);
             riskDetailPage.ClickOnElement(riskDetailPage.HyperLink);
             riskDetailPage.SwitchToChildWindow(3)

@@ -29,8 +29,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
         [AllureStep]
         public CreateAdHocTaskPage VerifyAdHocTaskIsCreated()
         {
-            string url = driver.Url;
+            string url = GetCurrentUrl();
             string id = url.Split('/').LastOrDefault();
+            Console.WriteLine(id);
             Assert.IsTrue(id.AsInteger() > 0);
             return this;
         }
