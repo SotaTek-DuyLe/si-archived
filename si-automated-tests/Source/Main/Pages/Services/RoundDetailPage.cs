@@ -128,13 +128,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public string GetRoundName()
         {
+            WaitUtil.WaitForTextToDisappearInElement(roundGroupHyperLink, "");
             return GetElementText(roundGroupHyperLink);
         }
         [AllureStep]
         public RoundGroupPage ClickRoundGroupHyperLink()
         {
             WaitUtil.WaitForElementSize(roundGroupHyperLink);
-            //Console.WriteLine(e.Size.ToString());
             ClickOnElement(roundGroupHyperLink);
             return PageFactoryManager.Get<RoundGroupPage>();
         }

@@ -196,6 +196,16 @@ namespace si_automated_tests.Source.Core
             });
         }
         [AllureStep]
+        public static void WaitForTextToDisappearInElement(By by, string textToDisappear)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(shortTimeOut));
+            driverWait.Until((driver) =>
+            {
+                var element = driver.FindElement(by);
+                return element.Text != textToDisappear;
+            });
+        }
+        [AllureStep]
         public static void WaitForElementSize(By by)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(shortTimeOut));
