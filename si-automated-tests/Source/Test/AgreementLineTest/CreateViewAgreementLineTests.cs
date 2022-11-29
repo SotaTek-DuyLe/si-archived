@@ -16,7 +16,7 @@ using si_automated_tests.Source.Main.Pages.Task;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 
-namespace si_automated_tests.Source.Test.PartiesTests
+namespace si_automated_tests.Source.Test.AggrementLineTest
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
