@@ -23,18 +23,18 @@ namespace si_automated_tests.Source.Core
                     string host = TestContext.Parameters.Get("host");
                     string useIntegratedSecurity = TestContext.Parameters.Get("useIntegratedSecurity");
                     string db = TestContext.Parameters.Get("dbname");
-                    if (useIntegratedSecurity.Equals("true", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        Logger.Get().Info("Using Integrated Security");
-                        DbContext = new DatabaseContext(host, db);
-                    }
-                    else
-                    {
-                        Logger.Get().Info("Using Creds");
-                        string userId = TestContext.Parameters.Get("dbusername");
-                        string password = TestContext.Parameters.Get("dbpassword");
-                        DbContext = new DatabaseContext(host, db, userId, password);
-                    }
+                    //if (useIntegratedSecurity.Equals("true", StringComparison.InvariantCultureIgnoreCase))
+                    //{
+                    //    Logger.Get().Info("Using Integrated Security");
+                    //    DbContext = new DatabaseContext(host, db);
+                    //}
+                    //else
+                    //{
+                    //    Logger.Get().Info("Using Creds");
+                    //    string userId = TestContext.Parameters.Get("dbusername");
+                    //    string password = TestContext.Parameters.Get("dbpassword");
+                    //    DbContext = new DatabaseContext(host, db, userId, password);
+                    //}
                 }
                 catch (Exception e)
                 {
