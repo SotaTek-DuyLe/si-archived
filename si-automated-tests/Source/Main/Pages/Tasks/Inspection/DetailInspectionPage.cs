@@ -491,7 +491,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         [AllureStep]
         public DetailInspectionPage VerifyAllFieldsInDataTabDisabled()
         {
-            Assert.IsTrue(IsControlUnDisplayed(addNewBtnImage), "Add New Item is displayed");
             Assert.AreEqual(GetAttributeValue(accessPointInputInDataTab, "disabled"), "true");
             Assert.AreEqual(GetAttributeValue(notesInputInDataTab, "disabled"), "true");
             return this;
@@ -500,7 +499,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         [AllureStep]
         public DetailInspectionPage VerifyTheImageIsReadOnly()
         {
-            Assert.IsTrue(IsControlUnDisplayed(addNewBtnImage), "Add New Item is displayed");
             Assert.IsTrue(GetAttributeValue(imgThumbnailTag, "class").Contains("disabled"));
             Assert.IsTrue(GetAttributeValue(closeImgBtn, "class").Contains("disabled"));
             Assert.AreEqual("true", GetAttributeValueElementPresent(inputImage, "disabled"));
