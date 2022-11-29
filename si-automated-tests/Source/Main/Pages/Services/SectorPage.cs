@@ -13,9 +13,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By ButtonHelp = By.XPath("//button[@title='Help']");
         public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']");
         public readonly By MapTab = By.XPath("//a[@aria-controls='map-tab']");
-        public readonly By InputSector = By.XPath("//input[@name='contract']");
+        public readonly By InputSector = By.XPath("//input[@name='sector']");
         public readonly By SelectContract = By.XPath("//select[@id='contract.id']");
-        public readonly By SelectParentSector = By.XPath("//select[@id='region.id']");
+        public readonly By SelectParentSector = By.XPath("//select[@id='parentSector.id']");
         public readonly By SelectSectorType = By.XPath("//select[@id='sectorType.id']");
         public readonly By DivMap = By.XPath("//div[@id='map-tab']");
         public readonly By IconSector = By.XPath("//div[contains(@class, 'echo-header')]//img");
