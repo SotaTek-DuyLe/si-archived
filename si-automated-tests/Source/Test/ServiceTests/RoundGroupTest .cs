@@ -592,7 +592,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickSiteTab()
                 .IsOnSiteTab()
                 .ClickRemoveRightSite("Kingston Tip");
-            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundGroupPage>()
                 .CheckRightSiteVisibility("Kingston Tip", false)
                 .CheckLeftSiteVisibility("Kingston Tip", true)
@@ -600,7 +601,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear()
                 .VerifyToastMessage("Success");
             PageFactoryManager.Get<RoundGroupPage>()
-                .ClickAddLeftSite("Kingston Tip")
+                .ClickAddLeftSite("Kingston Tip");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundGroupPage>()
                 .CheckRightSiteVisibility("Kingston Tip", true)
                 .CheckLeftSiteVisibility("Kingston Tip", false)
                 .ClickSaveBtn()
