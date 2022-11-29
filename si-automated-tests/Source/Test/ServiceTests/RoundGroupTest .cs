@@ -475,7 +475,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             RoundGroupPage roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
             roundGroupPage.WaitForLoadingIconToDisappear();
             roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
-            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(3000);
             string tomorrow = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             string endDate = DateTime.Now.AddDays(1).AddYears(1).ToString("dd/MM/yyyy");
             roundGroupPage
