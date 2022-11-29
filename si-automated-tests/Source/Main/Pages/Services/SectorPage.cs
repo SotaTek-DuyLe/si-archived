@@ -2,9 +2,6 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
-using si_automated_tests.Source.Main.Constants;
-using System;
-using System.Threading;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {

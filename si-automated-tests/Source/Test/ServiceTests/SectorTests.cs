@@ -228,10 +228,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
         [Test(Description = "Verify that a new sector form is opened ")]
         public void TC_129_Verify_that_a_new_sector_form_is_opened()
         {
-            string sector = Contract.Commercial;
+            string sector = Contract.RMC;
 
             PageFactoryManager.Get<NavigationBase>()
-                   .OpenLastOption(Contract.Commercial);
+                   .OpenLastOption(Contract.RMC);
             SectorPage sectorPage = PageFactoryManager.Get<SectorPage>();
             sectorPage.WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
@@ -281,7 +281,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.Commercial)
-                .OpenLastOption(Contract.Commercial)
+                .OpenLastOption(Contract.RMC)
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             sectorPage.VerifyElementVisibility(sectorPage.DivMap, true);
@@ -293,7 +293,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.Commercial)
-                .OpenLastOption(Contract.Commercial)
+                .OpenLastOption(Contract.RMC)
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             sectorPage.VerifyElementVisibility(sectorPage.InputSector, true)

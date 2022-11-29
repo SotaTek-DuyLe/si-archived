@@ -148,7 +148,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         [AllureStep]
         public DetailInspectionPage VerifyStateInspection(string stateExpected)
         {
-            Assert.AreEqual(GetElementText(inspectionState), stateExpected);
+            Assert.AreEqual(stateExpected, GetElementText(inspectionState));
             return this;
         }
         [AllureStep]
@@ -452,7 +452,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         [AllureStep]
         public DetailInspectionPage VerifyFieldsInDataTabDisabled(string streetGradeExp)
         {
-            Assert.AreEqual(GetAttributeValue(addNewBtnImage, "disabled"), "true");
             Assert.AreEqual(GetAttributeValue(issueFoundCheckbox, "disabled"), "true");
             Assert.AreEqual(GetAttributeValue(streetGradeDd, "disabled"), "true");
             Assert.AreEqual(GetFirstSelectedItemInDropdown(streetGradeDd), streetGradeExp);
@@ -491,7 +490,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         [AllureStep]
         public DetailInspectionPage VerifyAllFieldsInDataTabDisabled()
         {
-            Assert.AreEqual(GetAttributeValue(addNewBtnImage, "disabled"), "true");
             Assert.AreEqual(GetAttributeValue(accessPointInputInDataTab, "disabled"), "true");
             Assert.AreEqual(GetAttributeValue(notesInputInDataTab, "disabled"), "true");
             return this;
@@ -500,7 +498,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         [AllureStep]
         public DetailInspectionPage VerifyTheImageIsReadOnly()
         {
-            Assert.AreEqual("true", GetAttributeValue(addNewBtnImage, "disabled"));
             Assert.IsTrue(GetAttributeValue(imgThumbnailTag, "class").Contains("disabled"));
             Assert.IsTrue(GetAttributeValue(closeImgBtn, "class").Contains("disabled"));
             Assert.AreEqual("true", GetAttributeValueElementPresent(inputImage, "disabled"));

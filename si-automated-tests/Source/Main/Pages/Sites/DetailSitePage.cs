@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
@@ -13,9 +12,13 @@ namespace si_automated_tests.Source.Main.Pages.Sites
 {
     public class DetailSitePage : BasePage
     {
+        private readonly By title = By.XPath("//span[text()='Serviced Site']");
+        private readonly By notesTab = By.CssSelector("a[aria-controls='notes-tab']");
         private readonly By nextCalendarBtn = By.XPath("//div[@class='fc-left']//button[contains(@class,'fc-next-button')]");
         private readonly By canlendarTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='calendar-tab']");
         private readonly By rowsCalendarTableInMonth = By.XPath("//div[@class='fc-content-skeleton']//table//tbody//tr");
+        private readonly By titleInNotesTab = By.XPath("//label[text()='Title']/following-sibling::input");
+        private readonly By noteInNotesTab = By.XPath("//label[text()='Note']/following-sibling::textarea");
 
         [AllureStep]
         public DetailSitePage ClickCalendarTab()
@@ -76,6 +79,28 @@ namespace si_automated_tests.Source.Main.Pages.Sites
                 }
             }
             return serviceTasks;
+        }
+
+        [AllureStep]
+        public DetailSitePage IsDetailSitePage()
+        {
+            WaitUtil.WaitForElementVisible(title);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailSitePage ClickOnNotesTab()
+        {
+            ClickOnElement(notesTab);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailSitePage IsNotesTab()
+        {
+            Assert.IsTrue(IsControlDisplayed(titleInNotesTab), "Title in Notes tab is not displayed");
+            Assert.IsTrue(IsControlDisplayed(noteInNotesTab), "Note in Notes tab is not displayed");
+            return this;
         }
     }
 }

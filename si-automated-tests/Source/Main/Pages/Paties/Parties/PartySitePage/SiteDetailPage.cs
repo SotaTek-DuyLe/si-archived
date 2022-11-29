@@ -21,6 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private const string loadingData = "//div[@class='loading-data']";
         private const string frameMessage = "//div[@class='notifyjs-corner']/div";
         private const string allTabDisplayedNotContainsMapTab = "//li[@role='presentation']/a[not(contains(text(), 'Map'))]";
+        private const string allTabDisplayed = "//li[@role='presentation']/a";
         private readonly By stationTab = By.XPath("//a[text()='Stations']");
 
         //STATION TAB
@@ -140,7 +141,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         [AllureStep]
         public SiteDetailPage ClickSomeTabAndVerifyNoErrorMessage()
         {
-            List<IWebElement> allElements = GetAllElements(allTabDisplayedNotContainsMapTab);
+            List<IWebElement> allElements = GetAllElements(allTabDisplayed);
             int clickButtonIdx = 0;
             while (clickButtonIdx < allElements.Count)
             {
@@ -148,7 +149,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
                 clickButtonIdx++;
                 WaitUtil.WaitForElementInvisible(loadingData);
                 Assert.IsFalse(IsControlDisplayedNotThrowEx(frameMessage));
-                allElements = GetAllElements(allTabDisplayedNotContainsMapTab);
+                allElements = GetAllElements(allTabDisplayed);
             }
             return this;
         }

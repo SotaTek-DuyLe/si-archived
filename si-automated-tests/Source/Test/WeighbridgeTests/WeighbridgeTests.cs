@@ -435,8 +435,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayAllTab(CommonConstants.AllSiteTabCase46)
                 .ClickDetailTab()
                 .ClickSomeTabAndVerifyNoErrorMessage()
-                .ClickMapTabAndVerifyMessage(MessageRequiredFieldConstants.WBMapTabWarningMessage)
-                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.WBMapTabWarningMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             detailPartyPage
@@ -610,8 +608,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, addressSite1 + " / " + addressAdded)
                 .VerifyDisplayAllTab(CommonConstants.AllSiteTabCase47)
                 .ClickDetailTab()
-                .ClickSomeTabAndVerifyNoErrorMessage()
-                .ClickMapTabAndVerifyMessage(MessageRequiredFieldConstants.WBMapTabWarningMessage);
+                .ClickSomeTabAndVerifyNoErrorMessage();
         }
 
         //This TC depends on the TC-045, TC-046 and TC-047

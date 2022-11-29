@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
@@ -12,6 +13,9 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
         private readonly By assignedUser = By.XPath("//label[text()='Assigned User']/following-sibling::div");
         private readonly By assignedUserOption = By.XPath("//label[text()='Assigned User']/following-sibling::div//option");
+        private readonly By notesTab = By.CssSelector("a[aria-controls='notes-tab']");
+        private readonly By titleInNotesTab = By.XPath("//label[text()='Title']/following-sibling::input");
+        private readonly By noteInNotesTab = By.XPath("//label[text()='Note']/following-sibling::textarea");
 
         //DYNAMIC
         private readonly string partyName = "//p[text()='{0}']";
@@ -42,6 +46,21 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
                 allUserName.Add(GetElementText(webElement));
             }
             return allUserName;
+        }
+
+        [AllureStep]
+        public DetailCreditNotePage ClickOnNotesTab()
+        {
+            ClickOnElement(notesTab);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailCreditNotePage IsNotesTab()
+        {
+            Assert.IsTrue(IsControlDisplayed(titleInNotesTab), "Title in Notes tab is not displayed");
+            Assert.IsTrue(IsControlDisplayed(noteInNotesTab), "Note in Notes tab is not displayed");
+            return this;
         }
     }
 }
