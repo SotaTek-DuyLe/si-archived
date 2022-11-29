@@ -4,6 +4,7 @@ using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
@@ -1426,6 +1427,29 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createNewTicketPage.ClickOnElement(createNewTicketPage.HistoryTab);
             createNewTicketPage.WaitForLoadingIconToDisappear();
             createNewTicketPage.VerifyHistory(new List<string>() { "Cancelled" });
+        }
+
+        [Category("WB")]
+        [Category("Huong")]
+        [Test(Description = "Verify that only active users are displayed in the dropdown")]
+        public void TC_231_Retired_user_can_be_added_as_a_WB_station_user()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/weighbridge-stations/1");
+            WeighbridgeStationPage weighbridgeStationPage = PageFactoryManager.Get<WeighbridgeStationPage>();
+            weighbridgeStationPage.WaitForLoadingIconToDisappear();
+            weighbridgeStationPage.ClickOnElement(weighbridgeStationPage.WeighbridgeStationUserTab);
+            weighbridgeStationPage.WaitForLoadingIconToDisappear();
+            weighbridgeStationPage.ClickOnElement(weighbridgeStationPage.AddNewWeighbridgeButton);
+            weighbridgeStationPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            WeighbridgeStationUserPage weighbridgeStationUserPage = PageFactoryManager.Get<WeighbridgeStationUserPage>();
+            weighbridgeStationUserPage.ClickOnElement(weighbridgeStationUserPage.UserToggleDropdownButton);
+            weighbridgeStationUserPage.SendKeys(weighbridgeStationUserPage.SearchUserInput, "Neha");
+            weighbridgeStationUserPage.VerifyElementVisibility(weighbridgeStationUserPage.NoResultLabel, true);
+            CommonFinder finder = new CommonFinder(DbContext);
+            var inactiveUsers = finder.GetUserInActive();
+            Assert.IsTrue(inactiveUsers.Count != 0);
         }
     }
 }

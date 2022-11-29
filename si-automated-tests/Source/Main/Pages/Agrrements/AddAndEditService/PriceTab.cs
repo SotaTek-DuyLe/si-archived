@@ -12,7 +12,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
 {
     public class PriceTab : AddServicePage
     {
-        private readonly By closeBtns = By.XPath("//tr[contains(@data-bind,'placeholderText') and not(@style='display: none;')]/descendant::button[@title='Retire/Remove']");
+        private readonly By closeBtns = By.XPath("//tr[contains(@data-bind,'placeholderText') and not(@style='display: none;')]/descendant::button[@title='Retire/Remove' and not(@disabled)]");
         private readonly By Page4PricesText = By.XPath("//span[text()='4']/following-sibling::p[text()='Prices']");
 
         //fix locator for tc 016 017 
@@ -27,13 +27,14 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         [AllureStep]
         public PriceTab ClosePriceRecords()
         {
-            int count = 0;
-            while (count < 3)
+            if (IsControlDisplayedNotThrowEx(closeBtns))
             {
-                IList<IWebElement> priceRecords = WaitUtil.WaitForAllElementsVisible(closeBtns);
-                ClickOnElement(priceRecords[0]);
-                Thread.Sleep(500);
-                count++;
+                var _closeBtns = GetAllElements(closeBtns);
+                foreach (var item in _closeBtns)
+                {
+                    ClickOnElement(item);
+                    SleepTimeInMiliseconds(300);
+                }
             }
             return this;
         }
@@ -45,81 +46,10 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             return this;
         }
         [AllureStep]
-        public PriceTab RemoveAllRedundantPrice()
-        {
-            int i = 3;
-            while (i > 0)
-            {
-                if (!IsControlUnDisplayed(removePriceBtn))
-                {
-                    ClickOnElement(removePriceBtn);
-                    Thread.Sleep(1000);
-                    i--;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return this;
-        }
-        [AllureStep]
-        public PriceTab RemoveAllRedundantPrices()
-        {
-            List<IWebElement> allBtn = GetAllElements(redundantPrices);
-            foreach(IWebElement btn in allBtn)
-            {
-                ClickOnElement(btn);
-                Thread.Sleep(1000);
-            }
-            return this;
-        }
-        [AllureStep]
-        public PriceTab RemoveAllRedundantPrice17()
-        {
-            int i = 3;
-            while (i > 0)
-            {
-                if (!IsControlUnDisplayed(allPrices17))
-                {
-                    ClickOnElement(allPrices17);
-                    Thread.Sleep(1000);
-                    i--;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return this;
-        }
-        [AllureStep]
         public int GetRedundantPricesNum()
         {
             List<IWebElement> all = GetAllElements(redundantPriceAll);
             return all.Count;
-        }
-        [AllureStep]
-        public PriceTab RemoveAllRedundantPrices(int num)
-        {
-            int i = num;
-            while (i > 0)
-            {
-                if (!IsControlUnDisplayed(redundantPrice))
-                {
-                    ClickOnElement(redundantPrice);
-                    Thread.Sleep(1000);
-                    i--;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return this;
         }
         [AllureStep]
         public PriceTab ClickOnRemoveButton(List<string> commercialCustomers)

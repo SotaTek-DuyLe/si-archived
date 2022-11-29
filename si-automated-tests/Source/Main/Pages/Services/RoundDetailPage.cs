@@ -7,6 +7,7 @@ using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models.Services;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 
@@ -34,6 +35,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By retireBtn = By.XPath("./td//button[@title='Retire']");
         private readonly By editBtn = By.XPath("./td//button[@title='Edit']");
         private readonly By roundGroupHyperLink = By.XPath("//a[@class='typeUrl']");
+        private readonly By contractUnit = By.Id("contractUnit.id");
 
         [AllureStep]
         public RoundDetailPage VerifyRoundInput(string expectedValue)
@@ -50,13 +52,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public RoundDetailPage VerifyDispatchSite(string expectedValue)
         {
-            Assert.IsTrue(GetFirstSelectedItemInDropdown(dispatchSiteSelect) == expectedValue);
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(dispatchSiteSelect),expectedValue);
             return this;
         }
         [AllureStep]
         public RoundDetailPage VerifyShift(string expectedValue)
         {
-            Assert.IsTrue(GetFirstSelectedItemInDropdown(shiftSelect) == expectedValue);
+            int result = String.Compare(GetFirstSelectedItemInDropdown(shiftSelect), expectedValue, CultureInfo.CurrentCulture, CompareOptions.IgnoreSymbols);
+            Assert.AreEqual(0, result);
             return this;
         }
         [AllureStep]
@@ -122,14 +125,25 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.That(actual, Is.EquivalentTo(expected));
             return this;
         }
+        [AllureStep]
         public string GetRoundName()
         {
             return GetElementText(roundGroupHyperLink);
         }
+        [AllureStep]
         public RoundGroupPage ClickRoundGroupHyperLink()
         {
+            WaitUtil.WaitForElementSize(roundGroupHyperLink);
+            //Console.WriteLine(e.Size.ToString());
             ClickOnElement(roundGroupHyperLink);
             return PageFactoryManager.Get<RoundGroupPage>();
+        }
+        [AllureStep]
+        public RoundDetailPage VerifyContractUnit(string expected)
+        {
+            Assert.AreEqual(GetFirstSelectedItemInDropdown(contractUnit),expected);
+
+            return this;
         }
     }
 }
