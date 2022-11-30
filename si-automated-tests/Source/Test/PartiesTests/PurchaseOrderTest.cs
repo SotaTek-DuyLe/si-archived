@@ -722,7 +722,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .InputReferenceValue(refValue1);
             string savedUTCTime1 = PageFactoryManager.Get<TaskDetailTab>()
                 .ClickSaveBtnGetUTCTime();
-            string updatedUTCTime1 = CommonUtil.GetTimeMinusHour(savedUTCTime1, "dd/MM/yyyy hh:mm", 1);
+            string updatedUTCTime1 = CommonUtil.GetTimeMinusHour(savedUTCTime1, "dd/MM/yyyy hh:mm", 0);
             PageFactoryManager.Get<TaskDetailTab>()
                 .VerifyToastMessage("Success");
             //Go to History task and confirm task Update for Ref
