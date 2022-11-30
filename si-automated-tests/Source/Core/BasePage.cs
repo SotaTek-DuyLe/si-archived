@@ -173,6 +173,8 @@ namespace si_automated_tests.Source.Core
         public void ClickOnElement(By by)
         {
             WaitUtil
+                .WaitForElementVisible(by);
+            WaitUtil
                 .WaitForElementClickable(by)
                 .Click();
         }

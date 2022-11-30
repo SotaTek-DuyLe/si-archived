@@ -884,8 +884,6 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .SendKeyInDesc(secondDescRedRow)
-                .ClickOnExpandRoundsBtn()
-                .ClickOnExpandRoundLegsBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .VerifyDisplayResultAfterSearchWithDesc(secondDescRedRow)

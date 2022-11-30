@@ -68,7 +68,7 @@ namespace si_automated_tests.Source.Test.NoteTabTests
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickOnNoteTab();
+                .ClickOnNotesTab();
             noteTabPage.WaitForLoadingIconToDisappear();
             noteTabPage.VerifyElementVisibility(noteTabPage.TitleInput, true)
                 .VerifyElementVisibility(noteTabPage.NoteTextArea, true);

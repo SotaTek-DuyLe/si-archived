@@ -81,8 +81,7 @@ namespace si_automated_tests.Source.Test.TaskLineTests
             //Line 12: Run query to check
             List<TaskLineDBModel> taskLineDBModels = finder.GetTaskLineByTaskId(int.Parse(taskId));
             int resolutioncodeId = taskLineDBModels[0].resolutioncodeID;
-            List<ResolutionCodeDBModel> resolutionCodeDBModels = finder.GetResolutionCodeById(resolutioncodeId);
-            Assert.AreEqual(resolutionCodeDBModels[0].resolutioncode.Trim(), "");
+            Assert.AreEqual(resolutioncodeId, 0);
         }
     }
 }

@@ -238,10 +238,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
             //map-tab
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.MapTab);
             serviceUnitDetail.WaitForLoadingIconToDisappear(false);
-            serviceUnitDetail.ClickOnElement(serviceUnitDetail.ResetMapButton);
-            serviceUnitDetail.ClickOnElement(serviceUnitDetail.SaveMapButton);
-            serviceUnitDetail.VerifyToastMessage("Success")
-                .WaitUntilToastMessageInvisible("Success");
+            serviceUnitDetail
+                .VerifyNotDisplayErrorMessage();
+            //serviceUnitDetail.ClickOnResetMapBtn();
+            //serviceUnitDetail.WaitForLoadingIconToDisappear(false);
+            //serviceUnitDetail.ClickOnSaveMapBtn();
+            //serviceUnitDetail.VerifyToastMessage("Success")
+            //    .WaitUntilToastMessageInvisible("Success");
 
             //risk-tab
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.RiskTab);
@@ -338,9 +341,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceTaskPage
                 .IsServiceTaskPage();
             serviceTaskPage.ClickOnElement(serviceTaskPage.DetailTab);
-            serviceTaskPage.VerifyElementEnable(serviceTaskPage.StartDateInput, false)
-                .VerifyElementEnable(serviceTaskPage.EndDateInput, false)
-                .VerifyElementVisibility(serviceTaskPage.RetireButton, false);
+            serviceTaskPage.VerifyElementEnable(serviceTaskPage.StartDateInput, false);
+            serviceTaskPage.VerifyElementEnable(serviceTaskPage.EndDateInput, false);
+            serviceTaskPage.VerifyElementVisibility(serviceTaskPage.RetireButton, false);
             //Verify that all other updates can be done to the service task form details tab
 
             string fromDate = DateTime.Now.ToString("dd/MM/yyyy");

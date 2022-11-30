@@ -611,7 +611,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .ClickDeleteBtn()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(2);
             PageFactoryManager.Get<RemoveTaskPage>()
                 .IsDeleteTaskPopup()
                 //Click [ESC] btn
@@ -621,7 +621,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .ClickDeleteBtn()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(2);
             PageFactoryManager.Get<RemoveTaskPage>()
                 .IsDeleteTaskPopup()
                 //Click [Yes] btn

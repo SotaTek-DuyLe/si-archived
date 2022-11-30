@@ -27,6 +27,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         [AllureStep]
         public PriceTab ClosePriceRecords()
         {
+            SleepTimeInSeconds(1);
             if (IsControlDisplayedNotThrowEx(closeBtns))
             {
                 var _closeBtns = GetAllElements(closeBtns);
@@ -41,6 +42,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         [AllureStep]
         public PriceTab IsOnPriceTab()
         {
+            WaitForLoadingIconToDisappear();
             WaitUtil.WaitForAllElementsVisible(Page4PricesText);
             Assert.IsTrue(IsControlDisplayed(Page4PricesText));
             return this;

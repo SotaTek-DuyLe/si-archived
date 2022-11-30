@@ -24,11 +24,15 @@ using si_automated_tests.Source.Main.Pages.Paties.Sites;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
+using si_automated_tests.Source.Main.Pages.Search.PointAreas;
 using si_automated_tests.Source.Main.Pages.Search.PointNodes;
 using si_automated_tests.Source.Main.Pages.Search.PointSegment;
 using si_automated_tests.Source.Main.Pages.Services;
+using si_automated_tests.Source.Main.Pages.Sites;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
+using si_automated_tests.Source.Main.Pages.WB;
+using si_automated_tests.Source.Main.Pages.WB.Tickets;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 using ServiceUnitDetailPage = si_automated_tests.Source.Main.Pages.Services.ServiceUnitDetailPage;
 using ServiceUnitPage = si_automated_tests.Source.Main.Pages.Services.ServiceUnitPage;
@@ -628,64 +632,64 @@ namespace si_automated_tests.Source.Test
                 .VerifyConfirmButtonEnabled(true);
         }
 
-        //[Category("ServiceUnitPoint")]
-        //[Category("Chang")]
-        //[Test(Description = "Service Unit point map showing incorrect data (bug fix) - Point Area")]
-        //public void TC_205_Service_Unit_point_map_showing_incorrect_data_point_area()
-        //{
-        //    string idArea = "6";
+        [Category("ServiceUnitPoint")]
+        [Category("Chang")]
+        [Test(Description = "Service Unit point map showing incorrect data (bug fix) - Point Area")]
+        public void TC_205_Service_Unit_point_map_showing_incorrect_data_point_area()
+        {
+            string idArea = "6";
 
-        //    PageFactoryManager.Get<LoginPage>()
-        //           .GoToURL(WebUrl.MainPageUrl);
-        //    PageFactoryManager.Get<LoginPage>()
-        //        .IsOnLoginPage()
-        //        .Login(AutoUser46.UserName, AutoUser46.Password)
-        //        .IsOnHomePage(AutoUser46);
-        //    PageFactoryManager.Get<NavigationBase>()
-        //        .ClickMainOption(MainOption.Services)
-        //        .ExpandOption("Regions")
-        //        .ExpandOption(Region.UK)
-        //        ExpandOption(Contract.Municipal)
-        //.ExpandOptionLast(Contract.RM)
-        //        .OpenOption("Point Areas")
-        //        .SwitchNewIFrame();
-        //    //Step line 8: Open a point node
-        //    PageFactoryManager.Get<PointAreaListingPage>()
-        //        .WaitForPointAreaListingPageDisplayed()
-        //        .FilterAreaById(idArea)
-        //        .DoubleClickFirstPointAreaRow()
-        //        .SwitchToChildWindow(2)
-        //        .WaitForLoadingIconToDisappear();
-        //    PointAreaDetailPage pointAreaDetailPage = PageFactoryManager.Get<PointAreaDetailPage>();
-        //    pointAreaDetailPage
-        //        .WaitForAreaDetailDisplayed();
-        //    string areaDesc = pointAreaDetailPage
-        //        .ClickOnMapTab()
-        //        .GetDescInMapTab();
-        //    pointAreaDetailPage
-        //        .ClickOnActiveServicesTab()
-        //        .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.Municipal)
+                .ExpandOptionLast(Contract.RM)
+                .OpenOption("Point Areas")
+                .SwitchNewIFrame();
+            //Step line 8: Open a point node
+            PageFactoryManager.Get<PointAreaListingPage>()
+                .WaitForPointAreaListingPageDisplayed()
+                .FilterAreaById(idArea)
+                .DoubleClickFirstPointAreaRow()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PointAreaDetailPage pointAreaDetailPage = PageFactoryManager.Get<PointAreaDetailPage>();
+            pointAreaDetailPage
+                .WaitForAreaDetailDisplayed();
+            string areaDesc = pointAreaDetailPage
+                .ClickOnMapTab()
+                .GetDescInMapTab();
+            pointAreaDetailPage
+                .ClickOnActiveServicesTab()
+                .WaitForLoadingIconToDisappear();
 
-        //    //Step line 9: Open [Service unit]
-        //    pointAreaDetailPage
-        //        .ClickOnFirstServiceUnit()
-        //        .SwitchToChildWindow(3)
-        //        .WaitForLoadingIconToDisappear();
-        //    ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
-        //    //Step line 10: At [Service Unit] detail click on [Service Unit Points]
-        //    serviceUnitDetailPage
-        //        .IsServiceUnitDetailPage()
-        //        .ClickOnServiceUnitPointsTab()
-        //        .DoubleClickOnServiceUnitPointId(idArea)
-        //        .SwitchToChildWindow(4)
-        //        .WaitForLoadingIconToDisappear();
+            //Step line 9: Open [Service unit]
+            pointAreaDetailPage
+                .ClickOnFirstServiceUnit()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
+            //Step line 10: At [Service Unit] detail click on [Service Unit Points]
+            serviceUnitDetailPage
+                .IsServiceUnitDetailPage()
+                .ClickOnServiceUnitPointsTab()
+                .DoubleClickOnServiceUnitPointId(idArea)
+                .SwitchToChildWindow(4)
+                .WaitForLoadingIconToDisappear();
 
-        //    ServiceUnitPointDetailPage serviceUnitPointDetailPage = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
-        //    serviceUnitPointDetailPage
-        //        .IsServiceUnitPointDetailPage(areaDesc)
-        //        .ClickOnMapTab()
-        //        .VerifyValueInMapTabAreaType(areaDesc);
-        //}
+            ServiceUnitPointDetailPage serviceUnitPointDetailPage = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
+            serviceUnitPointDetailPage
+                .IsServiceUnitPointDetailPage(areaDesc)
+                .ClickOnMapTab()
+                .VerifyValueInMapTabAreaType(areaDesc);
+        }
 
         [Category("BugFix")]
         [Category("Chang")]
@@ -722,8 +726,9 @@ namespace si_automated_tests.Source.Test
                 .SelectPartyType(1)
                 .ClickSaveBtn();
             PageFactoryManager.Get<DetailPartyPage>()
-                .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName);
+                .SleepTimeInSeconds(4);
             PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName)
                 .ClickAllTabAndVerify()
                 .ClickAllTabInDropdownAndVerify()
                 .ClickCloseBtn()
@@ -1018,7 +1023,6 @@ namespace si_automated_tests.Source.Test
             string validFromValue = CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT, -2);
             string validToValue = CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT, -1);
             detailInspectionPage
-               .VerifyStateInspection("Unallocated")
                .InputValidFrom(validFromValue)
                .InputValidTo(validToValue)
                .ClickSaveBtn()
@@ -1556,7 +1560,7 @@ namespace si_automated_tests.Source.Test
         [Test(Description = "Regeneration of sales invoice batch is not recorded (bug fix)")]
         public void TC_208_Regeneration_of_sales_invoice_batch_is_not_recorded()
         {
-            string saleBatchIdGeneratedStatus = "5";
+            string saleBatchIdGeneratedStatus = "6";
 
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
@@ -1786,8 +1790,6 @@ namespace si_automated_tests.Source.Test
                 .IsOnLoginPage()
                 .Login(AutoUser46.UserName, AutoUser46.Password)
                 .IsOnHomePage(AutoUser46);
-            PageFactoryManager.Get<HomePage>()
-                 .IsOnHomePage(AutoUser46);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Maps)
                 .OpenOption(Contract.Municipal)
@@ -1802,6 +1804,81 @@ namespace si_automated_tests.Source.Test
                 .ClickOnFirstRoundInRightHand()
                 .ClickOnOptionsTab()
                 .VerifyOptionIsNotDisplay("Show Road Trail For Selected Resource");
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "The notes tab is not loading correctly (bug fix)")]
+        public void TC_228_The_notes_tab_is_not_loading_correctly()
+        {
+            string partyName = "Ham Food Centre";
+            
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                //Party form
+                .GoToURL(WebUrl.MainPageUrl + "web/parties/1131");
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .waitForLoadingIconDisappear();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
+                .ClickOnNotesTab()
+                .VerifyDisplayNotesTab()
+                //Contact form
+                .GoToURL(WebUrl.MainPageUrl + "web/contacts/8");
+            PageFactoryManager.Get<CreatePartyContactPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CreatePartyContactPage>()
+                .IsCreatePartyContactPage()
+                .ClickOnNotesTab()
+                .VerifyDisplayNotesTab()
+                //Contract site form
+                .GoToURL(WebUrl.MainPageUrl + "web/contract-sites/3");
+            PageFactoryManager.Get<DetailContractSitePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailContractSitePage>()
+                .WaitForDetailContractSiteDisplayed()
+                .ClickOnNotesTab()
+                .IsNotesTab()
+                //Site form
+                .GoToURL(WebUrl.MainPageUrl + "web/sites/3");
+
+            PageFactoryManager.Get<DetailSitePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailSitePage>()
+                .IsDetailSitePage()
+                .ClickOnNotesTab()
+                .IsNotesTab()
+                //WB Station
+                .GoToURL(WebUrl.MainPageUrl + "web/weighbridge-stations/1");
+            PageFactoryManager.Get<DetailWBStationPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailWBStationPage>()
+                .IsDetailWBStationPage("Townmead Weighbridge")
+                .ClickOnNotesTab()
+                .IsNotesTab()
+                //WB Ticket
+                .GoToURL(WebUrl.MainPageUrl + "web/weighbridge-tickets/1");
+
+            PageFactoryManager.Get<WeighbridgeTicketDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<WeighbridgeTicketDetailPage>()
+                .IsWBTicketDetailPage("1")
+                .ClickOnNotesTab()
+                .IsNotesTab()
+                //Credit Notes
+                .GoToURL(WebUrl.MainPageUrl + "web/credit-notes/1");
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .IsCreditNoteDetailPage("TAPAS BRINDISA")
+                .ClickOnNotesTab()
+                .IsNotesTab();
         }
     }
 }

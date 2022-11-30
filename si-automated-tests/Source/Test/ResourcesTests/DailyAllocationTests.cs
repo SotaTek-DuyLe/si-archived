@@ -370,6 +370,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
+                .RefreshGrid()
                 .FilterResource("Resource", resourceName)
                 .VerifyFirstResultValue("Status", "Holiday");
             //View Resource Detail of vehicle resource

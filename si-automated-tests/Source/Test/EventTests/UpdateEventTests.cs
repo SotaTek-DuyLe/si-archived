@@ -124,7 +124,7 @@ namespace si_automated_tests.Source.Test.EventTests
             Assert.IsTrue(allAllocatedUserEventAction.SequenceEqual(assignedUserMapped));
             //Select [Allocated User]
             eventActionPage
-                .SelectAnyAllocatedUser(allAllocatedUserEventAction[1])
+                .SelectAnyAllocatedUser(allAllocatedUserEventAction[0])
                 .ClickSaveAndCloseBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToChildWindow(3)
@@ -134,13 +134,13 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ExpandDetailToggle()
                 .VerifyValueInStatus("Initial Assessment")
                 .VerifyValueInAllocatedUnit(allocatedUnitValue)
-                .VerifyValueInAssignedUser(allAllocatedUserEventAction[1]);
+                .VerifyValueInAssignedUser(allAllocatedUserEventAction[0]);
             //Verify value in [History] tab
             eventDetailPage
                 .ClickHistoryTab()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
-                .VerifyNewRecordInHistoryTab("Initial Assessment", allAllocatedUserEventAction[1], allocatedUnitValue, AutoUser60.DisplayName);
+                .VerifyNewRecordInHistoryTab("Initial Assessment", allAllocatedUserEventAction[0], allocatedUnitValue, AutoUser60.DisplayName);
             string newEventName = "NewEvent112" + CommonUtil.GetRandomString(5);
             //Back to [Data] tab and fill some fields
             eventDetailPage
@@ -199,7 +199,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ExpandDetailToggle()
                 .VerifyValueInStatus("New")
                 .VerifyValueInAllocatedUnit(allocatedUnitValue)
-                .VerifyValueInAssignedUser(allAllocatedUserEventAction[1])
+                .VerifyValueInAssignedUser(allAllocatedUserEventAction[0])
                 .ClickDataTab()
                 .WaitForLoadingIconToDisappear();
             string clientRef = "Client Ref 112" + CommonUtil.GetRandomString(4);
@@ -261,7 +261,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ExpandDetailToggle()
                 .VerifyValueInStatus("New")
                 .VerifyValueInAllocatedUnit(allocatedUnitValue)
-                .VerifyValueInAssignedUser(allAllocatedUserEventAction[1])
+                .VerifyValueInAssignedUser(allAllocatedUserEventAction[0])
                 .ClickDataTab()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
