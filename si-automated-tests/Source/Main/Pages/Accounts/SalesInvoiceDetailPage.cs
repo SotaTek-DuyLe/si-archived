@@ -15,6 +15,9 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By priceLineTab = By.CssSelector("a[aria-controls='priceLines-tab']");
         private readonly By linesTab = By.CssSelector("a[aria-controls='salesInvoiceLines-tab']");
 
+        //Uninvoiced popup
+        private readonly By confirmBtn = By.XPath("//button[text()='Confirm']");
+
         //PRICE LINES TAB
         private readonly By filterPriceLineInputById = By.XPath("//div[@id='priceLines-tab']//div[contains(@class, 'l0 r0')]/descendant::input");
         private readonly By applyPriceLineBtn = By.XPath("//div[@id='priceLines-tab']//button[@type='button' and @title='Apply Filters']");
@@ -80,6 +83,14 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             DoubleClickOnElement(firstLinesRecordRow);
             return PageFactoryManager.Get<SaleInvoiceLinePage>();
+        }
+        [AllureStep]
+        public SalesInvoiceDetailPage SelectFirstUninvoicedItem()
+        {
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickFirstItem();
+            ClickOnElement(confirmBtn);
+            return PageFactoryManager.Get<SalesInvoiceDetailPage>();
         }
     }
 }

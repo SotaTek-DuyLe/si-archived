@@ -636,7 +636,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<AccountStatementPage>()
-               .ClickCreateSaleInvoice()
+               .ClickCreateInvoice()
                .SwitchToLastWindow();
             PageFactoryManager.Get<CreateInvoicePage>()
                 .VerifyAccountReferenceIsReadonly()
@@ -1058,6 +1058,61 @@ namespace si_automated_tests.Source.Test.PartiesTests
                                 .Select(y => y.Key)
                                 .ToList();
             Assert.IsTrue(duplicates.Count == 0);
+        }
+        [Category("Sale invoice")]
+        [Category("Dee")]
+        [Test]
+        public void TC_168()
+        {
+            string lineType = "Commercial Line Type";
+            string site = "Chicken City - 388 RICHMOND ROAD, TWICKENHAM, TW1 2DY";
+            string product = "General Refuse";
+            string priceElement = "Revenue";
+            string quantity = "1";
+            string price = "100.00";
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/parties/68");
+            PageFactoryManager.Get<LoginPage>()
+                .SendKeyToUsername(AutoUser6.UserName)
+                .SendKeyToPassword(AutoUser6.Password)
+                .ClickOnSignIn();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickOnAccountStatement()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AccountStatementPage>()
+                .ClickCreateInvoiceItem()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SaleInvoiceLinePage>()
+                .IsOnSaleInvoiceLinePage()
+                .InputInfo(lineType, site, product, priceElement, quantity, price)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValueInTab("Transaction Type", "Uninvoiced Item")
+                .VerifyFirstResultValueInTab("", "")
+                .OpenFirstResult()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SaleInvoiceLinePage>()
+                .IsOnSaleInvoiceLinePage()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<AccountStatementPage>()
+                .ClickCreateInvoice()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SalesInvoiceDetailPage>()
+                .SelectFirstUninvoicedItem();
+            
+            
+            PageFactoryManager.Get<SalesInvoiceDetailPage>()
+                .SleepTimeInSeconds(3);
+
+
         }
     }
 }

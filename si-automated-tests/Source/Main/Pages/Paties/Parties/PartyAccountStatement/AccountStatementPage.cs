@@ -32,9 +32,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccountStatem
             return this;
         }
         [AllureStep]
-        public AccountStatementPage ClickCreateSaleInvoice()
+        public AccountStatementPage ClickCreateInvoice()
         {
             ClickOnButtonNamed("Create Invoice");
+            return this;
+        }
+        [AllureStep]
+        public AccountStatementPage ClickCreateInvoiceItem()
+        {
+            ClickOnButtonNamed("Create Invoice Item");
             return this;
         }
 
