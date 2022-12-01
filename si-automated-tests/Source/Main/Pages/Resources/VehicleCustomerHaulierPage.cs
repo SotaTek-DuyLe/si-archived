@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -14,11 +15,14 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
         private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
         private readonly By filterInput = By.CssSelector("input[title='Select/Deselect up to 100 records']");
         private const string TotalSiteRow = "//div[@class='grid-canvas']/div";
+        private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
+        private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
 
         //DYNAMIC
         private const string Column = "//span[text()='{0}']/parent::div";
         private const string ColumnInRow = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
 
+        [AllureStep]
         public VehicleCustomerHaulierPage VerifyVehicleCustomerHaulierPageDisplayed()
         {
             WaitForLoadingIconToDisappear();
@@ -29,13 +33,22 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             }
             return this;
         }
-
+        [AllureStep]
+        public VehicleCustomerHaulierPage FilterVehicleById(string id)
+        {
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(addNewItemBtn);
+            SendKeys(filterInputById, id);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
         public CreateVehicleCustomerHaulierPage ClickAddNewItemBtn()
         {
             ClickOnElement(addNewItemBtn);
             return PageFactoryManager.Get< CreateVehicleCustomerHaulierPage>();
         }
-
+        [AllureStep]
         public List<VehicleModel> GetAllVehicleModel()
         {
             List<VehicleModel> vehicleModels = new List<VehicleModel>();
@@ -62,7 +75,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             }
             return vehicleModels;
         }
-
+        [AllureStep]
         public VehicleCustomerHaulierPage VerifyVehicleCreated(VehicleModel vehicleModelDisplayed, string resource, string customer, string haulier, string hireStart, string hireEnd)
         {
             Assert.AreEqual(resource, vehicleModelDisplayed.Resource);

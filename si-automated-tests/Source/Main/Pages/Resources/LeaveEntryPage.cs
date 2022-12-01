@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -32,6 +34,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         //ALL RESOURCES TAB
         private readonly By totalUnavailableAM = By.XPath("((//div[@class='tab-pane active']//tr[@style='background-color: skyblue;'])[2]//span)[2]");
 
+        [AllureStep]
         public LeaveEntryPage IsOnLeaveEntryPage()
         {
             WaitUtil.WaitForElementVisible(leaveType);
@@ -39,6 +42,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             //WaitUtil.WaitForElementVisible(saveBtn);
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage SelectLeaveResource(string _resourceName)
         {
             ClickOnElement(selectBtn);
@@ -46,28 +50,33 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage SelectLeaveType(string _leaveType)
         {
             SelectTextFromDropDown(leaveType, _leaveType);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage SelectLeaveReason(string _leaveReason)
         {
             SelectTextFromDropDown(leaveReason, _leaveReason);
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage EnterDates(string _date)
         {
             SendKeys(startDate, _date);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage EnterDetails(string _details)
         {
             SendKeys(details, _details);
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage SaveLeaveEntry()
         {
             WaitForLoadingIconToDisappear();
@@ -75,6 +84,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage VerifyNewButtonsDisplayed()
         {
             WaitUtil.WaitForElementVisible(deleteBtn);
@@ -82,57 +92,69 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             WaitUtil.WaitForElementVisible(declineBtn);
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage ApproveLeaveEntry()
         {
             ClickOnElement(approveBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage DeclineLeaveEntry()
         {
             ClickOnElement(declineBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage DeleteLeaveEntry()
         {
             ClickOnElement(deleteBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage ConfirmApprovalLeaveEntry()
         {
             ClickOnElement(confirmApprovalBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage ConfirmDeclineLeaveEntry()
         {
             ClickOnElement(confirmDeclineBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage ConfirmDeleteLeaveEntry()
         {
             ClickOnElement(confirmDeleteBtn);
             WaitForLoadingIconToDisappear();
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage VerifyDateIsHighlighted(string date)
         {
             var xpath = String.Format(currentDateRow, date);
             Assert.AreEqual(GetAttributeValue(xpath, "style"), hightlightStyle);
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage VerifyResourceNamesArePresent(string[] names)
         {
             List<IWebElement> headers = GetAllElements(tableHeaders);
+            List<String> allNames = new List<String>();
             for(int i = 2; i < headers.Count; i++)
             {
-                Assert.AreEqual(names[i-2], GetElementText(headers[i]));
+                allNames.Add(GetElementText(headers[i]));
             }
+            bool isMatch = names.All(name => allNames.Contains(name));
+            Assert.IsTrue(isMatch, "Not every name are present");
             return this;
         }
+        [AllureStep]
         public LeaveEntryPage VerifyTotalUnavailableNumberIs(int num)
         {
             Assert.AreEqual(num.ToString(), GetElementText(totalUnavailableAM));

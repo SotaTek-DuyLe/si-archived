@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Models;
 
 namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
@@ -13,31 +15,62 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
         private readonly By suspensionBtn = By.XPath("//button[contains(string(), 'Add New Suspension')]");
         private readonly By suspensionCells = By.XPath("//div[@id='suspensions-tab']//div[@class='grid-canvas']//div//*");
 
+        private string suspensionTable = "//div[@id='suspensions-tab']//div[@class='grid-canvas']";
+        private string suspensionRow = "./div[contains(@class, 'slick-row')]";
+        private string sitesCell = "./div[contains(@class, 'l0')]";
+        private string servicesCell = "./div[contains(@class, 'l1')]";
+        private string fromDateCell = "./div[contains(@class, 'l2')]";
+        private string lastDateCell = "./div[contains(@class, 'l3')]";
+        private string suspensionDateCell = "./div[contains(@class, 'l4')]";
+
+        private TableElement suspensionTableEle;
+        public TableElement SuspensionTableEle
+        {
+            get => suspensionTableEle;
+        } 
+
+        public PartySuspensionPage()
+        {
+            suspensionTableEle = new TableElement(suspensionTable, suspensionRow, new List<string>() { sitesCell, servicesCell, fromDateCell, lastDateCell, suspensionDateCell });
+            suspensionTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+        }
+
+        [AllureStep]
         public PartySuspensionPage ClickAddNewSuspension()
         {
             ClickOnElement(suspensionBtn);
             return this;
         }
+        [AllureStep]
         public SuspensionModel GetNewSuspension()
         {
-            return GetAllSuspension().LastOrDefault();
+            return GetAllSuspension().FirstOrDefault();
         }
-
+        [AllureStep]
         public List<SuspensionModel> GetAllSuspension()
         {
-            List<IWebElement> cells = GetAllElements(suspensionCells);
             List<SuspensionModel> suspensions = new List<SuspensionModel>();
-            for (int i = 0; i < cells.Count; i = i + 5)
+            int count = SuspensionTableEle.GetRows().Count;
+            for (int i = 0; i < count; i++)
             {
-                SuspensionModel suspension = new SuspensionModel();
-                suspension.Sites = cells.Count > i ? GetElementText(cells[i]) : "";
-                suspension.Services = cells.Count > i + 1 ? GetElementText(cells[i + 1]) : "";
-                suspension.FromDate = cells.Count > i + 2 ? GetElementText(cells[i + 2]) : "";
-                suspension.LastDate = cells.Count > i + 3 ? GetElementText(cells[i + 3]) : "";
-                suspension.SuspensedDay = cells.Count > i + 4 ? GetElementText(cells[i + 4]) : "";
-                suspensions.Add(suspension);
+                SuspensionModel suspensionModel = new SuspensionModel();
+                suspensionModel.Sites = SuspensionTableEle.GetCellValue(i, 0).AsString();
+                suspensionModel.Services = SuspensionTableEle.GetCellValue(i, 1).AsString();
+                suspensionModel.FromDate = SuspensionTableEle.GetCellValue(i, 2).AsString();
+                suspensionModel.LastDate = SuspensionTableEle.GetCellValue(i, 3).AsString();
+                suspensionModel.SuspensedDay = SuspensionTableEle.GetCellValue(i, 4).AsString();
+                suspensions.Add(suspensionModel);
             }
             return suspensions;
+        }
+        [AllureStep]
+        public PartySuspensionPage ClickNewSuspension()
+        {
+            SuspensionTableEle.ClickRow(0);
+            return this;
         }
     }
 }

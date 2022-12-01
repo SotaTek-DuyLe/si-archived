@@ -1,4 +1,6 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
@@ -8,6 +10,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
     {
         private readonly By partyInput = By.XPath("//input[@type='search']");
         private readonly string partySelectOption = "//li[@class='list-group-item' and text()='{0}']";
+        private readonly By accountRefInput = By.Id("account-reference");
 
         //new tabs
         private readonly By lineTab = By.XPath("//a[@aria-controls='salesInvoiceLines-tab']");
@@ -16,7 +19,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         public CreateInvoicePage()
         {
         }
-
+        [AllureStep]
         public CreateInvoicePage IsOnCreateInvoicePage()
         {
             SwitchToLastWindow();
@@ -24,6 +27,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             WaitUtil.WaitForElementVisible(partyInput);
             return this;
         }
+        [AllureStep]
         public CreateInvoicePage SearchForParty(string partyName)
         {
             SendKeys(partyInput, partyName);
@@ -31,11 +35,18 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             ClickOnElement(partySelectOption, partyName);
             return this;
         }
+        [AllureStep]
         public CreateInvoicePage VerifyNewTabsArePresent()
         {
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(lineTab);
             WaitUtil.WaitForElementVisible(priceLine);
+            return this;
+        }
+        [AllureStep]
+        public CreateInvoicePage VerifyAccountReferenceIsReadonly()
+        {
+            Assert.AreEqual("true", GetAttributeValue(accountRefInput, "readonly"));
             return this;
         }
     }

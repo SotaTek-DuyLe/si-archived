@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using si_automated_tests.Source.Core;
 using OpenQA.Selenium;
 using NUnit.Framework;
+using NUnit.Allure.Attributes;
 
 namespace si_automated_tests.Source.Main.Pages.PartySitePage
 {
@@ -11,6 +12,15 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
         private readonly By CreateSiteAddressTitle = By.XPath("//h1[text()='Create/Edit Site Address']");
         private readonly By CancelBtn = By.XPath("//button[text()='Cancel']");
         private readonly By NextBtn = By.XPath("//button[text()='Next']");
+        private readonly By SearchInput = By.Id("search");
+        private readonly By SearchBtn = By.XPath("//button[@type='submit']");
+        private readonly string btnNamed = "//div[@style='display: block;']//button[contains(text(),'{0}')]";
+
+        //First screen
+        private readonly By searchResultScreen1 = By.XPath("//div[@id='screen1']//div[@data-bind='foreach: geocodedAddresses']/div");
+
+        //Second Screen
+        private readonly By searchResultScreen2 = By.XPath("//div[@id='screen2']//div[@data-bind='foreach: existingAddresses']/div");
 
         private readonly By SiteNameInput = By.XPath("//label[text()='Site Name']/following-sibling::input");
         private readonly By SelectAddressNextBtn = By.XPath("//button[text()='Next' and contains(@data-bind,'selectedExistingAddress')]");
@@ -22,6 +32,7 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
         //DYNAMIC LOCATOR
         private const string AnySite = "//select[@id = 'site-type']/option[text()='{0}']";
 
+        [AllureStep]
         public CreateEditSiteAddressPage IsOnCreateEditSiteAddressPage()
         {
             WaitUtil.WaitForPageLoaded();
@@ -31,13 +42,13 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
             Assert.IsTrue(IsControlDisplayed(NextBtn));
             return this;
         }
-
+        [AllureStep]
         public CreateEditSiteAddressPage VerifyCreateSiteAddressPageClosed()
         {
             Assert.False(IsControlDisplayed(CreateSiteAddressTitle));
             return this;
         }
-
+        [AllureStep]
         public string SelectRandomSiteAddress()
         {
             WaitUtil.WaitForElementVisible("//div[contains(@data-bind, 'existingAddresses')]/div[1]");
@@ -48,7 +59,7 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
             ClickOnElement(site);
             return GetElementText(site);
         }
-
+        [AllureStep]
         public CreateEditSiteAddressPage SelectSiteAddress(string address)
         {
             WaitUtil.WaitForElementVisible("//div[contains(@data-bind, 'existingAddresses')]/div[1]");
@@ -63,53 +74,90 @@ namespace si_automated_tests.Source.Main.Pages.PartySitePage
             }
             return this;
         }
-
+        [AllureStep]
         public CreateEditSiteAddressPage ClickNextBtn()
         {
             ScrollDownToElement(NextBtn);
             ClickOnElement(NextBtn);
             return this;
         }
-
+        [AllureStep]
         public CreateEditSiteAddressPage SelectAddressClickNextBtn()
         {
             ScrollDownToElement(SelectAddressNextBtn);
             ClickOnElement(SelectAddressNextBtn);
             return this;
         }
-
+        [AllureStep]
         public CreateEditSiteAddressPage InsertSiteName(string name)
         {
             SendKeys(SiteNameInput, name);
             return this;
         }
-
+        [AllureStep]
         public CreateEditSiteAddressPage VerifySiteNameValue(string name)
         {
             WaitUtil.WaitForElementVisible(SiteNameInput);
             Assert.AreEqual(GetElementText(SiteNameInput), name);
             return this;
         }
-
+        [AllureStep]
         public CreateEditSiteAddressPage ClickCreateBtn()
         {
             ClickOnElement(CreateBtn);
             return this;
         }
-
+        [AllureStep]
         public CreateEditSiteAddressPage VerifyDuplicateErrorMessage()
         {
             WaitUtil.WaitForElementVisible(ErrorMessageDublicateSite);
             Assert.IsTrue(IsControlDisplayed(ErrorMessageDublicateSite));
             return this;
         }
-
+        [AllureStep]
         public CreateEditSiteAddressPage ClickAnySiteInDd(string site)
         {
             ClickOnElement(siteDd);
             ClickOnElement(string.Format(AnySite, site));
             //verify after selected
             Assert.AreEqual(GetFirstSelectedItemInDropdown(siteDd), site);
+            return this;
+        }
+        [AllureStep]
+        public CreateEditSiteAddressPage SearchForSite(string siteName)
+        {
+            SendKeys(SearchInput, siteName);
+            ClickOnElement(SearchBtn);
+            return this;
+        }
+        [AllureStep]
+        public CreateEditSiteAddressPage SelectResultInScreen1(string value)
+        {
+            IList<IWebElement> list = WaitUtil.WaitForAllElementsVisible(searchResultScreen1);
+            foreach (var result in list)
+            {
+                if (GetElementText(result).Contains(value))
+                {
+                    ClickOnElement(result);
+                    break;
+                }
+            }
+            ClickOnElement(btnNamed, "Next");
+            return this;
+        }
+        [AllureStep]
+        public CreateEditSiteAddressPage SelectResultInScreen2(string value)
+        {
+            IList<IWebElement> list = WaitUtil.WaitForAllElementsVisible(searchResultScreen2);
+            foreach (var result in list)
+            {
+                if (GetElementText(result).Contains(value))
+                {
+                    ClickOnElement(result);
+                    break;
+                }
+            }
+            ClickOnElement(btnNamed, "Next");
             return this;
         }
     }

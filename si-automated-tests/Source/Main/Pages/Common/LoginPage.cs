@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 
@@ -14,6 +15,7 @@ namespace si_automated_tests.Source.Main.Pages
 
         private const string ErrorMessage = "//p[text()='Incorrect user name or password']";
 
+        [AllureStep]
         public LoginPage IsOnLoginPage()
         {
             WaitUtil.WaitForElementVisible(ForgotPasswordLink);
@@ -22,26 +24,31 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.IsTrue(IsControlDisplayed(SignInBtn));
             return this;
         }
+        [AllureStep]
         public LoginPage SendKeyToUsername(string UserName)
         {
             SendKeys(UserNameInput, UserName);
             return this;
         }
+        [AllureStep]
         public LoginPage SendKeyToPassword(string Password)
         {
             SendKeys(PasswordInput, Password);
             return this;
         }
+        [AllureStep]
         public LoginPage ClickOnSignIn()
         {
             ClickOnElement(SignInBtn);
             return this;
         }
+        [AllureStep]
         public LoginPage VerifyErrorMessageDisplay()
         {
             Assert.IsTrue(IsControlDisplayed(ErrorMessage));
             return this;
         }
+        [AllureStep]
         public HomePage Login(string username, string password)
         {
             SendKeyToUsername(username);

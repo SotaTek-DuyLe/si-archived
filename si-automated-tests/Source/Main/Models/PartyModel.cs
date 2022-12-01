@@ -8,6 +8,8 @@ namespace si_automated_tests.Source.Main.Models
         private string contractName;
         private string partyType;
         private string startDate;
+        public string accountNumber { get; set; }
+        public string accountRef { get; set; }
 
         public PartyModel(string partyName, string contractName, string startDate)
         {
@@ -15,6 +17,16 @@ namespace si_automated_tests.Source.Main.Models
             this.ContractName = contractName;
             this.StartDate = startDate;
             this.PartyType = "Customer";
+        }
+
+        public PartyModel(string partyName, string contractName, string accountNumber, string accountRef, string partyType, string startDate)
+        {
+            this.PartyName = partyName;
+            this.ContractName = contractName;
+            this.StartDate = startDate;
+            this.PartyType = partyType;
+            this.accountNumber = accountNumber;
+            this.accountRef = accountRef;
         }
 
         public PartyModel(string partyName, string contractName, string partyType, string startDate)

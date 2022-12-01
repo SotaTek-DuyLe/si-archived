@@ -19,6 +19,7 @@ namespace si_automated_tests.Source.Test.ContactTests
     public class CreateContactTests : BaseTest
     {
         [Category("CreateContact")]
+        [Category("Chang")]
         [Test]
         public void TC_037_01_02_03_04_05_06_07_verify_user_can_create_a_new_contact_and_set_newly_create_contact_related_on_a_party()
         {
@@ -29,9 +30,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser8.UserName, AutoUser8.Password)
                 .IsOnHomePage(AutoUser8);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
@@ -57,12 +58,12 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .EnterLastName(contactModel.LastName)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageRequiredFieldConstants.ContactDetailsWarningMessage)
-                .WaitUntilToastMessageInvisiable(MessageRequiredFieldConstants.ContactDetailsWarningMessage);
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.ContactDetailsWarningMessage);
             //Step 1: Line 9
             createPartyContactPage
                 .EnterMobileValue(contactModel.Mobile)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveContactMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //Step 1: Line 10
             createPartyContactPage
                 .EnterValueRemainingFields(contactModel)
@@ -82,7 +83,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyPrimaryContactAndVerify(contactModel)
                 //Step 2: Line 13
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+                .WaitForLoadingIconToDisappear();
             //Step 3: Line 14
             detailPartyPage
                 .ClickInvoiceContactDd()
@@ -91,8 +93,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyInvoiceContactAndVerify(contactModel)
                 //Step 3: Line 16
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
-                .WaitUntilToastMessageInvisiable(MessageSuccessConstants.SavePartySuccessMessage)
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                //.WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Step 4: Line 17
             detailPartyPage
@@ -108,7 +110,7 @@ namespace si_automated_tests.Source.Test.ContactTests
                 //Step 4: Line 18
                 .SelectAnyPrimaryContactAndVerify(contactModel)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveSiteSuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Step 5: Line 19
@@ -128,7 +130,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyPrimaryContactAndVerify(contactModel)
                 //Step 5: Line 22
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveAgreementMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Step 6: Line 23
             agreementDetailPage
@@ -138,7 +141,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyInvoiceContactAndVerify(contactModel)
                 //Step 5: Line 25
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveAgreementMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear()
                 .ScrollToBottomOfPage();
             //Step 7: Line 26
@@ -149,12 +153,13 @@ namespace si_automated_tests.Source.Test.ContactTests
                 //Step 7: Line 28
                 .SelectAnyInvoiceContactServiceTableAndVerify(contactModel)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveAgreementMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear()
                 .ClickCloseBtn();
         }
 
         [Category("CreateContact")]
+        [Category("Chang")]
         [Test]
         public void TC_037_08_verify_user_can_create_new_contact_using_add_button_on_party_form()
         {
@@ -165,9 +170,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser8.UserName, AutoUser8.Password)
                 .IsOnHomePage(AutoUser8);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
@@ -206,6 +211,7 @@ namespace si_automated_tests.Source.Test.ContactTests
         }
 
         [Category("CreateContact")]
+        [Category("Chang")]
         [Test]
         public void TC_037_09_verify_user_can_create_new_contact_using_add_button_on_Agreement_form()
         {
@@ -216,9 +222,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser8.UserName, AutoUser8.Password)
                 .IsOnHomePage(AutoUser8);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage
@@ -253,10 +259,13 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .ClickSaveAndCloseBtn()
                 .SwitchToChildWindow(3);
             agreementDetailPage
+                .WaitForLoadingIconToDisappear();
+            agreementDetailPage
                 .ClickInvoiceContactDd()
                 .VerifyFirstValueInInvoiceContactDd(contactModelNewInvoice)
                 .ClickSaveAndCloseBtn()
-                .SwitchToChildWindow(2, 200);
+                .SwitchToChildWindow(2, 200)
+                .WaitForLoadingIconToDisappear();
             detailPartyPage
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
@@ -269,6 +278,7 @@ namespace si_automated_tests.Source.Test.ContactTests
         }
 
         [Category("CreateContact")]
+        [Category("Chang")]
         [Test]
         public void TC_037_10_verify_user_can_create_new_contact_using_add_button_on_Site_form()
         {
@@ -279,9 +289,9 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .Login(AutoUser8.UserName, AutoUser8.Password)
                 .IsOnHomePage(AutoUser8);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PartyCommonPage partyCommonPage = PageFactoryManager.Get<PartyCommonPage>();
             partyCommonPage

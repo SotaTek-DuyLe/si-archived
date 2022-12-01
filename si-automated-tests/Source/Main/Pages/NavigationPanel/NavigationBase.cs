@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Attributes;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using System;
@@ -18,18 +19,20 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
         private readonly string dropdownOption = "//span[text()='{0}']/parent::a/preceding-sibling::span[2]";
         private readonly string dropdownOptionLast = "(//span[text()='{0}']/parent::a/preceding-sibling::span[2])[last()]";
         private readonly string option = "//span[text()='{0}']/parent::a";
+        private readonly string optionLast = "(//span[text()='{0}']/parent::a)[last()]";
 
         public NavigationBase()
         {
             SwitchToDefaultContent();
         }
-
+        [AllureStep]
         public NavigationBase ClickMainOption(string optionName)
         {
             Thread.Sleep(500);
-            ClickOnElement(String.Format(mainOption, optionName));
+            ClickOnElement(string.Format(mainOption, optionName));
             return this;
         }
+        [AllureStep]
         public NavigationBase ExpandOption(string optionName)
         {
             Thread.Sleep(500);
@@ -40,6 +43,7 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
             }
             return this;
         }
+        [AllureStep]
         public NavigationBase ExpandOptionLast(string optionName)
         {
             Thread.Sleep(500);
@@ -50,6 +54,7 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
             }
             return this;
         }
+        [AllureStep]
         public NavigationBase OpenOption(string optionName)
         {
             Thread.Sleep(500);
@@ -58,28 +63,23 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
             ExitNavigation();
             return this;
         }
+        [AllureStep]
+        public NavigationBase OpenLastOption(string optionName)
+        {
+            Thread.Sleep(500);
+            ClickOnElement(String.Format(optionLast, optionName));
+            AcceptAlertIfAny();
+            ExitNavigation();
+            return this;
+        }
         //Exit Navigation
+        [AllureStep]
         public NavigationBase ExitNavigation()
         {
             Thread.Sleep(500);
             ClickOnElement(pageTitle);
             return this;
         }
-        public NavigationBase AcceptAlertIfAny()
-        {
-            try
-            {
-                for(int i = 0; i < 2; i++)
-                {
-                    SleepTimeInMiliseconds(1000);
-                    this.driver.SwitchTo().Alert().Accept();
-                }
-            }
-            catch (NoAlertPresentException)
-            {
-                return this;
-            }
-            return this;
-        }
+        
     }
 }

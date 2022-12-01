@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -20,9 +21,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         //DYNAMIC LOCATOR
         private const string ContractOption = "//label[text()='Contract']/following-sibling::div/select/option[{0}]";
         private const string PartyTypeValue = "//label[text()='All Party Types']/following-sibling::div/div[{0}]//span";
-        private const string AnyDay = "//td[@class = 'day' and text()='{0}']";
+        private const string AnyDay = "//td[contains(@class, 'day') and text()='{0}']";
         private const string AnyMessage = "//div[text()='{0}']";
 
+        [AllureStep]
         public CreatePartyPage IsCreatePartiesPopup(string contractDefault)
         {
             WaitUtil.WaitForPageLoaded();
@@ -40,19 +42,21 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(GetAttributeValue(StartDateInput, "value"), dateNow);
             return this;
         }
-
+        [AllureStep]
         public CreatePartyPage ClickContractDropdown()
         {
             ClickOnElement(ContractDropdown);
             return this;
         }
+        [AllureStep]
         public CreatePartyPage VerifyContractDropdownVlues()
         {
             Assert.AreEqual(GetElementText(String.Format(ContractOption, 1)), "Select...");
-            Assert.AreEqual(GetElementText(String.Format(ContractOption, 2)), "North Star");
-            Assert.AreEqual(GetElementText(String.Format(ContractOption, 3)), "North Star Commercial");
+            Assert.AreEqual(GetElementText(String.Format(ContractOption, 2)), Contract.Commercial);
+            Assert.AreEqual(GetElementText(String.Format(ContractOption, 3)), Contract.Municipal);
             return this;
         }
+        [AllureStep]
         public CreatePartyPage VerifyAllPartyTypes()
         {
             Assert.AreEqual(GetElementText(String.Format(PartyTypeValue, 1)), "Customer");
@@ -60,22 +64,26 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(GetElementText(String.Format(PartyTypeValue, 3)), "Supplier");
             return this;
         }
+        [AllureStep]
         public CreatePartyPage SendKeyToThePartyInput(string partyName)
         {
             SendKeys(PartyNameInput, partyName);
             return this;
         }
+        [AllureStep]
         public CreatePartyPage SelectPartyType(int number)
         {
             ClickOnElement(string.Format(PartyTypeValue, number));
             return this;
         }
+        [AllureStep]
         public CreatePartyPage SelectContract(int optionNumber)
         {
             ClickOnElement(ContractDropdown);
             ClickOnElement(String.Format(ContractOption, optionNumber));
             return this;
         }
+        [AllureStep]
         public CreatePartyPage SelectStartDate(int day)
         {
             ClickOnElement(CalenderBtn);
@@ -83,6 +91,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             ClickOnElement(String.Format(AnyDay, nowSubDay));
             return this;
         }
+        [AllureStep]
+        public CreatePartyPage SelectStartDatePlusOneDay()
+        {
+            string nowPlusOneDay = CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
+            SendKeys(StartDateInput, nowPlusOneDay);
+            return this;
+        }
+        [AllureStep]
         public CreatePartyPage VerifyDisplayErrorMessage(string errorMessage)
         {
             Assert.IsTrue(IsControlDisplayed(String.Format(AnyMessage, errorMessage)));

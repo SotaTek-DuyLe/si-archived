@@ -20,6 +20,7 @@ pipelines:
               - dotnet test --logger:"junit" --settings test.runsettings
             artifacts:
               - '*/TestResults/Screenshots/*.png'
+              - '*OutputDebug/allure-results/*'
 
     Run custom test:
       - variables:
@@ -37,6 +38,7 @@ pipelines:
               - dotnet test --filter Name~$env:TestName --logger:"junit" --settings test.runsettings
             artifacts:
               - '*/TestResults/Screenshots/*.png'
+              - '*OutputDebug/allure-results/*'
 
     Run custom test class:
       - variables:
@@ -54,6 +56,8 @@ pipelines:
               - dotnet test --filter FullyQualifiedName~si_automated_tests.Source.Test.$env:TestClass --logger:"junit" --settings test.runsettings
             artifacts:
               - '*/TestResults/Screenshots/*.png'
+              - '*OutputDebug/allure-results/*'
+
 
     Run custom test category:
       - variables:
@@ -71,6 +75,8 @@ pipelines:
               - dotnet test --filter TestCategory=$env:TestCategory --logger:"junit" --settings test.runsettings
             artifacts:
               - '*/TestResults/Screenshots/*.png'
+              - '*OutputDebug/allure-results/*'
+
     Run test on custom environment:
       - variables:
             - name: TestUrl
@@ -89,6 +95,42 @@ pipelines:
               - dotnet test --logger:"junit" --settings test.runsettings -- "$env:SCRIPTT"
             artifacts:
               - '*/TestResults/Screenshots/*.png'
+              - '*OutputDebug/allure-results/*'
+
+    Run test on custom environment and db creds:
+      - variables:
+            - name: TestUrl
+            - name: TestHost
+            - name: IntegratedSecurity
+            - name: DbName
+            - name: DbUser
+            - name: DbPass
+      - step:
+            runs-on:
+              - self.hosted
+              - windows
+            script:
+              - echo "Running on environment " $env:TestEnv
+              - $env:SCRIPT0='TestRunParameters.Parameter(name=\\\"url\\\", value=\\\"'+$env:TestUrl+'\\\")'
+              - $env:SCRIPT1='TestRunParameters.Parameter(name=\\\"host\\\", value=\\\"'+$env:TestHost+'\\\")'
+              - $env:SCRIPT2='TestRunParameters.Parameter(name=\\\"useIntegratedSecurity\\\", value=\\\"'+$env:IntegratedSecurity+'\\\")'
+              - $env:SCRIPT3='TestRunParameters.Parameter(name=\\\"dbname\\\", value=\\\"'+$env:DbName+'\\\")'
+              - $env:SCRIPT4='TestRunParameters.Parameter(name=\\\"dbusername\\\", value=\\\"'+$env:DbUser+'\\\")'
+              - $env:SCRIPT5='TestRunParameters.Parameter(name=\\\"dbpassword\\\", value=\\\"'+$env:DbPass+'\\\")'
+              - echo $env:SCRIPT0
+              - echo $env:SCRIPT1
+              - echo $env:SCRIPT2
+              - echo $env:SCRIPT3
+              - echo $env:SCRIPT4
+              - echo $env:SCRIPT5
+              - dotnet clean
+              - dotnet restore
+              - cd si-automated-tests
+              - dotnet add package JUnitTestLogger --version 1.1.0
+              - dotnet test --logger:"junit" --settings test.runsettings -- "$env:SCRIPT0" -- "$env:SCRIPT1" -- "$env:SCRIPT2" -- "$env:SCRIPT3" -- "$env:SCRIPT4" -- "$env:SCRIPT5"
+            artifacts:
+              - '*/TestResults/Screenshots/*.png'
+              - '*OutputDebug/allure-results/*'
               
   default:
     - parallel:
@@ -99,16 +141,3 @@ pipelines:
             script:
               - dotnet restore
               - dotnet build --no-restore
-        - step:
-            name: Lint the code
-            caches:
-              - dotnetcore
-            script:
-              - export SOLUTION_NAME=si-automated-tests
-              - export REPORTS_PATH=linter-reports
-              - dotnet new tool-manifest
-              - dotnet tool install JetBrains.ReSharper.GlobalTools
-              - dotnet tool restore
-              - dotnet jb inspectcode ${SOLUTION_NAME}.sln --output="${REPORTS_PATH}/jb-${BITBUCKET_BUILD_NUMBER}.xml"
-            artifacts:
-              - linter-reports/**

@@ -14,6 +14,6 @@ namespace si_automated_tests.Source.Main.Constants
         public const string DEFAULT_END_DATE = "01/01/2050";
         public const string KILOGRAMS = "Kilograms";
 
-        public const string SUCCESSFULLY_SAVED_AGREEMENT = "Successfully saved agreement";
+        public const string SUCCESSFULLY_SAVED_AGREEMENT = "Success"; //Successfully saved agreement
     }
 }

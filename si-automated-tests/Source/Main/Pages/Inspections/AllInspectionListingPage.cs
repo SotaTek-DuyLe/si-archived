@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -13,10 +14,15 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
     {
         private readonly By allRowInInspectionTabel = By.XPath("//div[@class='grid-canvas']/div");
         private readonly By firstInspectionRow= By.XPath("//div[@class='grid-canvas']/div[not(contains(@style, 'display: none;'))][1]");
+        private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
+        private readonly By clearBtn = By.CssSelector("button[title='Clear Filters']");
+        private readonly By statusInput = By.XPath("//div[contains(@class, 'l9')]//input");
+
 
         //DYNAMIC LOCATOR
         private const string columnInRowInspection = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
 
+        [AllureStep]
         public List<InspectionModel> getAllInspectionInList(int numberOfRow)
         {
             List<InspectionModel> allModel = new List<InspectionModel>();
@@ -45,13 +51,13 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             }
             return allModel;
         }
-
+        [AllureStep]
         public AllInspectionListingPage VerifyTheFirstInspection(InspectionModel inspectionModelExpected, InspectionModel inspectionModelActual, string location, string contract, string source, string service)
         {
             Assert.AreEqual(inspectionModelExpected.ID, inspectionModelActual.ID);
             Assert.AreEqual(location, inspectionModelActual.point);
             Assert.AreEqual(inspectionModelExpected.inspectionType, inspectionModelActual.inspectionType);
-            Assert.AreEqual(inspectionModelExpected.createdByUser, inspectionModelActual.createdByUser);
+            Assert.IsTrue(inspectionModelActual.createdByUser.Contains(inspectionModelExpected.createdByUser));
             Assert.AreEqual(inspectionModelExpected.assignedUser, inspectionModelActual.assignedUser);
             Assert.AreEqual(inspectionModelExpected.allocatedUnit, inspectionModelActual.allocatedUnit);
             Assert.AreEqual(inspectionModelExpected.status, inspectionModelActual.status);
@@ -62,24 +68,24 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             Assert.AreEqual(service, inspectionModelActual.service);
             return this;
         }
-
+        [AllureStep]
         public AllInspectionListingPage VerifyTheFirstInspection(PointHistoryModel pointHistoryModel, InspectionModel inspectionModelActual, string location, string contract, string source, string service, string createdByUser, string assignedUser, string allocatedUnit)
         {
             Assert.AreEqual(pointHistoryModel.ID, inspectionModelActual.ID);
             Assert.AreEqual(location, inspectionModelActual.point);
-            Assert.AreEqual(pointHistoryModel.type, inspectionModelActual.inspectionType);
+            Assert.True(inspectionModelActual.inspectionType.Contains(pointHistoryModel.type));
             Assert.AreEqual(createdByUser, inspectionModelActual.createdByUser);
             Assert.AreEqual(assignedUser, inspectionModelActual.assignedUser);
             Assert.AreEqual(allocatedUnit, inspectionModelActual.allocatedUnit);
             Assert.AreEqual(pointHistoryModel.state, inspectionModelActual.status);
             Assert.AreEqual(contract, inspectionModelActual.contract);
-            Assert.AreEqual(pointHistoryModel.date, inspectionModelActual.validFrom);
-            Assert.AreEqual(pointHistoryModel.dueDate, inspectionModelActual.validTo);
-            Assert.AreEqual(source, inspectionModelActual.source);
+            Assert.True(inspectionModelActual.validFrom.Contains(pointHistoryModel.date));
+            Assert.True(inspectionModelActual.validTo.Contains(pointHistoryModel.dueDate));
+            Assert.True(inspectionModelActual.source.Contains(source));
             Assert.AreEqual(service, inspectionModelActual.service);
             return this;
         }
-
+        [AllureStep]
         public AllInspectionListingPage VerifyTheFirstInspection(InspectionModel inspectionModelActual, string location, string contract, string source, string service, string createdByUser, string assignedUser, string allocatedUnit, string id, string type, string state, string date, string dueDate)
         {
             Assert.AreEqual(id, inspectionModelActual.ID);
@@ -96,11 +102,31 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             Assert.AreEqual(service, inspectionModelActual.service);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage DoubleClickFirstInspectionRow()
         {
             DoubleClickOnElement(firstInspectionRow);
             return PageFactoryManager.Get<DetailInspectionPage>();
+        }
+        [AllureStep]
+        public AllInspectionListingPage FilterInspectionByStatus(string statusValue)
+        {
+            SendKeys(statusInput, statusValue);
+            return this;
+        }
+        [AllureStep]
+        public AllInspectionListingPage FilterInspectionById(string id)
+        {
+            WaitForLoadingIconToDisappear();
+            SendKeys(filterInputById, id);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public AllInspectionListingPage ClickClearInInspectionListingBtn()
+        {
+            ClickOnElement(clearBtn);
+            return this;
         }
 
     }
