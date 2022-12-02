@@ -2,8 +2,6 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
-using si_automated_tests.Source.Main.Constants;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -12,6 +10,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
 {
     public class SalesReceiptLinesPage : BasePage
     {
+        private readonly By title = By.XPath("//h4[text()='SALES RECEIPT LINE']");
         private readonly By objectType = By.XPath("//select[@id='echo-type']");
         private readonly By objectTypeOpt = By.XPath("//select[@id='echo-type']//option");
         private readonly By inputInvoice = By.XPath("//input[@id='echo-id']");
@@ -124,5 +123,16 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             ClickOnElement(saveBtn);
             return this;
         }
+
+        [AllureStep]
+        public SalesReceiptLinesPage IsSalesReceiptLinesPage(string objectTypeValue, string invoiceId)
+        {
+            WaitUtil.WaitForElementVisible(title);
+            Assert.AreEqual(objectTypeValue, GetFirstSelectedItemInDropdown(objectType));
+            Assert.AreEqual(invoiceId, GetAttributeValue(inputInvoice, "value"));
+            return this;
+        }
+
+
     }
 }
