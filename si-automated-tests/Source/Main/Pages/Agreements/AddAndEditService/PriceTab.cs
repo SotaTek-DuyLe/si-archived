@@ -43,6 +43,22 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             Assert.IsTrue(IsControlDisplayed(Page4PricesText));
             return this;
         }
+
+        [AllureStep]
+        public PriceTab RemoveAllRedundantPricesIfNeededToEnableNextButton()
+        {
+            List<IWebElement> allBtn = GetAllElements("//div[@id='step-4']//tr[not(contains(@style, 'display: none;'))]//button[@title='Retire/Remove']");
+            foreach (IWebElement btn in allBtn)
+            {
+                if (btn.Enabled)
+                {
+                    ClickOnElement(btn);
+                    Thread.Sleep(1000);
+                }
+            }
+            return this;
+        }
+
         [AllureStep]
         public int GetRedundantPricesNum()
         {
