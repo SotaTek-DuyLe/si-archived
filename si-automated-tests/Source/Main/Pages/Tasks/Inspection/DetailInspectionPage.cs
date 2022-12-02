@@ -243,7 +243,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(inspection.contractunit, contractUnitName);
             Assert.AreEqual(inspection.inspectioninstance, instance);
             Assert.AreEqual(inspection.username, userNameCreatedInspec);
-            Assert.AreEqual(allocatedUserInModel, allocatedUserDisplayed);
+            Assert.IsTrue(allocatedUserDisplayed.Contains(allocatedUserInModel));
             Assert.AreEqual(inspection.inspectionvaliddate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), validDateValue, "Wrong inpsection valid Date");
             Assert.AreEqual(inspection.inspectionexpirydate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), expDateValue, "Wrong inpsection expiry Date");
             return this;

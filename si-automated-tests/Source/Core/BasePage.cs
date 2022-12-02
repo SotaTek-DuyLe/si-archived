@@ -72,17 +72,17 @@ namespace si_automated_tests.Source.Core
         }
 
         [AllureStep]
-        public List<IWebElement> GetAllElements(string locator, string value)
-        {
-            WaitUtil.WaitForAllElementsVisible(string.Format(locator, value));
-            return driver.FindElements(By.XPath(string.Format(locator, value))).ToList();
-        }
-
-        [AllureStep]
         public List<IWebElement> GetAllElements(By by)
         {
             WaitUtil.WaitForAllElementsVisible(by);
             return driver.FindElements(by).ToList();
+        }
+
+        [AllureStep]
+        public List<IWebElement> GetAllElements(string locator, string value)
+        {
+            WaitUtil.WaitForAllElementsVisible(string.Format(locator, value));
+            return driver.FindElements(By.XPath(string.Format(locator, value))).ToList();
         }
 
         [AllureStep]

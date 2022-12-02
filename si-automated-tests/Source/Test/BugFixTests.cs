@@ -18,6 +18,7 @@ using si_automated_tests.Source.Main.Pages.Inspections;
 using si_automated_tests.Source.Main.Pages.Maps;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccountStatement;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
 using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Paties.Sites;
@@ -1812,7 +1813,7 @@ namespace si_automated_tests.Source.Test
         public void TC_228_The_notes_tab_is_not_loading_correctly()
         {
             string partyName = "Ham Food Centre";
-            
+
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -1879,6 +1880,227 @@ namespace si_automated_tests.Source.Test
                 .IsCreditNoteDetailPage("TAPAS BRINDISA")
                 .ClickOnNotesTab()
                 .IsNotesTab();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Error loading Credit notes (bug fix)")]
+        public void TC_229_Error_loading_Credit_notes()
+        {
+            string creditId = "1";
+            string partyName = "TAPAS BRINDISA";
+            //Step line 1: Login TF user
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Accounts)
+                .OpenOption("Credit Notes")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CreditNotePage>()
+                .FilterByCreditId(creditId)
+                .ClickOnFirstCreditRow()
+                .DoubleClickOnFirstCreditRow()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .IsCreditNoteDetailPage(partyName)
+                .ClickOnDetailTab()
+                .VerifyNotDisplayErrorMessage();
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .ClickOnLinesTab()
+                .VerifyNotDisplayErrorMessage();
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .ClickOnNotesTab()
+                .VerifyNotDisplayErrorMessage();
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            //Step line 2: Login another account
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser46)
+                .ClickUserNameDd()
+                .ClickLogoutBtn();
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login("testdj", "test123*");
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Accounts)
+                .OpenOption("Credit Notes")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CreditNotePage>()
+                .FilterByCreditId(creditId)
+                .ClickOnFirstCreditRow()
+                .DoubleClickOnFirstCreditRow()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .IsCreditNoteDetailPage(partyName)
+                .ClickOnDetailTab()
+                .VerifyNotDisplayErrorMessage();
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .ClickOnLinesTab()
+                .VerifyNotDisplayErrorMessage();
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .ClickOnNotesTab()
+                .VerifyNotDisplayErrorMessage();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "The sales receipt form is not loading (bug fix)")]
+        public void TC_239_The_sales_receipt_form_is_not_loading()
+        {
+            string partyName = "PureGym";
+            string receiptId = "3";
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/parties/1121");
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .waitForLoadingIconDisappear();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
+                .ClickOnAccountStatement()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AccountStatementPage>()
+                //Line: Click [Take payment] btn
+                .ClickTakePayment()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<SalesReceiptPage>()
+                .VerifyInfoInSaleReceiptScreen(partyName)
+                .VerifyNotDisplayErrorMessage()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            detailPartyPage
+                .GoToURL(WebUrl.MainPageUrl);
+            //Step line 8: Accounts > Receipt
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Accounts)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Receipts")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ReceiptListPage>()
+                .FilterReceiptById(receiptId)
+                .OpenFirstResult()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SalesReceiptPage>()
+                .IsSalesReceiptDetailPage()
+                .VerifyNotDisplayErrorMessage();
+            PageFactoryManager.Get<SalesReceiptPage>()
+                .ClickLinesTab()
+                .waitForLoadingIconDisappear();
+            //Step line 8: Accounts > Receipt > Sale receipt line
+            PageFactoryManager.Get<SalesReceiptPage>()
+                .DoubleClickOnFirstLineRow()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SalesReceiptLinesPage>()
+                .IsSalesReceiptLinesPage("Sales Invoice", "2")
+                .VerifyNotDisplayErrorMessage();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Task form - issues in task form when taskID=0 (bug fix)")]
+        public void TC_240_Task_form_issues_in_task_form_when_task_id_0()
+        {
+            string serviceTaskId = "120747";
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/service-tasks/120747");
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .ClickCreateAdhocTaskButton()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<DetailTaskPage>()
+                .IsDetailTaskPage()
+                .VerifyCurrentUrlWithId0(serviceTaskId)
+                //Step line 8: Click on [Task line] tab
+                .ClickOnTaskLineTab()
+                .ClickOnAddNewItemBtnTaskLinesTab()
+                .SelectInfoSecondTaskLineRow("Service", "1100L")
+                .VerifyProductOfSecondRowMappingFirstRow()
+                .ClickCloseBtn()
+                .AcceptAlert()
+                .SwitchToChildWindow(1);
+            //Step line 10: Click on [Detail] tab and update status
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickCreateAdhocTaskButton()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailTaskPage>()
+                .IsDetailTaskPage()
+                .ClickOnDetailTab()
+                .ClickOnTaskStateDd()
+                .SelectAnyTaskStateInDd("Completed")
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+
+            string[] titleValues = { "ActualAssetQuantity", "Asset Type", "ActualProductQuantity", "ScheduledAssetQuantity", "ScheduledProductQuantity", "Object Tag", "Product", "Product Unit", "State", "Is Serialised", "Order", "Completed Date", "ClientReference" };
+            string[] expValues = { "3.", "1100L.", "80.", "3.", "80.", ".", "General Recycling.", "Kilograms.", "Completed.", "Unticked.", "0.", CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT + "."), "." };
+
+
+            PageFactoryManager.Get<DetailTaskPage>()
+                //Step line 10: Verify [Task lines]
+                .ClickOnTaskLineTab()
+                .VerifyFirstTaskLineAfterUpdateStatus("3", "Completed", "80")
+                //Step line 12: Verify [History]
+                .ClickOnHistoryTab()
+                .VerifyTitleCreate()
+                .VerifyTaskLineAfterCreatedState(titleValues, expValues)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickCreateAdhocTaskButton()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailTaskPage>()
+                .IsDetailTaskPage()
+                .ClickOnTaskLineTab()
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<DetailTaskPage>()
+                .ClickOnDetailTab()
+                .ClickOnTaskStateDd()
+                .SelectAnyTaskStateInDd("Completed")
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+
+            string[] titleValuesAfter = { "ActualAssetQuantity", "ActualProductQuantity", "State", "Completed Date", "Auto Confirmed" };
+            string[] expValuesAfter = { "3.", "80.", "Completed.", CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT + "."), "Manually Confirmed on Web." };
+            PageFactoryManager.Get<DetailTaskPage>()
+                //Step line 10: Verify [Task lines]
+                .ClickOnTaskLineTab()
+                .VerifyFirstTaskLineAfterUpdateStatus("3", "Completed", "80")
+                //Step line 12: Verify [History]
+                .ClickOnHistoryTab()
+                .VerifyTitleCreate()
+                .VerifyTaskLineAfterUpdatedState(titleValuesAfter, expValuesAfter);
         }
     }
 }
