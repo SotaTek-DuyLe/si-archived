@@ -43,37 +43,6 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             Assert.IsTrue(IsControlDisplayed(Page4PricesText));
             return this;
         }
-        [AllureStep]
-        public PriceTab RemoveAllRedundantPrice()
-        {
-            int i = 3;
-            while (i > 0)
-            {
-                if (!IsControlUnDisplayed(removePriceBtn))
-                {
-                    ClickOnElement(removePriceBtn);
-                    Thread.Sleep(1000);
-                    i--;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return this;
-        }
-        [AllureStep]
-        public PriceTab RemoveAllRedundantPrices()
-        {
-            List<IWebElement> allBtn = GetAllElements(redundantPrices);
-            foreach(IWebElement btn in allBtn)
-            {
-                ClickOnElement(btn);
-                Thread.Sleep(1000);
-            }
-            return this;
-        }
 
         [AllureStep]
         public PriceTab RemoveAllRedundantPricesIfNeededToEnableNextButton()
@@ -90,26 +59,6 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
             return this;
         }
 
-        [AllureStep]
-        public PriceTab RemoveAllRedundantPrice17()
-        {
-            int i = 3;
-            while (i > 0)
-            {
-                if (!IsControlUnDisplayed(allPrices17))
-                {
-                    ClickOnElement(allPrices17);
-                    Thread.Sleep(1000);
-                    i--;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return this;
-        }
         [AllureStep]
         public int GetRedundantPricesNum()
         {
