@@ -235,5 +235,57 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPage.VerifyInputValue(serviceUnitPage.StreetInput, "CHURCH TERRACE,TW10,RICHMOND");
         }
 
+        [Category("ServiceUnitPoint")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_234_Cannot_remove_indicators_start_and_end_date_when_indicator_is_unset()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl + "web/service-tasks/120501");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser40.UserName, AutoUser40.Password);
+            ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
+            servicesTaskPage.WaitForLoadingIconToDisappear();
+            servicesTaskPage.SelectTextFromDropDown(servicesTaskPage.TaskIndicatorSelect, "Repeat Missed")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            servicesTaskPage.VerifyInputValue(servicesTaskPage.IndicatorStartDateInput, londonCurrentDate.ToString("dd/MM/yyyy"));
+            servicesTaskPage.VerifyInputValue(servicesTaskPage.IndicatorEndDateInput, "01/01/2050");
+            servicesTaskPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            servicesTaskPage.VerifyInputValue(servicesTaskPage.IndicatorStartDateInput, londonCurrentDate.ToString("dd/MM/yyyy"));
+            servicesTaskPage.VerifyInputValue(servicesTaskPage.IndicatorEndDateInput, "01/01/2050");
+            //Remove indicator end date -> Save
+            servicesTaskPage.SendKeys(servicesTaskPage.IndicatorEndDateInput, "");
+            servicesTaskPage.ClickSaveBtn()
+                .VerifyToastMessage("Indicator End Date is required")
+                .WaitUntilToastMessageInvisible("Indicator End Date is required");
+            //Remove indicator start date -> Save 
+            servicesTaskPage.SendKeys(servicesTaskPage.IndicatorEndDateInput, "01/01/2050");
+            servicesTaskPage.SendKeys(servicesTaskPage.IndicatorStartDateInput, "");
+            servicesTaskPage.ClickSaveBtn()
+                .VerifyToastMessage("Indicator Start Date is required")
+                .WaitUntilToastMessageInvisible("Indicator Start Date is required");
+            //Set different indicator start and end date -> Save 
+            servicesTaskPage.SendKeys(servicesTaskPage.IndicatorStartDateInput, londonCurrentDate.AddDays(2).ToString("dd/MM/yyyy"));
+            servicesTaskPage.SendKeys(servicesTaskPage.IndicatorEndDateInput, londonCurrentDate.AddDays(30).ToString("dd/MM/yyyy"));
+            servicesTaskPage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            //Deselect task indicators -> Save
+            servicesTaskPage.SelectTextFromDropDown(servicesTaskPage.TaskIndicatorSelect, "")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            servicesTaskPage.VerifyInputValue(servicesTaskPage.IndicatorStartDateInput, "");
+            servicesTaskPage.VerifyInputValue(servicesTaskPage.IndicatorEndDateInput, "");
+            servicesTaskPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            servicesTaskPage.VerifyInputValue(servicesTaskPage.IndicatorStartDateInput, "");
+            servicesTaskPage.VerifyInputValue(servicesTaskPage.IndicatorEndDateInput, "");
+        }
     }
 }
