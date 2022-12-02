@@ -115,7 +115,7 @@ namespace si_automated_tests.Source.Core
             {
                 throw new Exception($"ChromeDriver download request failed with status code: {driverZipResponse.StatusCode}, reason phrase: {driverZipResponse.ReasonPhrase}");
             }
-            int numberOfRetries = 3;
+            int numberOfRetries = 7;
             int delayOnRetry = 2000;
 
             // this reads the zipfile as a stream, opens the archive, 
@@ -134,7 +134,7 @@ namespace si_automated_tests.Source.Core
                             await chromeDriverStream.CopyToAsync(chromeDriverWriter);
                         }
                     }
-                    catch (IOException) when (i <= numberOfRetries)
+                    catch (IOException) when (i < numberOfRetries - 1)
                     {
                         Thread.Sleep(delayOnRetry);
                     }
