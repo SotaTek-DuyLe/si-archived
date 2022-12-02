@@ -32,8 +32,8 @@ namespace si_automated_tests.Source.Test.EventTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser53.UserName, AutoUser53.Password)
-                .IsOnHomePage(AutoUser53);
+                .Login(AutoUser60.UserName, AutoUser60.Password)
+                .IsOnHomePage(AutoUser60);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Events)
                 .OpenOption(Contract.Municipal)
