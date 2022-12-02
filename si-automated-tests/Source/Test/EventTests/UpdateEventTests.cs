@@ -285,7 +285,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .IsEventActionPage()
                 //Step 30
                 .ClickOnAllocatedUnit()
-                .SelectAnyAllocatedUnit("Ancillary")
+                .SelectAnyAllocatedUnit("East Waste")
                 .ClickSaveAndCloseBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToChildWindow(5)
@@ -293,8 +293,9 @@ namespace si_automated_tests.Source.Test.EventTests
             eventDetailPage
                 .ExpandDetailToggle()
                 .VerifyValueInStatus("Initial Assessment")
-                .VerifyValueInAllocatedUnit("Ancillary")
-                .VerifyValueInAssignedUser("")
+                .VerifyValueInAllocatedUnit("East Waste")
+                //.VerifyValueInAssignedUser("")
+                .VerifyValueInAssignedUser("A User")
                 //Step 31
                 .ClickHistoryTab()
                 .WaitForLoadingIconToDisappear();
