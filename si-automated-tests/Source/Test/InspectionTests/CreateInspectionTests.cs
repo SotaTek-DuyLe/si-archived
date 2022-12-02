@@ -28,8 +28,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
     [TestFixture]
     public class CreateInspectionTests : BaseTest
     {
-        private string allocatedUnitValue = "Ancillary";
-        private string assignedUserValue = "josie";
+        private string allocatedUnitValue = "East Waste";
+        private string assignedUserValue = "A User";
 
         [Category("CreateInspection")]
         [Category("Chang")]

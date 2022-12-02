@@ -43,6 +43,8 @@ namespace si_automated_tests.Source.Test.TaskTests
             //API: Get current task state
             List<TaskStateDBModel> taskStateDBModels = commonFinder.GetTaskStateByTaskId(taskId);
             string currentTaskState = taskStateDBModels[0].taskstate;
+            //string[] orderNumber = new string[] { "1", "3", "2", "5", "4" };
+            //string[] orderStateValues = new string[] { "Unallocated", "Completed", "In Progress", "Cancelled", "Not Completed" };
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);

@@ -1,16 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
-using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
-using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Models.DetailReceipt;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Accounts;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
-using si_automated_tests.Source.Main.Pages.PartySitePage;
-using si_automated_tests.Source.Main.Pages.Paties;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.ReceiptTests

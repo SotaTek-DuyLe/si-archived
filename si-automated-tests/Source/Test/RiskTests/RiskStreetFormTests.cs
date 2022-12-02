@@ -286,10 +286,10 @@ namespace si_automated_tests.Source.Test.RiskTests
             var riskDetailPage = PageFactoryManager.Get<RiskDetailPage>();
             riskDetailPage.ClickOnElement(riskDetailPage.DetailTab);
             riskDetailPage.WaitForLoadingIconToDisappear();
-            riskDetailPage.VerifyInputValue(riskDetailPage.StartDateInput, startDate.Replace(" 00:00", ""));
-            riskDetailPage.VerifyInputValue(riskDetailPage.EndDateInput, endDate.Replace(" 00:00", ""));
-            riskDetailPage.VerifyCheckboxIsSelected(riskDetailPage.ProximityInput, true);
-            riskDetailPage.VerifyInputValue(riskDetailPage.NoteInput, migitationNote);
+            riskDetailPage.VerifyInputValue(riskDetailPage.StartDateInput, startDate.Replace(" 00:00", ""))
+                .VerifyInputValue(riskDetailPage.EndDateInput, endDate.Replace(" 00:00", ""))
+                .VerifyCheckboxIsSelected(riskDetailPage.ProximityInput, true)
+                .VerifyInputValue(riskDetailPage.NoteInput, migitationNote);
             riskDetailPage.ClickOnElement(riskDetailPage.HyperLink);
             riskDetailPage.SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();

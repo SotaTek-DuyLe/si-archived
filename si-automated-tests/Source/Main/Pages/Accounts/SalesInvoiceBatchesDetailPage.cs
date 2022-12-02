@@ -28,7 +28,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By closeBtn = By.XPath("//h4[text()='Warning']/preceding-sibling::button");
 
         //DYNAMIC
-        private readonly string statusSaleInvoice = "//h5[text()='{0}']";
+        //private readonly string statusSaleInvoice = "//h5[text()='{0}']";
 
         [AllureStep]
         public SalesInvoiceBatchesDetailPage IsSalesInvoiceBatchesDetailPage(string statusValue, string idValue)

@@ -586,7 +586,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
         [AllureStep]
-        public EventDetailPage VerifyNotDisplayErrorMessage()
+        public new EventDetailPage VerifyNotDisplayErrorMessage()
         {
             Assert.IsFalse(IsControlDisplayedNotThrowEx(FrameMessage));
             return this;

@@ -276,6 +276,22 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By MapTab = By.XPath("//a[@aria-controls='map-tab']"); 
         public readonly By ResetMapButton = By.XPath("//div[@id='map-tab']//div[text()='Reset Map']"); 
         public readonly By SaveMapButton = By.XPath("//div[@id='map-tab']//div[text()='Save Map ']");
+
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnResetMapBtn()
+        {
+            WaitUtil.WaitForElementVisible(ResetMapButton);
+            ClickOnElement(ResetMapButton);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnSaveMapBtn()
+        {
+            WaitUtil.WaitForElementVisible(SaveMapButton);
+            ClickOnElement(SaveMapButton);
+            return this;
+        }
         #endregion
 
         #region Risk tab

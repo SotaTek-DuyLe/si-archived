@@ -204,7 +204,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 Assert.IsTrue(IsCheckboxChecked(lockCheckbox));
             }
             //Service level
-            if(serviceUnitDBModel.servicelevelID == null)
+            if(serviceUnitDBModel.servicelevelID.Equals(null))
             {
                 Assert.AreEqual("", GetFirstSelectedItemInDropdown(serviceLevelDd));
             }

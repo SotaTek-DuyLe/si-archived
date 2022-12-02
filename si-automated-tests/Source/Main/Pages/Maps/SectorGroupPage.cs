@@ -8,7 +8,6 @@ namespace si_automated_tests.Source.Main.Pages.Maps
     {
         public readonly By AddNewItemButton = By.XPath("//button[text()='Add New Item']");
         public readonly By CopyItemButton = By.XPath("//button[text()='Copy Item']");
-        private readonly string SectorTable = "//div[@class='grid-canvas']";
         private readonly By sectorIdInput = By.XPath("//div[contains(@class, 'l1')]//input");
         private readonly By applyBtn = By.XPath("//button[@title='Apply Filters']");
         private readonly By firstCheckboxAtRow = By.XPath("//div[@class='grid-canvas']//div[contains(@class, 'l0')]");

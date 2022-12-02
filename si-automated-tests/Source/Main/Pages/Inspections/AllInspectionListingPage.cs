@@ -75,7 +75,7 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             Assert.AreEqual(location, inspectionModelActual.point);
             Assert.True(inspectionModelActual.inspectionType.Contains(pointHistoryModel.type));
             Assert.AreEqual(createdByUser, inspectionModelActual.createdByUser);
-            Assert.AreEqual(assignedUser, inspectionModelActual.assignedUser);
+            Assert.True(assignedUser.Contains(inspectionModelActual.assignedUser));
             Assert.AreEqual(allocatedUnit, inspectionModelActual.allocatedUnit);
             Assert.AreEqual(pointHistoryModel.state, inspectionModelActual.status);
             Assert.AreEqual(contract, inspectionModelActual.contract);
@@ -92,7 +92,7 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             Assert.AreEqual(location, inspectionModelActual.point);
             Assert.AreEqual(type, inspectionModelActual.inspectionType);
             Assert.AreEqual(createdByUser, inspectionModelActual.createdByUser);
-            Assert.AreEqual(assignedUser, inspectionModelActual.assignedUser);
+            Assert.IsTrue(assignedUser.Contains(inspectionModelActual.assignedUser));
             Assert.AreEqual(allocatedUnit, inspectionModelActual.allocatedUnit);
             Assert.AreEqual(state, inspectionModelActual.status);
             Assert.AreEqual(contract, inspectionModelActual.contract);

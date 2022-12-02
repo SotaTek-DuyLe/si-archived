@@ -14,5 +14,15 @@ namespace si_automated_tests.Source.Main.Models.Applications
         {
             return this.Description == (obj as RoundInstanceModel).Description;
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }
