@@ -61,6 +61,28 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private const string taskStateOption = "//select[@id='taskState.id']/option[text()='{0}']";
         private const string taskStateOptionAndOrder = "//select[@id='taskState.id']/option[{0}]";
 
+        public readonly By IndicatorTab = By.XPath("//a[@aria-controls='objectIndicators-tab']");
+        #region IndicatorTab
+        public readonly By IndicatorIframe = By.XPath("//iframe[@id='objectIndicators']");
+        private string indicatorTable = "//div[@id='object-indicators-grid']//div[@class='grid-canvas']";
+        private string indicatorRow = "./div[contains(@class, 'slick-row')]";
+        private string idCell = "./div[@class='slick-cell l0 r0']";
+        private string indicatorCell = "./div[@class='slick-cell l1 r1']";
+        private string inheritedCell = "./div[@class='slick-cell l6 r6']";
+        private string retireButtonCell = "./div[@class='slick-cell l7 r7']//button";
+
+        public TableElement IndicatorTableEle
+        {
+            get => new TableElement(indicatorTable, indicatorRow, new List<string>() { idCell, indicatorCell, inheritedCell, retireButtonCell });
+        }
+
+        public DetailTaskPage ClickOnRetireButton(int rowIdx)
+        {
+            IndicatorTableEle.ClickCell(rowIdx, IndicatorTableEle.GetCellIndex(retireButtonCell));
+            return this;
+        }
+        #endregion
+
         public readonly By SubscriptionTab = By.XPath("//a[@aria-controls='subscriptions-tab']");
         #region SubscriptionTab
         public readonly By AddNewSubscriptionButton = By.XPath("//button[@data-bind='click: createSubscription']");

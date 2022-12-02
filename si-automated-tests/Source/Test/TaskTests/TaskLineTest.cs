@@ -544,5 +544,36 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickCloseBtn()
                 .SwitchToFirstWindow();
         }
+
+        [Category("TaskLine")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_218_Icon_needs_updating_in_retiring_inherited_indicators()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser56.UserName, AutoUser56.Password)
+                .IsOnHomePage(AutoUser56);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TasksListingPage>()
+                .WaitForTaskListinPageDisplayed()
+                .FilterByTaskId("23886")
+                .ClickOnFirstRecord()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
+            detailTaskPage.ClickOnElement(detailTaskPage.IndicatorTab);
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.SwitchToFrame(detailTaskPage.IndicatorIframe);
+            detailTaskPage.ClickOnRetireButton(0)
+                .VerifyToastMessage("Inherited indicators cannot be retired.");
+        }
     }
 }
