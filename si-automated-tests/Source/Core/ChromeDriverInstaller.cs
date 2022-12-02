@@ -119,7 +119,7 @@ namespace si_automated_tests.Source.Core
             // and extracts the chromedriver executable to the targetPath without saving any intermediate files to disk
             using (var zipFileStream = await driverZipResponse.Content.ReadAsStreamAsync())
             using (var zipArchive = new ZipArchive(zipFileStream, ZipArchiveMode.Read))
-            using (var chromeDriverWriter = new FileStream(targetPath, FileMode.Create))
+            using (var chromeDriverWriter = new FileStream(targetPath, FileMode.Create, FileAccess.Write, FileShare.Read))
             {
                 var entry = zipArchive.GetEntry(driverName);
                 using Stream chromeDriverStream = entry.Open();
