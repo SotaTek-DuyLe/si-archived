@@ -149,12 +149,12 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
 
         #region Price Line Table
         private readonly string AddPriceLineButton = "./button[contains(@data-bind, 'addPriceLine')]";
-        private readonly string PriceLineRow = "./tr";
-        private readonly string DescriptionCell = "./td//input[contains(@data-bind, 'description')]";
-        private readonly string UnitCell = "./td//select[contains(@data-bind, 'units')]";
-        private readonly string NetQtyCell = "./td//input[contains(@data-bind, 'quantity')]";
-        private readonly string OverrideUnitPriceCell = "./td//input[contains(@data-bind, 'overridePrice')]";
-        private readonly string RemoveButtonCell = "./td//button[text()='Remove']";
+        //private readonly string PriceLineRow = "./tr";
+        //private readonly string DescriptionCell = "./td//input[contains(@data-bind, 'description')]";
+        //private readonly string UnitCell = "./td//select[contains(@data-bind, 'units')]";
+        //private readonly string NetQtyCell = "./td//input[contains(@data-bind, 'quantity')]";
+        //private readonly string OverrideUnitPriceCell = "./td//input[contains(@data-bind, 'overridePrice')]";
+        //private readonly string RemoveButtonCell = "./td//button[text()='Remove']";
 
         [AllureStep]
         public CreateNewTicketPage ClickAddPriceLine(int ticketLineIdx)
