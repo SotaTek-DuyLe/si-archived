@@ -16,12 +16,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         private readonly By Page4PricesText = By.XPath("//span[text()='4']/following-sibling::p[text()='Prices']");
 
         //fix locator for tc 016 017 
-        private string removePriceBtn = "(//div[contains(@data-bind,'priceEditor')]//button[@title='Retire/Remove'])[3]";
-        private string allPrices17 = "(//tr[@class='heading']/following-sibling::tr[1])[1]//button[@title='Retire/Remove']";
         
-        private string redundantPrice = "(//div[@id='step-4']//input[@placeholder='Price £' and contains(@class, 'has-error')])[1]/parent::td/following-sibling::td//button[@title='Retire/Remove']";
         private string redundantPriceAll = "//div[@id='step-4']//input[@placeholder='Price £' and contains(@class, 'has-error')]";
-        private string redundantPrices = "//div[@id='step-4']//tr[contains(@data-bind, 'openPriceForm') and not(contains(@style, 'display: none;'))]//input[contains(@class,'price-text has-error')]/parent::td[1]/following-sibling::td/button[@title='Retire/Remove']";
         public readonly By PriceTable = By.XPath("(//div[@id='step-4']//table)[1]/tbody");
 
         [AllureStep]
