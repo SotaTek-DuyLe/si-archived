@@ -37,6 +37,12 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
         [AllureStep]
+        public EventActionPage VerifySelectValueNotInAllocatedUnit(string value)
+        {
+            Assert.IsFalse(GetAllOptionsInAllocatedUnitDd().Contains(value));
+            return this;
+        }
+        [AllureStep]
         public EventActionPage ClickOnAllocatedUnitLabel()
         {
             ClickOnElement("//label[text()='Allocated Unit']");

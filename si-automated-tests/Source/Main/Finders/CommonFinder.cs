@@ -265,6 +265,12 @@ namespace si_automated_tests.Source.Main.Finders
             return FindList<ContractUnitDBModel>(query);
         }
 
+        public List<ContractUnitDBModel> GetContractUnits()
+        {
+            string query = "select * from SotatekTesting.dbo.contractunits;";
+            return FindList<ContractUnitDBModel>(query);
+        }
+
         public List<string> GetContractUnitUserListVByContractUnit(string contractUnitId)
         {
             string query = "select * from SotatekTesting.dbo.contractunitusers_list_v v join SotatekTesting.dbo.contractunits c on v.contractunitID = c.contractunitID WHERE c.contractunitID = " + contractUnitId + " and v.enddate > getdate();";
