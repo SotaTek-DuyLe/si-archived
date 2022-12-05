@@ -22,6 +22,8 @@ namespace si_automated_tests.Source.Core
         private readonly By refreshBtn = By.XPath("//button[@title='Refresh']");
         private readonly By saveBtn = By.XPath("//button[@title='Save']");
         private readonly By saveAndCloseBtn = By.XPath("//button[@title='Save and Close']");
+        private readonly By deleteItemBtn = By.XPath("//button[@title='Delete Item']");
+        private readonly By confirmActionButton = By.XPath("//button[@data-bb-handler='Confirm']");
         private readonly string tab = "//a[@data-toggle='tab' and contains(text(),'{0}')]";
         private readonly string tabs = "//a[@data-toggle='tab']";
         private readonly string frameMessage = "//div[@class='notifyjs-corner']/div";
@@ -485,6 +487,14 @@ namespace si_automated_tests.Source.Core
             Thread.Sleep(500);
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
             return this;
+        }
+        [AllureStep]
+        public T SwitchToLastWindow<T>() where T: new ()
+        {
+            Thread.Sleep(500);
+            IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
+            var page = (T)Activator.CreateInstance(typeof(T));
+            return page;
         }
         [AllureStep]
         public BasePage SwitchToChildWindow(int numberOfWindow, int maxRetryCount = 50)
@@ -1229,6 +1239,20 @@ namespace si_automated_tests.Source.Core
             WaitUtil.WaitForElementVisible(by);
             IWebElement elementLocator = (IWebElement)driver.FindElement(by);
             actions.MoveToElement(elementLocator).Perform();
+            return this;
+        }
+
+        //Click delete item button next to save and close buttons (available for some pages)
+        [AllureStep]
+        public BasePage ClickDeleteItem()
+        {
+            ClickOnElement(deleteItemBtn);
+            return this;
+        }
+        [AllureStep]
+        public BasePage ClickConfirmActionButton()
+        {
+            ClickOnElement(confirmActionButton);
             return this;
         }
 

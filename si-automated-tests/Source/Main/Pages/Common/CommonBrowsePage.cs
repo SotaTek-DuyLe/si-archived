@@ -117,6 +117,21 @@ namespace si_automated_tests.Source.Main.Pages
             return value;
         }
         [AllureStep]
+        public string GetFirstResultValueOfFieldInTab(string field)
+        {
+            string value = "";
+            IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headersInTabSection);
+            for (int i = 0; i < hds.Count; i++)
+            {
+                if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
+                {
+                    IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(firstResultFieldsInTabSection);
+                    value = _firstResultFields[i].Text;
+                }
+            }
+            return value;
+        }
+        [AllureStep]
         public List<string> GetListOfValueFilterBy(string filterValue)
         {
             List<string> result = new List<string>();

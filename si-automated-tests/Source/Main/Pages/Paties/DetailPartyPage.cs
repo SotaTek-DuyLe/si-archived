@@ -30,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By dropdown = By.XPath("//li[@class='dropdown']");
 
         private const string PartyName = "//div[text()='{0}']";
+        private readonly By partyNameValue = By.XPath("//p[@class='object-name']");
         private readonly By title = By.XPath("//h4[text()='Party']");
         private readonly By wBtab = By.XPath("//a[text()='Weighbridge Settings']");
         private readonly By wBTicketTab = By.XPath("//a[text()='Weighbridge Tickets']");
@@ -1140,6 +1141,16 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.IsTrue(IsControlDisplayed(titleInNotesTab), "Title input in Notes tab is not displayed");
             Assert.IsTrue(IsControlDisplayed(notesInNotesTab), "Notes input in Notes tab is not displayed");
             return this;
+        }
+        [AllureStep]
+        public string GetPartyName()
+        {
+            WaitUtil.WaitForTextToDisappearInElement(partyNameValue, "");
+            return GetElementText(partyNameValue);
+        }
+        public string GetAddress()
+        {
+            return GetFirstSelectedItemInDropdown(CorresspondenceAddressDd);
         }
     }
 }

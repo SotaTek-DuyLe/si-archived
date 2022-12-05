@@ -1062,10 +1062,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
         [Category("Sale invoice")]
         [Category("Dee")]
         [Test]
-        public void TC_168()
+        public void TC_136()
         {
             string lineType = "Commercial Line Type";
-            string site = "Chicken City - 388 RICHMOND ROAD, TWICKENHAM, TW1 2DY";
             string product = "General Refuse";
             string priceElement = "Revenue";
             string quantity = "1";
@@ -1076,7 +1075,13 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<LoginPage>()
                 .SendKeyToUsername(AutoUser6.UserName)
                 .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
+                .ClickOnSignIn()
+                .WaitForLoadingIconToDisappear();
+            var partyName = PageFactoryManager.Get<DetailPartyPage>()
+                .GetPartyName();
+            var address = PageFactoryManager.Get<DetailPartyPage>()
+                .GetAddress();
+            var site = partyName + " - " + address;
             PageFactoryManager.Get<DetailPartyPage>()
                 .ClickOnAccountStatement()
                 .WaitForLoadingIconToDisappear();
@@ -1106,9 +1111,52 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SalesInvoiceDetailPage>()
-                .SelectFirstUninvoicedItem();
-            
-            
+                .ClickCancelButton()
+                .SleepTimeInSeconds(3)
+                .SwitchToLastWindow<AccountStatementPage>()
+                .ClickCreateInvoice()
+                .SwitchToLastWindow<SalesInvoiceDetailPage>()
+                .ClickCreateAdhocInvoiceBtn()
+                .IsOnSaleInvoiceDetailPage()
+                .CloseCurrentWindow()
+                //.AcceptAlert()
+                .SwitchToLastWindow<AccountStatementPage>()
+                .ClickCreateInvoice()
+                .SwitchToLastWindow();
+            var invoiceId = PageFactoryManager.Get<CommonBrowsePage>()
+                .GetFirstResultValueOfField("ID");
+            PageFactoryManager.Get<SalesInvoiceDetailPage>()
+                .SelectFirstUninvoicedItem()
+                .IsOnSaleInvoiceDetailPage()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SalesInvoiceDetailPage>()
+                .ClickOnLinesTab();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyFirstResultValueInTab("ID", invoiceId)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow<AccountStatementPage>()
+                .ClickCreateInvoiceItem()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SaleInvoiceLinePage>()
+                .IsOnSaleInvoiceLinePage()
+                .InputInfo(lineType, site, product, priceElement, quantity, price)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow<CommonBrowsePage>()
+                .OpenFirstResult()
+                .SwitchToLastWindow<SaleInvoiceLinePage>()
+                .IsOnSaleInvoiceLinePage()
+                .ClickDeleteItem()
+                .ClickConfirmActionButton()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .SleepTimeInSeconds(3);
+
+
+
             PageFactoryManager.Get<SalesInvoiceDetailPage>()
                 .SleepTimeInSeconds(3);
 
