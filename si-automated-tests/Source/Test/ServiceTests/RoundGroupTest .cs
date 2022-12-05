@@ -475,7 +475,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             RoundGroupPage roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
             roundGroupPage.WaitForLoadingIconToDisappear();
             roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
-            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(3000);
             string tomorrow = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             string endDate = DateTime.Now.AddDays(1).AddYears(1).ToString("dd/MM/yyyy");
             roundGroupPage
@@ -591,7 +592,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickSiteTab()
                 .IsOnSiteTab()
                 .ClickRemoveRightSite("Kingston Tip");
-            Thread.Sleep(300);
+            PageFactoryManager.Get<RoundGroupPage>()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundGroupPage>()
                 .CheckRightSiteVisibility("Kingston Tip", false)
                 .CheckLeftSiteVisibility("Kingston Tip", true)
@@ -599,7 +601,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear()
                 .VerifyToastMessage("Success");
             PageFactoryManager.Get<RoundGroupPage>()
-                .ClickAddLeftSite("Kingston Tip")
+                .ClickAddLeftSite("Kingston Tip");
+            PageFactoryManager.Get<RoundGroupPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundGroupPage>()
                 .CheckRightSiteVisibility("Kingston Tip", true)
                 .CheckLeftSiteVisibility("Kingston Tip", false)
                 .ClickSaveBtn()
@@ -765,7 +770,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .ExpandOption("Collections")
                 .ExpandOption("Commercial Collections")
                 .ExpandOption("Round Groups")

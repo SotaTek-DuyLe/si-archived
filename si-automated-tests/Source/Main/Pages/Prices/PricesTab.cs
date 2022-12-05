@@ -75,5 +75,15 @@ namespace si_automated_tests.Source.Main.Pages.Prices
             VerifyCellValue(PricesInputTable, rowIdx, 2, minprice);
             return this;
         }
+
+        public PricesTab VerifyPriceRecord(string name, string price, string minprice)
+        {
+            int namecellIdx = PricesInputTable.GetCellIndex(PriceNameInputCell);
+            var row = PricesInputTable.GetRowByCellValues(new Dictionary<int, object>() { { namecellIdx, name } });
+            Assert.IsNotNull(row);
+            Assert.IsTrue(row.FindElement(By.XPath(PriceCell)).GetAttribute("value") == price);
+            Assert.IsTrue(row.FindElement(By.XPath(MinPriceCell)).GetAttribute("value") == minprice);
+            return this;
+        }
     }
 }

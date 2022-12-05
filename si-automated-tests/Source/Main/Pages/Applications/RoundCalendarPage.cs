@@ -133,7 +133,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                     }
                     else if (className.Contains("fc-more-cell"))
                     {
-                        List<IWebElement> details = content.FindElements(By.XPath("//a")).ToList();
+                        List<IWebElement> details = content.FindElements(By.XPath("./div/a[@class='fc-more']")).ToList();
                         if (details.Count > 0)
                         {
                             roundCalendarModel.ButtonMore = details[0];

@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace si_automated_tests.Source.Core
@@ -114,17 +115,31 @@ namespace si_automated_tests.Source.Core
             {
                 throw new Exception($"ChromeDriver download request failed with status code: {driverZipResponse.StatusCode}, reason phrase: {driverZipResponse.ReasonPhrase}");
             }
+            int numberOfRetries = 7;
+            int delayOnRetry = 2000;
 
             // this reads the zipfile as a stream, opens the archive, 
             // and extracts the chromedriver executable to the targetPath without saving any intermediate files to disk
             using (var zipFileStream = await driverZipResponse.Content.ReadAsStreamAsync())
             using (var zipArchive = new ZipArchive(zipFileStream, ZipArchiveMode.Read))
-            using (var chromeDriverWriter = new FileStream(targetPath, FileMode.Create))
-            {
-                var entry = zipArchive.GetEntry(driverName);
-                using Stream chromeDriverStream = entry.Open();
-                await chromeDriverStream.CopyToAsync(chromeDriverWriter);
-            }
+            
+            for(int i = 0; i <numberOfRetries; i++)
+                {
+                    try
+                    {
+                        using (var chromeDriverWriter = new FileStream(targetPath, FileMode.Create))
+                        {
+                            var entry = zipArchive.GetEntry(driverName);
+                            using Stream chromeDriverStream = entry.Open();
+                            await chromeDriverStream.CopyToAsync(chromeDriverWriter);
+                        }
+                    }
+                    catch (IOException) when (i < numberOfRetries - 1)
+                    {
+                        Thread.Sleep(delayOnRetry);
+                    }
+                }
+            
 
             // on Linux/macOS, you need to add the executable permission (+x) to allow the execution of the chromedriver
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX))

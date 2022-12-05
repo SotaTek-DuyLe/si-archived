@@ -20,5 +20,15 @@ namespace si_automated_tests.Source.Main.Models.Services
                 this.StartDate == (obj as DefaultResourceModel).StartDate &&
                 this.EndDate == (obj as DefaultResourceModel).EndDate;
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

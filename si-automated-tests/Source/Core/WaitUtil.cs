@@ -185,6 +185,12 @@ namespace si_automated_tests.Source.Core
             driverWait.Until(ExpectedConditions.TextToBePresentInElementValue(by, text));
         }
         [AllureStep]
+        public static void TextToBePresentInElementLocated(By by, string text)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(shortTimeOut));
+            driverWait.Until(ExpectedConditions.TextToBePresentInElementLocated(by, text));
+        }
+        [AllureStep]
         public static void WaitAttributeChange(By by, string attribute, string originalValue)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(shortTimeOut));
