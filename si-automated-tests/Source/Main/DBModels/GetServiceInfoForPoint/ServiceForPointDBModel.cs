@@ -19,5 +19,6 @@ namespace si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint
         public string patterndesc { get; set; }
         public string round { get; set; }
         public string rescheduleddesc { get; set; }
+        public string roundlegdesc { get; set; }
     }
 }

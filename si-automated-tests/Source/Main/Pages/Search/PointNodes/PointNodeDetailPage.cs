@@ -190,13 +190,14 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
                 string nextValue = GetElementText(GetAllElements(next)[i]);
                 string assetTypeValue = GetElementText(GetAllElements(assetType)[i]);
                 string allocationValue = GetElementText(GetAllElements(allocation)[i]);
-                List<ChildSchedule> listSchedule = new List<ChildSchedule>();
-                string scheludeChild = GetElementText(scheduleChildRow);
-                string lastChild = GetElementText(lastChildRow);
-                string nextChild = GetElementText(nextChildRow);
-                string allocationChild = GetElementText(allocationChildRow);
-                listSchedule.Add(new ChildSchedule(scheludeChild, lastChild, nextChild, allocationChild));
-                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue, listSchedule));
+                //List<ChildSchedule> listSchedule = new List<ChildSchedule>();
+                //string scheludeChild = GetElementText(scheduleChildRow);
+                //string lastChild = GetElementText(lastChildRow);
+                //string nextChild = GetElementText(nextChildRow);
+                //string allocationChild = GetElementText(allocationChildRow);
+                //listSchedule.Add(new ChildSchedule(scheludeChild, lastChild, nextChild, allocationChild));
+                //activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue, listSchedule));
+                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue));
             }
             return activeSeviceModels;
         }
@@ -208,7 +209,14 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
                 Assert.AreEqual(serviceForPointDB[i].service, activeSeviceModelsDisplayed[i].service);
                 Assert.AreEqual(serviceForPointDB[i].serviceunit, activeSeviceModelsDisplayed[i].serviceUnit);
                 //Parent - Schedule
-                Assert.AreEqual("Multiple", activeSeviceModelsDisplayed[i].schedule);
+                if (serviceForPointDB[i].patterndesc.Contains("every week"))
+                {
+                    Assert.AreEqual("Every " + serviceForPointDB[i].patterndesc.Replace("every week", "").Trim(), activeSeviceModelsDisplayed[i].schedule);
+                }
+                else
+                {
+                    Assert.AreEqual(serviceForPointDB[i].patterndesc, activeSeviceModelsDisplayed[i].schedule);
+                }
                 if (serviceForPointDB[i].next.Equals("Tomorrow"))
                 {
                     Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), activeSeviceModelsDisplayed[i].nextService);
@@ -229,16 +237,16 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
 
                 List<ServiceTaskForPointDBModel> allSTForPointWithSameAssetType = GetServiceTaskForPointWithSameAssetType(serviceTaskForPointDBModels, serviceForPointDB[i].assets);
 
-                //allocation - Child
-                Assert.AreEqual(allSTForPointWithSameAssetType[0].roundgroup + " - " + allSTForPointWithSameAssetType[0].round.Trim(), activeSeviceModelsDisplayed[i].listChildSchedule[0].allocationRound);
-                //CHILD - ROW
-                Assert.AreEqual(serviceForPointDB[i].roundgroup + " - " + serviceForPointDB[i].round.Trim(), activeSeviceModelsDisplayed[i].listChildSchedule[0].allocationRound);
-                //Schedule child
-                Assert.AreEqual(allSTForPointWithSameAssetType[0].patterndesc, activeSeviceModelsDisplayed[i].listChildSchedule[0].scheduleRound);
-                //Last child
-                Assert.AreEqual(CommonUtil.ParseDateTimeToFormat(allSTForPointWithSameAssetType[0].lastdate, CommonConstants.DATE_DD_MM_YYYY_FORMAT), activeSeviceModelsDisplayed[i].listChildSchedule[0].lastRound);
-                //Next child
-                Assert.AreEqual(allSTForPointWithSameAssetType[0].next, activeSeviceModelsDisplayed[i].listChildSchedule[0].nextRound);
+                ////allocation - Child
+                //Assert.AreEqual(allSTForPointWithSameAssetType[0].roundgroup + " - " + allSTForPointWithSameAssetType[0].round.Trim(), activeSeviceModelsDisplayed[i].listChildSchedule[0].allocationRound);
+                ////CHILD - ROW
+                //Assert.AreEqual(serviceForPointDB[i].roundgroup + " - " + serviceForPointDB[i].round.Trim(), activeSeviceModelsDisplayed[i].listChildSchedule[0].allocationRound);
+                ////Schedule child
+                //Assert.AreEqual(allSTForPointWithSameAssetType[0].patterndesc, activeSeviceModelsDisplayed[i].listChildSchedule[0].scheduleRound);
+                ////Last child
+                //Assert.AreEqual(CommonUtil.ParseDateTimeToFormat(allSTForPointWithSameAssetType[0].lastdate, CommonConstants.DATE_DD_MM_YYYY_FORMAT), activeSeviceModelsDisplayed[i].listChildSchedule[0].lastRound);
+                ////Next child
+                //Assert.AreEqual(allSTForPointWithSameAssetType[0].next, activeSeviceModelsDisplayed[i].listChildSchedule[0].nextRound);
             }
             return this;
         }

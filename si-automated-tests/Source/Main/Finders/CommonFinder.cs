@@ -261,7 +261,7 @@ namespace si_automated_tests.Source.Main.Finders
 
         public List<ContractUnitDBModel> GetContractUnitByContractId(string contractId)
         {
-            string query = "select * from SotatekTesting.dbo.contractunits where contractID = " + contractId + "order by contractunit asc;";
+            string query = "select * from SotatekTesting.dbo.contractunits c where c.contractID = " + contractId + "and c.enddate > getdate() order by contractunit asc;";
             return FindList<ContractUnitDBModel>(query);
         }
 

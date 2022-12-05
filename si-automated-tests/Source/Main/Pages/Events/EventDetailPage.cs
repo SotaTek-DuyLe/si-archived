@@ -226,16 +226,17 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 string nextValue = GetElementText(GetAllElements(next)[i]);
                 string assetTypeValue = GetElementText(GetAllElements(assetType)[i]);
                 string allocationValue = GetElementText(GetAllElements(allocation)[i]);
-                List<ChildSchedule> listSchedule = new List<ChildSchedule>();
-                if (i == 1)
-                {
-                    string scheludeChild = GetElementText(scheduleChildRow);
-                    string lastChild = GetElementText(lastChildRow);
-                    string nextChild = GetElementText(nextChildRow);
-                    string allocationChild = GetElementText(allocationChildRow);
-                    listSchedule.Add(new ChildSchedule(scheludeChild, lastChild, nextChild, allocationChild));
-                }
-                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue, listSchedule));
+                //List<ChildSchedule> listSchedule = new List<ChildSchedule>();
+                //if (i == 1)
+                //{
+                //    string scheludeChild = GetElementText(scheduleChildRow);
+                //    string lastChild = GetElementText(lastChildRow);
+                //    string nextChild = GetElementText(nextChildRow);
+                //    string allocationChild = GetElementText(allocationChildRow);
+                //    listSchedule.Add(new ChildSchedule(scheludeChild, lastChild, nextChild, allocationChild));
+                //}
+                //activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue, listSchedule));
+                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue));
             }
             return activeSeviceModels;
         }
