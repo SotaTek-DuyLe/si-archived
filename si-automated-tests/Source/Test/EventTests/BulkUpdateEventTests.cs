@@ -116,9 +116,7 @@ namespace si_automated_tests.Source.Test.EventTests
             eventDetailPage
                 .VerifyHistoryWithDB(secondEventModels[0], "A User", 3, updatedTime, 1099)
                 .VerifyRecordInHistoryTabAfterAddNote(AutoUser53.DisplayName)
-                .VerifyNotesAfterAddNote(notesValue)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(1);
+                .VerifyNotesAfterAddNote(notesValue);
 
         }
     }

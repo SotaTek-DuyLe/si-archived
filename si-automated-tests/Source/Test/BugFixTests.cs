@@ -1537,10 +1537,10 @@ namespace si_automated_tests.Source.Test
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.Municipal)
                 .ExpandOptionLast("Contract Units")
-                .OpenLastOption("Ancillary")
+                .OpenLastOption("Clinical")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ContractUnitDetailPage>()
-                .IsContractUnit("Ancillary")
+                .IsContractUnit("Clinical")
                 .ClickOnUsersTab()
                 .ClickOnAddNewItemInUsersTab()
                 .SwitchToChildWindow(2)
@@ -1704,7 +1704,7 @@ namespace si_automated_tests.Source.Test
             //Click on [History] tab and verify
             agreementDetailPage
                 .ClickOnHistoryTab()
-                .VerifyTitleUpdateInHistoryTab("Amendment - AgreementLine")
+                .VerifyTitleUpdateInHistoryTab("Update - AgreementLine")
                 .VerifyHistoryAfterUpdateFirstServiced(CommonConstants.HistoryInAgreementDetail, valueExp, AutoUser46.DisplayName)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2)

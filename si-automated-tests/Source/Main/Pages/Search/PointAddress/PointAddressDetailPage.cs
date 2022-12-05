@@ -104,26 +104,27 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         //ACTIVE SERVICES TAB
         private readonly By activeServiceTab = By.CssSelector("a[aria-controls='activeServices-tab']");
         private readonly By allActiveServiceWithServiceUnitRow = By.XPath("//div[@class='parent-row']//span[@title='Open Service Task']");
-        private readonly By allActiveServiceRows = By.XPath("//span[@title='Open Service Task' or @title='0']");
+        private readonly By allActiveServiceRows = By.XPath("//span[@title='Open Service Task' or @title='0' or contains(@data-bind, 'Open Service Task')]");
 
         private const string eventDynamicLocator = "//div[@class='parent-row'][{0}]//div[text()='Event']";
         private const string serviceUnitDynamic = "//div[@class='parent-row'][{0}]//div[@title='Open Service Unit']/span";
         private const string serviceWithServiceUnitDynamic = "//div[@class='parent-row'][{0}]//span[@title='Open Service Task']";
         private const string allserviceUnitDynamic = "//div[@class='parent-row'][{0}]//div[contains(@data-bind, 'service-grid-service')]";
         private const string statusDescParentRow = "//div[@class='parent-row'][{0}]//b";
-        private const string scheduleParentRow = "//div[@id='toggle-actions']//label";
+        private const string scheduleParentRow = "//div[@class='service-text']//div[@data-bind='text: $data']";
         private const string scheduleRow = "//div[@class='service-text']/div[@data-bind='text: $data']";
         private const string lastParentRow = "//div[@class='parent-row'][{0}]//div[@title='Open Service Unit']//following-sibling::div//span[@data-bind='text: ew.formatDateForUser($data.lastDate)']";
         private const string nextParentRow = "//div[@class='parent-row'][{0}]//div[@title='Open Service Unit']//following-sibling::div//span[@data-bind='text: ew.formatDateForUser($data.nextDate)']";
         private const string assetTypeParentRow = "//div[@class='parent-row'][{0}]//div[@data-bind='foreach: $data.asset']//div[@data-bind='text: $data']";
-        private readonly By allocationRow = By.CssSelector("span[title='Open Round Instance']");
+        private readonly By allocationRow = By.XPath("//div[@class='parent-row']//div[@data-bind='foreach: $data.asset']/following-sibling::div[1]");
         //Chrild row
-        private const string numberOfChirdRow = "//div[@class='services-grid--row'][{0}]//div[@class='child-row' and not(contains(@style,'display: none;'))]";
-        private const string roundChirdRow = "//div[@class='services-grid--row'][{0}]//div[@class='child-row' and not(contains(@style,'display: none;'))]//div[@data-bind='text: $data']";
+        private const string numberOfChirdRow = "//div[@class='parent-row'][{0}]//div[@class='services-grid--row'][2]";
+        private const string roundLegChirdRow = "//div[@class='parent-row'][{0}]//div[@class='services-grid--row'][2]//span[text()='Round Leg: ']/following-sibling::span[1]";
         private const string lastChirdRow = "//div[@class='services-grid--row'][{0}]//div[@class='child-row' and not(contains(@style,'display: none;'))]//span[@data-bind='text: ew.formatDateForUser($data.lastDate)']";
         private const string nextChrirdRow = "//div[@class='services-grid--row'][{0}]//div[@class='child-row' and not(contains(@style,'display: none;'))]//div[@data-bind='text: $data.next']";
         private const string assetTypeChildRow = "//div[@class='services-grid--row'][{0}]//div[@class='child-row' and not(contains(@style,'display: none;'))]//div[@data-bind='$data']";
         private const string allocationChildRow = "//div[@class='services-grid--row'][{0}]//div[@class='child-row' and not(contains(@style,'display: none;'))]//span[contains(@data-bind, '$data.allocation')]";
+        private const string resolutionChirdRow = "//div[@class='parent-row'][{0}]//div[@class='services-grid--row'][2]//span[text()='Round Leg: ']/following-sibling::b";
 
         //ACTION
         private const string actionBtnAtRow = "//tr[{0}]//label[@id='btndropdown']";
@@ -202,12 +203,14 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
 
             return this;
         }
+
         [AllureStep]
-        public List<ActiveSeviceModel> GetAllServiceWithServiceUnitModel()
+        public List<ActiveSeviceModel> GetAllServiceWithServiceUnitModel363256()
         {
             List<ActiveSeviceModel> activeSeviceModels = new List<ActiveSeviceModel>();
 
             List<IWebElement> allScheduleParentRow = GetAllElements(scheduleParentRow);
+            List<IWebElement> allAllocationRow = GetAllElements(allocationRow);
             List<IWebElement> allActiveRow = GetAllElements(allActiveServiceWithServiceUnitRow);
             for (int i = 0; i < allActiveRow.Count; i++)
             {
@@ -220,32 +223,33 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                 string nextParentValue = GetElementText(nextParentRow, (i + 1).ToString());
                 string assetTypeParentValue = "";
                 List<IWebElement> allAssetTypes = GetAllElements(string.Format(assetTypeParentRow, (i + 1).ToString()));
-                if(allAssetTypes.Count > 1)
+                if (allAssetTypes.Count > 1)
                 {
                     for (int k = 0; k < allAssetTypes.Count; k++)
                     {
                         assetTypeParentValue += " " + GetElementText(allAssetTypes[k]);
                     }
-                } else if(allAssetTypes.Count == 1)
+                }
+                else if (allAssetTypes.Count == 1)
                 {
                     assetTypeParentValue = GetElementText(allAssetTypes[0]);
                 }
+                string allocation = GetElementText(allAllocationRow[i]);
                 //Get child row info
                 List<ChildSchedule> listSchedule = new List<ChildSchedule>();
                 List<IWebElement> allChildRows = GetAllElements(numberOfChirdRow, (i + 1).ToString());
-                for(int j = 0; j < allChildRows.Count; j++)
+                for (int j = 0; j < allChildRows.Count; j++)
                 {
-                    string roundChildValue = GetElementText(GetAllElements(roundChirdRow, (i + 1).ToString())[j]);
-                    string lastChildValue = GetElementText(GetAllElements(lastChirdRow, (i + 1).ToString())[j]);
-                    string nextChildValue = GetElementText(GetAllElements(nextChrirdRow, (i + 1).ToString())[j]);
-                    string allocationChildValue = GetElementText(GetAllElements(allocationChildRow, (i + 1).ToString())[j]);
-                    listSchedule.Add(new ChildSchedule(roundChildValue, lastChildValue, nextChildValue, "", allocationChildValue));
+                    string roundLeg = GetElementText(GetAllElements(roundLegChirdRow, (i + 1).ToString())[j]);
+                    string resolutionCode = GetElementText(GetAllElements(resolutionChirdRow, (i + 1).ToString())[j]);
+                    listSchedule.Add(new ChildSchedule(roundLeg, resolutionCode));
                 }
 
-                activeSeviceModels.Add(new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue, statusDescParentValue, scheduleParentValue, lastParentValue, nextParentValue, assetTypeParentValue.Trim(), listSchedule));
+                activeSeviceModels.Add(new ActiveSeviceModel(eventLocator, serviceUnitValue, serviceValue, statusDescParentValue, scheduleParentValue, lastParentValue, nextParentValue, assetTypeParentValue.Trim(), allocation, listSchedule));
             }
             return activeSeviceModels;
         }
+
         [AllureStep]
         public List<ActiveSeviceModel> GetAllActiveService483995()
         {
@@ -297,7 +301,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                 Assert.AreEqual(serviceForPoint[i].serviceunit, activeSeviceWithServiceUnitModels[i].serviceUnit, "Wrong service unit " + i);
                 Assert.AreEqual(serviceForPoint[i].statusdesc, activeSeviceWithServiceUnitModels[i].status, "Wrong status " + i);
                 Assert.AreEqual(serviceForPoint[i].service, activeSeviceWithServiceUnitModels[i].service, "Wrong service " + i);
-                Assert.AreEqual("Multiple", activeSeviceWithServiceUnitModels[i].schedule, "Wrong schedule " + i);
+                Assert.AreEqual("Every " + serviceForPoint[i].round, activeSeviceWithServiceUnitModels[i].schedule, "Wrong schedule " + i);
                 if (serviceForPoint[i].next.Equals("Tomorrow"))
                 {
                     Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT_DB, 1), activeSeviceWithServiceUnitModels[i].nextService, "Wrong next service " + i);
@@ -328,6 +332,9 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
                 }
 
                 Assert.AreEqual(serviceForPoint[i].assets, activeSeviceWithServiceUnitModels[i].assetTypeService, "Wrong asset type service " + i);
+                Assert.AreEqual(serviceForPoint[i].statusdesc, activeSeviceWithServiceUnitModels[i].listChildSchedule[0].resolutionCode, "Wrong Status desc " + i);
+                Assert.AreEqual(serviceForPoint[i].roundlegdesc + ":", activeSeviceWithServiceUnitModels[i].listChildSchedule[0].round, "Wrong Round Leg " + i);
+                Assert.AreEqual(serviceForPoint[i].roundgroup + " - " + serviceForPoint[i].round, activeSeviceWithServiceUnitModels[i].allocationService, "Wrong [Allocation] " + i);
             }
             return this;
         }

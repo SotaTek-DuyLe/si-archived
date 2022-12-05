@@ -27,13 +27,14 @@ namespace si_automated_tests.Source.Main.Models
             this.service = serviceValue;
         }
 
-        public ActiveSeviceModel(string eventLocator, string serviceUnitValue, string serviceValue, string statusDescParentValue, string scheduleParentValue, string lastParentValue, string nextParentValue, string assetTypeParentValue, List<ChildSchedule> listSchedule) : this(eventLocator, serviceUnitValue, serviceValue)
+        public ActiveSeviceModel(string eventLocator, string serviceUnitValue, string serviceValue, string statusDescParentValue, string scheduleParentValue, string lastParentValue, string nextParentValue, string assetTypeParentValue, string allocationService, List<ChildSchedule> listSchedule) : this(eventLocator, serviceUnitValue, serviceValue)
         {
             this.status = statusDescParentValue;
             this.schedule = scheduleParentValue;
             this.lastService = lastParentValue;
             this.nextService = nextParentValue;
             this.assetTypeService = assetTypeParentValue;
+            this.allocationService = allocationService;
             this.listChildSchedule = listSchedule;
         }
 
@@ -102,6 +103,12 @@ namespace si_automated_tests.Source.Main.Models
                 this.allocationRound = allocationChildValue;
             }
 
+            public ChildSchedule(string roundChildValue, string resolutionCode)
+            {
+                this.round = roundChildValue;
+                this.resolutionCode = resolutionCode;
+            }
+
             public ChildSchedule(string scheludeChild, string lastChild, string nextChild, string allocationChild)
             {
                 this.scheduleRound = scheludeChild;
@@ -120,6 +127,7 @@ namespace si_automated_tests.Source.Main.Models
             public string assuredTaskRound { get; set; }
             public string clientRefRound { get; set; }
             public string scheduleRound { get; set; }
+            public string resolutionCode { get; set; }
         }
     }
 }
