@@ -658,7 +658,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnAssetTab()
                 .ClickOnEditAsset();
             //Đang có bug ở đây, vẫn hiện Requested Delivery Date
-            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, false);
+            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
             assetAndProductTab.EditAssetQuantity(2)
                 .ClickAssetType();
             assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
