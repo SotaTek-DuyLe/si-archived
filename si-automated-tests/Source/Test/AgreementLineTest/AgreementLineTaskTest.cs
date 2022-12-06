@@ -744,8 +744,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonTaskPage>()
-                    .FilterTaskId(15331)
-                    .OpenTaskWithId(15331)
+                    .FilterTaskId(14053)
+                    .OpenTaskWithId(14053)
                     .SwitchToLastWindow();
             var agreementTaskDetailPage = PageFactoryManager.Get<AgreementTaskDetailsPage>();
             agreementTaskDetailPage.WaitForLoadingIconToDisappear();
