@@ -151,11 +151,25 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         }
 
         [AllureStep]
+        public int GetServicePanelUnDisplayCount()
+        {
+            return GetAllElements(serviceAgreementPanel).Count;
+        }
+
+        [AllureStep]
+        public PartyAgreementPage VerifyServicePanelUnDisplayAfterClickRemove(int rowCountBefore)
+        {
+            Assert.IsTrue(GetServicePanelUnDisplayCount() < rowCountBefore);
+            return this;
+        }
+
+        [AllureStep]
         public PartyAgreementPage VerifyServicePanelUnDisplay()
         {
             Assert.IsTrue(IsControlUnDisplayed(serviceAgreementPanel));
             return this;
         }
+
         [AllureStep]
 
         public PartyAgreementPage DoubleClickAgreement(int rowIdx)

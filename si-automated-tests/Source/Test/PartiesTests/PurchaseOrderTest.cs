@@ -315,12 +315,13 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .DoubleClickAgreement(1)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
+            int count = partyAgreementPage.GetServicePanelUnDisplayCount();
             partyAgreementPage
                 .ClickRemoveAgreementBtn()
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
-            partyAgreementPage.VerifyServicePanelUnDisplay();
+            partyAgreementPage.VerifyServicePanelUnDisplayAfterClickRemove(count);
         }
 
         [Category("Agreement")]
