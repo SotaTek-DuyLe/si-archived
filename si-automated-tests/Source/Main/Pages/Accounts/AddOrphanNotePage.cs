@@ -15,12 +15,12 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private string CreditNoteTable = "//div[@id='add-orphan-notes']//tbody[@data-bind='foreach: creditNotes']";
         private string CreditNoteRow = "./tr";
         private string CheckboxCell = "./td//input";
-        private string NoteIdCell = "./td";
-        private string CreditDateCell = "./td";
-        private string PartyCell = "./td";
-        private string AccountCell = "./td";
-        private string AccountNumberCell = "./td";
-        private string NetCell = "./td";
+        private string NoteIdCell = "./td[@data-bind='text: noteId']";
+        private string CreditDateCell = "./td[@data-bind='text: creditDate']";
+        private string PartyCell = "./td[@data-bind='text: party']";
+        private string AccountCell = "./td[@data-bind='text: accountRef']";
+        private string AccountNumberCell = "./td[@data-bind='text: accountNumber']";
+        private string NetCell = "./td[@data-bind='text: net']";
 
         public TableElement CreditNoteTableEle
         {
@@ -35,7 +35,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
 
         public AddOrphanNotePage VerifyNetValueHasValueGreaterThanZero()
         {
-            int netVal = CreditNoteTableEle.GetCellValue(0, 6).AsInteger();
+            double netVal = CreditNoteTableEle.GetCellValue(0, CreditNoteTableEle.GetCellIndex(NetCell)).AsDouble();
             Assert.IsTrue(netVal > 0);
             return this;
         }

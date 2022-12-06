@@ -263,16 +263,15 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .WaitForLoadingIconToDisappear();
             AddOrphanNotePage addOrphanNotePage = PageFactoryManager.Get<AddOrphanNotePage>();
             addOrphanNotePage.VerifyNetValueHasValueGreaterThanZero()
-                .SwitchToFirstWindow()
-                .SwitchNewIFrame();
+                .SwitchToFirstWindow();
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Accounts)
-                .ExpandOption(Contract.RMC)
+                .ExpandOption(Contract.Commercial)
                 .OpenLastOption("Credit Notes")
                 .SwitchNewIFrame();
             CreditNoteListPage creditNoteListPage = PageFactoryManager.Get<CreditNoteListPage>();
             creditNoteListPage.WaitForLoadingIconToDisappear();
-            creditNoteListPage.VerifyCreditNoteStatus("3", new System.Collections.Generic.List<string>() { "NEW", "APPROVED" });
+            creditNoteListPage.VerifyCreditNoteStatus("2", new System.Collections.Generic.List<string>() { "NEW", "APPROVED" });
         }
     }
 }
