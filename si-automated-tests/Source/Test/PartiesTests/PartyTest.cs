@@ -1152,13 +1152,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnSaleInvoiceLinePage()
                 .ClickDeleteItem()
                 .ClickConfirmActionButton()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .SleepTimeInSeconds(3);
-
-
-
-            PageFactoryManager.Get<SalesInvoiceDetailPage>()
-                .SleepTimeInSeconds(3);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
 
 
         }
