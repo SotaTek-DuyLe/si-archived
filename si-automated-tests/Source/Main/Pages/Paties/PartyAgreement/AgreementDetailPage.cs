@@ -3,6 +3,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 
 namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
@@ -270,6 +271,52 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
             Assert.AreEqual(secondAllValueUpdatedAgreement[1], GetFirstSelectedItemInDropdown(secondInvoiceAddressDd), "Invoice Address at second serviced is not correct");
             Assert.AreEqual(secondAllValueUpdatedAgreement[2], GetFirstSelectedItemInDropdown(secondInvoiceContactDd), "Invoice Contact at second serviced is not correct");
             Assert.AreEqual(secondAllValueUpdatedAgreement[3], GetFirstSelectedItemInDropdown(secondBillingRuleDd), "Billing Rule at second serviced is not correct");
+            return this;
+        }
+
+        #region
+        private readonly By retirePopupTitle = By.XPath("//h4[text()='Are you sure you want to retire this Agreement?']");
+        private readonly By closeBtn = By.XPath("//button[text()='×']");
+        private readonly By cancelBtn = By.XPath("//button[text()='OK']/preceding-sibling::button[text()='Cancel']");
+        private readonly By okBtn = By.XPath("//button[text()='OK']");
+        private readonly By bodyRetiredPopup = By.CssSelector("div[class='bootbox-body']");
+
+        #endregion
+
+        [AllureStep]
+        public AgreementDetailPage IsRetiredPopup()
+        {
+            WaitUtil.WaitForElementVisible(retirePopupTitle);
+            Assert.IsTrue(IsControlDisplayed(retirePopupTitle), "Title is not displayed");
+            Assert.IsTrue(IsControlDisplayed(closeBtn), "Close button is not displayed");
+            Assert.IsTrue(IsControlDisplayed(cancelBtn), "Cancel button is not displayed");
+            Assert.IsTrue(IsControlDisplayed(okBtn), "OK is not displayed");
+            foreach (string associateObject in CommonConstants.AssociateObjectAgreement)
+            {
+                Assert.IsTrue(GetElementText(bodyRetiredPopup).Contains(associateObject), associateObject + " is not displayed");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage ClickOnCancelBtn()
+        {
+            ClickOnElement(cancelBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage VerifyPopupIsDisappear()
+        {
+            WaitUtil.WaitForElementInvisible(retirePopupTitle);
+            Assert.IsTrue(IsControlUnDisplayed(retirePopupTitle));
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage ClickOnXBtn()
+        {
+            ClickOnElement(closeBtn);
             return this;
         }
     }

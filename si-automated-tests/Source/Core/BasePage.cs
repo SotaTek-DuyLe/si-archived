@@ -27,9 +27,17 @@ namespace si_automated_tests.Source.Core
         private readonly string frameMessage = "//div[@class='notifyjs-corner']/div";
         public readonly By UserDropDown = By.XPath("//div[@id='user-menu']//ul[@class='dropdown-menu']");
         public readonly By CreateDescriptionButton = By.XPath("//div[@id='user-menu']//button[contains(@data-bind, 'createObjectDescription')]");
+        private readonly By retiredBtn = By.XPath("//button[@title='Retire' and not(contains(@style, 'display: none;'))]");
         public By GetToogleButton(string userName)
         {
             return By.XPath($"//div[@id='user-menu']//button[contains(text(), '{userName}')]");
+        }
+
+        [AllureStep]
+        public BasePage ClickOnRetiredBtn()
+        {
+            ClickOnElement(retiredBtn);
+            return this;
         }
 
         public BasePage()
