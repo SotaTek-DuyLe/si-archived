@@ -284,5 +284,11 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from salescreditlines where partyID = 68 and salescreditID is NULL";
             return FindList<SaleCreditLineDBModel>(query).ToList();
         }
+        [AllureStep]
+        public List<TaskTypeDBModel> GetTaskTypes()
+        {
+            string query = "select * from tasktypes";
+            return FindList<TaskTypeDBModel>(query).ToList();
+        }
     }
 }
