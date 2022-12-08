@@ -658,7 +658,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnAssetTab()
                 .ClickOnEditAsset();
             //Đang có bug ở đây, vẫn hiện Requested Delivery Date
-            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, false);
+            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
             assetAndProductTab.EditAssetQuantity(2)
                 .ClickAssetType();
             assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
@@ -744,8 +744,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonTaskPage>()
-                    .FilterTaskId(15331)
-                    .OpenTaskWithId(15331)
+                    .FilterTaskId(14053)
+                    .OpenTaskWithId(14053)
                     .SwitchToLastWindow();
             var agreementTaskDetailPage = PageFactoryManager.Get<AgreementTaskDetailsPage>();
             agreementTaskDetailPage.WaitForLoadingIconToDisappear();

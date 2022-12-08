@@ -125,6 +125,7 @@ namespace si_automated_tests.Source.Test.PriceTabTests
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             PricesTab pricesTab = PageFactoryManager.Get<PricesTab>();
+            pricesTab.WaitForLoadingIconToDisappear();
             pricesTab.ClickOnElement(pricesTab.PriceTab);
             pricesTab.WaitForLoadingIconToDisappear();
             pricesTab.SwitchToFrame(pricesTab.PricesIFrame);

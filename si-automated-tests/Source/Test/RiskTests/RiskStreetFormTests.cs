@@ -221,6 +221,7 @@ namespace si_automated_tests.Source.Test.RiskTests
                 .ClickOnElement(riskRegisterListingPage.ShowAllBtn);
             //Bug: no grey italic font
             //Click on Bulk create
+            riskRegisterListingPage.WaitForLoadingIconToDisappear();
             riskRegisterListingPage.ClickOnElement(riskRegisterListingPage.bulkUpdateBtn);
             riskRegisterListingPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
@@ -233,9 +234,11 @@ namespace si_automated_tests.Source.Test.RiskTests
             riskRegisterPage.SleepTimeInMiliseconds(500);
             //Select an ID you want to work with -> Click on filter and ad this ID -> Preview -> Next
             string id = riskRegisterPage.SelectFirstIdAndFilter();
+            riskRegisterPage.WaitForLoadingIconToDisappear();
             riskRegisterPage.ClickOnElement(riskRegisterPage.NextButtonOnStep1);
             //Select a risk/s you want to add -> Add selected
             riskRegisterPage.SleepTimeInMiliseconds(500);
+            riskRegisterPage.WaitForLoadingIconToDisappear();
             string riskName = riskRegisterPage.SelectRisk();
             riskRegisterPage.ClickOnElement(riskRegisterPage.AddSelectRiskbutton);
             riskRegisterPage.VerifyRiskSelect(riskName);
