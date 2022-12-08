@@ -1141,5 +1141,49 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.IsTrue(IsControlDisplayed(notesInNotesTab), "Notes input in Notes tab is not displayed");
             return this;
         }
+
+        #region
+        private readonly By retirePopupTitle = By.CssSelector("div[id='retire-modal'] div[class='modal-header']");
+        private readonly By closeBtn = By.XPath("//button[text()='×']");
+        private readonly By cancelBtn = By.XPath("//button[text()='OK']/preceding-sibling::button[text()='Cancel']");
+        private readonly By okBtn = By.XPath("//button[text()='OK']");
+        private readonly By checkboxWarning = By.CssSelector("input[id='confirmRetire']");
+        private readonly By warningMessage = By.XPath("//label[contains(string(), 'I understand that this action cannot be undone.')]");
+        private readonly By bodyRetiredPopup = By.CssSelector("p[data-bind='html: retireMessage']");
+
+        #endregion
+
+        [AllureStep]
+        public DetailPartyPage IsRetiredPopup(string partyId)
+        {
+            WaitUtil.WaitForElementVisible(retirePopupTitle);
+            Console.WriteLine(GetElementText(retirePopupTitle));
+            Assert.AreEqual("By retiring " + "\nParty" + partyId + "\n the associated data below will also be \nretired:", GetElementText(retirePopupTitle));
+            Assert.IsTrue(IsControlDisplayed(warningMessage), "Warning message is not displayed");
+            Assert.IsTrue(IsControlDisplayed(checkboxWarning), "Check box is not displayed");
+            Assert.IsTrue(IsControlDisplayed(cancelBtn), "Cancel button is not displayed");
+            Assert.IsTrue(IsControlDisplayed(okBtn), "OK is not displayed");
+            foreach (string associateObject in CommonConstants.AssociateObjectParty)
+            {
+                Assert.IsTrue(GetElementText(bodyRetiredPopup).Contains(associateObject), associateObject + " is not displayed");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage ClickOnCancelBtn()
+        {
+            ClickOnElement(cancelBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyPopupIsDisappear()
+        {
+            WaitUtil.WaitForElementInvisible(retirePopupTitle);
+            Assert.IsTrue(IsControlUnDisplayed(retirePopupTitle));
+            return this;
+        }
+
     }
 }

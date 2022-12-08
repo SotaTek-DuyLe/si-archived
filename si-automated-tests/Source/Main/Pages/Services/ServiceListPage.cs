@@ -7,31 +7,11 @@ using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
-    public class BusinessUnitPage : BasePage
+    public class ServiceListPage : BasePage
     {
-        private By businessUnitInput = By.Id("businessUnit");
-        private readonly By title = By.XPath("//span[contains(string(), 'Business Unit:')]");
-
-        public BusinessUnitPage()
-        {
-            SwitchToLastWindow();
-        }
-        [AllureStep]
-        public BusinessUnitPage InputBusinessName(string name)
-        {
-            SendKeys(businessUnitInput, name);
-            return this;
-        }
-
-        [AllureStep]
-        public BusinessUnitPage IsBusinessUnitPage()
-        {
-            WaitUtil.WaitForElementVisible(title);
-            return this;
-        }
-
+        private readonly By title = By.XPath("//span[text()='Service']");
         #region
-        private readonly By retirePopupTitle = By.XPath("//h4[text()='Are you sure you want to retire this Business Unit?']");
+        private readonly By retirePopupTitle = By.XPath("//h4[text()='Are you sure you want to retire this Service?']");
         private readonly By closeBtn = By.XPath("//button[text()='×']");
         private readonly By cancelBtn = By.XPath("//button[text()='OK']/preceding-sibling::button[text()='Cancel']");
         private readonly By okBtn = By.XPath("//button[text()='OK']");
@@ -39,15 +19,26 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         #endregion
 
+        //DYNAMIC
+        private readonly string serviceName = "//h5[text()='{0}']";
+
         [AllureStep]
-        public BusinessUnitPage IsRetiredPopup()
+        public ServiceListPage IsServiceListPage(string serviceValue)
+        {
+            WaitUtil.WaitForElementVisible(title);
+            WaitUtil.WaitForElementVisible(serviceName, serviceValue);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceListPage IsRetiredPopup()
         {
             WaitUtil.WaitForElementVisible(retirePopupTitle);
             Assert.IsTrue(IsControlDisplayed(retirePopupTitle), "Title is not displayed");
             Assert.IsTrue(IsControlDisplayed(closeBtn), "Close button is not displayed");
             Assert.IsTrue(IsControlDisplayed(cancelBtn), "Cancel button is not displayed");
             Assert.IsTrue(IsControlDisplayed(okBtn), "OK is not displayed");
-            foreach (string associateObject in CommonConstants.AssociateObjectBusinessUnits)
+            foreach (string associateObject in CommonConstants.AssociateObjectService)
             {
                 Assert.IsTrue(GetElementText(bodyRetiredPopup).Contains(associateObject), associateObject + " is not displayed");
             }
@@ -55,14 +46,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
-        public BusinessUnitPage ClickOnCancelBtn()
+        public ServiceListPage ClickOnCancelBtn()
         {
             ClickOnElement(cancelBtn);
             return this;
         }
 
         [AllureStep]
-        public BusinessUnitPage VerifyPopupIsDisappear()
+        public ServiceListPage VerifyPopupIsDisappear()
         {
             WaitUtil.WaitForElementInvisible(retirePopupTitle);
             Assert.IsTrue(IsControlUnDisplayed(retirePopupTitle));
@@ -70,7 +61,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
-        public BusinessUnitPage ClickOnXBtn()
+        public ServiceListPage ClickOnXBtn()
         {
             ClickOnElement(closeBtn);
             return this;

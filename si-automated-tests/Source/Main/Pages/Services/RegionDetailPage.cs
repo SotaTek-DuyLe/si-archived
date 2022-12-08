@@ -7,31 +7,22 @@ using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
-    public class BusinessUnitPage : BasePage
+    public class RegionDetailPage : BasePage
     {
-        private By businessUnitInput = By.Id("businessUnit");
-        private readonly By title = By.XPath("//span[contains(string(), 'Business Unit:')]");
+        private readonly By title = By.XPath("//span[text()='Region']");
 
-        public BusinessUnitPage()
-        {
-            SwitchToLastWindow();
-        }
-        [AllureStep]
-        public BusinessUnitPage InputBusinessName(string name)
-        {
-            SendKeys(businessUnitInput, name);
-            return this;
-        }
+        //DYNAMIC
+        private readonly string regionName = "//h5[text()='{0}']";
 
-        [AllureStep]
-        public BusinessUnitPage IsBusinessUnitPage()
+        public RegionDetailPage IsRegionDetailPage(string regionValue)
         {
             WaitUtil.WaitForElementVisible(title);
+            WaitUtil.WaitForElementVisible(regionName, regionValue);
             return this;
         }
 
         #region
-        private readonly By retirePopupTitle = By.XPath("//h4[text()='Are you sure you want to retire this Business Unit?']");
+        private readonly By retirePopupTitle = By.XPath("//h4[text()='Are you sure you want to retire this Region?']");
         private readonly By closeBtn = By.XPath("//button[text()='×']");
         private readonly By cancelBtn = By.XPath("//button[text()='OK']/preceding-sibling::button[text()='Cancel']");
         private readonly By okBtn = By.XPath("//button[text()='OK']");
@@ -40,14 +31,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         #endregion
 
         [AllureStep]
-        public BusinessUnitPage IsRetiredPopup()
+        public RegionDetailPage IsRetiredPopup()
         {
             WaitUtil.WaitForElementVisible(retirePopupTitle);
             Assert.IsTrue(IsControlDisplayed(retirePopupTitle), "Title is not displayed");
             Assert.IsTrue(IsControlDisplayed(closeBtn), "Close button is not displayed");
             Assert.IsTrue(IsControlDisplayed(cancelBtn), "Cancel button is not displayed");
             Assert.IsTrue(IsControlDisplayed(okBtn), "OK is not displayed");
-            foreach (string associateObject in CommonConstants.AssociateObjectBusinessUnits)
+            foreach (string associateObject in CommonConstants.AssociateObjectRegion)
             {
                 Assert.IsTrue(GetElementText(bodyRetiredPopup).Contains(associateObject), associateObject + " is not displayed");
             }
@@ -55,14 +46,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
-        public BusinessUnitPage ClickOnCancelBtn()
+        public RegionDetailPage ClickOnCancelBtn()
         {
             ClickOnElement(cancelBtn);
             return this;
         }
 
         [AllureStep]
-        public BusinessUnitPage VerifyPopupIsDisappear()
+        public RegionDetailPage VerifyPopupIsDisappear()
         {
             WaitUtil.WaitForElementInvisible(retirePopupTitle);
             Assert.IsTrue(IsControlUnDisplayed(retirePopupTitle));
@@ -70,7 +61,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
-        public BusinessUnitPage ClickOnXBtn()
+        public RegionDetailPage ClickOnXBtn()
         {
             ClickOnElement(closeBtn);
             return this;

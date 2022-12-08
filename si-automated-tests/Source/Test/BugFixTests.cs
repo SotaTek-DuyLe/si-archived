@@ -20,6 +20,7 @@ using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccountStatement;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Paties.Sites;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
@@ -2101,6 +2102,377 @@ namespace si_automated_tests.Source.Test
                 .ClickOnHistoryTab()
                 .VerifyTitleCreate()
                 .VerifyTaskLineAfterUpdatedState(titleValuesAfter, expValuesAfter);
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Some of the objects cannot be retired (bug fix)")]
+        public void TC_241_Some_of_the_objects_cannot_be_retired()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Step line 7
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SectorPage>()
+                .IsSectorPage(Contract.Commercial)
+                .ClickOnRetiredBtn();
+
+            PageFactoryManager.Get<SectorPage>()
+                .IsRetiredPopup()
+                //Step line 8: Verify in [Contract]
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<SectorPage>()
+                .IsRetiredPopup()
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                //Step line 9: Verify in [Service group]
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Ancillary")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceGroupListPage>()
+                .IsServiceGroupPage("Ancillary")
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ServiceGroupListPage>()
+                .IsRetiredPopup()
+                //Step line 10: Click x/cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ServiceGroupListPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear()
+                //Step line 11: Verify in [Service]
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Ancillary")
+                .OpenOption("Skips")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceListPage>()
+                .IsServiceListPage("Skips")
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ServiceListPage>()
+                .IsRetiredPopup()
+                //Step line 12: Click x/cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ServiceListPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear()
+                //Step line 13: Verify in [Round group]
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Skips")
+                .ExpandOption("Round Groups")
+                .OpenOption("SKIP1")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .IsRoundGroupPage("SKIP1")
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .IsRetiredPopup()
+                //Step line 14: Click x/cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<RoundGroupPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear()
+                //Step line 15: Verify in [Round]
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("SKIP1")
+                .OpenLastOption("Monday")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundListPage>()
+                .IsRoundListPage()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<RoundListPage>()
+                .IsRetiredPopup()
+                //Step line 16: Click x/cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<RoundListPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear()
+                //Step line 17: Verify in [Service task schedules ]
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/service-task-schedules/236677");
+
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsServiceTaskSchedule()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsRetiredPopup()
+                //Step line 18: Click x/cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ServiceTaskSchedulePage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear()
+                //Step line 19: Verify in [Service task]
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/service-tasks/120892");
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsRetiredPopup()
+                //Step line 20: Click x/Cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear()
+                //Step line 21: Verify in [Service units]
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/service-units/230018");
+            PageFactoryManager.Get<ServiceUnitPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitPage>()
+                .IsServiceUnitPage()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ServiceUnitPage>()
+                .IsRetiredPopup()
+                //Step line 22: Click x/Cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ServiceUnitPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear();
+            //Step line 23: Verify in [Round schedules]
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/round-schedules/177");
+            PageFactoryManager.Get<RoundSchedulePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundSchedulePage>()
+                .IsRoundSchedulePage()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<RoundSchedulePage>()
+                .IsRetiredPopup()
+                //Step line 24: Click x/Cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<RoundSchedulePage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear();
+            //Step line 25: Verify in [Business unit group]
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/business-unit-groups/1");
+            PageFactoryManager.Get<BusinessUnitGroupDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<BusinessUnitGroupDetailPage>()
+                .IsBusinessUnitGroupPage()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<BusinessUnitGroupDetailPage>()
+                .IsRetiredPopup()
+                //Step line 26: Click x/Cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<BusinessUnitGroupDetailPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear();
+            //Step line 27: Verify in [Business unit]
+            PageFactoryManager.Get<NavigationBase>()
+               .GoToURL(WebUrl.MainPageUrl + "web/business-units/5");
+            PageFactoryManager.Get<BusinessUnitPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<BusinessUnitPage>()
+                .IsBusinessUnitPage()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<BusinessUnitPage>()
+                .IsRetiredPopup()
+                //Step line 28: Click x/Cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<BusinessUnitPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear();
+            //Step line 29: Verify in [Contract Unit]
+            PageFactoryManager.Get<NavigationBase>()
+               .GoToURL(WebUrl.MainPageUrl + "web/contract-units/8");
+            PageFactoryManager.Get<ContractUnitDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ContractUnitDetailPage>()
+                .IsContractUnit("Commercial")
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ContractUnitDetailPage>()
+                .IsRetiredPopup()
+                //Step line 30: Click x/Cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ContractUnitDetailPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear();
+            //Step line 31: Verify in [Contract Site]
+            PageFactoryManager.Get<NavigationBase>()
+               .GoToURL(WebUrl.MainPageUrl + "web/contract-sites/3");
+            PageFactoryManager.Get<ContractSiteDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ContractSiteDetailPage>()
+                .IsContractSiteDetailPage()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ContractSiteDetailPage>()
+                .IsRetiredPopup()
+                //Step line 32: Click x/Cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ContractSiteDetailPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear();
+            //Step line 33: Verify in [Resource]
+            PageFactoryManager.Get<NavigationBase>()
+               .GoToURL(WebUrl.MainPageUrl + "web/resources/100");
+            PageFactoryManager.Get<ResoureDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResoureDetailPage>()
+                .IsResourceDetailPage()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ResoureDetailPage>()
+                .IsRetiredPopup()
+                //Step line 34: Click x/Cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<ResoureDetailPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear();
+            //Step line 35: Verify in [Party]
+            PageFactoryManager.Get<NavigationBase>()
+               .GoToURL(WebUrl.MainPageUrl + "web/parties/72");
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully("Michael Jones Architects")
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .IsRetiredPopup("72")
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear();
+            //Step line 37: Verify in [Site]
+            PageFactoryManager.Get<NavigationBase>()
+               .GoToURL(WebUrl.MainPageUrl + "web/sites/1200");
+            PageFactoryManager.Get<SiteDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SiteDetailPage>()
+                .WaitForSiteDetailPageLoaded("PureGym Twickenham / 35 HEATH ROAD, TWICKENHAM, TW1 4AW", "PUREGYM")
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<SiteDetailPage>()
+                .IsRetiredPopup()
+                //Step line 38: Click x/Cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<SiteDetailPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear();
+            //Step line 39: Verify in [Agreement]
+            PageFactoryManager.Get<NavigationBase>()
+               .GoToURL(WebUrl.MainPageUrl + "web/agreements/142");
+            PageFactoryManager.Get<AgreementDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AgreementDetailPage>()
+                .WaitForDetailAgreementLoaded("COMMERCIAL COLLECTIONS", "CLAREMONT CATTERY")
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<AgreementDetailPage>()
+                .IsRetiredPopup()
+                //Step line 40: Click x/Cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<AgreementDetailPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear();
+            ////Step line 41: Verify in [Agreement line]
+            //PageFactoryManager.Get<NavigationBase>()
+            //   .GoToURL(WebUrl.MainPageUrl + "web/agreement-lines/142");
+            //PageFactoryManager.Get<AgreementLinePage>()
+            //    .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<AgreementLinePage>()
+            //    .WaitForWindowLoadedSuccess("142")
+            //    .ClickOnRetiredBtn();
+            //PageFactoryManager.Get<AgreementLinePage>()
+            //    .IsRetiredPopup()
+            //    //Step line 42: Click x/Cancel
+            //    .ClickOnXBtn()
+            //    .VerifyPopupIsDisappear()
+            //    .ClickOnRetiredBtn();
+            //PageFactoryManager.Get<AgreementLinePage>()
+            //    .IsRetiredPopup()
+            //    .ClickOnCancelBtn()
+            //    .VerifyPopupIsDisappear();
+            //Step line 43: Verify in [Regions]
+            PageFactoryManager.Get<NavigationBase>()
+               .GoToURL(WebUrl.MainPageUrl + "web/regions/1");
+            PageFactoryManager.Get<RegionDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RegionDetailPage>()
+                .IsRegionDetailPage(Region.UK)
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<RegionDetailPage>()
+                .IsRetiredPopup()
+                //Step line 44: Click x/Cancel
+                .ClickOnXBtn()
+                .VerifyPopupIsDisappear()
+                .ClickOnRetiredBtn();
+            PageFactoryManager.Get<RegionDetailPage>()
+                .IsRetiredPopup()
+                .ClickOnCancelBtn()
+                .VerifyPopupIsDisappear();
+
         }
     }
 }
