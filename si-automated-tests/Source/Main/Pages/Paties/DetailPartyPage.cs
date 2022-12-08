@@ -1158,7 +1158,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             WaitUtil.WaitForElementVisible(retirePopupTitle);
             Console.WriteLine(GetElementText(retirePopupTitle));
-            Assert.AreEqual("By retiring " + "\nParty" + partyId + "\n the associated data below will also be \nretired:", GetElementText(retirePopupTitle));
+            Assert.AreEqual("By retiring " + " Party" + partyId + "  the associated data below will also be  retired:", GetElementText(retirePopupTitle).Replace(Environment.NewLine, " "));
             Assert.IsTrue(IsControlDisplayed(warningMessage), "Warning message is not displayed");
             Assert.IsTrue(IsControlDisplayed(checkboxWarning), "Check box is not displayed");
             Assert.IsTrue(IsControlDisplayed(cancelBtn), "Cancel button is not displayed");
