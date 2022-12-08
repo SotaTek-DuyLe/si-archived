@@ -13,7 +13,7 @@ namespace si_automated_tests.Source.Main.Pages
         private const string signInBtn = "//button[text()='Sign In']";
         private const string forgotPasswordLink = "//a[text()='Forgot Password']";
         private const string helpLink = "//a[text()='Help']";
-        private readonly By nextBtn = By.XPath("//a[text()='Help']");
+        private readonly By nextBtn = By.XPath("//a[text()='Next']");
         private const string ErrorMessage = "//p[text()='Incorrect user name or password']";
 
         [AllureStep]
