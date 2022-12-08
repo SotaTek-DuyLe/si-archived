@@ -29,9 +29,7 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser48.UserName)
-                .SendKeyToPassword(AutoUser48.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser48.UserName, AutoUser48.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser48);
             PageFactoryManager.Get<NavigationBase>()

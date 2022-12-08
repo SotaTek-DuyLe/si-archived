@@ -42,9 +42,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser6.UserName, AutoUser6.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
@@ -89,9 +87,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser6.UserName, AutoUser6.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser6)
                 .ClickCreateEventDropdownAndVerify()
@@ -132,9 +128,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser6.UserName, AutoUser6.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
@@ -175,9 +169,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //login
             login.GoToURL(WebUrl.MainPageUrl);
             login
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser6.UserName, AutoUser6.Password);
             homePage
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
@@ -254,9 +246,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //login
             login.GoToURL(WebUrl.MainPageUrl);
             login
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser6.UserName, AutoUser6.Password);
             homePage
                 .IsOnHomePage(AutoUser6)
                 .IsOnHomePage(AutoUser6);
@@ -330,9 +320,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //login
             login.GoToURL(WebUrl.MainPageUrl);
             login
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser6.UserName, AutoUser6.Password);
             homePage
                 .IsOnHomePage(AutoUser6)
                 .IsOnHomePage(AutoUser6);
@@ -417,9 +405,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser6.UserName, AutoUser6.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
@@ -489,9 +475,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser6.UserName, AutoUser6.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
@@ -562,9 +546,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(charityAccountTypeSettingUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser6.UserName, AutoUser6.Password);
             PageFactoryManager.Get<AccountTypeDetailPage>()
                 .inputOverrideValue(overrideValue)
                 .TickOverrideCheckbox()
@@ -702,9 +684,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickUserNameDd()
                 .ClickLogoutBtn();
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser30.UserName)
-                .SendKeyToPassword(AutoUser30.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser30.UserName, AutoUser30.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser30)
                 .GoToURL(partyUrl);
@@ -724,9 +704,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser6.UserName, AutoUser6.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
@@ -908,9 +886,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser6.UserName, AutoUser6.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser6);
             PageFactoryManager.Get<NavigationBase>()
@@ -1040,9 +1016,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/68");
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser6.UserName, AutoUser6.Password);
             PageFactoryManager.Get<DetailPartyPage>()
                 .ClickOnAccountStatement()
                 .WaitForLoadingIconToDisappear();
@@ -1073,9 +1047,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/68");
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser6.UserName)
-                .SendKeyToPassword(AutoUser6.Password)
-                .ClickOnSignIn()
+                .Login(AutoUser6.UserName, AutoUser6.Password)
                 .WaitForLoadingIconToDisappear();
             var partyName = PageFactoryManager.Get<DetailPartyPage>()
                 .GetPartyName();
