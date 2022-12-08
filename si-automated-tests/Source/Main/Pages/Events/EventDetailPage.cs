@@ -811,6 +811,23 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
         [AllureStep]
+        public List<string> GetAllOptionInDetailDd()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allActions = GetAllElements(By.XPath("//div[@id='details-content']//select[@id='allocated-unit']/option"));
+            foreach (IWebElement e in allActions)
+            {
+                results.Add(GetElementText(e));
+            }
+            return results;
+        }
+        [AllureStep]
+        public EventDetailPage VerifySelectValueNotInDetailAllocatedUnit(string value)
+        {
+            Assert.IsFalse(GetAllOptionInDetailDd().Contains(value));
+            return this;
+        }
+        [AllureStep]
         public EventDetailPage SelectAnyAllocatedUnit(string allocatedUnitValue)
         {
             ClickOnElement(allocatedUnitDetailOption, allocatedUnitValue);
@@ -931,6 +948,26 @@ namespace si_automated_tests.Source.Main.Pages.Events
             ClickOnElement(inspectionTypeOption, inspectionTypeValue);
             return this;
         }
+        [AllureStep]
+        public EventDetailPage ClickAndVerifyAllocatedUnitNotContainValue(string allocatedUnitValue)
+        {
+            ClickOnElement(allocatedUnitDd);
+            Assert.IsFalse(GetAllOptionInAllocateDd().Contains(allocatedUnitValue));
+            return this;
+        }
+
+        [AllureStep]
+        public List<string> GetAllOptionInAllocateDd()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allActions = GetAllElements(allocatedUnitDd);
+            foreach (IWebElement e in allActions)
+            {
+                results.Add(GetElementText(e));
+            }
+            return results;
+        }
+
         [AllureStep]
         public EventDetailPage ClickAndSelectAllocatedUnit(string allocatedUnitValue)
         {
