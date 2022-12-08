@@ -432,5 +432,60 @@ namespace si_automated_tests.Source.Test.PartiesTests
             taskAllocationPage.WaitForLoadingIconToDisappear(false);
             taskAllocationPage.VerifyRoundLegIsAllocated(roundInstanceDetails);
         }
+
+        [Category("Sites")]
+        [Category("Huong")]
+        [Test()]
+        public void TC_248_Qualification_Constraints_to_Sites()
+        {
+            //Verify whether Required Qualification Tab is in the Sites Form
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .SendKeyToUsername(AutoUser34.UserName)
+                .SendKeyToPassword(AutoUser34.Password)
+                .ClickOnSignIn();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser34);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Sites")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .OpenFirstResult()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            SitePage sitePage = PageFactoryManager.Get<SitePage>();
+            sitePage.ClickOnElement(sitePage.RequiredQualificationTab);
+            sitePage.WaitForLoadingIconToDisappear();
+            sitePage.VerifyElementVisibility(sitePage.AddQualificationButton, true)
+                .VerifyElementVisibility(sitePage.QualificationTable, true);
+
+            //Verify whether user able to click Add New Item Button
+            sitePage.ClickOnElement(sitePage.AddQualificationButton);
+            sitePage.SleepTimeInMiliseconds(500);
+            sitePage.VerifyElementVisibility(sitePage.ToogleSelectQualificationButton, true)
+                .VerifyElementVisibility(sitePage.ConfirmAddQualificationButton, true)
+                .VerifyElementVisibility(sitePage.CancelAddQualificationButton, true);
+
+            //Verify user able to select single or multiple QC from the popup Window
+            sitePage.ClickOnElement(sitePage.ToogleSelectQualificationButton);
+            sitePage.SelectByDisplayValueOnUlElement(sitePage.ExpandedListbox, "Site Induction")
+                .SleepTimeInMiliseconds(200);
+            sitePage.ClickOnElement(sitePage.ConfirmAddQualificationButton);
+
+            //Verify when new constraint is added and is visible in the main panel
+            sitePage.WaitForLoadingIconToDisappear();
+            sitePage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            sitePage.VerifyNewQualification("Site Induction", londonCurrentDate.ToString("dd/MM/yyyy"), "01/01/2050");
+
+            //Verify whether user able to Retire QC
+            sitePage.ClickRetireQualification(0);
+            sitePage.WaitForLoadingIconToDisappear();
+            sitePage.VerifyToastMessage("Successfully retired Required Qualification");
+        }
     }
 }
