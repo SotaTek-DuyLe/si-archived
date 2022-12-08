@@ -217,9 +217,7 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                 .ClickUserNameDd()
                 .ClickLogoutBtn();
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser15.UserName)
-                .SendKeyToPassword(AutoUser15.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser15.UserName, AutoUser15.Password);
             TestLoadFormCorrectly();
             //Close the above forms and log out. Log back with your user with home contract set
             PageFactoryManager.Get<HomePage>()
@@ -227,9 +225,7 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                 .ClickUserNameDd()
                 .ClickLogoutBtn();
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser3.UserName)
-                .SendKeyToPassword(AutoUser3.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser3.UserName, AutoUser3.Password);
             TestLoadFormCorrectly();
         }
     }

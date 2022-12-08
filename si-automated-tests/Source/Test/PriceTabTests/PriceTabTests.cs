@@ -33,9 +33,7 @@ namespace si_automated_tests.Source.Test.PriceTabTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser58.UserName)
-                .SendKeyToPassword(AutoUser58.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser58.UserName, AutoUser58.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser58);
             PageFactoryManager.Get<NavigationBase>()
@@ -73,9 +71,7 @@ namespace si_automated_tests.Source.Test.PriceTabTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser58.UserName)
-                .SendKeyToPassword(AutoUser58.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser58.UserName, AutoUser58.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser58);
             PageFactoryManager.Get<NavigationBase>()
@@ -112,9 +108,7 @@ namespace si_automated_tests.Source.Test.PriceTabTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser58.UserName)
-                .SendKeyToPassword(AutoUser58.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser58.UserName, AutoUser58.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser58);
             PageFactoryManager.Get<NavigationBase>()

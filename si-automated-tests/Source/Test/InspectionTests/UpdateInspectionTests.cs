@@ -43,8 +43,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                     .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
@@ -165,8 +164,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                     .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
@@ -262,8 +260,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                     .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
@@ -348,8 +345,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
@@ -454,8 +450,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
@@ -567,8 +562,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
@@ -674,8 +668,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()

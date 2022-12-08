@@ -28,9 +28,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser47.UserName)
-                .SendKeyToPassword(AutoUser47.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser47.UserName, AutoUser47.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser47);
             PageFactoryManager.Get<NavigationBase>()
@@ -138,9 +136,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser47.UserName)
-                .SendKeyToPassword(AutoUser47.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser47.UserName, AutoUser47.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser47);
             PageFactoryManager.Get<NavigationBase>()
@@ -224,9 +220,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser47.UserName)
-                .SendKeyToPassword(AutoUser47.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser47.UserName, AutoUser47.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser47);
             PageFactoryManager.Get<NavigationBase>()
