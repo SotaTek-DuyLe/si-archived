@@ -2474,5 +2474,18 @@ namespace si_automated_tests.Source.Test
                 .VerifyPopupIsDisappear();
 
         }
+        [Category("BugFix")]
+        [Category("Dee")]
+        [Test]
+        public void TC_168()
+        {
+            string partyName = "Ham Food Centre";
+
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+            var list = commonFinder.GetTaskTypes();
+            foreach(var item in list)
+            {
+            }
+        }
     }
 }

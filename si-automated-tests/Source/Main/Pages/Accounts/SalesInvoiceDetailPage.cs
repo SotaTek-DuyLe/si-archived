@@ -9,11 +9,17 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
     public class SalesInvoiceDetailPage : BasePage
     {
         private readonly By title = By.XPath("//h4[text()='Sales Invoice']");
+        private readonly By partySearch = By.XPath("//input[@type='search']");
         private readonly By saleInvoiceBatchTitle = By.XPath("//h5[contains(text(), 'Sales Invoice Batch #: ')]");
         private readonly By status = By.XPath("//h5[@title='Invoice Status']");
         private readonly By id = By.XPath("//h4[@title='Id']");
         private readonly By priceLineTab = By.CssSelector("a[aria-controls='priceLines-tab']");
         private readonly By linesTab = By.CssSelector("a[aria-controls='salesInvoiceLines-tab']");
+
+        //Uninvoiced popup
+        private readonly By confirmBtn = By.XPath("//button[text()='Confirm']");
+        private readonly By createAdhocInvoiceBtn = By.XPath("//button[text()='Create Adhoc Invoice']");
+        private readonly By cancelBtn = By.XPath("//button[text()='Cancel']");
 
         //PRICE LINES TAB
         private readonly By filterPriceLineInputById = By.XPath("//div[@id='priceLines-tab']//div[contains(@class, 'l0 r0')]/descendant::input");
@@ -32,6 +38,13 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             WaitUtil.WaitForElementVisible(saleInvoiceBatchTitle);
             Assert.AreEqual(statusValue, GetElementText(status));
             Assert.AreEqual(idValue, GetElementText(id));
+            return this;
+        }
+        [AllureStep]
+        public SalesInvoiceDetailPage IsOnSaleInvoiceDetailPage()
+        {
+            WaitUtil.WaitForElementVisible(title);
+            WaitUtil.WaitForElementVisible(partySearch);
             return this;
         }
         [AllureStep]
@@ -80,6 +93,26 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             DoubleClickOnElement(firstLinesRecordRow);
             return PageFactoryManager.Get<SaleInvoiceLinePage>();
+        }
+        [AllureStep]
+        public SalesInvoiceDetailPage SelectFirstUninvoicedItem()
+        {
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickFirstItem();
+            ClickOnElement(confirmBtn);
+            return PageFactoryManager.Get<SalesInvoiceDetailPage>();
+        }
+        [AllureStep]
+        public SalesInvoiceDetailPage ClickCancelButton()
+        {
+            ClickOnElement(cancelBtn);
+            return this;
+        }
+        [AllureStep]
+        public SalesInvoiceDetailPage ClickCreateAdhocInvoiceBtn()
+        {
+            ClickOnElement(createAdhocInvoiceBtn);
+            return this;
         }
     }
 }
