@@ -2,10 +2,8 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
-using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Models.SalesReceipt;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -29,6 +27,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By addnewItemBtn = By.XPath("//button[contains(string(), 'Add New Item')]");
         private readonly By lineRows = By.XPath("//div[@class='slick-viewport']//div[@class='grid-canvas']//div[contains(@class,'ui-widget-content')]");
         private const string FrameMessage = "//div[@class='notifyjs-corner']/div";
+        private readonly By firstLine = By.XPath("//div[@class='grid-canvas']/div[1]");
 
         //DETAIL
         private readonly By partyInput = By.CssSelector("input[id='party-name']");
@@ -37,13 +36,31 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By receiptDate = By.Id("receipt-date");
 
         [AllureStep]
+        public SalesReceiptPage IsSalesReceiptDetailPage()
+        {
+            WaitUtil.WaitForElementVisible(title);
+            return this;
+        }
 
+        [AllureStep]
         public SalesReceiptPage VerifyInfoInSaleReceiptScreen(PartyModel partyModel, string timeNowValue)
         {
             Assert.AreEqual(partyModel.PartyName, GetAttributeValue(partyInput, "value"));
             Assert.AreEqual(partyModel.accountRef, GetAttributeValue(accountRef, "value"));
             Assert.AreEqual(partyModel.accountNumber, GetAttributeValue(accountNumber, "value"));
             Assert.AreEqual(timeNowValue, GetAttributeValue(receiptDate, "value"));
+            return this;
+        }
+        [AllureStep]
+        public SalesReceiptPage VerifyInfoInSaleReceiptScreen(string partyName)
+        {
+            Assert.AreEqual(partyName, GetAttributeValue(partyInput, "value"));
+            Assert.IsTrue(IsControlDisplayed(accountRef));
+            Assert.IsTrue(IsControlDisplayed(accountNumber));
+            Assert.IsTrue(IsControlDisplayed(receiptDate));
+            Assert.IsTrue(IsControlDisplayed(paymentMethod));
+            Assert.IsTrue(IsControlDisplayed(inputPaymentRef));
+            Assert.IsTrue(IsControlDisplayed(notes));
             return this;
         }
         [AllureStep]
@@ -177,6 +194,13 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         public new SalesReceiptPage VerifyNotDisplayErrorMessage()
         {
             Assert.IsFalse(IsControlDisplayedNotThrowEx(FrameMessage));
+            return this;
+        }
+
+        [AllureStep]
+        public SalesReceiptPage DoubleClickOnFirstLineRow()
+        {
+            DoubleClickOnElement(firstLine);
             return this;
         }
     }

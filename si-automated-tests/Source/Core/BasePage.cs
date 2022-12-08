@@ -29,9 +29,17 @@ namespace si_automated_tests.Source.Core
         private readonly string frameMessage = "//div[@class='notifyjs-corner']/div";
         public readonly By UserDropDown = By.XPath("//div[@id='user-menu']//ul[@class='dropdown-menu']");
         public readonly By CreateDescriptionButton = By.XPath("//div[@id='user-menu']//button[contains(@data-bind, 'createObjectDescription')]");
+        private readonly By retiredBtn = By.XPath("//button[@title='Retire' and not(contains(@style, 'display: none;'))]");
         public By GetToogleButton(string userName)
         {
             return By.XPath($"//div[@id='user-menu']//button[contains(text(), '{userName}')]");
+        }
+
+        [AllureStep]
+        public BasePage ClickOnRetiredBtn()
+        {
+            ClickOnElement(retiredBtn);
+            return this;
         }
 
         public BasePage()
@@ -74,17 +82,17 @@ namespace si_automated_tests.Source.Core
         }
 
         [AllureStep]
-        public List<IWebElement> GetAllElements(string locator, string value)
-        {
-            WaitUtil.WaitForAllElementsVisible(string.Format(locator, value));
-            return driver.FindElements(By.XPath(string.Format(locator, value))).ToList();
-        }
-
-        [AllureStep]
         public List<IWebElement> GetAllElements(By by)
         {
             WaitUtil.WaitForAllElementsVisible(by);
             return driver.FindElements(by).ToList();
+        }
+
+        [AllureStep]
+        public List<IWebElement> GetAllElements(string locator, string value)
+        {
+            WaitUtil.WaitForAllElementsVisible(string.Format(locator, value));
+            return driver.FindElements(By.XPath(string.Format(locator, value))).ToList();
         }
 
         [AllureStep]

@@ -2,6 +2,7 @@
 using Allure.Commons;
 using NUnit.Allure.Attributes;
 using NUnit.Allure.Core;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
@@ -17,6 +18,7 @@ namespace si_automated_tests.Source.Core
         [OneTimeSetUp]
         public virtual void OneTimeSetUp()
         {
+            SetupAsync().Wait();
             new WebUrl();
                 try
                 {
@@ -42,6 +44,17 @@ namespace si_automated_tests.Source.Core
                     Logger.Get().Info("Using default details");
                     DbContext = new DatabaseContext();
                 }
+            
+        }
+
+        public async Task SetupAsync()
+        {
+            var chromeDriverInstaller = new ChromeDriverInstaller();
+            // not necessary, but added for logging purposes
+            var chromeVersion = await chromeDriverInstaller.GetChromeVersion();
+            Logger.Get().Info($"Chrome version {chromeVersion} detected");
+            await chromeDriverInstaller.Install(chromeVersion);
+            Logger.Get().Info("ChromeDriver installed");
         }
 
         [SetUp]

@@ -61,6 +61,28 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private const string taskStateOption = "//select[@id='taskState.id']/option[text()='{0}']";
         private const string taskStateOptionAndOrder = "//select[@id='taskState.id']/option[{0}]";
 
+        public readonly By IndicatorTab = By.XPath("//a[@aria-controls='objectIndicators-tab']");
+        #region IndicatorTab
+        public readonly By IndicatorIframe = By.XPath("//iframe[@id='objectIndicators']");
+        private string indicatorTable = "//div[@id='object-indicators-grid']//div[@class='grid-canvas']";
+        private string indicatorRow = "./div[contains(@class, 'slick-row')]";
+        private string idCell = "./div[@class='slick-cell l0 r0']";
+        private string indicatorCell = "./div[@class='slick-cell l1 r1']";
+        private string inheritedCell = "./div[@class='slick-cell l6 r6']";
+        private string retireButtonCell = "./div[@class='slick-cell l7 r7']//button";
+
+        public TableElement IndicatorTableEle
+        {
+            get => new TableElement(indicatorTable, indicatorRow, new List<string>() { idCell, indicatorCell, inheritedCell, retireButtonCell });
+        }
+
+        public DetailTaskPage ClickOnRetireButton(int rowIdx)
+        {
+            IndicatorTableEle.ClickCell(rowIdx, IndicatorTableEle.GetCellIndex(retireButtonCell));
+            return this;
+        }
+        #endregion
+
         public readonly By SubscriptionTab = By.XPath("//a[@aria-controls='subscriptions-tab']");
         #region SubscriptionTab
         public readonly By AddNewSubscriptionButton = By.XPath("//button[@data-bind='click: createSubscription']");
@@ -414,6 +436,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By contentFirstServiceUpdate = By.XPath("(//strong[text()='Update']/following-sibling::div)[1]");
         private readonly By contentSecondServiceUpdate = By.XPath("//strong[contains(text(), 'Service Update')]/following-sibling::div");
         private readonly By updateTitle = By.XPath("(//strong[text()='Update'])[1]");
+        private readonly By createTitle = By.XPath("(//strong[text()='Create'])[1]");
         private readonly By userUpdate = By.XPath("(//strong[text()='Update']/parent::div/following-sibling::div/strong[1])[1]");
         private readonly By timeUpdate = By.XPath("(//strong[text()='Update']/parent::div/following-sibling::div/strong[2])[1]");
         private readonly By contentUpdate = By.XPath("(//strong[text()='Update']/following-sibling::div)[1]");
@@ -426,6 +449,10 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By resolutionCodeTaskLineUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]/following-sibling::div//span[text()='Resolution Code']/following-sibling::span[1]");
         private readonly By completedDateTaskLineUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]/following-sibling::div//span[text()='Completed Date']/following-sibling::span[1]");
         private readonly By autoConfirmedTaskLineUpdate = By.XPath("(//strong[contains(text(), 'Task Line') and contains(text(), 'Service Update')])[1]/following-sibling::div//span[text()='Auto Confirmed']/following-sibling::span[1]");
+
+        //DYNAMIC
+        private readonly string createdValue = "//strong[contains(text(), 'Service Create')]/following-sibling::div//span[text()='{0}']/following-sibling::span[1]";
+        private readonly string updatedValue = "//strong[contains(text(), 'Service Update')]/following-sibling::div//span[text()='{0}']/following-sibling::span[1]";
 
         [AllureStep]
         public DetailTaskPage ClickOnHistoryTab()
@@ -450,6 +477,12 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifyTitleUpdate()
         {
             Assert.IsTrue(IsControlDisplayed(updateTitle));
+            return this;
+        }
+        [AllureStep]
+        public DetailTaskPage VerifyTitleCreate()
+        {
+            Assert.IsTrue(IsControlDisplayed(createTitle));
             return this;
         }
         [AllureStep]
@@ -509,6 +542,26 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             //Assert.AreEqual(resolutionCodeExp + ".", GetElementText(resolutionCodeTaskLineUpdate));
             Assert.IsTrue(completedDateExp.Contains(GetElementText(completedDateTaskLineUpdate).Replace(".", "").Trim()), "Expected: " + completedDateExp + " but found: " + GetElementText(completedDateTaskLineUpdate));
             Assert.AreEqual(autoConfirmedExp + ".", GetElementText(autoConfirmedTaskLineUpdate));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyTaskLineAfterCreatedState(string[] titleValues, string[] expValues)
+        {
+            for(int i = 0; i < titleValues.Length; i++)
+            {
+                Assert.AreEqual(expValues[i], GetElementText(createdValue, titleValues[i]), "Value at " + titleValues[i] + " is not correct");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyTaskLineAfterUpdatedState(string[] titleValues, string[] expValues)
+        {
+            for (int i = 0; i < titleValues.Length; i++)
+            {
+                Assert.AreEqual(expValues[i], GetElementText(updatedValue, titleValues[i]), "Value at " + titleValues[i] + " is not correct");
+            }
             return this;
         }
 
@@ -602,9 +655,12 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         //TASK LINE TAB
         private readonly By taskLineTab = By.CssSelector("a[aria-controls='taskLines-tab']");
         private readonly By numberOfTaskLine = By.XPath("//tbody//tr[contains(@data-bind,'with: $data.getFields()')]");
+        private readonly By addNewItemInTaskLine = By.CssSelector("div[id='taskLines-tab'] button[title='Add New Item']");
 
         private readonly By firstStateTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='itemState.id']");
         private readonly By firstProductTaskLine = By.XPath("//tbody/tr[1]//echo-select[contains(@params, 'name: product')]/select");
+        private readonly By allProductFirstTaskLine = By.XPath("//tbody/tr[1]//echo-select[contains(@params, 'name: product')]/select/optgroup/option");
+        private readonly By allProductSecondTaskLine = By.XPath("//tbody/tr[2]//echo-select[contains(@params, 'name: product')]/select/optgroup/option");
         private readonly By firstResolutionCodeTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='resCode.id']");
         private readonly By firstOrderTaskLine = By.CssSelector("tbody>tr:nth-child(1) input[id='order.id']");
         private readonly By firstTypeTaskLine = By.CssSelector("tbody>tr:nth-child(1) select[id='taskLineType.id']");
@@ -619,6 +675,9 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By secondStateTaskLine = By.CssSelector("tbody>tr:nth-child(2) select[id='itemState.id']");
         private readonly By secondProductTaskLine = By.XPath("//tbody/tr[2]//echo-select[contains(@params, 'name: product')]/select");
         private readonly By secondResolutionCodeTaskLine = By.CssSelector("tbody>tr:nth-child(2) select[id='resCode.id']");
+        private readonly By secondTypeTaskLine = By.CssSelector("tbody>tr:nth-child(2) select[id='taskLineType.id']");
+        private readonly By secondTypeAssetTaskLine = By.XPath("//tbody/tr[2]//echo-select[contains(@params, 'name: product')]/select");
+        //DYNAMIC
         private readonly string optionInStatusFirstRow = "//tbody/tr[1]//select[@id='itemState.id']/option[{0}]";
         private readonly string TaskLineTable = "//div[@id='taskLines-tab']//table";
         private readonly string TaskLineRow = "./tbody//tr[contains(@data-bind,'with: $data.getFields()')]";
@@ -635,6 +694,9 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly string SiteProductCell = "./td//select[@id='siteProduct.id']";
         private readonly string StateCell = "./td//select[@id='itemState.id']";
         private readonly string ResolutionCodeCell = "./td//select[@id='resCode.id']";
+        private readonly string typeOptionInSecondTaskLineRow = "//tr[2]//select[@id='taskLineType.id']/option[text()='{0}']";
+        private readonly string assetTypeOptionInSecondTaskLineRow = "//tbody/tr[2]//echo-select[contains(@params, 'name: assetType')]/select//option[text()='{0}']";
+        //private readonly string productOptionInSecondTaskLineRow = "//tbody/tr[2]//echo-select[contains(@params, 'name: assetType')]/select//option[text()='{0}']";
 
         public TableElement TaskLineTableEle
         {
@@ -718,6 +780,20 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
         [AllureStep]
+        public DetailTaskPage VerifyFirstTaskLineAfterUpdateStatus(string assetValue, string stateExp, string productValue)
+        {
+            Assert.AreEqual(assetValue, GetAttributeValue(firstActualAssetTaskLine, "value"));
+            Assert.AreEqual(assetValue, GetAttributeValue(firstScheduledAssetTaskLine, "value"));
+            Assert.AreEqual(stateExp, GetFirstSelectedItemInDropdown(firstStateTaskLine));
+            Assert.AreEqual(productValue, GetAttributeValue(firstActualProductTaskLine, "value"));
+            Assert.AreEqual(productValue, GetAttributeValue(firstScheduledProductTaskLine, "value"));
+            //Disabled
+            Assert.AreEqual("true", GetAttributeValue(firstProductTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstStateTaskLine, "disabled"));
+            Assert.AreEqual("true", GetAttributeValue(firstResolutionCodeTaskLine, "disabled"));
+            return this;
+        }
+        [AllureStep]
         public DetailTaskPage VerifySecondTaskLineAfterBulkUpdate(string productExp, string stateExp, string resolutionCodeExp)
         {
             Assert.AreEqual(productExp, GetFirstSelectedItemInDropdown(secondProductTaskLine));
@@ -752,6 +828,55 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifyCurrentUrl(string taskId)
         {
             Assert.AreEqual(WebUrl.MainPageUrl + "web/tasks/" + taskId, GetCurrentUrl());
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyCurrentUrlWithId0(string serviceTaskId)
+        {
+            Assert.AreEqual(WebUrl.MainPageUrl + "web/tasks/service-task-adhoc?serviceTaskId=" + serviceTaskId, GetCurrentUrl());
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage ClickOnAddNewItemBtnTaskLinesTab()
+        {
+            ClickOnElement(addNewItemInTaskLine);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage SelectInfoSecondTaskLineRow(string typeValue, string assetTypeValue)
+        {
+            //Type
+            ClickOnElement(secondTypeTaskLine);
+            ClickOnElement(typeOptionInSecondTaskLineRow, typeValue);
+            //Asset Type
+            ClickOnElement(secondTypeAssetTaskLine);
+            ClickOnElement(assetTypeOptionInSecondTaskLineRow, assetTypeValue);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyProductOfSecondRowMappingFirstRow()
+        {
+            ClickOnElement(firstProductTaskLine);
+            List<string> firstResult = new List<string>();
+            List<IWebElement> allProductFirstLine = GetAllElements(allProductFirstTaskLine);
+            foreach(IWebElement webElement in allProductFirstLine)
+            {
+                firstResult.Add(GetElementText(webElement));
+            }
+            ClickOnElement(taskTitle);
+            ClickOnElement(secondProductTaskLine);
+            //Second product
+            List<string> secondResult = new List<string>();
+            List<IWebElement> allProductSecondLine = GetAllElements(allProductSecondTaskLine);
+            foreach (IWebElement webElement in allProductSecondLine)
+            {
+                secondResult.Add(GetElementText(webElement));
+            }
+            Assert.AreEqual(firstResult, secondResult, "Product in two task is not matching");
             return this;
         }
 

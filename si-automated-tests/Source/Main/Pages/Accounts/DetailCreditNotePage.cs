@@ -11,6 +11,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
     {
         private readonly By title = By.XPath("//h4[text()='Credit Note']");
         private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
+        private readonly By linesTab = By.CssSelector("a[aria-controls='creditNoteLines-tab']");
         private readonly By assignedUser = By.XPath("//label[text()='Assigned User']/following-sibling::div");
         private readonly By assignedUserOption = By.XPath("//label[text()='Assigned User']/following-sibling::div//option");
         private readonly By notesTab = By.CssSelector("a[aria-controls='notes-tab']");
@@ -32,6 +33,13 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         public DetailCreditNotePage ClickOnDetailTab()
         {
             ClickOnElement(detailTab);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailCreditNotePage ClickOnLinesTab()
+        {
+            ClickOnElement(linesTab);
             return this;
         }
 

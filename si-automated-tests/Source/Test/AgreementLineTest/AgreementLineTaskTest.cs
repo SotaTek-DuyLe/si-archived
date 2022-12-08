@@ -601,9 +601,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickAddAsset()
                 .VerifyInputValue(assetAndProductTab.assetQuantity, "1");
             DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
-            assetAndProductTab.VerifyDeliveryDate(londonCurrentDate.AddDays(7).ToString("dd/MM/yyyy"))
+            assetAndProductTab
                 .ChooseAssetType("1100L")
                 .ChooseTenure("Rental")
+                .VerifyDeliveryDate(londonCurrentDate.AddDays(7).ToString("dd/MM/yyyy"))
                 .ChooseProduct("General Recycling")
                 .ChooseEwcCode("150106")
                 .EditAssertClickDoneBtn()
@@ -657,7 +658,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnAssetTab()
                 .ClickOnEditAsset();
             //Đang có bug ở đây, vẫn hiện Requested Delivery Date
-            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, false);
+            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
             assetAndProductTab.EditAssetQuantity(2)
                 .ClickAssetType();
             assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
@@ -743,8 +744,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<CommonTaskPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonTaskPage>()
-                    .FilterTaskId(15331)
-                    .OpenTaskWithId(15331)
+                    .FilterTaskId(14053)
+                    .OpenTaskWithId(14053)
                     .SwitchToLastWindow();
             var agreementTaskDetailPage = PageFactoryManager.Get<AgreementTaskDetailsPage>();
             agreementTaskDetailPage.WaitForLoadingIconToDisappear();

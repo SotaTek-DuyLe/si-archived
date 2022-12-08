@@ -213,19 +213,19 @@ namespace si_automated_tests.Source.Main.Finders
         [AllureStep]
         public List<PartyActionDBModel> GetPartyActionByPartyIdAndUserId(string partyID, string actioncreatedbyuserID)
         {
-            string query = "SELECT * FROM SotatekTesting.dbo.partyactions WHERE partyID = " + partyID + " and actioncreatedbyuserID = " + actioncreatedbyuserID + ";";
+            string query = "SELECT * FROM partyactions WHERE partyID = " + partyID + " and actioncreatedbyuserID = " + actioncreatedbyuserID + ";";
             return FindList<PartyActionDBModel>(query);
         }
 
         public List<TaskLineDBModel> GetTaskLineStateByTaskLineId(string tasklineId)
         {
-            string query = "SELECT t2.tasklinestate  FROM SotatekTesting.dbo.tasklines t join SotatekTesting.dbo.tasklinestates t2 on t.tasklinestateID = t2.tasklinestateID WHERE t.tasklineID = " + tasklineId + ";";
+            string query = "SELECT t2.tasklinestate  FROM tasklines t join tasklinestates t2 on t.tasklinestateID = t2.tasklinestateID WHERE t.tasklineID = " + tasklineId + ";";
             return FindList<TaskLineDBModel>(query);
         }
 
         public List<TaskStateDBModel> GetTaskStateByTaskId(string taskId)
         {
-            string query = "SELECT t2.taskstate  FROM SotatekTesting.dbo.tasks t join SotatekTesting.dbo.taskstates t2 on t.taskstateID = t2.taskstateID  WHERE t.taskID = " + taskId + "; ";
+            string query = "SELECT t2.taskstate  FROM tasks t join taskstates t2 on t.taskstateID = t2.taskstateID  WHERE t.taskID = " + taskId + "; ";
             return FindList<TaskStateDBModel>(query);
         }
 
@@ -249,31 +249,37 @@ namespace si_automated_tests.Source.Main.Finders
 
         public List<UserDBModel> GetUserActive()
         {
-            string query = "select * from SotatekTesting.dbo.users where enddate > getdate () order by displayname asc;";
+            string query = "select * from users where enddate > getdate () order by displayname asc;";
             return FindList<UserDBModel>(query);
         }
 
         public List<string> GetUserInActive()
         {
-            string query = "select * from SotatekTesting.dbo.users where enddate < getdate () and userID != 40;";
+            string query = "select * from users where enddate < getdate () and userID != 40;";
             return FindList<UserDBModel>(query).Select(p => p.displayname).ToList();
         }
 
         public List<ContractUnitDBModel> GetContractUnitByContractId(string contractId)
         {
-            string query = "select * from SotatekTesting.dbo.contractunits where contractID = " + contractId + "order by contractunit asc;";
+            string query = "select * from contractunits c where c.contractID = " + contractId + "and c.enddate > getdate() order by contractunit asc;";
+            return FindList<ContractUnitDBModel>(query);
+        }
+
+        public List<ContractUnitDBModel> GetContractUnits()
+        {
+            string query = "select * from SotatekTesting.dbo.contractunits;";
             return FindList<ContractUnitDBModel>(query);
         }
 
         public List<string> GetContractUnitUserListVByContractUnit(string contractUnitId)
         {
-            string query = "select * from SotatekTesting.dbo.contractunitusers_list_v v join SotatekTesting.dbo.contractunits c on v.contractunitID = c.contractunitID WHERE c.contractunitID = " + contractUnitId + " and v.enddate > getdate();";
+            string query = "select * from contractunitusers_list_v v join contractunits c on v.contractunitID = c.contractunitID WHERE c.contractunitID = " + contractUnitId + " and v.enddate > getdate();";
             return FindList<ContractUnitUserListVDBModel>(query).Select(x => x.displayname).ToList();
         }
 
         public List<string> GetUserWithFunction()
         {
-            string query = "Declare @curday datetime set @curday = SotatekTesting.dbo.GetNowDate(1) set @curday = dateadd(d, datediff(d, 0, @curday), 0)IF 1 > 0 SELECT DISTINCT T0.userID as UserID,T0.displayname as UserName from users as T0 with(nolock) inner join usersroles as T1 with(nolock) on(T0.userID = T1.userID) inner join roles as T2 with(nolock) on(T1.roleID = T2.roleID) inner join userprivileges as T3 with(nolock) on(T2.roleID = T3.roleID) WHERE(T3.objectID = 1  and T3.echotypeID = 10) AND(T3.canread = 1 and T3.canupdate = 1) AND @curday between isnull(T0.startdate,'1 Jan 2000') and isnull(T0.enddate,'1 Jan 3000') order by T0.displayname";
+            string query = "Declare @curday datetime set @curday = GetNowDate(1) set @curday = dateadd(d, datediff(d, 0, @curday), 0)IF 1 > 0 SELECT DISTINCT T0.userID as UserID,T0.displayname as UserName from users as T0 with(nolock) inner join usersroles as T1 with(nolock) on(T0.userID = T1.userID) inner join roles as T2 with(nolock) on(T1.roleID = T2.roleID) inner join userprivileges as T3 with(nolock) on(T2.roleID = T3.roleID) WHERE(T3.objectID = 1  and T3.echotypeID = 10) AND(T3.canread = 1 and T3.canupdate = 1) AND @curday between isnull(T0.startdate,'1 Jan 2000') and isnull(T0.enddate,'1 Jan 3000') order by T0.displayname";
             return FindList<UserDBModel>(query).Select(x => x.UserName).ToList();
         }
 

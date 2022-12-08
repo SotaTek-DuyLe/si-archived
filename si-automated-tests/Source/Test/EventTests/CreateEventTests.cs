@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -96,7 +95,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetPointAddressName();
             //Get all data in [Active Services] with Service unit
             List<ActiveSeviceModel> allAServicesWithServiceUnit = pointAddressDetailPage
-                .GetAllServiceWithServiceUnitModel();
+                .GetAllServiceWithServiceUnitModel363256();
             List<ActiveSeviceModel> allServices = pointAddressDetailPage
                 .GetAllServiceInTab();
             //Get all data in [Active Services] without Service unit
@@ -219,7 +218,7 @@ namespace si_automated_tests.Source.Test.EventTests
         public void TC_094_Create_event_from_point_address_without_service_unit()
         {
             string searchForAddresses = "Addresses";
-            string pointAddressId = "483995";
+            string pointAddressId = "363256";
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -296,8 +295,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
                 .VerifyNotDisplayErrorMessage();
-            List<ActiveSeviceModel> allSeviceModelsInSubTab = eventDetailPage
-                .GetAllServiceInTab();
+            //List<ActiveSeviceModel> allSeviceModelsInSubTab = eventDetailPage
+            //    .GetAllServiceInTab();
             eventDetailPage
                 //.VerifyDataInServiceSubTab(allActiveServices, allSeviceModelsInSubTab)
                 //Verify Outstanding - sub tab display without error
@@ -838,7 +837,6 @@ namespace si_automated_tests.Source.Test.EventTests
             eventDetailPage
                 .VerifyDataInMapTab("event", eventType, serviceUnit)
                 .ExpandDetailToggle()
-                //Verify Source in Detail toggle => Bug Cannot click Source Input
                 .VerifySourceInputReadOnly();
                 
             //Check service unit link

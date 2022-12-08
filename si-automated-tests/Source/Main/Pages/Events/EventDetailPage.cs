@@ -226,16 +226,17 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 string nextValue = GetElementText(GetAllElements(next)[i]);
                 string assetTypeValue = GetElementText(GetAllElements(assetType)[i]);
                 string allocationValue = GetElementText(GetAllElements(allocation)[i]);
-                List<ChildSchedule> listSchedule = new List<ChildSchedule>();
-                if (i == 1)
-                {
-                    string scheludeChild = GetElementText(scheduleChildRow);
-                    string lastChild = GetElementText(lastChildRow);
-                    string nextChild = GetElementText(nextChildRow);
-                    string allocationChild = GetElementText(allocationChildRow);
-                    listSchedule.Add(new ChildSchedule(scheludeChild, lastChild, nextChild, allocationChild));
-                }
-                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue, listSchedule));
+                //List<ChildSchedule> listSchedule = new List<ChildSchedule>();
+                //if (i == 1)
+                //{
+                //    string scheludeChild = GetElementText(scheduleChildRow);
+                //    string lastChild = GetElementText(lastChildRow);
+                //    string nextChild = GetElementText(nextChildRow);
+                //    string allocationChild = GetElementText(allocationChildRow);
+                //    listSchedule.Add(new ChildSchedule(scheludeChild, lastChild, nextChild, allocationChild));
+                //}
+                //activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue, listSchedule));
+                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue));
             }
             return activeSeviceModels;
         }
@@ -586,7 +587,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
         [AllureStep]
-        public EventDetailPage VerifyNotDisplayErrorMessage()
+        public new EventDetailPage VerifyNotDisplayErrorMessage()
         {
             Assert.IsFalse(IsControlDisplayedNotThrowEx(FrameMessage));
             return this;
@@ -810,6 +811,23 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
         [AllureStep]
+        public List<string> GetAllOptionInDetailDd()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allActions = GetAllElements(By.XPath("//div[@id='details-content']//select[@id='allocated-unit']/option"));
+            foreach (IWebElement e in allActions)
+            {
+                results.Add(GetElementText(e));
+            }
+            return results;
+        }
+        [AllureStep]
+        public EventDetailPage VerifySelectValueNotInDetailAllocatedUnit(string value)
+        {
+            Assert.IsFalse(GetAllOptionInDetailDd().Contains(value));
+            return this;
+        }
+        [AllureStep]
         public EventDetailPage SelectAnyAllocatedUnit(string allocatedUnitValue)
         {
             ClickOnElement(allocatedUnitDetailOption, allocatedUnitValue);
@@ -930,6 +948,26 @@ namespace si_automated_tests.Source.Main.Pages.Events
             ClickOnElement(inspectionTypeOption, inspectionTypeValue);
             return this;
         }
+        [AllureStep]
+        public EventDetailPage ClickAndVerifyAllocatedUnitNotContainValue(string allocatedUnitValue)
+        {
+            ClickOnElement(allocatedUnitDd);
+            Assert.IsFalse(GetAllOptionInAllocateDd().Contains(allocatedUnitValue));
+            return this;
+        }
+
+        [AllureStep]
+        public List<string> GetAllOptionInAllocateDd()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allActions = GetAllElements(allocatedUnitDd);
+            foreach (IWebElement e in allActions)
+            {
+                results.Add(GetElementText(e));
+            }
+            return results;
+        }
+
         [AllureStep]
         public EventDetailPage ClickAndSelectAllocatedUnit(string allocatedUnitValue)
         {

@@ -180,16 +180,17 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
                 string nextValue = GetElementText(GetAllElements(nextPrent)[i]);
                 string assetTypeValue = GetElementText(GetAllElements(assetTypeParent)[i]);
                 string allocationValue = GetElementText(GetAllElements(allocationParent)[i]);
-                List<ChildSchedule> listSchedule = new List<ChildSchedule>();
-                if (i == 1)
-                {
-                    string scheludeChild = GetElementText(scheduleChildRow);
-                    string lastChild = GetElementText(lastChildRow);
-                    string nextChild = GetElementText(nextChildRow);
-                    string allocationChild = GetElementText(allocationChildRow);
-                    listSchedule.Add(new ChildSchedule(scheludeChild, lastChild, nextChild, allocationChild));
-                }
-                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue, listSchedule));
+                //List<ChildSchedule> listSchedule = new List<ChildSchedule>();
+                //if (i == 1)
+                //{
+                //    string scheludeChild = GetElementText(scheduleChildRow);
+                //    string lastChild = GetElementText(lastChildRow);
+                //    string nextChild = GetElementText(nextChildRow);
+                //    string allocationChild = GetElementText(allocationChildRow);
+                //    listSchedule.Add(new ChildSchedule(scheludeChild, lastChild, nextChild, allocationChild));
+                //}
+                //activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue, listSchedule));
+                activeSeviceModels.Add(new ActiveSeviceModel(serviceUnitValue, serviceValue, scheduleValue, lastValue, nextValue, assetTypeValue, allocationValue));
             }
             return activeSeviceModels;
         }
@@ -265,55 +266,65 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
                 {
                     Assert.AreEqual(serviceForPointDB[i].last.Replace("-", "/"), activeSeviceModelsDisplayed[i].lastService);
                 }
-                if (i == 1)
-                {
-                    //Allocation child
-                    Assert.AreEqual(serviceForPointDB[i].roundgroup + " - " + serviceForPointDB[i].round.Trim(), activeSeviceModelsDisplayed[1].listChildSchedule[0].allocationRound);
-                    //Schedule child
-                    if (serviceForPointDB[i].patterndesc.Contains("every week"))
-                    {
-                        Assert.AreEqual("Every " + serviceForPointDB[i].patterndesc.Replace("every week", "").Trim(), activeSeviceModelsDisplayed[1].listChildSchedule[0].scheduleRound);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(serviceForPointDB[i].patterndesc, activeSeviceModelsDisplayed[i].listChildSchedule[0].scheduleRound);
-                    }
-                    //Last child
-                    if (serviceForPointDB[i].last.Equals("Today"))
-                    {
-                        Assert.AreEqual(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), activeSeviceModelsDisplayed[i].listChildSchedule[0].lastRound);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(serviceForPointDB[i].last.Replace("-", "/"), activeSeviceModelsDisplayed[i].listChildSchedule[0].lastRound);
-                    }
-                    //Next child
-                    //if (serviceForPointDB[i].next.Equals("Tomorrow"))
-                    //{
-                    //    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), activeSeviceModelsDisplayed[i].nextService);
-                    //}
-                    //else
-                    //{
-                    //    Assert.AreEqual(serviceForPointDB[i].next.Replace("-", "/"), activeSeviceModelsDisplayed[i].nextService);
-                    //}
+                //if (i == 1)
+                //{
+                //    //Allocation child
+                //    Assert.AreEqual(serviceForPointDB[i].roundgroup + " - " + serviceForPointDB[i].round.Trim(), activeSeviceModelsDisplayed[1].listChildSchedule[0].allocationRound);
+                //    //Schedule child
+                //    if (serviceForPointDB[i].patterndesc.Contains("every week"))
+                //    {
+                //        Assert.AreEqual("Every " + serviceForPointDB[i].patterndesc.Replace("every week", "").Trim(), activeSeviceModelsDisplayed[1].listChildSchedule[0].scheduleRound);
+                //    }
+                //    else
+                //    {
+                //        Assert.AreEqual(serviceForPointDB[i].patterndesc, activeSeviceModelsDisplayed[i].listChildSchedule[0].scheduleRound);
+                //    }
+                //    //Last child
+                //    if (serviceForPointDB[i].last.Equals("Today"))
+                //    {
+                //        Assert.AreEqual(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), activeSeviceModelsDisplayed[i].listChildSchedule[0].lastRound);
+                //    }
+                //    else
+                //    {
+                //        Assert.AreEqual(serviceForPointDB[i].last.Replace("-", "/"), activeSeviceModelsDisplayed[i].listChildSchedule[0].lastRound);
+                //    }
+                //    //Next child
+                //    //if (serviceForPointDB[i].next.Equals("Tomorrow"))
+                //    //{
+                //    //    Assert.AreEqual(CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), activeSeviceModelsDisplayed[i].nextService);
+                //    //}
+                //    //else
+                //    //{
+                //    //    Assert.AreEqual(serviceForPointDB[i].next.Replace("-", "/"), activeSeviceModelsDisplayed[i].nextService);
+                //    //}
 
-                    //Schedule parent
-                    Assert.AreEqual("Multiple", activeSeviceModelsDisplayed[1].schedule);
+                //    //Schedule parent
+                //    Assert.AreEqual("Multiple", activeSeviceModelsDisplayed[1].schedule);
+                //}
+                //else
+                //{
+                //    //Allocation parent
+                //    Assert.AreEqual(serviceForPointDB[i].roundgroup + " - " + serviceForPointDB[i].round.Trim(), activeSeviceModelsDisplayed[i].allocationService);
+                //    if (serviceForPointDB[i].patterndesc.Contains("every week"))
+                //    {
+                //        Assert.AreEqual("Every " + serviceForPointDB[i].patterndesc.Replace("every week", "").Trim(), activeSeviceModelsDisplayed[i].schedule);
+                //    }
+                //    else
+                //    {
+                //        Assert.AreEqual(serviceForPointDB[i].patterndesc, activeSeviceModelsDisplayed[i].schedule);
+                //    }
+                //}
+
+                //Assert.AreEqual(serviceForPointDB[i].roundgroup + " - " + serviceForPointDB[i].round.Trim(), activeSeviceModelsDisplayed[i].allocationService);
+                if (serviceForPointDB[i].patterndesc.Contains("every week"))
+                {
+                    Assert.AreEqual("Every " + serviceForPointDB[i].patterndesc.Replace("every week", "").Trim(), activeSeviceModelsDisplayed[i].schedule);
                 }
                 else
                 {
-                    //Allocation parent
-                    Assert.AreEqual(serviceForPointDB[i].roundgroup + " - " + serviceForPointDB[i].round.Trim(), activeSeviceModelsDisplayed[i].allocationService);
-                    if (serviceForPointDB[i].patterndesc.Contains("every week"))
-                    {
-                        Assert.AreEqual("Every " + serviceForPointDB[i].patterndesc.Replace("every week", "").Trim(), activeSeviceModelsDisplayed[i].schedule);
-                    }
-                    else
-                    {
-                        Assert.AreEqual(serviceForPointDB[i].patterndesc, activeSeviceModelsDisplayed[i].schedule);
-                    }
+                    Assert.AreEqual(serviceForPointDB[i].patterndesc, activeSeviceModelsDisplayed[i].schedule);
                 }
-                
+
             }
             return this;
         }

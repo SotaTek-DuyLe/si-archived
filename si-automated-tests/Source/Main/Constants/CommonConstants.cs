@@ -52,6 +52,24 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] SectorInStatisticTab = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
         public static readonly string[] ParentInStatisticTab = { "Richmond" };
         public static readonly string[] HistoryInAgreementDetail = { "Invoice Schedule", "Invoice Site", "Invoice Contact", "Billing Rule" };
+        public static readonly string[] AssociateObject = { "Associated objects", "Contract Unit", "Contract Site", "Service Group", "Service", "Service Asset Type", "Service Event Type", "Service Event Type Object Type", "Service Time Band", "Service Task Type", "Round Group", "Round Group Resource", "Round Resource", "Round Resource Allocation", "Round", "Round Schedule", "Service Product Type", "Service Unit", "Service Unit Point", "Service Task", "Service Task Schedule", "Service Task Line", "Business Unit Group", "Business Unit" };
+        public static readonly string[] AssociateObjectServiceGroup = { "Associated objects", "Service", "Service Asset Type", "Service Time Band", "Service Task Type", "Round Group", "Round Group Resource", "Round Resource", "Round Resource Allocation", "Round", "Round Schedule", "Service Product Type", "Service Unit", "Service Unit Point" };
+        public static readonly string[] AssociateObjectService = { "Associated objects", "Service Asset Type", "Service Time Band", "Service Task Type", "Round Group", "Round Group Resource", "Round Resource", "Round Resource Allocation", "Round", "Round Schedule", "Service Product Type", "Service Unit", "Service Unit Point" };
+        public static readonly string[] AssociateObjectRoundGroup = { "Associated objects", "Round Group Resource", "Round Resource", "Round Resource Allocation", "Round", "Round Schedule" };
+        public static readonly string[] AssociateObjectRound = { "Associated objects", "Round Schedule", "Round Resource", "Round Resource Allocation" };
+        public static readonly string[] AssociateObjectServiceTaskSchedule = { "No associated objects" };
+        public static readonly string[] AssociateObjectServiceTask = { "Associated objects", "Service Task Schedule", "Service Task Line" };
+        public static readonly string[] AssociateObjectServiceUnit = { "Associated objects", "Service Unit Point", "Service Task", "Service Task Schedule", "Service Task Line" };
+        public static readonly string[] AssociateObjectParty = { "Associated objects", "Party Party Type", "Site", "Service Unit", "Service Unit Point", "Agreement", "AgreementLine", "Service Unit Asset", "Agreement Line Task Type", "Agreement Line TaskTypeTaskLine", "Agreement Line Asset Product" };
+        public static readonly string[] AssociateObjectRoundSchedule = { "No associated objects" };
+        public static readonly string[] AssociateObjectBusinessUnitGroup = { "Associated objects", "Business Unit" };
+        public static readonly string[] AssociateObjectBusinessUnits = { "No associated objects" };
+        public static readonly string[] AssociateObjectContractUnits = { "No associated objects" };
+        public static readonly string[] AssociateObjectContractSite = { "No associated objects" };
+        public static readonly string[] AssociateObjectRegion = { "No associated objects" };
+        public static readonly string[] AssociateObjectResource = { "Associated objects", "Round Resource Allocation", "Resource Qualification", "Round Group Resource Allocation" };
+        public static readonly string[] AssociateObjectSite = { "Associated objects", "AgreementLine", "Service Unit Asset", "Agreement Line Task Type", "Service Task", "Service Task Schedule", "Service Task Line", "Agreement Line TaskTypeTaskLine", "Agreement Line Asset Product", "Service Unit", "Service Unit Point" };
+        public static readonly string[] AssociateObjectAgreement = { "Service Task", "Service Task Schedule", "Service Task Line", "AgreementLine", "Service Unit Asset", "Agreement Line Task Type", "Agreement Line TaskTypeTaskLine", "Agreement Line Asset Product" };
 
         //ICON IMAGE
         public static readonly string StreetIconUrl = "web/content/images/street.svg";        

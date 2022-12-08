@@ -12,19 +12,19 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
     {
         public readonly By ConfirmButton = By.XPath("//button[text()='Confirm']");
         public readonly By CancelButton = By.XPath("//button[text()='Cancel']");
-        private string CreditNoteTable = "//div[@id='add-orphan-notes']//tbody[@data-bind='foreach: creditNotes']";
-        private string CreditNoteRow = "./tr";
-        private string CheckboxCell = "./td//input";
-        private string NoteIdCell = "./td";
-        private string CreditDateCell = "./td";
-        private string PartyCell = "./td";
-        private string AccountCell = "./td";
-        private string AccountNumberCell = "./td";
-        private string NetCell = "./td";
+        private string creditNoteTable = "//div[@id='add-orphan-notes']//tbody[@data-bind='foreach: creditNotes']";
+        private string creditNoteRow = "./tr";
+        private string checkboxCell = "./td//input";
+        private string noteIdCell = "./td[@data-bind='text: noteId']";
+        private string creditDateCell = "./td[@data-bind='text: creditDate']";
+        private string partyCell = "./td[@data-bind='text: party']";
+        private string accountCell = "./td[@data-bind='text: accountRef']";
+        private string accountNumberCell = "./td[@data-bind='text: accountNumber']";
+        private string netCell = "./td[@data-bind='text: net']";
 
         public TableElement CreditNoteTableEle
         {
-            get => new TableElement(CreditNoteTable, CreditNoteRow, new System.Collections.Generic.List<string>() { CheckboxCell, NoteIdCell, CreditDateCell, PartyCell, AccountCell, AccountNumberCell, NetCell });
+            get => new TableElement(creditNoteTable, creditNoteRow, new System.Collections.Generic.List<string>() { checkboxCell, noteIdCell, creditDateCell, partyCell, accountCell, accountNumberCell, netCell });
         }
 
         public AddOrphanNotePage SelectCreditNote()
@@ -35,7 +35,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
 
         public AddOrphanNotePage VerifyNetValueHasValueGreaterThanZero()
         {
-            int netVal = CreditNoteTableEle.GetCellValue(0, 6).AsInteger();
+            double netVal = CreditNoteTableEle.GetCellValue(0, CreditNoteTableEle.GetCellIndex(netCell)).AsDouble();
             Assert.IsTrue(netVal > 0);
             return this;
         }

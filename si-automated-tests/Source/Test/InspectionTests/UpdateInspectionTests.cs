@@ -37,7 +37,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string inspectionId = "323";
             string inspectionTypeValue = "Repeat Missed Assessment";
             string inpectionAddress = "4 RALEIGH ROAD, RICHMOND, TW9 2DX";
-            string allocatedUnitValue = "Ancillary";
+            string allocatedUnitValue = "East Waste";
 
             PageFactoryManager.Get<LoginPage>()
                     .GoToURL(WebUrl.MainPageUrl);
@@ -159,7 +159,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string inspectionId = "323";
             string inspectionTypeValue = "Repeat Missed Assessment";
             string inpectionAddress = "4 RALEIGH ROAD, RICHMOND, TW9 2DX";
-            string allocatedUnitValue = "Ancillary";
+            string allocatedUnitValue = "East Waste";
 
             PageFactoryManager.Get<LoginPage>()
                     .GoToURL(WebUrl.MainPageUrl);
@@ -256,7 +256,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string inspectionId = "323";
             string inspectionTypeValue = "Repeat Missed Assessment";
             string inpectionAddress = "4 RALEIGH ROAD, RICHMOND, TW9 2DX";
-            string allocatedUnitValue = "Ancillary";
+            string allocatedUnitValue = "East Waste";
 
             PageFactoryManager.Get<LoginPage>()
                     .GoToURL(WebUrl.MainPageUrl);
@@ -342,7 +342,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string inspectionId = "4";
             string inspectionTypeValue = "Street Cleansing Assessment";
             string inpectionAddress = "Holly Road 64 To 70 Between Heath Road And Copthall Gardens";
-            string allocatedUnitValue = "Ancillary";
+            string allocatedUnitValue = "East Waste";
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);

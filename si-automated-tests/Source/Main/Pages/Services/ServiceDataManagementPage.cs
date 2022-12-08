@@ -601,7 +601,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         //Step and locator for Step 19
         private readonly string serviceUnitPointByNameStep19 = "(//tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//img[@src='content/style/images/service-unit.png']/parent::span)[1]";
         private readonly string serviceUnitPointWithMultipleIcon = "(//tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//img[@src='content/style/images/merged-unit.png']/preceding-sibling::img[@src='content/style/images/service-unit.png'])[1]";
-        private readonly string serviceTaskScheduleWithMultipleIcon = "//tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//img[@src='content/style/images/merged-unit.png' and not(contains(@style, 'display: none;'))]/parent::span[contains(@data-bind, 'serviceTaskSchedule: { serviceTaskSchedule: $data }')]";
+        //private readonly string serviceTaskScheduleWithMultipleIcon = "//tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//img[@src='content/style/images/merged-unit.png' and not(contains(@style, 'display: none;'))]/parent::span[contains(@data-bind, 'serviceTaskSchedule: { serviceTaskSchedule: $data }')]";
         private readonly string anyPointWithDesc = "//table[@id='description-table']//td[text()='{0}']";
 
         [AllureStep]

@@ -28,8 +28,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
     [TestFixture]
     public class CreateInspectionTests : BaseTest
     {
-        private string allocatedUnitValue = "Ancillary";
-        private string assignedUserValue = "josie";
+        private string allocatedUnitValue = "East Waste";
+        private string assignedUserValue = "A User";
 
         [Category("CreateInspection")]
         [Category("Chang")]
@@ -340,6 +340,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<EventDetailPage>()
                 .ClickCloseBtn()
+                .AcceptAlert()
                 .SwitchToChildWindow(1);
             PageFactoryManager.Get<TasksListingPage>()
                 .SwitchNewIFrame()
@@ -447,7 +448,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             List<InspectionDBModel> inspections = finder.GetInspectionById(inspectionId);
 
             PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyDataDisplayedWithDB(inspections[0], noteValue, 5, 0, 2, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1))
+                .VerifyDataDisplayedWithDB(inspections[0], noteValue, 1, 0, 2, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1), CommonUtil.GetLocalTimeNow(CommonConstants.DATE_MM_DD_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 1))
                 .ClickCloseBtn()
                 .SwitchToChildWindow(3);
             PageFactoryManager.Get<ServiceUnitDetailPage>()

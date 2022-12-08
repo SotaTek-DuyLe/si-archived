@@ -17,6 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
 {
     public class RoundGroupPage : BasePageCommonActions
     {
+        private readonly By title = By.XPath("//span[text()='Round Group']");
         private readonly By roundGroupInput = By.XPath("//div[@id='details-tab']//input[@name='roundGroup']");
         private readonly By sortOrderInput = By.XPath("//div[@id='details-tab']//input[@name='sortOrder']");
         private readonly By dispatchSiteSelect = By.XPath("//div[@id='details-tab']//select[@id='dispatchSite.id']");
@@ -77,6 +78,17 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string ScheduleEndDateCell = "./td//input[@id='endDate.id']";
         private readonly string ScheduleSeasonCell = "./td//select[@id='season.id']";
         private readonly string ScheduleEditCell = "./td//button[contains(string(), 'Edit')]";
+
+        //DYNAMIC
+        private readonly string roundGroupNameDynamic = "//h5[text()='{0}']";
+
+        [AllureStep]
+        public RoundGroupPage IsRoundGroupPage(string roundGroupValue)
+        {
+            WaitUtil.WaitForElementVisible(title);
+            WaitUtil.WaitForElementVisible(roundGroupNameDynamic, roundGroupValue);
+            return this;
+        }
 
         public TableElement ScheduleTableElement
         {
@@ -895,13 +907,63 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(addSiteButton);
             return this;
         }
+
+        [AllureStep]
         public string GetRoundGroupName()
         {
             return GetElementText(roundGroupName);
         }
+
+        [AllureStep]
         public string GetBusinessUnit()
         {
             return GetSelectElement(businessUnitSelect).SelectedOption.Text;
+        }
+
+        #region
+        private readonly By retirePopupTitle = By.XPath("//h4[text()='Are you sure you want to retire this Round Group?']");
+        private readonly By closeBtn = By.XPath("//button[text()='×']");
+        private readonly By cancelBtn = By.XPath("//button[text()='OK']/preceding-sibling::button[text()='Cancel']");
+        private readonly By okBtn = By.XPath("//button[text()='OK']");
+        private readonly By bodyRetiredPopup = By.CssSelector("div[class='bootbox-body']");
+
+        #endregion
+
+        [AllureStep]
+        public RoundGroupPage IsRetiredPopup()
+        {
+            WaitUtil.WaitForElementVisible(retirePopupTitle);
+            Assert.IsTrue(IsControlDisplayed(retirePopupTitle), "Title is not displayed");
+            Assert.IsTrue(IsControlDisplayed(closeBtn), "Close button is not displayed");
+            Assert.IsTrue(IsControlDisplayed(cancelBtn), "Cancel button is not displayed");
+            Assert.IsTrue(IsControlDisplayed(okBtn), "OK is not displayed");
+            foreach (string associateObject in CommonConstants.AssociateObjectRoundGroup)
+            {
+                Assert.IsTrue(GetElementText(bodyRetiredPopup).Contains(associateObject), associateObject + " is not displayed");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public RoundGroupPage ClickOnCancelBtn()
+        {
+            ClickOnElement(cancelBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundGroupPage VerifyPopupIsDisappear()
+        {
+            WaitUtil.WaitForElementInvisible(retirePopupTitle);
+            Assert.IsTrue(IsControlUnDisplayed(retirePopupTitle));
+            return this;
+        }
+
+        [AllureStep]
+        public RoundGroupPage ClickOnXBtn()
+        {
+            ClickOnElement(closeBtn);
+            return this;
         }
     }
 }

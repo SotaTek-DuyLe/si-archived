@@ -122,10 +122,10 @@ namespace si_automated_tests.Source.Test.PriceTabTests
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .OpenOption(Contract.Commercial)
+                .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .WaitForLoadingIconToDisappear();
             PricesTab pricesTab = PageFactoryManager.Get<PricesTab>();
+            pricesTab.WaitForLoadingIconToDisappear();
             pricesTab.ClickOnElement(pricesTab.PriceTab);
             pricesTab.WaitForLoadingIconToDisappear();
             pricesTab.SwitchToFrame(pricesTab.PricesIFrame);
@@ -136,7 +136,7 @@ namespace si_automated_tests.Source.Test.PriceTabTests
                 .VerifyToastMessage("PriceBook Saved.")
                 .ClickRefreshBtn();
             pricesTab.WaitForLoadingIconToDisappear();
-            pricesTab.VerifyPriceRecord(0, "RMC Collection", "10", "0");
+            pricesTab.VerifyPriceRecord("RMC Collection", "10", "0");
         }
     }
 }
