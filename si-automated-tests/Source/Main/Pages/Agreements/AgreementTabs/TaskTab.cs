@@ -474,14 +474,6 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return this;
         }
-
-        //Delete Item
-        [AllureStep]
-        public RemoveTaskPage ClickDeleteItem()
-        {
-            ClickOnElement(deleteItemBtn);
-            return new RemoveTaskPage();
-        }
         //Bulk Update
         [AllureStep]
         public BulkUpdatePage ClickBulkUpdateItem()
