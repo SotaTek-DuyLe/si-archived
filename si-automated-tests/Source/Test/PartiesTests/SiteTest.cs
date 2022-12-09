@@ -442,9 +442,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser34.UserName)
-                .SendKeyToPassword(AutoUser34.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser34.UserName, AutoUser34.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser34);
             PageFactoryManager.Get<NavigationBase>()
