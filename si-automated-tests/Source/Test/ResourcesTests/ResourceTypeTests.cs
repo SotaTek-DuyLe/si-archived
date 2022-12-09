@@ -31,9 +31,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/grids/resourcetypes");
             PageFactoryManager.Get<LoginPage>()
-                .SendKeyToUsername(AutoUser71.UserName)
-                .SendKeyToPassword(AutoUser71.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser71.UserName, AutoUser71.Password);
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItem(6)
                 .OpenFirstResult()
