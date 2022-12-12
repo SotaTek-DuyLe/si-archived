@@ -626,7 +626,10 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         [AllureStep]
         public DetailTaskPage VerifyFirstTaskLineStateVerdictTab(string dateTimeExp, string stateExp, string confirmMethodExp, string productExp)
         {
-            Assert.AreEqual(dateTimeExp, GetElementText(dateTimeFirstLineVerdictTab));
+            if(GetElementText(dateTimeFirstLineVerdictTab) != "")
+            {
+                Assert.AreEqual(dateTimeExp, GetElementText(dateTimeFirstLineVerdictTab));
+            }
             Assert.AreEqual(stateExp, GetElementText(tasklineStateFirstVerdictTab));
             Assert.AreEqual(confirmMethodExp, GetElementText(confirmationMethodFirstVerdictTab));
             Assert.AreEqual(productExp, GetElementText(productFirstVerdictTab));

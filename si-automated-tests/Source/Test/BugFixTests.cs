@@ -2106,8 +2106,8 @@ namespace si_automated_tests.Source.Test
 
         [Category("BugFix")]
         [Category("Chang")]
-        [Test(Description = "Some of the objects cannot be retired (bug fix)")]
-        public void TC_241_Some_of_the_objects_cannot_be_retired()
+        [Test(Description = "Some of the objects cannot be retired (bug fix) (Step 1-22)")]
+        public void TC_241_1_Some_of_the_objects_cannot_be_retired()
         {
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
@@ -2280,6 +2280,20 @@ namespace si_automated_tests.Source.Test
                 .IsRetiredPopup()
                 .ClickOnCancelBtn()
                 .VerifyPopupIsDisappear();
+            
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Some of the objects cannot be retired (bug fix) (Step 23-41)")]
+        public void TC_241_2_Some_of_the_objects_cannot_be_retired()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
             //Step line 23: Verify in [Round schedules]
             PageFactoryManager.Get<NavigationBase>()
                 .GoToURL(WebUrl.MainPageUrl + "web/round-schedules/177");
@@ -2436,25 +2450,7 @@ namespace si_automated_tests.Source.Test
                 .IsRetiredPopup()
                 .ClickOnCancelBtn()
                 .VerifyPopupIsDisappear();
-            ////Step line 41: Verify in [Agreement line]
-            //PageFactoryManager.Get<NavigationBase>()
-            //   .GoToURL(WebUrl.MainPageUrl + "web/agreement-lines/142");
-            //PageFactoryManager.Get<AgreementLinePage>()
-            //    .WaitForLoadingIconToDisappear();
-            //PageFactoryManager.Get<AgreementLinePage>()
-            //    .WaitForWindowLoadedSuccess("142")
-            //    .ClickOnRetiredBtn();
-            //PageFactoryManager.Get<AgreementLinePage>()
-            //    .IsRetiredPopup()
-            //    //Step line 42: Click x/Cancel
-            //    .ClickOnXBtn()
-            //    .VerifyPopupIsDisappear()
-            //    .ClickOnRetiredBtn();
-            //PageFactoryManager.Get<AgreementLinePage>()
-            //    .IsRetiredPopup()
-            //    .ClickOnCancelBtn()
-            //    .VerifyPopupIsDisappear();
-            //Step line 43: Verify in [Regions]
+            //Step line 41: Verify in [Regions]
             PageFactoryManager.Get<NavigationBase>()
                .GoToURL(WebUrl.MainPageUrl + "web/regions/1");
             PageFactoryManager.Get<RegionDetailPage>()
@@ -2464,7 +2460,7 @@ namespace si_automated_tests.Source.Test
                 .ClickOnRetiredBtn();
             PageFactoryManager.Get<RegionDetailPage>()
                 .IsRetiredPopup()
-                //Step line 44: Click x/Cancel
+                //Step line 42: Click x/Cancel
                 .ClickOnXBtn()
                 .VerifyPopupIsDisappear()
                 .ClickOnRetiredBtn();
