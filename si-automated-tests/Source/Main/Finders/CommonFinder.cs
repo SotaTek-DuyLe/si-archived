@@ -273,7 +273,7 @@ namespace si_automated_tests.Source.Main.Finders
 
         public List<string> GetUserWithFunction()
         {
-            string query = "Declare @curday datetime set @curday = GetNowDate(1) set @curday = dateadd(d, datediff(d, 0, @curday), 0)IF 1 > 0 SELECT DISTINCT T0.userID as UserID,T0.displayname as UserName from users as T0 with(nolock) inner join usersroles as T1 with(nolock) on(T0.userID = T1.userID) inner join roles as T2 with(nolock) on(T1.roleID = T2.roleID) inner join userprivileges as T3 with(nolock) on(T2.roleID = T3.roleID) WHERE(T3.objectID = 1  and T3.echotypeID = 10) AND(T3.canread = 1 and T3.canupdate = 1) AND @curday between isnull(T0.startdate,'1 Jan 2000') and isnull(T0.enddate,'1 Jan 3000') order by T0.displayname";
+            string query = "Declare @curday datetime set @curday = SotatekTesting.dbo.GetNowDate(1) set @curday = dateadd(d, datediff(d, 0, @curday), 0)IF 1 > 0 SELECT DISTINCT T0.userID as UserID,T0.displayname as UserName from users as T0 with(nolock) inner join usersroles as T1 with(nolock) on(T0.userID = T1.userID) inner join roles as T2 with(nolock) on(T1.roleID = T2.roleID) inner join userprivileges as T3 with(nolock) on(T2.roleID = T3.roleID) WHERE(T3.objectID = 1  and T3.echotypeID = 10) AND(T3.canread = 1 and T3.canupdate = 1) AND @curday between isnull(T0.startdate,'1 Jan 2000') and isnull(T0.enddate,'1 Jan 3000') order by T0.displayname";
             return FindList<UserDBModel>(query).Select(x => x.UserName).ToList();
         }
 

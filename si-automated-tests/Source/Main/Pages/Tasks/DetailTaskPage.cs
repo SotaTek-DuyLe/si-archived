@@ -433,8 +433,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By userSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[1]/parent::div/following-sibling::div/strong[1]");
         private readonly By timeSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[1]/parent::div/following-sibling::div/strong[2]");
 
-        private readonly By contentFirstServiceUpdate = By.XPath("(//strong[text()='Update']/following-sibling::div)[1]");
-        private readonly By contentSecondServiceUpdate = By.XPath("//strong[contains(text(), 'Service Update')]/following-sibling::div");
+        private readonly By contentFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')]/following-sibling::div)[1]");
+        private readonly By contentSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')]/following-sibling::div)[2]");
         private readonly By updateTitle = By.XPath("(//strong[text()='Update'])[1]");
         private readonly By createTitle = By.XPath("(//strong[text()='Create'])[1]");
         private readonly By userUpdate = By.XPath("(//strong[text()='Update']/parent::div/following-sibling::div/strong[1])[1]");
@@ -868,6 +868,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
                 firstResult.Add(GetElementText(webElement));
             }
             ClickOnElement(taskTitle);
+            SleepTimeInSeconds(2);
             ClickOnElement(secondProductTaskLine);
             //Second product
             List<string> secondResult = new List<string>();

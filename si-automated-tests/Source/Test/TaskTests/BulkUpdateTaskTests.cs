@@ -340,6 +340,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ChangeResolutionCode("Not Out", "2");
             //Update top pannel
             string timeNow = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+            string timeNowByUTC = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
             string completedDateDisplayed = CommonUtil.ParseDateTimeToFormat(londonCurrentDate, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             string completedDateDDMMYYYY = CommonUtil.ParseDateTimeToFormat(londonCurrentDate, CommonConstants.DATE_DD_MM_YYYY_FORMAT);
@@ -383,11 +384,11 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnTaskInformation()
                 .VerifyTaskInformationAfterBulkUpdating(timeNow, "Not Completed", "Not Out", "Manually Confirmed on Web")
                 .ClickOnTaskLineVerdictTab()
-                .VerifyFirstTaskLineStateVerdictTab(completedDateDisplayed, "Not Completed", "Manually Confirmed on Web", "General Refuse");
+                .VerifyFirstTaskLineStateVerdictTab(completedDateDisplayed, "Cancelled", "", "General Refuse");
             //Step 4: Line 53 - Task line tab => Failed
             detailTaskPage
                 .ClickOnTaskLineTab()
-                .VerifyFirstTaskLineAfterBulkUpdate("General Refuse", "Not Completed", "")
+                .VerifyFirstTaskLineAfterBulkUpdate("General Refuse", "Cancelled", "")
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1)
                 .SwitchNewIFrame();
@@ -400,29 +401,31 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnFirstRecord()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
-            string completionDateFirstTask = detailTaskPage.CompareDueDateWithTimeNow(firstTaskDB, timeNow);
+            //string completionDateFirstTask = detailTaskPage.CompareDueDateWithTimeNow(firstTaskDB, timeNow);
 
             detailTaskPage
                 .IsDetailTaskPage()
                 .ClickOnDetailTab()
-                .VerifyFieldAfterBulkUpdate(topNote, timeNow, "Completed", completionDateFirstTask, "");
+                .VerifyFieldAfterBulkUpdate(topNote, timeNow, "Completed", timeNow, "");
             //Step 4: Line 53 - History tab
-            string[] valueExpUpdateFirstTask = { topNote, completionDateFirstTask, "Completed", timeNow };
-            string[] valueExpInServiceUpdateFirstTask = { "1", "1", "Completed", "", completedDateDDMMYYYY, "Manually Confirmed on Web"};
+            string[] valueExpUpdateFirstTask = { topNote, timeNow, "Completed", timeNow };
+            string[] valueExpInServiceUpdateFirstTask = { "1", "1", "Completed", completedDateDDMMYYYY, "Manually Confirmed on Web"};
 
             detailTaskPage
                 .ClickOnHistoryTab()
                 .VerifyTitleTaskLineFirstServiceUpdate()
-                .VerifyHistoryTabFirstAfterBulkUpdating(AutoUser55.DisplayName, completedDateDisplayed, CommonConstants.ServiceUpdateColumnHistoryTab, valueExpInServiceUpdateFirstTask)
+                .VerifyHistoryTabFirstAfterBulkUpdating(AutoUser55.DisplayName, completedDateDisplayed, CommonConstants.ServiceUpdateColumnHistoryTab, valueExpInServiceUpdateFirstTask);
+            detailTaskPage
                 .VerifyTitleTaskLineSecondServiceUpdate()
-                .VerifyHistoryTabSecondAfterBulkUpdating(AutoUser55.DisplayName, completedDateDisplayed, CommonConstants.ServiceUpdateColumnHistoryTab, valueExpInServiceUpdateFirstTask)
+                .VerifyHistoryTabSecondAfterBulkUpdating(AutoUser55.DisplayName, completedDateDisplayed, CommonConstants.ServiceUpdateColumnHistoryTab, valueExpInServiceUpdateFirstTask);
+            detailTaskPage
                 .VerifyTitleUpdate()
                 .VerifyHistoryTabUpdate(AutoUser55.DisplayName, completedDateDisplayed, CommonConstants.UpdateColumnHistoryTabSecond, valueExpUpdateFirstTask);
             //Step 4: Line 53 - Verdict tab
             detailTaskPage
                 .ClickOnVerdictTab()
                 .ClickOnTaskInformation()
-                .VerifyTaskInformationAfterBulkUpdating(completionDateFirstTask, "Completed", "", "Manually Confirmed on Web")
+                .VerifyTaskInformationAfterBulkUpdating(timeNowByUTC, "Completed", "", "Manually Confirmed on Web")
                 .ClickOnTaskLineVerdictTab()
                 .VerifyFirstTaskLineStateVerdictTab(completedDateDisplayed, "Completed", "Manually Confirmed on Web", "Paper & Cardboard")
                 .VerifySecondTaskLineStateVerdictTab(completedDateDisplayed, "Completed", "Manually Confirmed on Web", "Plastic");
