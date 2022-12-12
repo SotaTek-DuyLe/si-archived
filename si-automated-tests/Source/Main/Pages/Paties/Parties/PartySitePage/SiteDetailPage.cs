@@ -14,7 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
 {
     public class SiteDetailPage : BasePage
     {
-        private readonly By title = By.XPath("//span[text()='Serviced Site']");
+        private readonly By title = By.XPath("//h4[contains(text(), 'Site/')]");
         private readonly By siteName = By.XPath("//p[text()='Jaflong Tandoori / 16 ASHBURNHAM ROAD, HAM, RICHMOND, TW10 7NF']");
         private readonly By primaryContactDd = By.CssSelector("select#primary-contact");
         private readonly By primaryContactAddBtn = By.XPath("//select[@id='primary-contact']/following-sibling::span");
