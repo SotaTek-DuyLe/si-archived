@@ -427,8 +427,8 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnTaskInformation()
                 .VerifyTaskInformationAfterBulkUpdating(timeNowByUTC, "Completed", "", "Manually Confirmed on Web")
                 .ClickOnTaskLineVerdictTab()
-                .VerifyFirstTaskLineStateVerdictTab(completedDateDisplayed, "Completed", "Manually Confirmed on Web", "Paper & Cardboard")
-                .VerifySecondTaskLineStateVerdictTab(completedDateDisplayed, "Completed", "Manually Confirmed on Web", "Plastic");
+                .VerifyFirstTaskLineStateVerdictTab(timeNow, "Completed", "Manually Confirmed on Web", "Paper & Cardboard")
+                .VerifySecondTaskLineStateVerdictTab(timeNow, "Completed", "Manually Confirmed on Web", "Plastic");
             //Step 4: Line 53 - Task line tab
             detailTaskPage
                 .ClickOnTaskLineTab()
