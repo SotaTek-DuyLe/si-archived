@@ -1,21 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
-using si_automated_tests.Source.Main.Constants;
-using si_automated_tests.Source.Main.Models;
-using si_automated_tests.Source.Main.Models.Adhoc;
-using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
-using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar;
-using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
-using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
-using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
-using si_automated_tests.Source.Main.Pages.WB.Tickets;
-using CanlendarServiceTask = si_automated_tests.Source.Main.Models.Suspension.ServiceTaskModel;
 
 namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc
 {

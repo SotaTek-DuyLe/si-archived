@@ -410,9 +410,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
         #endregion
 
         #region indicator-tab
-        public readonly By IndicatorTab = By.XPath("//a[@aria-controls='indicators-tab']");
-        public readonly By IndicatorIframe = By.XPath("//iframe[@id='indicators-tab']");
-        public readonly By IndicatorAddNewItemButton = By.XPath("//button[text()[contains(.,'Add New Item')]]");
+        public readonly By IndicatorTab = By.XPath("//a[@aria-controls='objectIndicators-tab']");
+        public readonly By IndicatorIframe = By.XPath("//iframe[@id='objectIndicators']");
+        public readonly By IndicatorAddNewItemButton = By.XPath("//button[@title='Add']");
         public readonly By SelectIndicatorButton = By.XPath("//button[@data-id='indicators']");
         public readonly By IndicatorUl = By.XPath("//ul[@aria-expanded='true']");
         public readonly By IndicatorConfirmButton = By.XPath("//button[contains(text(), 'Confirm')]");
