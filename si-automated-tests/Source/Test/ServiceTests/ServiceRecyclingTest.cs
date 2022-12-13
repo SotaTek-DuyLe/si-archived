@@ -18,7 +18,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         [Category("Recycling")]
         [Category("Chang")]
         [Test(Description = "Restrict Edit Feature on new style forms on Service Unit tab")]
-        public void TC_128_1_Restrict_Edit_Feature_on_new_style_forms_on_Service_Unit()
+        public void TC_128_Restrict_Edit_Feature_on_new_style_forms_on_Service_Unit()
         {
             string valueStreet = "COURT CLOSE AVENUE,TW2,TWICKENHAM";
             string serviceUnitId = "223695";
@@ -49,7 +49,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             sectorRecycling
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             sectorRecycling.VerifyCheckboxIsSelected(sectorRecycling.RestrictEditCheckbox, true);
 
             //Service unit
@@ -126,7 +126,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitDetail.SendKeys(serviceUnitDetail.AccessPointInput, accessPointValue);
             serviceUnitDetail.ClickSaveBtn()
                 .WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             serviceUnitDetail.VerifyInputValue(serviceUnitDetail.NoteInput, noteInputValue)
                 .VerifyInputValue(serviceUnitDetail.AccessPointInput, accessPointValue);
 
@@ -156,7 +156,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitDetail.EditServiceUnitPoint(0, "Serviced Point", "")
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //step 10: Click on Assets tab: Add new, add existing asset, delete item
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.AssetsTab);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.AddNewAssetItemButton);
@@ -178,7 +178,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SendKeys(assetDetailItemPage.AssetReferenceInput, assetReferenceValue);
             assetDetailItemPage.ClickSaveBtn()
                 .WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage("Success")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
 
@@ -196,12 +196,12 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitDetail
                 .SelectAnyExistingAsset(assetType2);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.ConfirmButton);
-            serviceUnitDetail.VerifyToastMessage("Success");
+            serviceUnitDetail.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             serviceUnitDetail.VerifyAssetAddedByAddExistItemButton("660L")
                 .ClickAssetCheckBox(0)
                 .ClickOnElement(serviceUnitDetail.DeleteAssetItemButton);
             serviceUnitDetail.WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage("Success");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
 
             //step 11: User can do all actions in announcement, map, risks, subspriptions, notifications and rental asset tabs
             //announcements - tab
@@ -222,7 +222,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             announcementDetailPage.SendKeys(announcementDetailPage.valiToInput, to);
             announcementDetailPage.ClickSaveBtn()
                 .WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage("Success")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             serviceUnitDetail.VerifyNewAnnouncement(announcement, announcementType, from, to);
@@ -231,7 +231,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitDetail.SwitchToChildWindow(3);
             AnnouncementRemovePage announcementRemovePage = PageFactoryManager.Get<AnnouncementRemovePage>();
             announcementRemovePage.ClickOnElement(announcementRemovePage.YesButton);
-            announcementRemovePage.VerifyToastMessage("Success")
+            announcementRemovePage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToChildWindow(2);
             serviceUnitDetail.VerifyAnnouncementDeleted(announcement);
 
@@ -261,7 +261,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             RiskRegisterModel riskRegisterModel = riskRegisterPage.GetReviewRiskData();
             riskRegisterPage.ClickOnElement(riskRegisterPage.FinishButton);
             riskRegisterPage.ClickOnElement(riskRegisterPage.OKButton);
-            riskRegisterPage.VerifyToastMessage("Success")
+            riskRegisterPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToChildWindow(2)
                 .SwitchToFrame(serviceUnitDetail.RiskTabIframe);
             serviceUnitDetail.VerifyNewRiskRegister(riskRegisterModel);
@@ -294,7 +294,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.MobileInput, mobile);
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.NotesInput, notes);
             subscriptionsDetailPage.ClickSaveBtn()
-                .VerifyToastMessage("Success")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.SubscriptionTabIframe);
@@ -307,35 +307,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.Notificationiframe);
             serviceUnitDetail.WaitForLoadingIconToDisappear(false);
             serviceUnitDetail.VerifyElementVisibility(serviceUnitDetail.NotificationRefreshButton, true);
-        }
+            serviceUnitDetail
+                .CloseCurrentWindow()
+                .SwitchToChildWindow(1);
 
-        [Category("Recycling")]
-        [Category("Chang")]
-        [Test(Description = "Restrict Edit Feature on new style forms on Service Task tab")]
-        public void TC_128_2_Restrict_Edit_Feature_on_new_style_forms_on_Service_Task()
-        {
             //step 12:Verify that start and end date is read only and retire button is disabled/hidden
-            PageFactoryManager.Get<LoginPage>()
-                  .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser39.UserName, AutoUser39.Password)
-                .IsOnHomePage(AutoUser39);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Services)
-                .ExpandOption("Regions")
-                .ExpandOption(Region.UK)
-                .ExpandOption(Contract.Municipal)
-                .ExpandOption("Recycling")
-                .ExpandOption("Communal Recycling")
-                .OpenOption("Active Service Tasks")
-                .SwitchNewIFrame();
-            //Verify at Active Service Task
-            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
-                .DoubleClicServiceTask(2)
-                .SwitchToLastWindow();
+                .GoToURL(WebUrl.MainPageUrl + "web/service-tasks/111751");
             var serviceTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
             serviceTaskPage.WaitForLoadingIconToDisappear();
             serviceTaskPage
@@ -373,7 +351,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceTaskPage.SendKeys(serviceTaskPage.IndicatorEndDateInput, indicatorEndDate);
             serviceTaskPage.SendKeys(serviceTaskPage.TaskNoteInput, taskNote);
             serviceTaskPage.ClickSaveBtn()
-                .VerifyToastMessage("Success")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //verify updated data
             serviceTaskPage.VerifySelectedValue(serviceTaskPage.PrioritySelect, "")
@@ -390,14 +368,21 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifyInputValue(serviceTaskPage.IndicatorEndDateInput, indicatorEndDate)
                 .VerifyInputValue(serviceTaskPage.TaskNoteInput, taskNote);
 
-            //Click on create adhoc task
+            //Step line 14: Click on create adhoc task
             serviceTaskPage.ClickOnElement(serviceTaskPage.CreateAdHocTaskButton);
-            serviceTaskPage.SwitchToChildWindow(3);
+            serviceTaskPage.SwitchToChildWindow(2);
             var createAdHocTaskPage = PageFactoryManager.Get<CreateAdHocTaskPage>();
             createAdHocTaskPage.WaitForLoadingIconToDisappear();
-            createAdHocTaskPage.VerifyAdHocTaskIsCreated()
+            createAdHocTaskPage
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            createAdHocTaskPage
+                .waitForLoadingIconDisappear();
+            createAdHocTaskPage
+                .VerifyAdHocTaskIsCreated()
                 .CloseCurrentWindow()
-                .SwitchToChildWindow(2);
+                .SwitchToChildWindow(1);
 
             //Click on task lines tab: verify all actions and grid is read only
             serviceTaskPage.ClickOnTaskLineTab()
@@ -411,20 +396,18 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceTaskPage.WaitForLoadingIconToDisappear();
             var announcementTaskTab = PageFactoryManager.Get<AnnouncementTaskTab>();
             announcementTaskTab.ClickOnElement(announcementTaskTab.AddNewItemButton);
-            announcementTaskTab.SwitchToChildWindow(3);
+            announcementTaskTab.SwitchToChildWindow(2);
             PageFactoryManager.Get<AnnouncementDetailPage>()
                 .WaitForLoadingIconToDisappear();
             string text = "Test announcement " + CommonUtil.GetRandomNumber(5);
             string impact = "Positive";
-            string from = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
-            string to = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT, 1);
             PageFactoryManager.Get<AnnouncementDetailPage>()
                 .InputDetails("Collection services", text, impact, from, to)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success")
-                .WaitUntilToastMessageInvisible("Success")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
-                .SwitchToChildWindow(2);
+                .SwitchToChildWindow(1);
             announcementTaskTab.VerifyAnnouncementTaskData(text, "Collection services", from, to);
 
             //Schedules tab: Add new item and retire 
@@ -437,47 +420,48 @@ namespace si_automated_tests.Source.Test.ServiceTests
 
             //Double click on any schedule
             scheduleTaskTab.DoubleClickSchedule(1)
-                .SwitchToChildWindow(3);
+                .SwitchToChildWindow(2);
             var serviceTaskSchedulePage = PageFactoryManager.Get<ServiceTaskSchedulePage>();
             serviceTaskSchedulePage.WaitForLoadingIconToDisappear();
             serviceTaskSchedulePage.VerifyElementEnable(serviceTaskSchedulePage.StartDateInput, false)
-                .VerifyElementEnable(serviceTaskSchedulePage.EndDateInput, false)
-                .SelectTextFromDropDown(serviceTaskSchedulePage.TimeBandInput, "09.00-10.00")
+                .VerifyElementEnable(serviceTaskSchedulePage.EndDateInput, false);
+            serviceTaskSchedulePage
+                .SelectTimeBand();
+            serviceTaskSchedulePage
                 .ClickOnElement(serviceTaskSchedulePage.UseRoundScheduleRadio);
-            serviceTaskSchedulePage.SelectTextFromDropDown(serviceTaskSchedulePage.RoundSelect, "WCREC2:Tuesday")
+            serviceTaskSchedulePage
+                .SelectTextFromDropDown(serviceTaskSchedulePage.RoundSelect, "WCREC2:Tuesday")
                 .SelectTextFromDropDown(serviceTaskSchedulePage.RoundLegSelect, "GLEBE SIDE TW1")
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
-                .SwitchToChildWindow(2);
+                .SwitchToChildWindow(1);
 
             //Data, history, risks, subscriptions, notifications and indicators tab
             //map-tab
-            ServiceUnitDetailPage serviceUnitDetail = PageFactoryManager.Get<ServiceUnitDetailPage>();
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.MapTab);
             serviceUnitDetail.WaitForLoadingIconToDisappear(false);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.ResetMapButton);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.SaveMapButton);
-            serviceUnitDetail.VerifyToastMessage("Success")
-                .WaitUntilToastMessageInvisible("Success");
+            serviceUnitDetail
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
 
             //risk-tab
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.RiskTab);
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.RiskTabIframe);
             serviceUnitDetail.WaitForLoadingIconToDisappear(false);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.BulkCreateButton);
-            serviceUnitDetail.SwitchToChildWindow(3)
+            serviceUnitDetail.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
-            RiskRegisterPage riskRegisterPage = PageFactoryManager.Get<RiskRegisterPage>();
             riskRegisterPage.SelectRiskCheckbox(0)
                 .ClickOnElement(riskRegisterPage.AddSelectedButton);
             riskRegisterPage.ClickOnElement(riskRegisterPage.NextButtonOnEditRisk);
             riskRegisterPage.ClickOnElement(riskRegisterPage.NextButtonOnSelectServices);
-            RiskRegisterModel riskRegisterModel = riskRegisterPage.GetReviewRiskData();
             riskRegisterPage.ClickOnElement(riskRegisterPage.FinishButton);
             riskRegisterPage.ClickOnElement(riskRegisterPage.OKButton);
-            riskRegisterPage.VerifyToastMessage("Success")
-                .SwitchToChildWindow(2)
+            riskRegisterPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .SwitchToChildWindow(1)
                 .SwitchToFrame(serviceUnitDetail.RiskTabIframe);
             serviceUnitDetail.VerifyNewRiskRegister(riskRegisterModel);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.ShowAllButton);
@@ -491,16 +475,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.SubscriptionTabIframe);
             serviceUnitDetail.WaitForLoadingIconToDisappear(false);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.AddNewSubscriptionItemButton);
-            serviceUnitDetail.SwitchToChildWindow(3)
+            serviceUnitDetail.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
-            SubscriptionsDetailPage subscriptionsDetailPage = PageFactoryManager.Get<SubscriptionsDetailPage>();
-            string title = "Serivce Unit title";
-            string firstName = "Serivce Unit FirstName";
-            string lastName = "Serivce Unit LastName";
-            string position = "Serivce Unit Position";
-            string telephone = "+44 1274 496 0572";
-            string mobile = "+4471274";
-            string notes = "Service Unit Notes";
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.TitleInput, title);
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.FirstNameInput, firstName);
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.LastNameInput, lastName);
@@ -509,9 +485,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.MobileInput, mobile);
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.NotesInput, notes);
             subscriptionsDetailPage.ClickSaveBtn()
-                .VerifyToastMessage("Success")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
-                .SwitchToChildWindow(2);
+                .SwitchToChildWindow(1);
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.SubscriptionTabIframe);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.SubscriptionRefreshButton);
             serviceUnitDetail.WaitForLoadingIconToDisappear();
@@ -532,14 +508,14 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitDetail.SelectByDisplayValueOnUlElement(serviceUnitDetail.IndicatorUl, "Assisted");
             serviceUnitDetail.SleepTimeInMiliseconds(200);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.IndicatorConfirmButton);
-            serviceUnitDetail.VerifyToastMessage("Success");
+            serviceUnitDetail.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             serviceUnitDetail.SwitchToDefaultContent();
 
             //Service task line
             serviceTaskPage.ClickOnTaskLineTab()
                 .WaitForLoadingIconToDisappear();
             taskLinePage.DoubleClickTaskLine(0)
-                .SwitchToChildWindow(3);
+                .SwitchToChildWindow(2);
             var serviceTaskLinePage = PageFactoryManager.Get<ServiceTaskLinePage>();
             serviceTaskLinePage.WaitForLoadingIconToDisappear();
             serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.TaskLineTypeSelect, false)
