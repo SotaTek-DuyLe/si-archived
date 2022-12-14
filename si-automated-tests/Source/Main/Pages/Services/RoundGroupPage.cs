@@ -40,7 +40,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By roundRows = By.XPath("//div[@id='rounds-tab']//table//tbody//tr");
         private readonly By resourceRows = By.XPath("//div[@id='defaultResources-tab']//table//tbody//tr[contains(@data-bind, 'with: $data.getFields()')][not(ancestor::tr)]");
         private readonly string resourceDetailContainerRows = "//div[@id='defaultResources-tab']//table//tbody//tr[contains(@id, 'child-target{0}')]";
-        private readonly string resourceDetailRows = "//div[@id='defaultResources-tab']//table//tbody//tr[contains(@id, 'child-target{0}')]//tr[@data-bind='with: $data.getFields()']";
+        private readonly string resourceDetailRows = "//div[@id='defaultResources-tab']//table//tbody//tr[contains(@id, 'child-target{0}')]//tr[contains(@data-bind, 'with: $data.getFields()')]";
         private readonly By typeSelect = By.XPath("./td//select[@id='type.id']");
         private readonly By resourceSelect = By.XPath("./td//select[@id='resource.id']");
         private readonly By resourceSelectOpt = By.XPath("./td//select[@id='resource.id']//option");
@@ -631,9 +631,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
         [AllureStep]
 
-        public RoundGroupPage ClickRetireDefaultResourceButton(string resource)
+        public RoundGroupPage ClickRetireDefaultResourceButton(int resourceRowIdx, string resource)
         {
-            List<IWebElement> webElements = new List<IWebElement>();
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
+            List<IWebElement> webElements = this.driver.FindElements(resourceDetailXPath).ToList();
             for (int i = 0; i < webElements.Count; i++)
             {
                 if (GetFirstSelectedItemInDropdown(webElements[i].FindElement(resourceSelect)) == resource)

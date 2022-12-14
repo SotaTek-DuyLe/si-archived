@@ -338,7 +338,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundGroupPage>()
                 .VerifyDefaultResourceRowsIsVisible()
-                .ClickAddNewItemOnResourceTab();
+                .ClickAddNewItemOnResourceTab()
+                .WaitForLoadingIconToDisappear();
             Thread.Sleep(300);
             string dateNow = DateTime.Now.ToString("dd/MM/yyyy");
             DateTime startDate = DateTime.Now.AddDays(7);
@@ -424,6 +425,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundGroupPage>()
                 .ClickDefaultResourceTab()
+                .WaitForLoadingIconToDisappear()
                 .WaitForLoadingIconToDisappear();
             int index = PageFactoryManager.Get<RoundGroupPage>().GetIndexResourceRowByType("Sweeper");
             PageFactoryManager.Get<RoundGroupPage>()
@@ -431,7 +433,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             Thread.Sleep(300);
             PageFactoryManager.Get<RoundGroupPage>()
                 .VerifyResourceDetailRow(index, 0, "Liz Tudor", false, "", "15/12/2021", "01/01/2050", true, false)
-                .ClickRetireDefaultResourceButton("Liz Tudor")
+                .ClickRetireDefaultResourceButton(index, "Liz Tudor")
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
                 .VerifyToastMessage("Success");
