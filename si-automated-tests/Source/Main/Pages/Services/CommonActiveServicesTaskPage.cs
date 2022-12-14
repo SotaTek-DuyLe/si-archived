@@ -244,7 +244,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public CommonActiveServicesTaskPage OpenTribleYarnsWithDate(string date)
         {
-            int i = 10;
+            int i = 15;
             while (i > 0)
             {
                 if (IsControlUnDisplayed(tribeYarnsWithDate, date))
@@ -262,49 +262,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             DoubleClickOnElement(tribeYarnsWithDate, date);
             return this;
         }
-        [AllureStep]
-        public CommonActiveServicesTaskPage OpenSidraTeddingtonStartDate(string date)
-        {
-            int i = 3;
-            while(i > 0)
-            {
-                if (IsControlUnDisplayed(sidraTeddingtontribeYarnsStartDate, date))
-                {
-                    ClickRefreshBtn();
-                    WaitForLoadingIconToDisappear();
-                    SleepTimeInMiliseconds(1000);
-                    i--;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            
-            DoubleClickOnElement(sidraTeddingtontribeYarnsStartDate, date);
-            return this;
-        }
-        [AllureStep]
-        public CommonActiveServicesTaskPage OpenSidraTeddingtonEndDate(string date)
-        {
-            int i = 3;
-            while (i > 0)
-            {
-                if (IsControlUnDisplayed(sidraTeddingtontribeYarnsEndDate, date))
-                {
-                    ClickRefreshBtn();
-                    WaitForLoadingIconToDisappear();
-                    SleepTimeInMiliseconds(1000);
-                    i--;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            DoubleClickOnElement(sidraTeddingtontribeYarnsEndDate, date);
-            return this;
-        }
+       
         [AllureStep]
         public CommonActiveServicesTaskPage ClickApplyBtn()
         {

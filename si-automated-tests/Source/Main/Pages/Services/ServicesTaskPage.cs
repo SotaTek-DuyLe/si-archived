@@ -208,6 +208,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             {
                 string _startDate = CommonUtil.ParseDateTimeToFormat(listAll[i].startdate, "dd/MM/yyyy").Replace('-', '/');
                 string _endDate = CommonUtil.ParseDateTimeToFormat(listAll[i].enddate, "dd/MM/yyyy").Replace('-', '/');
+                
                 if (listAll[i].scheduledassetquantity.Equals(scheduledassetquantity) && _startDate.Equals(startdate))
                 {
                     Assert.AreEqual(listAll[i].scheduledassetquantity, scheduledassetquantity);

@@ -567,6 +567,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
                 else
                 {
                     SleepTimeInMiliseconds(1000);
+                    i--;
                 }
             }
             Assert.IsTrue(IsControlUnDisplayed(serviceAgreementPanel));

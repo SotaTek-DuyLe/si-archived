@@ -23,6 +23,7 @@ using si_automated_tests.Source.Main.Pages.Task;
 using System.Data.SqlClient;
 using si_automated_tests.Source.Main.Models.DBModels;
 using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
 {
@@ -1231,6 +1232,14 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName);
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickAccountTab();
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .UncheckOnAccountType("PO Number Required")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<AccountTa>()
             PageFactoryManager.Get<DetailPartyPage>()
                 .OpenAgreementTab();
             PageFactoryManager.Get<DetailPartyPage>()

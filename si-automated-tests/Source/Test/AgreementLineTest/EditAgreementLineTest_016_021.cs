@@ -523,9 +523,9 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             PageFactoryManager.Get<ServicesTaskPage>()
                 .VerifyServiceTaskInDB(serviceTasks, 1, "660L", 600, "Kilograms", "General Recycling", tommorowDate, "01/01/2050")
-                //.VerifyServiceTaskInDB(serviceTasks, 3, "660L", 600, "Kilograms", "General Recycling", todayDate, tommorowDate)
+                //.VerifyServiceTaskInDB(serviceTasks, 2, "660L", 600, "Kilograms", "General Recycling", todayDate, tommorowDate)
                 .VerifyServiceUnitAssets(serviceUnitAsset, 2, todayDate, tommorowDate) //Verify 2 retired task with enddate is tommorow
-                .VerifyServiceTaskAgreementNum(serviceTaskAgreement, 1, todayDate); //Verify No new Service Task and Service Task Schedule created 
+                .VerifyServiceTaskAgreementNum(serviceTaskAgreement, 1, tommorowDate); //Verify No new Service Task and Service Task Schedule created 
 
         }
 
