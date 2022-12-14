@@ -203,9 +203,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //Verify DB
             CommonFinder finder = new CommonFinder(DbContext);
-            var serviceUnit = finder.GetServiceUnitById(24);
-            Assert.IsTrue(serviceUnit.islocked);
-            Assert.IsTrue(serviceUnit.lockedreference == lockedreference);
+            var siteDBModel = finder.GetSitesById("24");
+            Assert.IsTrue(siteDBModel.islocked);
+            Assert.IsTrue(siteDBModel.lockedreference == lockedreference);
             sitePage.ClickOnElement(sitePage.SiteAddressTitle);
             sitePage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
