@@ -683,16 +683,17 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             List<DefaultResourceModel> defaultResources = new List<DefaultResourceModel>();
             List<IWebElement> webElements = GetAllElements(resourceRows);
-            List<IWebElement> webDetailElements = new List<IWebElement>();
             for (int i = 0; i < webElements.Count; i++)
             {
                 DefaultResourceModel defaultResource = new DefaultResourceModel();
                 defaultResource.Type = GetFirstSelectedItemInDropdown(webElements[i].FindElement(typeSelect));
                 defaultResource.Quantity = webElements[i].FindElement(quantityInput).GetAttribute("value");
-                bool containDetail = webDetailElements[i].FindElements(resourceSelect).Count != 0;
+                By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, i));
+                var webDetailElements = this.driver.FindElements(resourceDetailXPath);
+                bool containDetail = webDetailElements.Count != 0;
                 if (containDetail)
                 {
-                    if (!webDetailElements[i].Displayed)
+                    if (!webDetailElements[0].Displayed)
                     {
                         ClickExpandButton(i);
                         Thread.Sleep(300);
@@ -700,9 +701,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
                     defaultResource.Detail = new DetailDefaultResourceModel()
                     {
-                        Resource = GetFirstSelectedItemInDropdown(webDetailElements[i].FindElement(resourceSelect)),
-                        HasSchedule = webDetailElements[i].FindElement(hasScheduleCheckbox).Selected,
-                        Schedule = webDetailElements[i].FindElement(scheduleInput).GetAttribute("value"),
+                        Resource = GetFirstSelectedItemInDropdown(webDetailElements[0].FindElement(resourceSelect)),
+                        HasSchedule = webDetailElements[0].FindElement(hasScheduleCheckbox).Selected,
+                        Schedule = webDetailElements[0].FindElement(scheduleInput).GetAttribute("value"),
                     };
                 }
                 defaultResources.Add(defaultResource);

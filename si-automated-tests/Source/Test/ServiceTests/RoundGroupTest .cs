@@ -229,21 +229,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
 
             //Verify that user can sync Round Resources on a Round Group
             PageFactoryManager.Get<RoundGroupPage>()
-                .ClickRoundTab()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<RoundGroupPage>()
-                .DoubleClickRound("Daily")
-                .SwitchToChildWindow(3);
-            PageFactoryManager.Get<RoundDetailPage>()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<RoundDetailPage>()
-                .ClickDefaultResourceTab()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<RoundDetailPage>()
-                .CloseCurrentWindow()
-                .SwitchToChildWindow(2);
-
-            PageFactoryManager.Get<RoundGroupPage>()
                 .ClickDefaultResourceTab()
                 .WaitForLoadingIconToDisappear();
             List<DefaultResourceModel> defaultResourceOnRound = PageFactoryManager.Get<RoundGroupPage>().GetAllDefaultResourceModels();
