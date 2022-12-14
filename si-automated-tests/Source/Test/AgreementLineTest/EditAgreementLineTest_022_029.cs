@@ -33,7 +33,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test(Description = "022A_Create Agreement without Mobilization and Demobilization phases")]
-        public void TC_022()
+        public void TC_022_Create_agreement_without_mobilization_and_demobilization()
         {
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string partyName = "Rosie and Java";
@@ -254,7 +254,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test(Description = "023A_Edit Agreement Line (Increase Asset Type Qty) on active Agreement without Mobilization and Demobilization phases")]
-        public void TC_023()
+        public void TC_023_edit_agreement_increase_asset_type_qty()
         {
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
@@ -506,7 +506,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test(Description = "Edit Agreement Line (Decrease Asset Type Qty) on active Agreement without Mobilization and Demobilization phases")]
-        public void TC_024()
+        public void TC_024_edit_agreement_decrease_asset_type_qty()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string originDate = "08/03/2022";
@@ -747,7 +747,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test(Description = "Edit Agreement Line (Remove Asset Type and Add new Asset Type) on active Agreement without Mobilization and Demobilization phases")]
-        public void TC_025()
+        public void TC_025_edit_agreement_remove_add_asset_type()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
 
@@ -969,7 +969,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_026_A()
+        public void TC_026_A_edit_agreement_increase_asset_qty_on_approved_agreement()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string futureDate = CommonUtil.GetLocalTimeMinusMonth("dd/MM/yyyy", 6); //current date plus 6 months
@@ -1142,7 +1142,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_026_BC()
+        public void TC_026_BC_edit_agreement_increase_asset_qty_on_approved_agreement()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string futureDate = CommonUtil.GetLocalTimeMinusMonth("dd/MM/yyyy", 6); //current date plus 6 months
@@ -1438,7 +1438,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_027_A()
+        public void TC_027_A_edit_agreement_decrease_asset_qty_on_approved_agreement()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string futureDate = CommonUtil.GetLocalTimeMinusMonth("dd/MM/yyyy", 7); //current date plus 7 months
@@ -1610,7 +1610,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_027_BC()
+        public void TC_027_BC_edit_agreement_decrease_asset_qty_on_approved_agreement()
         {
             string futureDate = CommonUtil.GetLocalTimeMinusMonth("dd/MM/yyyy", 7); //current date plus 7 months
             string futureDueDate = CommonUtil.GetLocalTimeFromDate(futureDate, "dd/MM/yyyy", 7);
@@ -1893,7 +1893,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_029A()
+        public void TC_029A_retire_active_agreement()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
 
@@ -1942,7 +1942,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_029B()
+        public void TC_029B_retire_active_agreement()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string partyName = "Whitton Baptist Church";
@@ -2004,7 +2004,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_029C()
+        public void TC_029C_retire_active_agreement()
         {
             //Verify at task tab
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);

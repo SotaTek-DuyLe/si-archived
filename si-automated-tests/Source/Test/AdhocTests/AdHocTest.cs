@@ -60,7 +60,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test, Order(1)]
-        public void TC_028A()
+        public void TC_028A_new_greement_line()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string tommorowDueDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
@@ -198,7 +198,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test, Order(2)]
-        public void TC_028B()
+        public void TC_028B_new_greement_line()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string tommorowDueDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);

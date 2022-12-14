@@ -34,7 +34,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_016()
+        public void TC_016_edit_agreement_line_increase_accest_type_qty()
         {
             int agreementId = 65;
             string agreementType = "COMMERCIAL COLLECTIONS";
@@ -173,7 +173,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test(Description = "Edit Agreement Line (Decrease Asset Type Qty)  on active Agreement with Mobilization and Demobilization phases")]
-        public void TC_017()
+        public void TC_017_edit_agreement_line_decrease_accest_type_qty()
         {
             string date = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 7);
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
@@ -358,7 +358,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<CommonActiveServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonActiveServicesTaskPage>()
-                .OpenTribleYarnsWithDate(todayDate)
+                .OpenTribleYarnsWithDate(tommorowDate)
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -368,13 +368,13 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<ServiceTaskLineTab>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceTaskLineTab>()
-                .verifyTaskLineStartDate(todayDate);
+                .verifyTaskLineStartDate(tommorowDate);
             PageFactoryManager.Get<ServicesTaskPage>()
                 .ClickOnScheduleTask();
             PageFactoryManager.Get<ServiceScheduleTab>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceScheduleTab>()
-                .verifyScheduleStartDate(todayDate)
+                .verifyScheduleStartDate(tommorowDate)
                 .verifyScheduleEndDate("01/01/2050");
 
             PageFactoryManager.Get<BasePage>()
@@ -488,10 +488,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .InputPartyNameToFilter(partyName)
                 .ClickApplyBtn();
             string serviceTaskId = PageFactoryManager.Get<CommonActiveServicesTaskPage>()
-                .GetTaskId(partyName, todayDate);
+                .GetTaskId(partyName, tommorowDate);
 
             PageFactoryManager.Get<CommonActiveServicesTaskPage>()
-                .OpenTaskWithPartyNameAndDate(partyName, todayDate, "STARTDATE")
+                .OpenTaskWithPartyNameAndDate(partyName, tommorowDate, "STARTDATE")
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -500,8 +500,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<ServiceTaskLineTab>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceTaskLineTab>()
-                .verifyTaskLineStartDate(todayDate)
-                .verifyTaskLineEndDate(tommorowDate);
+                .verifyTaskLineStartDate(tommorowDate)
+                .verifyTaskLineEndDate("01/01/2050");
 
             string serviceTaskQuery = SQLConstants.SQL_ServiceTask + serviceTaskId;
             SqlCommand commandServiceTask = new SqlCommand(serviceTaskQuery, DbContext.Connection);
@@ -523,7 +523,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
             PageFactoryManager.Get<ServicesTaskPage>()
                 .VerifyServiceTaskInDB(serviceTasks, 1, "660L", 600, "Kilograms", "General Recycling", tommorowDate, "01/01/2050")
-                .VerifyServiceTaskInDB(serviceTasks, 3, "660L", 600, "Kilograms", "General Recycling", todayDate, tommorowDate)
+                //.VerifyServiceTaskInDB(serviceTasks, 3, "660L", 600, "Kilograms", "General Recycling", todayDate, tommorowDate)
                 .VerifyServiceUnitAssets(serviceUnitAsset, 2, todayDate, tommorowDate) //Verify 2 retired task with enddate is tommorow
                 .VerifyServiceTaskAgreementNum(serviceTaskAgreement, 1, todayDate); //Verify No new Service Task and Service Task Schedule created 
 
@@ -532,7 +532,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test(Description = "Edit Agreement Line (Remove Asset Type and Add new Asset Type) on active Agreement with Mobilization/Demobilization phases")]
-        public void TC_018()
+        public void TC_018_edit_agreement_line_remove_and_add_asset_type()
         {
             string date = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 7);
             string tmrDatePlus7day = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
@@ -744,7 +744,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonActiveServicesTaskPage>()
                 .InputPartyNameToFilter("Sidra - Teddington")
-                  .ClickApplyBtn()
+                .ClickApplyBtn()
                 .OpenTaskWithPartyNameAndDate("Sidra - Teddington", tommorowDate, "STARTDATE")
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ServicesTaskPage>()
@@ -761,7 +761,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceScheduleTab>()
                 .verifyScheduleStartDate(tommorowDate)
-                .SwitchToFirstWindow();
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
             //verify last step
             PageFactoryManager.Get<CommonActiveServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -800,7 +801,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_019()
+        public void TC_019_edit_agreement_add_agreement_line_()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             AsserAndProductModel assetAndProductInput = new AsserAndProductModel("Mini (1.53m3)", "1", "Wood", "", "3", "Kilograms", "Owned", new string[1], new string[1], tommorowDate, "");
@@ -921,7 +922,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_020()
+        public void TC_020_edit_agreement_update_existing_schedule_on_existing_service()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string agreementType = "COMMERCIAL COLLECTIONS";
@@ -1116,7 +1117,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_021()
+        public void TC_021_edit_agreement_remove_existing_service_remove_greement_line()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
@@ -1167,18 +1168,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                    .CLickOnSaveBtn()
                    .VerifyToastMessage("Success")
                    .WaitForLoadingIconToDisappear();
-                //PageFactoryManager.Get<TaskLineTab>()
-                //    .VerifyTaskLine("Deliver", "1100L", "1", "General Recycling", "95", "Kilograms", "Unallocated")
 
-                //    .VerifyTaskLineInfo("Deliver", "1100L", "1", "General Recycling", "Kilograms", "Unallocated")
-                //    .InputActuaAssetQuantity(1)
-                //    .ClickOnAcualAssetQuantityText()
-                //    .SelectCompletedState()
-                //    .ClickOnAcualAssetQuantityText();
-                //PageFactoryManager.Get<BasePage>()
-                //    .ClickSaveBtn()
-                //    .VerifyToastMessage("Success")
-                //    .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickToDetailsTab();
                 PageFactoryManager.Get<TaskDetailTab>()
@@ -1213,7 +1203,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<CommonActiveServicesTaskPage>()
                 .InputPartyNameToFilter("JAFLONG TANDOORI")
                 .ClickApplyBtn()
-                .OpenTaskWithPartyNameAndDate("Jaflong Tandoori", todayDate, "STARTDATE", 15)
+                .OpenTaskWithPartyNameAndDate("Jaflong Tandoori", tommorowDate, "STARTDATE", 15)
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
@@ -1222,13 +1212,13 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<ServiceTaskLineTab>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceTaskLineTab>()
-                .verifyTaskInfo("1100L", "1", "General Recycling", "Kilograms", todayDate, tommorowDate);
+                .verifyTaskInfo("1100L", "1", "General Recycling", "Kilograms", tommorowDate, "01/01/2050");
             PageFactoryManager.Get<ServicesTaskPage>()
                 .ClickOnScheduleTask();
             PageFactoryManager.Get<ServiceScheduleTab>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceScheduleTab>()
-                .verifyScheduleStartDate(todayDate)
+                .verifyScheduleStartDate(tommorowDate)
                 .verifyScheduleEndDate("01/01/2050")
                 .CloseCurrentWindow()
                 .SwitchToChildWindow(2);
