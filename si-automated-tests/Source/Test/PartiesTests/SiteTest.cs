@@ -108,7 +108,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         public void TC_140_3_Verify_that_Site_Locked_and_Lock_Reference_values_are_inherited_by_SU_created_for_this_Site()
         {
             PageFactoryManager.Get<LoginPage>()
-                .GoToURL("https://test.echoweb.co.uk/web/sites/25");
+                .GoToURL(WebUrl.MainPageUrl + "web/sites/25");
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
@@ -136,9 +136,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //Verify DB
             CommonFinder finder = new CommonFinder(DbContext);
-            var serviceUnit = finder.GetServiceUnitById(25);
-            Assert.IsTrue(serviceUnit.islocked);
-            Assert.IsTrue(serviceUnit.lockedreference == lockedreference);
+            var siteDBModel = finder.GetSitesById("25");
+            Assert.IsTrue(siteDBModel.islocked);
+            Assert.IsTrue(siteDBModel.lockedreference == lockedreference);
             sitePage.ClickOnElement(sitePage.SiteAddressTitle);
             sitePage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();

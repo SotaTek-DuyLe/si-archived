@@ -283,7 +283,6 @@ namespace si_automated_tests.Source.Main.Finders
             return FindList<UserDBModel>(query).Select(x => x.UserName).ToList();
         }
 
-
         [AllureStep]
         public List<SaleCreditLineDBModel> GetSaleCreditLineDBs()
         {
@@ -295,6 +294,12 @@ namespace si_automated_tests.Source.Main.Finders
         {
             string query = "select * from tasktypes";
             return FindList<TaskTypeDBModel>(query).ToList();
+        }
+        [AllureStep]
+        public SiteDBModel GetSitesById(string siteId)
+        {
+            string query = "select * from sites where siteID =" + siteId + ";";
+            return FindList<SiteDBModel>(query).FirstOrDefault();
         }
     }
 }
