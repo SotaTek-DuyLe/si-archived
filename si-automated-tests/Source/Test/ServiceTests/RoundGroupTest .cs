@@ -273,7 +273,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .OpenOption("Round Groups")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<RoundGroupListPage>()
-                .DoubleClickRoundGroup("SKIP2 Daily")
+                .DoubleClickRoundGroup("SKIP1")
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<RoundGroupPage>()
                 .WaitForLoadingIconToDisappear();
