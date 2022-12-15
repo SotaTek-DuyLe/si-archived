@@ -23,6 +23,7 @@ using si_automated_tests.Source.Main.Pages.Task;
 using System.Data.SqlClient;
 using si_automated_tests.Source.Main.Models.DBModels;
 using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount;
 
 namespace si_automated_tests.Source.Test.AggrementLineTest
 {
@@ -33,7 +34,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test(Description = "022A_Create Agreement without Mobilization and Demobilization phases")]
-        public void TC_022()
+        public void TC_022_Create_agreement_without_mobilization_and_demobilization()
         {
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string partyName = "Rosie and Java";
@@ -254,7 +255,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test(Description = "023A_Edit Agreement Line (Increase Asset Type Qty) on active Agreement without Mobilization and Demobilization phases")]
-        public void TC_023()
+        public void TC_023_edit_agreement_increase_asset_type_qty()
         {
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
@@ -506,7 +507,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test(Description = "Edit Agreement Line (Decrease Asset Type Qty) on active Agreement without Mobilization and Demobilization phases")]
-        public void TC_024()
+        public void TC_024_edit_agreement_decrease_asset_type_qty()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string originDate = "08/03/2022";
@@ -747,7 +748,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test(Description = "Edit Agreement Line (Remove Asset Type and Add new Asset Type) on active Agreement without Mobilization and Demobilization phases")]
-        public void TC_025()
+        public void TC_025_edit_agreement_remove_add_asset_type()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
 
@@ -969,7 +970,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_026_A()
+        public void TC_026_A_edit_agreement_increase_asset_qty_on_approved_agreement()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string futureDate = CommonUtil.GetLocalTimeMinusMonth("dd/MM/yyyy", 6); //current date plus 6 months
@@ -1142,7 +1143,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_026_BC()
+        public void TC_026_BC_edit_agreement_increase_asset_qty_on_approved_agreement()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string futureDate = CommonUtil.GetLocalTimeMinusMonth("dd/MM/yyyy", 6); //current date plus 6 months
@@ -1231,6 +1232,14 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName);
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickAccountTab();
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .UncheckOnAccountType("PO Number Required")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<AccountTa>()
             PageFactoryManager.Get<DetailPartyPage>()
                 .OpenAgreementTab();
             PageFactoryManager.Get<DetailPartyPage>()
@@ -1438,7 +1447,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_027_A()
+        public void TC_027_A_edit_agreement_decrease_asset_qty_on_approved_agreement()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string futureDate = CommonUtil.GetLocalTimeMinusMonth("dd/MM/yyyy", 7); //current date plus 7 months
@@ -1610,7 +1619,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_027_BC()
+        public void TC_027_BC_edit_agreement_decrease_asset_qty_on_approved_agreement()
         {
             string futureDate = CommonUtil.GetLocalTimeMinusMonth("dd/MM/yyyy", 7); //current date plus 7 months
             string futureDueDate = CommonUtil.GetLocalTimeFromDate(futureDate, "dd/MM/yyyy", 7);
@@ -1893,7 +1902,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_029A()
+        public void TC_029A_retire_active_agreement()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
 
@@ -1942,7 +1951,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_029B()
+        public void TC_029B_retire_active_agreement()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string partyName = "Whitton Baptist Church";
@@ -2000,78 +2009,90 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .SwitchToFirstWindow()
                     .SwitchNewIFrame();
             }
+            //verify in DB 
+            string serviceUnitAssetQuery = SQLConstants.SQL_ServiceUnitAssets + "43";
+            SqlCommand commandServiceUnitAsset = new SqlCommand(serviceUnitAssetQuery, DbContext.Connection);
+            SqlDataReader readerServiceUnitAsset = commandServiceUnitAsset.ExecuteReader();
+            List<ServiceUnitAssetsDBModel> serviceUnitAsset = ObjectExtention.DataReaderMapToList<ServiceUnitAssetsDBModel>(readerServiceUnitAsset);
+            readerServiceUnitAsset.Close();
+
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .VerifyServiceUnitAssets(serviceUnitAsset, 2, tommorowDate); //Verify 2 retired task with enddate is tommorow
+
+
         }
-        [Category("EditAgreement")]
-        [Category("Huong")]
-        [Test]
-        public void TC_029C()
-        {
-            //Verify at task tab
-            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+        //comment out due to this step is deleted
+        //[Category("EditAgreement")]
+        //[Category("Huong")]
+        //[Test]
+        //public void TC_029C_retire_active_agreement()
+        //{
+        //    //Verify at task tab
+        //    string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
 
-            int agreementId = 43;
-            string assetType = AgreementConstants.ASSET_TYPE_1100L;
-            int assetQty = 1;
-            string product = AgreementConstants.GENERAL_RECYCLING;
-            string unit = AgreementConstants.KILOGRAMS;
+        //    int agreementId = 43;
+        //    string assetType = AgreementConstants.ASSET_TYPE_1100L;
+        //    int assetQty = 1;
+        //    string product = AgreementConstants.GENERAL_RECYCLING;
+        //    string unit = AgreementConstants.KILOGRAMS;
 
-            string agreementType = "COMMERCIAL COLLECTIONS";
-            string agreementName = "Whitton Baptist Church";
+        //    string agreementType = "COMMERCIAL COLLECTIONS";
+        //    string agreementName = "Whitton Baptist Church";
 
-            PageFactoryManager.Get<LoginPage>()
-               .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser13.UserName, AutoUser13.Password)
-                .IsOnHomePage(AutoUser13);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption("Agreements")
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .FilterItem(agreementId)
-                .OpenFirstResult()
-                .SwitchToLastWindow();
-            PageFactoryManager.Get<PartyAgreementPage>()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PartyAgreementPage>()
-                .WaitForAgreementPageLoadedSuccessfully(agreementType, agreementName);
-            PageFactoryManager.Get<PartyAgreementPage>()
-                .ClickTaskTabBtn();
-            PageFactoryManager.Get<TaskTab>()
-                .WaitForLoadingIconToDisappear();
-            List<IWebElement> allTasks = PageFactoryManager.Get<TaskTab>()
-              .VerifyNewTaskAppearWithNum(2, "Unallocated", "Remove Commercial Bin", tommorowDate, "");
+        //    PageFactoryManager.Get<LoginPage>()
+        //       .GoToURL(WebUrl.MainPageUrl);
+        //    PageFactoryManager.Get<LoginPage>()
+        //        .IsOnLoginPage()
+        //        .Login(AutoUser13.UserName, AutoUser13.Password)
+        //        .IsOnHomePage(AutoUser13);
+        //    PageFactoryManager.Get<NavigationBase>()
+        //        .ClickMainOption(MainOption.Parties)
+        //        .ExpandOption(Contract.Commercial)
+        //        .OpenOption("Agreements")
+        //        .SwitchNewIFrame();
+        //    PageFactoryManager.Get<CommonBrowsePage>()
+        //        .WaitForLoadingIconToDisappear();
+        //    PageFactoryManager.Get<CommonBrowsePage>()
+        //        .FilterItem(agreementId)
+        //        .OpenFirstResult()
+        //        .SwitchToLastWindow();
+        //    PageFactoryManager.Get<PartyAgreementPage>()
+        //        .WaitForLoadingIconToDisappear();
+        //    PageFactoryManager.Get<PartyAgreementPage>()
+        //        .WaitForAgreementPageLoadedSuccessfully(agreementType, agreementName);
+        //    PageFactoryManager.Get<PartyAgreementPage>()
+        //        .ClickTaskTabBtn();
+        //    PageFactoryManager.Get<TaskTab>()
+        //        .WaitForLoadingIconToDisappear();
+        //    List<IWebElement> allTasks = PageFactoryManager.Get<TaskTab>()
+        //      .VerifyNewTaskAppearWithNum(2, "Unallocated", "Remove Commercial Bin", tommorowDate, "");
 
-            for (int i = 0; i < allTasks.Count; i++)
-            {
-                PageFactoryManager.Get<TaskTab>()
-                    .WaitForLoadingIconToDisappear();
-                PageFactoryManager.Get<TaskTab>()
-                    .GoToATask(allTasks[i])
-                    .SwitchToLastWindow();
-                PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                    .WaitForLoadingIconToDisappear();
-                PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                    .ClickToTaskLinesTab()
-                    .WaitForLoadingIconToDisappear();
-                if(i == 0)
-                {
-                    PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                   .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, "50", unit, "Unallocated");
-                }
-                else
-                {
-                    PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                   .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, "60", unit, "Unallocated");
-                }
-                PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                    .CloseCurrentWindow()
-                    .SwitchToChildWindow(2);
-            }
-        }
+        //    for (int i = 0; i < allTasks.Count; i++)
+        //    {
+        //        PageFactoryManager.Get<TaskTab>()
+        //            .WaitForLoadingIconToDisappear();
+        //        PageFactoryManager.Get<TaskTab>()
+        //            .GoToATask(allTasks[i])
+        //            .SwitchToLastWindow();
+        //        PageFactoryManager.Get<AgreementTaskDetailsPage>()
+        //            .WaitForLoadingIconToDisappear();
+        //        PageFactoryManager.Get<AgreementTaskDetailsPage>()
+        //            .ClickToTaskLinesTab()
+        //            .WaitForLoadingIconToDisappear();
+        //        if(i == 0)
+        //        {
+        //            PageFactoryManager.Get<AgreementTaskDetailsPage>()
+        //           .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, "50", unit, "Unallocated");
+        //        }
+        //        else
+        //        {
+        //            PageFactoryManager.Get<AgreementTaskDetailsPage>()
+        //           .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, "60", unit, "Unallocated");
+        //        }
+        //        PageFactoryManager.Get<AgreementTaskDetailsPage>()
+        //            .CloseCurrentWindow()
+        //            .SwitchToChildWindow(2);
+        //    }
+        //}
     }
 }

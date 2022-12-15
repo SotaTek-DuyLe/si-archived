@@ -217,7 +217,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .VerifyEndDate(todayDate);
                 String dueDate = PageFactoryManager.Get<TaskDetailTab>().GetDueDate();
                 PageFactoryManager.Get<TaskDetailTab>()
-                    .VerifyCompletionDate(dueDate)
+                    .VerifyCompletionDate(todayDate)
                     .VerifyTaskState("Completed")
                     .VerifyNote(note)
                     .CloseCurrentWindow()
@@ -250,7 +250,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .VerifyEndDate(todayDate);
                 String endDate1 = PageFactoryManager.Get<TaskDetailTab>().GetDueDate();
                 PageFactoryManager.Get<TaskDetailTab>()
-                    .VerifyCompletionDate(endDate1)
+                    .VerifyCompletionDate(todayDate)
                     .VerifyTaskState("Completed")
                     .VerifyNote(note)
                     .CloseCurrentWindow()
@@ -345,7 +345,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .VerifyEndDate(todayDate);
                 String dueDate = PageFactoryManager.Get<TaskDetailTab>().GetDueDate();
                 PageFactoryManager.Get<TaskDetailTab>()
-                    .VerifyCompletionDate(dueDate)
+                    .VerifyCompletionDate(todayDate)
                     .VerifyTaskState("Completed")
                     .VerifyNote(note)
                     .CloseCurrentWindow()
@@ -378,7 +378,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .VerifyEndDate(todayDate);
                 String dueDate1 = PageFactoryManager.Get<TaskDetailTab>().GetDueDate();
                 PageFactoryManager.Get<TaskDetailTab>()
-                    .VerifyCompletionDate(dueDate1)
+                    .VerifyCompletionDate(todayDate)
                     .VerifyTaskState("Completed")
                     .VerifyNote(note)
                     .CloseCurrentWindow()

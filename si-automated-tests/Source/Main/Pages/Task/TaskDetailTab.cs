@@ -9,6 +9,8 @@ namespace si_automated_tests.Source.Main.Pages
 {
     public class TaskDetailTab : BasePage
     {
+        private readonly By taskID = By.ClassName("id");
+
         private readonly By taskTypeURL = By.XPath("//a[@class='typeUrl']");
         private readonly By taskImage = By.XPath("//img[@src='/web/content/images/form/save.svg']");
         private string taskType = "//span[text()='Task']";
@@ -52,6 +54,12 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.IsTrue(IsControlDisplayed(taskImage));
             Assert.IsTrue(IsControlDisplayed(taskType));
             Assert.IsTrue(IsControlDisplayed(taskTypeName));
+            return this;
+        }
+        [AllureStep]
+        public TaskDetailTab VerifyTaskId(String id)
+        {
+            Assert.AreEqual(GetElementText(taskID), id);
             return this;
         }
         [AllureStep]

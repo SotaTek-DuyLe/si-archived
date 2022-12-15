@@ -126,7 +126,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         public TaskTab VerifyRetiredTask(int num)
         {
             this.WaitForLoadingIconToDisappear();
-            int i = 5;
+            int i = 15;
 
             List<IWebElement> taskList = new List<IWebElement>();
             taskList = GetAllElements(retiredTasks);
@@ -149,41 +149,12 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return this;
         }
-        [AllureStep]
-        public TaskTab VerifyTwoNewTaskAppear()
-        {
-            this.WaitForLoadingIconToDisappear();
-            int i = 10;
-            while (i > 0)
-            {
-                if (GetElementText(firstTask).Equals("Deliver Commercial Bin") && GetElementText(secondTask).Equals("Deliver Commercial Bin"))
-                {
-                    Assert.AreEqual(GetElementText(firstTask), "Deliver Commercial Bin");
-                    Assert.AreEqual(GetElementText(secondTask), "Deliver Commercial Bin");
-                    String tomorrowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1).Replace('-', '/');
-                    String firstDueDate = GetElementText(firstTask + dueDateColumn).Substring(0, 10);
-                    String secondDueDate = GetElementText(secondTask + dueDateColumn).Substring(0, 10);
-                    //verify created date is tommorrow
-                    Assert.AreEqual(tomorrowDate, firstDueDate);
-                    Assert.AreEqual(tomorrowDate, secondDueDate);
-                    break;
-                }
-                else
-                {
-                    ClickOnElement(refreshBtn);
-                    this.WaitForLoadingIconToDisappear();
-                    Thread.Sleep(20000);
-                    i--;
-                }
-            }
-
-            return this;
-        }
+        
         [AllureStep]
         public List<IWebElement> VerifyNewDeliverCommercialBin(String dueDate, int num)
         {
             this.WaitForLoadingIconToDisappear();
-            int i = 10;
+            int i = 15;
             deliverCommercialBinWithDateRows = String.Format(deliverCommercialBinWithDateRows, dueDate);
             
             while (i > 0)
@@ -200,8 +171,11 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                     if(GetAllElements(deliverCommercialBinWithDateRows).Count == num) {
                         break;
                     }
-                    else { 
-                        Thread.Sleep(5000); 
+                    else {
+                        ClickOnElement(refreshBtn);
+                        this.WaitForLoadingIconToDisappear();
+                        Thread.Sleep(5000);
+                        i--;
                     }
                 }
             }
@@ -213,7 +187,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         public List<IWebElement> VerifyNewRemovedCommercialBin(String dueDate, int num)
         {
             this.WaitForLoadingIconToDisappear();
-            int i = 5;
+            int i = 15;
             removeCommercialBinWithDateRows = String.Format(removeCommercialBinWithDateRows, dueDate);
             while (i > 0)
             {
