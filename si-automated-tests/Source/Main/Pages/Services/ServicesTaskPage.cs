@@ -242,6 +242,21 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
         [AllureStep]
+        public ServicesTaskPage VerifyServiceUnitAssets(List<ServiceUnitAssetsDBModel> listAll, int num, string endDate)
+        {
+            int n = 0;
+            for (int i = 0; i < listAll.Count; i++)
+            {
+                string _endDate = CommonUtil.ParseDateTimeToFormat(listAll[i].enddate, "dd/MM/yyyy").Replace('-', '/');
+                if (_endDate.Equals(endDate))
+                {
+                    n++;
+                }
+            }
+            Assert.AreEqual(n, num);
+            return this;
+        }
+        [AllureStep]
         public ServicesTaskPage VerifyServiceUnitAssets(List<ServiceUnitAssetsDBModel> listAll,int num, string assetType, string _product, string startDate, string endDate)
         {
             int n = 0;

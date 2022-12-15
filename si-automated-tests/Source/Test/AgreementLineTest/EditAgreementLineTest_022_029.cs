@@ -2009,78 +2009,90 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .SwitchToFirstWindow()
                     .SwitchNewIFrame();
             }
+            //verify in DB 
+            string serviceUnitAssetQuery = SQLConstants.SQL_ServiceUnitAssets + "43";
+            SqlCommand commandServiceUnitAsset = new SqlCommand(serviceUnitAssetQuery, DbContext.Connection);
+            SqlDataReader readerServiceUnitAsset = commandServiceUnitAsset.ExecuteReader();
+            List<ServiceUnitAssetsDBModel> serviceUnitAsset = ObjectExtention.DataReaderMapToList<ServiceUnitAssetsDBModel>(readerServiceUnitAsset);
+            readerServiceUnitAsset.Close();
+
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .VerifyServiceUnitAssets(serviceUnitAsset, 2, tommorowDate); //Verify 2 retired task with enddate is tommorow
+
+
         }
-        [Category("EditAgreement")]
-        [Category("Huong")]
-        [Test]
-        public void TC_029C_retire_active_agreement()
-        {
-            //Verify at task tab
-            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+        //comment out due to this step is deleted
+        //[Category("EditAgreement")]
+        //[Category("Huong")]
+        //[Test]
+        //public void TC_029C_retire_active_agreement()
+        //{
+        //    //Verify at task tab
+        //    string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
 
-            int agreementId = 43;
-            string assetType = AgreementConstants.ASSET_TYPE_1100L;
-            int assetQty = 1;
-            string product = AgreementConstants.GENERAL_RECYCLING;
-            string unit = AgreementConstants.KILOGRAMS;
+        //    int agreementId = 43;
+        //    string assetType = AgreementConstants.ASSET_TYPE_1100L;
+        //    int assetQty = 1;
+        //    string product = AgreementConstants.GENERAL_RECYCLING;
+        //    string unit = AgreementConstants.KILOGRAMS;
 
-            string agreementType = "COMMERCIAL COLLECTIONS";
-            string agreementName = "Whitton Baptist Church";
+        //    string agreementType = "COMMERCIAL COLLECTIONS";
+        //    string agreementName = "Whitton Baptist Church";
 
-            PageFactoryManager.Get<LoginPage>()
-               .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser13.UserName, AutoUser13.Password)
-                .IsOnHomePage(AutoUser13);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption("Agreements")
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .FilterItem(agreementId)
-                .OpenFirstResult()
-                .SwitchToLastWindow();
-            PageFactoryManager.Get<PartyAgreementPage>()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PartyAgreementPage>()
-                .WaitForAgreementPageLoadedSuccessfully(agreementType, agreementName);
-            PageFactoryManager.Get<PartyAgreementPage>()
-                .ClickTaskTabBtn();
-            PageFactoryManager.Get<TaskTab>()
-                .WaitForLoadingIconToDisappear();
-            List<IWebElement> allTasks = PageFactoryManager.Get<TaskTab>()
-              .VerifyNewTaskAppearWithNum(2, "Unallocated", "Remove Commercial Bin", tommorowDate, "");
+        //    PageFactoryManager.Get<LoginPage>()
+        //       .GoToURL(WebUrl.MainPageUrl);
+        //    PageFactoryManager.Get<LoginPage>()
+        //        .IsOnLoginPage()
+        //        .Login(AutoUser13.UserName, AutoUser13.Password)
+        //        .IsOnHomePage(AutoUser13);
+        //    PageFactoryManager.Get<NavigationBase>()
+        //        .ClickMainOption(MainOption.Parties)
+        //        .ExpandOption(Contract.Commercial)
+        //        .OpenOption("Agreements")
+        //        .SwitchNewIFrame();
+        //    PageFactoryManager.Get<CommonBrowsePage>()
+        //        .WaitForLoadingIconToDisappear();
+        //    PageFactoryManager.Get<CommonBrowsePage>()
+        //        .FilterItem(agreementId)
+        //        .OpenFirstResult()
+        //        .SwitchToLastWindow();
+        //    PageFactoryManager.Get<PartyAgreementPage>()
+        //        .WaitForLoadingIconToDisappear();
+        //    PageFactoryManager.Get<PartyAgreementPage>()
+        //        .WaitForAgreementPageLoadedSuccessfully(agreementType, agreementName);
+        //    PageFactoryManager.Get<PartyAgreementPage>()
+        //        .ClickTaskTabBtn();
+        //    PageFactoryManager.Get<TaskTab>()
+        //        .WaitForLoadingIconToDisappear();
+        //    List<IWebElement> allTasks = PageFactoryManager.Get<TaskTab>()
+        //      .VerifyNewTaskAppearWithNum(2, "Unallocated", "Remove Commercial Bin", tommorowDate, "");
 
-            for (int i = 0; i < allTasks.Count; i++)
-            {
-                PageFactoryManager.Get<TaskTab>()
-                    .WaitForLoadingIconToDisappear();
-                PageFactoryManager.Get<TaskTab>()
-                    .GoToATask(allTasks[i])
-                    .SwitchToLastWindow();
-                PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                    .WaitForLoadingIconToDisappear();
-                PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                    .ClickToTaskLinesTab()
-                    .WaitForLoadingIconToDisappear();
-                if(i == 0)
-                {
-                    PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                   .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, "50", unit, "Unallocated");
-                }
-                else
-                {
-                    PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                   .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, "60", unit, "Unallocated");
-                }
-                PageFactoryManager.Get<AgreementTaskDetailsPage>()
-                    .CloseCurrentWindow()
-                    .SwitchToChildWindow(2);
-            }
-        }
+        //    for (int i = 0; i < allTasks.Count; i++)
+        //    {
+        //        PageFactoryManager.Get<TaskTab>()
+        //            .WaitForLoadingIconToDisappear();
+        //        PageFactoryManager.Get<TaskTab>()
+        //            .GoToATask(allTasks[i])
+        //            .SwitchToLastWindow();
+        //        PageFactoryManager.Get<AgreementTaskDetailsPage>()
+        //            .WaitForLoadingIconToDisappear();
+        //        PageFactoryManager.Get<AgreementTaskDetailsPage>()
+        //            .ClickToTaskLinesTab()
+        //            .WaitForLoadingIconToDisappear();
+        //        if(i == 0)
+        //        {
+        //            PageFactoryManager.Get<AgreementTaskDetailsPage>()
+        //           .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, "50", unit, "Unallocated");
+        //        }
+        //        else
+        //        {
+        //            PageFactoryManager.Get<AgreementTaskDetailsPage>()
+        //           .VerifyTaskLine("Remove", assetType, assetQty.ToString(), product, "60", unit, "Unallocated");
+        //        }
+        //        PageFactoryManager.Get<AgreementTaskDetailsPage>()
+        //            .CloseCurrentWindow()
+        //            .SwitchToChildWindow(2);
+        //    }
+        //}
     }
 }
