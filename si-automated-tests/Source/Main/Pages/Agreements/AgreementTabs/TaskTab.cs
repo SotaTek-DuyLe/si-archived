@@ -172,7 +172,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                         break;
                     }
                     else { 
-                        Thread.Sleep(5000); 
+                        Thread.Sleep(5000);
+                        i--;
                     }
                 }
             }
