@@ -144,7 +144,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                     Thread.Sleep(5000);
                     taskList.Clear();
                     taskList = GetAllElements(retiredTasks);
-                    i--;
+                    i++;
                 }
             }
             return this;
