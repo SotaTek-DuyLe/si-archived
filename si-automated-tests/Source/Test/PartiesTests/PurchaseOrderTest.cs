@@ -456,10 +456,11 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //Verify Create Adhoc btn 
             IList<IWebElement> createAdhocBtns = PageFactoryManager.Get<DetailTab>()
                 .GetCreateAdhocBtnList();
-            foreach (var btn in createAdhocBtns)
-            {
+            IWebElement adhocBtn = createAdhocBtns[0];
+            //foreach (var btn in createAdhocBtns)
+            //{
                 PageFactoryManager.Get<DetailTab>()
-                    .ClickAdHocBtn(btn)
+                    .ClickAdHocBtn(adhocBtn)
                     .SwitchToLastWindow();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .WaitForLoadingIconToDisappear();
@@ -468,10 +469,12 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 PageFactoryManager.Get<TaskDetailTab>()
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<TaskDetailTab>()
-                    .VerifyPurchaseOrderValue(PO_Number)
-                    .CloseCurrentWindow()
-                    .SwitchToChildWindow(3);
-            }
+                    .VerifyTaskId("0")
+                    .ClickSaveBtn()
+                    .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<TaskDetailTab>()
+                    .VerifyPurchaseOrderValue(PO_Number);
+           // }
         }
         [Category("PurchaseOrder")]
         [Category("Huong")]

@@ -1117,7 +1117,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test]
-        public void TC_021_edit_agreement_remove_existing_service_remove_greement_line()
+        public void TC_021_A_edit_agreement_remove_existing_service_remove_greement_line()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
@@ -1233,7 +1233,36 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickKeepAgreementBtn()
                 .VerifyDotRedBorderDisappear()
                 .ClickRemoveAgreementBtn()
+                .ClickSaveBtn()
+                .waitForLoadingIconDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyAgreementLineDisappear();
+        }
+
+        [Category("EditAgreement")]
+        [Category("Huong")]
+        [Test]
+        public void TC_021_B_edit_agreement_remove_existing_service_remove_greement_line()
+        {
+            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+            string todayDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy");
+
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser33.UserName, AutoUser33.Password)
+                .IsOnHomePage(AutoUser33);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Site Services")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+                .FilterAgreementId(29)
+                .VerifyAgreementResultNum(0);
         }
 
     }
