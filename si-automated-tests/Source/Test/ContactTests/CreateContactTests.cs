@@ -145,17 +145,17 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear()
                 .ScrollToBottomOfPage();
-            //Step 7: Line 26
-            agreementDetailPage
-                .ClickExpandBtn()
-                .ScrollToAdhoc()
-                .ClickInvoiceContactDdAtServiceTable()
-                //Step 7: Line 28
-                .SelectAnyInvoiceContactServiceTableAndVerify(contactModel)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitForLoadingIconToDisappear()
-                .ClickCloseBtn();
+            ////Step 7: Line 26
+            //agreementDetailPage
+            //    .ClickExpandBtn()
+            //    .ScrollToAdhoc()
+            //    .ClickInvoiceContactDdAtServiceTable()
+            //    //Step 7: Line 28
+            //    .SelectAnyInvoiceContactServiceTableAndVerify(contactModel)
+            //    .ClickSaveBtn()
+            //    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+            //    .WaitForLoadingIconToDisappear()
+            //    .ClickCloseBtn();
         }
 
         [Category("CreateContact")]
