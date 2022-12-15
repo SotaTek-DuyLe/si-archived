@@ -171,7 +171,9 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                     if(GetAllElements(deliverCommercialBinWithDateRows).Count == num) {
                         break;
                     }
-                    else { 
+                    else {
+                        ClickOnElement(refreshBtn);
+                        this.WaitForLoadingIconToDisappear();
                         Thread.Sleep(5000);
                         i--;
                     }
