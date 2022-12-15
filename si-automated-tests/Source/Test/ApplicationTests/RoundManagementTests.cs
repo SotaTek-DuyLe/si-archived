@@ -116,7 +116,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         public void TC_199_1_tasks_and_round_legs_can_be_reallocated()
         {
             //Verify that tasks and round legs can be reallocated
-            string contract = Contract.RMC;
+            string contract = Contract.Commercial;
             string service = "Collections";
             string subService = "Commercial Collections";
             string date = "";
@@ -193,7 +193,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         [Test]
         public void TC_199_2_tasks_and_round_legs_can_be_reallocated()
         {
-            string contract = Contract.RM;
+            string contract = Contract.Municipal;
             string service = "Recycling";
             string subService = "Communal Recycling";
             PageFactoryManager.Get<NavigationBase>()
@@ -207,25 +207,26 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskConfirmationPage.ExpandRoundNode("Municipal")
                 .ExpandRoundNode(service)
                 .SelectRoundNode(subService);
-            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ScheduleDateInput);
-            taskConfirmationPage.SleepTimeInMiliseconds(1000);
-            DateTime firstMondayInNextMonth = CommonUtil.GetFirstMondayInMonth(DateTime.Now.AddMonths(1));
-            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.ScheduleDateInput, firstMondayInNextMonth.ToString("dd/MM/yyyy"));
-            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
-            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            string filterDate = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT);
+            taskConfirmationPage
+                .SendDateInScheduledDate(filterDate)
+                .ClickGoBtn()
+                .WaitForLoadingIconToDisappear();
             taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
             taskConfirmationPage.WaitForLoadingIconToDisappear();
-            taskConfirmationPage.SelectRoundLegsOnSecondRoundGroup()
+            string roundGroupName = taskConfirmationPage
+                .GetRoundName();
+            Console.WriteLine(roundGroupName);
+            taskConfirmationPage
+                .SelectRoundLegsOnSecondRoundGroup()
                 .ClickOnElement(taskConfirmationPage.BulkReallocateButton);
             taskConfirmationPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
-            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.FromInput, firstMondayInNextMonth.ToString("dd/MM/yyyy"));
-            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
-            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
-            taskConfirmationPage.WaitForLoadingIconToDisappear();
+
             taskConfirmationPage.SelectAllRoundLeg()
-                .DragDropRoundLegToRoundInstance("WCREC2", "Monday");
-            taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
+                .DragDropRoundLegToRoundInstance("WCREC1", roundGroupName);
+            taskConfirmationPage
+                .SelectReasonNeeded();
             taskConfirmationPage.VerifyToastMessage("Allocated 2 round leg(s)");
             taskConfirmationPage.WaitForLoadingIconToDisappear();
         }
