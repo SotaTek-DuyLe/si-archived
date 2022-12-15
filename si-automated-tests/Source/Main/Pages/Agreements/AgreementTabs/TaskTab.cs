@@ -144,7 +144,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                     Thread.Sleep(5000);
                     taskList.Clear();
                     taskList = GetAllElements(retiredTasks);
-                    i++;
+                    i--;
                 }
             }
             return this;
@@ -154,7 +154,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         public List<IWebElement> VerifyNewDeliverCommercialBin(String dueDate, int num)
         {
             this.WaitForLoadingIconToDisappear();
-            int i = 20;
+            int i = 15;
             deliverCommercialBinWithDateRows = String.Format(deliverCommercialBinWithDateRows, dueDate);
             
             while (i > 0)
@@ -184,7 +184,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         public List<IWebElement> VerifyNewRemovedCommercialBin(String dueDate, int num)
         {
             this.WaitForLoadingIconToDisappear();
-            int i = 20;
+            int i = 15;
             removeCommercialBinWithDateRows = String.Format(removeCommercialBinWithDateRows, dueDate);
             while (i > 0)
             {
