@@ -296,5 +296,11 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from tasktypes";
             return FindList<TaskTypeDBModel>(query).ToList();
         }
+        [AllureStep]
+        public List<TaskTypeDBModel> GetTaskTypeByName(string tasktype)
+        {
+            string query = "select * from tasktypes where tasktype='" + tasktype + "'";
+            return FindList<TaskTypeDBModel>(query).ToList();
+        }
     }
 }
