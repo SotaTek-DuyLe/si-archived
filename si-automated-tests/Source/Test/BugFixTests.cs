@@ -2473,15 +2473,26 @@ namespace si_automated_tests.Source.Test
         [Category("BugFix")]
         [Category("Dee")]
         [Test]
-        public void TC_168()
+        public void TC_138_task_line_mapping()
         {
-            string partyName = "Ham Food Centre";
+            string taskType = "Commercial Collection";
+            string url = WebUrl.MainPageUrl+ "Echo2/Echo2Extra/PopupDefault.aspx?VName=ConfigView&VNodeID=79&CPath=T245R1M3350M3350T181R3&ObjectID=3&TypeName=TaskType&RefTypeName=none&ReferenceName=none";
 
             CommonFinder commonFinder = new CommonFinder(DbContext);
-            var list = commonFinder.GetTaskTypes();
-            foreach(var item in list)
-            {
-            }
+            var oldVersion = commonFinder.GetTaskTypeByName(taskType)[0];
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(url);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password);
+            PageFactoryManager.Get<TaskTypePage>()
+                .SwitchToTabNamed("TaskLines to Task Mapping")
+                .IsOnTaskLineToTaskMappingTab()
+                .SelectAllRandom()
+                .ClickSaveButton()
+                .SleepTimeInSeconds(5);
+            var newVersion = commonFinder.GetTaskTypeByName(taskType)[0];
+            Assert.IsFalse(oldVersion.Equals(newVersion));
         }
     }
 }
