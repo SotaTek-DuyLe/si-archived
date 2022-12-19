@@ -296,6 +296,9 @@ namespace si_automated_tests.Source.Test.AdHocTests
             adhocTaskDetailPage
                 .VerifyPoNumber()
                 .VerifyPurchaseOrderField(inputPO)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            adhocTaskDetailPage
                 .ClickTaskLinesTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskLinesPage>()
@@ -368,7 +371,9 @@ namespace si_automated_tests.Source.Test.AdHocTests
             adhocTaskDetailPage
                 .VerifyPoNumber()
                 .VerifyPurchaseOrderField(inputPO)
-                .ClickTaskLinesTab()
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            adhocTaskDetailPage.ClickTaskLinesTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskLinesPage>()
                 .VerifyTaskLine(new Main.Models.Adhoc.TaskLinesModel()
