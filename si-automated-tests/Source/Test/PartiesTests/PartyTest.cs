@@ -736,7 +736,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             detailTaskPage.ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.SelectTextFromDropDown(detailTaskPage.taskStateDd, "Completed");
-            string scheduledate = detailTaskPage.GetElementText(detailTaskPage.ScheduleDateInput);
+            string scheduledate = detailTaskPage.GetAttributeValue(detailTaskPage.ScheduleDateInput, "value");
             detailTaskPage.SendKeys(detailTaskPage.completionDateInput, scheduledate);
             detailTaskPage.ClickSaveBtn()
                 .VerifyToastMessage("Success")

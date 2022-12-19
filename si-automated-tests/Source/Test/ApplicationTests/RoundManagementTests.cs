@@ -207,14 +207,25 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskConfirmationPage.ExpandRoundNode("Municipal")
                 .ExpandRoundNode(service)
                 .SelectRoundNode(subService);
-            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
-            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            string filterDate = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT);
+            taskConfirmationPage
+                .SendDateInScheduledDate(filterDate)
+                .ClickGoBtn()
+                .WaitForLoadingIconToDisappear();
             taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
             taskConfirmationPage.WaitForLoadingIconToDisappear();
-            taskConfirmationPage.SelectRoundLegsOnSecondRoundGroup()
+            string roundGroupName = taskConfirmationPage
+                .GetRoundName();
+            taskConfirmationPage
+                .SelectRoundLegsOnSecondRoundGroup()
                 .ClickOnElement(taskConfirmationPage.BulkReallocateButton);
             taskConfirmationPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
+
+            taskConfirmationPage.SelectAllRoundLeg()
+                .DragDropRoundLegToRoundInstance("WCREC1", roundGroupName);
+            taskConfirmationPage
+                .SelectReasonNeeded();
             taskConfirmationPage.SelectAllRoundLeg()
                 .DragDropRoundLegToRoundInstance("ECREC2", "Friday");
             taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.SelectReason, "Bad Weather");
