@@ -267,7 +267,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(rounds.Any(x => !x.Displayed) == false);
             foreach (var round in rounds)
             {
-                Assert.IsTrue(round.GetCssValue("background-image").Contains("content/images/coreroundstate/1.svg"));
+                Assert.IsTrue(round.GetCssValue("background-image").Contains("content/images/coreroundstate"));
             }
             return this;
         }
