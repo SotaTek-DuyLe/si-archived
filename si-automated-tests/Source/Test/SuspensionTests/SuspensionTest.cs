@@ -312,7 +312,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .ClickTabDropDown()
                 .ClickSuspensionTab()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<AddNewSuspensionPage>().ClickDeleteSuspension(0)
+            PageFactoryManager.Get<AddNewSuspensionPage>().ClickDeleteNewSuspension()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
 
