@@ -1031,17 +1031,11 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public DetailPartyPage DoubleClickSiteRow(int siteId)
         {
-            List<IWebElement> rows = GetAllElements(siteRows);
-            foreach (var row in rows)
-            {
-                IWebElement idCell = row.FindElement(By.XPath("//div[contains(@class,'l1')]"));
-                int id = GetElementText(idCell).AsInteger();
-                if (siteId == id)
-                {
-                    DoubleClickOnElement(row);
-                    break;
-                }
-            }
+            WaitForLoadingIconToDisappear();
+            SendKeys(By.XPath("//div[@id='sites-tab']//div[contains(@class, 'slick-headerrow-column l1 r1')]//input"), siteId.ToString());
+            ClickOnElement(By.XPath("//button[@type='button' and @title='Apply Filters']"));
+            WaitForLoadingIconToDisappear();
+            DoubleClickOnElement(By.XPath("//div[@id='sites-tab']//div[contains(@class,'ui-widget-content slick-row even')]"));
             return this;
         }
 

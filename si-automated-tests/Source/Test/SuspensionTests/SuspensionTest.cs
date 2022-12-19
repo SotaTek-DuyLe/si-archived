@@ -144,7 +144,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                  .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .DoubleClickSiteRow(97)
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailSitePage>()
                 .ClickCalendarTab()
