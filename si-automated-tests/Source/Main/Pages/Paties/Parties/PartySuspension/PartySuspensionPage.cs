@@ -47,7 +47,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
         [AllureStep]
         public SuspensionModel GetNewSuspension()
         {
-            return GetAllSuspension().FirstOrDefault();
+            return GetAllSuspension().LastOrDefault();
         }
         [AllureStep]
         public List<SuspensionModel> GetAllSuspension()
@@ -69,7 +69,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
         [AllureStep]
         public PartySuspensionPage ClickNewSuspension()
         {
-            SuspensionTableEle.ClickRow(0);
+            int newIdx = SuspensionTableEle.GetRows().Count - 1;
+            SuspensionTableEle.ClickRow(newIdx);
             return this;
         }
     }

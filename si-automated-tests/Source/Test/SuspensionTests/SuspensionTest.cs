@@ -212,7 +212,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCalendarPage>()
                 .ClickSiteCombobox()
-                .ClickSellectAllSites()
+                .ClickSellectSite(1)
                 .ClickServiceCombobox()
                 .ClickSellectAllServices()
                 .ClickApplyCalendarButton()
