@@ -36,7 +36,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By ButtonGo = By.XPath("//button[@id='button-go']");
         public readonly By ExpandRoundsGo = By.XPath("//button[@id='t-toggle-rounds']");
         public readonly By BulkReallocateButton = By.XPath("//button[@id='t-bulk-reallocate']");
-        public readonly By ButtonConfirm = By.XPath("//div[@role='dialog']//button[text()='Confirm']");
+        public readonly By ButtonConfirm = By.XPath("//div[@role='dialog' and contains(@style, 'display: block;')]//button[text()='Confirm']");
         public readonly By ScheduleDateInput = By.XPath("//input[@id='date']");
         public readonly By IdFilterInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l3')]//input");
         public readonly string UnallocatedRow = "./div[contains(@class, 'assured')]";
@@ -79,6 +79,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         #endregion
 
         #region Reallocated Grid
+        public readonly By SelectReason = By.XPath("//div[@id='get-allocation-reason']//select");
         private readonly By selectAndDeselectAllCheckbox = By.XPath("//div[contains(@id,'reallocated')]//div[@title='Select/Deselect All']//input");
         public readonly By FromInput = By.XPath("//input[@id='from']");
         private string reallocatedTable = "//div[contains(@id, 'reallocated')]//div[@class='grid-canvas']";
@@ -274,16 +275,34 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By toggleRoundLeg = By.XPath("//button[@id='t-toggle-roundlegs']");
         private readonly By expandThirdRoundGroup = By.XPath("(//div[contains(@class, 'slick-group')][4])//span[contains(@class, 'slick-group-toggle')]");
         private readonly By roundGroupName = By.XPath("(//div[contains(@class, 'slick-group')][4])//span[contains(@class, 'slick-group-title')]");
-        private readonly By FirstRoundLegCheckbox = By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row') and contains(@style, 'top:150px')]//div//input");
-        private readonly By SecondRoundLegCheckbox = By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row') and contains(@style, 'top:175px')]//div//input");
+        private readonly By firstRoundLegEpxandButton = By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row') and contains(@style, 'top:50px')]//div[@class='slick-cell l4 r4']//span[@class='toggle expand']");
         
+        [AllureStep]
+        private IWebElement GetVirtualTask(int idx)
+        {
+            var virtualTasks = this.driver.FindElements(By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'virtual')]"));
+            return virtualTasks.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList()[idx];
+        }
+
+        [AllureStep]
+        private IWebElement GetRoundLegWithUndefinedState(int idx)
+        {
+            var roundEles = this.driver.FindElements(By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row')]/div[contains(@class, 'l3') and contains(text(), '-')]/parent::div"));
+
+            return roundEles.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList()[idx];
+        }
+
         [AllureStep]
         public TaskConfirmationPage SelectRoundLegsOnSecondRoundGroup()
         {
             ClickOnElement(expandThirdRoundGroup);
-            SleepTimeInMiliseconds(300);
-            ClickOnElement(FirstRoundLegCheckbox);
-            ClickOnElement(SecondRoundLegCheckbox);
+            SleepTimeInMiliseconds(1000);
+            IWebElement roundLeg1 = GetRoundLegWithUndefinedState(0);
+            IWebElement checkboxRoundLeg1 = roundLeg1.FindElement(By.XPath("./div/input"));
+            checkboxRoundLeg1.Click();
+            IWebElement roundLeg2 = GetRoundLegWithUndefinedState(1);
+            IWebElement checkboxRoundLeg2 = roundLeg2.FindElement(By.XPath("./div/input"));
+            checkboxRoundLeg2.Click();
             return this;
         }
 
@@ -298,6 +317,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public TaskConfirmationPage ExpandRoundLegAndSelectTask()
         {
+            ClickOnElement(firstRoundLegEpxandButton);
+            SleepTimeInMiliseconds(300);
+            IWebElement virtualTask1 = GetVirtualTask(0);
+            IWebElement checkboxvirtualTask1 = virtualTask1.FindElement(By.XPath("./div/input"));
+            checkboxvirtualTask1.Click();
+            IWebElement virtualTask2 = GetVirtualTask(1);
+            IWebElement checkboxvirtualTask2 = virtualTask2.FindElement(By.XPath("./div/input"));
+            checkboxvirtualTask2.Click();
             return this;
         }
 
@@ -306,6 +333,20 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             ClickOnElement(toggleRoundLeg);
             ClickOnElement(selectAndDeselectAllCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage SelectAllVirtualTask()
+        {
+            ClickOnElement(selectAndDeselectAllCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage VerifyRoundLegNoLongerDisplay()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(By.XPath("//div[contains(@id, 'reallocated')]//div[@class='grid-canvas']//div[contains(@class, 'slick-row')]")));
             return this;
         }
 

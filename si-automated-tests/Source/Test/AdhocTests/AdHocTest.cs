@@ -60,7 +60,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test, Order(1)]
-        public void TC_028A()
+        public void TC_028A_new_greement_line()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string tommorowDueDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
@@ -198,7 +198,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
         [Category("EditAgreement")]
         [Category("Huong")]
         [Test, Order(2)]
-        public void TC_028B()
+        public void TC_028B_new_greement_line()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
             string tommorowDueDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
@@ -211,12 +211,6 @@ namespace si_automated_tests.Source.Test.AdHocTests
             string defautEndDate = AgreementConstants.DEFAULT_END_DATE;
             string unit = AgreementConstants.KILOGRAMS;
 
-            //PageFactoryManager.Get<LoginPage>()
-            //   .GoToURL(WebUrl.MainPageUrl);
-            //PageFactoryManager.Get<LoginPage>()
-            //    .IsOnLoginPage()
-            //    .Login(AutoUser13.UserName, AutoUser13.Password)
-            //    .IsOnHomePage(AutoUser13);
             PageFactoryManager.Get<NavigationBase>()
                .ClickMainOption(MainOption.Services)
                .ExpandOption("Regions")

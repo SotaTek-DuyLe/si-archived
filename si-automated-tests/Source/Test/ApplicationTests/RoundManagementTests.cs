@@ -216,7 +216,6 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskConfirmationPage.WaitForLoadingIconToDisappear();
             string roundGroupName = taskConfirmationPage
                 .GetRoundName();
-            Console.WriteLine(roundGroupName);
             taskConfirmationPage
                 .SelectRoundLegsOnSecondRoundGroup()
                 .ClickOnElement(taskConfirmationPage.BulkReallocateButton);
@@ -227,8 +226,27 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .DragDropRoundLegToRoundInstance("WCREC1", roundGroupName);
             taskConfirmationPage
                 .SelectReasonNeeded();
+            taskConfirmationPage.SelectAllRoundLeg()
+                .DragDropRoundLegToRoundInstance("ECREC2", "Friday");
+            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.SelectReason, "Bad Weather");
+            taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
             taskConfirmationPage.VerifyToastMessage("Allocated 2 round leg(s)");
             taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.VerifyRoundLegNoLongerDisplay();
+            taskConfirmationPage.CloseCurrentWindow()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            taskConfirmationPage.ExpandRoundLegAndSelectTask()
+                .ClickOnElement(taskConfirmationPage.BulkReallocateButton);
+            taskConfirmationPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            taskConfirmationPage.SelectAllVirtualTask()
+                .DragDropRoundLegToRoundInstance("ECREC2", "Friday");
+            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.SelectReason, "Bad Weather");
+            taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
+            taskConfirmationPage.VerifyToastMessage("Allocated 2 round leg(s)");
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.VerifyRoundLegNoLongerDisplay();
         }
     }
 }
