@@ -19,6 +19,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By contractDd = By.XPath("//label[text()='Contract']/following-sibling::span/select");
         private readonly By serviceInput = By.XPath("//label[text()='Services']/following-sibling::input");
         private readonly By scheduledDateInput = By.XPath("//label[text()='Scheduled Date']/following-sibling::input");
+        private readonly By fromDateInput = By.XPath("//label[text()='From']/following-sibling::input");
         private readonly By expandRoundsBtn = By.XPath("//span[text()='Expand Rounds']/parent::button");
         private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
@@ -59,7 +60,9 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By BulkUpdateButton = By.XPath("//button[@title='Bulk Update']");
         private readonly By statusDd = By.XPath("//label[text()='Status']/following-sibling::select[1]");
         private readonly By closeBtnBulkUpdate = By.XPath("//button[@type='button' and text()='×']");
-
+        private readonly By breakdownOptionReasonNeeded = By.XPath("//label[contains(string(), 'Please select the reason below and confirm.')]/following-sibling::select/option[text()='Breakdown']");
+        private readonly By reasonNeededDd = By.XPath("//label[contains(string(), 'Please select the reason below and confirm.')]/following-sibling::select");
+        private readonly By reasonNeededTitle = By.XPath("//label[contains(string(), 'Please select the reason below and confirm.')]");
         //DYNAMIC
         private readonly string anyContractOption = "//label[text()='Contract']/following-sibling::span/select/option[text()='{0}']";
         private readonly string anyServicesByServiceGroup = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/preceding-sibling::i";
@@ -270,7 +273,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 
         #region Round Leg
         private readonly By toggleRoundLeg = By.XPath("//button[@id='t-toggle-roundlegs']");
-        private readonly By expandThirdRoundGroup = By.XPath("(//div[contains(@class, 'slick-group')][2])//span[contains(@class, 'slick-group-toggle')]");
+        private readonly By expandThirdRoundGroup = By.XPath("(//div[contains(@class, 'slick-group')][4])//span[contains(@class, 'slick-group-toggle')]");
+        private readonly By roundGroupName = By.XPath("(//div[contains(@class, 'slick-group')][4])//span[contains(@class, 'slick-group-title')]");
         private readonly By firstRoundLegEpxandButton = By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row') and contains(@style, 'top:50px')]//div[@class='slick-cell l4 r4']//span[@class='toggle expand']");
         
         [AllureStep]
@@ -283,7 +287,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         private IWebElement GetRoundLegWithUndefinedState(int idx)
         {
-            var roundEles = this.driver.FindElements(By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row')]//div[@class='slick-cell l1 r1' and not(div/img)]//parent::div"));
+            var roundEles = this.driver.FindElements(By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row')]/div[contains(@class, 'l3') and contains(text(), '-')]/parent::div"));
 
             return roundEles.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList()[idx];
         }
@@ -292,7 +296,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TaskConfirmationPage SelectRoundLegsOnSecondRoundGroup()
         {
             ClickOnElement(expandThirdRoundGroup);
-            SleepTimeInMiliseconds(300);
+            SleepTimeInMiliseconds(1000);
             IWebElement roundLeg1 = GetRoundLegWithUndefinedState(0);
             IWebElement checkboxRoundLeg1 = roundLeg1.FindElement(By.XPath("./div/input"));
             checkboxRoundLeg1.Click();
@@ -300,6 +304,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             IWebElement checkboxRoundLeg2 = roundLeg2.FindElement(By.XPath("./div/input"));
             checkboxRoundLeg2.Click();
             return this;
+        }
+
+        [AllureStep]
+        public string GetRoundName()
+        {
+            string roundGroupNameValue = GetElementText(roundGroupName);
+            string item = roundGroupNameValue.Split(":")[1];
+            return item.Split("(")[0];
         }
 
         [AllureStep]
@@ -348,6 +360,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 { 2, round }
             });
             WaitUtil.WaitForElementClickable(cell).Click();
+            ClickOnElement(cell);
             WaitForLoadingIconToDisappear();
             cell = RoundInstanceTableEle.GetCellByCellValues(3, new Dictionary<int, object>()
             {
@@ -415,6 +428,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TaskConfirmationPage SendDateInScheduledDate(string dateValue)
         {
             InputCalendarDate(scheduledDateInput, dateValue);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage SendDateInFromDate(string dateValue)
+        {
+            InputCalendarDate(fromDateInput, dateValue);
             return this;
         }
 
@@ -672,5 +692,17 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             ClickOnElement(closeBtnBulkUpdate);
             return this;
         }
+
+        [AllureStep]
+        public TaskConfirmationPage SelectReasonNeeded()
+        {
+            WaitUtil.WaitForElementVisible(reasonNeededTitle);
+            ClickOnElement(reasonNeededDd);
+            ClickOnElement(breakdownOptionReasonNeeded);
+            ClickOnElement("//button[text()='Confirm']");
+            return this;
+        }
+
+
     }
 }
