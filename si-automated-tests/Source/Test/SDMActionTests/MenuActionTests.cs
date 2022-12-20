@@ -1867,7 +1867,6 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .DragWednesdayToTuesDayToTestReallocate()
                 .ClickOnApplyAtBottomBtn()
                 .AcceptAlert()
-                .WaitForLoadingIconToDisappear()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             serviceDataManagementPage

@@ -299,6 +299,8 @@ namespace si_automated_tests.Source.Test.AdHocTests
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             adhocTaskDetailPage
+                .SleepTimeInSeconds(3);
+            adhocTaskDetailPage
                 .ClickTaskLinesTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskLinesPage>()

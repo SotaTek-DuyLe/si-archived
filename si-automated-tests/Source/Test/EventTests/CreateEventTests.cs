@@ -1062,19 +1062,6 @@ namespace si_automated_tests.Source.Test.EventTests
                 }
             }
 
-            //Get Point History from SP
-            SqlCommand command_PointHistory = new SqlCommand("GetPointHistory", DbContext.Connection);
-            command_PointHistory.CommandType = CommandType.StoredProcedure;
-            command_PointHistory.Parameters.Add("@EventID", SqlDbType.Int).Value = 0;
-            command_PointHistory.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
-            command_PointHistory.Parameters.Add("@PointID", SqlDbType.Int).Value = pointID;
-            command_PointHistory.Parameters.Add("@UserID", SqlDbType.Int).Value = 54;
-
-            using (SqlDataReader reader = command_PointHistory.ExecuteReader())
-            {
-                pointHistoryDBModels = ObjectExtention.DataReaderMapToList<PointHistoryDBModel>(reader);
-            }
-
             //Check in web
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -1147,6 +1134,18 @@ namespace si_automated_tests.Source.Test.EventTests
                 //Verify Point History - sub tab display without error
                 .ClickPointHistorySubTab()
                 .WaitForLoadingIconToDisappear();
+            //Get Point History from SP
+            SqlCommand command_PointHistory = new SqlCommand("GetPointHistory", DbContext.Connection);
+            command_PointHistory.CommandType = CommandType.StoredProcedure;
+            command_PointHistory.Parameters.Add("@EventID", SqlDbType.Int).Value = 0;
+            command_PointHistory.Parameters.Add("@PointTypeID", SqlDbType.Int).Value = 1;
+            command_PointHistory.Parameters.Add("@PointID", SqlDbType.Int).Value = pointID;
+            command_PointHistory.Parameters.Add("@UserID", SqlDbType.Int).Value = 54;
+
+            using (SqlDataReader reader = command_PointHistory.ExecuteReader())
+            {
+                pointHistoryDBModels = ObjectExtention.DataReaderMapToList<PointHistoryDBModel>(reader);
+            }
             //DB - Get point history 
             List<PointHistoryModel> pointHistoryModelsInPointHistorySubTab = eventDetailPage
                 .GetAllPointHistory();
