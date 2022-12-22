@@ -5,6 +5,7 @@ using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Applications;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
@@ -174,7 +175,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                     .SelectTextFromDropDown(serviceDataManagementPage.ServiceLocationTypeSelect, testCase.selectPoint)
                     .WaitForLoadingIconToDisappear();
                 Thread.Sleep(1000);
-                Dictionary<int, List<object>> rowDatas = serviceDataManagementPage.ClickMultiPointAddress(testCase.rowCount);
+                Dictionary<int, List<object>> rowDatas = serviceDataManagementPage.ClickMultiPointAddress(testCase.rowCount).Take(300).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
                 serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.NextButton);
                 serviceDataManagementPage
                     .VerifyTheDisplayOfPopupOver300Point()
