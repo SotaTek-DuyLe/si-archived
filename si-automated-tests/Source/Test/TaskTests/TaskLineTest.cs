@@ -325,7 +325,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
 
             //Verify whether user able to update Taskstate from Task Confirmation Grid
-            string from = "26/09/2022";
+            string from = "26/09/2022"; //Monday
             PageFactoryManager.Get<LoginPage>()
                  .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<NavigationBase>()
@@ -344,16 +344,14 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SelectRoundNode("REC1-AM");
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ScheduleDateInput);
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
-            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, Keys.Control + "a");
-            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, Keys.Delete);
-            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, from);
+            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.ScheduleDateInput, from);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ExpandRoundsGo);
             taskConfirmationPage.SleepTimeInMiliseconds(200);
-            taskConfirmationPage.SendKeys(taskConfirmationPage.IdFilterInput, "15683");
-            taskConfirmationPage.SleepTimeInMiliseconds(200);
+            taskConfirmationPage.SendKeys(taskConfirmationPage.IdFilterInput, "15650");
+            taskConfirmationPage.SleepTimeInSeconds(2);
             taskConfirmationPage.DoubleClickRoundInstanceDetail()
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
@@ -389,9 +387,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SelectRoundNode("REC1-AM");
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ScheduleDateInput);
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
-            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, Keys.Control + "a");
-            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, Keys.Delete);
-            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, from);
+            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.ScheduleDateInput, from);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
@@ -469,13 +465,13 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            resourceAllocationPage.SelectContract(Contract.Commercial);
+            resourceAllocationPage.SelectContract(Contract.Municipal);
             resourceAllocationPage.SelectShift("AM");
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
             Thread.Sleep(1000);
-            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
-                .ExpandRoundNode("Collections")
-                .SelectRoundNode("Collections - Recycling")
+            resourceAllocationPage.ExpandRoundNode(Contract.Municipal)
+                .ExpandRoundNode("*Unassigned")
+                .SelectRoundNode("*Unassigned")
                 .InputCalendarDate(resourceAllocationPage.date, "27/09/2022");
             resourceAllocationPage.ClickGo();
             resourceAllocationPage
@@ -487,16 +483,16 @@ namespace si_automated_tests.Source.Test.TaskTests
             roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.WorkSheetTab);
             roundInstanceDetailPage.WaitForLoadingIconToDisappear();
             roundInstanceDetailPage.SwitchNewIFrame();
-            roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.ExpandRoundsGo);
-            roundInstanceDetailPage.SleepTimeInMiliseconds(300);
-            roundInstanceDetailPage.SendKeys(roundInstanceDetailPage.IdFilterInput, "15902");
+            roundInstanceDetailPage.ClickOnMinimiseRoundsAndRoundLegsBtn();
+            roundInstanceDetailPage
+                .SendKeyInDesc("Hall Road Bring Site, Twickenham")
+                .ClickOnSelectAndDeselectBtn();
             roundInstanceDetailPage.SleepTimeInMiliseconds(200);
             roundInstanceDetailPage
-                .ClickOnFirstRound()
                 .ClickOnElement(roundInstanceDetailPage.BulkUpdateButton);
             roundInstanceDetailPage
                 .SelectTextFromDropDown(roundInstanceDetailPage.BulkUpdateStateSelect, "Not Completed")
-                .SelectTextFromDropDown(roundInstanceDetailPage.BulkUpdateReasonSelect, "Food")
+                .SelectTextFromDropDown(roundInstanceDetailPage.BulkUpdateReasonSelect, "Not Out")
                 .ClickOnElement(roundInstanceDetailPage.ConfirmButton);
             //Wait for server updating
             roundInstanceDetailPage.SleepTimeInMiliseconds(10000);

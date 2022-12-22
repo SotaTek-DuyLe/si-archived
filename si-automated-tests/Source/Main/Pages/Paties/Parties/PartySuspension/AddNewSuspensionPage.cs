@@ -51,6 +51,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySuspension
         }
 
         [AllureStep]
+        public AddNewSuspensionPage ClickDeleteNewSuspension()
+        {
+            int newIdx = SuspensionTableEle.GetRows().Count - 1;
+            SuspensionTableEle.ClickCell(newIdx, 5);
+            return this;
+        }
+
+        [AllureStep]
         public AddNewSuspensionPage WaitServiceSuspensionVisible()
         {
             WaitUtil.WaitForElementVisible(serviceSuspensionModal);

@@ -962,7 +962,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickCloseBtn()
                 .SwitchToFirstWindow();
             servicesTaskPage.WaitForLoadingIconToDisappear();
-            servicesTaskPage.VerifyNewSchedule(startDate, endDate, round);
+            servicesTaskPage.VerifyNewSchedule(startDate, endDate, "REF1-AM Monday");
 
             CommonFinder finder = new CommonFinder(DbContext);
             var serviceTaskSchedule = finder.GetServiceTaskScheduleBySTSID(serviceTaskScheduleId).FirstOrDefault();

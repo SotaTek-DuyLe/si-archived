@@ -95,7 +95,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By resizerHeight = By.XPath("(//div[@title='Close'])[3]");
         private readonly By addResourceBtn = By.Id("t-create");
         public readonly By FirstRoundInstanceRow = By.XPath("//div[@id='rounds-scrollable']//table[2]//tbody[1]/tr[1]//td[1]");
-        public readonly By SecondRoundInstanceRow = By.XPath("//div[@id='rounds-scrollable']//table[1]//tbody[1]/tr[3]");
+        public readonly By SecondRoundInstanceRow = By.XPath("//div[@id='rounds-scrollable']//table[1]//tbody[1]/tr[1]");
         public readonly By BusinessUnitInput = By.XPath("//input[@id='business-units']");
 
         private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-1')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]", "./i[contains(@class, 'jstree-ocl')][1]");

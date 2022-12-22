@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
 namespace si_automated_tests.Source.Main.DBModels
 {
@@ -9,5 +7,9 @@ namespace si_automated_tests.Source.Main.DBModels
         public string site { get; set; }
 
         public int partyID { get; set; }
+
+        public bool islocked { get; set; }
+
+        public string lockedreference { get; set; }
     }
 }

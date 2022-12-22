@@ -40,7 +40,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By roundRows = By.XPath("//div[@id='rounds-tab']//table//tbody//tr");
         private readonly By resourceRows = By.XPath("//div[@id='defaultResources-tab']//table//tbody//tr[contains(@data-bind, 'with: $data.getFields()')][not(ancestor::tr)]");
         private readonly string resourceDetailContainerRows = "//div[@id='defaultResources-tab']//table//tbody//tr[contains(@id, 'child-target{0}')]";
-        private readonly string resourceDetailRows = "//div[@id='defaultResources-tab']//table//tbody//tr[contains(@id, 'child-target{0}')]//tr[@data-bind='with: $data.getFields()']";
+        private readonly string resourceDetailRows = "//div[@id='defaultResources-tab']//table//tbody//tr[contains(@id, 'child-target{0}')]//tr[contains(@data-bind, 'with: $data.getFields()')]";
         private readonly By typeSelect = By.XPath("./td//select[@id='type.id']");
         private readonly By resourceSelect = By.XPath("./td//select[@id='resource.id']");
         private readonly By resourceSelectOpt = By.XPath("./td//select[@id='resource.id']//option");
@@ -631,9 +631,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
         [AllureStep]
 
-        public RoundGroupPage ClickRetireDefaultResourceButton(string resource)
+        public RoundGroupPage ClickRetireDefaultResourceButton(int resourceRowIdx, string resource)
         {
-            List<IWebElement> webElements = new List<IWebElement>();
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
+            List<IWebElement> webElements = this.driver.FindElements(resourceDetailXPath).ToList();
             for (int i = 0; i < webElements.Count; i++)
             {
                 if (GetFirstSelectedItemInDropdown(webElements[i].FindElement(resourceSelect)) == resource)
@@ -682,16 +683,17 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             List<DefaultResourceModel> defaultResources = new List<DefaultResourceModel>();
             List<IWebElement> webElements = GetAllElements(resourceRows);
-            List<IWebElement> webDetailElements = new List<IWebElement>();
             for (int i = 0; i < webElements.Count; i++)
             {
                 DefaultResourceModel defaultResource = new DefaultResourceModel();
                 defaultResource.Type = GetFirstSelectedItemInDropdown(webElements[i].FindElement(typeSelect));
                 defaultResource.Quantity = webElements[i].FindElement(quantityInput).GetAttribute("value");
-                bool containDetail = webDetailElements[i].FindElements(resourceSelect).Count != 0;
+                By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, i));
+                var webDetailElements = this.driver.FindElements(resourceDetailXPath);
+                bool containDetail = webDetailElements.Count != 0;
                 if (containDetail)
                 {
-                    if (!webDetailElements[i].Displayed)
+                    if (!webDetailElements[0].Displayed)
                     {
                         ClickExpandButton(i);
                         Thread.Sleep(300);
@@ -699,9 +701,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
                     defaultResource.Detail = new DetailDefaultResourceModel()
                     {
-                        Resource = GetFirstSelectedItemInDropdown(webDetailElements[i].FindElement(resourceSelect)),
-                        HasSchedule = webDetailElements[i].FindElement(hasScheduleCheckbox).Selected,
-                        Schedule = webDetailElements[i].FindElement(scheduleInput).GetAttribute("value"),
+                        Resource = GetFirstSelectedItemInDropdown(webDetailElements[0].FindElement(resourceSelect)),
+                        HasSchedule = webDetailElements[0].FindElement(hasScheduleCheckbox).Selected,
+                        Schedule = webDetailElements[0].FindElement(scheduleInput).GetAttribute("value"),
                     };
                 }
                 defaultResources.Add(defaultResource);
