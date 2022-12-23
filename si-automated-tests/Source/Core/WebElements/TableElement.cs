@@ -139,6 +139,30 @@ namespace si_automated_tests.Source.Core.WebElements
             return GetRowValue(rowIdx)[cellIdx];
         }
 
+        public object GetCellValue(IWebElement row, int cellIdx)
+        {
+            IWebElement webElement = row.FindElement(By.XPath(CellXpaths[cellIdx]));
+            string elementType = webElement.TagName;
+            switch (elementType)
+            {
+                case "select":
+                    SelectElement selectedValue = new SelectElement(webElement);
+                    return selectedValue.SelectedOption.Text;
+                case "input":
+                    string type = webElement.GetAttribute("type");
+                    if (type == "checkbox")
+                    {
+                        return webElement.Selected;
+                    }
+                    else
+                    {
+                        return webElement.GetAttribute("value");
+                    }
+                default:
+                    return null;
+            }
+        }
+
         public List<object> GetRowValue(int rowIdx)
         {
             var rows = GetRows();
@@ -210,6 +234,11 @@ namespace si_automated_tests.Source.Core.WebElements
             return GetCell(rowIdx, cellIdx).Displayed;
         }
 
+        public bool GetCellVisibility(IWebElement row, int cellIdx)
+        {
+            return row.FindElement(By.XPath(CellXpaths[cellIdx])).Displayed;
+        }
+
         public bool GetCellEnable(int rowIdx, int cellIdx)
         {
             return GetCell(rowIdx, cellIdx).Enabled;
@@ -220,6 +249,10 @@ namespace si_automated_tests.Source.Core.WebElements
             return GetCell(rowIdx, cellIdx).GetAttribute(attribute);
         }
 
+        public string GetCellAttribute(IWebElement row, int cellIdx, string attribute)
+        {
+            return row.FindElement(By.XPath(CellXpaths[cellIdx])).GetAttribute(attribute);
+        }
 
         public void SetCellValue(int rowIdx, int cellIdx, object value)
         {
