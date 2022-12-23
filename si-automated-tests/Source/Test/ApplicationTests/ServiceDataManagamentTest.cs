@@ -167,7 +167,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             List<(int rowCount, string selectPoint)> testCases = new List<(int rowCount, string selectPoint)>()
             {
                 (305, "Address"),
-                (305, "Node"),
+                //(305, "Node"),
             };
             foreach (var testCase in testCases)
             {
