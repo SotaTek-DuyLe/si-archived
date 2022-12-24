@@ -84,40 +84,13 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
         public void TC_172_1_Debrief_Results_screen()
         {
             PageFactoryManager.Get<LoginPage>()
-               .GoToURL(WebUrl.MainPageUrl);
+               .GoToURL(WebUrl.MainPageUrl + "web/debrief-results/5059");
             PageFactoryManager.Get<LoginPage>()
                .IsOnLoginPage()
                .Login(AutoUser60.UserName, AutoUser60.Password);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Resources)
-                .OpenOption("Daily Allocation")
-                .SwitchNewIFrame();
-            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            resourceAllocationPage.SelectContract(Contract.Commercial);
-            resourceAllocationPage.SelectShift("AM");
-            resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
-            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
-                .SelectRoundNode("Collections")
-                .InputCalendarDate(resourceAllocationPage.date, "25/07/2022");
-            resourceAllocationPage.ClickGo();
-            resourceAllocationPage
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
-            resourceAllocationPage.ClickRoundInstance()
-                .SwitchToChildWindow(2)
-                .WaitForLoadingIconToDisappear();
-            RoundInstanceForm roundInstanceForm = PageFactoryManager.Get<RoundInstanceForm>();
-            roundInstanceForm.WaitForLoadingIconToDisappear();
-            roundInstanceForm
-               .ClickOnDetailTab()
-               .ClickOnStatusDdAndSelectValue("Complete")
-               .ClickSaveBtn()
-               .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
-               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-            roundInstanceForm.ClickOnElement(roundInstanceForm.DebriefButton);
-            roundInstanceForm.SwitchToChildWindow(3)
-                .WaitForLoadingIconToDisappear();
+            
             DebriefResultPage debriefResultPage = PageFactoryManager.Get<DebriefResultPage>();
+            debriefResultPage.WaitForLoadingIconToDisappear();
             // At Debrief-result > Activity > Confirations > Click a bin lift with tick icon - Select Unmatch
             debriefResultPage.ClickOnElement(debriefResultPage.ActivityHeader);
             debriefResultPage.ClickOnElement(debriefResultPage.ConfirmationHeader);
