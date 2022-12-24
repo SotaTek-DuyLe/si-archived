@@ -815,9 +815,10 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnAssetTab()
                 .ClickAddAsset()
                 .VerifyInputValue(assetAndProductTab.assetQuantity, "1");
-            assetAndProductTab.VerifyDeliveryDate(DateTime.Now.AddDays(7).ToString("dd/MM/yyyy"))
+            assetAndProductTab
                 .ChooseAssetType("1100L")
                 .ChooseTenure("Rental")
+                .VerifyDeliveryDate(DateTime.Now.AddDays(7).ToString("dd/MM/yyyy"))
                 .ChooseProduct("General Recycling")
                 .ChooseEwcCode("150106")
                 .EditAssertClickDoneBtn()
@@ -837,8 +838,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab()
-               .ClickOnRemoveButton(new List<string>() { "Commercial Customers: Collection" })
-               .InputPrices(new List<(string title, string value)>() { ("Commercial Customers: Bin Removal", "1"), ("Commercial Customers: Bin Delivery", "1") })
+               .ClosePriceRecords()
                .ClickPrice("Commercial Customers: Bin Rental")
                .ClickNext()
                .WaitForLoadingIconToDisappear();
