@@ -703,6 +703,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             roundGroupPage.WaitForLoadingIconToDisappear();
             roundGroupPage.ClickDefaultResourceTab()
                 .WaitForLoadingIconToDisappear();
+            roundGroupPage.WaitForResourceRowsVisible();
             int driverTypeIdx = 0;
             int relTypeIdx = roundGroupPage.GetIndexNewRowDetail(driverTypeIdx);
             string dateNow = DateTime.Now.ToString("dd/MM/yyyy");

@@ -553,6 +553,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
+        public RoundGroupPage WaitForResourceRowsVisible()
+        {
+            WaitUtil.WaitForAllElementsVisible(resourceRows);
+            return this;
+        }
+
+        [AllureStep]
         public RoundGroupPage VerifyRowDetailIsVisible(int resourceRowIdx, int resourceDetailRowIdx)
         {
             By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
