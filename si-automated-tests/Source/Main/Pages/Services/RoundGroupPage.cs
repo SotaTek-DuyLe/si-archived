@@ -779,6 +779,19 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return DateTime.MinValue;
         }
 
+        [AllureStep]
+        public DateTime TryDoubleClickRoundGroup(DateTime startDate, DateTime endDate, List<DayOfWeek> dayOfWeeks, List<DateTime> ignoreDateTimes = null)
+        {
+            try
+            {
+                return DoubleClickRoundGroup(startDate, endDate, dayOfWeeks, ignoreDateTimes);
+            }
+            catch (OpenQA.Selenium.StaleElementReferenceException ex)
+            {
+                return DoubleClickRoundGroup(startDate, endDate, dayOfWeeks, ignoreDateTimes);
+            }
+        }
+
         public RoundGroupPage VerifyRoundInstanceState(DateTime roundDate, string state)
         {
             List<IWebElement> headerCells = GetAllElements(dateHeaderCells);
