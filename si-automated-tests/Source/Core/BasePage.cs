@@ -967,6 +967,21 @@ namespace si_automated_tests.Source.Core
             }
             return this;
         }
+
+        [AllureStep]
+        public BasePage TryWaitForLoadingIconToDisappear(bool implicitSleep = true)
+        {
+            try
+            {
+                WaitForLoadingIconToDisappear(implicitSleep);
+            }
+            catch (OpenQA.Selenium.StaleElementReferenceException ex)
+            {
+                WaitForLoadingIconToDisappear(implicitSleep);
+            }
+            return this;
+        }
+
         [AllureStep]
         public BasePage VerifyToastMessageNotAppear(string message)
         {

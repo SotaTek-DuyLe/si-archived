@@ -410,7 +410,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickCloseBtn()
                 .SwitchToFirstWindow();
 
-            //Verify whether user able to update Taskstate from Daily Allocation-Round Instance Worksheet 
+            //Verify whether user able to update Taskstate from Daily Allocation-Round Instance Worksheet
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<NavigationBase>()
@@ -423,8 +423,8 @@ namespace si_automated_tests.Source.Test.TaskTests
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
             Thread.Sleep(1000);
             resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
-                .ExpandRoundNode("Collections")
-                .SelectRoundNode("Collections - Recycling")
+                .ExpandRoundNode("*Unassigned")
+                .SelectRoundNode("*Unassigned")
                 .InputCalendarDate(resourceAllocationPage.date, "27/09/2022");
             resourceAllocationPage.ClickGo();
             resourceAllocationPage
@@ -438,7 +438,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             roundInstanceDetailPage.SwitchNewIFrame();
             roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.ExpandRoundsGo);
             roundInstanceDetailPage.SleepTimeInMiliseconds(300);
-            roundInstanceDetailPage.SendKeys(roundInstanceDetailPage.IdFilterInput, "15904");
+            roundInstanceDetailPage.SendKeys(roundInstanceDetailPage.IdFilterInput, "15833");
             roundInstanceDetailPage.SleepTimeInMiliseconds(200);
             roundInstanceDetailPage.DoubleClickOnTask()
                 .SwitchToChildWindow(3)
@@ -465,11 +465,11 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
             resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            resourceAllocationPage.SelectContract(Contract.Municipal);
+            resourceAllocationPage.SelectContract(Contract.Commercial);
             resourceAllocationPage.SelectShift("AM");
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
             Thread.Sleep(1000);
-            resourceAllocationPage.ExpandRoundNode(Contract.Municipal)
+            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
                 .ExpandRoundNode("*Unassigned")
                 .SelectRoundNode("*Unassigned")
                 .InputCalendarDate(resourceAllocationPage.date, "27/09/2022");
@@ -485,14 +485,15 @@ namespace si_automated_tests.Source.Test.TaskTests
             roundInstanceDetailPage.SwitchNewIFrame();
             roundInstanceDetailPage.ClickOnMinimiseRoundsAndRoundLegsBtn();
             roundInstanceDetailPage
-                .SendKeyInDesc("Hall Road Bring Site, Twickenham")
+                .SendKeyInDesc("Tesco Express")
                 .ClickOnSelectAndDeselectBtn();
             roundInstanceDetailPage.SleepTimeInMiliseconds(200);
             roundInstanceDetailPage
                 .ClickOnElement(roundInstanceDetailPage.BulkUpdateButton);
             roundInstanceDetailPage
                 .SelectTextFromDropDown(roundInstanceDetailPage.BulkUpdateStateSelect, "Not Completed")
-                .SelectTextFromDropDown(roundInstanceDetailPage.BulkUpdateReasonSelect, "Not Out")
+                .SleepTimeInMiliseconds(300)
+                .SelectTextFromDropDown(roundInstanceDetailPage.BulkUpdateReasonSelect, "No key")
                 .ClickOnElement(roundInstanceDetailPage.ConfirmButton);
             //Wait for server updating
             roundInstanceDetailPage.SleepTimeInMiliseconds(10000);

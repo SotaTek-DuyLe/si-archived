@@ -553,6 +553,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
+        public RoundGroupPage WaitForResourceRowsVisible()
+        {
+            WaitUtil.WaitForAllElementsVisible(resourceRows);
+            return this;
+        }
+
+        [AllureStep]
         public RoundGroupPage VerifyRowDetailIsVisible(int resourceRowIdx, int resourceDetailRowIdx)
         {
             By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
@@ -777,6 +784,19 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 WaitForLoadingIconToDisappear();
             }
             return DateTime.MinValue;
+        }
+
+        [AllureStep]
+        public DateTime TryDoubleClickRoundGroup(DateTime startDate, DateTime endDate, List<DayOfWeek> dayOfWeeks, List<DateTime> ignoreDateTimes = null)
+        {
+            try
+            {
+                return DoubleClickRoundGroup(startDate, endDate, dayOfWeeks, ignoreDateTimes);
+            }
+            catch (OpenQA.Selenium.StaleElementReferenceException ex)
+            {
+                return DoubleClickRoundGroup(startDate, endDate, dayOfWeeks, ignoreDateTimes);
+            }
         }
 
         public RoundGroupPage VerifyRoundInstanceState(DateTime roundDate, string state)

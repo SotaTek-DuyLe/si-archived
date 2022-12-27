@@ -703,6 +703,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             roundGroupPage.WaitForLoadingIconToDisappear();
             roundGroupPage.ClickDefaultResourceTab()
                 .WaitForLoadingIconToDisappear();
+            roundGroupPage.WaitForResourceRowsVisible();
             int driverTypeIdx = 0;
             int relTypeIdx = roundGroupPage.GetIndexNewRowDetail(driverTypeIdx);
             string dateNow = DateTime.Now.ToString("dd/MM/yyyy");
@@ -767,11 +768,11 @@ namespace si_automated_tests.Source.Test.ServiceTests
             DateTime startDate = DateTime.Now;
             DateTime endDate = DateTime.Now.AddYears(1);
             var roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
-            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.TryWaitForLoadingIconToDisappear();
             roundGroupPage.ClickCalendarTab()
-                .WaitForLoadingIconToDisappear();
+                .TryWaitForLoadingIconToDisappear();
 
-            DateTime roundInstanceA = roundGroupPage.DoubleClickRoundGroup(startDate, endDate, new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday }, null);
+            DateTime roundInstanceA = roundGroupPage.TryDoubleClickRoundGroup(startDate, endDate, new List<DayOfWeek>() { DayOfWeek.Monday, DayOfWeek.Tuesday }, null);
             roundGroupPage.WaitForLoadingIconToDisappear();
             roundGroupPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
