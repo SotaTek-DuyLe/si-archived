@@ -660,6 +660,26 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
+        [AllureStep]
+        public BasePage ScrollMaxToTheLeft(By by)
+        {
+            WaitUtil.WaitForPageLoaded();
+            IWebElement e = GetElement(by);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollLeft -= arguments[0].scrollWidth", e);
+
+            return this;
+        }
+        [AllureStep]
+        public BasePage ScrollMaxToTheRight(By by)
+        {
+            WaitUtil.WaitForPageLoaded();
+            IWebElement e = GetElement(by);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollLeft += arguments[0].scrollWidth", e);
+
+            return this;
+        }
 
         [AllureStep]
         public BasePage ScrollLeft(By by)
@@ -886,6 +906,7 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public BasePage VerifyToastMessages(List<string> messages)
         {
+            SleepTimeInMiliseconds(500);
             var notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
             //int retryCount = 0;
             //while(notifyMsgs.Count < messages.Count && retryCount < 10)

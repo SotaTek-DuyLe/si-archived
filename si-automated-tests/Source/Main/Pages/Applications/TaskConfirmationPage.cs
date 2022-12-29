@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -12,21 +13,31 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 {
     public class TaskConfirmationPage : BasePageCommonActions
     {
+        private readonly By mainGrid = By.XPath("//div[@id='grid']//div[@class='slick-viewport']");
         private readonly By contractTitle = By.XPath("//label[text()='Contract']");
         private readonly By serviceTitle = By.XPath("//label[text()='Services']");
         private readonly By scheduleTitle = By.XPath("//label[text()='Scheduled Date']");
         private readonly By goBtn = By.CssSelector("button[id='button-go']");
         private readonly By contractDd = By.XPath("//label[text()='Contract']/following-sibling::span/select");
         private readonly By serviceInput = By.XPath("//label[text()='Services']/following-sibling::input");
+        private readonly string serviceOption = "//a[contains(@class,'jstree-anchor') and text()='{0}']";
         private readonly By scheduledDateInput = By.XPath("//label[text()='Scheduled Date']/following-sibling::input");
         private readonly By expandRoundsBtn = By.XPath("//span[text()='Expand Rounds']/parent::button");
+        private readonly By outstandingTaskBtn = By.XPath("//span[text()='Show Outstanding Tasks']/parent::button");
         private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
         private readonly By descAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
+        private readonly By firstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]");
+        private readonly By completedDateAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l23') and contains(@class,'selected')])[1]");
+        private readonly By completedDateAtBulkUpdate = By.XPath("//div[@class='bulk-confirmation']//label[text()='Completed Date']/following-sibling::input");
         private readonly By statusAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[1]");
+        private readonly By statusAtSecondColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[2]");
         private readonly By scheduledDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l17')]");
         private readonly By dueDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l18')]");
         private readonly By allRowInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div");
+
+        //calendar
+        private readonly string futreDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@style,'z-index:')]//td[contains(@class,'day') and not(contains(@class,'disable')) and text()='{0}'])[last()]";
 
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
         private readonly By firstRowAfterFiltering = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]/parent::div");
@@ -59,6 +70,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By BulkUpdateButton = By.XPath("//button[@title='Bulk Update']");
         private readonly By statusDd = By.XPath("//label[text()='Status']/following-sibling::select[1]");
         private readonly By closeBtnBulkUpdate = By.XPath("//button[@type='button' and text()='×']");
+
+        private readonly By statusSelect = By.XPath("//div[contains(@class,'selected editable')]/select");
 
         //DYNAMIC
         private readonly string anyContractOption = "//label[text()='Contract']/following-sibling::span/select/option[text()='{0}']";
@@ -410,6 +423,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             ClickOnElement(chirldOfTree, roundName);
             return this;
         }
+        [AllureStep]
+        public TaskConfirmationPage ClickServicesAndSelectServiceInTree(string service)
+        {
+            ClickOnElement(serviceInput);
+            ClickOnElement(serviceOption, service);
+            return this;
+        }
 
         [AllureStep]
         public TaskConfirmationPage SendDateInScheduledDate(string dateValue)
@@ -624,11 +644,46 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             SleepTimeInMiliseconds(3000);
             return this;
         }
+        [AllureStep]
+        public TaskConfirmationPage ClicKCompletedDateAtFirstColumn()
+        {
+            ClickOnElement(completedDateAtFirstColumn);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage InsertDayInFutre(string dayOfMonth)
+        {
+            if (dayOfMonth.StartsWith("0"))
+            {
+                dayOfMonth = dayOfMonth.Substring(1);
+            }
+            ClickOnElement(futreDayNumberInCalendar, dayOfMonth);
+            return this;
+        }
 
         [AllureStep]
         public TaskConfirmationPage ClickOnStatusAtFirstColumn()
         {
             ClickOnElement(statusAtFirstColumn);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage ClickOnStatusAtSecondColumn()
+        {
+            ClickOnElement(statusAtSecondColumn);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage ClickOnFirstColumn()
+        {
+            ClickOnElement(firstColumn);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage SelectStatus(string status)
+        {
+            SelectTextFromDropDown(statusSelect, status);
             return this;
         }
 
@@ -655,6 +710,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             ClickOnElement(statusDd);
             return this;
         }
+        [AllureStep]
+        public TaskConfirmationPage SelectStatusInBulkUpdatePopup(string status)
+        {
+            SelectTextFromDropDown(statusDd, status);
+            return this;
+        }
 
         [AllureStep]
         public TaskConfirmationPage VerifyOrderInTaskStateDd(string[] taskStateValues)
@@ -672,5 +733,30 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             ClickOnElement(closeBtnBulkUpdate);
             return this;
         }
+        [AllureStep]
+        public TaskConfirmationPage ScrollMaxToTheLeftOfGrid()
+        {
+            ScrollMaxToTheLeft(mainGrid);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage ScrollMaxToTheRightOfGrid()
+        {
+            ScrollMaxToTheRight(mainGrid);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage ClickCompletedDateAtBulkUpdate()
+        {
+            ClickOnElement(completedDateAtBulkUpdate);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage ClickShowOutstandingTasks()
+        {
+            ClickOnElement(outstandingTaskBtn);
+            return this;
+        }
+
     }
 }
