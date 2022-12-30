@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -32,6 +33,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By completedDateAtBulkUpdate = By.XPath("//div[@class='bulk-confirmation']//label[text()='Completed Date']/following-sibling::input");
         private readonly By statusAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[1]");
         private readonly By statusAtSecondColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[2]");
+        private readonly By resocodeAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[1]");
+
         private readonly By scheduledDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l17')]");
         private readonly By dueDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l18')]");
         private readonly By allRowInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div");
@@ -69,9 +72,10 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By firstRoundInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[1]");
         public readonly By BulkUpdateButton = By.XPath("//button[@title='Bulk Update']");
         private readonly By statusDd = By.XPath("//label[text()='Status']/following-sibling::select[1]");
+        private readonly By resolutionDd = By.XPath("//label[text()='Resolution Code']/following-sibling::select[1]");
         private readonly By closeBtnBulkUpdate = By.XPath("//button[@type='button' and text()='×']");
 
-        private readonly By statusSelect = By.XPath("//div[contains(@class,'selected editable')]/select");
+        private readonly By optionSelect = By.XPath("//div[contains(@class,'selected editable')]/select"); //applicable for multiple select in page
 
         //DYNAMIC
         private readonly string anyContractOption = "//label[text()='Contract']/following-sibling::span/select/option[text()='{0}']";
@@ -683,7 +687,22 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public TaskConfirmationPage SelectStatus(string status)
         {
-            SelectTextFromDropDown(statusSelect, status);
+            SelectTextFromDropDown(optionSelect, status);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage SelectResolutionCode(string reso)
+        {
+            if (reso.Equals("random", StringComparison.OrdinalIgnoreCase))
+            {
+                var numberOfOptions = GetNumberOfOptionInSelect(optionSelect);
+                var random = CommonUtil.GetRandomNumberBetweenRange(1, numberOfOptions - 1);
+                SelectIndexFromDropDown(optionSelect, random);
+            }
+            else
+            {
+                SelectTextFromDropDown(optionSelect, reso);
+            }
             return this;
         }
 
@@ -714,6 +733,21 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TaskConfirmationPage SelectStatusInBulkUpdatePopup(string status)
         {
             SelectTextFromDropDown(statusDd, status);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage SelectResolutionCodeInBulkUpdatePopup(string reso)
+        {
+            if (reso.Equals("random", StringComparison.OrdinalIgnoreCase))
+            {
+                var numberOfOptions = GetNumberOfOptionInSelect(resolutionDd);
+                var random = CommonUtil.GetRandomNumberBetweenRange(0, numberOfOptions - 1);
+                SelectIndexFromDropDown(resolutionDd, random);
+            }
+            else
+            {
+                SelectTextFromDropDown(resolutionDd, reso);
+            }
             return this;
         }
 
