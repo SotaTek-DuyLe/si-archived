@@ -8,6 +8,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Models.Resources;
 
 namespace si_automated_tests.Source.Main.Pages.Resources
 {
@@ -82,6 +83,25 @@ namespace si_automated_tests.Source.Main.Pages.Resources
                 VerifyCellValue(TimeSheetTableEle, 0, TimeSheetTableEle.GetCellIndex(SupplierCell), supplier);
             }
             return this;
+        }
+
+        [AllureStep]
+        public TimeSheetModel DoubleClickBussinessGroup(int rowIdx = 0)
+        {
+            TimeSheetModel timeSheetModel = new TimeSheetModel();
+            timeSheetModel.BussinessUnitGroup = TimeSheetTableEle.GetCellValue(rowIdx, TimeSheetTableEle.GetCellIndex(BusinessUnitGroupCell)).AsString();
+            timeSheetModel.BussinessUnit = TimeSheetTableEle.GetCellValue(rowIdx, TimeSheetTableEle.GetCellIndex(BusinessUnitCell)).AsString();
+            timeSheetModel.Supplier = TimeSheetTableEle.GetCellValue(rowIdx, TimeSheetTableEle.GetCellIndex(SupplierCell)).AsString();
+            TimeSheetTableEle.DoubleClickRow(rowIdx);
+            return timeSheetModel;
+        }
+
+        [AllureStep]
+        public TimeSheetModel DoubleClickEmptySupplier()
+        {
+            IWebElement row = TimeSheetTableEle.GetRowByCellValue(TimeSheetTableEle.GetCellIndex(SupplierCell), "");
+            int rowIdx = TimeSheetTableEle.GetRows().IndexOf(row);
+            return DoubleClickBussinessGroup(rowIdx);
         }
     }
 }
