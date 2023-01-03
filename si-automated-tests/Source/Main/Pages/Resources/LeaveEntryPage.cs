@@ -33,6 +33,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
 
         //ALL RESOURCES TAB
         private readonly By totalUnavailableAM = By.XPath("((//div[@class='tab-pane active']//tr[@style='background-color: skyblue;'])[2]//span)[2]");
+        public readonly By CreateLeaveEntryButton = By.XPath("//button[text()='Create Leave Entry Record']");
 
         [AllureStep]
         public LeaveEntryPage IsOnLeaveEntryPage()
