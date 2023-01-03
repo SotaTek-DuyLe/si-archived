@@ -16,6 +16,22 @@ namespace si_automated_tests.Source.Main.Pages.Resources
     {
         private readonly By bussinessTitle = By.XPath("//span[@title='Business Unit Group - Business Unit: Party']");
         private readonly By bussinessTitleWithoutParty = By.XPath("//span[@title='Business Unit Group - Business Unit']");
+        private string timesheetTable = "//div[@id='timesheet-tab']//table/tbody";
+        private string timesheetRow = "./tr";
+        private string EmployeeNumberCell = "./td//span[@data-bind='text: employeeNumber']";
+        private string JobTitleCell = "./td//span[@data-bind='text: resourceType']";
+        private string NameCell = "./td//span[@class='btn-link']";
+        public TableElement TimeSheetTableEle
+        {
+            get => new TableElement(timesheetTable, timesheetRow, new List<string>() { EmployeeNumberCell, NameCell, JobTitleCell });
+        }
+
+        [AllureStep]
+        public TimeSheetDetailPage ClickOpenResource()
+        {
+            TimeSheetTableEle.ClickCell(0, TimeSheetTableEle.GetCellIndex(NameCell));
+            return this;
+        }
 
         [AllureStep]
         public TimeSheetDetailPage VerifyBussinessTitle(TimeSheetModel timeSheetModel)
