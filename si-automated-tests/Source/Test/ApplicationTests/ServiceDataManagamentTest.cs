@@ -74,7 +74,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 (10, "Address"),
                 (8, "Segment"),
                 (5, "Area"),
-                (7, "Node"),
+                (6, "Node"),
             };
             foreach (var testCase in testCases)
             {

@@ -520,7 +520,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickRefreshBtn();
             string[] valueChangedExp = { ".", "NO.", "YES.", "YES.", "NO.", "YES.", "YES.", "NO.", "YES.", "NO.", licenceNumber + ".", licenceNumberExp + " 00:00.", dormanceDate + " 00:00.", "YES." };
             detailPartyPage
-                .VerifyInfoInHistoryTab(CommonConstants.HistoryTitleAfterUpdateWBTicketTab, valueChangedExp, AutoUser46.DisplayName)
+                .VerifyInfoInHistoryTab(CommonConstants.HistoryTitleAfterUpdateWBTicketTab, valueChangedExp, AutoUser9.DisplayName)
                 .VerifyRestrictedSite("Kingston Tip.");
 
             //API to verify

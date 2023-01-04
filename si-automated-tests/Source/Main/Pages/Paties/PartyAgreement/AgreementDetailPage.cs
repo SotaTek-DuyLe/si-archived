@@ -459,7 +459,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
             Assert.AreEqual(productExp, GetElementText(firstProductValueInStep3), "Product in Step 3 is not correct");
             Assert.AreEqual(unitExp, GetElementText(firstUnitValueInStep3), "Unit in Step 3 is not correct");
             Assert.AreEqual(ewcCodeExp, GetElementText(firstEWCCodeValueInStep3), "EWC Code in Step 3 is not correct");
-            Assert.AreEqual(productQty, GetElementText(firstProductQtyPerAssetInStep3), "Product Qty Per Asset in Step 3 is not correct");
+            Assert.AreEqual(productQty, GetAttributeValue(firstProductQtyPerAssetInStep3, "value"), "Product Qty Per Asset in Step 3 is not correct");
             //Readonly
             Assert.AreEqual("true", GetAttributeValue(productQty, "readonly"), "Product Qty Per Asset in Step 3 is not readonly" );
             return this;
