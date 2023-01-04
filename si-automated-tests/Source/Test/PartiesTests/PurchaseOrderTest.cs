@@ -411,6 +411,17 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName);
+            //Uncheck PO required
+            PageFactoryManager.Get<DetailPartyPage>()
+                .GoToATab("Account");
+            PageFactoryManager.Get<PartyAccountPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .UncheckOnAccountType("PO Number Required")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            //Test path
             PageFactoryManager.Get<DetailPartyPage>()
                 .GoToATab("Purchase Orders");
             PageFactoryManager.Get<PartyPurchaseOrderPage>()
