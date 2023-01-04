@@ -507,5 +507,42 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //    .VerifyToastMessage("Default resource-type cleared")
             //    .WaitUntilToastMessageInvisible("Default resource-type cleared");
         }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_264_Leave_Entry_Rescode()
+        {
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            LeaveEntryPage leaveEntryPage = PageFactoryManager.Get<LeaveEntryPage>();
+            leaveEntryPage.WaitForLoadingIconToDisappear();
+            leaveEntryPage.ClickOnElement(leaveEntryPage.CreateLeaveEntryButton);
+            leaveEntryPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            CreateLeaveEntryPage createLeaveEntryPage = PageFactoryManager.Get<CreateLeaveEntryPage>();
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            //Verify whether when user selects a resource state in the Leave Type dropdown that has mandatoryrescode = TRUE, show the Reason field in red to denote it is a mandatory field
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.ResourceDropdown);
+            createLeaveEntryPage.SelectByDisplayValueOnUlElement(createLeaveEntryPage.OpenDropDown, "Margaret Knight");
+            createLeaveEntryPage.SelectTextFromDropDown(createLeaveEntryPage.LeaveTypeDropdown, "Jury Service")
+                .SleepTimeInMiliseconds(200);
+            createLeaveEntryPage.VerifyElementIsMandatory(createLeaveEntryPage.ReasonDropdown, false);
+            createLeaveEntryPage.SelectTextFromDropDown(createLeaveEntryPage.LeaveTypeDropdown, "Holiday")
+                .SleepTimeInMiliseconds(200);
+            createLeaveEntryPage.VerifyElementIsMandatory(createLeaveEntryPage.ReasonDropdown, true);
+            createLeaveEntryPage.SendKeys(createLeaveEntryPage.FromDateInput, londonCurrentDate.ToString("dd/MM/yyyy"));
+            createLeaveEntryPage.WaitForLoadingIconToDisappear();
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.ToDateInput);
+            createLeaveEntryPage.WaitForLoadingIconToDisappear();
+            //Verify whether save is still enabled, and if user selects the Save button the error displays
+            createLeaveEntryPage.VerifyElementEnable(createLeaveEntryPage.SaveButton, true);
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.SaveButton);
+            createLeaveEntryPage.VerifyToastMessage("Reason is required");
+            
+        }
     }
 }
