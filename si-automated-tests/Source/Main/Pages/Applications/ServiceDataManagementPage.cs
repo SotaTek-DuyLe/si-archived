@@ -23,6 +23,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By ApplyFilterBtn = By.XPath("//div[@id='screen1']//button[@id='filter-button']");
         public readonly By ClearFilterBtn = By.XPath("//div[@id='screen1']//button[@id='clear-filters-button']");
 
+        public readonly By SelectAndDeselectAllCheckbox = By.XPath("//div[@id='point-grid']//div[@title='Select/Deselect All']//input");
+
         /// <summary>
         /// SDM: Service Data Management
         /// </summary>
@@ -104,33 +106,38 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public Dictionary<int, List<object>> ClickMultiPointAddress(int rowCount)
         {
             Dictionary<int, List<object>> rows = new Dictionary<int, List<object>>();
-            for (int i = 0; i < rowCount; i++)
+            int i = 0;
+            while (i < rowCount)
             {
                 List<IWebElement> unselectedRows = ServiceDataManagementTableElement.GetRows().Where(x => !x.FindElement(By.XPath(SDMCheckboxXPath)).Selected).ToList();
                 if (unselectedRows.Count == 0)
                 {
-                    int retry = 0;
-                    while (retry <= 10)
+                    return rows;
+                }
+
+                int j = 0;
+                while (j < unselectedRows.Count)
+                {
+                    try
                     {
-                        retry++;
-                        Thread.Sleep(100);
+                        rows.Add(i, ServiceDataManagementTableElement.GetRowValue(unselectedRows[j]));
+                        unselectedRows[j].FindElement(By.XPath(SDMCheckboxXPath)).Click();
+                        j++;
+                        i++;
+                    }
+                    catch (OpenQA.Selenium.StaleElementReferenceException ex)
+                    {
+                        SleepTimeInMiliseconds(200);
                         unselectedRows = ServiceDataManagementTableElement.GetRows().Where(x => !x.FindElement(By.XPath(SDMCheckboxXPath)).Selected).ToList();
-                        if (unselectedRows.Count != 0)
-                        {
-                            break;
-                        }
-                        else if (retry == 10)
-                        {
-                            return rows;
-                        }
+                        j = 0;
+                        rows.Add(i, ServiceDataManagementTableElement.GetRowValue(unselectedRows[j]));
+                        unselectedRows[j].FindElement(By.XPath(SDMCheckboxXPath)).Click();
+                        j++;
+                        i++;
                     }
                 }
-                if (unselectedRows.Count != 0)
-                { 
-                    rows.Add(i, ServiceDataManagementTableElement.GetRowValue(unselectedRows[0]));
-                    unselectedRows[0].FindElement(By.XPath(SDMCheckboxXPath)).Click();
-                }
-                if(i >= 299) WaitForLoadingIconToDisappear();
+                if (i >= 299) WaitForLoadingIconToDisappear();
+                WaitUtil.WaitForElementClickable(By.XPath($"(//div[@id='screen1']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]//div[@class='slick-cell l0 r0']//input[not(@checked)])[1]"));
             }
             return rows;
         }
@@ -153,6 +160,24 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             {
                 Assert.IsTrue(MasterTableElement.GetCellAttribute(selectedRowIdx, 0, "src").Contains("service-unit.png"));
                 Assert.IsTrue(MasterTableElement.GetCellCss(selectedRowIdx, 1, "background-color") == "rgba(153, 204, 204, 1)");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyDescriptionLayout(Dictionary<int, List<object>> rowDatas)
+        {
+            var rows = DescriptionTableElement.GetRows();
+            int rowIdx = 0;
+            foreach (var row in rows)
+            {
+                if (rowIdx > rowDatas.Count) break;
+                List<object> pointValues = rowDatas[rowIdx];
+                ScrollDownToElement(row, false);
+                Assert.IsTrue(DescriptionTableElement.GetCellVisibility(row, 0));
+                Assert.IsTrue(DescriptionTableElement.GetCellValue(row, 2).AsString() == pointValues[3].AsString());
+                Assert.IsTrue(GetDescriptionStatus(DescriptionTableElement.GetCellAttribute(row, 1, "src")).Contains(pointValues[6].AsString()));
+                rowIdx++;
             }
             return this;
         }

@@ -153,7 +153,8 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         [AllureStep]
         public int GetServicePanelUnDisplayCount()
         {
-            return GetAllElements(serviceAgreementPanel).Count;
+            var serviceAgreements = this.driver.FindElements(serviceAgreementPanel).Where(x => x.Displayed);
+            return serviceAgreements.Count();
         }
 
         [AllureStep]

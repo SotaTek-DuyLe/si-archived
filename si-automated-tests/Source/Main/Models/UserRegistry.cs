@@ -66,6 +66,7 @@ namespace si_automated_tests.Source.Main.Models
         public static User AutoUser60;
         public static User AutoUser66;
         public static User AutoUser67;
+        public static User AutoUser69;
         public static User AutoUser71;
         public static User TestAutoUser;
 
@@ -143,6 +144,7 @@ namespace si_automated_tests.Source.Main.Models
             AutoUser60 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_60"].ToString());
             AutoUser66 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_66"].ToString());
             AutoUser67 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_67"].ToString());
+            AutoUser69 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_69"].ToString());
             AutoUser71 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_71"].ToString());
             TestAutoUser = JsonConvert.DeserializeObject<User>(jsonObject["testauto"].ToString());
         } 

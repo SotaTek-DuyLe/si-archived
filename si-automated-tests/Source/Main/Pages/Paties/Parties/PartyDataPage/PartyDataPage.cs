@@ -14,7 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyDataPage
         private readonly By customer = By.XPath("//button[text()='Customer']");
         private const string collapseIn = "//div[@class='collapse in']";
         private const string collapse = "//div[@class='collapse']";
-        private readonly By imageInput = By.XPath(collapseIn + "//label[text()='Customer Logo']/following-sibling::div[@class='img-thumbnail']");
+        private readonly By imageInput = By.XPath(collapseIn + "//label[text()='Customer Logo']/following-sibling::div[contains(@class,'img-thumbnail')]");
         private readonly By notesInput = By.XPath(collapseIn + "//label[text()='Notes']/following-sibling::input");
 
 
