@@ -22,7 +22,7 @@ namespace si_automated_tests.Source.Core
         private readonly By refreshBtn = By.XPath("//button[@title='Refresh']");
         private readonly By saveBtn = By.XPath("//button[@title='Save']");
         private readonly By saveAndCloseBtn = By.XPath("//button[@title='Save and Close']");
-        private readonly By deleteItemBtn = By.XPath("//button[@title='Delete Item']");
+        private readonly By deleteItemBtn = By.XPath("//button[contains(.,'Delete Item')]");
         private readonly By confirmActionButton = By.XPath("//button[@data-bb-handler='Confirm']");
         private readonly string tab = "//a[@data-toggle='tab' and contains(text(),'{0}')]";
         private readonly string tabs = "//a[@data-toggle='tab']";
