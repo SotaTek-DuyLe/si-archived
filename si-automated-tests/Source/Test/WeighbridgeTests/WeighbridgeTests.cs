@@ -454,7 +454,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             CommonFinder commonFinder = new CommonFinder(DbContext);
 
             string partyId = "1122";
-            string userId = "1092";
+            string userId = "51";
             string partyName = "The Mitre";
             string restrictedSite = "Kingston Tip - 20 Chapel Mill Road, Kingston upon Thames, KT1 3GZ";
             string licenceNumber = CommonUtil.GetRandomNumber(5);
