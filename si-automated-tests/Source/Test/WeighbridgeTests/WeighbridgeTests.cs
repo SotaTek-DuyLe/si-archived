@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Allure.Core;
+using System.Linq;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
@@ -443,6 +444,852 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             detailPartyPage
                 .VerifyWBSettingTab();
         }
+
+        //BUG
+        [Category("Bug fix")]
+        [Category("Chang")]
+        [Test(Description = "The Weighbridge setting is not recorded in party actions (bug fix)")]
+        public void TC_177_The_Weighbridge_setting_is_not_recorded_in_party_actions()
+        {
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+
+            string partyId = "1122";
+            string userId = "1092";
+            string partyName = "The Mitre";
+            string restrictedSite = "Kingston Tip - 20 Chapel Mill Road, Kingston upon Thames, KT1 3GZ";
+            string licenceNumber = CommonUtil.GetRandomNumber(5);
+            string licenceNumberExp = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
+            string dormanceDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(partyId)
+                .OpenFirstResult()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
+                .ClickWBSettingTab()
+                .WaitForLoadingIconToDisappear();
+            //Change some fields in tab
+            detailPartyPage
+                //Change [Auto-print Weighbridge Ticket] - Before: Ticked
+                .ClickOnAutoPrintTickedCheckbox();
+            //Change [purchase order number required] - Before: UnTicked
+            detailPartyPage
+                //.ClickOnPurchaseOrderNumberRequiredCheckbox()
+                //Change [driver name required] - Before: UnTicked
+                .ClickOnDriverNameRequiredCheckbox()
+                //Change [use stored purchase order number] - Before: UnTicked
+                .ClickOnUseStorePoNumberCheckbox()
+                //Change [allow manual purchase order number,] - Before: Ticked
+                .ClickOnAllowManualPoNumberCheckbox()
+                //Change [external round code required] - Before: UnTicked
+                .ClickOnExternalRoundCodeRequiredCheckbox()
+                //Change [use stored external round code] - Before: UnTicked
+                .ClickOnUseStoredExternalRoundCodeRequiredCheckbox()
+                //Change [allow manual external round code] - Before: Ticked
+                .ClickOnAllowManualExternalRoundCodeCheckbox()
+                //Change [allow manual name entry] - Before: UnTicked
+                .ClickOnAllowManualNameEntryCheckbox()
+                //Change [Restrict Products] - Before: UnTicked
+                .ClickOnRestrictProductsCheckbox()
+                //Select [Authorise Tipping] - Before [Do Not Override On Stop]
+                .SelectAnyOptionAuthoriseTipping("Never Allow Tipping")
+                //Select [Restricted Sites]
+                .SelectAnyOptionRestrictedSites(restrictedSite)
+                //Input [Licence Number]
+                .InputLicenceNumber(licenceNumber)
+                //Input [Licence Number Expiry]
+                .InputLienceNumberExField(licenceNumberExp)
+                //Input [Domain Date]
+                .InputDormantDate(dormanceDate)
+                //Clear [Warning Limit £]
+                .ClearTextInWarningLimit()
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            //.VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+            //.WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Click on [History] tab and verify
+            detailPartyPage
+                .ClickOnHistoryTab()
+                .ClickRefreshBtn();
+            string[] valueChangedExp = { ".", "NO.", "YES.", "YES.", "NO.", "YES.", "YES.", "NO.", "YES.", "NO.", licenceNumber + ".", licenceNumberExp + " 00:00.", dormanceDate + " 00:00.", "YES." };
+            detailPartyPage
+                .VerifyInfoInHistoryTab(CommonConstants.HistoryTitleAfterUpdateWBTicketTab, valueChangedExp, AutoUser46.DisplayName)
+                .VerifyRestrictedSite("Kingston Tip.");
+
+            //API to verify
+            List<PartyActionDBModel> list = commonFinder.GetPartyActionByPartyIdAndUserId(partyId, userId);
+            PartyActionDBModel partyActionDBModel = list[1];
+            Assert.AreEqual(licenceNumber, partyActionDBModel.wb_licencenumber, "Licence number is incorrect");
+            Assert.IsFalse(partyActionDBModel.wb_autoprint, "Auto-print is incorrect");
+            Assert.IsTrue(partyActionDBModel.wb_driverrequired, "Driver Name Required is incorrect");
+            //Assert.IsTrue(partyActionDBModel.wb_driverrequired, "Purchase Order Number Required is incorrect");
+            Assert.IsTrue(partyActionDBModel.wb_usestoredpo, "Use Stored Purchase Order Number is incorrect");
+            Assert.IsFalse(partyActionDBModel.wb_usemanualpo, "Allow Manual Purchase Order Number is incorrect");
+            Assert.IsTrue(partyActionDBModel.wb_externalroundrequired, "External Round Code Required is incorrect");
+            Assert.IsTrue(partyActionDBModel.wb_usestoredround, "Use Stored External Round Code is incorrect");
+            Assert.IsFalse(partyActionDBModel.wb_usemanualround, "Allow Manual External Round Code is incorrect");
+            Assert.IsTrue(partyActionDBModel.wb_allowmanualname, "Allow Manual Name Entry is incorrect");
+            Assert.IsTrue(partyActionDBModel.wb_restrictproducts, "Restrict Products is incorrect");
+            Assert.AreEqual(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 2), partyActionDBModel.wb_licencenumberexpiry.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), "Licence Number Expiry is incorrect");
+            Assert.AreEqual(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_MM_DD_YYYY_FORMAT, 3), partyActionDBModel.wb_dormantdate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), "Dormant Date is incorrect");
+            Assert.AreEqual(null, partyActionDBModel.wb_creditlimitwarning, "Warning Limit £ is incorrect");
+        }
+
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "Customer specific weighbridge settings")]
+        public void TC_261_Customer_specific_weighbridge_settings()
+        {
+            //Seting WB
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(WebUrl.WBSettingUrlIE);
+            PageFactoryManager.Get<WBActiveIEPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<WBActiveIEPage>()
+                .IsWBActivePage()
+                //Step line 9: Set [WB Active] to false
+                .InputSettingValue("False")
+                .ClickOnSaveWBSetting()
+                .WaitForLoadingIconToDisappear();
+            //Step line 10: Verify [WB Settings] tab is not displayed in [Party detail]
+            PageFactoryManager.Get<BasePage>()
+                .SleepTimeInSeconds(2)
+                .GoToURL(WebUrl.MainPageUrl + "web/parties/1085");
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully("Richmond upon Thames College")
+                .VerifyWBSettingTabIsNotDisplayed();
+            //Step line 11: Set [WB Active] is true
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(WebUrl.WBSettingUrlIE);
+            PageFactoryManager.Get<WBActiveIEPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<WBActiveIEPage>()
+                .IsWBActivePage()
+                .InputSettingValue("True")
+                .ClickOnSaveWBSetting()
+                .WaitForLoadingIconToDisappear();
+            //Step line 12: Verify [WB Settings] tab is displayed in [Party detail]
+            PageFactoryManager.Get<BasePage>()
+                .SleepTimeInSeconds(3)
+                .GoToURL(WebUrl.MainPageUrl + "web/parties/1085");
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<DetailPartyPage>()
+                .Refresh();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully("Richmond upon Thames College")
+                .ClickWBSettingTab()
+                .WaitForLoadingIconToDisappear();
+            //Step line 13: Click on [WB Settings] and verify the correct settings
+            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifyWBSettingTab();
+        }
+
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "Verify that Grey list can be created")]
+        public void TC_260_Grey_lists_Verify_greylist_can_be_created()
+        {
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+            string firstResourceName = "1_TC260_" + CommonUtil.GetRandomNumber(5);
+            string secondResourceName = "2_TC260_" + CommonUtil.GetRandomNumber(5);
+            string businessUnit = "Collections - Recycling";
+            string inactiveResource = "COM7 NST";
+            string vehicleTypeName = "Van";
+            string partyNameHaulier = "TC260_PartyHaulier" + CommonUtil.GetRandomNumber(4);
+            string partyNameCustomer = "TC260_PartyCustomer" + CommonUtil.GetRandomNumber(4);
+            string siteName260 = "Site Twickenham 260" + CommonUtil.GetRandomNumber(4);
+            string product = "Armchair";
+            string locationNameActive = "Location260WBActive" + CommonUtil.GetRandomNumber(2);
+
+            string stationNameTC260 = "AutoStation260" + CommonUtil.GetRandomNumber(4);
+
+            //Create new Resource with type = Van in TC51
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .SelectResourceType(vehicleTypeName)
+                .SelectBusinessUnit(businessUnit)
+                .InputResourceName(firstResourceName)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveResourceSuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .SelectResourceType(vehicleTypeName)
+                .SelectBusinessUnit(businessUnit)
+                .InputResourceName(secondResourceName)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveResourceSuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+
+            //CREATE: Create party customer and party haulier
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame();
+            //Create new party Haulier TC047
+            PageFactoryManager.Get<PartyCommonPage>()
+                .ClickAddNewItem()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<CreatePartyPage>()
+                .IsCreatePartiesPopup(Contract.Commercial)
+                .SendKeyToThePartyInput(partyNameHaulier)
+                .SelectPartyType(2)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+            //Create new party Customer TC045
+            PageFactoryManager.Get<PartyCommonPage>()
+                .ClickAddNewItem()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<CreatePartyPage>()
+                .IsCreatePartiesPopup(Contract.Commercial)
+                .SendKeyToThePartyInput(partyNameCustomer)
+                .SelectPartyType(1)
+                .ClickSaveBtn();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                //.VerifyDisplaySuccessfullyMessage()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .ClickOnDetailsTab();
+            string partyCustomerId = detailPartyPage
+                .GetPartyId();
+
+            detailPartyPage
+                .ClickAddCorrespondenceAddress()
+                .SwitchToLastWindow();
+            PartySiteAddressPage partySiteAddressPage = PageFactoryManager.Get<PartySiteAddressPage>();
+            partySiteAddressPage.WaitForLoadingIconToDisappear();
+            partySiteAddressPage.IsOnPartySiteAddressPage()
+                .InputTextToSearchBar(address)
+                .ClickSearchBtn()
+                .VerifySearchedAddressAppear(address)
+                .ClickOnSearchedAddress(address)
+                .ClickOnNextButton()
+                .SwitchToLastWindow();
+            CreateEditSiteAddressPage createEditSiteAddressPage = PageFactoryManager.Get<CreateEditSiteAddressPage>();
+            createEditSiteAddressPage
+                .WaitForLoadingIconToDisappear();
+            addressAdded45 = createEditSiteAddressPage
+                .SelectRandomSiteAddress();
+            createEditSiteAddressPage
+                .SelectAddressClickNextBtn()
+                .InsertSiteName(siteName260)
+                .ClickAnySiteInDd(siteName)
+                .ClickCreateBtn()
+                .SwitchToChildWindow(2);
+            detailPartyPage.WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded45)
+                .ClickOnInvoiceAddressButton()
+                .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded45)
+                .SelectCreatedAddress(addressAdded45)
+                //Internal flag checked
+                .ClickInternalCheckbox()
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            //.VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
+            //Create new Vehicle
+            detailPartyPage
+                .ClickOnVehicleTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .VerifyTableDisplayedInVehicle()
+                .ClickAddNewVehicleBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AddVehiclePage>()
+                .IsCreateVehicleCustomerHaulierPage()
+                .InputResourceName(secondResourceName)
+                .SelectResourceName(secondResourceName)
+                .InputHaulierName(partyNameHaulier)
+                //Input haulier name in TC47
+                .SelectHaulierName(partyNameHaulier)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            //Create new station in TC048
+            detailPartyPage
+                .ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .OpenFirstSiteRow()
+                .SwitchToLastWindow();
+            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
+            siteDetailPage
+                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName260 + " / " + addressAdded45)
+                .ClickStationTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .ClickAddNewStationItem()
+                .SwitchToLastWindow();
+            CreateStationPage createStationPage = PageFactoryManager.Get<CreateStationPage>();
+            createStationPage
+                .WaitForLoadingIconToDisappear();
+            createStationPage
+                .WaitForCreateStationPageLoaded("WEIGHBRIDGE STATION")
+                .IsCreateStationPage()
+                .SelectTimezone("Europe/London")
+                .InputName(stationNameTC260)
+                .SelectDefaultTicket("Incoming")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            createStationPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            //TC54: Create new product in Product tab
+            siteDetailPage
+                .ClickProductTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .VerifyDisplayColumnInProductTabGrid()
+                .ClickAddNewProductItem()
+                .SwitchToLastWindow();
+            AddProductPage addProductPage = PageFactoryManager.Get<AddProductPage>();
+            //Bug
+            addProductPage
+                .WaitForAddProductPageDisplayed()
+                .IsAddProductPage()
+                //Select any product
+                .ClickAnyProduct(product)
+                //Select any ticket Type
+                .ClickAnyTicketType("Incoming")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            siteDetailPage
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+
+            //Create new ticket 
+            detailPartyPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Tickets")
+                .SwitchNewIFrame();
+            TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
+            ticketListingPage
+                .WaitForLoadingIconToDisappear();
+            ticketListingPage
+                .ClickAddNewTicketBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC260)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(secondResourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                //Verify vehicle type field displayed
+                .VerifyDisplayVehicleType("Van")
+                //Verify Ticket Type field displayed
+                .VerifyDisplayTicketTypeInput()
+                .ClickTicketType()
+                .VerifyValueInTicketTypeDd()
+               //Select Ticket Type is the same with TicketType of the product
+               .ClickAnyTicketType("Incoming")
+                //Verify Haulie field displayed
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            //Add ticket line
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                //Select Product created
+                .ClickProductDd()
+                .ClickAnyProductValue(product)
+                //Input Net quantity
+                .InputNetQuantity("12")
+                //Input LicenceNumber
+                .InputLicenceNumber()
+                //Input Licence Number Exp
+                .InputLicenceNumberExpDate()
+                .ClickSaveBtn();
+            createNewTicketPage
+                .ClickOnNoWarningPopup();
+            createNewTicketPage
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Get ticket number
+            string ticketNumber = createNewTicketPage
+                .GetTicketNumber();
+
+            createNewTicketPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchToDefaultContent();
+            //START: TEST for TC260
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Grey Lists")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<GreyListPage>()
+                .IsGreyListPage()
+                //Step line 11: [Add new item] btn
+                .ClickOnAddNewItemBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .IsCreateWBGreyListPage()
+                //Step line 12: Select a vehicle and [Save]
+                .InputVehicle(firstResourceName)
+                .SelectVehicleName(firstResourceName)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.GreylistCodeIsRequiredMessage);
+
+            //API: Get [Grey list] code
+            List<GreyListCodeDBModel> greyListCodeDBModels = commonFinder.GetGreyList();
+            List<string> greyListDesc = greyListCodeDBModels.Select(p => p.description).ToList();
+
+            //Step line 14: Input [Inactive resource] on Grey list form
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .ClickOnGreylistCode()
+                .InputValueInGreyListCode(inactiveResource)
+                .VerifyNoResultMatchedGreylistCode(inactiveResource)
+                //Step line 15: Click on [Greylist] code and verify codes
+                .ClickOnGreylistCodeAndVerifyValueMatchingDB(greyListDesc)
+                //Step line 16: Select one [Greylist] code and click [Save]
+                .InputValueInGreyListCode(greyListDesc[0])
+                .ClickOnAnyGreyListCode(greyListDesc[0])
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+            string lastUpdated = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .VerifyValueInLastUpdatedBy(AutoUser9.DisplayName)
+                .VerifyValueInLastUpdated(lastUpdated)
+                //Step line 17: Change [Vehicle] value and click [Save]
+                .InputVehicle(secondResourceName)
+                .SelectVehicleName(secondResourceName)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+            string lastUpdatedAfter = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .VerifyValueInLastUpdatedBy(AutoUser9.DisplayName)
+                .VerifyValueInLastUpdated(lastUpdatedAfter)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+
+            //Step line 18: Add new ticket
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .OpenOption("Tickets")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TicketListingPage>()
+                .IsTicketListingPage()
+                .ClickAddNewTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC260)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(secondResourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsGreylistCodeModel(secondResourceName, greyListDesc[0]);
+            string greylistId = createNewTicketPage.GetGreylistCodeId();
+            createNewTicketPage
+                .ClickOnGreyListId()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .IsCreateWBGreyListPage()
+                //Step line 20: Select [Customer] and [Haulier]
+                .ClickAndSelectCustomer(partyNameCustomer)
+                .ClickAndSelectHaulier(partyNameHaulier)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+            string updatedValue_2 = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .VerifyValueInLastUpdatedBy(AutoUser9.DisplayName)
+                .VerifyValueInLastUpdated(updatedValue_2)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            //Step line 21: Click back on the Ticket and Refresh
+            createNewTicketPage
+                .ClickOnOkBtn()
+                .WaitForPopupDisappear()
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC260)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(secondResourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsGreylistCodeModel(secondResourceName, greyListDesc[0])
+                //Step line 22: Click on the Grey list ID
+                .ClickOnGreyListId()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            string comment = "Comment " + CommonUtil.GetRandomString(5);
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .IsCreateWBGreyListPage()
+                //Step line 23: Select one [Visited site] and change [Greylist Code] > Add Comment
+                .ClickAndSelectVisitedSite("Kingston Tip")
+                .ClickOnGreylistCode()
+                .InputValueInGreyListCode(greyListDesc[1])
+                .ClickOnAnyGreyListCode(greyListDesc[1])
+                .InputComment(comment)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .VerifyValueInLastUpdatedBy(AutoUser9.DisplayName)
+                .VerifyCommentValue(comment)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            createNewTicketPage
+                .ClickOnOkBtn()
+                .WaitForPopupDisappear()
+                //Step line 24: Click back on the Ticket and Refresh the screen
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC260)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(secondResourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsGreylistCodeModel(secondResourceName, greyListDesc[1])
+                //Step line 25: Click on the Grey list ID
+                .ClickOnGreyListId()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .IsCreateWBGreyListPage()
+                //Step line 26: Input [Start date] to tomorrow and Save
+                .InputStartDate(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .VerifyValueInLastUpdatedBy(AutoUser9.DisplayName)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            createNewTicketPage
+                .ClickOnOkBtn()
+                .WaitForPopupDisappear()
+                //Step line 27: Click back on the ticket and Refresh the screen => Grey list popup is not displayed
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC260)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(secondResourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerityGreylistCodeModelIsNotDisplayed()
+                .ClickCloseBtn()
+                .AcceptAlert()
+                .SwitchToChildWindow(1)
+                .SwitchToDefaultContent();
+            //Step line 28: Click back on the Grey list form and change start date to the past and End date yesterday
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .OpenOption("Grey Lists")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            string startDateInThePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -2);
+            string endDateInThePast = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -1);
+            PageFactoryManager.Get<GreyListPage>()
+                .IsGreyListPage()
+                .FilterGreylistCodeById(greylistId)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .IsCreateWBGreyListPage()
+                .InputStartDate(startDateInThePast)
+                .InputEndDate(endDateInThePast)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .VerifyValueInLastUpdatedBy(AutoUser9.DisplayName)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchToDefaultContent();
+            //Step line 29: Click back on the Ticket and Refresh the screen and verify the grey list popup is not displayed
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .OpenOption("Tickets")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TicketListingPage>()
+                .IsTicketListingPage()
+                .ClickAddNewTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC260)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(secondResourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerityGreylistCodeModelIsNotDisplayed()
+                .ClickCloseBtn()
+                .AcceptAlert()
+                .SwitchToChildWindow(1)
+                .SwitchToDefaultContent();
+            //Step line 30: Click on [Ticket] and select one ticket
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .OpenOption("Grey Lists")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<GreyListPage>()
+                .IsGreyListPage()
+                .FilterGreylistCodeById(greylistId)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .IsCreateWBGreyListPage()
+                .ClickOnTicketDdAndVerify(new string[] { ticketNumber })
+                //Step line 31: Select one ticket and verify value is populated
+                .SelectOneTicket(ticketNumber)
+                .WaitForLoadingIconToDisappear();
+            string newComment = "New comment";
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .VerifyValueInCustomer(partyNameCustomer)
+                .VerifyValueInHaulier(partyNameHaulier)
+                .VerifyValueInVisitedSite(siteName260)
+                //Step line 32: Select a greylist code and add comment
+                .ClickOnGreylistCode()
+                .InputValueInGreyListCode(greyListDesc[2])
+                .ClickOnAnyGreyListCode(greyListDesc[2])
+                .InputComment(newComment)
+                .InputEndDate(CommonConstants.FUTURE_END_DATE)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .VerifyValueInLastUpdatedBy(AutoUser9.DisplayName)
+                .VerifyCommentValue(newComment)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchToDefaultContent();
+            //Step line 33: Click back on the Ticket and refresh
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .OpenOption("Tickets")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TicketListingPage>()
+                .IsTicketListingPage()
+                .ClickAddNewTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC260)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(secondResourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsGreylistCodeModel(secondResourceName, greyListDesc[2])
+                //Step line 34: Click on the Grey list ID
+                .ClickOnGreyListId()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .IsCreateWBGreyListPage()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            createNewTicketPage
+                .ClickOnOkBtn()
+                .WaitForPopupDisappear()
+                .ClickCloseBtn()
+                .AcceptAlert()
+                .SwitchToChildWindow(1)
+                .SwitchToDefaultContent();
+            //Step line 35: Create two tickets on Weighbridge Tickets
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(partyCustomerId)
+                .OpenFirstResult()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
+                .ClickWBTicketTab()
+                .ClickAddNewWBTicketBtn()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC260)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(secondResourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsGreylistCodeModel(secondResourceName, greyListDesc[2])
+                .ClickOnOkBtn()
+                .WaitForPopupDisappear()
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .ClickAnySource(partyNameCustomer)
+                .WaitForLoadingIconToDisappear();
+            //Add ticket line
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                //Select Product created
+                .ClickProductDd()
+                .ClickAnyProductValue(product)
+                //Input Net quantity
+                .InputNetQuantity("12")
+                //Input LicenceNumber
+                .InputLicenceNumber()
+                //Input Licence Number Exp
+                .InputLicenceNumberExpDate()
+                .ClickSaveBtn();
+            createNewTicketPage
+                //Step line 36: Click on [Yes] btn
+                .ClickOnYesWarningPopup()
+                .IsPayForThisTicketPopup()
+                .VerifyAmountPaidValue("33.84")
+                //Step line 37: Change [Amount paid] to ticket line will be underpaid and click [Pay]
+                .InputAmountPaidValue("30")
+                .ClickOnPayBtn()
+                .IsWarningAmountPaidNotEqualToTicketPrice()
+                //Step line 38: Click on [Yes] btn
+                .ClickOnYesWarningAmountPaidPopupBtn()
+                .IsGreyListCodePopup()
+                .VerifyCommentValueGreyListCodePopup("WB-", "33.84", "30")
+                //Step line 39: Select one [Greylist] code in dd
+                .SelectOnGreylistCode(greyListDesc[1])
+                .ClickOnSaveGreyListCodePopupBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            string ticketNumberNew = createNewTicketPage
+                .GetTicketNumber();
+            createNewTicketPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchToDefaultContent();
+            //Step line 40: Go to WB
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .OpenOption("Grey Lists")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<GreyListPage>()
+               .IsGreyListPage()
+               .FilterGreylistCodeByTicket(ticketNumberNew)
+               .SwitchToChildWindow(2)
+               .WaitForLoadingIconToDisappear();
+            string[] expComment = { ticketNumberNew, "33.84", "30" };
+            PageFactoryManager.Get<CreateGreyListPage>()
+                .IsCreateWBGreyListPage()
+                .VerifyAllValueInWBGreylistDetail(secondResourceName, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonConstants.FUTURE_END_DATE, ticketNumberNew, partyNameCustomer, partyNameHaulier, siteName260, greyListDesc[1], expComment, AutoUser9.DisplayName, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchToDefaultContent();
+            //Step line 41: Verify in Add new item WB ticket grid
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .OpenOption("Tickets")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TicketListingPage>()
+                .IsTicketListingPage()
+                .ClickAddNewTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC260)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(secondResourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsGreylistCodeModel(secondResourceName, new string[] { greyListDesc[2], greyListDesc[1]});
+
+        }
+
 
         [Category("WB")]
         [Category("Chang")]

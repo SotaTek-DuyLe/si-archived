@@ -6,6 +6,7 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.Pages.WB.Sites;
 
 namespace si_automated_tests.Source.Main.Pages.WB.Tickets
 {
@@ -23,9 +24,18 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         private readonly By addTicketLineBtn = By.XPath("//button[text()='Add']");
         private readonly By licenceNumberExpDate = By.CssSelector("input[id='licence-number-expiry']");
         private readonly By licenceNumber = By.CssSelector("input[id='licence-number']");
+        private readonly By netQuantity = By.XPath("//input[contains(@data-bind, 'value: netQuantity')]");
         public readonly By SourcePartySelect = By.XPath("//select[@id='source-party']");
         public readonly By PONumberInput = By.XPath("//input[@id='po-number']");
         public readonly By AddButton = By.XPath("//button[text()='Add' and contains(@data-bind, 'addTicketLine')]");
+        private readonly By ticketNumberInput = By.CssSelector("input[id='ticket-number']");
+
+        //Warning popup
+        private readonly By titleWarningPopup = By.XPath("//h4[text()=\"Warning - Customer's account type has allow cash payment set to true.\"]");
+        private readonly By bodyWarningPopup = By.XPath("//div[text()='Take Payment due?']");
+        private readonly By yesBtn = By.XPath("//div[text()='Take Payment due?']/ancestor::div//button[text()='Yes']");
+        private readonly By noBtn = By.XPath("//div[text()='Take Payment due?']/ancestor::div//button[text()='No']");
+
         //Ticket line
         private readonly By productDd = By.XPath("//tbody[@data-bind='foreach: ticketLines']//td[2]/select");
         private readonly By locationDd = By.XPath("//tbody[@data-bind='foreach: ticketLines']//td[3]/select");
@@ -204,7 +214,6 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         {
             SendKeys(vehicleReg, vehicleValue);
             ClickOnElement(anyOption, vehicleValue);
-            ClickOnElement(title);
             return this;
         }
         [AllureStep]
@@ -249,6 +258,12 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return this;
         }
         [AllureStep]
+        public CreateNewTicketPage VerifyFirstSelectedValueInTicketType(string ticketTypeValue)
+        {
+            Assert.AreEqual(ticketTypeValue, GetFirstSelectedItemInDropdown(ticketTypeDd));
+            return this;
+        }
+        [AllureStep]
         public CreateNewTicketPage ClickAnyTicketType(string ticketType)
         {
             ClickOnElement(ticketTypeOption, ticketType);
@@ -272,6 +287,12 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return this;
         }
         [AllureStep]
+        public CreateNewTicketPage ClickAnySource(string sourceName)
+        {
+            SelectTextFromDropDown(SourcePartySelect, sourceName);
+            return this;
+        }
+        [AllureStep]
         public CreateNewTicketPage ClickAddTicketLineBtn()
         {
             ScrollToBottomOfPage();
@@ -288,6 +309,139 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         public CreateNewTicketPage InputLicenceNumber()
         {
             SendKeys(licenceNumber, CommonUtil.GetRandomNumber(5));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage InputNetQuantity(string netQtyValue)
+        {
+            SendKeys(netQuantity, netQtyValue);
+            return this;
+        }
+        [AllureStep]
+        public CreateNewTicketPage ClickOnNoWarningPopup()
+        {
+            WaitUtil.WaitForElementVisible(titleWarningPopup);
+            ClickOnElement(noBtn);
+            return this;
+        }
+        [AllureStep]
+        public CreateNewTicketPage ClickOnYesWarningPopup()
+        {
+            WaitUtil.WaitForElementVisible(titleWarningPopup);
+            ClickOnElement(yesBtn);
+            return this;
+        }
+        [AllureStep]
+        public string GetTicketNumber()
+        {
+            return GetAttributeValue(ticketNumberInput, "value");
+        }
+        //PAY for this ticket
+        private readonly By titlePayForThisTicketPopup = By.XPath("//h4[text()='Pay for this ticket']");
+        private readonly By amountPaidInput = By.CssSelector("input[id='amount-paid']");
+        private readonly By paymentMethodDd = By.CssSelector("select[id='payment-method']");
+        private readonly By paymentRefInput = By.CssSelector("input[id='payment-reference']");
+        private readonly By noteInput = By.CssSelector("textarea[id='payment-notes']");
+        private readonly By payBtn = By.XPath("//button[text()='Pay']");
+        private readonly By cancelPayForThisTicketPopupBtn = By.XPath("//button[text()='Pay']/following-sibling::button[text()='Cancel']");
+
+        [AllureStep]
+        public CreateNewTicketPage IsPayForThisTicketPopup()
+        {
+            WaitUtil.WaitForElementVisible(titlePayForThisTicketPopup);
+            Assert.IsTrue(IsControlDisplayed(amountPaidInput));
+            Assert.IsTrue(IsControlDisplayed(paymentMethodDd));
+            Assert.IsTrue(IsControlDisplayed(paymentRefInput));
+            Assert.IsTrue(IsControlDisplayed(noteInput));
+            Assert.IsTrue(IsControlEnabled(payBtn));
+            Assert.IsTrue(IsControlEnabled(cancelPayForThisTicketPopupBtn));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyAmountPaidValue(string grossValue)
+        {
+            Assert.AreEqual(grossValue, GetAttributeValue(amountPaidInput, "value"));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage InputAmountPaidValue(string grossValue)
+        {
+            SendKeys(amountPaidInput, grossValue);
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage ClickOnPayBtn()
+        {
+            ClickOnElement(payBtn);
+            return this;
+        }
+
+        //Warning - Amount Paid not equal to ticket price popup
+        private readonly By titleWarningAmountPaidPopup = By.XPath("//h4[text()='Warning - Amount Paid not equal to ticket price.']");
+        private readonly By contentWarningAmountPaidPopup = By.XPath("//div[text()='Put on a grey List?']");
+        private readonly By yesBtnWarningAmountPaidPopup = By.XPath("//div[text()='Put on a grey List?']/ancestor::div/following-sibling::div/button[text()='Yes']");
+        private readonly By noBtnWarningAmountPaidPopup = By.XPath("//div[text()='Put on a grey List?']/ancestor::div/following-sibling::div/button[text()='No']");
+
+        [AllureStep]
+        public CreateNewTicketPage IsWarningAmountPaidNotEqualToTicketPrice()
+        {
+            WaitUtil.WaitForElementVisible(titleWarningAmountPaidPopup);
+            WaitUtil.WaitForElementVisible(contentWarningAmountPaidPopup);
+            Assert.IsTrue(IsControlDisplayed(yesBtnWarningAmountPaidPopup));
+            Assert.IsTrue(IsControlDisplayed(noBtnWarningAmountPaidPopup));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage ClickOnYesWarningAmountPaidPopupBtn()
+        {
+            ClickOnElement(yesBtnWarningAmountPaidPopup);
+            return this;
+        }
+
+        //Grey list popup
+        private readonly By greylistCodeDd = By.CssSelector("select[id='greylist-code']");
+        private readonly By commentInput = By.CssSelector("textarea[id='greylist-comment']");
+        private readonly By saveBtnInGreyListCodePopup = By.XPath("//div[@id='payment-grey-lists-modal']//button[text()='Save']");
+
+        [AllureStep]
+        public CreateNewTicketPage IsGreyListCodePopup()
+        {
+            WaitUtil.WaitForElementVisible(greylistCodeDd);
+            WaitUtil.WaitForElementVisible(commentInput);
+            Assert.IsTrue(IsControlDisplayed(saveBtnInGreyListCodePopup));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyCommentValueGreyListCodePopup(string ticketNumberValue, string ticketPriceValue, string amountPaidValue)
+        {
+            string[] title = { "Ticket Number: ", "Ticket Price: ", "Amount Paid: " };
+            string[] exValue = { ticketNumberValue, ticketPriceValue, amountPaidValue };
+            string textDisplayed = GetAttributeValue(commentInput, "value");
+            string[] formatText = textDisplayed.Split(Environment.NewLine);
+            for(int i = 0; i < formatText.Length; i++)
+            {
+                Assert.IsTrue(formatText[i].Contains(title[i] + exValue[i]), "Value at " + title[i] + "is not correct");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage SelectOnGreylistCode(string greylistCodeValue)
+        {
+            SelectTextFromDropDown(greylistCodeDd, greylistCodeValue);
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage ClickOnSaveGreyListCodePopupBtn()
+        {
+            ClickOnElement(saveBtnInGreyListCodePopup);
             return this;
         }
 
@@ -394,6 +548,95 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         {
             SendKeys(secondDateInput, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT));
             return this;
+        }
+
+        //Greylist code model
+
+        #region
+        private readonly By titleGreylistCodeMode = By.XPath("//div[@id='grey-lists-modal']//div[@class='modal-header']/h4");
+        private readonly By greylistIdTitle = By.XPath("//div[text()='Grey List ID ']");
+        private readonly By greylistCodeTitle = By.XPath("//div[text()='Greylist Code']");
+        private readonly By greylistCodeText = By.CssSelector("div[data-bind='text: $data.name']");
+        private readonly By okBtn = By.XPath("//div[@id='grey-lists-modal']//button[text()='OK']");
+        private readonly By greyId = By.XPath("//span[@title='Click to open the grey list']");
+        private readonly string greyListCodeByIndex = "(//div[@class='row']//div[@data-bind='text: $data.name'])[{0}]";
+
+        [AllureStep]
+        public CreateNewTicketPage IsGreylistCodeModel(string resourceNameValue, string greylistCodeValue)
+        {
+            WaitUtil.WaitForElementVisible(titleGreylistCodeMode);
+            Assert.IsTrue(IsControlDisplayed(greylistIdTitle));
+            Assert.IsTrue(IsControlDisplayed(greylistCodeTitle));
+            Assert.AreEqual("Vehicle " + resourceNameValue + " is on the grey list", GetElementText(titleGreylistCodeMode));
+            Assert.AreEqual(greylistCodeValue, GetElementText(greylistCodeText));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage IsGreylistCodeModel(string resourceNameValue, string[] greylistCodeValue)
+        {
+            WaitUtil.WaitForElementVisible(titleGreylistCodeMode);
+            Assert.IsTrue(IsControlDisplayed(greylistIdTitle));
+            Assert.IsTrue(IsControlDisplayed(greylistCodeTitle));
+            Assert.AreEqual("Vehicle " + resourceNameValue + " is on the grey list", GetElementText(titleGreylistCodeMode));
+            for(int i = 0; i < greylistCodeValue.Length; i++)
+            {
+                Assert.AreEqual(greylistCodeValue[i], GetElementText(greyListCodeByIndex, (i+1).ToString()));
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public string GetGreylistCodeId()
+        {
+            return GetElementText(greyId);
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage VerityGreylistCodeModelIsNotDisplayed()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(greylistIdTitle));
+            Assert.IsTrue(IsControlUnDisplayed(greylistCodeTitle));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage ClickOnOkBtn()
+        {
+            ClickOnElement(okBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage WaitForPopupDisappear()
+        {
+            WaitUtil.WaitForElementVisible(okBtn);
+            WaitUtil.WaitForElementVisible(greylistCodeTitle);
+            WaitUtil.WaitForPageLoaded();
+            SleepTimeInSeconds(2);
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyGreylistCodeModelDisappear()
+        {
+            WaitUtil.WaitForElementInvisible(titleGreylistCodeMode);
+            return this;
+        }
+
+        [AllureStep]
+        public CreateGreyListPage ClickOnGreyListId()
+        {
+            ClickOnElement(greyId);
+            return PageFactoryManager.Get<CreateGreyListPage>();
+        }
+
+        #endregion
+
+        [AllureStep]
+        public string GetWBTicketId()
+        {
+            return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/weighbridge-tickets/", "");
         }
     }
 }

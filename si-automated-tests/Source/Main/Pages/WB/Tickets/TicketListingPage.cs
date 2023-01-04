@@ -62,5 +62,12 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return PageFactoryManager.Get<WeighbridgeTicketDetailPage>();
         }
 
+        [AllureStep]
+        public TicketListingPage IsTicketListingPage()
+        {
+            WaitUtil.WaitForElementVisible(addNewTicketBtn);
+            return this;
+        }
+
     }
 }
