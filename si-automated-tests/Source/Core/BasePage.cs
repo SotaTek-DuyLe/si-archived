@@ -802,23 +802,7 @@ namespace si_automated_tests.Source.Core
             WaitForLoadingIconToDisappear();
             return this;
         }
-        [AllureStep]
-        public BasePage SelectValueFromDropDown(By by, string _value)
-        {
-            IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
-            SelectElement selectedValue = new SelectElement(comboBox);
-            selectedValue.SelectByValue(_value);
-            WaitForLoadingIconToDisappear();
-            return this;
-        }
-        [AllureStep]
-        public BasePage SelectValueFromDropDown(IWebElement comboBox, string _value)
-        {
-            SelectElement selectedValue = new SelectElement(comboBox);
-            selectedValue.SelectByValue(_value);
-            WaitForLoadingIconToDisappear();
-            return this;
-        }
+        
         [AllureStep]
         public BasePage SelectIndexFromDropDown(By by, int index)
         {

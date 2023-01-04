@@ -730,6 +730,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         [AllureStep]
+        public DetailPartyPage VerifyWBSettingTabIsNotDisplayed()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(wBtab), "Weighbridge Settings tab is displayed");
+            return this;
+        }
+
+        [AllureStep]
         public DetailPartyPage ClickOnAutoPrintTickedCheckbox()
         {
             ClickOnElement(autoPrintTicketCheckbox);

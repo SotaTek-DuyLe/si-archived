@@ -12,6 +12,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static string InpectionAdminRoleUser59UrlIE;
         public static string TaskTypeUrlIE;
         public static string TaskLineUrlIE;
+        public static string WBSettingUrlIE;
 
         public WebUrl()
         {
@@ -37,6 +38,7 @@ namespace si_automated_tests.Source.Main.Constants
             InpectionAdminRoleUser59UrlIE = url + "echo2/echo2extra/PopupDefault.aspx?CPath=&ObjectID=1105&CTypeName=User&CReferenceName=none&CObjectID=0&TypeName=User&RefTypeName=none&ReferenceName=none&InEdit=true#";
             TaskTypeUrlIE = url + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=TaskType&ObjectID={0}#";
             TaskLineUrlIE = url + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=TaskLineWorkFlow&ObjectID={0}";
+            WBSettingUrlIE = url + "echo2/echo2extra/PopupDefault.aspx?CPath=&ObjectID=83&CTypeName=SystemSetting&CReferenceName=none&CObjectID=0&TypeName=SystemSetting&RefTypeName=none&ReferenceName=none&InEdit=true";
         }
         public static string GetDBName()
         {

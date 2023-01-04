@@ -319,5 +319,151 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
             ClickOnElement(closeBtn);
             return this;
         }
+
+        #region Add Service
+        private readonly By addServiceBtn = By.XPath("//button[text()='Add Services']");
+        private readonly By titleAddServicePopup = By.XPath("//div[@id='add-service-modal']//h4[text()='Add Service']");
+        private readonly By closeAddServicePopupBtn = By.XPath("//div[@id='add-service-modal']//button[text()='×']");
+        private readonly By nextBtn = By.XPath("//button[text()='Next']");
+
+        //STEP 1: Site and Service
+        private readonly By servicedSiteDd = By.CssSelector("select[id='collection-site']");
+        private readonly By serviceDd = By.CssSelector("select[id='contract']");
+
+        //STEP 2: Asset and Product
+        private readonly By addBtnInStep2 = By.XPath("//div[@id='step-2']//button[contains(string(), 'Add')]");
+        private readonly By assetDdInStep2 = By.CssSelector("div[id='step-2'] select[id='asset-type']");
+        private readonly By tenureDdInStep2 = By.CssSelector("div[id='step-2'] select[id='tenure']");
+        private readonly By productDdInStep2 = By.XPath("//div[@id='step-2']//label[text()='Product']/following-sibling::select");
+        private readonly By ewcCodeDdInStep2 = By.XPath("//div[@id='step-2']//label[text()='EWC Code']/following-sibling::select");
+        private readonly By unitDdInStep2 = By.XPath("//div[@id='step-2']//label[text()='Unit']/following-sibling::select");
+        private readonly By productQtyAssetInStep2 = By.XPath("//div[@id='step-2']//input[@id='product-quantity']");
+        private readonly By assetTypeLabel = By.XPath("//label[text()='Asset Type']");
+        private readonly By doneBtnInStep2 = By.XPath("//div[@id='step-2']//button[text()='Done']");
+
+        //STEP 3: Schedule services
+        private readonly By addRegularServicesInStep3 = By.XPath("//div[@id='step-3']//button[text()='Add regular service']");
+        private readonly By assetTypeInStep3 = By.XPath("//div[@id='step-3']//label[text()='Asset Type']");
+        private readonly By firstAssetTypeValueInStep3 = By.XPath("(//div[@id='step-3']//span[@data-bind='text: assetType().name'])[1]");
+        private readonly By firstProductValueInStep3 = By.XPath("(//div[@id='step-3']//span[@data-bind='text: product().name'])[1]");
+        private readonly By firstUnitValueInStep3 = By.XPath("(//div[@id='step-3']//span[@data-bind='text: unit().name'])[1]");
+        private readonly By firstEWCCodeValueInStep3 = By.XPath("(//div[@id='step-3']//span[@data-bind='text: productCode().name'])[1]");
+        private readonly By firstProductQtyPerAssetInStep3 = By.XPath("(//div[@id='step-3']//input[@data-bind='value: productQty'])[1]");
+
+        [AllureStep]
+        public AgreementDetailPage ClickOnAddServiceBtn()
+        {
+            ClickOnElement(addServiceBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage IsAddServicePopup()
+        {
+            WaitUtil.WaitForElementVisible(titleAddServicePopup);
+            Assert.IsTrue(IsControlDisplayed(titleAddServicePopup));
+            Assert.IsTrue(IsControlDisplayed(closeAddServicePopupBtn));
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage SelectServicedSite(string servicedSiteValue)
+        {
+            SelectTextFromDropDown(servicedSiteDd, servicedSiteValue);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage SelectService(string serviceValue)
+        {
+            SelectTextFromDropDown(serviceDd, serviceValue);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage ClickOnNextBtn()
+        {
+            ClickOnElement(nextBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage ClickOnAddBtnStep2()
+        {
+            ClickOnElement(addBtnInStep2);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage SelectAssetTypeInStep2(string assetTypeValue)
+        {
+            WaitUtil.WaitForElementVisible(assetTypeLabel);
+            SelectTextFromDropDown(assetDdInStep2, assetTypeValue);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage SelectTenureInStep2(string tenureValue)
+        {
+            SelectTextFromDropDown(tenureDdInStep2, tenureValue);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage SelectProductInStep2(string productValue)
+        {
+            SelectTextFromDropDown(productDdInStep2, productValue);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage SelectEWCCodeInStep2(string ewcCodeValue)
+        {
+            SelectTextFromDropDown(ewcCodeDdInStep2, ewcCodeValue);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage InputProductQtyPerAsset(string productQty)
+        {
+            SendKeys(productQtyAssetInStep2, productQty);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage SelectUnitInStep2(string unitValue)
+        {
+            SelectTextFromDropDown(unitDdInStep2, unitValue);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage ClickDoneBtnInStep2()
+        {
+            ClickOnElement(doneBtnInStep2);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage ClickOnAddRegularServiceStep3()
+        {
+            ClickOnElement(addRegularServicesInStep3);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage VerifyValueInStep3(string assetTypeExp, string productExp, string unitExp, string ewcCodeExp, string productQty)
+        {
+            WaitUtil.WaitForElementVisible(assetTypeInStep3);
+            Assert.AreEqual(assetTypeExp, GetElementText(firstAssetTypeValueInStep3), "Asset Type in Step 3 is not correct");
+            Assert.AreEqual(productExp, GetElementText(firstProductValueInStep3), "Product in Step 3 is not correct");
+            Assert.AreEqual(unitExp, GetElementText(firstUnitValueInStep3), "Unit in Step 3 is not correct");
+            Assert.AreEqual(ewcCodeExp, GetElementText(firstEWCCodeValueInStep3), "EWC Code in Step 3 is not correct");
+            Assert.AreEqual(productQty, GetElementText(firstProductQtyPerAssetInStep3), "Product Qty Per Asset in Step 3 is not correct");
+            //Readonly
+            Assert.AreEqual("true", GetAttributeValue(productQty, "readonly"), "Product Qty Per Asset in Step 3 is not readonly" );
+            return this;
+        }
+        #endregion
     }
 }

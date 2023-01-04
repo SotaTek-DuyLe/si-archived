@@ -2,6 +2,7 @@
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using PointAddressModel = si_automated_tests.Source.Main.DBModels.PointAddressModel;
@@ -306,6 +307,37 @@ namespace si_automated_tests.Source.Main.Finders
         {
             string query = "select * from tasktypes where tasktype='" + tasktype + "'";
             return FindList<TaskTypeDBModel>(query).ToList();
+        }
+        [AllureStep]
+        public List<WBSiteProduct> GetWBSiteProductsBySiteId(string siteId)
+        {
+            string query = "select * from wb_siteproducts WHERE siteID = " + siteId + ";";
+            return FindList<WBSiteProduct>(query).ToList();
+        }
+        [AllureStep]
+        public List<ProductDBModel> GetProductByListId(List<int> productIds)
+        {
+            string idQuery = "";
+            for(int i = 0; i < productIds.Count; i++)
+            {
+                if(i == (productIds.Count - 1))
+                {
+                    idQuery += productIds[i].ToString();
+                } else
+                {
+                    idQuery += productIds[i].ToString() + ",";
+                }
+            }
+            Console.WriteLine("select * from products where productid in (" + idQuery + ");");
+            string query = "select * from products where productid in (" + idQuery + ");";
+            return FindList<ProductDBModel>(query).ToList();
+        }
+
+        [AllureStep]
+        public List<GreyListCodeDBModel> GetGreyList()
+        {
+            string query = "select * from wb_greylistcodes;";
+            return FindList<GreyListCodeDBModel>(query).ToList();
         }
     }
 }

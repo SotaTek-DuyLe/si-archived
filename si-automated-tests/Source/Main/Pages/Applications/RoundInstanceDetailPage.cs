@@ -256,5 +256,25 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             ClickOnElement(openRoundBtn);
             return this;
         }
+
+        #region Event tab
+        private readonly By eventTab = By.CssSelector("a[aria-controls='roundInstanceEvents-tab']");
+        private readonly By addNewItemEventTab = By.XPath("//div[@id='roundInstanceEvents-tab']//button[text()='Add New Item']");
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickOnEventTab()
+        {
+            ClickOnElement(eventTab);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickOnAddNewItemEventTab()
+        {
+            ClickOnElement(addNewItemEventTab);
+            return this;
+        }
+
+        #endregion
     }
 }

@@ -12,6 +12,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string ResourceRequiredMessage = "Resource is required";
         public static readonly string MissingTimezoneMessage = "Time Zone is required";
         public static readonly string StreetNameRequiredMessage = "Street Name is required";
+        public static readonly string GreylistCodeIsRequiredMessage = "Greylist Code is required";
 
         //WARNING MESSAGES
         public static readonly string LocationRestrictWarningMessage = "Default location must be selected as a restricted location.";
