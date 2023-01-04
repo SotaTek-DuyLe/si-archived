@@ -77,5 +77,34 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             timeSheetDetailPage.VerifyBussinessTitle(timeSheetModel1);
         }
+
+        [Category("TimeSheet")]
+        [Category("Huong")]
+        [Test()]
+        public void TC_271_TimeSheet_Link_for_resources()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser69.UserName, AutoUser69.Password)
+                .IsOnHomePage(AutoUser69);
+            TimeSheetListPage timeSheetListPage = PageFactoryManager.Get<TimeSheetListPage>();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Timesheet")
+                .SwitchToFrame(timeSheetListPage.TimeSheetIframe);
+            timeSheetListPage.WaitForLoadingIconToDisappear();
+            timeSheetListPage.DoubleClickBussinessGroup();
+            timeSheetListPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            TimeSheetDetailPage timeSheetDetailPage = PageFactoryManager.Get<TimeSheetDetailPage>();
+            timeSheetDetailPage.ClickOpenResource()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            ResoureDetailPage resoureDetailPage = PageFactoryManager.Get<ResoureDetailPage>();
+            resoureDetailPage.IsResourceDetailPage();
+        }
     }
 }
