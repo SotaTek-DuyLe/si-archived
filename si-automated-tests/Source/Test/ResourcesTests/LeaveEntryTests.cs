@@ -544,5 +544,45 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             createLeaveEntryPage.VerifyToastMessage("Reason is required");
             
         }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_267_Leave_Entry_Active_Resources()
+        {
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            LeaveEntryPage leaveEntryPage = PageFactoryManager.Get<LeaveEntryPage>();
+            leaveEntryPage.WaitForLoadingIconToDisappear();
+            //Verify whether user not able to see retired resources in the leave entry dropdown list
+            leaveEntryPage.OpenResource(false)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            CreateLeaveEntryPage createLeaveEntryPage = PageFactoryManager.Get<CreateLeaveEntryPage>();
+            createLeaveEntryPage.VerifyResourceIsDisable(true)
+                .CloseCurrentWindow()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            //Verify whether user able to view active or resources starting in future
+            leaveEntryPage.ClickOnElement(leaveEntryPage.CreateLeaveEntryButton);
+            leaveEntryPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createLeaveEntryPage.VerifyResourceIsDisable(false)
+                .ClickOnElement(createLeaveEntryPage.ResourceDropdown);
+            createLeaveEntryPage.VerifyResourceHasValue()
+                .CloseCurrentWindow()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            //Verify whether user able to view retired resources in existing records leave entry form
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Resources)
+               .ExpandOption(Contract.Commercial)
+               .OpenOption("Leave Entry")
+               .SwitchNewIFrame();
+            leaveEntryPage.VerifyRetiredResourceAreExisting();
+        }
     }
 }
