@@ -597,7 +597,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Verify that Grey list can be created")]
+        [Test(Description = "Verify that Grey list can be created"), Order(12)]
         public void TC_260_Grey_lists_Verify_greylist_can_be_created()
         {
             CommonFinder commonFinder = new CommonFinder(DbContext);
@@ -611,7 +611,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             string siteName260 = "Site Twickenham 260" + CommonUtil.GetRandomNumber(4);
             string product = "Armchair";
             string locationNameActive = "Location260WBActive" + CommonUtil.GetRandomNumber(2);
-
             string stationNameTC260 = "AutoStation260" + CommonUtil.GetRandomNumber(4);
 
             //Create new Resource with type = Van in TC51
@@ -1288,6 +1287,60 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createNewTicketPage
                 .IsGreylistCodeModel(secondResourceName, new string[] { greyListDesc[2], greyListDesc[1]});
 
+        }
+
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "Verify that it is possible to delete grey list record"), Order(13)]
+        public void TC_260_Grey_lists_Verify_greylist_can_be_deleted()
+        {
+            string greylistCodeId = "1";
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Grey Lists")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<GreyListPage>()
+                .IsGreyListPage()
+                .FilterGreylistCodeByIdToDelete(greylistCodeId)
+                .ClickOnDeleteBtn()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<RemoveGreyListPage>()
+                .IsRemoveGreyListPopup()
+                //Step line 43: Click on [No] btn
+                .ClickOnNoBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<GreyListPage>()
+                .VerifyWindowClosed(1);
+            //Step line 43: Click on [x] btn
+            PageFactoryManager.Get<GreyListPage>()
+                .ClickOnDeleteBtn()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<RemoveGreyListPage>()
+                .IsRemoveGreyListPopup()
+                .ClickOnCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<GreyListPage>()
+                .VerifyWindowClosed(1);
+            //Step line 44: Click on [Yes] btn
+            PageFactoryManager.Get<GreyListPage>()
+                .ClickOnDeleteBtn()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<RemoveGreyListPage>()
+                .IsRemoveGreyListPopup()
+                .ClickOnYesBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .SwitchToChildWindow(1);
+            PageFactoryManager.Get<GreyListPage>()
+                .VerifyRecordNoLongerDisplayInGrid();
+            //Step line 45: Run query to check
+            List<WBGreylistDBModel> wBGreylistDBModels = commonFinder.GetGreyListById(greylistCodeId);
+            Assert.AreEqual(0, wBGreylistDBModels.Count);
         }
 
 
