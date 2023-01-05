@@ -137,6 +137,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                     }
                 }
                 if (i >= 299) WaitForLoadingIconToDisappear();
+                if (i >= rowCount) break;
                 WaitUtil.WaitForElementClickable(By.XPath($"(//div[@id='screen1']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]//div[@class='slick-cell l0 r0']//input[not(@checked)])[1]"));
             }
             return rows;
