@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
@@ -21,6 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.WB
         private readonly By filterInputByTicketNumber = By.XPath("//div[contains(@class, 'l3 r3')]/descendant::input");
         private readonly By selectAllCheckbox = By.XPath("//div[@title='Select/Deselect All']//input");
         private readonly By firstResult = By.XPath("//div[@class='grid-canvas']/div[1]");
+        private readonly By firstCheckboxResult = By.XPath("//div[@class='grid-canvas']/div[1]//input");
 
         public TableElement GreyListTableEle
         {
@@ -51,6 +53,16 @@ namespace si_automated_tests.Source.Main.Pages.WB
         }
 
         [AllureStep]
+        public GreyListPage FilterGreylistCodeByIdToDelete(string greylistId)
+        {
+            SendKeys(filterInputById, greylistId);
+            WaitForLoadingIconToDisappear();
+            SleepTimeInSeconds(2);
+            ClickOnElement(firstCheckboxResult);
+            return this;
+        }
+
+        [AllureStep]
         public GreyListPage FilterGreylistCodeById(string greylistId)
         {
             SendKeys(filterInputById, greylistId);
@@ -69,5 +81,20 @@ namespace si_automated_tests.Source.Main.Pages.WB
             DoubleClickOnElement(firstResult);
             return this;
         }
+
+        [AllureStep]
+        public GreyListPage ClickOnDeleteBtn()
+        {
+            ClickOnElement(deleteItemBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public GreyListPage VerifyRecordNoLongerDisplayInGrid()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(firstResult));
+            return this;
+        }
+
     }
 }

@@ -339,5 +339,12 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from wb_greylistcodes;";
             return FindList<GreyListCodeDBModel>(query).ToList();
         }
+
+        [AllureStep]
+        public List<WBGreylistDBModel> GetGreyListById(string greylistID)
+        {
+            string query = "select * from wb_greylist where greylistid=" + greylistID + ";";
+            return FindList<WBGreylistDBModel>(query).ToList();
+        }
     }
 }
