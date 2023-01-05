@@ -271,6 +271,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
+
+        [AllureStep]
+        public RoundCalendarPage CloseRoundInstanceSchedule()
+        {
+            ClickOnElement(By.XPath("//div[contains(@class, 'fc-popover')]//span[@class='fc-close fc-icon fc-icon-x']"));
+            SleepTimeInMiliseconds(200);
+            return this;
+        }
+
         [AllureStep]
         public RoundCalendarPage ClickRoundInstance(bool clickGreyInstance)
         {
