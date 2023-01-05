@@ -254,7 +254,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
 
             Thread.Sleep(1000);
-            Dictionary<int, List<object>> rowVerifiedDatas = serviceDataManagementPage.ClickMultiPointAddress(20);
+            Dictionary<int, List<object>> rowVerifiedDatas = serviceDataManagementPage.ClickMultiPointAddress(4);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.NextButton);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
             serviceDataManagementPage
