@@ -131,8 +131,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser33.UserName, AutoUser33.Password)
-                .IsOnHomePage(AutoUser33);
+                .Login(AutoUser68.UserName, AutoUser68.Password)
+                .IsOnHomePage(AutoUser68);
             int partyId = 73;
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()
@@ -204,8 +204,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser33.UserName, AutoUser33.Password)
-                .IsOnHomePage(AutoUser33);
+                .Login(AutoUser68.UserName, AutoUser68.Password)
+                .IsOnHomePage(AutoUser68);
             //Go to Services and verify 
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
@@ -334,8 +334,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser33.UserName, AutoUser33.Password)
-                .IsOnHomePage(AutoUser33);
+                .Login(AutoUser68.UserName, AutoUser68.Password)
+                .IsOnHomePage(AutoUser68);
             int partyId = 73;
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()

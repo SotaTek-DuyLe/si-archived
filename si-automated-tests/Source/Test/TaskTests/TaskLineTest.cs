@@ -295,7 +295,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
-                .FilterByTaskId("17212")
+                .FilterByTaskId("9687")
                 .ClickCheckboxFirstTaskInList()
                 .ClickOnBulkUpdateBtn()
                 .SwitchToLastWindow()
@@ -425,7 +425,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
                 .ExpandRoundNode("*Unassigned")
                 .SelectRoundNode("*Unassigned")
-                .InputCalendarDate(resourceAllocationPage.date, "27/09/2022");
+                .InputCalendarDate(resourceAllocationPage.date, "07/11/2022");
             resourceAllocationPage.ClickGo();
             resourceAllocationPage
                 .WaitForLoadingIconToDisappear()
@@ -438,7 +438,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             roundInstanceDetailPage.SwitchNewIFrame();
             roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.ExpandRoundsGo);
             roundInstanceDetailPage.SleepTimeInMiliseconds(300);
-            roundInstanceDetailPage.SendKeys(roundInstanceDetailPage.IdFilterInput, "15833");
+            roundInstanceDetailPage.SendKeys(roundInstanceDetailPage.IdFilterInput, "20833");
             roundInstanceDetailPage.SleepTimeInMiliseconds(200);
             roundInstanceDetailPage.DoubleClickOnTask()
                 .SwitchToChildWindow(3)
@@ -472,7 +472,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
                 .ExpandRoundNode("*Unassigned")
                 .SelectRoundNode("*Unassigned")
-                .InputCalendarDate(resourceAllocationPage.date, "27/09/2022");
+                .InputCalendarDate(resourceAllocationPage.date, "07/11/2022");
             resourceAllocationPage.ClickGo();
             resourceAllocationPage
                 .WaitForLoadingIconToDisappear()

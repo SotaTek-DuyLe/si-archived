@@ -273,9 +273,9 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 
         #region Round Leg
         private readonly By toggleRoundLeg = By.XPath("//button[@id='t-toggle-roundlegs']");
-        private readonly By expandThirdRoundGroup = By.XPath("(//div[contains(@class, 'slick-group')][4])//span[contains(@class, 'slick-group-toggle')]");
-        private readonly By roundGroupName = By.XPath("(//div[contains(@class, 'slick-group')][4])//span[contains(@class, 'slick-group-title')]");
-        private readonly By firstRoundLegEpxandButton = By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row') and contains(@style, 'top:50px')]//div[@class='slick-cell l4 r4']//span[@class='toggle expand']");
+        private readonly By expandThirdRoundGroup = By.XPath("(//div[contains(@class, 'slick-group')][3])//span[contains(@class, 'slick-group-toggle')]");
+        private readonly By roundGroupName = By.XPath("(//div[contains(@class, 'slick-group')][3])//span[contains(@class, 'slick-group-title')]");
+        private readonly By firstRoundLegEpxandButton = By.XPath("(//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row')]//div[@class='slick-cell l4 r4']//span[@class='toggle expand'])[1]");
         
         [AllureStep]
         private IWebElement GetVirtualTask(int idx)
@@ -307,6 +307,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
+        public TaskConfirmationPage ExpandThirdRoundGroup()
+        {
+            ClickOnElement(expandThirdRoundGroup);
+            SleepTimeInMiliseconds(1000);
+            return this;
+        }
+
+        [AllureStep]
         public string GetRoundName()
         {
             string roundGroupNameValue = GetElementText(roundGroupName);
@@ -322,6 +330,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             IWebElement virtualTask1 = GetVirtualTask(0);
             IWebElement checkboxvirtualTask1 = virtualTask1.FindElement(By.XPath("./div/input"));
             checkboxvirtualTask1.Click();
+            SleepTimeInMiliseconds(300);
             IWebElement virtualTask2 = GetVirtualTask(1);
             IWebElement checkboxvirtualTask2 = virtualTask2.FindElement(By.XPath("./div/input"));
             checkboxvirtualTask2.Click();

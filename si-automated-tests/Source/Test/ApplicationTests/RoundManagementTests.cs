@@ -226,25 +226,26 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .DragDropRoundLegToRoundInstance("WCREC1", roundGroupName);
             taskConfirmationPage
                 .SelectReasonNeeded();
-            taskConfirmationPage.SelectAllRoundLeg()
-                .DragDropRoundLegToRoundInstance("ECREC2", "Friday");
-            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.SelectReason, "Bad Weather");
-            taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
             taskConfirmationPage.VerifyToastMessage("Allocated 2 round leg(s)");
             taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.VerifyRoundLegNoLongerDisplay();
             taskConfirmationPage.CloseCurrentWindow()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
+            taskConfirmationPage.ClickGoBtn()
+                .WaitForLoadingIconToDisappear();
+            taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.ExpandThirdRoundGroup();
             taskConfirmationPage.ExpandRoundLegAndSelectTask()
                 .ClickOnElement(taskConfirmationPage.BulkReallocateButton);
             taskConfirmationPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             taskConfirmationPage.SelectAllVirtualTask()
-                .DragDropRoundLegToRoundInstance("ECREC2", "Friday");
+                .DragDropRoundLegToRoundInstance("WCREC1", roundGroupName);
             taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.SelectReason, "Bad Weather");
             taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
-            taskConfirmationPage.VerifyToastMessage("Allocated 2 round leg(s)");
+            taskConfirmationPage.VerifyToastMessage("2 Task(s) Allocated");
             taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.VerifyRoundLegNoLongerDisplay();
         }
