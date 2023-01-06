@@ -64,6 +64,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         }
 
         [AllureStep]
+        public LeaveEntryPage OpenResource(int rowIdx)
+        {
+            ResourceTableEle.DoubleClickRow(rowIdx);
+            return this;
+        }
+
+        [AllureStep]
         public LeaveEntryPage VerifyRetiredResourceAreExisting()
         {
             DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");

@@ -584,5 +584,27 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                .SwitchNewIFrame();
             leaveEntryPage.VerifyRetiredResourceAreExisting();
         }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_265_Leave_Entry_All_Resources_tab()
+        {
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            LeaveEntryPage leaveEntryPage = PageFactoryManager.Get<LeaveEntryPage>();
+            leaveEntryPage.WaitForLoadingIconToDisappear();
+            leaveEntryPage.OpenResource(0)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            CreateLeaveEntryPage createLeaveEntryPage = PageFactoryManager.Get<CreateLeaveEntryPage>();
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.AllResourceTab);
+            createLeaveEntryPage.WaitForLoadingIconToDisappear();
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.BUSelect);
+            createLeaveEntryPage.VerifySelectContainDisplayValues(createLeaveEntryPage.BUSelect, new List<string>() { "Select...", "Collections - Food", "Collections - Recycling", "Collections - Refuse" });
+        }
     }
 }

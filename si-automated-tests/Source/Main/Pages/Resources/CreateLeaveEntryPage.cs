@@ -18,6 +18,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public readonly By FromDateInput = By.XPath("//input[@id='startDate']");
         public readonly By ToDateInput = By.XPath("//input[@id='endDate']");
         public readonly By SaveButton = By.XPath("//button[text()='Save']");
+        public readonly By AllResourceTab = By.XPath("//a[@aria-controls='all-resources-tab']");
+        public readonly By BUSelect = By.XPath("//select[@id='business-unit']");
 
         [AllureStep]
         public CreateLeaveEntryPage VerifyResourceIsDisable(bool isDisable)
