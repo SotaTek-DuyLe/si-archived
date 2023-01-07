@@ -1545,5 +1545,94 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyDateValueInActiveRow(3, "End Date", expectedDate);
         }
+        [Category("Task State")]
+        [Category("Dee")]
+        [TestCase(new object[] { "Completed" })]
+        [TestCase(new object[] { "Not Completed" })]
+        [Test]
+        public void TC_176_verify_task_state_date_change_in_task_completed(string stateName)
+        {
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+            var taskId = commonFinder.GetRandomTaskId();
+            var url = WebUrl.MainPageUrl + "web/tasks/" + taskId;
+            string saveToast = "Task Saved";
+            string taskLineName = "Collections";
+            string[] orderNumber = { "1", "1", "2", "1", "2" };
+            string[] orderStatus = { "Pending", "Not Completed", "Completed", "Cancelled" };
+            string dateNowInSchedule = CommonUtil.GetLocalTimeNow("dd");
+            string dateInFutreInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", 7);
+            string dateInPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -2);
+            string dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -5);
+            string dateInFurthestPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -10);
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(url);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser44.UserName, AutoUser44.Password);
+
+            //Set task state only
+            PageFactoryManager.Get<TaskDetailTab>()
+                .IsOnTaskDetailTab()
+                .ClickStateDetais()
+                .ChooseTaskState(stateName)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskDetailTab>()
+                .VerifyEndDate(CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH"))
+                .VerifyCompletionDate(CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH"));
+
+            //Set task state and completion date
+            taskId = commonFinder.GetRandomTaskId();
+            url = WebUrl.MainPageUrl + "web/tasks/" + taskId;
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(url);
+            PageFactoryManager.Get<TaskDetailTab>()
+                .IsOnTaskDetailTab()
+                .ClickStateDetais()
+                .ChooseTaskState(stateName)
+                .SelectDateFromCalendar("Completion Date", CommonUtil.GetCustomUtcDay(2, "d")) //future day
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskDetailTab>()
+                .VerifyEndDate(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH", 2))
+                .VerifyCompletionDate(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH", 2));
+
+            //Set task state and end date + completion date
+            taskId = commonFinder.GetRandomTaskId();
+            url = WebUrl.MainPageUrl + "web/tasks/" + taskId;
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(url);
+            PageFactoryManager.Get<TaskDetailTab>()
+                .IsOnTaskDetailTab()
+                .ClickStateDetais()
+                .ChooseTaskState(stateName)
+                .SelectDateFromCalendar("Completion Date", CommonUtil.GetCustomUtcDay(2, "d")) //future day
+                .SelectDateFromCalendar("End Date", CommonUtil.GetCustomUtcDay(0, "d")) //past day
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskDetailTab>()
+                .VerifyEndDate(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH", 2))
+                .VerifyCompletionDate(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH", 2));
+
+            //Set task state and end date
+            taskId = commonFinder.GetRandomTaskId();
+            url = WebUrl.MainPageUrl + "web/tasks/" + taskId;
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(url);
+            PageFactoryManager.Get<TaskDetailTab>()
+                .IsOnTaskDetailTab()
+                .ClickStateDetais()
+                .ChooseTaskState(stateName)
+                .SelectDateFromCalendar("End Date", CommonUtil.GetCustomUtcDay(3, "d")) //future day
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskDetailTab>()
+                .VerifyEndDate(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH", 3))
+                .VerifyCompletionDate(CommonUtil.GetUtcTimeMinusDay("dd/MM/yyyy HH", 0));
+        }
     }
 }

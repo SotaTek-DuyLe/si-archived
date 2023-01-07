@@ -128,6 +128,15 @@ namespace si_automated_tests.Source.Main.Finders
             return FindList<TaskDBModel>(query);
         }
         [AllureStep]
+        public int GetRandomTaskId()
+        {
+            string query = "select top (150) * from tasks where contractId = 2 and taskcompleteddate IS NULL order by taskId DESC;";
+            var list = FindList<TaskDBModel>(query);
+            System.Console.WriteLine(list.Count);
+            var random = CommonUtil.GetRandomNumberBetweenRange(1, list.Count);
+            return list[random].taskId;
+        }
+        [AllureStep]
         public List<ServiceTaskDBModel> GetTaskService(int serviceTaskId)
         {
             string query = "select * from servicetasks where servicetaskID = " + serviceTaskId + ";";
