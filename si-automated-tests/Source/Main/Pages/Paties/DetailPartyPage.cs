@@ -155,6 +155,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By titleInNotesTab = By.XPath("//label[text()='Title']/following-sibling::input");
         private readonly By notesInNotesTab = By.XPath("//label[text()='Note']/following-sibling::textarea");
 
+        //ACCOUNT TAB
+        private readonly By accountNumberInput = By.CssSelector("input[id='account-number']");
+        private readonly By accountTypeDd = By.CssSelector("select[id='account-type']");
+
         //STEP
         [AllureStep]
         public DetailPartyPage WaitForDetailPartyPageLoadedSuccessfully(string name)
@@ -831,6 +835,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         [AllureStep]
+        [AllureDescription("Verify the [Restricted Sites] is blank")]
+        public DetailPartyPage VerifyRestrictedSitesIsBlank()
+        {
+            Assert.AreEqual("", GetFirstSelectedItemInDropdown(restrictedSiteDd));
+            return this;
+        }
+
+        [AllureStep]
         [AllureDescription("Input [Dormant Date]")]
         public DetailPartyPage InputDormantDate(string dormantDateValue)
         {
@@ -927,6 +939,18 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage InputLicenceNumber(string value)
         {
             SendKeys(licenceNumberInput, value);
+            return this;
+        }
+        [AllureStep]
+        public DetailPartyPage VerifyValueAtLicenceNumber(string value)
+        {
+            Assert.AreEqual(value, GetAttributeValue(licenceNumberInput, "value"));
+            return this;
+        }
+        [AllureStep]
+        public DetailPartyPage VerifyValueAtLicenceNumberExp(string value)
+        {
+            Assert.AreEqual(value, GetAttributeValue(licenceNumberExpriedInput, "value"));
             return this;
         }
         [AllureStep]
@@ -1196,6 +1220,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public string GetAddress()
         {
             return GetFirstSelectedItemInDropdown(CorresspondenceAddressDd);
+        }
+
+        [AllureStep]
+        public DetailPartyPage SelectAnyAccountType(string accountTypeValue)
+        {
+            WaitUtil.WaitForElementVisible(accountNumberInput);
+            WaitUtil.WaitForElementVisible(accountTypeDd);
+            SelectTextFromDropDown(accountTypeDd, accountTypeValue);
+            return this;
         }
     }
 }
