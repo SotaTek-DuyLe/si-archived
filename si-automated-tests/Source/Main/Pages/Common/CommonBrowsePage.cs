@@ -109,6 +109,7 @@ namespace si_automated_tests.Source.Main.Pages
                     for(int j = 0; j < numberOfResultToBeVerify; j++)
                     {
                         DateTime expectedDate = DateTime.ParseExact(expected, "dd/MM/yyyy HH:mm", null);
+                        Console.WriteLine(i+j * countPerLine);
                         DateTime actualDate = DateTime.ParseExact(_firstResultFields[i + j * countPerLine].Text, "dd/MM/yyyy HH:mm", null);
                         Assert.AreEqual(expectedDate.Year, actualDate.Year);
                         Assert.AreEqual(expectedDate.Month, actualDate.Month);

@@ -65,7 +65,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         [AllureStep]
         public TasksBulkUpdatePage ClickOnBulkUpdateBtn()
         {
-            WaitUtil.WaitForElementVisible(bulkUpdateBtn);
             ClickOnElement(bulkUpdateBtn);
             return PageFactoryManager.Get<TasksBulkUpdatePage>();
         }

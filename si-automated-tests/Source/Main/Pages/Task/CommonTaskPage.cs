@@ -13,6 +13,7 @@ namespace si_automated_tests.Source.Main.Pages.Task
         private readonly By deleteItemBtn = By.XPath("//button[text()='Delete Item']");
         private readonly By taskIdInput = By.XPath("//div[contains(@class,'r5')]//input");
         private readonly By applyBtn = By.XPath("//button[contains(.,'Apply')]");
+        private readonly By bulkUpdateBtn = By.XPath("//button[contains(.,'Bulk Update')]");
 
         private string taskWithId = "//div[contains(@class,'r5') and contains(.,'{0}')]";
 
@@ -50,6 +51,18 @@ namespace si_automated_tests.Source.Main.Pages.Task
         {
             DoubleClickOnElement(taskWithId, id);
             return new AgreementTaskDetailsPage();
+        }
+        [AllureStep]
+        public CommonTaskPage SelectFirstNumberOfItem(int number)
+        {
+            PageFactoryManager.Get<CommonBrowsePage>().SelectFirstNumberOfItem(number);
+            return this;
+        }
+        [AllureStep]
+        public CommonTaskPage ClickBulkUpdateBtn()
+        {
+            ClickOnElement(bulkUpdateBtn);
+            return this;
         }
     }
 }
