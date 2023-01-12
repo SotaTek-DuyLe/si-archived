@@ -784,5 +784,55 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickCreateBtn()
                 .VerifyFirstRoundName("(Adhoc) " + templateValue);
         }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_273_Daily_Allocation_Available_color_change()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
+            resourceAllocationPage.SelectContract(Contract.Commercial);
+            resourceAllocationPage.SelectShift("AM");
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
+            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
+                .SelectRoundNode("Collections")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            int rowIdx = 0;
+            resourceAllocationPage.ClickType(rowIdx)
+                .ClickLeftResourceMenu("SICK")
+                .SelectTextFromDropDown(resourceAllocationPage.LeftMenuReasonSelect, "Paid")
+                .ClickOnElement(resourceAllocationPage.LeftMenuConfirmReasonButton);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SleepTimeInMiliseconds(5000);
+            resourceAllocationPage.VerifyResourceRowHasGreenBackground(rowIdx);
+            resourceAllocationPage.ClickType(rowIdx)
+                .ClickLeftResourceMenu("VIEW SHIFT DETAILS")
+                .WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SelectTextFromDropDown(resourceAllocationPage.ResourceStateSelect, "Available");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.ResourceShiftInstanceButton);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SleepTimeInMiliseconds(2000);
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.VerifyResourceRowHasWhiteBackground(rowIdx);
+        }
     }
 }

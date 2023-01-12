@@ -27,6 +27,20 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string roundFilterOption = "//div[contains(@id,'popover')]//input[@title='{0}']";
         private readonly By rememberOtionBtn = By.XPath("//div[contains(@id,'popover')]//input[@id='remember-selection']");
         private readonly By clearOptionBtn = By.XPath("//div[contains(@id,'popover')]//button[@title='Clear All' and not(@style='display: none;')]");
+        public readonly By AllResourceTab = By.XPath("//a[text()='All Resources']");
+        public readonly By LeftMenuReasonSelect = By.XPath("//div[@id='echo-reason-needed']//select");
+        public readonly By LeftMenuConfirmReasonButton = By.XPath("//div[@id='echo-reason-needed']//button[text()='Confirm']");
+        public readonly By ResourceStateSelect = By.XPath("//div[@class='modal-dialog' and @data-bind='with: selectedResourceShiftInstance']//select[@id='state']");
+        public readonly By ResourceShiftInstanceButton = By.XPath("//div[@class='modal-dialog' and @data-bind='with: selectedResourceShiftInstance']//button[text()='Save']");
+
+        public readonly By ResourceTypeHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l2 r2']//input");
+        private string AllResourceTable = "//div[@id='all-resources']//div[@class='grid-canvas']";
+        private string AllResourceRow = "./div[contains(@class, 'slick-row')]";
+        private string ResourceTypeCell = "./div[contains(@class, 'slick-cell l2 r2')]";
+        public TableElement AllResourceTableEle
+        {
+            get => new TableElement(AllResourceTable, AllResourceRow, new List<string>() { ResourceTypeCell });
+        }
 
         //Left panel Daily Allocation
         private readonly By firstRoundRow = By.XPath("//tbody[contains(@data-bind,'roundMenu')]/tr");
@@ -164,6 +178,40 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ClickOnElement(goBtn);
             return this;
         }
+
+        #region All Resource
+        [AllureStep]
+        public ResourceAllocationPage ClickType(int rowIdx)
+        {
+            AllResourceTableEle.ClickCell(rowIdx, AllResourceTableEle.GetCellIndex(ResourceTypeCell));
+            SleepTimeInMiliseconds(200);
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage VerifyResourceRowHasGreenBackground(int rowIdx)
+        {
+            var row = AllResourceTableEle.GetRow(rowIdx);
+            Assert.IsTrue(row.GetAttribute("className").Contains("resourceState8"));
+            return this;
+        }
+         
+        [AllureStep]
+        public ResourceAllocationPage VerifyResourceRowHasWhiteBackground(int rowIdx)
+        {
+            var row = AllResourceTableEle.GetRow(rowIdx);
+            Assert.IsFalse(row.GetAttribute("className").Contains("resourceState8"));
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ClickLeftResourceMenu(string menu)
+        {
+            ClickOnElement(By.XPath($"//div[@class='grid-menu']//button[text()='{menu}']"));
+            return this;
+        }
+        #endregion
+
         [AllureStep]
         public ResourceAllocationPage ClickCreateResource()
         {
