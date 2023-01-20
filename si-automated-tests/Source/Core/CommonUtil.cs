@@ -94,6 +94,13 @@ namespace si_automated_tests.Source.Core
             return DateTime.ParseExact(str, format, System.Globalization.CultureInfo.InvariantCulture);
         }
 
+        public static DateTime TryParseStringToDateTime(string str, string format)
+        {
+            DateTime date = DateTime.MinValue;
+            DateTime.TryParseExact(str, format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out date);
+            return date;
+        }
+
         public static int DateTimeToInt(DateTime dateTime, string format)
         {
             return dateTime.ToString(format).AsInteger();
