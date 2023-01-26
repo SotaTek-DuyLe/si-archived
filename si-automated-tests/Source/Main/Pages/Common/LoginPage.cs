@@ -8,12 +8,12 @@ namespace si_automated_tests.Source.Main.Pages
 {
     public class LoginPage : BasePage
     {
-        private const string userNameInput = "//label[text()='Username']/following-sibling::input";
+        private readonly By userNameInput = By.Id("username");
         private const string passwordInput = "//label[text()='Password']/following-sibling::input";
         private const string signInBtn = "//button[text()='Sign In']";
         private const string forgotPasswordLink = "//a[text()='Forgot Password']";
         private const string helpLink = "//a[text()='Help']";
-        private readonly By nextBtn = By.XPath("//a[text()='Next']");
+        private readonly By nextBtn = By.Id("next");
         private const string ErrorMessage = "//p[text()='Incorrect user name or password']";
 
         [AllureStep]
@@ -21,13 +21,19 @@ namespace si_automated_tests.Source.Main.Pages
         {
             WaitUtil.WaitForElementVisible(userNameInput);
             WaitUtil.WaitForElementVisible(helpLink);
-            //WaitUtil.WaitForElementVisible(nextBtn);
+            WaitUtil.WaitForElementVisible(nextBtn);
             return this;
         }
         [AllureStep]
         public LoginPage SendKeyToUsername(string UserName)
         {
             SendKeys(userNameInput, UserName);
+            return this;
+        }
+        [AllureStep]
+        public LoginPage ClickNextButton()
+        {
+            ClickOnElement(nextBtn);
             return this;
         }
         [AllureStep]
@@ -52,7 +58,7 @@ namespace si_automated_tests.Source.Main.Pages
         public HomePage Login(string username, string password)
         {
             SendKeyToUsername(username);
-            //Click next
+            ClickNextButton();
             SendKeyToPassword(password);
             ClickOnSignIn();
             return PageFactoryManager.Get<HomePage>();
