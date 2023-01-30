@@ -2144,8 +2144,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
-                //.VerifyDisplaySuccessfullyMessage()
-                .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             partyIdHaulier = detailPartyPage
                 .GetPartyId();
@@ -2857,6 +2855,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("Huong")]
         [Test(Description = "WB Site location delete")]
         public void TC_161_WB_ticket_issues()
         {

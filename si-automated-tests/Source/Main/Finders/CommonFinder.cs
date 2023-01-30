@@ -353,5 +353,19 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select licencenumber, licencenumberexpiry, * from wb_partysettings where partyid=" + partyId + ";";
             return FindList<WBPartySettingDBModel>(query).ToList();
         }
+
+        [AllureStep]
+        public List<PartiesDBModel> GetPartiesByPartyId(string partyId)
+        {
+            string query = "select * from parties where partyid=" + partyId + ";";
+            return FindList<PartiesDBModel>(query).ToList();
+        }
+
+        [AllureStep]
+        public List<WBPartySettingVDBModel> GetWBPartiesSettingsVByPartyId(string partyId)
+        {
+            string query = "select * from wb_partysettings_v where partyid" + partyId + ";";
+            return FindList<WBPartySettingVDBModel>(query).ToList();
+        }
     }
 }

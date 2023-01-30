@@ -119,6 +119,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By allowManualNameEntryCheckbox = By.CssSelector("input#allow-manual-name-entry");
         private readonly By restricProductCheckbox = By.CssSelector("input#restrictProducts");
         private readonly By restrictedSiteDd = By.CssSelector("button[data-id='weighbridge-sites']");
+        private readonly By restrictedSiteSelect = By.CssSelector("select[id='weighbridge-sites']");
         private readonly By licenceNumberInput = By.CssSelector("input#party-licence-number");
         private readonly By licenceNumberExpriedInput = By.CssSelector("input#party-licence-number-expiry");
         private readonly By calenderLicenceNumberEx = By.XPath("//input[@id='party-licence-number-expiry']/following-sibling::span");
@@ -158,6 +159,22 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         //ACCOUNT TAB
         private readonly By accountNumberInput = By.CssSelector("input[id='account-number']");
         private readonly By accountTypeDd = By.CssSelector("select[id='account-type']");
+        private readonly By creditLimitInput = By.CssSelector("input[id='party-credit-limit']");
+
+        [AllureStep]
+        public DetailPartyPage InputCreditLimt(string creditLimitValue)
+        {
+            SendKeys(creditLimitInput, creditLimitValue);
+            return this;
+        }
+
+
+        [AllureStep]
+        public DetailPartyPage VerifyValueInCreditLimt(string creditLimitValue)
+        {
+            Assert.AreEqual(creditLimitValue, GetAttributeValue(creditLimitInput, "value"));
+            return this;
+        }
 
         //STEP
         [AllureStep]
@@ -838,7 +855,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureDescription("Verify the [Restricted Sites] is blank")]
         public DetailPartyPage VerifyRestrictedSitesIsBlank()
         {
-            Assert.AreEqual("", GetFirstSelectedItemInDropdown(restrictedSiteDd));
+            Assert.AreEqual("", GetFirstSelectedItemInDropdown(restrictedSiteSelect));
             return this;
         }
 
@@ -855,6 +872,22 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClearTextInWarningLimit()
         {
             ClearInputValue(warningLimitInput);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Input text in [Warning Limit £]")]
+        public DetailPartyPage InputTextInWarningLimit(string  warningLimitValue)
+        {
+            SendKeys(warningLimitInput, warningLimitValue);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Verify value in [Warning Limit £]")]
+        public DetailPartyPage VerifyValueInWarningLimit(string warningLimitValue)
+        {
+            Assert.AreEqual(GetAttributeValue(warningLimitInput, "value"), warningLimitValue);
             return this;
         }
 
