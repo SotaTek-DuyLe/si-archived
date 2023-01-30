@@ -851,5 +851,34 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             roundGroupPage.VerifyRoundInstanceState(roundInstanceD, "coreroundstate/2.svg");
         }
+
+        [Category("Round Group")]
+        [Category("Huong")]
+        [Test]
+        public void TC_274_Round_Form_End_date_format()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.Commercial)
+                .ExpandOption("Collections")
+                .ExpandOption("Commercial Collections")
+                .ExpandOption("Round Groups")
+                .OpenLastOption("REF1-AM")
+                .SwitchNewIFrame();
+            var roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.ClickOnElement(roundGroupPage.ActiveStatus);
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            var text = roundGroupPage.GetElementText(roundGroupPage.EndDateStatus);
+            DateTime endDate = CommonUtil.TryParseStringToDateTime(text, CommonConstants.DATE_DD_MM_YYYY_FORMAT);
+            Assert.IsTrue(endDate != DateTime.MinValue);
+        }
     }
 }
