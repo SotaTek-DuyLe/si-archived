@@ -115,7 +115,7 @@ namespace si_automated_tests.Source.Main.Pages
                         Assert.AreEqual(expectedDate.Month, actualDate.Month);
                         Assert.AreEqual(expectedDate.Day, actualDate.Day);
                         Assert.AreEqual(expectedDate.Hour, actualDate.Hour);
-                        Assert.IsTrue(expectedDate.Minute - actualDate.Minute == 0 | expectedDate.Minute - actualDate.Minute == 1);
+                        Assert.IsTrue(expectedDate.Minute - actualDate.Minute == 0 | expectedDate.Minute - actualDate.Minute == 1, "Expected " + expectedDate.Minute + " but found " + actualDate.Minute);
                     }
                 }
             }

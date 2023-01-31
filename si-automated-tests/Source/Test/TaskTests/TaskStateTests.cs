@@ -1758,7 +1758,8 @@ namespace si_automated_tests.Source.Test.TaskTests
                 try
                 {
                     PageFactoryManager.Get<BasePage>()
-                        .ClickRefreshBtn();
+                        .ClickRefreshBtn()
+                        .WaitForLoadingIconToDisappear();
                     PageFactoryManager.Get<CommonBrowsePage>()
                         .SelectFirstNumberOfItem(3)
                         .VerifyDateValueInActiveRow(3, "Completed Date", CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm"));
@@ -1769,6 +1770,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                     count++;
                 }
             }
+            if (count == 3) Assert.Fail("fail");
             
         }
     }
