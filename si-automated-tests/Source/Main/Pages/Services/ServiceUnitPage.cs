@@ -19,6 +19,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By applyFilterBtn = By.XPath("//button[@title='Apply Filters']");
         private readonly By retireBtn = By.XPath("button[title='Retire']");
         private readonly By firstServiceUnitRow = By.XPath("//div[@class='grid-canvas']/div[1]");
+        private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
+        private readonly By allServiceUnitRows = By.XPath("//div[@class='grid-canvas']/div");
 
         public TableElement ServiceUnitTableEle
         {
@@ -48,8 +50,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceUnitPage FindServiceUnitWithId(string serviceUnitId)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitUtil.WaitForElementsPresent(allServiceUnitRows);
             SendKeys(By.XPath("//div[contains(@class, 'slick-headerrow-column l1 r1')]//input"), serviceUnitId);
-            SleepTimeInSeconds(1);
+            WaitForLoadingIconToDisappear();
             ClickOnElement(applyFilterBtn);
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(firstServiceUnitRow);

@@ -38,7 +38,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Recycling")
                 .OpenOption(serviceName);
             ServiceRecyclingPage sectorRecycling = PageFactoryManager.Get<ServiceRecyclingPage>();
-            sectorRecycling.SwitchNewIFrame()
+            sectorRecycling
+                .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             sectorRecycling
                 .WaitForServiceRecyclingPageLoaded(serviceName);
@@ -49,8 +50,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
             sectorRecycling
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
-            sectorRecycling.VerifyCheckboxIsSelected(sectorRecycling.RestrictEditCheckbox, true);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            sectorRecycling
+                .VerifyCheckboxIsSelected(sectorRecycling.RestrictEditCheckbox, true);
 
             //Service unit
             PageFactoryManager.Get<NavigationBase>()
@@ -208,13 +211,18 @@ namespace si_automated_tests.Source.Test.ServiceTests
             //step 11: User can do all actions in announcement, map, risks, subspriptions, notifications and rental asset tabs
             //announcements - tab
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.AnnouncementTab);
-            serviceUnitDetail.WaitForLoadingIconToDisappear(false)
+            serviceUnitDetail.WaitForLoadingIconToDisappear(false);
+            serviceUnitDetail
+                .WaitForLoadingIconInAnnouncementTabDisappear();
+            serviceUnitDetail
                 .ClickOnElement(serviceUnitDetail.AddNewAnnouncementItemButton);
             serviceUnitDetail.SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear(false);
             AnnouncementDetailPage announcementDetailPage = PageFactoryManager.Get<AnnouncementDetailPage>();
             string announcement = "Announcement text";
             string announcementType = "Collection services";
+            announcementDetailPage
+                .IsOnDetailPage();
             announcementDetailPage.SelectTextFromDropDown(announcementDetailPage.announcementTypeSelect, announcementType);
             announcementDetailPage.SendKeys(announcementDetailPage.announcemenTextInput, announcement);
             announcementDetailPage.SelectTextFromDropDown(announcementDetailPage.impactSelect, "Positive");

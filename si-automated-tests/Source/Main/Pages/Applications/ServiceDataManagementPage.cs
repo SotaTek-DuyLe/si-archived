@@ -5,7 +5,6 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 
 namespace si_automated_tests.Source.Main.Pages.Applications
@@ -52,7 +51,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string SDMMasterServiceTaskCellXPath = "./td[2]//span";
         private readonly string popup300PointsDisplayedMessage = "//div[text()='Only first 300 points will be displayed on the next screen']";
         private readonly string okBtn = "//button[text()='OK']";
-        private readonly string cancelBtn = "//button[text()='Cancel']";
+        private readonly string cancelBtn = "//div[text()='Only first 300 points will be displayed on the next screen']/parent::div/following-sibling::div//button[contains(string(), 'Cancel')]";
 
         private TableElement serviceDataManagementTableElement;
         public TableElement ServiceDataManagementTableElement
@@ -199,7 +198,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public ServiceDataManagementPage VerifyTheDisplayOfPopupOver300Point()
         {
             Assert.IsTrue(IsControlDisplayed(popup300PointsDisplayedMessage));
-            Assert.IsTrue(IsControlEnabled(okBtn));
+            Assert.IsTrue(IsControlEnabled(OkButton));
             Assert.IsTrue(IsControlEnabled(cancelBtn));
             return this;
         }
@@ -207,7 +206,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public ServiceDataManagementPage ClickOnOkBtn()
         {
-            ClickOnElement(okBtn);
+            ClickOnElement(OkButton);
             return this;
         }
 

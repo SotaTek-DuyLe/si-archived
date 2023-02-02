@@ -1210,5 +1210,40 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             return GetFirstSelectedItemInDropdown(CorresspondenceAddressDd);
         }
+
+        //SITES TAB
+        private readonly By siteIdInput = By.XPath("//div[@id='sites-tab']//div[contains(@class, 'l1')]//input");
+        private readonly By applyBtnSiteTab = By.XPath("//div[@id='sites-tab']//button[@title='Apply Filters']");
+        private readonly By clearBtnSiteTab = By.XPath("//div[@id='sites-tab']//button[@title='Clear Filters']");
+        private readonly By firstCheckboxAtRow = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']//div[contains(@class, 'l0')]");
+        private readonly By addNewItemInSiteTab = By.XPath("//div[@id='sites-tab']//button[text()='Add New Item']");
+        private readonly By allRowInSitesTab = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']/div");
+        private const string AccountingAtRow = "//div[@class='grid-canvas']/div[{0}]/div[contains(@class, 'l8')]";
+
+        [AllureStep]
+        public DetailPartyPage FilterBySiteId(string siteIdValue)
+        {
+            WaitUtil.WaitForElementsPresent(allRowInSitesTab);
+            SendKeys(siteIdInput, siteIdValue);
+            ClickOnElement(applyBtnSiteTab);
+            WaitForLoadingIconToDisappear();
+            ClickOnElement(firstCheckboxAtRow);
+            DoubleClickOnElement(firstSiteRow);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage ClickOnClearBtn()
+        {
+            ClickOnElement(clearBtnSiteTab);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyAccountingRefAnyRow(string rowNumber, string accountingValue)
+        {
+            Assert.AreEqual(accountingValue, GetElementText(AccountingAtRow, rowNumber), "Accounting Ref at row " + rowNumber + " is incorrect");
+            return this;
+        }
     }
 }

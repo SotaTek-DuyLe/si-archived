@@ -139,7 +139,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public RoundInstanceDetailPage ClickOnMinimiseRoundsAndRoundLegsBtn()
         {
-            WaitUtil.WaitForElementVisible(WorkSheetTab);
+            WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(showAllTaskTab);
             ClickOnElement(ExpandRoundsGo);
             ClickOnElement(expandRoundLegsBtn);

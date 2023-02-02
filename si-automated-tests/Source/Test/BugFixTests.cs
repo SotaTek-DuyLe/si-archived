@@ -945,6 +945,7 @@ namespace si_automated_tests.Source.Test
             string siteId2 = "1199";
             string accountingRefTheSame = "1234";
             string accountingRefDifferent = CommonUtil.GetRandomNumber(5);
+            string partyName = "PureGym";
 
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
@@ -954,9 +955,11 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser46);
             PageFactoryManager.Get<NavigationBase>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/1121");
-            PartyDetailsTab partyDetailsTab = PageFactoryManager.Get<PartyDetailsTab>();
+            DetailPartyPage partyDetailsTab = PageFactoryManager.Get<DetailPartyPage>();
             partyDetailsTab
                 .WaitForLoadingIconToDisappear();
+            partyDetailsTab
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName);
             partyDetailsTab
                 .ClickOnSitesTab()
                 .WaitForLoadingIconToDisappear();
@@ -1019,8 +1022,12 @@ namespace si_automated_tests.Source.Test
                 .ClickOnClearBtn()
                 .WaitForLoadingIconToDisappear();
             partyDetailsTab
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName);
+            partyDetailsTab
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
+            partyDetailsTab
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName);
             partyDetailsTab
                 .VerifyAccountingRefAnyRow("1", accountingRefTheSame)
                 .VerifyAccountingRefAnyRow("2", accountingRefTheSame);

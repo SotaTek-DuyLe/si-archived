@@ -778,6 +778,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ChooseInspectionAdminRole()
                 .ClickSave()
                 .WaitForLoadingIconDisappear();
+            PageFactoryManager.Get<UserDetailPage>()
+                .SleepTimeInSeconds(3);
 
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.InspectionTypeUrlIE);

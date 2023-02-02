@@ -19,6 +19,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications.ServiceStatus
             WaitForLoadingIconToDisappear();
             SendKeys(filterInputById, id.ToString());
             WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(firstResult);
             return this;
         }
         [AllureStep]

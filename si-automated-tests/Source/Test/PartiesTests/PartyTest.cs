@@ -426,7 +426,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SendKeyToThePartyInput(partyModel.PartyName)
                 .SelectStartDate(-1)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName)
             //Test path for TC 010
@@ -496,7 +497,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SendKeyToThePartyInput(partyModel.PartyName)
                 .SelectStartDate(-1)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
             //    .VerifyDisplaySuccessfullyMessage()
             //Test path for TC 011
