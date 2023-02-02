@@ -20,6 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         public PriceLineDetailPage IsPriceLineDetailPage(string idValue)
         {
             WaitUtil.WaitForElementVisible(title);
+            WaitUtil.WaitForElementVisible(detailTab);
             Assert.IsTrue(IsControlDisplayed(title));
             Assert.AreEqual(idValue, GetElementText(id));
             Assert.IsTrue(IsControlDisplayed(detailTab));

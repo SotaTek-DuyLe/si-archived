@@ -18,6 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string NameCell = "./div[contains(@class, 'l2 r2')]";
         private readonly By applyFilterBtn = By.XPath("//button[@title='Apply Filters']");
         private readonly By retireBtn = By.XPath("button[title='Retire']");
+        private readonly By firstServiceUnitRow = By.XPath("//div[@class='grid-canvas']/div[1]");
 
         public TableElement ServiceUnitTableEle
         {
@@ -48,9 +49,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceUnitPage FindServiceUnitWithId(string serviceUnitId)
         {
             SendKeys(By.XPath("//div[contains(@class, 'slick-headerrow-column l1 r1')]//input"), serviceUnitId);
-            SleepTimeInMiliseconds(300);
+            SleepTimeInSeconds(1);
             ClickOnElement(applyFilterBtn);
-            WaitForLoadingIconToDisappear(false);
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(firstServiceUnitRow);
             return this;
         }
 

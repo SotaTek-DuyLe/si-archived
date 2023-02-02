@@ -26,6 +26,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
 
         //STATION TAB
         private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
+        private readonly By loadingInStationTab = By.XPath("//div[@id='weighbridgeStations-tab']//div[@class='loading-data']");
 
         //LOCATION TAB
         private readonly By locationTab = By.XPath("//a[text()='Locations']");
@@ -35,10 +36,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private const string columnInRowLocations = "//div[@id='weighbridgeSiteLocations-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private const string selectAndDeSelectCheckboxLocations = "//div[@id='weighbridgeSiteLocations-tab']//div[@class='grid-canvas']/div//input[{0}]";
         private const string activeColumn = "//div[@id='weighbridgeSiteLocations-tab']//div[contains(@class, 'l3 r3')]/div";
+        private readonly By loadingInLocationTab = By.XPath("//div[@id='weighbridgeSiteLocations-tab']//div[@class='loading-data']");
 
         //PRODUCT TAB
         private readonly By productTab = By.XPath("//a[text()='Products']");
         private readonly By addNewProductItem = By.XPath("//div[@id='weighbridgeSiteProductLocations-tab']//button[text()='Add New Item']");
+        private readonly By loadingIconInProductTab = By.XPath("//div[@id='weighbridgeSiteProductLocations-tab']//div[@class='loading-data']");
 
         //DYNAMIC LOCATOR
         private const string allPrimaryContactValue = "//select[@id='primary-contact']/option";
@@ -165,6 +168,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         public SiteDetailPage ClickStationTab()
         {
             ClickOnElement(stationTab);
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementInvisible(loadingInStationTab);
             return this;
         }
 
@@ -191,6 +196,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         public SiteDetailPage ClickOnLocationTab()
         {
             ClickOnElement(locationTab);
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementInvisible(loadingInLocationTab);
             return this;
         }
         [AllureStep]
@@ -260,6 +267,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         {
             ClickOnElement(productTab);
             WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementInvisible(loadingIconInProductTab);
             return this;
         }
         [AllureStep]
@@ -269,6 +277,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             {
                 Assert.IsTrue(IsControlDisplayed(nameOfColumnInProductTab, column));
             }
+            return this;
+        }
+        [AllureStep]
+        public SiteDetailPage WaitForLoadingIconInProductTabDisappear()
+        {
+            WaitUtil.WaitForElementInvisible(loadingIconInProductTab);
             return this;
         }
         [AllureStep]

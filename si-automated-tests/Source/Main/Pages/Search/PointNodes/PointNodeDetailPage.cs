@@ -12,7 +12,6 @@ using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Models.Services;
 using si_automated_tests.Source.Main.Pages.Events;
-using static si_automated_tests.Source.Main.Models.ActiveSeviceModel;
 
 namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
 {
@@ -22,6 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
         private readonly By pointNodeName = By.XPath("//p[@class='object-name']");
         private readonly By allAservicesTab = By.CssSelector("a[aria-controls='allServices-tab']");
+        private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
 
         //DETAIL TAB
         private readonly By description = By.Id("description");
@@ -298,12 +298,22 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
         private const string inspectionTypeOption = "//div[@id='inspection-modal']//select[@id='inspection-type']/option[text()='{0}']";
         private const string allocatedUnitOption = "//label[text()=' Allocated Unit']/following-sibling::div/select/option[text()='{0}']";
         private const string assignedUserOption = "//div[@id='inspection-modal']//label[text()='Assigned User']/following-sibling::div/select/option[text()='{0}']";
+        private const string pointNoteName = "//p[@class='object-name' and text()='{0}']";
 
         [AllureStep]
         public PointNodeDetailPage WaitForPointNodeDetailDisplayed()
         {
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(titleDetail);
+            return this;
+        }
+        [AllureStep]
+        public PointNodeDetailPage WaitForPointNodeDetailDisplayed(string noteNameValue)
+        {
+            WaitUtil.WaitForPageLoaded();
+            WaitUtil.WaitForElementVisible(titleDetail);
+            WaitUtil.WaitForElementVisible(pointNoteName, noteNameValue);
+            WaitUtil.WaitForElementVisible(detailTab);
             return this;
         }
         [AllureStep]

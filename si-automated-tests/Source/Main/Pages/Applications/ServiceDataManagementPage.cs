@@ -17,7 +17,9 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By PreviousButton = By.XPath("//div[@id='screen2']//button[contains(string(), 'Previous')]");
         public readonly By ApplyButton = By.XPath("//div[@id='screen2']//button[contains(string(), 'Apply')]");
         public readonly By TotalSpan = By.XPath("//div[@id='screen2']//div[contains(@class, 'south-panel2')]//span");
-        public readonly By OkButton = By.XPath("//div[@class='modal-dialog']//button[contains(string(), 'OK')]");
+        public readonly By OkButton = By.XPath("//div[text()='Only first 300 points will be displayed on the next screen']/parent::div/following-sibling::div//button[contains(string(), 'OK')]");
+        public readonly By okBtnInLeavePopup = By.XPath("//div[text()='Are you sure you want to leave this page?']/parent::div/following-sibling::div//button[contains(string(), 'OK')]");
+        public readonly By okBtnInWarningFilterPopup = By.XPath("//div[text()='Please Note – Any previous row selections will be lost once filters are applied']/ancestor::div[@class='modal-body']/following-sibling::div//button[text()='OK']");
         public readonly By StatusExpandButton = By.XPath("//div[@id='screen1']//div[contains(@class, 'slick-headerrow-column l6')]//button");
         public readonly By StatusSelect = By.XPath("//div[contains(@class, 'bs-container')]//ul");
         public readonly By ApplyFilterBtn = By.XPath("//div[@id='screen1']//button[@id='filter-button']");

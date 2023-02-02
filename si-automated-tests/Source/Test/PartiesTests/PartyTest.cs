@@ -61,13 +61,14 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SendKeyToThePartyInput(partyModel.PartyName)
                 .SelectStartDate(-1)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             //PageFactoryManager.Get<DetailPartyPage>()
             //    .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
             //    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName)
-                .SleepTimeInMiliseconds(2000);
+                .SleepTimeInMiliseconds(3000);
             //PageFactoryManager.Get<DetailPartyPage>()
             //    .MergeAllTabInDetailPartyAndVerify();
             PageFactoryManager.Get<DetailPartyPage>()
@@ -101,14 +102,15 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SelectContract(3)
                 .SelectStartDate(-1)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             //Verify all tab display correctly
             //PageFactoryManager.Get<DetailPartyPage>()
             //    .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
             //    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DetailPartyPage>()
                  .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName)
-                 .SleepTimeInMiliseconds(2000);
+                 .SleepTimeInMiliseconds(3000);
             //.MergeAllTabInDetailPartyAndVerify()
             PageFactoryManager.Get<DetailPartyPage>()
                 .ClickAllTabAndVerify()

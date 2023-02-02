@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -97,10 +96,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsCreatePartiesPopup(Contract.Commercial)
                 .SendKeyToThePartyInput(partyNameHaulier)
                 .SelectPartyType(2)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
-                .VerifyDisplaySuccessfullyMessage()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameHaulier)
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
@@ -137,7 +137,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
-                .ClickSaveAndCloseBtn()
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .ClickCloseBtn()
                 .SwitchToChildWindow(1)
                 .SwitchNewIFrame();
             //Create new party Customer TC045
@@ -183,15 +185,15 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Internal flag checked
                 .ClickInternalCheckbox()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
+                .WaitForLoadingIconToDisappear();
             detailPartyPage
                 //Create new Vehicle in Vehicles tab
-                .ClickOnVehicleTab()
-                .WaitForLoadingIconToDisappear();
+                .ClickOnVehicleTab();
             detailPartyPage
                 .VerifyTableDisplayedInVehicle()
                 .ClickAddNewVehicleBtn()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AddVehiclePage>()
                 .IsCreateVehicleCustomerHaulierPage()
                 .InputResourceName(resourceName)
@@ -201,6 +203,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectHaulierName(partyNameHaulier)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveWBVCHRegistered)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveWBVCHRegistered);
+            PageFactoryManager.Get<AddVehiclePage>()
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Create new station in TC048
@@ -213,8 +217,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
             siteDetailPage
                 .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName56 + " / " + addressAdded45)
-                .ClickStationTab()
-                .WaitForLoadingIconToDisappear();
+                .ClickStationTab();
             siteDetailPage
                 .ClickAddNewStationItem()
                 .SwitchToLastWindow();
@@ -235,8 +238,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToChildWindow(3);
             //TC52: Create new active location
             siteDetailPage
-                .ClickOnLocationTab()
-                .WaitForLoadingIconToDisappear();
+                .ClickOnLocationTab();
             siteDetailPage
                 .VerifyDisplayColumnInGrid()
                 .ClickAddNewLocationItem()
@@ -259,8 +261,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             //TC54: Create new product in Product tab
             siteDetailPage
-                .ClickProductTab()
-                .WaitForLoadingIconToDisappear();
+                .ClickProductTab();
             siteDetailPage
                 .VerifyDisplayColumnInProductTabGrid()
                 .ClickAddNewProductItem()
@@ -278,7 +279,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
                 .ClickCloseBtn()
-                .SwitchToChildWindow(3);
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .WaitForLoadingIconInProductTabDisappear();
             //TC54: Create new product in Product tab with type = neutral
             siteDetailPage
                 .ClickAddNewProductItem()
@@ -295,7 +299,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SaveWBSiteProductSuccessMessage)
                 .ClickCloseBtn()
-                .SwitchToChildWindow(3);
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .WaitForLoadingIconInProductTabDisappear();
             //TC54: Create new product in Product tab with type = outbound
             siteDetailPage
                 .ClickAddNewProductItem()
@@ -357,7 +364,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAnyHaulier(partyNameHaulier)
                 .WaitForLoadingIconToDisappear();
             createNewTicketPage
-                 .ClickAddTicketLineBtn()
+                .ClickAddTicketLineBtn()
                 //Select Product created
                 .ClickProductDd()
                 .ClickAnyProductValue(neutralProduct)
@@ -371,7 +378,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAnyHaulier(partyNameHaulier)
                 .WaitForLoadingIconToDisappear();
             createNewTicketPage
-                 .ClickAddTicketLineBtn()
+                .ClickAddTicketLineBtn()
                 //Select Product created
                 .ClickProductDd()
                 .ClickAnyProductValue(outboundProduct)
@@ -506,7 +513,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Internal flag checked
                 .ClickInternalCheckbox()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
+                .WaitForLoadingIconToDisappear();
             detailPartyPage
                 //Create new Vehicle in Vehicles tab
                 .ClickOnVehicleTab()
@@ -771,7 +778,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Internal flag checked
                 .ClickInternalCheckbox()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
+                .WaitForLoadingIconToDisappear();
             detailPartyPage
                 //Create new Vehicle in Vehicles tab
                 .ClickOnVehicleTab()
@@ -1046,7 +1053,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Internal flag checked
                 .ClickInternalCheckbox()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
+                .WaitForLoadingIconToDisappear();
             detailPartyPage
                 //Create new Vehicle in Vehicles tab
                 .ClickOnVehicleTab()
@@ -1469,7 +1476,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Internal flag checked
                 .ClickInternalCheckbox()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
+                .WaitForLoadingIconToDisappear();
             detailPartyPage
                 //Create new Vehicle in Vehicles tab
                 .ClickOnVehicleTab()
@@ -1821,7 +1828,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Internal flag checked
                 .ClickInternalCheckbox()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
+                .WaitForLoadingIconToDisappear();
             detailPartyPage
                 //Create new Vehicle in Vehicles tab
                 .ClickOnVehicleTab()
@@ -2154,7 +2161,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Internal flag checked
                 .ClickInternalCheckbox()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage);
+                .WaitForLoadingIconToDisappear();
             detailPartyPage
                 //Create new Vehicle in Vehicles tab
                 .ClickOnVehicleTab()

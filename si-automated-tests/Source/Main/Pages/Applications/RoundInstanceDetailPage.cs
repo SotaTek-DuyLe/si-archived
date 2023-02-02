@@ -30,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']");
         public readonly By TaskLinesTab = By.XPath("//a[@aria-controls='taskLines-tab']");
         public readonly By ExpandRoundsGo = By.XPath("//button[@id='t-toggle-rounds']");
+        private readonly By showAllTaskTab = By.CssSelector("button[id='t-all-tasks']");
         private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         public readonly By IdFilterInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l3')]//input");
         public readonly string UnallocatedRow = "./div[contains(@class, 'assured')]";
@@ -138,6 +139,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public RoundInstanceDetailPage ClickOnMinimiseRoundsAndRoundLegsBtn()
         {
+            WaitUtil.WaitForElementVisible(WorkSheetTab);
+            WaitUtil.WaitForElementVisible(showAllTaskTab);
             ClickOnElement(ExpandRoundsGo);
             ClickOnElement(expandRoundLegsBtn);
             WaitForLoadingIconToDisappear();

@@ -1017,6 +1017,8 @@ namespace si_automated_tests.Source.Test
             //Step line 12: Go back to sites grid and Check the value of the accounting value
             partyDetailsTab
                 .ClickOnClearBtn()
+                .WaitForLoadingIconToDisappear();
+            partyDetailsTab
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
             partyDetailsTab
@@ -1047,7 +1049,8 @@ namespace si_automated_tests.Source.Test
                 .ClickMainOption(MainOption.Maps)
                 .ExpandOption(Contract.Municipal)
                 .OpenOption("Sector Groups")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             SectorGroupPage sectorGroupPage = PageFactoryManager.Get<SectorGroupPage>();
             sectorGroupPage
                 .VerifyElementVisibility(sectorGroupPage.AddNewItemButton, true)
@@ -1134,7 +1137,8 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Accounts)
                 .OpenOption("Credit Notes")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CreditNotePage>()
                 .FilterByCreditId(creditId)
                 .ClickOnFirstCreditRow()
@@ -1435,7 +1439,8 @@ namespace si_automated_tests.Source.Test
                 .ExpandOption(Contract.Municipal)
                 .ExpandOptionLast("Contract Units")
                 .OpenLastOption("Clinical")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ContractUnitDetailPage>()
                 .IsContractUnit("Clinical")
                 .ClickOnUsersTab()
@@ -1472,7 +1477,8 @@ namespace si_automated_tests.Source.Test
                 .ClickMainOption(MainOption.Accounts)
                 .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.SalesInvoiceBatches)
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SalesInvoiceBatchesPage>()
                 .IsSalesInvoiceBatchesPage()
                 .FilterBySaleInvoiceBatchId(saleBatchIdGeneratedStatus)
@@ -1613,7 +1619,7 @@ namespace si_automated_tests.Source.Test
             //TC217
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.Commercial)
+                //.ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.SiteServices)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
@@ -1633,7 +1639,7 @@ namespace si_automated_tests.Source.Test
             //Step line 8: Update [Billing Rules]
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .OpenFirstResult()
-                 .SwitchToLastWindow()
+                .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AgreementLinePage>()
                 .WaitForWindowLoadedSuccess(agreementLineId)
@@ -1796,7 +1802,8 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Accounts)
                 .OpenOption("Credit Notes")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CreditNotePage>()
                 .FilterByCreditId(creditId)
                 .ClickOnFirstCreditRow()
@@ -1829,7 +1836,8 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Accounts)
                 .OpenOption("Credit Notes")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CreditNotePage>()
                 .FilterByCreditId(creditId)
                 .ClickOnFirstCreditRow()
@@ -1887,7 +1895,8 @@ namespace si_automated_tests.Source.Test
                 .ClickMainOption(MainOption.Accounts)
                 .ExpandOption(Contract.Commercial)
                 .OpenOption("Receipts")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ReceiptListPage>()
                 .FilterReceiptById(receiptId)
                 .OpenFirstResult()

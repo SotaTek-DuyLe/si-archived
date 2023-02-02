@@ -44,8 +44,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By warningTitle = By.XPath("//h4[text()='Warning']");
         private readonly By warningContent = By.XPath("//h4[text()='Warning']/parent::div/following-sibling::div//div[text()='Please Note – Any previous row selections will be lost once filters are applied']");
         private readonly By checkboxMessage = By.XPath("//h4[text()='Warning']/parent::div/following-sibling::div//label[text()='Do not show this message again']");
-        private readonly By okBtn = By.XPath("//button[text()='OK']");
-        private readonly By cancelBtn = By.XPath("//button[text()='OK']/following-sibling::button");
+        private readonly By okBtn = By.XPath("//h4[text()='Warning']/parent::div/following-sibling::div//button[text()='OK']");
+        private readonly By cancelBtn = By.XPath("//h4[text()='Warning']/parent::div/following-sibling::div//button[text()='Cancel']");
 
         //DYNAMIC
         private readonly string serviceTypeOption = "//select[@id='type']/option[text()='{0}']";
