@@ -41,6 +41,8 @@ namespace si_automated_tests.Source.Test.MapTests
                 .OpenOption("Sector Groups")
                 .SwitchNewIFrame();
             SectorGroupPage sectorGroupPage = PageFactoryManager.Get<SectorGroupPage>();
+            sectorGroupPage.WaitForLoadingIconToDisappear();
+            sectorGroupPage.WaitForLoadingIconToDisappear();
             sectorGroupPage.VerifyElementVisibility(sectorGroupPage.AddNewItemButton, true)
                 .VerifyElementVisibility(sectorGroupPage.CopyItemButton, true);
             //Click 'Add New Item'
@@ -54,7 +56,7 @@ namespace si_automated_tests.Source.Test.MapTests
 
             //click on 'Next' button
             sectorGroupDetailPage.ClickOnElement(sectorGroupDetailPage.NextButton);
-            sectorGroupDetailPage.VerifyToastMessage("Missing Information");
+            sectorGroupDetailPage.VerifyContainToastMessage("Template Sector is required");
 
             //Enter values in mandatory fields
             sectorGroupDetailPage.SendKeys(sectorGroupDetailPage.SectorGroupInput, "Week 1");
@@ -93,8 +95,8 @@ namespace si_automated_tests.Source.Test.MapTests
 
             //Click on 'Finish' button
             sectorGroupDetailPage.ClickOnElement(sectorGroupDetailPage.FinishButton);
-            sectorGroupDetailPage.VerifyToastMessage("Missing Information")
-                .WaitUntilToastMessageInvisible("Missing Information");
+            sectorGroupDetailPage.VerifyToastMessage("Sector Type is required")
+                .WaitUntilToastMessageInvisible("Sector Type is required");
 
             //Enter values in mandatory fields:
             sectorGroupDetailPage.SendKeys(sectorGroupDetailPage.SectorNameInput, "Monday");
