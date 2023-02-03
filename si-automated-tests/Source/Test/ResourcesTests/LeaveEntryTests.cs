@@ -582,6 +582,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                .ExpandOption(Contract.Commercial)
                .OpenOption("Leave Entry")
                .SwitchNewIFrame();
+            leaveEntryPage.WaitForLoadingIconToDisappear();
             leaveEntryPage.VerifyRetiredResourceAreExisting();
         }
 
