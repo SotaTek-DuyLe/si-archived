@@ -486,6 +486,7 @@ namespace si_automated_tests.Source.Test.RiskTests
             serviceUnitPage.WaitForLoadingIconToDisappear();
             serviceUnitPage.SwitchToFrame(serviceUnitPage.RiskIframe);
             //Click on bulk create
+            serviceUnitPage.WaitForLoadingIconToDisappear();
             serviceUnitPage.ClickOnElement(serviceUnitPage.BulkCreateButton);
             serviceUnitPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
