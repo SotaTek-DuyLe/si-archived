@@ -94,7 +94,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.PreviousButton);
                 serviceDataManagementPage
                     .WaitForLoadingIconToDisappear()
-                    .ClickOnElement(serviceDataManagementPage.OkButton);
+                    .ClickOnElement(serviceDataManagementPage.okBtnInLeavePopup);
                 serviceDataManagementPage.WaitForLoadingIconToDisappear();
                 Thread.Sleep(500);
             }
@@ -191,7 +191,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.PreviousButton);
                 serviceDataManagementPage
                     .WaitForLoadingIconToDisappear()
-                    .ClickOnElement(serviceDataManagementPage.OkButton);
+                    .ClickOnElement(serviceDataManagementPage.okBtnInLeavePopup);
                 serviceDataManagementPage.WaitForLoadingIconToDisappear();
                 Thread.Sleep(500);
             }
@@ -223,7 +223,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .SelectByDisplayValueOnUlElement(serviceDataManagementPage.StatusSelect, "New")
                 .SelectByDisplayValueOnUlElement(serviceDataManagementPage.StatusSelect, "Updated")
                 .ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
-            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.OkButton);
+            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInWarningFilterPopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
 
             Thread.Sleep(1000);
@@ -240,7 +240,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.PreviousButton);
             serviceDataManagementPage
                 .WaitForLoadingIconToDisappear()
-                .ClickOnElement(serviceDataManagementPage.OkButton);
+                .ClickOnElement(serviceDataManagementPage.okBtnInLeavePopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.ClearFilterBtn);
@@ -250,7 +250,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage
                 .SelectByDisplayValueOnUlElement(serviceDataManagementPage.StatusSelect, "Verified")
                 .ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
-            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.OkButton);
+            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInWarningFilterPopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
 
             Thread.Sleep(1000);
@@ -290,7 +290,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage
                 .SelectByDisplayValueOnUlElement(serviceDataManagementPage.StatusSelect, "Retired")
                 .ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
-            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.OkButton);
+            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInWarningFilterPopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
 
             Thread.Sleep(1000);

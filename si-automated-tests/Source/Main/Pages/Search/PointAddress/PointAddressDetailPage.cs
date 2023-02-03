@@ -96,6 +96,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
 
         //POINT HISTORY TAB
         private readonly By pointHistoryTab = By.CssSelector("a[aria-controls='pointHistory-tab']");
+        private readonly By descriptionColumn = By.XPath("//span[text()='Description']");
         private readonly By allRowInPointHistoryTabel = By.XPath("//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div");
         private const string columnInRowPointHistoryTab = "//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private readonly By filterInputById = By.XPath("//div[@id='pointHistory-tab']//div[contains(@class, 'l2 r2')]/descendant::input");
@@ -463,6 +464,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             WaitUtil.WaitForPageLoaded();
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(titleDetail);
+            WaitUtil.WaitForElementVisible(pointHistoryTab);
             return this;
         }
         [AllureStep]
@@ -582,6 +584,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         [AllureStep]
         public List<PointHistoryModel> GetAllPointHistory()
         {
+            WaitUtil.WaitForElementVisible(descriptionColumn);
             List<PointHistoryModel> allModel = new List<PointHistoryModel>();
             if(IsControlDisplayedNotThrowEx(allRowInPointHistoryTabel))
             {

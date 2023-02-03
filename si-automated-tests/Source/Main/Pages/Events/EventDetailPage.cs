@@ -10,8 +10,6 @@ using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.DBModels.GetPointHistory;
 using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
 using si_automated_tests.Source.Main.Models;
-using si_automated_tests.Source.Main.Pages.PointAddress;
-using static si_automated_tests.Source.Main.Models.ActiveSeviceModel;
 
 namespace si_automated_tests.Source.Main.Pages.Events
 {
@@ -308,6 +306,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         {
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(eventTitle);
+            WaitUtil.WaitForElementVisible(locationName);
             return this;
         }
         [AllureStep]
@@ -924,7 +923,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         [AllureStep]
         public EventDetailPage VerifyDefaultSourceDd(string sourceValue)
         {
-            Assert.AreEqual(GetFirstSelectedItemInDropdown(sourceDd), sourceValue);
+            Assert.AreEqual(sourceValue, GetFirstSelectedItemInDropdown(sourceDd));
             return this;
         }
         [AllureStep]

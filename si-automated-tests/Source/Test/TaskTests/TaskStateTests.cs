@@ -93,6 +93,8 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .Refresh()
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
+            PageFactoryManager.Get<RoundInstanceDetailPage>()
+                .WaitForLoadingIconToDisappear();
             //Verify order in [Task Bulk Update] - Task State detail form
             PageFactoryManager.Get<RoundInstanceDetailPage>()
                 .ClickOnMinimiseRoundsAndRoundLegsBtn();
@@ -169,7 +171,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             //=> BUG
             string taskId = "14339";
             string partyName = "Tesco PLC";
-            string[] orderStateValues = { "Cancelled", "In Progress" };
+            string[] orderStateValues = { "In Progress", "Cancelled"};
             string[] onlyCancelledStatus = { "Cancelled" };
             string roundName = "REF1-AM";
             string dayName = "Wednesday";
@@ -443,6 +445,8 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .InputNumberInSortOrder("4", orderNumber[3])
                 .InputNumberInSortOrder("5", orderNumber[4])
                 .ClickSaveBtnToUpdateTaskLine();
+            PageFactoryManager.Get<TaskLineEchoExtraPage>()
+                .SleepTimeInSeconds(3);
             PageFactoryManager.Get<TaskTypeEchoExtraPage>()
                 .NavigateToRoundInstanceDetailPage(roundInstanceId)
                 .WaitForLoadingIconToDisappear();

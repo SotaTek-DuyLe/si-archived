@@ -50,6 +50,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.SiteServices
         [AllureStep]
         public SiteServicesCommonPage FilterAgreementId(string id)
         {
+            WaitUtil.WaitForAllElementsPresent(allAgrementResult);
             SendKeys(agreementIdInput, id);
             SendKeys(agreementIdInput, Keys.Enter);
             WaitForLoadingIconToDisappear();
