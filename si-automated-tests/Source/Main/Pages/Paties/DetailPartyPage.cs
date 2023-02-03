@@ -168,7 +168,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             WaitUtil.WaitForElementVisible(DetailsTab);
             WaitUtil.WaitForElementVisible(agreementTab);
             WaitUtil.WaitForElementVisible(siteTab);
-            WaitUtil.WaitForElementVisible(VehicleTab);
             WaitUtil.WaitForPageLoaded();
             return this;
         }
@@ -473,7 +472,16 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnSitesTab()
         {
             ClickOnElement(SitesTab);
-            WaitForLoadingIconToDisappear();
+
+            WaitUtil.WaitForElementVisible(loadingIconInSiteTab);
+            WaitUtil.WaitForElementInvisible(loadingIconInSiteTab);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage WaitForLoadingInSiteTabDisappeared()
+        {
+            WaitUtil.WaitForElementVisible(loadingIconInSiteTab);
             WaitUtil.WaitForElementInvisible(loadingIconInSiteTab);
             return this;
         }

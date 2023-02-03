@@ -11,15 +11,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications.ServiceStatus
         private readonly By firstResult = By.XPath("//div[@class='grid-canvas']/div[1]");
         private readonly By firstCheckbox = By.XPath("//div[@class='grid-canvas']/div[1]//input");
         private readonly By selectAllCheckbox = By.XPath("//div[@title='Select/Deselect All']//input");
+        private readonly By allServiceStatusRow = By.XPath("//div[@class='grid-canvas']/div");
+        private readonly By loadingIconFrameTab = By.XPath("//div[@id='form']/following-sibling::div/div[@class='loading-data']");
 
 
         [AllureStep]
         public ServiceStatusPage FilterServiceStatusById(string id)
         {
-            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementInvisible(loadingIconFrameTab);
             SendKeys(filterInputById, id.ToString());
-            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(loadingIconFrameTab);
+            WaitUtil.WaitForElementInvisible(loadingIconFrameTab);
             WaitUtil.WaitForElementVisible(firstResult);
+            
             return this;
         }
         [AllureStep]

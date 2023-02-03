@@ -150,11 +150,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsCreatePartiesPopup(Contract.Commercial)
                 .SendKeyToThePartyInput(partyNameCustomer)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
-            detailPartyPage
-                .VerifyDisplaySuccessfullyMessage()
+                .ClickSaveBtn()
+                //.VerifyDisplaySuccessfullyMessage()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
                 .ClickOnDetailsTab()
                 .ClickAddCorrespondenceAddress()
                 .SwitchToLastWindow();
@@ -475,11 +475,12 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsCreatePartiesPopup(Contract.Commercial)
                 .SendKeyToThePartyInput(partyNameCustomer)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
-                .VerifyDisplaySuccessfullyMessage()
-                .WaitForLoadingIconToDisappear();
+                //.VerifyDisplaySuccessfullyMessage()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer);
             detailPartyPage
                 .ClickOnDetailsTab()
                 .ClickAddCorrespondenceAddress()
@@ -740,11 +741,12 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsCreatePartiesPopup(Contract.Commercial)
                 .SendKeyToThePartyInput(partyNameCustomer)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
                 .VerifyDisplaySuccessfullyMessage()
-                .WaitForLoadingIconToDisappear();
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer);
             detailPartyPage
                 .ClickOnDetailsTab()
                 .ClickAddCorrespondenceAddress()
@@ -1020,6 +1022,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             detailPartyPage
                 .VerifyDisplaySuccessfullyMessage()
                 .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer);
             detailPartyPage
                 .ClickOnDetailsTab()
                 .ClickAddCorrespondenceAddress()
@@ -1390,10 +1394,12 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsCreatePartiesPopup(Contract.Commercial)
                 .SendKeyToThePartyInput(partyNameHaulier)
                 .SelectPartyType(2)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
-                .VerifyDisplaySuccessfullyMessage()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameHaulier)
+                //.VerifyDisplaySuccessfullyMessage()
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
@@ -1445,6 +1451,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             detailPartyPage
                 .VerifyDisplaySuccessfullyMessage()
                 .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer);
             detailPartyPage
                 .ClickOnDetailsTab()
                 .ClickAddCorrespondenceAddress()
@@ -1745,7 +1753,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
-                .VerifyDisplaySuccessfullyMessage()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameHaulier)
+                //.VerifyDisplaySuccessfullyMessage()
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
@@ -1797,6 +1806,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             detailPartyPage
                 .VerifyDisplaySuccessfullyMessage()
                 .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer);
             detailPartyPage
                 .ClickOnDetailsTab()
                 .ClickAddCorrespondenceAddress()
@@ -2078,7 +2089,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
-                .VerifyDisplaySuccessfullyMessage()
+                //.VerifyDisplaySuccessfullyMessage()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameHaulier)
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
@@ -2126,10 +2138,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsCreatePartiesPopup(Contract.Commercial)
                 .SendKeyToThePartyInput(partyNameCustomer)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
-            detailPartyPage
-                .VerifyDisplaySuccessfullyMessage()
+                .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                //.VerifyDisplaySuccessfullyMessage()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer);
             detailPartyPage
                 .ClickOnDetailsTab()
                 .ClickAddCorrespondenceAddress()

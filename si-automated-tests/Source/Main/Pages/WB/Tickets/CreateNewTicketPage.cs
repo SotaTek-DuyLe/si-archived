@@ -565,6 +565,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         public CreateNewTicketPage IsGreylistCodeModel(string resourceNameValue, string greylistCodeValue)
         {
             WaitUtil.WaitForElementVisible(titleGreylistCodeMode);
+            WaitUtil.WaitForElementVisible(DetailTab);
             Assert.IsTrue(IsControlDisplayed(greylistIdTitle));
             Assert.IsTrue(IsControlDisplayed(greylistCodeTitle));
             Assert.AreEqual("Vehicle " + resourceNameValue + " is on the grey list", GetElementText(titleGreylistCodeMode));

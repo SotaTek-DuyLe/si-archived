@@ -168,10 +168,11 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         public SiteDetailPage ClickStationTab()
         {
             ClickOnElement(stationTab);
-            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(loadingInStationTab);
             WaitUtil.WaitForElementInvisible(loadingInStationTab);
             return this;
         }
+
 
         //STATION TAB
         [AllureStep]
