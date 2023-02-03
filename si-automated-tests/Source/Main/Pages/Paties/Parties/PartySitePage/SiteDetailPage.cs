@@ -178,6 +178,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         [AllureStep]
         public CreateStationPage ClickAddNewStationItem()
         {
+            WaitForLoadingIconToDisappear();
             ClickOnElement(addNewItemBtn);
             return PageFactoryManager.Get< CreateStationPage>();
         }

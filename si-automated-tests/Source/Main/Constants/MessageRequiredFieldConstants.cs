@@ -13,6 +13,9 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string MissingTimezoneMessage = "Time Zone is required";
         public static readonly string StreetNameRequiredMessage = "Street Name is required";
         public static readonly string GreylistCodeIsRequiredMessage = "Greylist Code is required";
+        public static readonly string LicenceNumberExIsRequiredMessage = "Licence Number Expiry is required";
+        public static readonly string LicenceNumberIsRequiredMessage = "Licence Number is required";
+
 
         //WARNING MESSAGES
         public static readonly string LocationRestrictWarningMessage = "Default location must be selected as a restricted location.";
@@ -23,5 +26,6 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string YouCannotCreateServiceTaskMessage = "You cannot create service tasks under own schedule header!";
         public static readonly string WhoopsSomethingIsWrongAttributesConfig = "Whoops something is wrong in the Attributes config";
         public static readonly string TheAccountingRefAlreadyUsed = "The Accounting Reference already used";
+        public static readonly string HaulierLicenceNumberHasExpiredMessage = "Haulier Licence number has expired";
     }
 }

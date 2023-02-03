@@ -1399,7 +1399,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
                 .WaitForDetailPartyPageLoadedSuccessfully(partyNameHaulier)
-                //.VerifyDisplaySuccessfullyMessage()
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
