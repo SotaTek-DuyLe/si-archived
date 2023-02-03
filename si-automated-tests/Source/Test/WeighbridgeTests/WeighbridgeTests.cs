@@ -177,6 +177,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //.VerifyDisplaySuccessfullyMessage()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
+               .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer);
+            detailPartyPage
                 .ClickOnDetailsTab()
                 .ClickAddCorrespondenceAddress()
                 .SwitchToLastWindow();
@@ -418,7 +420,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
             //    .WaitForLoadingIconToDisappear();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-                
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName045);
             //Get id
             partyIdCustomer = detailPartyPage
                 .GetPartyId();
@@ -1381,6 +1384,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //.VerifyDisplaySuccessfullyMessage()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
+               .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer);
+            detailPartyPage
                 .ClickOnDetailsTab();
             string partyCustomerId = detailPartyPage
                 .GetPartyId();
@@ -2048,6 +2053,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Test(Description = "WB create party customer and haulier"), Order(3)]
         public void TC_046_WB_Create_party_customer_and_haulier()
         {
+            string partyNameTC046 = "Auto" + CommonUtil.GetRandomString(2);
             //Create new party
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
@@ -2059,7 +2065,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<CreatePartyPage>()
                 .IsCreatePartiesPopup(Contract.Commercial)
-                .SendKeyToThePartyInput("Auto" + CommonUtil.GetRandomString(2))
+                .SendKeyToThePartyInput(partyNameTC046)
                 .SelectPartyType(1)
                 .SelectPartyType(2)
                 .ClickSaveBtn();
@@ -2067,6 +2073,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             detailPartyPage
                 //.VerifyDisplaySuccessfullyMessage()
                 .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameTC046);
             detailPartyPage
                 .ClickSaveBtn();
             detailPartyPage
@@ -2145,6 +2153,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
                 .WaitForLoadingIconToDisappear();
+            detailPartyPage
+               .WaitForDetailPartyPageLoadedSuccessfully(partyName047);
             partyIdHaulier = detailPartyPage
                 .GetPartyId();
             detailPartyPage

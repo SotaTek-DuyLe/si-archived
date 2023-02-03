@@ -20,6 +20,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By clearBtnSiteTab = By.XPath("//div[@id='sites-tab']//button[@title='Clear Filters']");
         private readonly By firstCheckboxAtRow = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']//div[contains(@class, 'l0')]");
         private readonly By firstSiteRow = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']/div[1]");
+        private readonly By addNewItemInSiteTab = By.XPath("//div[@id='sites-tab']//button[text()='Add New Item']");
 
         //DYNAMIC
         private const string InvoiceAddressOnPage = "//div[contains(@data-bind,'invoiceAddress')]/p[text()='{0}']";
@@ -45,6 +46,8 @@ namespace si_automated_tests.Source.Main.Pages
         public PartyDetailsTab ClickOnSitesTab()
         {
             ClickOnElement(SitesTab);
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(addNewItemInSiteTab);
             return this;
         }
         [AllureStep]

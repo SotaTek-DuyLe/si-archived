@@ -9,6 +9,7 @@ using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
 using si_automated_tests.Source.Main.Pages.Services;
+using System;
 using System.Threading;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 using static si_automated_tests.Source.Main.Pages.Resources.ResourceAllocationPage;
@@ -783,6 +784,128 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<AddAdhocRoundPopup>()
                 .ClickCreateBtn()
                 .VerifyFirstRoundName("(Adhoc) " + templateValue);
+        }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_273_Daily_Allocation_Available_color_change()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
+            resourceAllocationPage.SelectContract(Contract.Commercial);
+            resourceAllocationPage.SelectShift("AM");
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
+            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
+                .SelectRoundNode("Collections")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            int rowIdx = 0;
+            resourceAllocationPage.ClickType(rowIdx)
+                .ClickLeftResourceMenu("SICK")
+                .SelectTextFromDropDown(resourceAllocationPage.LeftMenuReasonSelect, "Paid")
+                .ClickOnElement(resourceAllocationPage.LeftMenuConfirmReasonButton);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SleepTimeInMiliseconds(5000);
+            //Refresh grid
+            resourceAllocationPage.ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            //Verify
+            resourceAllocationPage.VerifyResourceRowHasGreenBackground(rowIdx);
+            resourceAllocationPage.ClickType(rowIdx)
+                .ClickLeftResourceMenu("VIEW SHIFT DETAILS")
+                .WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SelectTextFromDropDown(resourceAllocationPage.ResourceStateSelect, "Available");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.ResourceShiftInstanceButton);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SleepTimeInMiliseconds(2000);
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.VerifyResourceRowHasWhiteBackground(rowIdx);
+        }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_272_Daily_Allocation_Dates_Overlap()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
+            resourceAllocationPage.SelectContract(Contract.Commercial);
+            resourceAllocationPage.SelectShift("AM");
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
+            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
+                .SelectRoundNode("Collections")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            int rowIdx = 0;
+            resourceAllocationPage.ClickType(rowIdx)
+                .ClickLeftResourceMenu("SICK")
+                .SelectTextFromDropDown(resourceAllocationPage.LeftMenuReasonSelect, "Paid")
+                .ClickOnElement(resourceAllocationPage.LeftMenuConfirmReasonButton);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SleepTimeInMiliseconds(5000);
+            //Refresh grid
+            resourceAllocationPage.ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            //Verify
+            resourceAllocationPage.VerifyResourceRowHasGreenBackground(rowIdx);
+            resourceAllocationPage.ClickType(rowIdx)
+                .ClickLeftResourceMenu("VIEW SHIFT DETAILS")
+                .WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SelectTextFromDropDown(resourceAllocationPage.ResourceStateSelect, "Available");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.ResourceShiftInstanceButton);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SleepTimeInMiliseconds(2000);
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            string resource = resourceAllocationPage.GetResourceName(rowIdx);
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            resourceAllocationPage.ClickType(rowIdx)
+                .ClickLeftResourceMenu("TRAINING")
+                .VerifyToastMessage($"Unable to log request. {resource} has Sick request for {londonCurrentDate.ToString("dd/MM/yyyy")} - {londonCurrentDate.ToString("dd/MM/yyyy")}");
         }
     }
 }

@@ -59,6 +59,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly string UnallocatedDescription = "./div[contains(@class, 'slick-cell l4 r4')]";
         public readonly string UnallocatedService = "./div[contains(@class, 'slick-cell l5 r5')]";
         public readonly string UnallocatedID = "./div[contains(@class, 'slick-cell l3 r3')]";
+        public readonly string UnallocatedPriorityCell = "./div[contains(@class, 'slick-cell l12 r12')]";
+        public readonly string UnallocatedResolutionCodeCell = "./div[contains(@class, 'slick-cell l11 r11')]";
         private readonly By taskName = By.XPath("//div[@id='tabs-container']//li[@role='presentation'][2]");
         private readonly By thirdTaskName = By.XPath("//div[@id='tabs-container']//li[@role='presentation'][3]");
         private readonly By contractTitle = By.XPath("//label[text()='Contract']");
@@ -539,6 +541,90 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return roundInstances;
         }
+
+        [AllureStep]
+        public TaskAllocationPage DoubleClickRoundLeg(int rowidx)
+        {
+            UnallocatedTableEle.DoubleClickRow(rowidx);
+            return this;
+        }
+
+        [AllureStep]
+        public List<RoundInstanceModel> DoubleClickTaskRoundLegs(int rowCount)
+        {
+            List<RoundInstanceModel> roundInstances = new List<RoundInstanceModel>();
+            List<IWebElement> rowDetails = UnallocatedTableEle.GetRows().Where(row =>
+            {
+                IWebElement cell = row.FindElement(By.XPath(UnallocatedDescription));
+                var details = cell.FindElements(By.XPath("./span[@class='toggle']"));
+                return details.FirstOrDefault() != null;
+            }).ToList();
+            int count = 0;
+            foreach (var item in rowDetails)
+            {
+                if (count == rowCount) break;
+                count++;
+                RoundInstanceModel model = new RoundInstanceModel()
+                {
+                    Description = item.FindElement(By.XPath(UnallocatedDescription)).Text.Trim(),
+                    Service = item.FindElement(By.XPath(UnallocatedService)).Text.Trim()
+                };
+                roundInstances.Add(model);
+                DoubleClickOnElement(item);
+            }
+            return roundInstances;
+        }
+
+        [AllureStep]
+        public List<RoundInstanceModel> VerifyPriorityOnTaskRoundLegs(int rowCount, string priority)
+        {
+            List<RoundInstanceModel> roundInstances = new List<RoundInstanceModel>();
+            List<IWebElement> rowDetails = UnallocatedTableEle.GetRows().Where(row =>
+            {
+                IWebElement cell = row.FindElement(By.XPath(UnallocatedDescription));
+                var details = cell.FindElements(By.XPath("./span[@class='toggle']"));
+                return details.FirstOrDefault() != null;
+            }).ToList();
+            int count = 0;
+            foreach (var item in rowDetails)
+            {
+                if (count == rowCount) break;
+                count++;
+                IWebElement cell = item.FindElement(By.XPath(UnallocatedPriorityCell));
+                Assert.IsTrue(cell.Text == priority);
+            }
+            return roundInstances;
+        }
+
+        [AllureStep]
+        public TaskAllocationPage VerifyResolutionCodeOnTaskRoundLegs(int rowCount, string resolutionCode)
+        {
+            List<IWebElement> rowDetails = UnallocatedTableEle.GetRows().Where(row =>
+            {
+                IWebElement cell = row.FindElement(By.XPath(UnallocatedDescription));
+                var details = cell.FindElements(By.XPath("./span[@class='toggle']"));
+                return details.FirstOrDefault() != null;
+            }).ToList();
+            int count = 0;
+            foreach (var item in rowDetails)
+            {
+                if (count == rowCount) break;
+                count++;
+                IWebElement cell = item.FindElement(By.XPath(UnallocatedResolutionCodeCell));
+                Assert.IsTrue(cell.Text == resolutionCode);
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public TaskAllocationPage VerifyResolutionCodeOnRoundLegs(int rowIdx, string resolutionCode)
+        {
+            var row = UnallocatedTableEle.GetRow(rowIdx);
+            IWebElement cell = row.FindElement(By.XPath(UnallocatedResolutionCodeCell));
+            Assert.IsTrue(cell.Text == resolutionCode);
+            return this;
+        }
+
         [AllureStep]
         public TaskAllocationPage DragRoundLegRowToRoundInstance(string roundGroup, string round, int dropCellIdx = 4)
         {

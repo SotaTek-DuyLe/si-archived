@@ -83,6 +83,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Get all point history in point history tab
             PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
             pointAddressDetailPage
+                .WaitForPointAddressDetailDisplayed()
                 .ClickPointHistoryTab()
                 .WaitForLoadingIconToDisappear();
             List<PointHistoryModel> pointHistoryModelsInDetail = pointAddressDetailPage
@@ -243,6 +244,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             //Get all point history in point history tab
             PageFactoryManager.Get<PointAddressDetailPage>()
+                .WaitForPointAddressDetailDisplayed()
                 .ClickPointHistoryTab()
                 .WaitForLoadingIconToDisappear();
             List<PointHistoryModel> pointHistoryModelsInDetail = PageFactoryManager.Get<PointAddressDetailPage>()

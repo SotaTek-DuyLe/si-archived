@@ -23,14 +23,14 @@ namespace si_automated_tests.Source.Test.CommonTests
             login
                 .IsOnLoginPage()
                 .SendKeyToUsername("acv")
+                .ClickNextButton()
                 .SendKeyToPassword("cdcd")
                 .ClickOnSignIn()
                 .VerifyErrorMessageDisplay();
+            login.GoToURL(WebUrl.MainPageUrl);
             //Success case
             login
-                .SendKeyToUsername(AutoUser1.UserName)
-                .SendKeyToPassword(AutoUser1.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser1.UserName, AutoUser1.Password);
             homePage
                 .IsOnHomePage(AutoUser1)
                 .ClickUserNameDd()

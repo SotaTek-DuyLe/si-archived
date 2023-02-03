@@ -252,5 +252,77 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Type", resourceType)
                 .VerifyFirstResultValue("Contract", Contract.Commercial);
         }
+
+        [Category("Sites")]
+        [Category("Huong")]
+        [Test()]
+        public void TC_268_Resources_3rd_Party()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser23.UserName, AutoUser23.Password)
+                .IsOnHomePage(AutoUser23);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .OpenFirstResult()
+                .SwitchToChildWindow(2);
+            ResoureDetailPage resoureDetailPage = PageFactoryManager.Get<ResoureDetailPage>();
+            resoureDetailPage.WaitForLoadingIconToDisappear();
+            resoureDetailPage.VerifyElementEnable(resoureDetailPage.SupplierSelect, false);
+            resoureDetailPage.SelectThirdPartyCheckbox(true)
+                .VerifyElementEnable(resoureDetailPage.SupplierSelect, true)
+                .SelectIndexFromDropDown(resoureDetailPage.SupplierSelect, 1);
+            resoureDetailPage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>().WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .OpenFirstResult()
+                .SwitchToChildWindow(2);
+            resoureDetailPage.WaitForLoadingIconToDisappear();
+            resoureDetailPage.VerifyElementEnable(resoureDetailPage.SupplierSelect, true);
+            resoureDetailPage.SelectThirdPartyCheckbox(false)
+                .VerifyElementEnable(resoureDetailPage.SupplierSelect, false);
+        }
+
+        [Category("Sites")]
+        [Category("Huong")]
+        [Test()]
+        public void TC_269_Resources_Add_BUG()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser23.UserName, AutoUser23.Password)
+                .IsOnHomePage(AutoUser23);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
+            ResourceListingPage resourceListingPage = PageFactoryManager.Get<ResourceListingPage>();
+            resourceListingPage.VerifyBusinessUnitGroupHeaderVisible();
+            resourceListingPage.SendKeys(resourceListingPage.BusinessUnitGroupHeaderInput, "Collections");
+            resourceListingPage.WaitForLoadingIconToDisappear();
+            resourceListingPage.VerifyBusinessUnitGroupColumn("Collections");
+
+            resourceListingPage.ClickOnElement(resourceListingPage.ClearFilterButton);
+            resourceListingPage.WaitForLoadingIconToDisappear();
+            resourceListingPage.VerifyClientReferenceVisible();
+            resourceListingPage.SendKeys(resourceListingPage.ClientReferenceHeaderInput, "E1776");
+            resourceListingPage.WaitForLoadingIconToDisappear();
+            resourceListingPage.VerifyClientReferenceColumn("E1776");
+        }
     }
 }

@@ -287,5 +287,24 @@ namespace si_automated_tests.Source.Test.ServiceTests
             servicesTaskPage.VerifyInputValue(servicesTaskPage.IndicatorStartDateInput, "");
             servicesTaskPage.VerifyInputValue(servicesTaskPage.IndicatorEndDateInput, "");
         }
+
+        [Category("ServiceUnitPoint")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_270_AO_Intra_day_MultiRound_Optimisation()
+        {
+            //Verify whether Service form is updated to display new checkbox 
+            PageFactoryManager.Get<LoginPage>()
+              .GoToURL(WebUrl.MainPageUrl + "web/services/15");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser40.UserName, AutoUser40.Password);
+            ServiceDetailPage serviceDetailPage = PageFactoryManager.Get<ServiceDetailPage>();
+            serviceDetailPage.VerifyElementVisibility(serviceDetailPage.DynamicOptimisationLabel, true)
+                .VerifyCheckboxIsSelected(serviceDetailPage.DynamicOptimisationCheckbox, false);
+            //Verify whether question mark is added next to field (like on screenshot of Service Unit below)
+            serviceDetailPage.ClickOnElement(serviceDetailPage.DynamicOptimisationHelpButton);
+            serviceDetailPage.VerifyTooltip("Improve service efficiency by allowing automated task re-allocations between optimised round instances. If set to True, Tasks will only be re-allocated to round instances which are in the same service, are scheduled for the same day, and are configured to be able to perform that task.");
+        }
     }
 }

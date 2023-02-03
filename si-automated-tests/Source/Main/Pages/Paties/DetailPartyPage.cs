@@ -57,7 +57,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By CorresspondenceAddressDd = By.Id("party-correspondence-address");
         private const string CorrespondenceAddressAddBtn = "//label[text()='Correspondence Address']/following-sibling::div//span[text()='Add']";
         private const string SitesTab = "//a[text()='Sites']";
+        private readonly By loadingIconInSiteTab = By.XPath("//div[@id='sites-tab']//div[@class='loading-data']");
         private const string VehicleTab = "//a[text()='Vehicles']";
+        private const string loadingVehicleTab = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='loading-data']";
         private const string InvoiceAddress = "//label[text()='Invoice Address']/following-sibling::div//select";
         private const string DetailsTab = "//a[text()='Details']";
         private readonly By InvoiceAddressButton = By.Id("party-invoice-address");
@@ -102,6 +104,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         //Contact tab
         private readonly By contactTab = By.XPath("//a[text()='Contacts']");
+        private readonly By loadingIconAtContactTab = By.XPath("//div[@id='contacts-tab']//div[@class='loading-data']");
         private readonly By addNewItemAtContactTabBtn = By.XPath("//div[@id='contacts-tab']//button[text()='Add New Item']");
         private readonly By totalContactRow = By.XPath("//div[@id='contacts-tab']//div[@class='grid-canvas']/div");
         private const string ColumnOfRowContact = "//div[@id='contacts-tab']//div[@class='grid-canvas']/div/div[count(//div[@id='contacts-tab']//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
@@ -183,6 +186,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(string.Format(partyName, name));
+            WaitUtil.WaitForElementVisible(DetailsTab);
+            WaitUtil.WaitForElementVisible(agreementTab);
+            WaitUtil.WaitForElementVisible(siteTab);
             WaitUtil.WaitForPageLoaded();
             return this;
         }
@@ -487,6 +493,17 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnSitesTab()
         {
             ClickOnElement(SitesTab);
+
+            WaitUtil.WaitForElementVisible(loadingIconInSiteTab);
+            WaitUtil.WaitForElementInvisible(loadingIconInSiteTab);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage WaitForLoadingInSiteTabDisappeared()
+        {
+            WaitUtil.WaitForElementVisible(loadingIconInSiteTab);
+            WaitUtil.WaitForElementInvisible(loadingIconInSiteTab);
             return this;
         }
         [AllureStep]
@@ -666,6 +683,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public DetailPartyPage ClickAddNewItemAtContactTab()
         {
+            WaitUtil.WaitForElementVisible(loadingIconAtContactTab);
+            WaitUtil.WaitForElementInvisible(loadingIconAtContactTab);
             ClickOnElement(addNewItemAtContactTabBtn);
             return this;
         }
@@ -1023,6 +1042,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnVehicleTab()
         {
             ClickOnElement(VehicleTab);
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementInvisible60(loadingVehicleTab);
             return this;
         }
         [AllureStep]
@@ -1261,6 +1282,41 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             WaitUtil.WaitForElementVisible(accountNumberInput);
             WaitUtil.WaitForElementVisible(accountTypeDd);
             SelectTextFromDropDown(accountTypeDd, accountTypeValue);
+            return this;
+        }
+
+        //SITES TAB
+        private readonly By siteIdInput = By.XPath("//div[@id='sites-tab']//div[contains(@class, 'l1')]//input");
+        private readonly By applyBtnSiteTab = By.XPath("//div[@id='sites-tab']//button[@title='Apply Filters']");
+        private readonly By clearBtnSiteTab = By.XPath("//div[@id='sites-tab']//button[@title='Clear Filters']");
+        private readonly By firstCheckboxAtRow = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']//div[contains(@class, 'l0')]");
+        private readonly By addNewItemInSiteTab = By.XPath("//div[@id='sites-tab']//button[text()='Add New Item']");
+        private readonly By allRowInSitesTab = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']/div");
+        private const string AccountingAtRow = "//div[@class='grid-canvas']/div[{0}]/div[contains(@class, 'l8')]";
+
+        [AllureStep]
+        public DetailPartyPage FilterBySiteId(string siteIdValue)
+        {
+            WaitUtil.WaitForElementsPresent(allRowInSitesTab);
+            SendKeys(siteIdInput, siteIdValue);
+            ClickOnElement(applyBtnSiteTab);
+            WaitForLoadingIconToDisappear();
+            ClickOnElement(firstCheckboxAtRow);
+            DoubleClickOnElement(firstSiteRow);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage ClickOnClearBtn()
+        {
+            ClickOnElement(clearBtnSiteTab);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyAccountingRefAnyRow(string rowNumber, string accountingValue)
+        {
+            Assert.AreEqual(accountingValue, GetElementText(AccountingAtRow, rowNumber), "Accounting Ref at row " + rowNumber + " is incorrect");
             return this;
         }
     }
