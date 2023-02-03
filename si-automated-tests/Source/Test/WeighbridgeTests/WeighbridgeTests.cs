@@ -647,7 +647,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Test(Description = "Restricted sites")]
         public void TC_261_Restricted_sites()
         {
-            string partyNameCustomerAndHaulier = "PartyCustomerAndHaulier";
+            string partyNameCustomerAndHaulier = "PartyCustomerAndHaulierTC_2612";
             string restrictedSiteValue = "Kingston Tip - 20 Chapel Mill Road, Kingston upon Thames, KT1 3GZ";
 
             //Step line 8: Verify that if party is created, restricted sites will be blank
@@ -669,6 +669,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             detailPartyPage
                 //.VerifyDisplaySuccessfullyMessage()
                 .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomerAndHaulier);
             detailPartyPage
                 .ClickWBSettingTab()
                 .WaitForLoadingIconToDisappear();

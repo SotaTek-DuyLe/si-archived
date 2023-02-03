@@ -1398,13 +1398,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
-<<<<<<< HEAD
-                .VerifyDisplaySuccessfullyMessage()
-=======
                 .WaitForDetailPartyPageLoadedSuccessfully(partyNameHaulier)
-                //.VerifyDisplaySuccessfullyMessage()
                 .ClickSaveBtn()
->>>>>>> 9447aa4c3ee643d15609eb6822063dbf43dc19cf
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
                 .VerifyDisplayYellowMesInLicenceNumberExField()
@@ -1757,13 +1752,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
-<<<<<<< HEAD
-                .VerifyDisplaySuccessfullyMessage()
-=======
                 .WaitForDetailPartyPageLoadedSuccessfully(partyNameHaulier)
                 //.VerifyDisplaySuccessfullyMessage()
                 .ClickSaveBtn()
->>>>>>> 9447aa4c3ee643d15609eb6822063dbf43dc19cf
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
                 .VerifyDisplayYellowMesInLicenceNumberExField()
@@ -2096,15 +2087,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SelectPartyType(2)
                 .ClickSaveBtn();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-<<<<<<< HEAD
-            detailPartyPage
-                .VerifyDisplaySuccessfullyMessage()
-=======
             detailPartyPage
                 //.VerifyDisplaySuccessfullyMessage()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyNameHaulier)
                 .ClickSaveBtn()
->>>>>>> 9447aa4c3ee643d15609eb6822063dbf43dc19cf
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
                 .VerifyDisplayYellowMesInLicenceNumberExField()

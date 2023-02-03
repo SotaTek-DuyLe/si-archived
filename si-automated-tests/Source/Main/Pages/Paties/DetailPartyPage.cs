@@ -874,7 +874,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureDescription("Verify the [Restricted Sites] is blank")]
         public DetailPartyPage VerifyRestrictedSitesIsBlank()
         {
-            Assert.AreEqual("", GetFirstSelectedItemInDropdown(restrictedSiteSelect));
+            Assert.AreEqual("", GetAttributeValue(restrictedSiteDd, "title"));
             return this;
         }
 
@@ -1105,6 +1105,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickWBTicketTab()
         {
             ClickOnElement(wBTicketTab);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
