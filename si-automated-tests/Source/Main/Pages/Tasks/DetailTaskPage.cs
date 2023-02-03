@@ -52,7 +52,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public readonly By completionDateInput = By.CssSelector("input[id='completionDate.id']");
         public readonly By endDateInput = By.CssSelector("input[id='endDate.id']");
         private readonly By resolutionCode = By.CssSelector("select[id='resolutionCode.id']");
-
+        public readonly By PrioritySelect = By.CssSelector("select[id='priority.id']");
         //DYNAMIC LOCATOR
         private const string sourceName = "//select[@id='source']/option[text()='{0}']";
         private const string inspectionTypeOption = "//select[@id='inspection-type']/option[text()='{0}']";
