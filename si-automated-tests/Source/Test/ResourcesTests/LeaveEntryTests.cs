@@ -605,7 +605,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.AllResourceTab);
             createLeaveEntryPage.WaitForLoadingIconToDisappear();
             createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.BUSelect);
-            createLeaveEntryPage.VerifySelectContainDisplayValues(createLeaveEntryPage.BUSelect, new List<string>() { "Select...", "Collections - Food", "Collections - Recycling", "Collections - Refuse" });
+            createLeaveEntryPage.VerifyBUSelectValues(new List<string>() { "Select...", "Collections - Recycling", "Collections - Refuse" });
         }
     }
 }
