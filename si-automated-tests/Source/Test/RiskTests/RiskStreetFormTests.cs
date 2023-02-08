@@ -538,6 +538,7 @@ namespace si_automated_tests.Source.Test.RiskTests
             serviceTaskPage.ClickOnElement(serviceTaskPage.RiskTab);
             serviceTaskPage.WaitForLoadingIconToDisappear();
             serviceTaskPage.SwitchToFrame(serviceTaskPage.RiskIframe);
+            serviceTaskPage.WaitForLoadingIconToDisappear();
             //Click on bulk create
             serviceTaskPage.ClickOnElement(serviceTaskPage.BulkCreateButton);
             serviceTaskPage.SwitchToChildWindow(2)
