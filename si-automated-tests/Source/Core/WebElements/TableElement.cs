@@ -40,12 +40,24 @@ namespace si_automated_tests.Source.Core.WebElements
         public List<IWebElement> GetCells(int rowIdx)
         {
             var rows = GetRows();
+            WaitForRowLoaded(rowIdx);
             var row = rows[rowIdx];
             return CellXpaths.Select(x => row.FindElement(By.XPath(x))).ToList();
         }
 
+        private void WaitForRowLoaded(int rowIdx)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(30));
+            driverWait.Until((driver) =>
+            {
+                var rows = GetTable().FindElements(By.XPath(RowXpath));
+                return rows.Count > rowIdx;
+            });
+        }
+
         public IWebElement GetRow(int rowIdx)
         {
+            WaitForRowLoaded(rowIdx);
             return GetRows()[rowIdx];
         }
 
@@ -166,6 +178,7 @@ namespace si_automated_tests.Source.Core.WebElements
         public List<object> GetRowValue(int rowIdx)
         {
             var rows = GetRows();
+            WaitForRowLoaded(rowIdx);
             var row = rows[rowIdx];
             List<object> values = new List<object>();
             foreach (var cellXpath in CellXpaths)

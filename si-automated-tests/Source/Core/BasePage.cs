@@ -919,10 +919,12 @@ namespace si_automated_tests.Source.Core
                 WaitUtil.WaitForElementInvisible60("//div[@id='loading-shield']");
                 WaitUtil.WaitForElementInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
             }
-            WaitUtil.WaitForElementVisible(By.XPath("//*[contains(@data-bind,'shield: loading') or contains(@data-bind,'shield: isLoading')]"));
+            WaitUtil.WaitForPageLoaded();
+            WaitUtil.WaitForElementVisible(By.XPath("//*[contains(@data-bind,'shield: loading') or contains(@data-bind,'shield: isLoading') or contains(@data-bind,'shield: $root.isLoading')]"));
             WaitUtil.WaitForPageLoaded();
             return this;
         }
+
         public BasePage waitForLoadingIconDisappear() {
             WaitUtil.WaitAttributeChange(By.XPath("//*[contains(@data-bind,'shield: isLoading')]"), "style", "display: block;");
             return this;
@@ -935,8 +937,10 @@ namespace si_automated_tests.Source.Core
                 if (implicitSleep) Thread.Sleep(750);
                 WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: loading')]");
+                WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: $root.isLoading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@id='loading-shield']");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
+                WaitUtil.WaitForAllElementsInvisible60("//div[@class='loading-definition' and contains(@data-bind,'loadingDefinition')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'loadingDefinition')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'shield: loading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@class,'loading-polygon')]");

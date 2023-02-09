@@ -815,6 +815,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
             resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SelectTextFromDropDown(resourceAllocationPage.ThirdPartyHeaderInput, "false");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
             int rowIdx = 0;
             resourceAllocationPage.ClickType(rowIdx)
                 .ClickLeftResourceMenu("SICK")
@@ -829,6 +831,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SelectTextFromDropDown(resourceAllocationPage.ThirdPartyHeaderInput, "false");
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             //Verify
             resourceAllocationPage.VerifyResourceRowHasGreenBackground(rowIdx);

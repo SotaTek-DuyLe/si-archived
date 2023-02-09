@@ -273,6 +273,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             RoundInstanceForm roundInstanceForm = PageFactoryManager.Get<RoundInstanceForm>();
             roundInstanceForm.ClickOnElement(roundInstanceForm.EventsTab);
             roundInstanceForm.WaitForLoadingIconToDisappear();
+            roundInstanceForm.WaitForLoadingIconToDisappear();
             roundInstanceForm.ClickOnElement(roundInstanceForm.AddNewEventItemButton);
             roundInstanceForm.SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();

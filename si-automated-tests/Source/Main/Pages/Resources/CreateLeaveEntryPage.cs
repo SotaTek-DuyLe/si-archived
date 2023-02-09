@@ -36,6 +36,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         }
 
         [AllureStep]
+        public CreateLeaveEntryPage VerifyBUSelectValues(List<string> values)
+        {
+            Assert.That(GetSelectDisplayValues(GetElement(BUSelect)), Is.EquivalentTo(values));
+            return this;
+        }
+
+        [AllureStep]
         public CreateLeaveEntryPage VerifyResourceHasValue()
         {
             Assert.IsTrue(GetAllElements(OpenDropDownOptions).Count != 0);
