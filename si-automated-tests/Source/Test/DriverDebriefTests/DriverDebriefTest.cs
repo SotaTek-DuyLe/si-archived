@@ -74,7 +74,6 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
             //Click on x bin lift -> Find the task you are working with
             debriefResultPage.SleepTimeInMiliseconds(10000);
             debriefResultPage.ClickOnElement(debriefResultPage.BinLiftSecondRow);
-            debriefResultPage.WaitForLoadingIconToDisappear();
             debriefResultPage.VerifyFirstTaskRatio();
         }
 

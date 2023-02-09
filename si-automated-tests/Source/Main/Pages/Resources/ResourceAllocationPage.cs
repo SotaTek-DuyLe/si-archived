@@ -35,6 +35,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public readonly By ResourceShiftInstanceButton = By.XPath("//div[@class='modal-dialog' and @data-bind='with: selectedResourceShiftInstance']//button[text()='Save']");
 
         public readonly By ResourceTypeHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l2 r2']//input");
+        public readonly By ThirdPartyHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l5 r5']//select");
         private string AllResourceTable = "//div[@id='all-resources']//div[@class='grid-canvas']";
         private string AllResourceRow = "./div[contains(@class, 'slick-row')]";
         private string ResourceNameCell = "./div[contains(@class, 'slick-cell l0 r0')]";

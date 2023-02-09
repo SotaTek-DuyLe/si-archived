@@ -150,6 +150,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 while(count < 5)
                 {
                     count++;
+                    SleepTimeInMiliseconds(300);
                     var cell = OutstandingTableEle.GetCellByValue(1, item.ID);
                     if (cell == null)
                     {

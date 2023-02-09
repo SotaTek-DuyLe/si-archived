@@ -703,7 +703,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             serviceTaskLinePage.SendKeys(serviceTaskLinePage.MaxAssetQty, "10");
             serviceTaskLinePage.ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .CloseCurrentWindow()
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             agreementTaskDetailPage.ClickRefreshBtn()
@@ -718,6 +719,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             serviceTaskLinePage.SelectTextFromDropDown(serviceTaskLinePage.StateSelect, "Not Completed")
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
