@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
@@ -20,17 +18,17 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    public class WarningLimitWBTests : BaseTest
+    public class DriverNameRequiredWBTests : BaseTest
     {
         private string partyCustomerId;
-        private string partyNameCustomer = "PCWarningLimitTC261_" + CommonUtil.GetRandomString(2);
-        private string partyNameHaulier = "PHWarningLimitTC261_" + CommonUtil.GetRandomString(2);
-        private string siteName56 = "SiteWarningLimitTC261_" + CommonUtil.GetRandomNumber(4);
-        private string stationNameTC56 = "StationWarningLimit TC261_" + CommonUtil.GetRandomNumber(4);
-        private string resourceName = "ResourceWarningLimit TC261_" + CommonUtil.GetRandomNumber(2);
-        private string locationNameActive56 = "LocationWarningLimitTC261_" + CommonUtil.GetRandomNumber(2);
+        private string partyNameCustomer = "PCDriverNameTC261_" + CommonUtil.GetRandomString(2);
+        private string partyNameHaulier = "PHDriverNameTC261_" + CommonUtil.GetRandomString(2);
+        private string siteName56 = "Site Twickenham TC261_" + CommonUtil.GetRandomNumber(4);
+        private string stationNameTC56 = "AutoStation TC261_" + CommonUtil.GetRandomNumber(4);
+        private string resourceName = "WB Van TC261_" + CommonUtil.GetRandomNumber(2);
+        private string locationNameActive56 = "LocationTC261WBActive" + CommonUtil.GetRandomNumber(2);
         private string resourceType56 = "Van";
-        private string clientRef56 = "ClientRefWarningLimitTC261_" + CommonUtil.GetRandomNumber(2);
+        private string clientRef56 = "ClientRefTC261_" + CommonUtil.GetRandomNumber(2);
         private string product56 = "Garden";
         private string ticketType56 = "Incoming";
         private string neutralProduct = "Plastic";
@@ -48,8 +46,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser82.UserName, AutoUser82.Password)
-                .IsOnHomePage(AutoUser82);
+                .Login(AutoUser83.UserName, AutoUser83.Password)
+                .IsOnHomePage(AutoUser83);
 
             //Create new Resource with type = Van in TC51
             PageFactoryManager.Get<NavigationBase>()
@@ -317,196 +315,19 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Test ID = 1, 3, Verify that Warning limit is set up correctly for existing party and Warning limit can be modified"), Order(2)]
-        public void TC_261_TestID_1_3_Warning_limit_existing_party()
+        [Test(Description = "Test ID = 1 Verify that when Driver name required user has to add the name"), Order(2)]
+        public void TC_261_TestID_1_Verify_that_when_driver_name_required_user_has_to_add_the_name()
         {
             CommonFinder commonFinder = new CommonFinder(DbContext);
-            string partyId = "30";
-            string partyName = "GeoFossils";
 
-            //Scenario 1
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser82.UserName, AutoUser82.Password)
-                .IsOnHomePage(AutoUser82);
-            //Open the party Id = 30 and change [Credit limit]
-            PageFactoryManager.Get<BasePage>()
-                .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyId);
-            PageFactoryManager.Get<DetailPartyPage>()
-               .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClickAccountTab()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .InputCreditLimt("1000")
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyValueInCreditLimt("1000")
-                //Step line 9: Verify in WB settings tab
-                .ClickWBSettingTab()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyValueInWarningLimit("750");
-            //Step line 10: Run query to check
-            List<WBPartySettingDBModel> list = commonFinder.GetWBPartySettingByPartyId(partyId);
-            Assert.IsNull(list[0].creditlimitwarning);
-            List<PartiesDBModel> partiesDBModels = commonFinder.GetPartiesByPartyId(partyId);
-            Assert.AreEqual(1000, partiesDBModels[0].creditlimit);
-            List<WBPartySettingVDBModel> wBPartySettingVDBModels = commonFinder.GetWBPartiesSettingsVByPartyId(partyId);
-            Assert.AreEqual(750, wBPartySettingVDBModels[0].creditlimitwarning);
-
-            PageFactoryManager.Get<DetailPartyPage>()
-                .ClickOnDetailsTab()
-                .WaitForLoadingIconToDisappear();
-            //Step line 11: Change [Credit limit]
-            PageFactoryManager.Get<DetailPartyPage>()
-                .InputCreditLimt("900")
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyValueInCreditLimt("900")
-                //Step line 12: Verify in WB settings tab
-                .ClickWBSettingTab()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-               .VerifyValueInWarningLimit("675");
-            //Step line 13: Run query to check
-            List<WBPartySettingDBModel> listAfterChanged = commonFinder.GetWBPartySettingByPartyId(partyId);
-            Assert.IsNull(listAfterChanged[0].creditlimitwarning);
-            List<PartiesDBModel> partiesDBModelsAfterChanged = commonFinder.GetPartiesByPartyId(partyId);
-            Assert.AreEqual(900, partiesDBModelsAfterChanged[0].creditlimit);
-            List<WBPartySettingVDBModel> wBPartySettingVDBModelsAfterChanged = commonFinder.GetWBPartiesSettingsVByPartyId(partyId);
-            Assert.AreEqual(675, wBPartySettingVDBModelsAfterChanged[0].creditlimitwarning);
-            //Step line 17: Change Warning limit
-            PageFactoryManager.Get<DetailPartyPage>()
-                .InputTextInWarningLimit("1000")
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyValueInWarningLimit("1000");
-            //Step line 18: API run query to check
-            List<WBPartySettingDBModel> listAfterChangeWarningLimit = commonFinder.GetWBPartySettingByPartyId(partyId);
-            Assert.AreEqual(1000, listAfterChangeWarningLimit[0].creditlimitwarning);
-            List<PartiesDBModel> partiesDBModelsAfterChangeWarningLimit = commonFinder.GetPartiesByPartyId(partyId);
-            Assert.AreEqual(900, partiesDBModelsAfterChangeWarningLimit[0].creditlimit);
-            List<WBPartySettingVDBModel> wBPartySettingVDBModelsAfterChangeWarningLimit = commonFinder.GetWBPartiesSettingsVByPartyId(partyId);
-            Assert.AreEqual(1000, wBPartySettingVDBModelsAfterChangeWarningLimit[0].creditlimitwarning);
-            //Step line 19 + 20: Already set up and verify in other Tcs
-            //Step line 26: Click on WB tickets tab and Set Warning limit = 0
-            PageFactoryManager.Get<DetailPartyPage>()
-                .InputTextInWarningLimit("0")
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyValueInWarningLimit("0");
-            //Step line 27: Verify API
-            List<WBPartySettingDBModel> listWarningLimit0 = commonFinder.GetWBPartySettingByPartyId(partyId);
-            Assert.AreEqual(0, listWarningLimit0[0].creditlimitwarning);
-        }
-
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "Test ID = 2, Verify that Warning limit is set up correctly for a new party"), Order(3)]
-        public void TC_261_TestID_2_Warning_limit_a_new_party()
-        {
-            CommonFinder commonFinder = new CommonFinder(DbContext);
-            string partyName = "TC261PartyName";
-            string address = "Twickenham";
-            string siteName261 = "Site Twickenham 261" + CommonUtil.GetRandomNumber(4);
-            string siteName = CommonConstants.WBSiteName;
-
-            //Step line 14: Create a new party
-            PageFactoryManager.Get<LoginPage>()
-                    .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser82.UserName, AutoUser82.Password)
-                .IsOnHomePage(AutoUser82);
-            PageFactoryManager.Get<PartyCommonPage>()
-                .ClickAddNewItem()
-                .SwitchToChildWindow(2);
-            PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup(Contract.Commercial)
-                .SendKeyToThePartyInput(partyName)
-                .SelectPartyType(1)
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-
-            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-            detailPartyPage
-                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClickAddCorrespondenceAddress()
-                .SwitchToLastWindow();
-            PartySiteAddressPage partySiteAddressPage = PageFactoryManager.Get<PartySiteAddressPage>();
-            partySiteAddressPage.WaitForLoadingIconToDisappear();
-            partySiteAddressPage.IsOnPartySiteAddressPage()
-                .InputTextToSearchBar(address)
-                .ClickSearchBtn()
-                .VerifySearchedAddressAppear(address)
-                .ClickOnSearchedAddress(address)
-                .ClickOnNextButton()
-                .SwitchToLastWindow();
-            CreateEditSiteAddressPage createEditSiteAddressPage = PageFactoryManager.Get<CreateEditSiteAddressPage>();
-            createEditSiteAddressPage
-                .WaitForLoadingIconToDisappear();
-            string addressAdded45 = createEditSiteAddressPage
-                .SelectRandomSiteAddress();
-            createEditSiteAddressPage.SelectAddressClickNextBtn()
-                .InsertSiteName(siteName261)
-                .ClickAnySiteInDd(siteName)
-                .ClickCreateBtn()
-                .SwitchToChildWindow(2);
-            detailPartyPage.WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded45)
-                .ClickOnInvoiceAddressButton()
-                .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded45)
-                .SelectCreatedAddress(addressAdded45)
-                .ClickAccountTab()
-                .WaitForLoadingIconToDisappear();
-            //Click on [Account] and change the credit limit]
-            detailPartyPage
-                .VerifyValueInCreditLimt("125")
-                .InputCreditLimt("1000")
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .VerifyValueInCreditLimt("1000")
-                //Step line 15: Verify in WB settings tab
-                .ClickWBSettingTab()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .VerifyValueInWarningLimit("750");
-            string partyId = detailPartyPage.GetPartyId();
-            //Step line 16: Run API to check
-            List<WBPartySettingDBModel> listAfterChanged = commonFinder.GetWBPartySettingByPartyId(partyId);
-            Assert.IsNull(listAfterChanged[0].creditlimitwarning);
-            List<PartiesDBModel> partiesDBModelsAfterChanged = commonFinder.GetPartiesByPartyId(partyId);
-            Assert.AreEqual(1000, partiesDBModelsAfterChanged[0].creditlimit);
-            List<WBPartySettingVDBModel> wBPartySettingVDBModelsAfterChanged = commonFinder.GetWBPartiesSettingsVByPartyId(partyId);
-            Assert.AreEqual(750, wBPartySettingVDBModelsAfterChanged[0].creditlimitwarning);
-        }
-
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "Test ID = 5, Verify that warning message is displayed when the customer’s Account Balance + WIP Balance >= Warning Limit. "), Order(4)]
-        public void TC_261_TestID_5_Warning_limit_a_new_party()
-        {
-            //Go to the [WB Settings] tab in the detail party and set [Account Balance + WIP Balance >= Warning Limit]
-            //Default value in [Account] tab: [Account Balance] = 0 and [WIP Balance] = 5.64
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            //Login
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser82.UserName, AutoUser82.Password)
+                .Login(AutoUser83.UserName, AutoUser83.Password)
                 .IsOnHomePage(AutoUser83);
-            //Open the party
+            //Open the party Id = 1164
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
             PageFactoryManager.Get<DetailPartyPage>()
@@ -515,18 +336,100 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
                 .ClickWBSettingTab()
                 .WaitForLoadingIconToDisappear();
-            //Get WIP balance
-            string wipBalanceBefore = "";
-
-
+            //Step line 8: Click on [WB Settings] tab and Tick [Driver Name Required]
             PageFactoryManager.Get<DetailPartyPage>()
-                .InputTextInWarningLimit("2")
+                .ClickOnDriverNameRequiredCheckbox()
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyValueInWarningLimit("2");
-            //Add new WB ticket for this party
+                .VerifyDriverNameRequiredChecked()
+                //Step line 9: Click on [WB tickets] tab and [Add new item]
+                .ClickWBTicketTab()
+                .ClickAddNewWBTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+
+            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC56)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            //Add ticket line
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(2)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(1)
+                .ClickSaveBtn();
+
+            //Step line 9: Verify the display of the message [Driver Name is required]
+            createNewTicketPage
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.DriverNameIsRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.DriverNameIsRequiredMessage);
+
+            //Step line 10: Input value [Driver name]
+            createNewTicketPage
+                .InputDriverName("Pablo")
+                .ClickSaveBtn();
+            createNewTicketPage
+                .ClickOnNoWarningPopup()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            createNewTicketPage
+                .VerifyValueAtDriverName("Pablo");
+            string ticketId = createNewTicketPage
+                .GetWBTicketId();
+            //Step line 11: API
+            WBTicketDBModel wBTicketDBModel = commonFinder.GetWBTicketByTicketId(ticketId);
+            Assert.AreEqual("Pablo", wBTicketDBModel.driver);
+        }
+
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "Test ID = 2 Verify that user doesn't have to enter the name when flag is not set"), Order(3)]
+        public void TC_261_TestID_2_Verify_that_user_does_not_have_to_enter_the_name_when_flag_is_not_set()
+        {
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser83.UserName, AutoUser83.Password)
+                .IsOnHomePage(AutoUser83);
+            //Open the party Id = 1164
+            PageFactoryManager.Get<BasePage>()
+               .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
             PageFactoryManager.Get<DetailPartyPage>()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
+                .ClickWBSettingTab()
+                .WaitForLoadingIconToDisappear();
+            //Step line 12: Click on [WB Settings] tab and UnTick [Driver Name Required]
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickOnDriverNameRequiredCheckbox()
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifyDriverNameRequiredNotChecked()
+                //Step line 13: Click on [WB tickets] tab and [Add new item] > Fill all mandatory field
                 .ClickWBTicketTab()
                 .ClickAddNewWBTicketBtn()
                 .SwitchToChildWindow(2)
@@ -545,16 +448,76 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayHaulierDd()
                 .ClickAnyHaulier(partyNameHaulier)
                 .WaitForLoadingIconToDisappear();
+            //Add ticket line
             createNewTicketPage
-                .VerifyDisplayToastMessage(string.Format(MessageRequiredFieldConstants.CustomterBalanceExceededMessage, partyNameCustomer, wipBalanceBefore, "2"));
-        }
-
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "Test ID = 6, Verify that no warning limit is displayed when Warning limit is set to 0 "), Order(5)]
-        public void TC_261_TestID_5_No_warning_limit_is_displayed_when_warning_limit_is_set_to_0()
-        {
-
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(2)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(1)
+                .ClickSaveBtn();
+            createNewTicketPage
+                .ClickOnNoWarningPopup();
+            createNewTicketPage
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            string ticketIdFirst = createNewTicketPage
+                .GetWBTicketId();
+            //Step line 14: API
+            WBTicketDBModel wBTicketDBModel = commonFinder.GetWBTicketByTicketId(ticketIdFirst);
+            Assert.IsNull(wBTicketDBModel.driver);
+            createNewTicketPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            //Step line 15: 
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickAddNewWBTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC56)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            //Add ticket line
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(2)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(1)
+                //Step line 15: Input [Driver name]
+                .InputDriverName("Mark")
+                .ClickSaveBtn();
+            createNewTicketPage
+                 .ClickOnNoWarningPopup()
+                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            createNewTicketPage
+                .VerifyValueAtDriverName("Mark");
+            string ticketIdSecond = createNewTicketPage
+                .GetWBTicketId();
+            //Step line 11: API
+            WBTicketDBModel wBTicketDBModelAfter = commonFinder.GetWBTicketByTicketId(ticketIdSecond);
+            Assert.AreEqual("Mark", wBTicketDBModelAfter.driver);
         }
     }
 }

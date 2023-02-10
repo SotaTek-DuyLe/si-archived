@@ -29,6 +29,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         public readonly By PONumberInput = By.XPath("//input[@id='po-number']");
         public readonly By AddButton = By.XPath("//button[text()='Add' and contains(@data-bind, 'addTicketLine')]");
         private readonly By ticketNumberInput = By.CssSelector("input[id='ticket-number']");
+        private readonly By driverNameInput = By.CssSelector("input[id='driver-name']");
 
         //Warning popup
         private readonly By titleWarningPopup = By.XPath("//h4[text()=\"Warning - Customer's account type has allow cash payment set to true.\"]");
@@ -577,6 +578,21 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return this;
         }
 
+        //Driver name
+        [AllureStep]
+        public CreateNewTicketPage InputDriverName(string driverNameValue)
+        {
+            SendKeys(driverNameInput, driverNameValue);
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyValueAtDriverName(string driverNameValue)
+        {
+            Assert.AreEqual(driverNameValue, GetAttributeValue(driverNameInput, "value"));
+            return this;
+        }
+
         //Greylist code model
 
         #region
@@ -666,5 +682,6 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         {
             return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/weighbridge-tickets/", "");
         }
+
     }
 }

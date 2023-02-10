@@ -34,6 +34,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By title = By.XPath("//h4[text()='Party']");
         private readonly By wBtab = By.XPath("//a[text()='Weighbridge Settings']");
         private readonly By wBTicketTab = By.XPath("//a[text()='Weighbridge Tickets']");
+        private readonly By loadingIconWBTicketTab = By.XPath("//div[@id='weighbridgeTickets-tab']//div[@class='loading-definition']");
         private readonly By taskTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='tasks-tab']");
         private readonly By suspensionTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='suspensions-tab']");
         public readonly By pricesTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='prices-tab']");
@@ -798,6 +799,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         [AllureStep]
+        public DetailPartyPage VerifyDriverNameRequiredChecked()
+        {
+            Assert.IsTrue(IsCheckboxChecked(driverNameRequiredCheckbox), "[Driver Name Required] is not checked");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyDriverNameRequiredNotChecked()
+        {
+            Assert.IsFalse(IsCheckboxChecked(driverNameRequiredCheckbox), "[Driver Name Required] is checked");
+            return this;
+        }
+
+        [AllureStep]
         [AllureDescription("Click on [Use Store Purchase order number] checkout")]
         public DetailPartyPage ClickOnUseStorePoNumberCheckbox()
         {
@@ -1105,6 +1120,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickWBTicketTab()
         {
             ClickOnElement(wBTicketTab);
+            WaitUtil.WaitForElementVisible(loadingIconWBTicketTab);
+            WaitUtil.WaitForElementInvisible(loadingIconWBTicketTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
