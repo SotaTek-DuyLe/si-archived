@@ -68,6 +68,7 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
             debriefResultPage.WaitForLoadingIconToDisappear();
             debriefResultPage.ClickOnElement(debriefResultPage.BinLiftSecondRow);
             debriefResultPage.WaitForLoadingIconToDisappear();
+            debriefResultPage.WaitForDebriefLoaded();
             debriefResultPage.ClickOnElement(debriefResultPage.UnmatchButton);
             debriefResultPage.VerifyDisplayToastMessage(MessageSuccessConstants.SavedMessage)
                 .WaitForLoadingIconToDisappear();
