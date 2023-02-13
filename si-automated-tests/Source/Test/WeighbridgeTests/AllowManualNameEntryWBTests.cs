@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
@@ -18,17 +19,17 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    public class DriverNameRequiredWBTests : BaseTest
+    public class AllowManualNameEntryWBTests : BaseTest
     {
         private string partyCustomerId;
-        private string partyNameCustomer = "PCDriverNameTC261_" + CommonUtil.GetRandomString(2);
-        private string partyNameHaulier = "PHDriverNameTC261_" + CommonUtil.GetRandomString(2);
-        private string siteName56 = "Site Twickenham TC261_" + CommonUtil.GetRandomNumber(4);
-        private string stationNameTC56 = "AutoStation TC261_" + CommonUtil.GetRandomNumber(4);
-        private string resourceName = "WB Van TC261_" + CommonUtil.GetRandomNumber(2);
-        private string locationNameActive56 = "LocationTC261WBActive" + CommonUtil.GetRandomNumber(2);
+        private string partyNameCustomer = "PCAllowManualNameEntryTC261_" + CommonUtil.GetRandomString(2);
+        private string partyNameHaulier = "PHAllowManualNameEntryTC261_" + CommonUtil.GetRandomString(2);
+        private string siteName56 = "SiteAllowManualNameEntryTC261_" + CommonUtil.GetRandomNumber(4);
+        private string stationNameTC56 = "StationAllowManualNameEntry TC261_" + CommonUtil.GetRandomNumber(4);
+        private string resourceName = "ResourceAllowManualNameEntry TC261_" + CommonUtil.GetRandomNumber(2);
+        private string locationNameActive56 = "LocationAllowManualNameEntryTC261_" + CommonUtil.GetRandomNumber(2);
         private string resourceType56 = "Van";
-        private string clientRef56 = "ClientRefTC261_" + CommonUtil.GetRandomNumber(2);
+        private string clientRef56 = "ClientAllowManualNameEntryTC261_" + CommonUtil.GetRandomNumber(2);
         private string product56 = "Garden";
         private string ticketType56 = "Incoming";
         private string neutralProduct = "Plastic";
@@ -41,7 +42,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Category("WB")]
         [Category("Chang")]
         [Test(Description = "Set up data test"), Order(1)]
-        public void SetupDataTest_Tab_Driver_Name_Required_()
+        public void SetupDataTest_Tab_Allow_Manual_Name_Entry()
         {
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -317,8 +318,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Test ID = 1 Verify that when Driver name required user has to add the name"), Order(2)]
-        public void TC_261_Tab_Driver_Name_Required_TestID_1_Verify_that_when_driver_name_required_user_has_to_add_the_name()
+        [Test(Description = "Verify that user has the option to manually add a name/address for adhoc customer when Allow manual name entry is ticked"), Order(2)]
+        public void TC_261_Tab_Allow_Manual_Name_Entry_Allow_Manual_Name_Entry_Is_Ticket() 
         {
             CommonFinder commonFinder = new CommonFinder(DbContext);
 
@@ -338,19 +339,21 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
                 .ClickWBSettingTab()
                 .WaitForLoadingIconToDisappear();
-            //Step line 8: Click on [WB Settings] tab and Tick [Driver Name Required]
+            //Step line 8: Click on [WB Settings] tab and Tick [Allow manual name entry]
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickOnDriverNameRequiredCheckbox()
+                .ClickOnAllowManualNameEntryCheckbox()
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
+            string accountNumber = PageFactoryManager.Get<DetailPartyPage>()
+                .GetAccountNumber();
+
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyDriverNameRequiredChecked()
+                .VerifyAllowManualNameEntryChecked()
                 //Step line 9: Click on [WB tickets] tab and [Add new item]
                 .ClickWBTicketTab()
                 .ClickAddNewWBTicketBtn()
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
-
             CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
             createNewTicketPage
                 .IsCreateNewTicketPage()
@@ -365,93 +368,13 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayHaulierDd()
                 .ClickAnyHaulier(partyNameHaulier)
                 .WaitForLoadingIconToDisappear();
-            //Add ticket line
+            //Verify the display of the text under the [Source] field
+            string manualSourceParty = "Costa";
             createNewTicketPage
-                .ClickAddTicketLineBtn()
-                .ClickProductDd()
-                .ClickAnyProductValue(product56)
-                //Verify Location
-                .VerifyLocationPrepolulated(locationNameActive56)
-                //Mandatory field remaining
-                .InputFirstWeight(2)
-                .InputFirstDate()
-                .InputSecondDate()
-                .InputSecondWeight(1)
-                .ClickSaveBtn();
-
-            //Step line 9: Verify the display of the message [Driver Name is required]
-            createNewTicketPage
-                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.DriverNameIsRequiredMessage)
-                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.DriverNameIsRequiredMessage);
-
-            //Step line 10: Input value [Driver name]
-            createNewTicketPage
-                .InputDriverName("Pablo")
-                .ClickSaveBtn();
-            createNewTicketPage
-                .ClickOnNoWarningPopup()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-            createNewTicketPage
-                .VerifyValueAtDriverName("Pablo");
-            string ticketId = createNewTicketPage
-                .GetWBTicketId();
-            //Step line 11: API
-            WBTicketDBModel wBTicketDBModel = commonFinder.GetWBTicketByTicketId(ticketId);
-            Assert.AreEqual("Pablo", wBTicketDBModel.driver);
-        }
-
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "Test ID = 2 Verify that user doesn't have to enter the name when flag is not set"), Order(3)]
-        public void TC_261_Tab_Driver_Name_Required_TestID_2_Verify_that_user_does_not_have_to_enter_the_name_when_flag_is_not_set()
-        {
-            CommonFinder commonFinder = new CommonFinder(DbContext);
-
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            //Login
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser83.UserName, AutoUser83.Password)
-                .IsOnHomePage(AutoUser83);
-            //Open the party Id = 1164
-            PageFactoryManager.Get<BasePage>()
-               .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
-            PageFactoryManager.Get<DetailPartyPage>()
-               .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
-                .ClickWBSettingTab()
-                .WaitForLoadingIconToDisappear();
-            //Step line 12: Click on [WB Settings] tab and UnTick [Driver Name Required]
-            PageFactoryManager.Get<DetailPartyPage>()
-                .ClickOnDriverNameRequiredCheckbox()
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyDriverNameRequiredNotChecked()
-                //Step line 13: Click on [WB tickets] tab and [Add new item] > Fill all mandatory field
-                .ClickWBTicketTab()
-                .ClickAddNewWBTicketBtn()
-                .SwitchToChildWindow(2)
-                .WaitForLoadingIconToDisappear();
-            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
-            createNewTicketPage
-                .IsCreateNewTicketPage()
-                .ClickStationDdAndSelectStation(stationNameTC56)
-                .WaitForLoadingIconToDisappear();
-            createNewTicketPage
-                .VerifyDisplayVehicleRegInput()
-                .InputVehicleRegInput(resourceName)
-                .WaitForLoadingIconToDisappear();
-            //Select Haulier
-            createNewTicketPage
-                .VerifyDisplayHaulierDd()
-                .ClickAnyHaulier(partyNameHaulier)
-                .WaitForLoadingIconToDisappear();
-            //Add ticket line
-            createNewTicketPage
+                .VerifyTextUnderSourceField(accountNumber)
+                //Step line 10: Input [manual Source party] and add new ticket
+                .InputManualSourceParty(manualSourceParty)
+                //Add ticket line and Save
                 .ClickAddTicketLineBtn()
                 .ClickProductDd()
                 .ClickAnyProductValue(product56)
@@ -470,13 +393,62 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             string ticketIdFirst = createNewTicketPage
                 .GetWBTicketId();
-            //Step line 14: API
+
+            createNewTicketPage
+                .VerifyValueInManualSourceParty(manualSourceParty);
+            //Step line 11: DB
             WBTicketDBModel wBTicketDBModel = commonFinder.GetWBTicketByTicketId(ticketIdFirst);
-            Assert.IsNull(wBTicketDBModel.driver);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModel.destination_party);
+            Assert.AreEqual(manualSourceParty, wBTicketDBModel.source_party);
+            //Step line 12: Change ticket type on the same ticket and verify the text next to destination party
+            createNewTicketPage
+                .ClickTicketType()
+                .VerifyValueInTicketTypeDd()
+                .ClickAnyTicketType("Outbound")
+                .WaitForLoadingIconToDisappear();
+                //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            string manualDestinationParty = "Tesco";
+            createNewTicketPage
+                .VerifyTextFieldNextToDestinationField()
+                //Step line 13: Input [Manual Destination Party] field and Add ticket line
+                .InputManualDestinationParty(manualDestinationParty)
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(1)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(2)
+                .ClickSaveBtn();
+            //Step line 14: Select [Reason] and [Save]
+            createNewTicketPage
+                .IsSelectReasonPopup()
+                .InputNoteInReasonPopup()
+                .ClickOnSaveBtnInReasonPopup()
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .ClickOnNoWarningPopup();
+
+            createNewTicketPage
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            createNewTicketPage
+                .VerifyValueInDestinationParty(manualDestinationParty);
+            //Step line 15: Run query
+            WBTicketDBModel wBTicketDBModelAfter = commonFinder.GetWBTicketByTicketId(ticketIdFirst);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModelAfter.destination_party);
+            Assert.AreEqual(manualDestinationParty, wBTicketDBModelAfter.source_party);
             createNewTicketPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1);
-            //Step line 15: 
+            //Step line 19: [Add new item] and DO NOT fill manual entry field
             PageFactoryManager.Get<DetailPartyPage>()
                 .ClickAddNewWBTicketBtn()
                 .SwitchToChildWindow(2)
@@ -494,8 +466,96 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayHaulierDd()
                 .ClickAnyHaulier(partyNameHaulier)
                 .WaitForLoadingIconToDisappear();
-            //Add ticket line
             createNewTicketPage
+                .VerifyTextUnderSourceField(accountNumber)
+                //Step line 20: DO NOT fill [manual Source party] and add new ticket
+                //Add ticket line and Save
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(3)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(2)
+                .ClickSaveBtn();
+            createNewTicketPage
+                .ClickOnNoWarningPopup();
+            createNewTicketPage
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            string ticketId21 = createNewTicketPage
+                .GetWBTicketId();
+            string sourceName = createNewTicketPage
+                .GetSourceValue();
+            //Step line 21: Verify [Manual] entered field is autopopulated with [Source] party name
+            createNewTicketPage
+                .VerifyValueInManualSourceParty(sourceName);
+            //Step line 22: Run a query
+            WBTicketDBModel wBTicketDBModel21 = commonFinder.GetWBTicketByTicketId(ticketId21);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModel21.destination_party);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModel21.source_party);
+
+        }
+
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "Verify that text field is not displayed  when Allow manual name entry is unticked"), Order(3)]
+        public void TC_261_Tab_Allow_Manual_Name_Entry_Allow_Manual_Name_Entry_Is_Unticked()
+        {
+            //Go to the [WB Settings] tab and unticket [Allow Manual Name Entry]
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser83.UserName, AutoUser83.Password)
+                .IsOnHomePage(AutoUser83);
+            //Open the party Id = partyCustomerId
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
+            PageFactoryManager.Get<DetailPartyPage>()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
+                .ClickWBSettingTab()
+                .WaitForLoadingIconToDisappear();
+            //Step line 24: Click on [WB Settings] tab and UnTick [Allow manual name entry]
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickOnAllowManualNameEntryCheckbox()
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            string accountNumber = PageFactoryManager.Get<DetailPartyPage>()
+                .GetAccountNumber();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifyAllowManualNameEntryUnChecked()
+                //Step line 25: Click on [WB tickets] tab and [Add new item]
+                .ClickWBTicketTab()
+                .ClickAddNewWBTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC56)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            //Verify not display the text next to the [Source] field
+            createNewTicketPage
+                .VerifyTextFieldIsNotDisplayedNextToSourceDd()
+                //Step line 26: Add a new ticket line
                 .ClickAddTicketLineBtn()
                 .ClickProductDd()
                 .ClickAnyProductValue(product56)
@@ -506,20 +566,19 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .InputFirstDate()
                 .InputSecondDate()
                 .InputSecondWeight(1)
-                //Step line 15: Input [Driver name]
-                .InputDriverName("Mark")
                 .ClickSaveBtn();
             createNewTicketPage
-                 .ClickOnNoWarningPopup()
-                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
-                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+                .ClickOnNoWarningPopup();
             createNewTicketPage
-                .VerifyValueAtDriverName("Mark");
-            string ticketIdSecond = createNewTicketPage
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            string ticketIdFirst = createNewTicketPage
                 .GetWBTicketId();
-            //Step line 11: API
-            WBTicketDBModel wBTicketDBModelAfter = commonFinder.GetWBTicketByTicketId(ticketIdSecond);
-            Assert.AreEqual("Mark", wBTicketDBModelAfter.driver);
+            //Step line 27: DB
+            WBTicketDBModel wBTicketDBModel = commonFinder.GetWBTicketByTicketId(ticketIdFirst);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModel.destination_party);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModel.source_party);
+
         }
     }
 }

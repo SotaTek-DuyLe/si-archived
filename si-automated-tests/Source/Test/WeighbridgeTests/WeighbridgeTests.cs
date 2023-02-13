@@ -679,7 +679,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Step line 10: Select one value from [Restricted Sites]
             detailPartyPage
                 .SelectAnyOptionRestrictedSites(restrictedSiteValue)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             //Step line 11: Click on [WB tickets tab] and Click on Add new item
             detailPartyPage
                 .ClickWBTicketTab()
@@ -1574,7 +1575,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickMainOption(MainOption.Weighbridge)
                 .ExpandOption(Contract.Commercial)
                 .OpenOption("Grey Lists")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<GreyListPage>()
                 .IsGreyListPage()
                 //Step line 11: [Add new item] btn

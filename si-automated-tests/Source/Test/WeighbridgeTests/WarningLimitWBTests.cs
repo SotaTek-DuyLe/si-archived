@@ -494,10 +494,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Test ID = 5, Verify that warning message is displayed when the customer’s Account Balance + WIP Balance >= Warning Limit. "), Order(4)]
-        public void TC_261_TestID_5_Warning_limit_a_new_party()
+        [Test(Description = "Test ID = 6, Verify that no warning limit is displayed when Warning limit is set to 0 "), Order(4)]
+        public void TC_261_TestID_6_No_warning_limit_is_displayed_when_warning_limit_is_set_to_0()
         {
-            //Go to the [WB Settings] tab in the detail party and set [Account Balance + WIP Balance >= Warning Limit]
+            //Go to the [WB Settings] tab in the detail party and set Warning Limit = 0
             //Default value in [Account] tab: [Account Balance] = 0 and [WIP Balance] = 5.64
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -505,7 +505,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser82.UserName, AutoUser82.Password)
-                .IsOnHomePage(AutoUser83);
+                .IsOnHomePage(AutoUser82);
             //Open the party
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
@@ -515,16 +515,91 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
                 .ClickWBSettingTab()
                 .WaitForLoadingIconToDisappear();
-            //Get WIP balance
-            string wipBalanceBefore = "";
-
-
             PageFactoryManager.Get<DetailPartyPage>()
-                .InputTextInWarningLimit("2")
+                .InputTextInWarningLimit("0")
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyValueInWarningLimit("2");
+               .VerifyValueInWarningLimit("0");
+            //Add new WB ticket for this party
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickWBTicketTab()
+                .ClickAddNewWBTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC56)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            //Add ticket line
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(2)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(1)
+                .ClickSaveBtn();
+            createNewTicketPage
+                .ClickOnNoWarningPopup();
+            createNewTicketPage
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+        }
+
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "Test ID = 5, Verify that warning message is displayed when the customer’s Account Balance + WIP Balance >= Warning Limit. "), Order(5)]
+        public void TC_261_TestID_5_Warning_limit_a_new_party()
+        {
+            //Go to the [WB Settings] tab in the detail party and set [Account Balance + WIP Balance >= Warning Limit]
+            //Default value in [Account] tab: [Account Balance] = 0 and [WIP Balance] = 2.82
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser82.UserName, AutoUser82.Password)
+                .IsOnHomePage(AutoUser82);
+            //Open the party
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
+            PageFactoryManager.Get<DetailPartyPage>()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
+                .ClickAccountTab()
+                .WaitForLoadingIconToDisappear();
+            //Get WIP balance
+            string wipBalanceBefore = PageFactoryManager.Get<DetailPartyPage>()
+                .GetWIPBalance();
+            string accountBalanceBefore = PageFactoryManager.Get<DetailPartyPage>()
+                .GetAccountBalance();
+            string warningLimitTest = ((Double.Parse(wipBalanceBefore) + Double.Parse(accountBalanceBefore)) - 1.00).ToString();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickWBSettingTab()
+                .WaitForLoadingIconToDisappear();
+            
+            PageFactoryManager.Get<DetailPartyPage>()
+                .InputTextInWarningLimit(warningLimitTest)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifyValueInWarningLimit(warningLimitTest);
             //Add new WB ticket for this party
             PageFactoryManager.Get<DetailPartyPage>()
                 .ClickWBTicketTab()
@@ -546,15 +621,28 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAnyHaulier(partyNameHaulier)
                 .WaitForLoadingIconToDisappear();
             createNewTicketPage
-                .VerifyDisplayToastMessage(string.Format(MessageRequiredFieldConstants.CustomterBalanceExceededMessage, partyNameCustomer, wipBalanceBefore, "2"));
+                .VerifyDisplayToastMessage(string.Format(MessageRequiredFieldConstants.CustomterBalanceExceededMessage, partyNameCustomer, wipBalanceBefore, warningLimitTest))
+                .WaitUntilToastMessageInvisible(string.Format(MessageRequiredFieldConstants.CustomterBalanceExceededMessage, partyNameCustomer, wipBalanceBefore, warningLimitTest));
+            //Create new ticket as normal
+            //Add ticket line
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(2)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(1)
+                .ClickSaveBtn();
+            createNewTicketPage
+                .ClickOnNoWarningPopup();
+            createNewTicketPage
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
         }
 
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "Test ID = 6, Verify that no warning limit is displayed when Warning limit is set to 0 "), Order(5)]
-        public void TC_261_TestID_5_No_warning_limit_is_displayed_when_warning_limit_is_set_to_0()
-        {
-
-        }
     }
 }

@@ -70,8 +70,8 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
 
         #region Cancel Popup
         public readonly By CancelExpandReasonButton = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//button[@data-id='resolution-codes']");
-        public readonly By CancelReasonSelect = By.XPath("//ul[@class='dropdown-menu inner' and @aria-expanded='true']"); 
-        public readonly By CancelReasonNote = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//textarea[@id='resolution-note']"); 
+        public readonly By CancelReasonSelect = By.XPath("//ul[@class='dropdown-menu inner' and @aria-expanded='true']");
+        public readonly By CancelReasonNote = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//textarea[@id='resolution-note']");
         public readonly By CancelReasonButton = By.XPath("//div[@id='ticket-state-resolution-codes-cancel']//button[text()='Cancel Ticket']");
 
         [AllureStep]
@@ -109,7 +109,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
 
         #region Take Payment
         public readonly By PayButton = By.XPath("//div[@id='pay-for-ticket']//button[@data-bind='click: payForTicket']");
-        
+
         #endregion
 
         #region Copy To GreyList
@@ -252,7 +252,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         [AllureStep]
         public CreateNewTicketPage VerifyValueInTicketTypeDd()
         {
-            foreach(string ticket in CommonConstants.TicketType)
+            foreach (string ticket in CommonConstants.TicketType)
             {
                 Assert.IsTrue(IsControlDisplayed(ticketTypeOption, ticket));
             }
@@ -452,7 +452,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             string[] exValue = { ticketNumberValue, ticketPriceValue, amountPaidValue };
             string textDisplayed = GetAttributeValue(commentInput, "value");
             string[] formatText = textDisplayed.Split(Environment.NewLine);
-            for(int i = 0; i < formatText.Length; i++)
+            for (int i = 0; i < formatText.Length; i++)
             {
                 Assert.IsTrue(formatText[i].Contains(title[i] + exValue[i]), "Value at " + title[i] + "is not correct");
             }
@@ -513,7 +513,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         {
             ClickOnElement(locationDd);
             //Verify
-            foreach(string location in allLocationActiveName)
+            foreach (string location in allLocationActiveName)
             {
                 Assert.IsTrue(IsControlDisplayed(locationOption, location));
             }
@@ -623,9 +623,9 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             Assert.IsTrue(IsControlDisplayed(greylistIdTitle));
             Assert.IsTrue(IsControlDisplayed(greylistCodeTitle));
             Assert.AreEqual("Vehicle " + resourceNameValue + " is on the grey list", GetElementText(titleGreylistCodeMode));
-            for(int i = 0; i < greylistCodeValue.Length; i++)
+            for (int i = 0; i < greylistCodeValue.Length; i++)
             {
-                Assert.AreEqual(greylistCodeValue[i], GetElementText(greyListCodeByIndex, (i+1).ToString()));
+                Assert.AreEqual(greylistCodeValue[i], GetElementText(greyListCodeByIndex, (i + 1).ToString()));
             }
             return this;
         }
@@ -683,5 +683,110 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/weighbridge-tickets/", "");
         }
 
+        #region Text under [Source]
+        private readonly By accountNumberUnderSource = By.XPath("//select[@id='source-party']/following-sibling::div/p[contains(text(), 'Account Number')]");
+        private readonly By clientUnderSource = By.XPath("//select[@id='source-party']/following-sibling::div/p[contains(text(), 'Client #')]");
+        private readonly By accountRefUnderSource = By.XPath("//select[@id='source-party']/following-sibling::div/p[contains(text(), 'Account Reference')]");
+        private readonly By correspondenceAddressUnderSource = By.XPath("//select[@id='source-party']/following-sibling::div/p[contains(text(), 'Correspondence Address')]");
+        private readonly By manualSourcePartyInputNextToSourceField = By.CssSelector("input[id='manual-source-party']");
+        private readonly By manualDestinationInputNextToSourceField = By.XPath("//label[text()='Destination']/following-sibling::div/input[@id='manual-destination-party']");
+        private readonly By sourceInput = By.CssSelector("//select[@id='source-party']");
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyTextUnderSourceField(string accountNumberValue)
+        {
+            Assert.AreEqual(("Account Number" + accountNumberValue), GetElementText(accountNumberUnderSource));
+            Assert.IsTrue(IsControlDisplayed(clientUnderSource), "[Client #] is not displayed");
+            Assert.IsTrue(IsControlDisplayed(accountRefUnderSource), "[Account Reference ] is not displayed");
+            Assert.IsTrue(IsControlDisplayed(correspondenceAddressUnderSource), "[Correspondence Address ] is not displayed");
+            Assert.IsTrue(IsControlDisplayed(manualSourcePartyInputNextToSourceField));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyTextFieldIsNotDisplayedNextToSourceDd()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(manualSourcePartyInputNextToSourceField));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage InputManualSourceParty(string manualSourcePartyValue)
+        {
+            SendKeys(manualSourcePartyInputNextToSourceField, manualSourcePartyValue);
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyValueInManualSourceParty(string manualSourcePartyValue)
+        {
+            Assert.AreEqual(manualSourcePartyValue, GetAttributeValue(manualSourcePartyInputNextToSourceField, "value"));
+            return this;
+        }
+
+        [AllureStep]
+        public string GetSourceValue()
+        {
+            return GetAttributeValue(sourceInput, "value");
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyTextFieldNextToDestinationField()
+        {
+            Assert.IsTrue(IsControlDisplayed(manualDestinationInputNextToSourceField));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage InputManualDestinationParty(string manualDestinationPartyValue)
+        {
+            SendKeys(manualDestinationInputNextToSourceField, manualDestinationPartyValue);
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyValueInDestinationParty(string manualDestinationPartyValue)
+        {
+            Assert.AreEqual(manualDestinationPartyValue, GetAttributeValue(manualDestinationInputNextToSourceField, "value"));
+            return this;
+        }
+
+        #endregion
+
+        #region [Please select a reason for making the changes?] popup
+        private readonly By titleInReasonPopup = By.XPath("//div[@id='ticket-state-resolution-codes']//h4[text()='Please select a reason for making the changes?']");
+        private readonly By reasonBtnInReasonPopup = By.CssSelector("div[id='ticket-state-resolution-codes'] button[data-id='resolution-codes']");
+        private readonly By noteTextInReasonPopup = By.CssSelector("div[id='ticket-state-resolution-codes'] textarea[id='resolution-note']");
+        private readonly By cancelBtnInReasonPopup = By.XPath("//div[@id='ticket-state-resolution-codes']//button[text()='Cancel']");
+        private readonly By saveBtnInReasonPopup = By.XPath("//div[@id='ticket-state-resolution-codes']//button[text()='Save']");
+
+        [AllureStep]
+        public CreateNewTicketPage IsSelectReasonPopup()
+        {
+            WaitUtil.WaitForElementVisible(titleInReasonPopup);
+            Assert.IsTrue(IsControlDisplayed(titleInReasonPopup));
+            Assert.IsTrue(IsControlDisplayed(reasonBtnInReasonPopup));
+            Assert.IsTrue(IsControlDisplayed(noteTextInReasonPopup));
+            Assert.IsTrue(IsControlDisplayed(cancelBtnInReasonPopup));
+            Assert.IsTrue(IsControlDisplayed(saveBtnInReasonPopup));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage InputNoteInReasonPopup()
+        {
+            SendKeys(noteTextInReasonPopup, "Note auto");
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage ClickOnSaveBtnInReasonPopup()
+        {
+            ClickOnElement(saveBtnInReasonPopup);
+            return this;
+        }
+
+        #endregion
     }
+
 }

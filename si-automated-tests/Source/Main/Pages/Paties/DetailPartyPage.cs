@@ -28,6 +28,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string SaveWithDetailsBtn = "//a[@aria-controls='details-tab']/ancestor::body//button[@title='Save']";
         private readonly By closeWithoutSavingBtn = By.XPath("//a[@aria-controls='details-tab']/ancestor::body//button[@title='Close Without Saving']");
         private readonly By dropdown = By.XPath("//li[@class='dropdown']");
+        private readonly By accountNumber = By.CssSelector("p[title='Account Number']");
 
         private const string PartyName = "//div[text()='{0}']";
         private readonly By partyNameValue = By.XPath("//p[@class='object-name']");
@@ -164,6 +165,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By accountNumberInput = By.CssSelector("input[id='account-number']");
         private readonly By accountTypeDd = By.CssSelector("select[id='account-type']");
         private readonly By creditLimitInput = By.CssSelector("input[id='party-credit-limit']");
+        private readonly By wipBalanceInput = By.CssSelector("input[id='wip-balance']");
+        private readonly By accountBalanceInput = By.CssSelector("input[id='account-balance']");
 
         [AllureStep]
         public DetailPartyPage InputCreditLimt(string creditLimitValue)
@@ -207,6 +210,18 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             Assert.AreEqual(partyNameValue, GetAttributeValue(partyNameInput, "value"));
             return this;
+        }
+
+        [AllureStep]
+        public string GetWIPBalance()
+        {
+            return GetAttributeValue(wipBalanceInput, "value");
+        }
+
+        [AllureStep]
+        public string GetAccountBalance()
+        {
+            return GetAttributeValue(accountBalanceInput, "value");
         }
 
         //TAB
@@ -861,6 +876,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         [AllureStep]
+        public DetailPartyPage VerifyAllowManualNameEntryChecked()
+        {
+            Assert.IsTrue(IsCheckboxChecked(allowManualNameEntryCheckbox), "[Allow Manual Name Entry] is not checked");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyAllowManualNameEntryUnChecked()
+        {
+            Assert.IsFalse(IsCheckboxChecked(allowManualNameEntryCheckbox), "[Allow Manual Name Entry] is checked");
+            return this;
+        }
+
+        [AllureStep]
         [AllureDescription("Click on [Restrict Products] checkout")]
         public DetailPartyPage ClickOnRestrictProductsCheckbox()
         {
@@ -1057,7 +1086,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnVehicleTab()
         {
             ClickOnElement(VehicleTab);
-            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(loadingVehicleTab);
             WaitUtil.WaitForElementInvisible60(loadingVehicleTab);
             return this;
         }
@@ -1336,6 +1365,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             Assert.AreEqual(accountingValue, GetElementText(AccountingAtRow, rowNumber), "Accounting Ref at row " + rowNumber + " is incorrect");
             return this;
+        }
+
+        [AllureStep]
+        public string GetAccountNumber()
+        {
+            return GetElementText(accountNumber);
         }
     }
 }
