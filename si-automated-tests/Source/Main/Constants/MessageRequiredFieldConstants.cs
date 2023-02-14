@@ -29,5 +29,6 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string TheAccountingRefAlreadyUsed = "The Accounting Reference already used";
         public static readonly string HaulierLicenceNumberHasExpiredMessage = "Haulier Licence number has expired";
         public static readonly string CustomterBalanceExceededMessage = "Customer {0} 's balance of {1} exceeded warnining limit of {2}";
+        public static readonly string CustomerAuthoriseTippingMessage = "Customer {0} is not authorised to tip";
     }
 }

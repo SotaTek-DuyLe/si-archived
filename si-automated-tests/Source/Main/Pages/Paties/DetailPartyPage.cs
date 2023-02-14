@@ -906,6 +906,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         [AllureStep]
+        [AllureDescription("Verify option in [Authorise Tipping] is checked")]
+        public DetailPartyPage VerifyOptionAuthoriseTippingChecked(string optionValue)
+        {
+            Assert.IsTrue(IsCheckboxChecked(authoriseTypingOption, optionValue));
+            return this;
+        }
+
+        [AllureStep]
         [AllureDescription("Select any [Restricted Sites]")]
         public DetailPartyPage SelectAnyOptionRestrictedSites(string optionValue)
         {
