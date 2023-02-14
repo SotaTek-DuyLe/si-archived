@@ -1614,7 +1614,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
-                .OpenOption(MainOption.SiteServices)
+                .OpenOption(MainOption.AgreementLines)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SiteServicesCommonPage>()

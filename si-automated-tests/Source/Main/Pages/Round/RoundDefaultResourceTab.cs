@@ -17,6 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.Round
         private readonly By activeMonthYear = By.XPath("//div[contains(@class,'bootstrap-datetimepicker-widget dropdown-menu picker-open') and contains(@style,'display: block;')]//div[@class='datepicker-days']//th[@class='picker-switch']");
         private readonly By activeDay = By.XPath("//div[contains(@class,'bootstrap-datetimepicker-widget dropdown-menu picker-open') and contains(@style,'display: block;')]//div[@class='datepicker-days']//td[@class='day active']");
         private readonly By expandBtn = By.XPath("//div[@id='toggle-actions']");
+        private readonly By type = By.XPath("//select[@id='type.id']");
 
         [AllureStep]
         public RoundDefaultResourceTab IsOnDefaultResourceTab()

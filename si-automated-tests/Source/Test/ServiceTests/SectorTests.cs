@@ -43,7 +43,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string _long = "-0.30280400159488435";
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("Point Nodes")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();

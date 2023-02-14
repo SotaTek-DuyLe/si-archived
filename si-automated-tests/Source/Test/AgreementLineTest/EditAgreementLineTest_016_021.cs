@@ -155,7 +155,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Back to Site Service and verify
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .OpenOption("Site Services")
+                .OpenOption(MainOption.AgreementLines)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -713,7 +713,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .OpenOption("Site Services")
+                .OpenOption(MainOption.AgreementLines)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -903,7 +903,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Go to site service and verify
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .OpenOption("Site Services")
+                .OpenOption(MainOption.AgreementLines)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -1256,7 +1256,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
-                .OpenOption("Site Services")
+                .OpenOption(MainOption.AgreementLines)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();

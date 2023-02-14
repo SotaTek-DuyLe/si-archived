@@ -37,7 +37,7 @@ namespace si_automated_tests.Source.Test.SiteServiceTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
-                .OpenOption(MainOption.SiteServices)
+                .OpenOption(MainOption.AgreementLines)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .FilterAgreementId(agreementLineId)

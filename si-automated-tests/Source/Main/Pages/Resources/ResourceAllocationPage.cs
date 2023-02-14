@@ -514,7 +514,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage DeallocateResourceFromRoundGroup(int whichRow, string whichResource)
         {
             var target = GetFirstResult();
-            var xpath = String.Format(secondColumnResource, whichRow, whichResource);
+            var xpath = String.Format(secondColumnResource, whichRow, whichResource.ToUpper());
             IWebElement source = WaitUtil.WaitForElementVisible(xpath);
             DragAndDrop(source, target);
             return this;

@@ -19,6 +19,6 @@
 
         //PARTIES
         public static readonly string Parties = "Parties";
-        public static readonly string SiteServices = "Site Services";
+        public static readonly string AgreementLines = "Agreement Lines"; //used to be site services
     }
 }

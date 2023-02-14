@@ -89,7 +89,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Verify that user can delete a task from an Agreement Line
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .OpenOption("Site Services")
+                .OpenOption(MainOption.AgreementLines)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                .WaitForLoadingIconToDisappear();
@@ -279,7 +279,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
-                .OpenOption("Site Services")
+                .OpenOption(MainOption.AgreementLines)
                 .SwitchNewIFrame();
             //Filter Agreement
             PageFactoryManager.Get<SiteServicesCommonPage>()
