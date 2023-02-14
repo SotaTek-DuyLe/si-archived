@@ -26,6 +26,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             WaitUtil.WaitForElementVisible(addNewEventItem);
             SendKeys(filterInputById, eventId);
             ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -35,6 +36,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             WaitUtil.WaitForElementVisible(addNewEventItem);
             SendKeys(filterInputById, (firstEventId + "," + secondEventId));
             ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]

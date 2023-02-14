@@ -38,7 +38,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Recycling")
                 .OpenOption(serviceName);
             ServiceRecyclingPage sectorRecycling = PageFactoryManager.Get<ServiceRecyclingPage>();
-            sectorRecycling.SwitchNewIFrame()
+            sectorRecycling
+                .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             sectorRecycling
                 .WaitForServiceRecyclingPageLoaded(serviceName);
@@ -49,8 +50,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
             sectorRecycling
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
-            sectorRecycling.VerifyCheckboxIsSelected(sectorRecycling.RestrictEditCheckbox, true);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            sectorRecycling
+                .VerifyCheckboxIsSelected(sectorRecycling.RestrictEditCheckbox, true);
 
             //Service unit
             PageFactoryManager.Get<NavigationBase>()
@@ -197,22 +200,29 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SelectAnyExistingAsset(assetType2);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.ConfirmButton);
             serviceUnitDetail.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            serviceUnitDetail.WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             serviceUnitDetail.VerifyAssetAddedByAddExistItemButton("660L")
                 .ClickAssetCheckBox(0)
                 .ClickOnElement(serviceUnitDetail.DeleteAssetItemButton);
             serviceUnitDetail.WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
 
             //step 11: User can do all actions in announcement, map, risks, subspriptions, notifications and rental asset tabs
             //announcements - tab
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.AnnouncementTab);
-            serviceUnitDetail.WaitForLoadingIconToDisappear(false)
+            serviceUnitDetail.WaitForLoadingIconToDisappear(false);
+            serviceUnitDetail
+                .WaitForLoadingIconInAnnouncementTabDisappear();
+            serviceUnitDetail
                 .ClickOnElement(serviceUnitDetail.AddNewAnnouncementItemButton);
             serviceUnitDetail.SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear(false);
             AnnouncementDetailPage announcementDetailPage = PageFactoryManager.Get<AnnouncementDetailPage>();
             string announcement = "Announcement text";
             string announcementType = "Collection services";
+            announcementDetailPage
+                .IsOnDetailPage();
             announcementDetailPage.SelectTextFromDropDown(announcementDetailPage.announcementTypeSelect, announcementType);
             announcementDetailPage.SendKeys(announcementDetailPage.announcemenTextInput, announcement);
             announcementDetailPage.SelectTextFromDropDown(announcementDetailPage.impactSelect, "Positive");
@@ -223,6 +233,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             announcementDetailPage.ClickSaveBtn()
                 .WaitForLoadingIconToDisappear(false)
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             serviceUnitDetail.VerifyNewAnnouncement(announcement, announcementType, from, to);
@@ -232,6 +243,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             AnnouncementRemovePage announcementRemovePage = PageFactoryManager.Get<AnnouncementRemovePage>();
             announcementRemovePage.ClickOnElement(announcementRemovePage.YesButton);
             announcementRemovePage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .SwitchToChildWindow(2);
             serviceUnitDetail.VerifyAnnouncementDeleted(announcement);
 
@@ -262,6 +274,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             riskRegisterPage.ClickOnElement(riskRegisterPage.FinishButton);
             riskRegisterPage.ClickOnElement(riskRegisterPage.OKButton);
             riskRegisterPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .SwitchToChildWindow(2)
                 .SwitchToFrame(serviceUnitDetail.RiskTabIframe);
             serviceUnitDetail.VerifyNewRiskRegister(riskRegisterModel);
@@ -295,6 +308,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.NotesInput, notes);
             subscriptionsDetailPage.ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.SubscriptionTabIframe);
@@ -352,6 +366,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceTaskPage.SendKeys(serviceTaskPage.TaskNoteInput, taskNote);
             serviceTaskPage.ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //verify updated data
             serviceTaskPage.VerifySelectedValue(serviceTaskPage.PrioritySelect, "")

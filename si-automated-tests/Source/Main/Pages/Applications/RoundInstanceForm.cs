@@ -263,12 +263,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         //EVENTS TAB
         private readonly By eventsTab = By.CssSelector("a[aria-controls='roundInstanceEvents-tab']");
         private readonly By addNewItemBtn = By.XPath("//div[@id='roundInstanceEvents-tab']//button[text()='Add New Item']");
-       
+        private readonly By loadingIconAtEventsTab = By.XPath("//div[@id='roundInstanceEvents-tab']//div[@class='loading-data']");
+
         [AllureStep]
         public RoundInstanceForm ClickOnEventsTab()
         {
             ClickOnElement(eventsTab);
             WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(loadingIconAtEventsTab);
+            WaitUtil.WaitForElementInvisible(loadingIconAtEventsTab);
             return this;
         }
 

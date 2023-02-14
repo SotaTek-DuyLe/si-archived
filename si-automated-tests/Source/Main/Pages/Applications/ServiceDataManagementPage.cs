@@ -5,7 +5,6 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 
 namespace si_automated_tests.Source.Main.Pages.Applications
@@ -17,7 +16,9 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By PreviousButton = By.XPath("//div[@id='screen2']//button[contains(string(), 'Previous')]");
         public readonly By ApplyButton = By.XPath("//div[@id='screen2']//button[contains(string(), 'Apply')]");
         public readonly By TotalSpan = By.XPath("//div[@id='screen2']//div[contains(@class, 'south-panel2')]//span");
-        public readonly By OkButton = By.XPath("//div[@class='modal-dialog']//button[contains(string(), 'OK')]");
+        public readonly By OkButton = By.XPath("//div[text()='Only first 300 points will be displayed on the next screen']/parent::div/following-sibling::div//button[contains(string(), 'OK')]");
+        public readonly By okBtnInLeavePopup = By.XPath("//div[text()='Are you sure you want to leave this page?']/parent::div/following-sibling::div//button[contains(string(), 'OK')]");
+        public readonly By okBtnInWarningFilterPopup = By.XPath("//div[text()='Please Note – Any previous row selections will be lost once filters are applied']/ancestor::div[@class='modal-body']/following-sibling::div//button[text()='OK']");
         public readonly By StatusExpandButton = By.XPath("//div[@id='screen1']//div[contains(@class, 'slick-headerrow-column l6')]//button");
         public readonly By StatusSelect = By.XPath("//div[contains(@class, 'bs-container')]//ul");
         public readonly By ApplyFilterBtn = By.XPath("//div[@id='screen1']//button[@id='filter-button']");
@@ -50,7 +51,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string SDMMasterServiceTaskCellXPath = "./td[2]//span";
         private readonly string popup300PointsDisplayedMessage = "//div[text()='Only first 300 points will be displayed on the next screen']";
         private readonly string okBtn = "//button[text()='OK']";
-        private readonly string cancelBtn = "//button[text()='Cancel']";
+        private readonly string cancelBtn = "//div[text()='Only first 300 points will be displayed on the next screen']/parent::div/following-sibling::div//button[contains(string(), 'Cancel')]";
 
         private TableElement serviceDataManagementTableElement;
         public TableElement ServiceDataManagementTableElement
@@ -197,7 +198,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public ServiceDataManagementPage VerifyTheDisplayOfPopupOver300Point()
         {
             Assert.IsTrue(IsControlDisplayed(popup300PointsDisplayedMessage));
-            Assert.IsTrue(IsControlEnabled(okBtn));
+            Assert.IsTrue(IsControlEnabled(OkButton));
             Assert.IsTrue(IsControlEnabled(cancelBtn));
             return this;
         }
@@ -205,7 +206,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public ServiceDataManagementPage ClickOnOkBtn()
         {
-            ClickOnElement(okBtn);
+            ClickOnElement(OkButton);
             return this;
         }
 

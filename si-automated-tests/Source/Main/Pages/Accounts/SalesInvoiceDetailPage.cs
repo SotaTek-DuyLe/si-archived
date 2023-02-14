@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By id = By.XPath("//h4[@title='Id']");
         private readonly By priceLineTab = By.CssSelector("a[aria-controls='priceLines-tab']");
         private readonly By linesTab = By.CssSelector("a[aria-controls='salesInvoiceLines-tab']");
+        private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
 
         //Uninvoiced popup
         private readonly By confirmBtn = By.XPath("//button[text()='Confirm']");
@@ -25,6 +26,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By filterPriceLineInputById = By.XPath("//div[@id='priceLines-tab']//div[contains(@class, 'l0 r0')]/descendant::input");
         private readonly By applyPriceLineBtn = By.XPath("//div[@id='priceLines-tab']//button[@type='button' and @title='Apply Filters']");
         private readonly By firstPriceLineRecordRow = By.XPath("//div[@class='grid-canvas']/div[not(contains(@style, 'display: none;'))][1]");
+        private readonly By allRecordInPriceLineTab = By.XPath("//div[@id='priceLines-tab']//div[@class='grid-canvas']/div");
 
         //LINES TAB
         private readonly By filterLinesInputById = By.XPath("//div[@id='salesInvoiceLines-tab']//div[contains(@class, 'l1 r1')]/descendant::input");
@@ -36,6 +38,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(saleInvoiceBatchTitle);
+            WaitUtil.WaitForElementVisible(detailTab);
             Assert.AreEqual(statusValue, GetElementText(status));
             Assert.AreEqual(idValue, GetElementText(id));
             return this;
@@ -52,6 +55,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             ClickOnElement(priceLineTab);
             WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementsPresent(allRecordInPriceLineTab);
             return this;
         }
         [AllureStep]

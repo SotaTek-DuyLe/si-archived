@@ -306,9 +306,36 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             return this;
         }
         [AllureStep]
+        public CreateNewTicketPage InputLicenceNumberExpDate(string licenceNumberValueExp)
+        {
+            SendKeys(licenceNumberExpDate, licenceNumberValueExp);
+            return this;
+        }
+        [AllureStep]
         public CreateNewTicketPage InputLicenceNumber()
         {
             SendKeys(licenceNumber, CommonUtil.GetRandomNumber(5));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage InputLicenceNumber(string licenceNumberValue)
+        {
+            SendKeys(licenceNumber, licenceNumberValue);
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyValueInLicenceNumber(string licenceNumberValue)
+        {
+            Assert.AreEqual(licenceNumberValue, GetAttributeValue(licenceNumber, "value"));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyValueInLicenceNumberExp(string licenceNumberExpValue)
+        {
+            Assert.AreEqual(licenceNumberExpValue, GetAttributeValue(licenceNumberExpDate, "value"));
             return this;
         }
 
@@ -565,6 +592,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         public CreateNewTicketPage IsGreylistCodeModel(string resourceNameValue, string greylistCodeValue)
         {
             WaitUtil.WaitForElementVisible(titleGreylistCodeMode);
+            WaitUtil.WaitForElementVisible(DetailTab);
             Assert.IsTrue(IsControlDisplayed(greylistIdTitle));
             Assert.IsTrue(IsControlDisplayed(greylistCodeTitle));
             Assert.AreEqual("Vehicle " + resourceNameValue + " is on the grey list", GetElementText(titleGreylistCodeMode));

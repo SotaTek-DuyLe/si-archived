@@ -107,6 +107,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         [AllureStep]
         public CreditNotePage ClickOnFirstCreditRow()
         {
+            WaitUtil.WaitForElementVisible(firstCreditLineRow);
             ClickOnElement(firstCheckboxItemRowCredit);
             return this;
         }

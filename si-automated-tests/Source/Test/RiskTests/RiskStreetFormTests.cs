@@ -486,6 +486,7 @@ namespace si_automated_tests.Source.Test.RiskTests
             serviceUnitPage.WaitForLoadingIconToDisappear();
             serviceUnitPage.SwitchToFrame(serviceUnitPage.RiskIframe);
             //Click on bulk create
+            serviceUnitPage.WaitForLoadingIconToDisappear();
             serviceUnitPage.ClickOnElement(serviceUnitPage.BulkCreateButton);
             serviceUnitPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
@@ -537,6 +538,7 @@ namespace si_automated_tests.Source.Test.RiskTests
             serviceTaskPage.ClickOnElement(serviceTaskPage.RiskTab);
             serviceTaskPage.WaitForLoadingIconToDisappear();
             serviceTaskPage.SwitchToFrame(serviceTaskPage.RiskIframe);
+            serviceTaskPage.WaitForLoadingIconToDisappear();
             //Click on bulk create
             serviceTaskPage.ClickOnElement(serviceTaskPage.BulkCreateButton);
             serviceTaskPage.SwitchToChildWindow(2)

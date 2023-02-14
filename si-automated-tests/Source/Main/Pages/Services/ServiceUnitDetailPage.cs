@@ -236,6 +236,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By AddNewAnnouncementItemButton = By.XPath("//div[@id='announcements-tab']//button[text()[contains(.,'Add New Item')]]");
         public readonly By DeleteAnnouncementItemButton = By.XPath("//div[@id='announcements-tab']//button[text()[contains(.,'Delete Item')]]");
         public readonly By AnnouncementTab = By.XPath("//a[@aria-controls='announcements-tab']");
+        private readonly By loadingIconInAccouncementTab = By.XPath("//div[@id='announcements-tab']//div[@class='loading-data']");
         public readonly string AnnouncementTable = "//div[@id='announcements-tab']//div[@class='grid-canvas']";
         public readonly string AnnouncementRow = "./div[contains(@class, 'slick-row ')]";
         public readonly string AnnouncementCheckboxCell = "./div[contains(@class, 'l0')]//input";
@@ -282,6 +283,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             WaitUtil.WaitForElementVisible(ResetMapButton);
             ClickOnElement(ResetMapButton);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage WaitForLoadingIconInAnnouncementTabDisappear()
+        {
+            WaitUtil.WaitForElementVisible(loadingIconInAccouncementTab);
+            WaitUtil.WaitForElementInvisible(loadingIconInAccouncementTab);
             return this;
         }
 

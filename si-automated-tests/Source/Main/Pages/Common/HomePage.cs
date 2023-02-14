@@ -15,16 +15,16 @@ namespace si_automated_tests.Source.Main.Pages
     public class HomePage : BasePage
     {
         
-        private const string CreateEvenDropdownBtn = "//button[contains(text(), 'Create')]/following-sibling::button";
+        private const string CreateEvenDropdownBtn = "//button[contains(text(), 'Create Event')]/following-sibling::button";
 
         //CREATE EVEN SUB MENU
-        private const string PartyInCreateEvenBtn = "//button[contains(text(), 'Create')]/following-sibling::ul//a[text()='Party']";
-        private const string AgreementInCreateEvenBtn = "//button[contains(text(), 'Create')]/following-sibling::ul//a[text()='Agreement']";
-        private const string EventInCreateEvenBtn = "//button[contains(text(), 'Create')]/following-sibling::ul//a[text()='Event']";
-
-        private const string PointAddressInCreateEvenBtn = "//button[contains(text(), 'Create')]/following-sibling::ul//a[text()='Point Address']";
-        private const string ResourceInCreateEvenBtn = "//button[contains(text(), 'Create')]/following-sibling::ul//a[text()='Resource']";
-        private const string WeighbridgeTicketInCreateEvenBtn = "//button[contains(text(), 'Create')]/following-sibling::ul//a[text()='Weighbridge Ticket']";
+        private const string PartyInCreateEvenBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Party']";
+        private const string AgreementInCreateEvenBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Agreement']";
+        private const string EventInCreateEvenBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Event']";
+        private const string PointAddressInCreateEvenBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Point Address']";
+        private const string ResourceInCreateEvenBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Resource']";
+        private const string ServiceUnitGroupBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Service Unit Group']";
+        private const string WeighbridgeTicketInCreateEvenBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Weighbridge Ticket']";
 
 
         private readonly string userNameBtn = ConfigManager.GetCurrentPlatform().Equals(WebPlatform.IE)
@@ -120,6 +120,7 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.IsTrue(IsControlDisplayed(EventInCreateEvenBtn));
             Assert.IsTrue(IsControlDisplayed(PointAddressInCreateEvenBtn));
             Assert.IsTrue(IsControlDisplayed(ResourceInCreateEvenBtn));
+            Assert.IsTrue(IsControlDisplayed(ServiceUnitGroupBtn));
             Assert.IsTrue(IsControlDisplayed(WeighbridgeTicketInCreateEvenBtn));
             return this;
         }

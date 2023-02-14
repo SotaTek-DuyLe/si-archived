@@ -22,6 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
         private readonly By segmentName = By.XPath("//p[@class='object-name']");
         private readonly By allAservicesTab = By.CssSelector("a[aria-controls='allServices-tab']");
+        private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
 
         #region SubscriptionTab
         public readonly By AddNewSubscriptionButton = By.XPath("//button[@data-bind='click: createSubscription']");
@@ -145,6 +146,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
         private const string assignedUserOption = "//div[@id='inspection-modal']//label[text()='Assigned User']/following-sibling::div/select/option[text()='{0}']";
         private const string eventDynamicLocator = "//div[@class='parent-row'][{0}]//div[text()='Event']";
         private const string eventOptions = "//div[@id='create-event-dropdown']//li[text()='{0}']";
+        private const string pointSegmentName = "//p[@class='object-name' and text()='{0}']";
 
         //ACTION
         private const string actionBtnAtRow = "//tr[{0}]//label[@id='btndropdown']";
@@ -195,10 +197,17 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
             return activeSeviceModels;
         }
         [AllureStep]
-
         public PointSegmentDetailPage WaitForPointSegmentDetailPageDisplayed()
         {
             WaitUtil.WaitForElementVisible(titleDetail);
+            return this;
+        }
+        [AllureStep]
+        public PointSegmentDetailPage WaitForPointSegmentDetailPageDisplayed(string pointSegmentNameValue)
+        {
+            WaitUtil.WaitForElementVisible(titleDetail);
+            WaitUtil.WaitForElementVisible(pointSegmentName, pointSegmentNameValue);
+            WaitUtil.WaitForElementVisible(detailTab);
             return this;
         }
         [AllureStep]

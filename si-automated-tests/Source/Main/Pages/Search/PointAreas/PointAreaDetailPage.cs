@@ -21,6 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
         private readonly By areaName = By.XPath("//p[@class='object-name']");
         private readonly By allAservicesTab = By.CssSelector("a[aria-controls='allServices-tab']");
+        private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
 
         //DETAILS PAGE
         private readonly By areaNameInput = By.Id("area-name"); 
@@ -281,11 +282,22 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         private const string inspectionTypeOption = "//div[@id='inspection-modal']//select[@id='inspection-type']/option[text()='{0}']";
         private const string allocatedUnitOption = "//label[text()=' Allocated Unit']/following-sibling::div/select/option[text()='{0}']";
         private const string assignedUserOption = "//div[@id='inspection-modal']//label[text()='Assigned User']/following-sibling::div/select/option[text()='{0}']";
+        private const string pointAreaName = "//p[@class='object-name' and text()='{0}']";
+
         [AllureStep]
         public PointAreaDetailPage WaitForAreaDetailDisplayed()
         {
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(titleDetail);
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage WaitForAreaDetailDisplayed(string pointAreaNameValue)
+        {
+            WaitUtil.WaitForPageLoaded();
+            WaitUtil.WaitForElementVisible(titleDetail);
+            WaitUtil.WaitForElementVisible(pointAreaName, pointAreaNameValue);
+            WaitUtil.WaitForElementVisible(detailTab);
             return this;
         }
         [AllureStep]

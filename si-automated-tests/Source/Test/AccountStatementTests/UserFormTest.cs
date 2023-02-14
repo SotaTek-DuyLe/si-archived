@@ -79,6 +79,7 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                    .OpenFirstResult()
                    .WaitForLoadingIconToDisappear()
                    .SwitchToChildWindow(2)
+                   .WaitForLoadingIconToAppear(false)
                    .WaitForLoadingIconToDisappear();
                 ServicePointAddressesDetailPage pointAddressesDetailPage = PageFactoryManager.Get<ServicePointAddressesDetailPage>();
                 pointAddressesDetailPage
@@ -103,6 +104,7 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                    .OpenFirstResult()
                    .WaitForLoadingIconToDisappear()
                    .SwitchToChildWindow(2)
+                   .WaitForLoadingIconToAppear(false)
                    .WaitForLoadingIconToDisappear();
                 ServicePointSegmentDetailPage pointSegmentDetailPage = PageFactoryManager.Get<ServicePointSegmentDetailPage>();
                 pointSegmentDetailPage
@@ -127,6 +129,7 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                    .OpenFirstResult()
                    .WaitForLoadingIconToDisappear()
                    .SwitchToChildWindow(2)
+                   .WaitForLoadingIconToAppear(false)
                    .WaitForLoadingIconToDisappear();
                 ServicePointNodeDetailPage pointNodeDetailPage = PageFactoryManager.Get<ServicePointNodeDetailPage>();
                 pointNodeDetailPage
@@ -151,6 +154,7 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                    .OpenFirstResult()
                    .WaitForLoadingIconToDisappear()
                    .SwitchToChildWindow(2)
+                   .WaitForLoadingIconToAppear(false)
                    .WaitForLoadingIconToDisappear();
                 ServicePointAreaDetailPage pointAreaDetailPage = PageFactoryManager.Get<ServicePointAreaDetailPage>();
                 pointAreaDetailPage
@@ -176,7 +180,8 @@ namespace si_automated_tests.Source.Test.AccountStatementTests
                 serviceUnit.DoubleClickServiceUnit()
                            .SwitchToChildWindow(2);
                 ServiceUnitDetailPage serviceUnitDetail = PageFactoryManager.Get<ServiceUnitDetailPage>();
-                serviceUnitDetail.WaitForLoadingIconToDisappear(false)
+                serviceUnitDetail.SleepTimeInMiliseconds(5000);
+                serviceUnitDetail.WaitForLoadingIconToDisappear()
                     .VerifyNotDisplayErrorMessage();
                 serviceUnitDetail.ClickOnDetailTab()
                     .WaitForLoadingIconToDisappear()

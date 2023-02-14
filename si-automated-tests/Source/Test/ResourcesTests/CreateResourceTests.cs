@@ -315,12 +315,14 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             resourceListingPage.VerifyBusinessUnitGroupHeaderVisible();
             resourceListingPage.SendKeys(resourceListingPage.BusinessUnitGroupHeaderInput, "Collections");
             resourceListingPage.WaitForLoadingIconToDisappear();
+            resourceListingPage.WaitForLoadingIconToDisappear();
             resourceListingPage.VerifyBusinessUnitGroupColumn("Collections");
 
             resourceListingPage.ClickOnElement(resourceListingPage.ClearFilterButton);
             resourceListingPage.WaitForLoadingIconToDisappear();
             resourceListingPage.VerifyClientReferenceVisible();
             resourceListingPage.SendKeys(resourceListingPage.ClientReferenceHeaderInput, "E1776");
+            resourceListingPage.WaitForLoadingIconToDisappear();
             resourceListingPage.WaitForLoadingIconToDisappear();
             resourceListingPage.VerifyClientReferenceColumn("E1776");
         }

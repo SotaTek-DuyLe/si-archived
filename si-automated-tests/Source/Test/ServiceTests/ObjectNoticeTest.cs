@@ -378,7 +378,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             ObjectNoticeTab objectNoticeTab = PageFactoryManager.Get<ObjectNoticeTab>();
             objectNoticeTab.WaitForLoadingIconToDisappear(false);
             objectNoticeTab.ClickOnElement(objectNoticeTab.objectNoticeTab);
-            objectNoticeTab.WaitForLoadingIconToDisappear(false);
+            objectNoticeTab.WaitForLoadingIconToDisappear();
+            objectNoticeTab.WaitForLoadingIconToDisappear();
 
             PageFactoryManager.Get<CommonBrowsePage>()
                .ClickAddNewItem()

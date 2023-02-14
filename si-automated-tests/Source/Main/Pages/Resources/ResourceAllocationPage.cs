@@ -7,6 +7,7 @@ using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models.Resources;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace si_automated_tests.Source.Main.Pages.Resources
@@ -34,12 +35,16 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public readonly By ResourceShiftInstanceButton = By.XPath("//div[@class='modal-dialog' and @data-bind='with: selectedResourceShiftInstance']//button[text()='Save']");
 
         public readonly By ResourceTypeHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l2 r2']//input");
+        public readonly By ThirdPartyHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l5 r5']//select");
         private string AllResourceTable = "//div[@id='all-resources']//div[@class='grid-canvas']";
         private string AllResourceRow = "./div[contains(@class, 'slick-row')]";
+        private string ResourceNameCell = "./div[contains(@class, 'slick-cell l0 r0')]";
         private string ResourceTypeCell = "./div[contains(@class, 'slick-cell l2 r2')]";
+
+        private TableElement allResourceTableEle;
         public TableElement AllResourceTableEle
         {
-            get => new TableElement(AllResourceTable, AllResourceRow, new List<string>() { ResourceTypeCell });
+            get => allResourceTableEle; 
         }
 
         //Left panel Daily Allocation
@@ -117,6 +122,16 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         {
             get => _treeViewElement;
         }
+
+        public ResourceAllocationPage()
+        {
+            allResourceTableEle = new TableElement(AllResourceTable, AllResourceRow, new List<string>() { ResourceNameCell, ResourceTypeCell });
+            allResourceTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+        }
+
         [AllureStep]
         public ResourceAllocationPage SelectRoundNode(string nodeName)
         {
@@ -186,6 +201,12 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             AllResourceTableEle.ClickCell(rowIdx, AllResourceTableEle.GetCellIndex(ResourceTypeCell));
             SleepTimeInMiliseconds(200);
             return this;
+        }
+
+        [AllureStep]
+        public string GetResourceName(int rowIdx)
+        {
+            return AllResourceTableEle.GetCellValue(rowIdx, AllResourceTableEle.GetCellIndex(ResourceNameCell)).ToString();
         }
 
         [AllureStep]
