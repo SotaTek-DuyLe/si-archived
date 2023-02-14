@@ -40,8 +40,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         private string address = "Twickenham";
         private string siteName = CommonConstants.WBSiteName;
 
+        [Category("WB")]
+        [Category("Chang")]
         [Test(Description = "Set up data test"), Order(1)]
-        public void SetupDataTest()
+        public void SetupDataTest_Tab_Warning_Limit()
         {
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -318,7 +320,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Category("WB")]
         [Category("Chang")]
         [Test(Description = "Test ID = 1, 3, Verify that Warning limit is set up correctly for existing party and Warning limit can be modified"), Order(2)]
-        public void TC_261_TestID_1_3_Warning_limit_existing_party()
+        public void TC_261_Tab_Warning_limit_existing_party_TestID_1_3()
         {
             CommonFinder commonFinder = new CommonFinder(DbContext);
             string partyId = "30";
@@ -412,7 +414,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Category("WB")]
         [Category("Chang")]
         [Test(Description = "Test ID = 2, Verify that Warning limit is set up correctly for a new party"), Order(3)]
-        public void TC_261_TestID_2_Warning_limit_a_new_party()
+        public void TC_261_Tab_Warning_limit_a_new_party_TestID_2()
         {
             CommonFinder commonFinder = new CommonFinder(DbContext);
             string partyName = "TC261PartyName";
@@ -495,7 +497,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Category("WB")]
         [Category("Chang")]
         [Test(Description = "Test ID = 6, Verify that no warning limit is displayed when Warning limit is set to 0 "), Order(4)]
-        public void TC_261_TestID_6_No_warning_limit_is_displayed_when_warning_limit_is_set_to_0()
+        public void TC_261_Tab_Warning_limit_TestID_6_No_warning_limit_is_displayed_when_warning_limit_is_set_to_0()
         {
             //Go to the [WB Settings] tab in the detail party and set Warning Limit = 0
             //Default value in [Account] tab: [Account Balance] = 0 and [WIP Balance] = 5.64
@@ -564,7 +566,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Category("WB")]
         [Category("Chang")]
         [Test(Description = "Test ID = 5, Verify that warning message is displayed when the customer’s Account Balance + WIP Balance >= Warning Limit. "), Order(5)]
-        public void TC_261_TestID_5_Warning_limit_a_new_party()
+        public void TC_261_Tab_Warning_limit_TestID_5_Warning_limit_a_new_party()
         {
             //Go to the [WB Settings] tab in the detail party and set [Account Balance + WIP Balance >= Warning Limit]
             //Default value in [Account] tab: [Account Balance] = 0 and [WIP Balance] = 2.82

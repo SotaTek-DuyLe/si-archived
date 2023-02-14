@@ -2338,7 +2338,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceDetailTab>()
                 .IsOnDetailTab()
                 .InputResourceName(resourceName)

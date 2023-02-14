@@ -1094,8 +1094,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnVehicleTab()
         {
             ClickOnElement(VehicleTab);
-            WaitUtil.WaitForElementVisible(loadingVehicleTab);
-            WaitUtil.WaitForElementInvisible60(loadingVehicleTab);
+            //WaitUtil.WaitForElementVisible(loadingVehicleTab);
+            //WaitUtil.WaitForElementInvisible60(loadingVehicleTab);
             return this;
         }
         [AllureStep]
