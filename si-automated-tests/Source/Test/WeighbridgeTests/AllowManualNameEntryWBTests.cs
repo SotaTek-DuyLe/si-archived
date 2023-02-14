@@ -49,15 +49,15 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser83.UserName, AutoUser83.Password)
-                .IsOnHomePage(AutoUser83);
+                .Login(AutoUser85.UserName, AutoUser85.Password)
+                .IsOnHomePage(AutoUser85);
 
             //Create new Resource with type = Van in TC51
             PageFactoryManager.Get<NavigationBase>()
-                    .ClickMainOption(MainOption.Resources)
-                    .OpenOption(Contract.Commercial)
-                    .SwitchNewIFrame()
-                    .WaitForLoadingIconToDisappear();
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
@@ -328,8 +328,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser83.UserName, AutoUser83.Password)
-                .IsOnHomePage(AutoUser83);
+                .Login(AutoUser85.UserName, AutoUser85.Password)
+                .IsOnHomePage(AutoUser85);
             //Open the party Id = partyCustomerId
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
@@ -513,8 +513,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser83.UserName, AutoUser83.Password)
-                .IsOnHomePage(AutoUser83);
+                .Login(AutoUser85.UserName, AutoUser85.Password)
+                .IsOnHomePage(AutoUser85);
             //Open the party Id = partyCustomerId
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
