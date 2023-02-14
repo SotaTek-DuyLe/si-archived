@@ -311,7 +311,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             //Create vehicle
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
@@ -532,6 +533,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
+                .RefreshGrid()
+                .FilterResource("Resource", resourceName)
                 .HoverAndVerifyBackgroundColor(resourceName, "darker green");
 
             //Verify Vehicle
@@ -547,6 +550,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
+                .RefreshGrid()
+                .FilterResource("Resource", vehicleResourceName)
                 .HoverAndVerifyBackgroundColor(vehicleResourceName, "darker red");
         }
         [Category("Resources")]

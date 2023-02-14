@@ -40,6 +40,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
         [Test]
         public void TC_95_business_unit_group()
         {
+            PageFactoryManager.Get<BasePage>()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem();
             PageFactoryManager.Get<BusinessUnitPage>()

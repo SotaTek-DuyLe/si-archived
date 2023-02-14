@@ -41,7 +41,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string siteName = "Contra 2 " + CommonUtil.GetRandomNumber(5);
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("Contract Sites")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
@@ -85,7 +86,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string address = "35 THE QUADRANT";
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("Contract Sites")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
@@ -107,7 +110,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string reference = "Test " + CommonUtil.GetRandomNumber(5);
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("Contract Units")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();

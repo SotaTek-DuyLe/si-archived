@@ -165,7 +165,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
                 .OpenFirstResult()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .OpenAgreementTab()
                 .VerifyFirstAgreementInfo("Greggs", agreementStartDate, "01/01/2050", "Commercial Collections", "Active")
@@ -549,7 +550,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
-                .OpenOption("Site Services")
+                .OpenOption(MainOption.SiteServices)
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SiteServicesCommonPage>()

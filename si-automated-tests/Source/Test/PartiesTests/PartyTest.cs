@@ -598,7 +598,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<PartyAccountPage>()
                 .SelectAccountType("Charity")
                 .ClickSaveBtn()
-                .SleepTimeInMiliseconds(1000);
+                .SleepTimeInMiliseconds(1000)
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 //.VerifyDisplaySuccessfullyMessage()
                 //.ClickTabDropDown()
@@ -1055,6 +1056,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .WaitForLoadingIconToDisappear();
             var partyName = PageFactoryManager.Get<DetailPartyPage>()
                 .GetPartyName();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .SwitchToTab("Details");
             var address = PageFactoryManager.Get<DetailPartyPage>()
                 .GetAddress();
             var site = partyName + " - " + address;
@@ -1112,6 +1115,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValueInTab("ID", invoiceId)
                 .CloseCurrentWindow()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToLastWindow<AccountStatementPage>()
                 .ClickCreateInvoiceItem()
                 .SwitchToLastWindow()
