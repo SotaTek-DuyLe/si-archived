@@ -1115,6 +1115,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValueInTab("ID", invoiceId)
                 .CloseCurrentWindow()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToLastWindow<AccountStatementPage>()
                 .ClickCreateInvoiceItem()
                 .SwitchToLastWindow()

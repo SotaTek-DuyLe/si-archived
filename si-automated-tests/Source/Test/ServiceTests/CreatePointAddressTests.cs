@@ -55,7 +55,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string pointAddType = "Commercial";
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CreatePointAddressPage>()
                 .IsOnFirstScreen()
                 .SearchPostCode(postCode)
