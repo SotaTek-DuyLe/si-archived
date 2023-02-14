@@ -713,7 +713,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .OpenOption(MainOption.AgreementLines)
+                .OpenOption(MainOption.SiteServices)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();

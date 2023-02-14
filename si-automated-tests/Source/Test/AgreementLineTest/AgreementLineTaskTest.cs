@@ -279,7 +279,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
-                .OpenOption(MainOption.AgreementLines)
+                .OpenOption(MainOption.SiteServices)
                 .SwitchNewIFrame();
             //Filter Agreement
             PageFactoryManager.Get<SiteServicesCommonPage>()
