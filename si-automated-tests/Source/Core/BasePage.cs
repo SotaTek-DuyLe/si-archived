@@ -453,6 +453,7 @@ namespace si_automated_tests.Source.Core
             IWebElement iframe = WaitUtil.WaitForElementVisible(By.TagName("iframe"));
             driver.SwitchTo().Frame(iframe);
             Thread.Sleep(1000);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -494,6 +495,7 @@ namespace si_automated_tests.Source.Core
         {
             Thread.Sleep(500);
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -501,6 +503,7 @@ namespace si_automated_tests.Source.Core
         {
             Thread.Sleep(500);
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
+            WaitForLoadingIconToDisappear();
             var page = (T)Activator.CreateInstance(typeof(T));
             return page;
         }

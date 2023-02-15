@@ -324,7 +324,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(73)
                 .OpenFirstResult()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .OpenAgreementTab()
                 .VerifyFirstAgreementInfo("Greggs", agreementStartDate, "01/01/2050", "Commercial Collections", "Approved")
@@ -343,7 +344,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<TaskLineTab>()
                 .VerifyFirstTaskInfo("Deliver", "660L", "General Recycling", "Kilograms", "Unallocated")
                 .ClickCloseBtn()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyAgreementStatus("Approved")
                 .ClickRefreshBtn()

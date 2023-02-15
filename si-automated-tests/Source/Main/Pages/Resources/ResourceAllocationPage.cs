@@ -371,6 +371,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         [AllureStep]
         public ResourceAllocationPage HoverAndVerifyBackgroundColor(string _resourceName, string _color)
         {
+            WaitForLoadingIconToDisappear();
             //Hover to element
             var resource = WaitUtil.WaitForElementVisible(allocatedResourceContainer, _resourceName);
             HoverElement(resource);
@@ -396,6 +397,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         [AllureStep]
         public ResourceAllocationPage VerifyBackgroundColor(string _resourceName, string _color)
         {
+            WaitForLoadingIconToDisappear();
             string style = WaitUtil.WaitForElementVisible(allocatedResourceContainer, _resourceName).GetAttribute("style");
             if (_color == "white")
             {
