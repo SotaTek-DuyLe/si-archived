@@ -45,7 +45,8 @@ namespace si_automated_tests.Source.Test.AccountTests
 
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("Sales Invoices")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickButton("Create");
             PageFactoryManager.Get<CreateInvoicePage>()

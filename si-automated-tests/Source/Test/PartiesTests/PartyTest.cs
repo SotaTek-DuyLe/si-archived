@@ -603,7 +603,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<DetailPartyPage>()
                 //.VerifyDisplaySuccessfullyMessage()
                 //.ClickTabDropDown()
-                .ClickOnAccountStatement();
+                .ClickOnAccountStatement()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AccountStatementPage>()
                 .ClickCreateCreditNote()
                 .SwitchToLastWindow();
