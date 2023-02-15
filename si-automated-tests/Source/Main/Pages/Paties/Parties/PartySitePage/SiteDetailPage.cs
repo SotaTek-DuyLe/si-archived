@@ -269,8 +269,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         public SiteDetailPage ClickProductTab()
         {
             ClickOnElement(productTab);
+            WaitForLoadingIconToDisappear();
             //WaitUtil.WaitForElementVisible(loadingIconInProductTab);
-            //WaitUtil.WaitForElementInvisible(loadingIconInProductTab);
+            WaitUtil.WaitForElementInvisible(loadingIconInProductTab);
             return this;
         }
         [AllureStep]
