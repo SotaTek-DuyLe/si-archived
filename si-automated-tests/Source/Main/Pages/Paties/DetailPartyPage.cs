@@ -499,6 +499,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
 
+        public DetailPartyPage ClickOnSitesTabNoWait()
+        {
+            ClickOnElement(SitesTab);
+            return this;
+        }
+
         [AllureStep]
         public DetailPartyPage WaitForLoadingInSiteTabDisappeared()
         {

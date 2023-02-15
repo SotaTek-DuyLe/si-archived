@@ -404,7 +404,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .FilterAgreementId(32)
                 .OpenFirstResult()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow();  
             PageFactoryManager.Get<AgreementLinePage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AgreementLinePage>()
