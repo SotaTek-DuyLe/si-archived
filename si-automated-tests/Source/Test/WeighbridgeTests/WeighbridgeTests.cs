@@ -2162,6 +2162,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             partyIdHaulier = detailPartyPage
                 .GetPartyId();
             detailPartyPage
+                .ClickSaveBtn();
+            detailPartyPage
                 .VerifyDisplayYellowMesInLicenceNumberExField()
                 .VerifyForcusOnLicenceNumberExField()
                 .VerifyDisplayGreenBoderInLicenceNumberExField()

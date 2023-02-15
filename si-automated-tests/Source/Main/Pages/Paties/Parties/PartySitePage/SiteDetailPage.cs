@@ -168,8 +168,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         public SiteDetailPage ClickStationTab()
         {
             ClickOnElement(stationTab);
-            WaitUtil.WaitForElementVisible(loadingInStationTab);
-            WaitUtil.WaitForElementInvisible(loadingInStationTab);
+            //WaitUtil.WaitForElementVisible(loadingInStationTab);
+            //WaitUtil.WaitForElementInvisible(loadingInStationTab);
             return this;
         }
 
