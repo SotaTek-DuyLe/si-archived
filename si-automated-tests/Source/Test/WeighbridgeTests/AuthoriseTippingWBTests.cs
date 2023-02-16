@@ -181,7 +181,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
                 //Create new Vehicle in Vehicles tab
-                .ClickOnVehicleTab();
+                .ClickOnVehicleTab()
+                .WaitForLoadingIconVehicleTabDissaprear();
             detailPartyPage
                 .VerifyTableDisplayedInVehicle()
                 .ClickAddNewVehicleBtn()
@@ -315,8 +316,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Verify that ticket can't be created for the customer with 'Never allow tipping' set. ON HOLD button is not set"), Order(2)]
-        public void TC_261_Tab_Authrise_Tipping_Verify_that_ticket_can_not_be_created_for_the_customer_with_Never_Allow_Tipping_set_ON_HOLD_button_is_not_set()
+        [Test(Description = "Verify that ticket can't be created for the customer with 'Never allow tipping' set. ON STOP button is not set"), Order(2)]
+        public void TC_261_Tab_Authrise_Tipping_Verify_that_ticket_can_not_be_created_for_the_customer_with_Never_Allow_Tipping_set_ON_STOP_button_is_not_set()
         {
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -381,9 +382,53 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitUntilToastMessageInvisible(string.Format(MessageRequiredFieldConstants.CustomerAuthoriseTippingMessage, partyNameCustomer));
             createNewTicketPage
                 .ClickCloseBtn()
-                .AcceptAlert();
-            //Step line 11: Go to [Acount tab] and tick [On Credit hold] option
-
+                .AcceptAlert()
+                .SwitchToChildWindow(1);
+            //Step line 11: Go to [Acount tab] and tick [ON STOP] button
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickAccountTab()
+                .CLickOnStopBtn()
+                .WaitForLoadingIconToDisappear();
+            //Step line 12: Click on [WB tickets] and add new a ticket
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickWBTicketTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickAddNewWBTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC56)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayToastMessage(string.Format(MessageRequiredFieldConstants.CustomerAuthoriseTippingMessage, partyNameCustomer))
+                .WaitUntilToastMessageInvisible(string.Format(MessageRequiredFieldConstants.CustomerAuthoriseTippingMessage, partyNameCustomer));
+            //Step line 13: Add new Ticket line and Save
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(2)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(1)
+                .ClickSaveBtn();
+            createNewTicketPage
+                .VerifyDisplayToastMessage(string.Format(MessageRequiredFieldConstants.CustomerAuthoriseTippingMessage, partyNameCustomer))
+                .WaitUntilToastMessageInvisible(string.Format(MessageRequiredFieldConstants.CustomerAuthoriseTippingMessage, partyNameCustomer));
         }
 
         [Category("WB")]
@@ -405,6 +450,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
+                .ClickAccountTab()
+                .CLickOffStopBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
                 .ClickWBSettingTab()
                 .WaitForLoadingIconToDisappear();
             //Step line 15: Click on [WB Settings] tab and Select Option [Always Allow Tipping]
@@ -450,8 +499,181 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickOnNoWarningPopup();
             createNewTicketPage
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .AcceptAlert()
+                .SwitchToChildWindow(1);
+            //Step line 17: Click on [Account] tab and Click on [ON STOP] btn
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickAccountTab()
+                .CLickOnStopBtn()
+                .WaitForLoadingIconToDisappear();
+            //Step line 18: Add new [WB ticket]
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickWBTicketTab()
+                .ClickAddNewWBTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC56)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            //Add new ticket line
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(3)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(2)
+                .ClickSaveBtn();
+            createNewTicketPage
+                .ClickOnNoWarningPopup();
+            createNewTicketPage
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
 
+        }
+
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "Verify that ticket can't be created for the customer with 'Do not override on hold' set when click on [ON STOP] button"), Order(4)]
+        public void TC_261_Tab_Authrise_Tipping_Verify_that_ticket_can_not_be_created_for_customer_with_Do_not_override_on_hold_set()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser83.UserName, AutoUser83.Password)
+                .IsOnHomePage(AutoUser83);
+            //Open the party Id = partyCustomerId (PARTY is already OFF STOP)
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
+            PageFactoryManager.Get<DetailPartyPage>()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickWBSettingTab()
+                .WaitForLoadingIconToDisappear();
+            //Step line 20: Click on [WB Settings] tab and Select Option [Do Not Override On Stop]
+            PageFactoryManager.Get<DetailPartyPage>()
+                .SelectAnyOptionAuthoriseTipping(CommonConstants.AuthoriseTipping[1])
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifyOptionAuthoriseTippingChecked(CommonConstants.AuthoriseTipping[1])
+                //Step line 21: Add new ticket in [WB Tickets] tab
+                .ClickWBTicketTab()
+                .ClickAddNewWBTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC56)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            string todayDate = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT);
+            createNewTicketPage
+                .VerifyDisplayToastMessage(string.Format(MessageRequiredFieldConstants.CustomerIsOnStopMessage, partyNameCustomer, todayDate))
+                .WaitUntilToastMessageInvisible(string.Format(MessageRequiredFieldConstants.CustomerIsOnStopMessage, partyNameCustomer, todayDate));
+            //Add ticket line
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(3)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(2)
+                .ClickSaveBtn();
+            createNewTicketPage
+                .ClickOnNoWarningPopup();
+            createNewTicketPage
+                .VerifyDisplayToastMessage(string.Format(MessageRequiredFieldConstants.CustomerIsOnStopMessage, partyNameCustomer, todayDate))
+                .WaitUntilToastMessageInvisible(string.Format(MessageRequiredFieldConstants.CustomerIsOnStopMessage, partyNameCustomer, todayDate))
+                .ClickCloseBtn()
+                .AcceptAlert()
+                .SwitchToChildWindow(1);
+            //Step line 23: Click back to the [Account] and set party is [ON STOP]
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
+                .ClickAccountTab()
+                .CLickOffStopBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickWBSettingTab()
+                .WaitForLoadingIconToDisappear();
+            //Step line 20: Click on [WB Settings] tab and Select Option [Do Not Override On Stop]
+            PageFactoryManager.Get<DetailPartyPage>()
+                .SelectAnyOptionAuthoriseTipping(CommonConstants.AuthoriseTipping[1])
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifyOptionAuthoriseTippingChecked(CommonConstants.AuthoriseTipping[1])
+                //Step line 21: Add new ticket in [WB Tickets] tab
+                .ClickWBTicketTab()
+                .ClickAddNewWBTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC56)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            //Add new ticket line
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(3)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(2)
+                .ClickSaveBtn();
+            createNewTicketPage
+                .ClickOnNoWarningPopup();
+            createNewTicketPage
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
         }
     }
 }

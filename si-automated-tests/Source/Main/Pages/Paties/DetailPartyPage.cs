@@ -151,6 +151,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By siteRows = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']//div[contains(@class,'ui-widget-content')]");
 
         public readonly By OnStopButton = By.XPath("//div[@id='account-tab']//button[text()='ON STOP']");
+        public readonly By OffStopButton = By.XPath("//div[@id='account-tab']//button[text()='OFF STOP']");
         public readonly By PartyStatus = By.XPath("//div[@title='Party Status']//span");
 
         //HISTORY TAB
@@ -271,6 +272,18 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickAccountTab()
         {
             ClickOnElement(accountTab);
+            return this;
+        }
+        [AllureStep]
+        public DetailPartyPage CLickOnStopBtn()
+        {
+            ClickOnElement(OnStopButton);
+            return this;
+        }
+        [AllureStep]
+        public DetailPartyPage CLickOffStopBtn()
+        {
+            ClickOnElement(OffStopButton);
             return this;
         }
         [AllureStep]
@@ -1095,10 +1108,17 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             ClickOnElement(VehicleTab);
             WaitForLoadingIconToDisappear();
-            //WaitUtil.WaitForElementVisible(loadingVehicleTab);
-            //WaitUtil.WaitForElementInvisible60(loadingVehicleTab);
             return this;
         }
+
+        [AllureStep]
+        public DetailPartyPage WaitForLoadingIconVehicleTabDissaprear()
+        {
+            WaitUtil.WaitForElementVisible(loadingVehicleTab);
+            WaitUtil.WaitForElementInvisible60(loadingVehicleTab);
+            return this;
+        }
+
         [AllureStep]
         public DetailPartyPage VerifyTableDisplayedInVehicle()
         {
@@ -1158,8 +1178,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickWBTicketTab()
         {
             ClickOnElement(wBTicketTab);
-            WaitUtil.WaitForElementVisible(loadingIconWBTicketTab);
-            WaitUtil.WaitForElementInvisible(loadingIconWBTicketTab);
+            //WaitUtil.WaitForElementVisible(loadingIconWBTicketTab);
+            //WaitUtil.WaitForElementInvisible(loadingIconWBTicketTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
