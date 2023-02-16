@@ -14,6 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
     public class RoundGroupListPage : BasePage
     {
         private readonly By roundGroupRows = By.XPath("//div[@class='slick-viewport']//div[@class='grid-canvas']//div[contains(@class,'ui-widget-content')]");
+        public readonly By AddNewButton = By.XPath("//button[text()[contains(.,'Add New Item')]]");
 
         [AllureStep]
         public RoundGroupListPage DoubleClickRoundGroup(string name)
