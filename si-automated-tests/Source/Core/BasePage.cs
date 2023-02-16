@@ -42,6 +42,13 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
+        public BasePage OpenLocaleLanguage()
+        {
+            ClickOnElement(By.XPath("//ul[@class='dropdown-menu']//li//a[@data-bind='click: openLocaleLanguages']"));
+            return this;
+        }
+
         public BasePage()
         {
             Thread.Sleep(750);

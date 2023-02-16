@@ -76,6 +76,16 @@ namespace si_automated_tests.Source.Main.Pages
         }
 
         [AllureStep]
+        public HomePage IsOnHomePageWithoutWaitSearchBtn(User user)
+        {
+            Thread.Sleep(500);
+            SwitchToDefaultContent();
+            WaitUtil.WaitForElementVisible(pageTitle);
+            Assert.AreEqual(GetElementText(userNameBtn).Trim(), user.DisplayName);
+            return this;
+        }
+
+        [AllureStep]
         public HomePage ClickOnSearchBtn()
         {
             ClickOnElement(searchBtn);
