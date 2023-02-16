@@ -990,6 +990,7 @@ namespace si_automated_tests.Source.Core
         public BasePage ClickSaveBtn()
         {
             ClickOnElement(saveBtn);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]

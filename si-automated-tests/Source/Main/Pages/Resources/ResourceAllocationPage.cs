@@ -107,7 +107,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         //business unit option
         private readonly string jstreeOption = "//a[contains(@class,'jstree-anchor') and text()='{0}']";
         private readonly string businessUnitExpandIcon = "//a[contains(@class,'jstree-anchor') and text()='{0}']/preceding-sibling::i";
-        private readonly By businessUnitStaticOptions = By.XPath("(//*[@class='jstree-children'])[last()]//a");
+        private readonly By businessUnitStaticOptions = By.XPath("(//*[@class='jstree-children'])[2]//a");
 
         //Resizer
         private readonly By resizerWidth = By.XPath("//div[@title='Resize']");
@@ -582,6 +582,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             IWebElement source = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType.ToUpper());
             var targetElements = WaitUtil.WaitForAllElementsVisible(roundContainer);
             DragAndDrop(source, targetElements[targetRow-1]);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -590,6 +591,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             var source = WaitUtil.WaitForElementVisible(blankResourceTypeInRound, resourceType.ToUpper());
             var targetElement = WaitUtil.WaitForElementVisible(roundGroup, whichRow.ToString());
             DragAndDrop(source, targetElement);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -598,6 +600,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             var resourceType = WaitUtil.WaitForAllElementsVisible(allocatedResourceType);
             var rounds = WaitUtil.WaitForAllElementsVisible(roundContainer);
             DragAndDrop(resourceType[whichOne -1], rounds[roundRow - 1]);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]

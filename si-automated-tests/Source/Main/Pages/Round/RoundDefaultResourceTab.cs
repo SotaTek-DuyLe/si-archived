@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace si_automated_tests.Source.Main.Pages.Round
@@ -72,6 +73,11 @@ namespace si_automated_tests.Source.Main.Pages.Round
         public RoundDefaultResourceTab ExpandOption(int whichRow)
         {
             IList<IWebElement> expandBtns = WaitUtil.WaitForAllElementsVisible(expandBtn);
+            if(whichRow == -1)
+            {
+                ClickOnElement(expandBtns.Last());
+                return this;
+            }
             ClickOnElement(expandBtns[whichRow-1]);
             return this;
         }
