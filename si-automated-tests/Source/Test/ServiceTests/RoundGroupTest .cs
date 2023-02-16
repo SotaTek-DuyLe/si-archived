@@ -880,5 +880,41 @@ namespace si_automated_tests.Source.Test.ServiceTests
             DateTime endDate = CommonUtil.TryParseStringToDateTime(text, CommonConstants.DATE_DD_MM_YYYY_FORMAT);
             Assert.IsTrue(endDate != DateTime.MinValue);
         }
+
+        [Category("Round Group")]
+        [Category("Huong")]
+        [Test]
+        public void TC_276_Empty_Space()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.Commercial)
+                .ExpandOption("Collections")
+                .ExpandOption("Commercial Collections")
+                .OpenOption("Round Groups")
+                .SwitchNewIFrame();
+            var roundGroupListPage = PageFactoryManager.Get<RoundGroupListPage>();
+            roundGroupListPage.ClickOnElement(roundGroupListPage.AddNewButton);
+            roundGroupListPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            RoundGroupPage roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.ClickOnElement(roundGroupPage.DetailTab);
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            string roundGroup = " Test round group";
+            roundGroupPage.EnterRoundGroupValue(roundGroup)
+                .SelectDispatchSite("Kingston Tip")
+                .SelectTextFromDropDown(roundGroupPage.businessUnitSelect, "Collections - Recycling")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            roundGroupPage.VerifyRoundGroup(roundGroup.Trim());
+        }
     }
 }
