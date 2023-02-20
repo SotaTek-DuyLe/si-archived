@@ -275,7 +275,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //Test path for TC 008
             detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.ClickOnSitesTab()
-                .IsOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage.IsOnSitesTab()
                 .ClickOnAddNewItemInSiteTabBtn()
                 .SwitchToLastWindow();
             partySiteAddressPage.WaitForLoadingIconToDisappear();
@@ -298,7 +299,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             detailPartyPage.ClickOnDetailsTab()
                 .ClickOnInvoiceAddressButton()
                 .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded)
-                .ClickOnSitesTab()
+                .ClickOnSitesTabNoWait()
                 .VerifyAddressAppearAtSitesTab(addressSite1);
         }
 
@@ -350,7 +351,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //create site 1
             detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.ClickOnSitesTab()
-                .IsOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage.IsOnSitesTab()
                 .ClickOnAddNewItemInSiteTabBtn()
                 .SwitchToLastWindow();
             partySiteAddressPage.WaitForLoadingIconToDisappear();

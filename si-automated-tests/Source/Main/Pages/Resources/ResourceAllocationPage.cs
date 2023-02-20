@@ -12,12 +12,13 @@ using System.Text;
 
 namespace si_automated_tests.Source.Main.Pages.Resources
 {
-    public class ResourceAllocationPage : BasePage
+    public class ResourceAllocationPage : BasePageCommonActions
     {
         private readonly By contractSelect = By.Id("contract");
         private readonly By businessUnitInput = By.Id("business-units");
         private readonly By shiftSelect = By.Id("shift-group");
         private readonly By goBtn = By.XPath("//button[text()='Go']");
+        private readonly By okBtn = By.XPath("//button[text()='OK']");
         private readonly By createResourceBtn = By.Id("t-create");
         private readonly By refreshBtn = By.Id("t-refresh");
         public readonly By date = By.Id("date");
@@ -193,6 +194,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ClickOnElement(goBtn);
             return this;
         }
+        
+        [AllureStep]
+        public ResourceAllocationPage ClickOK()
+        {
+            ClickOnElement(okBtn);
+            return this;
+        }
 
         #region All Resource
         [AllureStep]
@@ -200,6 +208,37 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         {
             AllResourceTableEle.ClickCell(rowIdx, AllResourceTableEle.GetCellIndex(ResourceTypeCell));
             SleepTimeInMiliseconds(200);
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage VerifyResourceTranslation(string str, string culture)
+        {
+            switch (culture)
+            {
+                case "French":
+                    switch (str)
+                    {
+                        case "IN/OUT":
+                            Assert.IsTrue(IsControlDisplayed(By.XPath($"//div[@class='grid-menu']//button[text()='PRÉSENT/NOT PRÉSENT']")));
+                            break;
+                        case "PRE-CONFIRM/UN-CONFIRM":
+                            Assert.IsTrue(IsControlDisplayed(By.XPath($"//div[@class='grid-menu']//button[text()='PRÉ-CONFIRMER/REFUSER']")));
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ClickOutSideMenu()
+        {
+            ClickOnElement(By.XPath("//div[@class='disabled-screen']"));
             return this;
         }
 

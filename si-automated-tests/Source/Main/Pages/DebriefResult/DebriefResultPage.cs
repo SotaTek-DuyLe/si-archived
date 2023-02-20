@@ -24,6 +24,20 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
         public readonly By UnknownButton = By.XPath("//td[@class='actions-list']//button[contains(text(), 'Unknown')]");
         public readonly By FirstTaskRatio = By.XPath("(//div[@id='unmatched-tasks']//div[@data-bind='text: taskRatio'])[1]");
 
+        public DebriefResultPage WaitForDebriefLoaded()
+        {
+            try
+            {
+                WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'shield: gpsEventMatchForm.isLoading')]");
+                WaitUtil.WaitForPageLoaded();
+            }
+            catch (WebDriverTimeoutException)
+            {
+                Assert.Fail("Loading icon doesn't disappear after 60 seconds");
+            }
+            return this;
+        }
+
         public DebriefResultPage DragSecondBinLiftToTaskLine()
         {
             SleepTimeInMiliseconds(2000);

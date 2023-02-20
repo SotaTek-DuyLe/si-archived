@@ -561,7 +561,9 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF DIFFERENT ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundGroupToRound("Loader", 1)
-                .VerifyAllocatingToast(listMessagesResourceType);
+                .VerifyAllocatingToast(rscTypeClear)
+                .VerifyAllocatingToast(rscTypeSet);
+                //.VerifyAllocatingToast(listMessagesResourceType);
             //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF SAME ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceType(1)
@@ -576,7 +578,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //REALLOCATING RESOURCE FROM ROUND TO ROUND OF SAME ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundToRound(1, 2)
-                .VerifyAllocatingToast(listMessagesResourceType);
+                .VerifyAllocatingToast(rscTypeClear)
+                .VerifyAllocatingToast(rscTypeSet);
             //REALLOCATING RESOURCE FROM ROUND TO ROUND OF DIFFERENT ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundToRound(1, 6)
@@ -584,15 +587,18 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //REALLOCATING RESOURCE FROM ROUND TO ROUND GROUP OF DIFFERENT ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundToRoundGroup("Loader", 1)
-                .VerifyAllocatingToast(listMessagesResourceType);
+                .VerifyAllocatingToast(rscTypeClear)
+                .VerifyAllocatingToast(rscTypeSet);
             //REALLOCATING RESOURCE FROM ROUND TO ROUND GROUP OF SAME ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundToRound(2, 6)
-                .VerifyAllocatingToast(listMessagesResourceType)
+                .VerifyAllocatingToast(rscTypeClear)
+                .VerifyAllocatingToast(rscTypeSet)
                 .DeallocateResourceType("Loader")
                 .VerifyAllocatingToast(rscTypeClear)
                 .RelocateResourceTypeFromRoundToRoundGroup("Loader", 2)
-                .VerifyAllocatingToast(listMessagesResourceType);
+                .VerifyAllocatingToast(rscTypeClear)
+                .VerifyAllocatingToast(rscTypeSet);
 
             //OVERRIDE RESOURCE TYPE TO CELL WITH RESOURCE TYPE ON ROUND
             PageFactoryManager.Get<ResourceAllocationPage>()

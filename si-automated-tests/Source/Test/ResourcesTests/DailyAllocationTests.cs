@@ -5,6 +5,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Applications;
+using si_automated_tests.Source.Main.Pages.Common;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
@@ -915,6 +916,62 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             resourceAllocationPage.ClickType(rowIdx)
                 .ClickLeftResourceMenu("TRAINING")
                 .VerifyToastMessage($"Unable to log request. {resource} has Sick request for {londonCurrentDate.ToString("dd/MM/yyyy")} - {londonCurrentDate.ToString("dd/MM/yyyy")}");
+        }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_275_Translation_DA()
+        {
+            var loginPage = PageFactoryManager.Get<LoginPage>();
+            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
+            loginPage.GoToURL(WebUrl.MainPageUrl);
+            loginPage.IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePageWithoutWaitSearchBtn(AutoUser22);
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser22.DisplayName));
+            resourceAllocationPage.OpenLocaleLanguage()
+                .SwitchToChildWindow(2);
+            LocalLanguagePage localLanguagePage = PageFactoryManager.Get<LocalLanguagePage>();
+            localLanguagePage.SelectTextFromDropDown(localLanguagePage.LanguageSelect, "French")
+                .ClickOnElement(localLanguagePage.SaveButton);
+            localLanguagePage.SwitchToFirstWindow();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(TextTranslation.ToString(MainOption.Resources, "French"))
+                .OpenOption(TextTranslation.ToString("Daily Allocation", "French"))
+                .SwitchNewIFrame();
+            resourceAllocationPage.SelectContract(Contract.Commercial);
+            resourceAllocationPage.SelectShift("AM");
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
+            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
+                .SelectRoundNode("Collections")
+                .ClickOK()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            int rowIdx = 0;
+            //Verify whether the IN/OUT should read "PRÉSENT/NOT PRÉSENT" (when on the same day)
+            //Verify whether the PRE-CONFIRM/UN-CONFIRM should read "PRÉ-CONFIRMER/REFUSER" (for date in future)
+            resourceAllocationPage.ClickType(rowIdx)
+                .VerifyResourceTranslation("IN/OUT", "French")
+                .ClickOutSideMenu();
+
+            string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+            resourceAllocationPage.InsertDate(dateInFutre + Keys.Enter)
+                .ClickOK()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            resourceAllocationPage.ClickType(rowIdx)
+                .VerifyResourceTranslation("PRE-CONFIRM/UN-CONFIRM", "French")
+                .ClickOutSideMenu();
+
+            resourceAllocationPage.SwitchToDefaultContent();
+            //Back to default localization
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser22.DisplayName));
+            resourceAllocationPage.OpenLocaleLanguage()
+                .SwitchToChildWindow(2);
+            localLanguagePage.SelectTextFromDropDown(localLanguagePage.LanguageSelect, "English")
+                .ClickOnElement(localLanguagePage.SaveButton);
+            localLanguagePage.SwitchToFirstWindow();
         }
     }
 }
