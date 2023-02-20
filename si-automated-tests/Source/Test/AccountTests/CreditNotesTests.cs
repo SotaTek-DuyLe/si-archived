@@ -176,6 +176,7 @@ namespace si_automated_tests.Source.Test.AccountTests
             PageFactoryManager.Get<CreditNotePage>()
                 .IsOnCreditNotePage()
                 .SearchForParty(partyName)
+                .WaitForLoadingIconToDisappear() 
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<CreditNotePage>()
