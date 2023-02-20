@@ -256,6 +256,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public RoundInstanceDetailPage OpenRound()
         {
+            WaitUtil.WaitForElementSize(openRoundBtn);
             ClickOnElement(openRoundBtn);
             return this;
         }
