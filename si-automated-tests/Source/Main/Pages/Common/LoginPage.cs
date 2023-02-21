@@ -63,5 +63,12 @@ namespace si_automated_tests.Source.Main.Pages
             ClickOnSignIn();
             return PageFactoryManager.Get<HomePage>();
         }
+
+        [AllureStep]
+        public LoginPage ClickChangeLoginButton()
+        {
+            ClickOnElement(By.XPath("//a[text()='Change']"));
+            return this;
+        }
     }
 }

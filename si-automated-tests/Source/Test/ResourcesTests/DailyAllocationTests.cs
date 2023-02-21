@@ -973,5 +973,65 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickOnElement(localLanguagePage.SaveButton);
             localLanguagePage.SwitchToFirstWindow();
         }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_301_Single_Sign_On()
+        {
+            //Verify that Echo user can login with email address or username
+            var loginPage = PageFactoryManager.Get<LoginPage>();
+            loginPage.GoToURL(WebUrl.MainPageUrl);
+            loginPage.IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePageWithoutWaitSearchBtn(AutoUser22);
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser22.DisplayName));
+            loginPage.OpenSettings()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            UserSettingPage userSettingPage = PageFactoryManager.Get<UserSettingPage>();
+            userSettingPage.ClickOnElement(userSettingPage.DetailTab);
+            userSettingPage.WaitForLoadingIconToDisappear();
+            string userEmail = userSettingPage.GetInputValue(userSettingPage.EmailInput);
+            userSettingPage.ClickCloseBtn()
+                .SwitchToFirstWindow();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser22)
+                .ClickUserNameDd()
+                .ClickLogoutBtn();
+            loginPage.IsOnLoginPage()
+                .Login(userEmail, AutoUser22.Password)
+                .IsOnHomePageWithoutWaitSearchBtn(AutoUser22);
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser22.DisplayName));
+            loginPage.OpenSettings()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            userSettingPage.ClickOnElement(userSettingPage.DetailTab);
+            userSettingPage.WaitForLoadingIconToDisappear();
+            userSettingPage.VerifyInputValue(userSettingPage.EmailInput, userEmail);
+            userSettingPage.ClickCloseBtn()
+                .SwitchToFirstWindow();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser22)
+                .ClickUserNameDd()
+                .ClickLogoutBtn();
+            //Verify that if multiple users have the same email address then they need to use username to login to Echo
+            string sameUserEmail = "josie@selectedinterventions.com";
+            loginPage.IsOnLoginPage()
+                .Login(sameUserEmail, AutoUser23.Password);
+            loginPage.WaitForLoadingIconToDisappear();
+            loginPage.VerifyErrorMessageDisplay()
+                .ClickChangeLoginButton();
+            loginPage.IsOnLoginPage()
+                .Login(AutoUser23.UserName, AutoUser23.Password)
+                .IsOnHomePageWithoutWaitSearchBtn(AutoUser23);
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser23.DisplayName));
+            loginPage.OpenSettings()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            userSettingPage.ClickOnElement(userSettingPage.DetailTab);
+            userSettingPage.WaitForLoadingIconToDisappear();
+            userSettingPage.VerifyInputValue(userSettingPage.EmailInput, sameUserEmail);
+        }
     }
 }
