@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -20,17 +19,17 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
     [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
-    public class WarningLimitWBTests : BaseTest
+    public class AllowManualNameEntryWBTests : BaseTest
     {
         private string partyCustomerId;
-        private string partyNameCustomer = "PCWarningLimitTC261_" + CommonUtil.GetRandomString(2);
-        private string partyNameHaulier = "PHWarningLimitTC261_" + CommonUtil.GetRandomString(2);
-        private string siteName56 = "SiteWarningLimitTC261_" + CommonUtil.GetRandomNumber(4);
-        private string stationNameTC56 = "StationWarningLimit TC261_" + CommonUtil.GetRandomNumber(4);
-        private string resourceName = "ResourceWarningLimit TC261_" + CommonUtil.GetRandomNumber(2);
-        private string locationNameActive56 = "LocationWarningLimitTC261_" + CommonUtil.GetRandomNumber(2);
+        private string partyNameCustomer = "PCAllowManualNameEntryTC261_" + CommonUtil.GetRandomString(2);
+        private string partyNameHaulier = "PHAllowManualNameEntryTC261_" + CommonUtil.GetRandomString(2);
+        private string siteName56 = "SiteAllowManualNameEntryTC261_" + CommonUtil.GetRandomNumber(4);
+        private string stationNameTC56 = "StationAllowManualNameEntry TC261_" + CommonUtil.GetRandomNumber(4);
+        private string resourceName = "ResourceAllowManualNameEntry TC261_" + CommonUtil.GetRandomNumber(2);
+        private string locationNameActive56 = "LocationAllowManualNameEntryTC261_" + CommonUtil.GetRandomNumber(2);
         private string resourceType56 = "Van";
-        private string clientRef56 = "ClientRefWarningLimitTC261_" + CommonUtil.GetRandomNumber(2);
+        private string clientRef56 = "ClientAllowManualNameEntryTC261_" + CommonUtil.GetRandomNumber(2);
         private string product56 = "Garden";
         private string ticketType56 = "Incoming";
         private string neutralProduct = "Plastic";
@@ -42,23 +41,23 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Set up data test"), Order(1)]
-        public void SetupDataTest_Tab_Warning_Limit()
+        [Test(Description = "Set up data test for tab allow manual name entry"), Order(1)]
+        public void SetupDataTest_Tab_Allow_Manual_Name_Entry()
         {
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser82.UserName, AutoUser82.Password)
-                .IsOnHomePage(AutoUser82);
+                .Login(AutoUser85.UserName, AutoUser85.Password)
+                .IsOnHomePage(AutoUser85);
 
             //Create new Resource with type = Van in TC51
             PageFactoryManager.Get<NavigationBase>()
-                    .ClickMainOption(MainOption.Resources)
-                    .OpenOption(Contract.Commercial)
-                    .SwitchNewIFrame()
-                    .WaitForLoadingIconToDisappear();
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
@@ -320,196 +319,19 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Test ID = 1, 3, Verify that Warning limit is set up correctly for existing party and Warning limit can be modified"), Order(2)]
-        public void TC_261_Tab_Warning_limit_existing_party_TestID_1_3()
+        [Test(Description = "Verify that user has the option to manually add a name/address for adhoc customer when Allow manual name entry is ticked"), Order(2)]
+        public void TC_261_Tab_Allow_Manual_Name_Entry_Allow_Manual_Name_Entry_Is_Ticket() 
         {
             CommonFinder commonFinder = new CommonFinder(DbContext);
-            string partyId = "30";
-            string partyName = "GeoFossils";
 
-            //Scenario 1
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser82.UserName, AutoUser82.Password)
-                .IsOnHomePage(AutoUser82);
-            //Open the party Id = 30 and change [Credit limit]
-            PageFactoryManager.Get<BasePage>()
-                .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyId);
-            PageFactoryManager.Get<DetailPartyPage>()
-               .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClickAccountTab()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .InputCreditLimt("1000")
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyValueInCreditLimt("1000")
-                //Step line 9: Verify in WB settings tab
-                .ClickWBSettingTab()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyValueInWarningLimit("750");
-            //Step line 10: Run query to check
-            List<WBPartySettingDBModel> list = commonFinder.GetWBPartySettingByPartyId(partyId);
-            Assert.IsNull(list[0].creditlimitwarning);
-            List<PartiesDBModel> partiesDBModels = commonFinder.GetPartiesByPartyId(partyId);
-            Assert.AreEqual(1000, partiesDBModels[0].creditlimit);
-            List<WBPartySettingVDBModel> wBPartySettingVDBModels = commonFinder.GetWBPartiesSettingsVByPartyId(partyId);
-            Assert.AreEqual(750, wBPartySettingVDBModels[0].creditlimitwarning);
-
-            PageFactoryManager.Get<DetailPartyPage>()
-                .ClickOnDetailsTab()
-                .WaitForLoadingIconToDisappear();
-            //Step line 11: Change [Credit limit]
-            PageFactoryManager.Get<DetailPartyPage>()
-                .InputCreditLimt("900")
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyValueInCreditLimt("900")
-                //Step line 12: Verify in WB settings tab
-                .ClickWBSettingTab()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-               .VerifyValueInWarningLimit("675");
-            //Step line 13: Run query to check
-            List<WBPartySettingDBModel> listAfterChanged = commonFinder.GetWBPartySettingByPartyId(partyId);
-            Assert.IsNull(listAfterChanged[0].creditlimitwarning);
-            List<PartiesDBModel> partiesDBModelsAfterChanged = commonFinder.GetPartiesByPartyId(partyId);
-            Assert.AreEqual(900, partiesDBModelsAfterChanged[0].creditlimit);
-            List<WBPartySettingVDBModel> wBPartySettingVDBModelsAfterChanged = commonFinder.GetWBPartiesSettingsVByPartyId(partyId);
-            Assert.AreEqual(675, wBPartySettingVDBModelsAfterChanged[0].creditlimitwarning);
-            //Step line 17: Change Warning limit
-            PageFactoryManager.Get<DetailPartyPage>()
-                .InputTextInWarningLimit("1000")
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyValueInWarningLimit("1000");
-            //Step line 18: API run query to check
-            List<WBPartySettingDBModel> listAfterChangeWarningLimit = commonFinder.GetWBPartySettingByPartyId(partyId);
-            Assert.AreEqual(1000, listAfterChangeWarningLimit[0].creditlimitwarning);
-            List<PartiesDBModel> partiesDBModelsAfterChangeWarningLimit = commonFinder.GetPartiesByPartyId(partyId);
-            Assert.AreEqual(900, partiesDBModelsAfterChangeWarningLimit[0].creditlimit);
-            List<WBPartySettingVDBModel> wBPartySettingVDBModelsAfterChangeWarningLimit = commonFinder.GetWBPartiesSettingsVByPartyId(partyId);
-            Assert.AreEqual(1000, wBPartySettingVDBModelsAfterChangeWarningLimit[0].creditlimitwarning);
-            //Step line 19 + 20: Already set up and verify in other Tcs
-            //Step line 26: Click on WB tickets tab and Set Warning limit = 0
-            PageFactoryManager.Get<DetailPartyPage>()
-                .InputTextInWarningLimit("0")
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyValueInWarningLimit("0");
-            //Step line 27: Verify API
-            List<WBPartySettingDBModel> listWarningLimit0 = commonFinder.GetWBPartySettingByPartyId(partyId);
-            Assert.AreEqual(0, listWarningLimit0[0].creditlimitwarning);
-        }
-
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "Test ID = 2, Verify that Warning limit is set up correctly for a new party"), Order(3)]
-        public void TC_261_Tab_Warning_limit_a_new_party_TestID_2()
-        {
-            CommonFinder commonFinder = new CommonFinder(DbContext);
-            string partyName = "TC261PartyName";
-            string address = "Twickenham";
-            string siteName261 = "Site Twickenham 261" + CommonUtil.GetRandomNumber(4);
-            string siteName = CommonConstants.WBSiteName;
-
-            //Step line 14: Create a new party
-            PageFactoryManager.Get<LoginPage>()
-                    .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser82.UserName, AutoUser82.Password)
-                .IsOnHomePage(AutoUser82);
-            PageFactoryManager.Get<PartyCommonPage>()
-                .ClickAddNewItem()
-                .SwitchToChildWindow(2);
-            PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup(Contract.Commercial)
-                .SendKeyToThePartyInput(partyName)
-                .SelectPartyType(1)
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-
-            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-            detailPartyPage
-                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClickAddCorrespondenceAddress()
-                .SwitchToLastWindow();
-            PartySiteAddressPage partySiteAddressPage = PageFactoryManager.Get<PartySiteAddressPage>();
-            partySiteAddressPage.WaitForLoadingIconToDisappear();
-            partySiteAddressPage.IsOnPartySiteAddressPage()
-                .InputTextToSearchBar(address)
-                .ClickSearchBtn()
-                .VerifySearchedAddressAppear(address)
-                .ClickOnSearchedAddress(address)
-                .ClickOnNextButton()
-                .SwitchToLastWindow();
-            CreateEditSiteAddressPage createEditSiteAddressPage = PageFactoryManager.Get<CreateEditSiteAddressPage>();
-            createEditSiteAddressPage
-                .WaitForLoadingIconToDisappear();
-            string addressAdded45 = createEditSiteAddressPage
-                .SelectRandomSiteAddress();
-            createEditSiteAddressPage.SelectAddressClickNextBtn()
-                .InsertSiteName(siteName261)
-                .ClickAnySiteInDd(siteName)
-                .ClickCreateBtn()
-                .SwitchToChildWindow(2);
-            detailPartyPage.WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded45)
-                .ClickOnInvoiceAddressButton()
-                .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded45)
-                .SelectCreatedAddress(addressAdded45)
-                .ClickAccountTab()
-                .WaitForLoadingIconToDisappear();
-            //Click on [Account] and change the credit limit]
-            detailPartyPage
-                .VerifyValueInCreditLimt("125")
-                .InputCreditLimt("1000")
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .VerifyValueInCreditLimt("1000")
-                //Step line 15: Verify in WB settings tab
-                .ClickWBSettingTab()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .VerifyValueInWarningLimit("750");
-            string partyId = detailPartyPage.GetPartyId();
-            //Step line 16: Run API to check
-            List<WBPartySettingDBModel> listAfterChanged = commonFinder.GetWBPartySettingByPartyId(partyId);
-            Assert.IsNull(listAfterChanged[0].creditlimitwarning);
-            List<PartiesDBModel> partiesDBModelsAfterChanged = commonFinder.GetPartiesByPartyId(partyId);
-            Assert.AreEqual(1000, partiesDBModelsAfterChanged[0].creditlimit);
-            List<WBPartySettingVDBModel> wBPartySettingVDBModelsAfterChanged = commonFinder.GetWBPartiesSettingsVByPartyId(partyId);
-            Assert.AreEqual(750, wBPartySettingVDBModelsAfterChanged[0].creditlimitwarning);
-        }
-
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "Test ID = 6, Verify that no warning limit is displayed when Warning limit is set to 0 "), Order(4)]
-        public void TC_261_Tab_Warning_limit_TestID_6_No_warning_limit_is_displayed_when_warning_limit_is_set_to_0()
-        {
-            //Go to the [WB Settings] tab in the detail party and set Warning Limit = 0
-            //Default value in [Account] tab: [Account Balance] = 0 and [WIP Balance] = 5.64
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            //Login
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser82.UserName, AutoUser82.Password)
-                .IsOnHomePage(AutoUser82);
-            //Open the party
+                .Login(AutoUser85.UserName, AutoUser85.Password)
+                .IsOnHomePage(AutoUser85);
+            //Open the party Id = partyCustomerId
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
             PageFactoryManager.Get<DetailPartyPage>()
@@ -518,14 +340,17 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
                 .ClickWBSettingTab()
                 .WaitForLoadingIconToDisappear();
+            //Step line 8: Click on [WB Settings] tab and Tick [Allow manual name entry]
             PageFactoryManager.Get<DetailPartyPage>()
-                .InputTextInWarningLimit("0")
+                .ClickOnAllowManualNameEntryCheckbox()
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
+            string accountNumber = PageFactoryManager.Get<DetailPartyPage>()
+                .GetAccountNumber();
+
             PageFactoryManager.Get<DetailPartyPage>()
-               .VerifyValueInWarningLimit("0");
-            //Add new WB ticket for this party
-            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifyAllowManualNameEntryChecked()
+                //Step line 9: Click on [WB tickets] tab and [Add new item]
                 .ClickWBTicketTab()
                 .ClickAddNewWBTicketBtn()
                 .SwitchToChildWindow(2)
@@ -544,8 +369,13 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayHaulierDd()
                 .ClickAnyHaulier(partyNameHaulier)
                 .WaitForLoadingIconToDisappear();
-            //Add ticket line
+            //Verify the display of the text under the [Source] field
+            string manualSourceParty = "Costa";
             createNewTicketPage
+                .VerifyTextUnderSourceField(accountNumber)
+                //Step line 10: Input [manual Source party] and add new ticket
+                .InputManualSourceParty(manualSourceParty)
+                //Add ticket line and Save
                 .ClickAddTicketLineBtn()
                 .ClickProductDd()
                 .ClickAnyProductValue(product56)
@@ -562,49 +392,149 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createNewTicketPage
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            string ticketIdFirst = createNewTicketPage
+                .GetWBTicketId();
+
+            createNewTicketPage
+                .VerifyValueInManualSourceParty(manualSourceParty);
+            //Step line 11: DB
+            WBTicketDBModel wBTicketDBModel = commonFinder.GetWBTicketByTicketId(ticketIdFirst);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModel.destination_party);
+            Assert.AreEqual(manualSourceParty, wBTicketDBModel.source_party);
+            //Step line 12: Change ticket type on the same ticket and verify the text next to destination party
+            createNewTicketPage
+                .ClickTicketType()
+                .VerifyValueInTicketTypeDd()
+                .ClickAnyTicketType("Outbound")
+                .WaitForLoadingIconToDisappear();
+                //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            string manualDestinationParty = "Tesco";
+            createNewTicketPage
+                .VerifyTextFieldNextToDestinationField()
+                //Step line 13: Input [Manual Destination Party] field and Add ticket line
+                .InputManualDestinationParty(manualDestinationParty)
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(1)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(2)
+                .ClickSaveBtn();
+            //Step line 14: Select [Reason] and [Save]
+            createNewTicketPage
+                .IsSelectReasonPopup()
+                .InputNoteInReasonPopup()
+                .ClickOnSaveBtnInReasonPopup()
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .ClickOnNoWarningPopup();
+
+            createNewTicketPage
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            createNewTicketPage
+                .VerifyValueInDestinationParty(manualDestinationParty);
+            //Step line 15: Run query
+            WBTicketDBModel wBTicketDBModelAfter = commonFinder.GetWBTicketByTicketId(ticketIdFirst);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModelAfter.destination_party);
+            Assert.AreEqual(manualDestinationParty, wBTicketDBModelAfter.source_party);
+            createNewTicketPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            //Step line 19: [Add new item] and DO NOT fill manual entry field
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickAddNewWBTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC56)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyTextUnderSourceField(accountNumber)
+                //Step line 20: DO NOT fill [manual Source party] and add new ticket
+                //Add ticket line and Save
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(3)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(2)
+                .ClickSaveBtn();
+            createNewTicketPage
+                .ClickOnNoWarningPopup();
+            createNewTicketPage
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            string ticketId21 = createNewTicketPage
+                .GetWBTicketId();
+            string sourceName = createNewTicketPage
+                .GetSourceValue();
+            //Step line 21: Verify [Manual] entered field is autopopulated with [Source] party name
+            createNewTicketPage
+                .VerifyValueInManualSourceParty(sourceName);
+            //Step line 22: Run a query
+            WBTicketDBModel wBTicketDBModel21 = commonFinder.GetWBTicketByTicketId(ticketId21);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModel21.destination_party);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModel21.source_party);
+
         }
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Test ID = 5, Verify that warning message is displayed when the customer’s Account Balance + WIP Balance >= Warning Limit. "), Order(5)]
-        public void TC_261_Tab_Warning_limit_TestID_5_Warning_limit_a_new_party()
+        [Test(Description = "Verify that text field is not displayed  when Allow manual name entry is unticked"), Order(3)]
+        public void TC_261_Tab_Allow_Manual_Name_Entry_Allow_Manual_Name_Entry_Is_Unticked()
         {
-            //Go to the [WB Settings] tab in the detail party and set [Account Balance + WIP Balance >= Warning Limit]
-            //Default value in [Account] tab: [Account Balance] = 0 and [WIP Balance] = 2.82
+            //Go to the [WB Settings] tab and unticket [Allow Manual Name Entry]
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser82.UserName, AutoUser82.Password)
-                .IsOnHomePage(AutoUser82);
-            //Open the party
+                .Login(AutoUser85.UserName, AutoUser85.Password)
+                .IsOnHomePage(AutoUser85);
+            //Open the party Id = partyCustomerId
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
             PageFactoryManager.Get<DetailPartyPage>()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
-                .ClickAccountTab()
-                .WaitForLoadingIconToDisappear();
-            //Get WIP balance
-            string wipBalanceBefore = PageFactoryManager.Get<DetailPartyPage>()
-                .GetWIPBalance();
-            string accountBalanceBefore = PageFactoryManager.Get<DetailPartyPage>()
-                .GetAccountBalance();
-            string warningLimitTest = ((Double.Parse(wipBalanceBefore) + Double.Parse(accountBalanceBefore)) - 1.00).ToString();
-            PageFactoryManager.Get<DetailPartyPage>()
                 .ClickWBSettingTab()
                 .WaitForLoadingIconToDisappear();
-            
+            //Step line 24: Click on [WB Settings] tab and UnTick [Allow manual name entry]
             PageFactoryManager.Get<DetailPartyPage>()
-                .InputTextInWarningLimit(warningLimitTest)
+                .ClickOnAllowManualNameEntryCheckbox()
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
+            string accountNumber = PageFactoryManager.Get<DetailPartyPage>()
+                .GetAccountNumber();
             PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyValueInWarningLimit(warningLimitTest);
-            //Add new WB ticket for this party
-            PageFactoryManager.Get<DetailPartyPage>()
+                .VerifyAllowManualNameEntryUnChecked()
+                //Step line 25: Click on [WB tickets] tab and [Add new item]
                 .ClickWBTicketTab()
                 .ClickAddNewWBTicketBtn()
                 .SwitchToChildWindow(2)
@@ -623,12 +553,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayHaulierDd()
                 .ClickAnyHaulier(partyNameHaulier)
                 .WaitForLoadingIconToDisappear();
+            //Verify not display the text next to the [Source] field
             createNewTicketPage
-                .VerifyDisplayToastMessage(string.Format(MessageRequiredFieldConstants.CustomterBalanceExceededMessage, partyNameCustomer, wipBalanceBefore, warningLimitTest))
-                .WaitUntilToastMessageInvisible(string.Format(MessageRequiredFieldConstants.CustomterBalanceExceededMessage, partyNameCustomer, wipBalanceBefore, warningLimitTest));
-            //Create new ticket as normal
-            //Add ticket line
-            createNewTicketPage
+                .VerifyTextFieldIsNotDisplayedNextToSourceDd()
+                //Step line 26: Add a new ticket line
                 .ClickAddTicketLineBtn()
                 .ClickProductDd()
                 .ClickAnyProductValue(product56)
@@ -645,7 +573,13 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createNewTicketPage
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-        }
+            string ticketIdFirst = createNewTicketPage
+                .GetWBTicketId();
+            //Step line 27: DB
+            WBTicketDBModel wBTicketDBModel = commonFinder.GetWBTicketByTicketId(ticketIdFirst);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModel.destination_party);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModel.source_party);
 
+        }
     }
 }

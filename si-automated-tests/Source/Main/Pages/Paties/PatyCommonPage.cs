@@ -13,6 +13,7 @@ namespace si_automated_tests.Source.Main.Pages
     {
         private const string AddNewItem = "//button[text()='Add New Item']";
 
+        private readonly By addNewItemLoading = By.XPath("//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
         private readonly By firstResult = By.XPath("//div[@class='grid-canvas']/div[1]");
@@ -22,6 +23,7 @@ namespace si_automated_tests.Source.Main.Pages
         public PartyCommonPage ClickAddNewItem()
         {
             WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementInvisible(addNewItemLoading);
             ClickOnElement(AddNewItem);
             return this;
         }

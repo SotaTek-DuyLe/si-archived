@@ -1117,6 +1117,12 @@ namespace si_automated_tests.Source.Core
             return GetElement(by).Selected;
         }
         [AllureStep]
+        public bool IsCheckboxChecked(string xpath, string value)
+        {
+            xpath = string.Format(xpath, value);
+            return WaitUtil.WaitForElementVisible(xpath).Selected;
+        }
+        [AllureStep]
         public bool IsCheckboxChecked(IWebElement e)
         {
             return e.Selected;

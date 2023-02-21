@@ -367,5 +367,19 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from wb_partysettings_v where partyid" + partyId + ";";
             return FindList<WBPartySettingVDBModel>(query).ToList();
         }
+
+        [AllureStep]
+        public WBTicketDBModel GetWBTicketByTicketId(string ticketId)
+        {
+            string query = "select driver,* from wb_tickets where ticketid=" + ticketId + ";";
+            return FindList<WBTicketDBModel>(query).ToList()[0];
+        }
+
+        [AllureStep]
+        public List<PurchaseOderListVDBModel> GetPurchaseOrderListVByPartyId(string partyId)
+        {
+            string query = "select * from SotatekTesting.dbo.purchaseorders_list_v where partyid=" + partyId + ";";
+            return FindList<PurchaseOderListVDBModel>(query).ToList();
+        }
     }
 }

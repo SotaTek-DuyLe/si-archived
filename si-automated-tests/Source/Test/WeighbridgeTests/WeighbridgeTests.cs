@@ -108,7 +108,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             //Create new party Haulier TC047
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
@@ -390,7 +391,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickMainOption(MainOption.Weighbridge)
                 .ExpandOption(Contract.Commercial)
                 .OpenOption("Sites")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             SiteListingPage siteListingPage = PageFactoryManager.Get<SiteListingPage>();
             siteModelBefore = siteListingPage
                 .GetAllSiteDisplayed();
@@ -406,7 +408,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
@@ -511,7 +514,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
                 .OpenOption(Contract.Commercial)
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(partyId)
                 .OpenFirstResult()
@@ -655,7 +659,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
@@ -679,7 +684,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Step line 10: Select one value from [Restricted Sites]
             detailPartyPage
                 .SelectAnyOptionRestrictedSites(restrictedSiteValue)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             //Step line 11: Click on [WB tickets tab] and Click on Add new item
             detailPartyPage
                 .ClickWBTicketTab()
@@ -704,7 +710,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
@@ -776,7 +783,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
                 .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
@@ -850,7 +858,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
                 .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
@@ -1574,7 +1583,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickMainOption(MainOption.Weighbridge)
                 .ExpandOption(Contract.Commercial)
                 .OpenOption("Grey Lists")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<GreyListPage>()
                 .IsGreyListPage()
                 //Step line 11: [Add new item] btn
@@ -2160,6 +2170,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             partyIdHaulier = detailPartyPage
                 .GetPartyId();
             detailPartyPage
+                .ClickSaveBtn();
+            detailPartyPage
                 .VerifyDisplayYellowMesInLicenceNumberExField()
                 .VerifyForcusOnLicenceNumberExField()
                 .VerifyDisplayGreenBoderInLicenceNumberExField()
@@ -2333,10 +2345,12 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Resources)
                 .OpenOption(Contract.Commercial)
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceDetailTab>()
                 .IsOnDetailTab()
                 .InputResourceName(resourceName)
@@ -2485,7 +2499,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickMainOption(MainOption.Resources)
                 .ExpandOption(Contract.Commercial)
                 .OpenOption("Vehicle_Customer_Haulier")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             //Filter vehicleID
             PageFactoryManager.Get<VehicleCustomerHaulierPage>()
                 .FilterVehicleById(allVehiclePartyHaulier[0].Id);
@@ -2601,7 +2616,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(Int32.Parse(partyIdCustomer))
                 .OpenFirstResult()
@@ -2688,7 +2704,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCommonPage>()
                 .FilterPartyById(Int32.Parse(partyIdCustomer))
                 .OpenFirstResult()

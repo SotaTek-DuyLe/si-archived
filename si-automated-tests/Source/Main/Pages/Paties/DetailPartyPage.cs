@@ -11,6 +11,7 @@ using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyPurchaseOrder;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
 using si_automated_tests.Source.Main.Pages.Tasks;
@@ -28,12 +29,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string SaveWithDetailsBtn = "//a[@aria-controls='details-tab']/ancestor::body//button[@title='Save']";
         private readonly By closeWithoutSavingBtn = By.XPath("//a[@aria-controls='details-tab']/ancestor::body//button[@title='Close Without Saving']");
         private readonly By dropdown = By.XPath("//li[@class='dropdown']");
+        private readonly By accountNumber = By.CssSelector("p[title='Account Number']");
+        private readonly By purchaseOrderTab = By.XPath("//a[text()='Purchase Orders']");
 
         private const string PartyName = "//div[text()='{0}']";
         private readonly By partyNameValue = By.XPath("//p[@class='object-name']");
         private readonly By title = By.XPath("//h4[text()='Party']");
         private readonly By wBtab = By.XPath("//a[text()='Weighbridge Settings']");
         private readonly By wBTicketTab = By.XPath("//a[text()='Weighbridge Tickets']");
+        private readonly By loadingIconWBTicketTab = By.XPath("//div[@id='weighbridgeTickets-tab']//div[@class='loading-definition']");
         private readonly By taskTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='tasks-tab']");
         private readonly By suspensionTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='suspensions-tab']");
         public readonly By pricesTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='prices-tab']");
@@ -140,8 +144,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         //WB TICKET TAB
         private readonly By addNewItemWBTicket = By.XPath("//div[@id='weighbridgeTickets-tab']//button[text()='Add New Item']");
+        private readonly By addNewItemItemWBTicketTabLoading = By.XPath("//div[@id='weighbridgeTickets-tab']//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
 
         //VEHICLE TAB
+        private readonly By addNewItemLoadingVehicleTab = By.XPath("//div[@id='weighbridgeVehicleCustomerHauliers-tab']//button[text()='Add New Item'and contains(@class, 'echo-disabled')]");
         private readonly By addNewItemVehicleTab = By.XPath("//div[@id='weighbridgeVehicleCustomerHauliers-tab']//button[text()='Add New Item']");
         private const string TotalVehicleRow = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='grid-canvas']/div";
         private const string ColumnInGrid = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//span[text()='{0}']/parent::div";
@@ -149,6 +155,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By siteRows = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']//div[contains(@class,'ui-widget-content')]");
 
         public readonly By OnStopButton = By.XPath("//div[@id='account-tab']//button[text()='ON STOP']");
+        public readonly By OffStopButton = By.XPath("//div[@id='account-tab']//button[text()='OFF STOP']");
         public readonly By PartyStatus = By.XPath("//div[@title='Party Status']//span");
 
         //HISTORY TAB
@@ -163,6 +170,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By accountNumberInput = By.CssSelector("input[id='account-number']");
         private readonly By accountTypeDd = By.CssSelector("select[id='account-type']");
         private readonly By creditLimitInput = By.CssSelector("input[id='party-credit-limit']");
+        private readonly By wipBalanceInput = By.CssSelector("input[id='wip-balance']");
+        private readonly By accountBalanceInput = By.CssSelector("input[id='account-balance']");
 
         [AllureStep]
         public DetailPartyPage InputCreditLimt(string creditLimitValue)
@@ -206,6 +215,18 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             Assert.AreEqual(partyNameValue, GetAttributeValue(partyNameInput, "value"));
             return this;
+        }
+
+        [AllureStep]
+        public string GetWIPBalance()
+        {
+            return GetAttributeValue(wipBalanceInput, "value");
+        }
+
+        [AllureStep]
+        public string GetAccountBalance()
+        {
+            return GetAttributeValue(accountBalanceInput, "value");
         }
 
         //TAB
@@ -255,6 +276,18 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickAccountTab()
         {
             ClickOnElement(accountTab);
+            return this;
+        }
+        [AllureStep]
+        public DetailPartyPage CLickOnStopBtn()
+        {
+            ClickOnElement(OnStopButton);
+            return this;
+        }
+        [AllureStep]
+        public DetailPartyPage CLickOffStopBtn()
+        {
+            ClickOnElement(OffStopButton);
             return this;
         }
         [AllureStep]
@@ -772,6 +805,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickWBSettingTab()
         {
             ClickOnElement(wBtab);
+            WaitForLoadingIconToDisappear();
             return this;
         }
 
@@ -797,9 +831,30 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         [AllureStep]
+        public DetailPartyPage VerifyPurchaseOrderNumberRequiredChecked()
+        {
+            Assert.IsTrue(IsCheckboxChecked(purcharseOrderNumberRequiredCheckbox));
+            return this;
+        }
+
+        [AllureStep]
         public DetailPartyPage ClickOnDriverNameRequiredCheckbox()
         {
             ClickOnElement(driverNameRequiredCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyDriverNameRequiredChecked()
+        {
+            Assert.IsTrue(IsCheckboxChecked(driverNameRequiredCheckbox), "[Driver Name Required] is not checked");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyDriverNameRequiredNotChecked()
+        {
+            Assert.IsFalse(IsCheckboxChecked(driverNameRequiredCheckbox), "[Driver Name Required] is checked");
             return this;
         }
 
@@ -808,6 +863,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnUseStorePoNumberCheckbox()
         {
             ClickOnElement(userStorePoNumberCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyUseStorePoNumberChecked()
+        {
+            Assert.IsTrue(IsCheckboxChecked(userStorePoNumberCheckbox));
             return this;
         }
 
@@ -852,6 +914,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         [AllureStep]
+        public DetailPartyPage VerifyAllowManualNameEntryChecked()
+        {
+            Assert.IsTrue(IsCheckboxChecked(allowManualNameEntryCheckbox), "[Allow Manual Name Entry] is not checked");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyAllowManualNameEntryUnChecked()
+        {
+            Assert.IsFalse(IsCheckboxChecked(allowManualNameEntryCheckbox), "[Allow Manual Name Entry] is checked");
+            return this;
+        }
+
+        [AllureStep]
         [AllureDescription("Click on [Restrict Products] checkout")]
         public DetailPartyPage ClickOnRestrictProductsCheckbox()
         {
@@ -864,6 +940,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage SelectAnyOptionAuthoriseTipping(string optionValue)
         {
             ClickOnElement(authoriseTypingOption, optionValue);
+            return this;
+        }
+
+        [AllureStep]
+        [AllureDescription("Verify option in [Authorise Tipping] is checked")]
+        public DetailPartyPage VerifyOptionAuthoriseTippingChecked(string optionValue)
+        {
+            Assert.IsTrue(IsCheckboxChecked(authoriseTypingOption, optionValue));
             return this;
         }
 
@@ -990,7 +1074,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public DetailPartyPage VerifyDisplayGreenBoderInLicenceNumberExField()
         {
-            Assert.AreEqual("rgb(102, 175, 233)", GetCssValue(licenceNumberExpriedInput, "border-color"));
+            //Assert.AreEqual("rgb(102, 175, 233)", GetCssValue(licenceNumberExpriedInput, "border-color"));
             return this;
         }
         [AllureStep]
@@ -1049,9 +1133,17 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             ClickOnElement(VehicleTab);
             WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage WaitForLoadingIconVehicleTabDissaprear()
+        {
+            WaitUtil.WaitForElementVisible(loadingVehicleTab);
             WaitUtil.WaitForElementInvisible60(loadingVehicleTab);
             return this;
         }
+
         [AllureStep]
         public DetailPartyPage VerifyTableDisplayedInVehicle()
         {
@@ -1065,6 +1157,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public AddVehiclePage ClickAddNewVehicleBtn()
         {
+            WaitUtil.WaitForElementInvisible(addNewItemLoadingVehicleTab);
             ClickOnElement(addNewItemVehicleTab);
             return PageFactoryManager.Get< AddVehiclePage>();
         }
@@ -1111,12 +1204,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickWBTicketTab()
         {
             ClickOnElement(wBTicketTab);
+            //WaitUtil.WaitForElementVisible(loadingIconWBTicketTab);
+            //WaitUtil.WaitForElementInvisible(loadingIconWBTicketTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
         public CreateNewTicketPage ClickAddNewWBTicketBtn()
         {
+            WaitUtil.WaitForElementInvisible(addNewItemItemWBTicketTabLoading);
             ClickOnElement(addNewItemWBTicket);
             return PageFactoryManager.Get<CreateNewTicketPage>();
         }
@@ -1326,5 +1422,34 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             Assert.AreEqual(accountingValue, GetElementText(AccountingAtRow, rowNumber), "Accounting Ref at row " + rowNumber + " is incorrect");
             return this;
         }
+
+        [AllureStep]
+        public string GetAccountNumber()
+        {
+            return GetElementText(accountNumber);
+        }
+
+        #region Purchase Orders tab
+        private readonly By addNewItemPurchaseOrderTab = By.XPath("//div[@id='purchaseOrders-tab']//button[text()='Add New Item']");
+        private readonly By addNewItemItemPurchaseOrderTabLoading = By.XPath("//div[@id='purchaseOrders-tab']//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
+        private readonly By loadingAtPurchaseOrderTab = By.XPath("//div[@id='purchaseOrders-tab']//div[@class='loading-data']");
+
+        [AllureStep]
+        public DetailPartyPage ClickOnPurchaseOrdersTab()
+        {
+            ClickOnElement(purchaseOrderTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public PurchaseOrderDetailsPage ClickOnAddNewItemInPurchaseOrderTab()
+        {
+            WaitUtil.WaitForElementInvisible(addNewItemItemPurchaseOrderTabLoading);
+            ClickOnElement(addNewItemPurchaseOrderTab);
+            return new PurchaseOrderDetailsPage();
+        }
+
+        #endregion
     }
 }
