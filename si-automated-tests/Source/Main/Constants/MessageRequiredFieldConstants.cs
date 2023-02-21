@@ -16,7 +16,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string LicenceNumberExIsRequiredMessage = "Licence Number Expiry is required";
         public static readonly string LicenceNumberIsRequiredMessage = "Licence Number is required";
         public static readonly string DriverNameIsRequiredMessage = "Driver Name is required";
-
+        public static readonly string PONumberIsRequiredMessage = "PO Number is required";
 
         //WARNING MESSAGES
         public static readonly string LocationRestrictWarningMessage = "Default location must be selected as a restricted location.";

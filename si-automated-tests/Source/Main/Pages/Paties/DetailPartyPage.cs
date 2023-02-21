@@ -11,6 +11,7 @@ using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyPurchaseOrder;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage;
 using si_automated_tests.Source.Main.Pages.Tasks;
@@ -29,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By closeWithoutSavingBtn = By.XPath("//a[@aria-controls='details-tab']/ancestor::body//button[@title='Close Without Saving']");
         private readonly By dropdown = By.XPath("//li[@class='dropdown']");
         private readonly By accountNumber = By.CssSelector("p[title='Account Number']");
+        private readonly By purchaseOrderTab = By.XPath("//a[text()='Purchase Orders']");
 
         private const string PartyName = "//div[text()='{0}']";
         private readonly By partyNameValue = By.XPath("//p[@class='object-name']");
@@ -142,8 +144,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         //WB TICKET TAB
         private readonly By addNewItemWBTicket = By.XPath("//div[@id='weighbridgeTickets-tab']//button[text()='Add New Item']");
+        private readonly By addNewItemItemWBTicketTabLoading = By.XPath("//div[@id='weighbridgeTickets-tab']//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
 
         //VEHICLE TAB
+        private readonly By addNewItemLoadingVehicleTab = By.XPath("//div[@id='weighbridgeVehicleCustomerHauliers-tab']//button[text()='Add New Item'and contains(@class, 'echo-disabled')]");
         private readonly By addNewItemVehicleTab = By.XPath("//div[@id='weighbridgeVehicleCustomerHauliers-tab']//button[text()='Add New Item']");
         private const string TotalVehicleRow = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='grid-canvas']/div";
         private const string ColumnInGrid = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//span[text()='{0}']/parent::div";
@@ -795,6 +799,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickWBSettingTab()
         {
             ClickOnElement(wBtab);
+            WaitForLoadingIconToDisappear();
             return this;
         }
 
@@ -816,6 +821,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnPurchaseOrderNumberRequiredCheckbox()
         {
             ClickOnElement(purcharseOrderNumberRequiredCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyPurchaseOrderNumberRequiredChecked()
+        {
+            Assert.IsTrue(IsCheckboxChecked(purcharseOrderNumberRequiredCheckbox));
             return this;
         }
 
@@ -845,6 +857,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnUseStorePoNumberCheckbox()
         {
             ClickOnElement(userStorePoNumberCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage VerifyUseStorePoNumberChecked()
+        {
+            Assert.IsTrue(IsCheckboxChecked(userStorePoNumberCheckbox));
             return this;
         }
 
@@ -1132,6 +1151,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public AddVehiclePage ClickAddNewVehicleBtn()
         {
+            WaitUtil.WaitForElementInvisible(addNewItemLoadingVehicleTab);
             ClickOnElement(addNewItemVehicleTab);
             return PageFactoryManager.Get< AddVehiclePage>();
         }
@@ -1186,6 +1206,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public CreateNewTicketPage ClickAddNewWBTicketBtn()
         {
+            WaitUtil.WaitForElementInvisible(addNewItemItemWBTicketTabLoading);
             ClickOnElement(addNewItemWBTicket);
             return PageFactoryManager.Get<CreateNewTicketPage>();
         }
@@ -1401,5 +1422,28 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             return GetElementText(accountNumber);
         }
+
+        #region Purchase Orders tab
+        private readonly By addNewItemPurchaseOrderTab = By.XPath("//div[@id='purchaseOrders-tab']//button[text()='Add New Item']");
+        private readonly By addNewItemItemPurchaseOrderTabLoading = By.XPath("//div[@id='purchaseOrders-tab']//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
+        private readonly By loadingAtPurchaseOrderTab = By.XPath("//div[@id='purchaseOrders-tab']//div[@class='loading-data']");
+
+        [AllureStep]
+        public DetailPartyPage ClickOnPurchaseOrdersTab()
+        {
+            ClickOnElement(purchaseOrderTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public PurchaseOrderDetailsPage ClickOnAddNewItemInPurchaseOrderTab()
+        {
+            WaitUtil.WaitForElementInvisible(addNewItemItemPurchaseOrderTabLoading);
+            ClickOnElement(addNewItemPurchaseOrderTab);
+            return new PurchaseOrderDetailsPage();
+        }
+
+        #endregion
     }
 }

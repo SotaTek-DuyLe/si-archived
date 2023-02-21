@@ -7,6 +7,7 @@ namespace si_automated_tests.Source.Main.DBModels
         public int ticketID { get; set; }
         public string destination_party { get; set; }
         public string source_party { get; set; }
+        public string purchaseordernumber { get; set; }
 
         public WBTicketDBModel()
         {

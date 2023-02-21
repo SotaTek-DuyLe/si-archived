@@ -787,6 +787,51 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         }
 
         #endregion
+
+        #region PO Number
+        private readonly By ddUnderPONumber = By.CssSelector("select[id='po-number']");
+        private readonly By freeEntryFieldNextToPONumber = By.CssSelector("input[id='po-number']");
+        private readonly string poNumberOption = "//select[@id='po-number']/option[text()='{0}']";
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyDisplayDdUnderPONumber()
+        {
+            Assert.IsTrue(IsControlDisplayed(ddUnderPONumber));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyDisplayFreeEntryFieldNextToPONumber()
+        {
+            Assert.IsTrue(IsControlDisplayed(freeEntryFieldNextToPONumber));
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage InputFreeEntryFieldNextToPONumber(string value)
+        {
+            SendKeys(freeEntryFieldNextToPONumber, value);
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage ClickOnPONumberAndVerifyValue(string[] poNumberValue)
+        {
+            foreach(string poNumber in poNumberValue)
+            {
+                Assert.IsTrue(IsControlDisplayed(string.Format(poNumberOption, poNumber), poNumber + " is not displayed in [PO Number] dd"));
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage ClickOnAnyPONumber(string poNumberValue)
+        {
+            ClickOnElement(poNumberOption, poNumberValue);
+            return this;
+        }
+
+        #endregion
     }
 
 }
