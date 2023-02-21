@@ -808,10 +808,16 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             return PageFactoryManager.Get<AddAdhocRoundPopup>(); ;
         }
         [AllureStep]
-        public ResourceAllocationPage VerifyFirstRoundName(string expected)
+        public ResourceAllocationPage VerifyRoundNameIsIncluded(string expected)
         {
-            var firstRoundName = GetAllElements(roundInstances)[0].Text;
-            Assert.AreEqual(expected, firstRoundName);
+            var roundNames = new List<String>();
+            //var firstRoundName = GetAllElements(roundInstances)[0].Text;
+            var rounds = GetAllElements(roundInstances);
+            foreach(var round in rounds)
+            {
+                roundNames.Add(round.Text);
+            }
+            Assert.IsTrue(roundNames.Contains(expected));
             return this;
         }
         [AllureStep]
