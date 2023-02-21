@@ -921,16 +921,15 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Category("Resources")]
         [Category("Huong")]
         [Test]
-        [Ignore("Ignore due to George's request")]
         public void TC_275_Translation_DA()
         {
             var loginPage = PageFactoryManager.Get<LoginPage>();
             var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
             loginPage.GoToURL(WebUrl.MainPageUrl);
             loginPage.IsOnLoginPage()
-                .Login(AutoUser22.UserName, AutoUser22.Password)
-                .IsOnHomePageWithoutWaitSearchBtn(AutoUser22);
-            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser22.DisplayName));
+                .Login(AutoUser80.UserName, AutoUser80.Password)
+                .IsOnHomePageWithoutWaitSearchBtn(AutoUser80);
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser80.DisplayName));
             resourceAllocationPage.OpenLocaleLanguage()
                 .SwitchToChildWindow(2);
             LocalLanguagePage localLanguagePage = PageFactoryManager.Get<LocalLanguagePage>();
@@ -967,7 +966,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
             resourceAllocationPage.SwitchToDefaultContent();
             //Back to default localization
-            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser22.DisplayName));
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser80.DisplayName));
             resourceAllocationPage.OpenLocaleLanguage()
                 .SwitchToChildWindow(2);
             localLanguagePage.SelectTextFromDropDown(localLanguagePage.LanguageSelect, "English")
