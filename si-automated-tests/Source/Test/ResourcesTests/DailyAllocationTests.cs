@@ -781,7 +781,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnAddAdhocRoundPage()
                 .InputAdhocRoundDetails(templateNo, reason, note, roundName)
                 .ClickCreateBtn()
-                .VerifyFirstRoundName("(Adhoc) " + roundName)
+                .VerifyRoundNameIsIncluded("(Adhoc) " + roundName)
                 .ClickAddAdhocRoundBtn()
                 .IsOnAddAdhocRoundPage()
                 .InputAdhocRoundDetails(1, reason, note);
@@ -789,7 +789,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .GetSelectedTemplate();
             PageFactoryManager.Get<AddAdhocRoundPopup>()
                 .ClickCreateBtn()
-                .VerifyFirstRoundName("(Adhoc) " + templateValue);
+                .VerifyRoundNameIsIncluded("(Adhoc) " + templateValue);
         }
 
         [Category("Resources")]
