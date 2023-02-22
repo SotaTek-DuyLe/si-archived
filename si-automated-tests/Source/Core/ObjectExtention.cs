@@ -182,5 +182,10 @@ namespace si_automated_tests.Source.Core
             for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
                 yield return day;
         }
+
+        public static DateTime GetDateZeroTime(this DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, date.Day, 0, 0, 0);
+        }
     }
 }
