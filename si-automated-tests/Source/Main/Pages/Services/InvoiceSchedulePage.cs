@@ -76,11 +76,44 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
-        public InvoiceSchedulePage VerifyScheduleDateIsDeselectedSelected(string date)
+        public InvoiceSchedulePage VerifyScheduleDateIsDeselected(string date)
         {
             var days = GetAllElements(By.XPath("//div[@id='weekly-schedule']//td[contains(@data-bind, 'click: $parent.selectDate')]"));
             var day = days.FirstOrDefault(x => x.Text == date);
             Assert.IsFalse(day.GetCssValue("background-color") == "rgba(255, 255, 0, 1)");
+            return this;
+        }
+        #endregion
+
+        #region Custom schedule with date
+        public readonly By CustomScheduleDescription2 = By.Id("scheduleName");
+        public readonly By ApplyScheduleWithDateButton = By.XPath("//div[@id='custom-schedule-dates-modal']//button[text()='Apply']");
+        public readonly By ResetScheduleWithDateButton = By.XPath("//div[@id='custom-schedule-dates-modal']//button[text()='Reset']");
+        public readonly By CancelScheduleWithDateButton = By.XPath("//div[@id='custom-schedule-dates-modal']//button[text()='Cancel']");
+        public readonly By CloseScheduleWithDateButton = By.XPath("//div[@id='custom-schedule-dates-modal']//button[@title='Close']");
+
+        public InvoiceSchedulePage SetScheduleDate(string date)
+        {
+            string xpath = $"//div[@id='custom-schedule-dates-modal']//table//tbody//td[@data-date='{date}']";
+            ClickOnElement(By.XPath(xpath));
+            return this;
+        }
+
+        public InvoiceSchedulePage VerifyDateIsDeselected(string date)
+        {
+            string xpath = $"//div[@id='custom-schedule-dates-modal']//table//tbody//td[@data-date='{date}']";
+            IWebElement cell = GetElement(xpath);
+            Console.WriteLine(cell.GetCssValue("background-color"));
+            Assert.IsTrue(cell.GetCssValue("background-color") != "rgba(58, 135, 173, 1)");
+            return this;
+        }
+
+        public InvoiceSchedulePage VerifyDateIsSelected(string date)
+        {
+            string xpath = $"//div[@id='custom-schedule-dates-modal']//table//tbody//td[@data-date='{date}']";
+            IWebElement cell = GetElement(xpath);
+            Console.WriteLine(cell.GetCssValue("background-color"));
+            Assert.IsTrue(cell.GetCssValue("background-color") == "rgba(58, 135, 173, 1)");
             return this;
         }
         #endregion

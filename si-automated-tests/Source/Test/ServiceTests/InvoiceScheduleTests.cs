@@ -87,7 +87,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             //Click 'Clear' button
             invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.ClearRegCustomScheduleButton);
             invoiceSchedulePage.SleepTimeInMiliseconds(300);
-            invoiceSchedulePage.VerifyScheduleDateIsDeselectedSelected(londonCurrentDate.AddDays(1).ToString("dd MMM"));
+            invoiceSchedulePage.VerifyScheduleDateIsDeselected(londonCurrentDate.AddDays(1).ToString("dd MMM"));
 
             //Click 'Cancel' button
             invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.CancelSetRegularScheduleButton);
@@ -127,6 +127,95 @@ namespace si_automated_tests.Source.Test.ServiceTests
             var invoiceSchedule = finder.GetInvoiceSchedule(id);
             var scheduleDates = finder.GetScheduleDateModel(invoiceSchedule.scheduleID);
             Assert.IsNull(scheduleDates.FirstOrDefault(x => x.scheduledate < londonCurrentDate.GetDateZeroTime().AddDays(1) || x.scheduledate > londonCurrentDate.GetDateZeroTime().AddDays(1).AddMonths(2)));
+        }
+
+        [Category("Invoice")]
+        [Category("Huong")]
+        [Test]
+        public void TC_303_Custom_Invoice_Schedules_Set_Custom_Schedule_with_dates()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl + "web/invoice-schedules/new");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser61.UserName, AutoUser61.Password);
+            InvoiceSchedulePage invoiceSchedulePage = PageFactoryManager.Get<InvoiceSchedulePage>();
+            invoiceSchedulePage.WaitForLoadingIconToDisappear();
+            invoiceSchedulePage.SetInputValue(invoiceSchedulePage.NameInput, "Custom schedule with dates")
+                .SelectTextFromDropDown(invoiceSchedulePage.ContractSelect, "Commercial")
+                .ClickOnElement(invoiceSchedulePage.SchedulePicker("Custom"));
+            invoiceSchedulePage.ClickYearButton();
+            invoiceSchedulePage.VerifyElementEnable(invoiceSchedulePage.CustomScheduleDescription, false)
+                .VerifyElementEnable(invoiceSchedulePage.SetRegularCustomScheduleButton, false)
+                .VerifyElementEnable(invoiceSchedulePage.SetCustomScheduleButton, false);
+            invoiceSchedulePage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            invoiceSchedulePage.VerifyElementEnable(invoiceSchedulePage.ContractSelect, false)
+                .VerifyElementEnable(invoiceSchedulePage.SetRegularCustomScheduleButton, true)
+                .VerifyElementEnable(invoiceSchedulePage.SetCustomScheduleButton, true);
+
+            //Click on 'Set Custom Schedule with dates'
+            invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.SetCustomScheduleButton);
+            invoiceSchedulePage.VerifyElementIsMandatory(invoiceSchedulePage.CustomScheduleDescription2, true)
+                .VerifyElementEnable(invoiceSchedulePage.ApplyScheduleWithDateButton, true)
+                .VerifyElementEnable(invoiceSchedulePage.ResetScheduleWithDateButton, true)
+                .VerifyElementEnable(invoiceSchedulePage.CancelScheduleWithDateButton, true);
+            invoiceSchedulePage.SetInputValue(invoiceSchedulePage.CustomScheduleDescription2, "random custom dates");
+
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            invoiceSchedulePage.SetScheduleDate(londonCurrentDate.AddDays(1).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.ApplyScheduleWithDateButton);
+            invoiceSchedulePage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+
+            string url = invoiceSchedulePage.GetCurrentUrl();
+            string[] tempUrls = url.Split('/');
+            string id = tempUrls[tempUrls.Length - 1];
+            CommonFinder finder = new CommonFinder(DbContext);
+            var invoiceSchedule = finder.GetInvoiceSchedule(id);
+            var scheduleDates = finder.GetScheduleDateModel(invoiceSchedule.scheduleID);
+            Assert.IsNull(scheduleDates.FirstOrDefault(x => x.scheduledate < londonCurrentDate.GetDateZeroTime().AddDays(1)));
+
+            //On the Invoice Scheudle click again 'Set Custom Schedule with dates'
+            //In the pop up, select more dates and edit Description
+            //Click 'Reset'
+            invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.SetCustomScheduleButton);
+            invoiceSchedulePage.SetScheduleDate(londonCurrentDate.AddDays(2).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.SetScheduleDate(londonCurrentDate.AddDays(3).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.ResetScheduleWithDateButton);
+            invoiceSchedulePage.SleepTimeInMiliseconds(500);
+            invoiceSchedulePage.VerifyDateIsDeselected(londonCurrentDate.AddDays(2).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.VerifyDateIsDeselected(londonCurrentDate.AddDays(3).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.CloseScheduleWithDateButton);
+            invoiceSchedulePage.SleepTimeInMiliseconds(500);
+
+            //On the Invoice Scheudle click again 'Set Custom Schedule with dates'
+            //In the pop up, select more dates and edit Description
+            //Click 'Cancel'
+            invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.SetCustomScheduleButton);
+            invoiceSchedulePage.SetScheduleDate(londonCurrentDate.AddDays(2).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.SetScheduleDate(londonCurrentDate.AddDays(3).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.CancelScheduleWithDateButton);
+            invoiceSchedulePage.SleepTimeInMiliseconds(500);
+            invoiceSchedulePage.VerifyElementVisibility(invoiceSchedulePage.CancelScheduleWithDateButton, false);
+
+            //On the Invoice Scheudle click again 'Set Custom Schedule with dates'
+            //dang co bug
+            invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.SetCustomScheduleButton);
+            invoiceSchedulePage.VerifyDateIsSelected(londonCurrentDate.AddDays(2).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.VerifyDateIsSelected(londonCurrentDate.AddDays(3).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.CloseScheduleWithDateButton);
+            //In the pop up, select more dates and edit Description
+            //Click 'x'
+            invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.SetCustomScheduleButton);
+            invoiceSchedulePage.SetScheduleDate(londonCurrentDate.AddDays(2).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.SetScheduleDate(londonCurrentDate.AddDays(3).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.CloseScheduleWithDateButton);
+            invoiceSchedulePage.SleepTimeInMiliseconds(500);
+            invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.SetCustomScheduleButton);
+            invoiceSchedulePage.VerifyDateIsDeselected(londonCurrentDate.AddDays(2).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.VerifyDateIsDeselected(londonCurrentDate.AddDays(3).ToString("yyyy-MM-dd"));
         }
     }
 }
