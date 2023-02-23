@@ -85,7 +85,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         //SITE TAB LOCATOR
         private const string AddNewItemSiteBtn = "//div[@id='sites-tab']//button[text()='Add New Item']";
-        private const string addNewItemSiteTabLoading = "//div[@id='sites-tab']//div[contains(@data-bind, 'disabledMenuItems: disabledMenuItems')]//button[text()='Add New Item']";
+        private const string addNewItemSiteTabLoading = "//div[@id='sites-tab']//button[text()='Add New Item'and contains(@class, 'echo-disabled')]";
         private readonly By firstSiteRow = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']/div[1]");
         private const string TotalSiteRow = "//div[@id='sites-tab']//div[@class='grid-canvas']/div";
         private const string IdColumn = "//div[@id='sites-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='ID']/parent::div/preceding-sibling::div) + 1]";
@@ -1113,7 +1113,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnVehicleTab()
         {
             ClickOnElement(VehicleTab);
-            WaitUtil.WaitForElementInvisible(addNewItemLoadingVehicleTab);
+            WaitForLoadingIconToDisappear();
             return this;
         }
 
@@ -1130,6 +1130,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public AddVehiclePage ClickAddNewVehicleBtn()
         {
+            WaitUtil.WaitForElementInvisible(addNewItemLoadingVehicleTab);
             ClickOnElement(addNewItemVehicleTab);
             return PageFactoryManager.Get< AddVehiclePage>();
         }

@@ -93,7 +93,18 @@ namespace si_automated_tests.Source.Core
         public static void WaitForAllElementsInvisible60(string xpath)
         {
             var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(longTimeOut));
-            driverWait.Until(webDriver => IWebDriverManager.GetDriver().FindElements(By.XPath(xpath)).Any(x => x.Displayed) == false);
+            driverWait.Until((driver) =>
+            {
+                var list = driver.FindElements(By.XPath(xpath));
+                bool isDisplayed = false;
+                foreach(var e in list)
+                {
+                    if (e.Displayed == false) isDisplayed = false;
+                    else isDisplayed = true;
+                }
+                return !isDisplayed;
+            });
+            //driverWait.Until(webDriver => IWebDriverManager.GetDriver().FindElements(By.XPath(xpath)).Count == 0);
         }
         [AllureStep]
         public static void WaitForElementInvisible(By by)

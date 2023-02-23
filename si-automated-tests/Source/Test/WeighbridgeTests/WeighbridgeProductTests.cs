@@ -1749,7 +1749,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsCreatePartiesPopup(Contract.Commercial)
                 .SendKeyToThePartyInput(partyNameHaulier)
                 .SelectPartyType(2)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
                 .WaitForDetailPartyPageLoadedSuccessfully(partyNameHaulier)
