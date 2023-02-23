@@ -381,5 +381,19 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from SotatekTesting.dbo.purchaseorders_list_v where partyid=" + partyId + ";";
             return FindList<PurchaseOderListVDBModel>(query).ToList();
         }
+
+        [AllureStep]
+        public InvoiceScheduleModel GetInvoiceSchedule(string id)
+        {
+            string query = $"select * from invoiceschedules where invoicescheduleID ={id};";
+            return FindList<InvoiceScheduleModel>(query).FirstOrDefault();
+        }
+
+        [AllureStep]
+        public List<ScheduleDateModel> GetScheduleDateModel(int id)
+        {
+            string query = $"select * from scheduledates where scheduleID={id};";
+            return FindList<ScheduleDateModel>(query);
+        }
     }
 }
