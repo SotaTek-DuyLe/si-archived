@@ -970,6 +970,7 @@ namespace si_automated_tests.Source.Core
             {
                 Assert.Fail("Loading icon doesn't disappear after 60 seconds");
             }
+            
             return this;
         }
 

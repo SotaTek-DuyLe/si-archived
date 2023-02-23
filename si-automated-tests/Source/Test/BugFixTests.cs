@@ -1019,16 +1019,13 @@ namespace si_automated_tests.Source.Test
                 .SwitchToChildWindow(1);
             //Step line 12: Go back to sites grid and Check the value of the accounting value
             partyDetailsTab
-                .ClickOnClearBtn();
-            partyDetailsTab
-                .WaitForLoadingInSiteTabDisappeared();
+                .ClickOnClearBtn()
+                .WaitForLoadingIconToDisappear();
             partyDetailsTab
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName);
             partyDetailsTab
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
-            partyDetailsTab
-                .WaitForLoadingInSiteTabDisappeared();
             partyDetailsTab
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName);
             partyDetailsTab

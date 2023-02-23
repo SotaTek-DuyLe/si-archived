@@ -35,6 +35,7 @@ namespace si_automated_tests.Source.Test.TaskTests
         [TestCase(new string[] { "1", "1", "1", "3", "2" }, new string[] { "Unallocated", "In Progress", "Completed", "Cancelled", "Not Completed" }, TestName = "TC_99 - Scenario 4 - Sort order for states duplicated")]
         [TestCase(new string[] { "1", "0", "3", "0", "2" }, new string[] { "Unallocated", "Cancelled", "Completed", "In Progress", "Not Completed" }, TestName = "TC_99 - Scenario 5 - Verify if the sort order one or more  integers are skipped, the sort order is applied first and then based on the ID asc order is applied")]
         public void TC_99_task_state_sort_web_sort_order(string[] orderNumber, string[] orderStateValues)
+        //public void TC_99_task_state_sort_web_sort_order()
         {
             CommonFinder commonFinder = new CommonFinder(DbContext);
             string taskId = "14337";

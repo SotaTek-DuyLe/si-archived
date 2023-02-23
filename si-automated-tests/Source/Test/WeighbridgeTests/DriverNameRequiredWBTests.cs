@@ -182,8 +182,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
                 //Create new Vehicle in Vehicles tab
-                .ClickOnVehicleTab()
-                .WaitForLoadingIconVehicleTabDissaprear();
+                .ClickOnVehicleTab();
             detailPartyPage
                 .VerifyTableDisplayedInVehicle()
                 .ClickAddNewVehicleBtn()
@@ -212,7 +211,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
             siteDetailPage
                 .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName56 + " / " + addressAdded45)
-                .ClickStationTab();
+                .ClickStationTab()
+                .WaitForLoadingIconToDisappear();
             siteDetailPage
                 .ClickAddNewStationItem()
                 .SwitchToLastWindow();

@@ -364,7 +364,7 @@ namespace si_automated_tests.Source.Main.Finders
         [AllureStep]
         public List<WBPartySettingVDBModel> GetWBPartiesSettingsVByPartyId(string partyId)
         {
-            string query = "select * from wb_partysettings_v where partyid" + partyId + ";";
+            string query = "select * from wb_partysettings_v where partyid=" + partyId + ";";
             return FindList<WBPartySettingVDBModel>(query).ToList();
         }
 

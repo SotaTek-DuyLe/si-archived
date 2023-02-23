@@ -611,7 +611,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             //Step line 10: Verify [WB Settings] tab is not displayed in [Party detail]
             PageFactoryManager.Get<BasePage>()
-                .SleepTimeInSeconds(2)
+                .SleepTimeInSeconds(5)
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/1085");
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForLoadingIconToDisappear();
@@ -697,7 +697,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Category("WB")]
         [Category("Chang")]
         [Test(Description = "Licence number & expiry")]
-        public void TC_261_Licence_number_expiry_1()
+        public void TC_261_Licence_number_expiry_Step_1()
         {
             string partyNameHaulier = "TC261_PartyHaulier" + CommonUtil.GetRandomNumber(5);
             string partyNameHaulierCustomer = "TC261_PartyHaulierCustomer" + CommonUtil.GetRandomNumber(5);
@@ -2213,6 +2213,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
                 .VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
+                .ClickCorresspondenAddress()
+                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
+                .SelectCreatedAddressInCorresspondenceAddress(addressAdded)
                 .ClickOnSitesTab()
                 .WaitForLoadingIconToDisappear();
             List<SiteModel> siteModel = detailPartyPage
@@ -2220,7 +2223,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             allSiteModel.Add(siteModel[0]);
             detailPartyPage
                 .OpenFirstSiteRow()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(3);
             SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
             siteDetailPage
                 .WaitForLoadingIconToDisappear();
@@ -2228,7 +2231,12 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, addressSite1 + " / " + addressAdded)
                 .VerifyDisplayAllTab(CommonConstants.AllSiteTabCase47)
                 .ClickDetailTab()
-                .ClickSomeTabAndVerifyNoErrorMessage();
+                .ClickSomeTabAndVerifyNoErrorMessage()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            detailPartyPage
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
         }
 
         //This TC depends on the TC-045, TC-046 and TC-047
