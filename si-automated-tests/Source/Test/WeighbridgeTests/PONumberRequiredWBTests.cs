@@ -181,8 +181,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
                 //Create new Vehicle in Vehicles tab
-                .ClickOnVehicleTab()
-                .WaitForLoadingIconVehicleTabDissaprear();
+                .ClickOnVehicleTab();
             detailPartyPage
                 .VerifyTableDisplayedInVehicle()
                 .ClickAddNewVehicleBtn()
@@ -337,10 +336,12 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
                 .ClickWBSettingTab()
                 .WaitForLoadingIconToDisappear();
-            //Step line 8: Click on [WB Settings] tab and [Purchase Order Number Required] is checked, [Use Stored Purchase Order Number] checked
+            //Step line 8: Click on [WB Settings] tab and [Purchase Order Number Required] is checked, [Use Stored Purchase Order Number] checked, [Allow Manual Purchase Order Number] is not checked
             PageFactoryManager.Get<DetailPartyPage>()
                 .ClickOnPurchaseOrderNumberRequiredCheckbox()
                 .ClickOnUseStorePoNumberCheckbox()
+                //Default: [Allow Manual Purchase Order Number] is checked => Click on [Allow Manual Purchase Order Number] is not checked
+                .ClickOnAllowManualPoNumberCheckbox()
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
@@ -382,7 +383,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayHaulierDd()
                 .ClickAnyHaulier(partyNameHaulier)
                 .WaitForLoadingIconToDisappear();
-            //Step line 10: Verify the display of the dropdown field under PO Number
+            //Step line 10: Verify the display of the dropdown field next to PO Number
             createNewTicketPage
                 .VerifyDisplayDdUnderPONumber()
                 //Add ticket line
@@ -419,7 +420,14 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createNewTicketPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1);
-            //Step line 15: Already config
+            //Step line 15: Go to Weighbridge settings tab -> Tick [Purchase order number required] and [Allow manual purchase number]
+            //[Use Stored Purchase Order Number] not checked -> Save the form
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickWBSettingTab()
+                .ClickOnUseStorePoNumberCheckbox()
+                .ClickOnAllowManualPoNumberCheckbox()
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .ClickWBTicketTab()
                 .ClickAddNewWBTicketBtn()
@@ -475,6 +483,227 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Step line 20: Run query to check
             WBTicketDBModel wBTicketDBModel = commonFinder.GetWBTicketByTicketId(ticketIdAfter);
             Assert.AreEqual("12345", wBTicketDBModel.purchaseordernumber);
+            createNewTicketPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            //Step line 25: Go to Weighbridge settings tab -> Tick Purchase order number required, Allow manual purchase number and Use Stored Purchase Number
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickWBSettingTab()
+                .ClickOnUseStorePoNumberCheckbox()
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickWBTicketTab()
+                .ClickAddNewWBTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                //Step line 26: Verify the display of the Free entry fields and drop down next to PO Number
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC56)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayFreeEntryFieldNextToPONumber()
+                .VerifyDisplayDdUnderPONumber()
+                //Add ticket line
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(2)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(1)
+                //Step line 27: Click on [Save]
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.PONumberIsRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.PONumberIsRequiredMessage);
+            //Step line 28: Enter the [PO] number and save the ticket
+            createNewTicketPage
+                .InputFreeEntryFieldNextToPONumber(poNumber)
+                .ClickSaveBtn();
+            createNewTicketPage
+                .ClickOnNoWarningPopup()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Verify Entered PO number is displayed in the dropdown and free entry field is cleared
+            createNewTicketPage
+                .VerifyDefaultValueInPoNumberDd(poNumber)
+                .VerifyValueInFreeEntryField("");
+            string ticketIdLine30 = createNewTicketPage
+                .GetWBTicketId();
+            //Step line 29: Verify in API
+            List<PurchaseOderListVDBModel> purchaseOderListVDBModelsLine29 = commonFinder.GetPurchaseOrderListVByPartyId(partyCustomerId);
+            Assert.AreEqual(1, purchaseOderListVDBModelsLine29.Count);
+            Assert.AreEqual(partyCustomerId, purchaseOderListVDBModelsLine29[0].partyID.ToString());
+            Assert.AreEqual(partyNameCustomer, purchaseOderListVDBModelsLine29[0].customername);
+            Assert.AreEqual(poNumber, purchaseOderListVDBModelsLine29[0].number);
+            //Step line 30: Verify with ticketId
+            WBTicketDBModel wBTicketDBModelLine30 = commonFinder.GetWBTicketByTicketId(ticketIdLine30);
+            Assert.AreEqual(poNumber, wBTicketDBModelLine30.purchaseordernumber);
+            createNewTicketPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            //Step line 31: CLick back on [WB tickets] and Add new item
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickAddNewWBTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                //Step line 32: Verify the display of the Free entry fields and drop down next to PO Number
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC56)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayFreeEntryFieldNextToPONumber()
+                .VerifyDisplayDdUnderPONumber()
+                //Add ticket line
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(2)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(1)
+                //Step line 32: Click on [Save]
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.PONumberIsRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.PONumberIsRequiredMessage);
+            //Step line 33: Enter the [PO] number and save the ticket
+            createNewTicketPage
+                .InputFreeEntryFieldNextToPONumber("12345")
+                .ClickSaveBtn();
+            createNewTicketPage
+                .ClickOnNoWarningPopup()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Verify Entered PO number is displayed in the dropdown and free entry field is cleared
+            createNewTicketPage
+                .VerifyDefaultValueInPoNumberDd("Select...")
+                .VerifyValueInFreeEntryField("12345");
+            string ticketIdLine34 = createNewTicketPage
+                .GetWBTicketId();
+            //Step line 34: Verify in API
+            List<PurchaseOderListVDBModel> purchaseOderListVDBModelsLine34 = commonFinder.GetPurchaseOrderListVByPartyId(partyCustomerId);
+            Assert.AreEqual(1, purchaseOderListVDBModelsLine34.Count);
+            Assert.AreEqual(partyCustomerId, purchaseOderListVDBModelsLine34[0].partyID.ToString());
+            Assert.AreEqual(partyNameCustomer, purchaseOderListVDBModelsLine34[0].customername);
+            Assert.AreEqual(poNumber, purchaseOderListVDBModelsLine34[0].number);
+            //Step line 35: Verify with ticketId
+            WBTicketDBModel wBTicketDBModelLine35 = commonFinder.GetWBTicketByTicketId(ticketIdLine34);
+            Assert.AreEqual("12345", wBTicketDBModelLine35.purchaseordernumber);
+            createNewTicketPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+            //Step line 36: CLick back on [WB tickets] and Add new item
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickAddNewWBTicketBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                //Step line 37: Verify the display of the Free entry fields and drop down next to PO Number
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC56)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            //Select Haulier
+            createNewTicketPage
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyNameHaulier)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayFreeEntryFieldNextToPONumber()
+                .VerifyDisplayDdUnderPONumber()
+                //Add ticket line
+                .ClickAddTicketLineBtn()
+                .ClickProductDd()
+                .ClickAnyProductValue(product56)
+                //Verify Location
+                .VerifyLocationPrepolulated(locationNameActive56)
+                //Mandatory field remaining
+                .InputFirstWeight(2)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(1)
+                //Step line 37: Click on [Save]
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.PONumberIsRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.PONumberIsRequiredMessage);
+            //Step line 38: Select PO Number from dropdown and Enter the [PO] number = 321 and save the ticket
+            createNewTicketPage
+                .ClickOnAnyPONumber(poNumber)
+                .InputFreeEntryFieldNextToPONumber("321")
+                .ClickSaveBtn();
+            createNewTicketPage
+                .ClickOnNoWarningPopup()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            string ticketIdLine40 = createNewTicketPage
+                .GetWBTicketId();
+            //Step line 39: Verify in API
+            List<PurchaseOderListVDBModel> purchaseOderListVDBModelsLine39 = commonFinder.GetPurchaseOrderListVByPartyId(partyCustomerId);
+            Assert.AreEqual(1, purchaseOderListVDBModelsLine39.Count);
+            Assert.AreEqual(partyCustomerId, purchaseOderListVDBModelsLine39[0].partyID.ToString());
+            Assert.AreEqual(partyNameCustomer, purchaseOderListVDBModelsLine39[0].customername);
+            Assert.AreEqual(poNumber, purchaseOderListVDBModelsLine39[0].number);
+            //Step line 40: Verify with ticketId
+            WBTicketDBModel wBTicketDBModelLine40 = commonFinder.GetWBTicketByTicketId(ticketIdLine40);
+            Assert.AreEqual("321", wBTicketDBModelLine40.purchaseordernumber);
+            //Step line 41: Change a PO number in free entry field and click on PO number dd and select a number dropdown
+            createNewTicketPage
+                .InputFreeEntryFieldNextToPONumber(poNumber)
+                .ClickOnAnyPONumber(poNumber)
+                .SleepTimeInSeconds(2);
+            createNewTicketPage
+                .VerifyValueInFreeEntryField("")
+                //Step line 41: Click on [Save]
+                .ClickSaveBtn();
+            createNewTicketPage
+                .IsSelectReasonPopup()
+                .InputNoteInReasonPopup()
+                .ClickOnSaveBtnInReasonPopup()
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .ClickOnNoWarningPopup()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            string ticketIdLine43 = createNewTicketPage
+                .GetWBTicketId();
+            //Step line 42: Verify in API
+            List<PurchaseOderListVDBModel> purchaseOderListVDBModelsLine41 = commonFinder.GetPurchaseOrderListVByPartyId(partyCustomerId);
+            Assert.AreEqual(1, purchaseOderListVDBModelsLine41.Count);
+            Assert.AreEqual(partyCustomerId, purchaseOderListVDBModelsLine41[0].partyID.ToString());
+            Assert.AreEqual(partyNameCustomer, purchaseOderListVDBModelsLine41[0].customername);
+            Assert.AreEqual(poNumber, purchaseOderListVDBModelsLine41[0].number);
+            //Step line 43: Verify with ticketId
+            WBTicketDBModel wBTicketDBModelLine43 = commonFinder.GetWBTicketByTicketId(ticketIdLine43);
+            Assert.AreEqual(poNumber, wBTicketDBModelLine43.purchaseordernumber);
         }
     }
 }

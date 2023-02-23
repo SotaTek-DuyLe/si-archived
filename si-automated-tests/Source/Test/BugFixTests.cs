@@ -1021,14 +1021,10 @@ namespace si_automated_tests.Source.Test
             partyDetailsTab
                 .ClickOnClearBtn();
             partyDetailsTab
-                .WaitForLoadingInSiteTabDisappeared();
-            partyDetailsTab
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName);
             partyDetailsTab
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
-            partyDetailsTab
-                .WaitForLoadingInSiteTabDisappeared();
             partyDetailsTab
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName);
             partyDetailsTab

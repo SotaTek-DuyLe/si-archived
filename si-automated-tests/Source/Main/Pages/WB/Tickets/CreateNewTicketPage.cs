@@ -825,9 +825,23 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         }
 
         [AllureStep]
+        public CreateNewTicketPage VerifyDefaultValueInPoNumberDd(string poNumberValue) 
+        {
+            Assert.AreEqual(poNumberValue, GetFirstSelectedItemInDropdown(ddUnderPONumber));
+            return this;
+        }
+
+        [AllureStep]
         public CreateNewTicketPage ClickOnAnyPONumber(string poNumberValue)
         {
             ClickOnElement(poNumberOption, poNumberValue);
+            return this;
+        }
+
+        [AllureStep]
+        public CreateNewTicketPage VerifyValueInFreeEntryField(string freeEntryFieldValue)
+        {
+            Assert.AreEqual(freeEntryFieldValue, GetAttributeValue(freeEntryFieldNextToPONumber, "value"));
             return this;
         }
 

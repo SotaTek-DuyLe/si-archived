@@ -37,7 +37,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By title = By.XPath("//h4[text()='Party']");
         private readonly By wBtab = By.XPath("//a[text()='Weighbridge Settings']");
         private readonly By wBTicketTab = By.XPath("//a[text()='Weighbridge Tickets']");
-        private readonly By loadingIconWBTicketTab = By.XPath("//div[@id='weighbridgeTickets-tab']//div[@class='loading-definition']");
         private readonly By taskTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='tasks-tab']");
         private readonly By suspensionTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='suspensions-tab']");
         public readonly By pricesTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='prices-tab']");
@@ -61,9 +60,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By CorresspondenceAddressDd = By.Id("party-correspondence-address");
         private const string CorrespondenceAddressAddBtn = "//label[text()='Correspondence Address']/following-sibling::div//span[text()='Add']";
         private const string SitesTab = "//a[text()='Sites']";
-        private readonly By loadingIconInSiteTab = By.XPath("//div[@id='sites-tab']//div[@class='loading-data']");
         private const string VehicleTab = "//a[text()='Vehicles']";
-        private const string loadingVehicleTab = "//div[@id='weighbridgeVehicleCustomerHauliers-tab']//div[@class='loading-data']";
         private const string InvoiceAddress = "//label[text()='Invoice Address']/following-sibling::div//select";
         private const string DetailsTab = "//a[text()='Details']";
         private readonly By InvoiceAddressButton = By.Id("party-invoice-address");
@@ -88,6 +85,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         //SITE TAB LOCATOR
         private const string AddNewItemSiteBtn = "//div[@id='sites-tab']//button[text()='Add New Item']";
+        private const string addNewItemSiteTabLoading = "//div[@id='sites-tab']//div[contains(@data-bind, 'disabledMenuItems: disabledMenuItems')]//button[text()='Add New Item']";
         private readonly By firstSiteRow = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']/div[1]");
         private const string TotalSiteRow = "//div[@id='sites-tab']//div[@class='grid-canvas']/div";
         private const string IdColumn = "//div[@id='sites-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='ID']/parent::div/preceding-sibling::div) + 1]";
@@ -104,11 +102,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         //Agreement tab
         private readonly By agreementTab = By.XPath("//a[text()='Agreements']");
         private readonly By partyStartDate = By.XPath("//span[@title='Start Date']");
-        private readonly By agreementIdInput = By.XPath("//div[@id='agreements-tab']//div[contains(@class, 'l1 r1')]//input");
 
         //Contact tab
         private readonly By contactTab = By.XPath("//a[text()='Contacts']");
-        private readonly By loadingIconAtContactTab = By.XPath("//div[@id='contacts-tab']//div[@class='loading-data']");
+        private readonly By addNewItemContactTabLoading = By.XPath("//div[@id='contacts-tab']//button[text()='Add New Item'and contains(@class, 'echo-disabled')]");
         private readonly By addNewItemAtContactTabBtn = By.XPath("//div[@id='contacts-tab']//button[text()='Add New Item']");
         private readonly By totalContactRow = By.XPath("//div[@id='contacts-tab']//div[@class='grid-canvas']/div");
         private const string ColumnOfRowContact = "//div[@id='contacts-tab']//div[@class='grid-canvas']/div/div[count(//div[@id='contacts-tab']//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
@@ -526,19 +523,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnSitesTab()
         {
             ClickOnElement(SitesTab);
-
-            WaitUtil.WaitForElementVisible(loadingIconInSiteTab);
-            WaitUtil.WaitForElementInvisible(loadingIconInSiteTab);
+            WaitUtil.WaitForElementInvisible(addNewItemSiteTabLoading);
             return this;
         }
 
-        [AllureStep]
-        public DetailPartyPage WaitForLoadingInSiteTabDisappeared()
-        {
-            WaitUtil.WaitForElementVisible(loadingIconInSiteTab);
-            WaitUtil.WaitForElementInvisible(loadingIconInSiteTab);
-            return this;
-        }
         [AllureStep]
         public List<SiteModel> GetAllSiteInList()
         {
@@ -716,8 +704,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public DetailPartyPage ClickAddNewItemAtContactTab()
         {
-            WaitUtil.WaitForElementVisible(loadingIconAtContactTab);
-            WaitUtil.WaitForElementInvisible(loadingIconAtContactTab);
+            WaitUtil.WaitForElementInvisible(addNewItemContactTabLoading);
             ClickOnElement(addNewItemAtContactTabBtn);
             return this;
         }
@@ -1126,15 +1113,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickOnVehicleTab()
         {
             ClickOnElement(VehicleTab);
-            WaitForLoadingIconToDisappear();
-            return this;
-        }
-
-        [AllureStep]
-        public DetailPartyPage WaitForLoadingIconVehicleTabDissaprear()
-        {
-            WaitUtil.WaitForElementVisible(loadingVehicleTab);
-            WaitUtil.WaitForElementInvisible60(loadingVehicleTab);
+            WaitUtil.WaitForElementInvisible(addNewItemLoadingVehicleTab);
             return this;
         }
 
@@ -1151,7 +1130,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public AddVehiclePage ClickAddNewVehicleBtn()
         {
-            WaitUtil.WaitForElementInvisible(addNewItemLoadingVehicleTab);
             ClickOnElement(addNewItemVehicleTab);
             return PageFactoryManager.Get< AddVehiclePage>();
         }
@@ -1198,8 +1176,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickWBTicketTab()
         {
             ClickOnElement(wBTicketTab);
-            //WaitUtil.WaitForElementVisible(loadingIconWBTicketTab);
-            //WaitUtil.WaitForElementInvisible(loadingIconWBTicketTab);
             WaitForLoadingIconToDisappear();
             return this;
         }

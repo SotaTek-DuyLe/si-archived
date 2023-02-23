@@ -132,7 +132,7 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         private readonly By partyInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l7')]/input");
         private readonly By idValueInFistRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l3')]");
         private readonly By partyValueInFirstRow = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l7')])[1]");
-        private readonly By statusValueInFirstRow = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l19')])[1]");
+        private readonly By statusValueInFirstRow = By.XPath("(//img[@src='/web/content/images/coretaskstate/s2.png']/parent::div/parent::div/following-sibling::div[contains(@class, 'l19')])[1]");
         private readonly By frameWorksheet = By.CssSelector("iframe[id='worksheet-tab']");
 
         //DYNAMIC

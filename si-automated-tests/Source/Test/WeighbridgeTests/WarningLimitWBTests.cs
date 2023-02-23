@@ -184,8 +184,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
                 //Create new Vehicle in Vehicles tab
-                .ClickOnVehicleTab()
-                .WaitForLoadingIconVehicleTabDissaprear();
+                .ClickOnVehicleTab();
             detailPartyPage
                 .VerifyTableDisplayedInVehicle()
                 .ClickAddNewVehicleBtn()
@@ -357,7 +356,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyValueInWarningLimit("750");
             //Step line 10: Run query to check
             List<WBPartySettingDBModel> list = commonFinder.GetWBPartySettingByPartyId(partyId);
-            Assert.IsNull(list[0].creditlimitwarning);
+            Assert.AreEqual(0, list[0].creditlimitwarning);
             List<PartiesDBModel> partiesDBModels = commonFinder.GetPartiesByPartyId(partyId);
             Assert.AreEqual(1000, partiesDBModels[0].creditlimit);
             List<WBPartySettingVDBModel> wBPartySettingVDBModels = commonFinder.GetWBPartiesSettingsVByPartyId(partyId);
@@ -380,7 +379,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                .VerifyValueInWarningLimit("675");
             //Step line 13: Run query to check
             List<WBPartySettingDBModel> listAfterChanged = commonFinder.GetWBPartySettingByPartyId(partyId);
-            Assert.IsNull(listAfterChanged[0].creditlimitwarning);
+            Assert.AreEqual(0, listAfterChanged[0].creditlimitwarning);
             List<PartiesDBModel> partiesDBModelsAfterChanged = commonFinder.GetPartiesByPartyId(partyId);
             Assert.AreEqual(900, partiesDBModelsAfterChanged[0].creditlimit);
             List<WBPartySettingVDBModel> wBPartySettingVDBModelsAfterChanged = commonFinder.GetWBPartiesSettingsVByPartyId(partyId);
@@ -430,6 +429,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .IsOnLoginPage()
                 .Login(AutoUser82.UserName, AutoUser82.Password)
                 .IsOnHomePage(AutoUser82);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .ClickAddNewItem()
                 .SwitchToChildWindow(2);
@@ -488,7 +492,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             string partyId = detailPartyPage.GetPartyId();
             //Step line 16: Run API to check
             List<WBPartySettingDBModel> listAfterChanged = commonFinder.GetWBPartySettingByPartyId(partyId);
-            Assert.IsNull(listAfterChanged[0].creditlimitwarning);
+            Assert.AreEqual(0, listAfterChanged[0].creditlimitwarning);
             List<PartiesDBModel> partiesDBModelsAfterChanged = commonFinder.GetPartiesByPartyId(partyId);
             Assert.AreEqual(1000, partiesDBModelsAfterChanged[0].creditlimit);
             List<WBPartySettingVDBModel> wBPartySettingVDBModelsAfterChanged = commonFinder.GetWBPartiesSettingsVByPartyId(partyId);
@@ -592,7 +596,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .GetWIPBalance();
             string accountBalanceBefore = PageFactoryManager.Get<DetailPartyPage>()
                 .GetAccountBalance();
-            string warningLimitTest = ((Double.Parse(wipBalanceBefore) + Double.Parse(accountBalanceBefore)) - 1.00).ToString();
+            string warningLimitTest = Math.Round(((Double.Parse(wipBalanceBefore) + Double.Parse(accountBalanceBefore)) - 1.00), 2,
+                                             MidpointRounding.ToEven).ToString();
+
             PageFactoryManager.Get<DetailPartyPage>()
                 .ClickWBSettingTab()
                 .WaitForLoadingIconToDisappear();

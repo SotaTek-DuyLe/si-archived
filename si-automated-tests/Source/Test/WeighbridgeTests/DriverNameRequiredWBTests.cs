@@ -182,8 +182,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
                 //Create new Vehicle in Vehicles tab
-                .ClickOnVehicleTab()
-                .WaitForLoadingIconVehicleTabDissaprear();
+                .ClickOnVehicleTab();
             detailPartyPage
                 .VerifyTableDisplayedInVehicle()
                 .ClickAddNewVehicleBtn()
