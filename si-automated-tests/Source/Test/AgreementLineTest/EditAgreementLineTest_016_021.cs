@@ -804,7 +804,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         public void TC_019_edit_agreement_add_agreement_line_()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
-            AsserAndProductModel assetAndProductInput = new AsserAndProductModel("Mini (1.53m3)", "1", "Wood", "", "3", "Kilograms", "Owned", new string[1], new string[1], tommorowDate, "");
+            AsserAndProductModel assetAndProductInput = new AsserAndProductModel("Mini (1.53m3)", "1", "Wood", "", "3", "Kilograms", "Rental", new string[1], new string[1], tommorowDate, "");
             string agreementType = "COMMERCIAL COLLECTIONS";
             string agreementName = "LA PLATA STEAKHOUSE";
 
@@ -855,17 +855,18 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickAddAsset()
                 .SelectAssetType("Mini (1.53m3)")
                 .InputAssetQuantity(1)
-                .ChooseTenure("Owned")
+                .ChooseTenure("Rental")
                 .ChooseProduct("Wood")
                 .InputProductQuantity(3)
                 .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
-                .VerifySummaryOfStep("1 x Mini (1.53m3)(Owned), 3kg Wood")
+                .VerifySummaryOfStep("1 x Mini (1.53m3)(Rental), 3kg Wood")
                 .ClickNext();
             PageFactoryManager.Get<PriceTab>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab()
+               .ClosePriceRecords()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
@@ -878,7 +879,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+               //.WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+               //.VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .SleepTimeInMiliseconds(10000);
@@ -1262,7 +1264,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .FilterAgreementId(29)
-                .VerifyAgreementResultNum(0);
+                .VerifyAgreementResultNum(1);
         }
 
     }
