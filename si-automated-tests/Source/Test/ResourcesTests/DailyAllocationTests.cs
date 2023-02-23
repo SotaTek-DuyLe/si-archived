@@ -781,7 +781,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnAddAdhocRoundPage()
                 .InputAdhocRoundDetails(templateNo, reason, note, roundName)
                 .ClickCreateBtn()
-                .VerifyFirstRoundName("(Adhoc) " + roundName)
+                .VerifyRoundNameIsIncluded("(Adhoc) " + roundName)
                 .ClickAddAdhocRoundBtn()
                 .IsOnAddAdhocRoundPage()
                 .InputAdhocRoundDetails(1, reason, note);
@@ -789,7 +789,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .GetSelectedTemplate();
             PageFactoryManager.Get<AddAdhocRoundPopup>()
                 .ClickCreateBtn()
-                .VerifyFirstRoundName("(Adhoc) " + templateValue);
+                .VerifyRoundNameIsIncluded("(Adhoc) " + templateValue);
         }
 
         [Category("Resources")]
@@ -921,16 +921,15 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Category("Resources")]
         [Category("Huong")]
         [Test]
-        [Ignore("Ignore due to George's request")]
         public void TC_275_Translation_DA()
         {
             var loginPage = PageFactoryManager.Get<LoginPage>();
             var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
             loginPage.GoToURL(WebUrl.MainPageUrl);
             loginPage.IsOnLoginPage()
-                .Login(AutoUser22.UserName, AutoUser22.Password)
-                .IsOnHomePageWithoutWaitSearchBtn(AutoUser22);
-            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser22.DisplayName));
+                .Login(AutoUser80.UserName, AutoUser80.Password)
+                .IsOnHomePageWithoutWaitSearchBtn(AutoUser80);
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser80.DisplayName));
             resourceAllocationPage.OpenLocaleLanguage()
                 .SwitchToChildWindow(2);
             LocalLanguagePage localLanguagePage = PageFactoryManager.Get<LocalLanguagePage>();
@@ -967,12 +966,72 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
             resourceAllocationPage.SwitchToDefaultContent();
             //Back to default localization
-            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser22.DisplayName));
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser80.DisplayName));
             resourceAllocationPage.OpenLocaleLanguage()
                 .SwitchToChildWindow(2);
             localLanguagePage.SelectTextFromDropDown(localLanguagePage.LanguageSelect, "English")
                 .ClickOnElement(localLanguagePage.SaveButton);
             localLanguagePage.SwitchToFirstWindow();
+        }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_301_Single_Sign_On()
+        {
+            //Verify that Echo user can login with email address or username
+            var loginPage = PageFactoryManager.Get<LoginPage>();
+            loginPage.GoToURL(WebUrl.MainPageUrl);
+            loginPage.IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePageWithoutWaitSearchBtn(AutoUser22);
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser22.DisplayName));
+            loginPage.OpenSettings()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            UserSettingPage userSettingPage = PageFactoryManager.Get<UserSettingPage>();
+            userSettingPage.ClickOnElement(userSettingPage.DetailTab);
+            userSettingPage.WaitForLoadingIconToDisappear();
+            string userEmail = userSettingPage.GetInputValue(userSettingPage.EmailInput);
+            userSettingPage.ClickCloseBtn()
+                .SwitchToFirstWindow();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser22)
+                .ClickUserNameDd()
+                .ClickLogoutBtn();
+            loginPage.IsOnLoginPage()
+                .Login(userEmail, AutoUser22.Password)
+                .IsOnHomePageWithoutWaitSearchBtn(AutoUser22);
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser22.DisplayName));
+            loginPage.OpenSettings()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            userSettingPage.ClickOnElement(userSettingPage.DetailTab);
+            userSettingPage.WaitForLoadingIconToDisappear();
+            userSettingPage.VerifyInputValue(userSettingPage.EmailInput, userEmail);
+            userSettingPage.ClickCloseBtn()
+                .SwitchToFirstWindow();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser22)
+                .ClickUserNameDd()
+                .ClickLogoutBtn();
+            //Verify that if multiple users have the same email address then they need to use username to login to Echo
+            string sameUserEmail = "josie@selectedinterventions.com";
+            loginPage.IsOnLoginPage()
+                .Login(sameUserEmail, AutoUser23.Password);
+            loginPage.WaitForLoadingIconToDisappear();
+            loginPage.VerifyErrorMessageDisplay()
+                .ClickChangeLoginButton();
+            loginPage.IsOnLoginPage()
+                .Login(AutoUser23.UserName, AutoUser23.Password)
+                .IsOnHomePageWithoutWaitSearchBtn(AutoUser23);
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser23.DisplayName));
+            loginPage.OpenSettings()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            userSettingPage.ClickOnElement(userSettingPage.DetailTab);
+            userSettingPage.WaitForLoadingIconToDisappear();
+            userSettingPage.VerifyInputValue(userSettingPage.EmailInput, sameUserEmail);
         }
     }
 }

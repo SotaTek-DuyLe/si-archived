@@ -103,7 +103,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickGo()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .ExpandRoundGroup(1)
+                .ExpandRoundGroup(2)
                 .ClickRound(roundName)
                 .ClickViewRoundGroup()
                 .SwitchToLastWindow()

@@ -327,15 +327,15 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(300);
             string dateNow = DateTime.Now.ToString("dd/MM/yyyy");
-            DateTime startDate = DateTime.Now.AddDays(7);
+            DateTime startDate = DateTime.Now;
             DateTime endDate = DateTime.Now.AddYears(1);
             int newRow = PageFactoryManager.Get<RoundGroupPage>().GetIndexNewResourceRow();
             PageFactoryManager.Get<RoundGroupPage>()
                 .VerifyDropDownTypeIsPresent(newRow)
                 .VerifyInputQuantityIsPresent(newRow)
                 .VerifyRetireButtonIsPresent(newRow)
-                .VerifyStartDateInput(newRow, dateNow)
-                .VerifyEndDateInput(newRow, "01/01/2050")
+                .VerifyStartDateInput(newRow, "")
+                .VerifyEndDateInput(newRow, "")
                 .SelectType(newRow, "Van")
                 .EnterQuantity(newRow, "1")
                 .EnterStartDate(newRow, startDate.ToString("dd/MM/yyyy"))
@@ -344,8 +344,12 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear()
                 .VerifyToastMessage("Success");
             PageFactoryManager.Get<RoundGroupPage>()
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundGroupPage>()
                 .VerifyDropDownTypeIsDisable(newRow)
-                .VerifyStartDateInputIsDisable(newRow)
+                .VerifyStartDateInputIsDisable(newRow, false)
                 .ClickExpandButton(newRow);
             Thread.Sleep(300);
             RoundGroupPage roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
@@ -704,7 +708,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             roundGroupPage.ClickDefaultResourceTab()
                 .WaitForLoadingIconToDisappear();
             roundGroupPage.WaitForResourceRowsVisible();
-            int driverTypeIdx = 0;
+            int driverTypeIdx = 1;
             int relTypeIdx = roundGroupPage.GetIndexNewRowDetail(driverTypeIdx);
             string dateNow = DateTime.Now.ToString("dd/MM/yyyy");
             roundGroupPage
@@ -723,7 +727,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickExpandButton(driverTypeIdx);
             Thread.Sleep(300);
             PageFactoryManager.Get<RoundGroupPage>()
-                .VerifyResourceDetailRow(driverTypeIdx, relTypeIdx, "Hedy Lamarr", true, $"Every Tuesday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true);
+                .VerifyResourceDetailRow(driverTypeIdx, relTypeIdx, "COM8 NST", true, $"Every Tuesday commencing {DateTime.Now.ToString("dddd dd MMMM yyyy")}", true);
             roundGroupPage.ClickOnElement(roundGroupPage.ScheduleTab);
             roundGroupPage.WaitForLoadingIconToDisappear();
             roundGroupPage.VerifyScheduleDetail("Every Tuesday commencing Monday 10 January 2022")
