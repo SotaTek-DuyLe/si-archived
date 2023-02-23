@@ -263,10 +263,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
         [AllureStep]
-        public RoundGroupPage VerifyStartDateInputIsDisable(int rowIdx)
+        public RoundGroupPage VerifyStartDateInputIsDisable(int rowIdx, bool isDisable)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
-            Assert.IsFalse(row.FindElement(startDateInput).Enabled);
+            Assert.IsFalse(row.FindElement(startDateInput).Enabled == isDisable);
             return this;
         }
         [AllureStep]
@@ -474,10 +474,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(retireButton.Displayed == isVisibleRetireBtn);
             if (checkEnable)
             {
-                Assert.IsFalse(select.Enabled);
-                Assert.IsFalse(checkbox.Enabled);
+                Assert.IsTrue(select.Enabled);
+                Assert.IsTrue(checkbox.Enabled);
                 Assert.IsFalse(input.Enabled);
-                Assert.IsFalse(startDate.Enabled);
+                Assert.IsTrue(startDate.Enabled);
                 Assert.IsTrue(endDate.Enabled);
             }
             return this;
