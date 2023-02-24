@@ -225,9 +225,10 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .WaitForLoadingIconToDisappear();
 
             taskConfirmationPage.SelectAllRoundLeg()
-                .DragDropRoundLegToRoundInstance("WCREC1", roundGroupName);
-            taskConfirmationPage
-                .SelectReasonNeeded();
+                .DragDropRoundLegToRoundInstance("WCREC2", roundGroupName);
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.ConfirmationNeeded();
+            taskConfirmationPage.SelectReasonNeeded();
             taskConfirmationPage.VerifyToastMessage("Allocated 2 round leg(s)");
             taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.VerifyRoundLegNoLongerDisplay();
@@ -244,7 +245,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskConfirmationPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             taskConfirmationPage.SelectAllVirtualTask()
-                .DragDropRoundLegToRoundInstance("WCREC1", roundGroupName);
+                .DragDropRoundLegToRoundInstance("WCREC2", roundGroupName);
             taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.SelectReason, "Bad Weather");
             taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
             taskConfirmationPage.VerifyToastMessage("2 Task(s) Allocated");
