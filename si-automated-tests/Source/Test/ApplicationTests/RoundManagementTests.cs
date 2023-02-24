@@ -168,6 +168,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .ClickOnElement(taskConfirmationPage.BulkReallocateButton);
             taskConfirmationPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.VerifyReallocatedTask("No Service");
 
             //Select the 2 service tasks in the grid -> Update the from filter -> Go 
@@ -183,6 +184,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskConfirmationPage.VerifyTaskAllocated("REC1-AM", "Monday");
             //Drag and drop the round you allocated the tasks to to the grid
             taskConfirmationPage.DragRoundInstanceToReallocattedGrid("REC1-AM", "Monday");
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.WaitForLoadingIconToDisappear();
             //Scroll down and right to find your tasks
             taskConfirmationPage.VerifyTaskSubcontract(descriptions, "No Service");
