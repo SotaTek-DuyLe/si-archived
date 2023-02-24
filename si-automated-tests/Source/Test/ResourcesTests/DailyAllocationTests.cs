@@ -921,6 +921,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Category("Resources")]
         [Category("Huong")]
         [Test]
+        [Ignore("Ignore due to George's request")]
         public void TC_275_Translation_DA()
         {
             var loginPage = PageFactoryManager.Get<LoginPage>();
