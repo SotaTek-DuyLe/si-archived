@@ -576,7 +576,15 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage DeallocateResourceFromRoundGroup(int whichRow, string whichResource)
         {
             var target = GetFirstResult();
-            var xpath = String.Format(secondColumnResource, whichRow, whichResource.ToUpper());
+            var xpath = "";
+            if (whichResource.Contains("Driver") || whichResource.Contains("Loader"))
+            {
+                xpath = String.Format(secondColumnResource, whichRow, whichResource.ToUpper());
+            }
+            else
+            {
+                xpath = String.Format(secondColumnResource, whichRow, whichResource);
+            }
             IWebElement source = WaitUtil.WaitForElementVisible(xpath);
             DragAndDrop(source, target);
             return this;
