@@ -72,6 +72,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] AssociateObjectAgreement = { "Service Task", "Service Task Schedule", "Service Task Line", "AgreementLine", "Service Unit Asset", "Agreement Line Task Type", "Agreement Line TaskTypeTaskLine", "Agreement Line Asset Product" };
         public static readonly string[] HistoryRIEvent = { "Object type", "Object ID", "Waste Type" };
         public static readonly string[] AuthoriseTipping = { "Never Allow Tipping", "Do Not Override On Stop", "Always Allow Tipping" };
+        public static readonly string[] ServiceUnitPoint = { "Serviced Point", "Point of Service", "Both Serviced and Point of Service" };
 
         //ICON IMAGE
         public static readonly string StreetIconUrl = "web/content/images/street.svg";        

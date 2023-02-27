@@ -15,16 +15,16 @@ namespace si_automated_tests.Source.Main.Pages
     public class HomePage : BasePage
     {
         
-        private const string CreateEvenDropdownBtn = "//button[contains(text(), 'Create Event')]/following-sibling::button";
+        private const string CreateEvenDropdownBtn = "//button[contains(text(), 'Create Agreement')]/following-sibling::button";
 
         //CREATE EVEN SUB MENU
-        private const string PartyInCreateEvenBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Party']";
-        private const string AgreementInCreateEvenBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Agreement']";
-        private const string EventInCreateEvenBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Event']";
-        private const string PointAddressInCreateEvenBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Point Address']";
-        private const string ResourceInCreateEvenBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Resource']";
-        private const string ServiceUnitGroupBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Service Unit Group']";
-        private const string WeighbridgeTicketInCreateEvenBtn = "//button[text()='Create Event']/following-sibling::ul//span[text()='Weighbridge Ticket']";
+        private const string PartyInCreateEvenBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Party']";
+        private const string AgreementInCreateEvenBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Agreement']";
+        private const string EventInCreateEvenBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Event']";
+        private const string PointAddressInCreateEvenBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Point Address']";
+        private const string ResourceInCreateEvenBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Resource']";
+        private const string ServiceUnitGroupBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Service Unit Group']";
+        private const string WeighbridgeTicketInCreateEvenBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Weighbridge Ticket']";
 
 
         private readonly string userNameBtn = ConfigManager.GetCurrentPlatform().Equals(WebPlatform.IE)

@@ -12,6 +12,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By clientRefInput = By.Id("client-ref");
         private readonly By title = By.XPath("//h4[text()='Contract Unit']");
         private readonly By usersTab = By.CssSelector("a[aria-controls='contractunitusers-tab']");
+        private readonly By detailsTab = By.CssSelector("a[aria-controls='details-tab']");
+        private readonly By contractUnitLabelDetailTab = By.XPath("//label[text()='Contract Unit']");
+        private readonly By clientRefLabelDetailTab = By.XPath("//label[text()='Client Reference']");
 
         //DYNAMIC
         private readonly string contractUnitName = "//p[text()='{0}']";
@@ -29,10 +32,15 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(contractUnitName, contractUnitValue);
+            WaitUtil.WaitForElementVisible(detailsTab);
+            WaitUtil.WaitForElementVisible(usersTab);
+            WaitUtil.WaitForElementVisible(contractUnitLabelDetailTab);
+            WaitUtil.WaitForElementVisible(clientRefLabelDetailTab);
             return this;
         }
 
         #region USERS TAB
+        private readonly By addNewItemLoadingInUsersTab = By.XPath("//div[@id='contractunitusers-tab']//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
         private readonly By addNewItemInUsersTab = By.XPath("//div[@id='contractunitusers-tab']//button[text()='Add New Item']");
 
         [AllureStep]
@@ -46,6 +54,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ContractUnitDetailPage ClickOnAddNewItemInUsersTab()
         {
+            WaitUtil.WaitForElementInvisible(addNewItemLoadingInUsersTab);
             ClickOnElement(addNewItemInUsersTab);
             return this;
         }

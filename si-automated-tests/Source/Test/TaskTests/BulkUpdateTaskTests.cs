@@ -594,7 +594,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .FilterByTaskId(taskId)
                 .ClickCheckboxFirstTaskInList()
                 .ClickDeleteBtn()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(2);
             PageFactoryManager.Get<RemoveTaskPage>()
                 .IsDeleteTaskPopup()
                 //Click (x) btn
@@ -604,7 +604,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .ClickDeleteBtn()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(2);
             PageFactoryManager.Get<RemoveTaskPage>()
                 .IsDeleteTaskPopup()
                 //Click [No] btn

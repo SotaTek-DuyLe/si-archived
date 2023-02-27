@@ -24,7 +24,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By saveAndCloseBtn = By.CssSelector("button[title='Save and Close']");
         private readonly By closeWithoutSavingBtn = By.CssSelector("button[title='Close Without Saving']");
 
-        private const string toggleStandardCommercialTransaction = "//label[text()='Standard - {0}']";
+        private const string toggleStandardCommercialTransaction = "//label[contains(string(), '{0}')]";
         private const string detailTitle = "//label[contains(string(), 'Update {0} Selected Tasks')]";
 
         //Toggle arrow

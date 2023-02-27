@@ -24,6 +24,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By startDateInput = By.CssSelector("input[name='startDate']");
         private readonly By endDateInput = By.CssSelector("input[name='endDate']");
         private readonly By serviceUnitPointTypeDd = By.CssSelector("select[name='serviceUnitPointType']");
+        private readonly string serviceUnitPointTypeOption = "//select[@id='serviceUnitPointType.id']/option[text()='{0}']";
 
         //MAP TAB
         private readonly By typeValue = By.XPath("//td[text()='Address']/following-sibling::td");
@@ -94,6 +95,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceUnitPointDetailPage VerifyServiceUnitPointTypeAfter(string expValue)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(serviceUnitPointTypeDd), expValue);
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitPointDetailPage SelectAnyValueInServiceUnitPointType(string value)
+        {
+            ClickOnElement(serviceUnitPointTypeDd);
+            ClickOnElement(serviceUnitPointTypeOption, value);
             return this;
         }
         [AllureStep]
