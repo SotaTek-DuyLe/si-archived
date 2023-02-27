@@ -11,9 +11,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
     public class ServiceDataManagementPage : BasePage
     {
         private readonly By serviceLocationTypeTitle = By.XPath("//label[text()='Service Location Type']");
-        private readonly By refreshPageBtn = By.XPath("//label[text()='Service Location Type']/parent::div/following-sibling::div//button[@title='Refresh']");
-        private readonly By showInformationBtn = By.XPath("//label[text()='Service Location Type']/parent::div/following-sibling::div//button[@title='Show Information']");
-        private readonly By popOutBtn = By.XPath("//label[text()='Service Location Type']/parent::div/following-sibling::div//button[@title='Pop out']");
+        private readonly By refreshPageBtn = By.XPath("//label[text()='Service Location Type']/parent::div/preceding-sibling::div//button[@title='Refresh']");
+        private readonly By showInformationBtn = By.XPath("//label[text()='Service Location Type']/parent::div/preceding-sibling::div//button[@title='Show Information']");
+        private readonly By popOutBtn = By.XPath("//label[text()='Service Location Type']/parent::div/preceding-sibling::div//button[@title='Pop out']");
         private readonly By inputServicesTree = By.XPath("//label[text()='Services']/following-sibling::input");
         private readonly By selectTypeDd = By.CssSelector("select[id='type']");
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");

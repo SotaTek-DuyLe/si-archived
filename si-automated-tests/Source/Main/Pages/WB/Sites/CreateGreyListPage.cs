@@ -10,8 +10,10 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
     public class CreateGreyListPage : BasePage
     {
         private readonly By title = By.XPath("//h4[text()='Weighbridge Grey List']");
+        private readonly By detailTab = By.XPath("//a[text()='Details']");
 
         //DETAIL
+        private readonly By vehicleTitle = By.XPath("//label[text()='Vehicle']");
         private readonly By vehicleInput = By.XPath("//label[text()='Vehicle']/following-sibling::div//input");
         private readonly By startDateInput = By.CssSelector("input[id='start-date']");
         private readonly By endDateInput = By.CssSelector("input[id='end-date']");
@@ -39,7 +41,10 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
         [AllureStep]
         public CreateGreyListPage IsCreateWBGreyListPage()
         {
+            WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(title);
+            WaitUtil.WaitForElementVisible(detailTab);
+            WaitUtil.WaitForElementVisible(vehicleTitle);
             Assert.IsTrue(IsControlDisplayed(vehicleInput), "[Vehicle] is not displayed");
             Assert.IsTrue(IsControlDisplayed(startDateInput), "[Start Date] is not displayed");
             Assert.IsTrue(IsControlDisplayed(endDateInput), "[End Date] is not displayed");

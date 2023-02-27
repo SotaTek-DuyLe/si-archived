@@ -139,8 +139,15 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPointDetailPage
                 .ClickOnMapTab()
                 .VerifyValueInMapTabAddressType(address, segment);
-            //Step 15: Click [Save] btn
+            //Step 15: Click [Save] btn and verify the display of the message without field populated
             serviceUnitPointDetailPage
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.ServiceUnitPointRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.ServiceUnitPointRequiredMessage);
+            //Step 15: Select an item in [Service Unit Point Type] dd
+            serviceUnitPointDetailPage
+                .ClickOnDetailTab()
+                .SelectAnyValueInServiceUnitPointType(CommonConstants.ServiceUnitPoint[0])
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
@@ -331,8 +338,15 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPointDetailPage
                 .ClickOnMapTab()
                 .VerifyValueInMapTabSegmentType(segment);
-            //Step 15: Click [Save] btn
+            //Step 15: Click [Save] btn and verify the display of the message Required Service Unit Point Type
             serviceUnitPointDetailPage
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.ServiceUnitPointRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.ServiceUnitPointRequiredMessage);
+            //Step 15: Select one [Service Unit Point Type] and Click [Save] btn
+            serviceUnitPointDetailPage
+                .ClickOnDetailTab()
+                .SelectAnyValueInServiceUnitPointType(CommonConstants.ServiceUnitPoint[0])
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
@@ -525,9 +539,15 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPointDetailPage
                 .ClickOnMapTab()
                 .VerifyValueInMapTabAreaType(area);
-            //Step 15: Click [Save] btn
+            //Step 15: Click [Save] btn and verify the display of the message Required Service Unit Point Type
             serviceUnitPointDetailPage
                 .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.ServiceUnitPointRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.ServiceUnitPointRequiredMessage);
+            //Step 15: Select one [Service Unit Point Type] and Click [Save] btn
+            serviceUnitPointDetailPage
+                .ClickOnDetailTab()
+                .SelectAnyValueInServiceUnitPointType(CommonConstants.ServiceUnitPoint[0])
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             serviceUnitPointDetailPage
@@ -719,8 +739,15 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPointDetailPage
                 .ClickOnMapTab()
                 .VerifyValueInMapTabNoteType(note);
-            //Step 15: Click [Save] btn
+            //Step 15: Click [Save] btn and verify the display of the message Required Service Unit Point Type
             serviceUnitPointDetailPage
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.ServiceUnitPointRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.ServiceUnitPointRequiredMessage);
+            //Step 15: Select one [Service Unit Point Type] and Click [Save] btn
+            serviceUnitPointDetailPage
+                .ClickOnDetailTab()
+                .SelectAnyValueInServiceUnitPointType(CommonConstants.ServiceUnitPoint[0])
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);

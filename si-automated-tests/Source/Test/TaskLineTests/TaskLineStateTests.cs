@@ -78,7 +78,7 @@ namespace si_automated_tests.Source.Test.TaskLineTests
 
            detailTaskPage
                 .VerifyHistoryTabFirstAfterChangingStatus(AutoUser51.DisplayName, timeUpdatedExp, "1", "75", "Completed", "", completedDateDisplayed, "Manually Confirmed on Web");
-            //Line 12: Run query to check
+            //Line 12: Run query to check => Need to config on master
             List<TaskLineDBModel> taskLineDBModels = finder.GetTaskLineByTaskId(int.Parse(taskId));
             int resolutioncodeId = taskLineDBModels[0].resolutioncodeID;
             Assert.AreEqual(resolutioncodeId, 0);
