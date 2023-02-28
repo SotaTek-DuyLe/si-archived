@@ -37,16 +37,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         private string SearchResultTable = "//div[@id='results-grid']//div[contains(@data-bind, 'selectedType() === \"Node\"')]//div[@class='grid-canvas']";
         private string SearchResultRow = "./div[contains(@class, 'slick-row')]";
         private string CheckboxCell = "./div[contains(@class, 'l0')]//input[@type='checkbox']";
-        private string IdCell = "./div[contains(@class, 'l1')]";
-        private string PointNodeIdCell = "./div[contains(@class, 'l2')]";
-        private string NodeCell = "./div[contains(@class, 'l3')]";
-        private string ClientRefCell = "./div[contains(@class, 'l4')]";
-        private string StreetCell = "./div[contains(@class, 'l5')]";
-        private string ServiceUnitCell = "./div[contains(@class, 'l6')]";
+        private string PointNodeIdCell = "./div[contains(@class, 'l1')]";
+        private string NodeCell = "./div[contains(@class, 'l2')]";
+        private string ClientRefCell = "./div[contains(@class, 'l3')]";
+        private string StreetCell = "./div[contains(@class, 'l4')]";
+        private string ServiceUnitCell = "./div[contains(@class, 'l5')]";
 
         public TableElement SearchResultTableEle
         {
-            get => new TableElement(SearchResultTable, SearchResultRow, new List<string>() { CheckboxCell, IdCell, PointNodeIdCell, NodeCell, ClientRefCell, StreetCell, ServiceUnitCell });
+            get => new TableElement(SearchResultTable, SearchResultRow, new List<string>() { CheckboxCell, PointNodeIdCell, NodeCell, ClientRefCell, StreetCell, ServiceUnitCell });
         }
 
         private string ServiceUnitPointTable = "//div[@id='serviceUnitPoints-tab']//table//tbody";
@@ -79,7 +78,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         [AllureStep]
         public ServiceUnitPage VerifySearchResult(string pointnodeId)
         {
-            var cell = SearchResultTableEle.GetRowByCellValue(2, pointnodeId);
+            var cell = SearchResultTableEle.GetRowByCellValue(SearchResultTableEle.GetCellIndex(PointNodeIdCell), pointnodeId);
             Assert.IsNotNull(cell);
             return this;
         }
@@ -87,7 +86,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         [AllureStep]
         public ServiceUnitPage CheckSearchResult(string pointnodeId)
         {
-            SearchResultTableEle.ClickCellOnCellValue(0, 2, pointnodeId);
+            SearchResultTableEle.ClickCellOnCellValue(0, SearchResultTableEle.GetCellIndex(PointNodeIdCell), pointnodeId);
             return this;
         }
 
