@@ -527,7 +527,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
             //Verify whether when user selects a resource state in the Leave Type dropdown that has mandatoryrescode = TRUE, show the Reason field in red to denote it is a mandatory field
             createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.ResourceDropdown);
-            createLeaveEntryPage.SelectByDisplayValueOnUlElement(createLeaveEntryPage.OpenDropDown, "Margaret Knight");
+            createLeaveEntryPage.SelectByDisplayValueOnUlElement(createLeaveEntryPage.OpenDropDown, "Margaret Knight (E1556)");
             createLeaveEntryPage.SelectTextFromDropDown(createLeaveEntryPage.LeaveTypeDropdown, "Jury Service")
                 .SleepTimeInMiliseconds(200);
             createLeaveEntryPage.VerifyElementIsMandatory(createLeaveEntryPage.ReasonDropdown, false);

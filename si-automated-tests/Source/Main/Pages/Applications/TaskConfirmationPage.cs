@@ -63,6 +63,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By breakdownOptionReasonNeeded = By.XPath("//label[contains(string(), 'Please select the reason below and confirm.')]/following-sibling::select/option[text()='Breakdown']");
         private readonly By reasonNeededDd = By.XPath("//label[contains(string(), 'Please select the reason below and confirm.')]/following-sibling::select");
         private readonly By reasonNeededTitle = By.XPath("//label[contains(string(), 'Please select the reason below and confirm.')]");
+        private readonly By confirmationNeededTitle = By.XPath("//h4[contains(string(), 'Confirmation Needed')]");
         //DYNAMIC
         private readonly string anyContractOption = "//label[text()='Contract']/following-sibling::span/select/option[text()='{0}']";
         private readonly string anyServicesByServiceGroup = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/preceding-sibling::i";
@@ -276,7 +277,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By expandThirdRoundGroup = By.XPath("(//div[contains(@class, 'slick-group')][3])//span[contains(@class, 'slick-group-toggle')]");
         private readonly By roundGroupName = By.XPath("(//div[contains(@class, 'slick-group')][3])//span[contains(@class, 'slick-group-title')]");
         private readonly By firstRoundLegEpxandButton = By.XPath("(//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row')]//div[@class='slick-cell l4 r4']//span[@class='toggle expand'])[1]");
-        
+        private readonly By roundLegRows = By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row')]");
+
         [AllureStep]
         private IWebElement GetVirtualTask(int idx)
         {
@@ -325,7 +327,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public TaskConfirmationPage ExpandRoundLegAndSelectTask()
         {
-            ClickOnElement(firstRoundLegEpxandButton);
+            ClickFirstRoundLeg();
             SleepTimeInMiliseconds(300);
             IWebElement virtualTask1 = GetVirtualTask(0);
             IWebElement checkboxvirtualTask1 = virtualTask1.FindElement(By.XPath("./div/input"));
@@ -334,6 +336,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             IWebElement virtualTask2 = GetVirtualTask(1);
             IWebElement checkboxvirtualTask2 = virtualTask2.FindElement(By.XPath("./div/input"));
             checkboxvirtualTask2.Click();
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage ClickFirstRoundLeg()
+        {
+            var row = GetAllElements(roundLegRows).OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).FirstOrDefault();
+            IWebElement expandIcon = row.FindElement(By.XPath("./div[@class='slick-cell l4 r4']//span[@class='toggle expand']"));
+            expandIcon.Click();
             return this;
         }
 
@@ -712,6 +723,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
-
+        [AllureStep]
+        public TaskConfirmationPage ConfirmationNeeded()
+        {
+            WaitUtil.WaitForElementVisible(confirmationNeededTitle);
+            ClickOnElement("//button[text()='Confirm' and @data-bb-handler='Confirm']");
+            return this;
+        }
     }
 }
