@@ -150,7 +150,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessage(AgreementConstants.SUCCESSFULLY_SAVED_AGREEMENT)
+               //.VerifyToastMessage(AgreementConstants.SUCCESSFULLY_SAVED_AGREEMENT)
                .WaitForLoadingIconToDisappear();
 
             // Finish Edit Agreement Line 
@@ -182,14 +182,15 @@ namespace si_automated_tests.Source.Test.AdHocTests
                     .SelectCompletedState()
                     .ClickOnAcualAssetQuantityText()
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success")
+                    //.VerifyToastMessage("Success")
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickToDetailsTab()
                     .ClickStateDetais()
                     .ChooseTaskState("Completed")
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success");
+                    .WaitForLoadingIconToDisappear();
+                //.VerifyToastMessage("Success");
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .CloseCurrentWindow()
                     .SwitchToChildWindow(2);

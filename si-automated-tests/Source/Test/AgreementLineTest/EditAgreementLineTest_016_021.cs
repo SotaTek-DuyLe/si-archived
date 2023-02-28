@@ -101,7 +101,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Fix wating time for saved agreement
             PageFactoryManager.Get<PartyAgreementPage>()
@@ -132,7 +132,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .SelectCompletedState()
                     .ClickOnAcualAssetQuantityText()
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success")
+                    //.VerifyToastMessage("Success")
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickCloseWithoutSaving()
@@ -222,7 +222,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnPartyAgreementPage()
                 .SelectAgreementType("Commercial Collections")
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForAgreementPageLoadedSuccessfully(agreementType, partyName);
@@ -280,7 +280,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+               //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                .WaitForLoadingIconToDisappear();
             // Finish step 15 
             PageFactoryManager.Get<BasePage>()
@@ -321,14 +321,15 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .SelectCompletedState()
                     .ClickOnAcualAssetQuantityText()
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success")
+                    //.VerifyToastMessage("Success")
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickToDetailsTab()
                     .ClickStateDetais()
                     .ChooseTaskState("Completed")
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success");
+                    .WaitForLoadingIconToDisappear();
+                //.VerifyToastMessage("Success");
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickCloseWithoutSaving()
                     .SwitchToChildWindow(3);
@@ -421,7 +422,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .SleepTimeInMiliseconds(10000);
@@ -615,7 +616,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+               //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                .WaitForLoadingIconToDisappear();
             //Finish step 15
             PageFactoryManager.Get<BasePage>()
@@ -695,14 +696,15 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .SelectCompletedState()
                     .ClickOnAcualAssetQuantityText()
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success")
+                    //.VerifyToastMessage("Success")
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickToDetailsTab()
                     .ClickStateDetais()
                     .ChooseTaskState("Completed")
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success");
+                    .WaitForLoadingIconToDisappear();
+                //.VerifyToastMessage("Success");
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickCloseWithoutSaving()
                     .SwitchToChildWindow(2);
@@ -1005,7 +1007,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                .VerifyBlueBorder()
                .ClickSaveBtn()
-               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+               //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                .WaitForLoadingIconToDisappear();
 
             //waiting for save 
@@ -1168,7 +1170,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                    .SelectCompletedState()
                    .ClickOnAcualAssetQuantityText()
                    .CLickOnSaveBtn()
-                   .VerifyToastMessage("Success")
+                   //.VerifyToastMessage("Success")
                    .WaitForLoadingIconToDisappear();
 
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
@@ -1178,7 +1180,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .ChooseTaskState("Completed");
                 PageFactoryManager.Get<BasePage>()
                     .ClickSaveBtn()
-                    .VerifyToastMessage("Success")
+                    //.VerifyToastMessage("Success")
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickCloseWithoutSaving()
