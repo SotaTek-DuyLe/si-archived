@@ -103,7 +103,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Bulky Collections")
                 .ExpandOption("Round Groups")
-                .ExpandOption("BULKY1")
+                .ExpandOption("BULKY1 (West)")
                 .OpenOption("Monday")
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear()
