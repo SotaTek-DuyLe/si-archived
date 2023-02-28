@@ -24,7 +24,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
         private readonly By descAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
-        private readonly By statusOfTaskNotOnHoldAtFirstColumn = By.XPath("(//img[@src='/web/content/images/coretaskstate/s2.png']/parent::div/parent::div/following-sibling::div[contains(@class, 'l19')])[1]");
+        private readonly By statusOfTaskNotOnHoldAtFirstColumn = By.XPath("(//img[@src='/web/content/images/coretaskstate/s2.svg']/parent::div/parent::div/following-sibling::div[contains(@class, 'l19')])[1]");
+        private readonly By statusOfTaskOnHoldAtFirstColumn = By.XPath("(//img[@src='/web/content/style/images/task-onhold.png']/parent::div/parent::div/following-sibling::div[contains(@class, 'l19')])[1]");
         private readonly By scheduledDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l17')]");
         private readonly By dueDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l18')]");
         private readonly By allRowInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div");
@@ -655,18 +656,22 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
-        public TaskConfirmationPage ClickOnStatusAtFirstColumn()
+        public TaskConfirmationPage ClickOnStatusAtFirstColumnAndVerifyTheOrderStatus(string[] taskStateValues, string[] taskStateOnHolds)
         {
-            ClickOnElement(statusOfTaskNotOnHoldAtFirstColumn);
-            return this;
-        }
-
-        [AllureStep]
-        public TaskConfirmationPage VerifyTheDisplayOfTheOrderStatus(string[] taskStateValues)
-        {
-            for (int i = 0; i < taskStateValues.Length; i++)
+            if(IsControlDisplayedNotThrowEx(statusOfTaskNotOnHoldAtFirstColumn))
             {
-                Assert.AreEqual(taskStateValues[i], GetElementText(optionInStatusFirstRow, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+                ClickOnElement(statusOfTaskNotOnHoldAtFirstColumn);
+                for (int i = 0; i < taskStateValues.Length; i++)
+                {
+                    Assert.AreEqual(taskStateValues[i], GetElementText(optionInStatusFirstRow, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+                }
+            } else if (IsControlDisplayedNotThrowEx(statusOfTaskOnHoldAtFirstColumn))
+            {
+                ClickOnElement(statusOfTaskOnHoldAtFirstColumn);
+                for (int i = 0; i < taskStateOnHolds.Length; i++)
+                {
+                    Assert.AreEqual(taskStateOnHolds[i], GetElementText(optionInStatusFirstRow, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+                }
             }
             return this;
         }

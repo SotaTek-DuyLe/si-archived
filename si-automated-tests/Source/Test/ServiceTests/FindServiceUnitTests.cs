@@ -548,6 +548,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPointDetailPage
                 .ClickOnDetailTab()
                 .SelectAnyValueInServiceUnitPointType(CommonConstants.ServiceUnitPoint[0])
+                .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             serviceUnitPointDetailPage

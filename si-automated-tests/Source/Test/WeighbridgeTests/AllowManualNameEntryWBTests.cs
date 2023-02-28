@@ -419,9 +419,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .InputManualDestinationParty(manualDestinationParty)
                 .ClickAddTicketLineBtn()
                 .ClickProductDd()
-                .ClickAnyProductValue(product56)
+                .ClickAnyProductValue(outboundProduct)
                 //Verify Location
-                .VerifyLocationPrepolulated(outboundProduct)
+                .VerifyLocationPrepolulated(locationNameActive56)
                 //Mandatory field remaining
                 .InputFirstWeight(1)
                 .InputFirstDate()

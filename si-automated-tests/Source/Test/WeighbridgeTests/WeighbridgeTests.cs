@@ -317,7 +317,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             siteDetailPage
                 .ClickFirstSelectAndDeSelectLocatorRow()
                 .ClickDeleteItemInLocationTabBtn()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(4);
             DeleteWBLocation deleteWBLocation = PageFactoryManager.Get<DeleteWBLocation>();
             deleteWBLocation
                 .IsWarningPopupDisplayed()

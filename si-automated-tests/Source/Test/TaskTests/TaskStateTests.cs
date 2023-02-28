@@ -41,6 +41,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             string taskId = "14337";
             string mapObjectName = "COM2 NST";
             string fromDateMap = "29/10/2022 00:00";
+            string[] onlyCancelledStatus = { "In Progress", "Cancelled" };
             //API: Get current task state
             List<TaskStateDBModel> taskStateDBModels = commonFinder.GetTaskStateByTaskId(taskId);
             string currentTaskState = taskStateDBModels[0].taskstate;
@@ -65,7 +66,9 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .InputNumberInSortOrder("3", orderNumber[2])
                 .InputNumberInSortOrder("4", orderNumber[3])
                 .InputNumberInSortOrder("5", orderNumber[4])
-                .ClickSaveBtnToUpdateTaskType();
+                .ClickSaveBtnToUpdateTaskType()
+                .SleepTimeInSeconds(3);
+
             PageFactoryManager.Get<TaskTypeEchoExtraPage>()
                 .NavigateToRoundInstanceDetailPage(roundInstanceId)
                 .WaitForLoadingIconToDisappear();
@@ -127,8 +130,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnExpandRoundLegsBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskConfirmationPage>()
-                .ClickOnStatusAtFirstColumn()
-                .VerifyTheDisplayOfTheOrderStatus(orderStateValues);
+                .ClickOnStatusAtFirstColumnAndVerifyTheOrderStatus(orderStateValues, onlyCancelledStatus);
             //Verify order in [Task Confirmation] Screen - Bulk Update form
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ClickOnBulkUpdateBtn()
@@ -155,8 +157,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchToWorksheetTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<MapListingPage>()
-                .ClickOnStatusInFirstRow()
-                .VerifyOrderInTaskStateDd(orderStateValues)
+                .ClickOnStatusInFirstRowAndVerify(orderStateValues, onlyCancelledStatus)
                 //Verify order in [Bulk update] - Map tab
                 .ClickOnBulkUpdateBtn()
                 .ClickOnStatusDdInBulkUpdatePopup()
@@ -313,8 +314,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .SendKeyInDesc(descWithPartyTescoPLC)
                 .VerifyDisplayResultAfterSearchWithDesc(descWithPartyTescoPLC)
-                .ClickOnStatusAtFirstColumn()
-                .VerifyTheDisplayOfTheOrderStatus(onlyCancelledStatus)
+                .ClickOnStatusAtFirstColumnAndVerifyTheOrderStatus(orderStateValues, onlyCancelledStatus)
                 .SwitchToDefaultContent();
             //Verify order in [Maps]
             PageFactoryManager.Get<NavigationBase>()
@@ -337,8 +337,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<MapListingPage>()
                 .FilterWorksheetByPartyName(partyName)
                 .VerifyTheDisplayOfTheWorksheetIdAfterFilteringParty(partyName)
-                .ClickOnStatusInFirstRow()
-                .VerifyOrderInTaskStateDd(onlyCancelledStatus);
+                .ClickOnStatusInFirstRowAndVerify(onlyCancelledStatus, onlyCancelledStatus);
             //==> BUG
                 ////Verify order in [Bulk update] - Map tab
                 //.ClickOnBulkUpdateBtn()
