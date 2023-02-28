@@ -30,8 +30,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser38.UserName, AutoUser38.Password)
-                .IsOnHomePage(AutoUser38);
+                .Login(AutoUser62.UserName, AutoUser62.Password)
+                .IsOnHomePage(AutoUser62);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
@@ -112,8 +112,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                   .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser38.UserName, AutoUser38.Password)
-                .IsOnHomePage(AutoUser38);
+                .Login(AutoUser62.UserName, AutoUser62.Password)
+                .IsOnHomePage(AutoUser62);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
@@ -194,8 +194,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                   .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser38.UserName, AutoUser38.Password)
-                .IsOnHomePage(AutoUser38);
+                .Login(AutoUser62.UserName, AutoUser62.Password)
+                .IsOnHomePage(AutoUser62);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
@@ -278,8 +278,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                   .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser38.UserName, AutoUser38.Password)
-                .IsOnHomePage(AutoUser38);
+                .Login(AutoUser62.UserName, AutoUser62.Password)
+                .IsOnHomePage(AutoUser62);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
@@ -363,8 +363,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                   .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser38.UserName, AutoUser38.Password)
-                .IsOnHomePage(AutoUser38);
+                .Login(AutoUser62.UserName, AutoUser62.Password)
+                .IsOnHomePage(AutoUser62);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
@@ -451,8 +451,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                   .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser38.UserName, AutoUser38.Password)
-                .IsOnHomePage(AutoUser38);
+                .Login(AutoUser62.UserName, AutoUser62.Password)
+                .IsOnHomePage(AutoUser62);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
@@ -539,8 +539,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                   .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser38.UserName, AutoUser38.Password)
-                .IsOnHomePage(AutoUser38);
+                .Login(AutoUser62.UserName, AutoUser62.Password)
+                .IsOnHomePage(AutoUser62);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
@@ -637,8 +637,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                   .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser38.UserName, AutoUser38.Password)
-                .IsOnHomePage(AutoUser38);
+                .Login(AutoUser62.UserName, AutoUser62.Password)
+                .IsOnHomePage(AutoUser62);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
