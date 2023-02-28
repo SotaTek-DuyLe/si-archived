@@ -620,8 +620,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .InputSecondWeight(2)
                 .ClickSaveBtn();
             createNewTicketPage
-                .ClickOnNoWarningPopup();
-            createNewTicketPage
                 .VerifyDisplayToastMessage(string.Format(MessageRequiredFieldConstants.CustomerIsOnStopMessage, partyNameCustomer, todayDate))
                 .WaitUntilToastMessageInvisible(string.Format(MessageRequiredFieldConstants.CustomerIsOnStopMessage, partyNameCustomer, todayDate))
                 .ClickCloseBtn()
