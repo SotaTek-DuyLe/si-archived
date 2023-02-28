@@ -128,7 +128,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .VerifyElementVisibility(taskAllocationPage.GetAllocatingConfirmMsg(3), true)
                 .ClickOnElement(taskAllocationPage.AllocateAllButton);
             taskAllocationPage.WaitForLoadingIconToDisappear();
-            List<string> reasons = new List<string>() { "Select...", "Bad Weather", "Breakdown", "Roadworks", "Out of Time", "Incident" };
+            List<string> reasons = new List<string>() { "Select...", "Bad Weather", "Breakdown", "Roadworks", "Out of Time", "Incident", "Access Blocked" };
             taskAllocationPage.VerifyElementVisibility(taskAllocationPage.ReasonConfirmMsg, true)
                 .VerifySelectContainDisplayValues(taskAllocationPage.ReasonSelect, reasons)
                 .SelectTextFromDropDown(taskAllocationPage.ReasonSelect, "Breakdown")
