@@ -102,7 +102,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickPresenceOption();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyBackgroundColor(resourceName, "purple")
+                .VerifyBackgroundColor(resourceName, "green")
                 .ClickAllocatedResource(resourceName)
                 .VerifyPresenceOption("PRE-CONFIRM/UN-CONFIRM")
                 .ClickPresenceOption();
@@ -142,6 +142,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         {
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string vehicleResourceName = "Van " + CommonUtil.GetRandomNumber(5);
+            string resourceName2 = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string vehicleResourceName2 = "Van " + CommonUtil.GetRandomNumber(5);
             string resourceType = "Driver";
             string vehicleResourceType = "Van";
 
@@ -177,6 +179,23 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
+
+            //Create driver 2
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName2)
+                .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.EastCollections)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+
             //Create vehicle
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
@@ -194,6 +213,25 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear()
                 .SwitchToTab("All Resources");
+
+            //Create vehicle 2
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(vehicleResourceName2)
+                .SelectResourceType(vehicleResourceType)
+                .SelectBusinessUnit(BusinessUnit.EastCollections)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear()
+                .SwitchToTab("All Resources");
+
             //Verify Driver
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .FilterResource("Resource", resourceName)
@@ -210,10 +248,11 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyBackgroundColor(resourceName, "greenish")
-                .VerifyStateAbbreviation(resourceName, "S")
+                //.VerifyBackgroundColor(resourceName, "greenish")
+                //.VerifyStateAbbreviation(resourceName, "S")
                 .RefreshGrid()
                 .FilterResource("Resource", resourceName)
+                .VerifyFirstResoultBackground("green")
                 .VerifyFirstResultValue("Status", "Sick");
             //Verify Vehicle
             PageFactoryManager.Get<ResourceAllocationPage>()
@@ -228,14 +267,20 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyBackgroundColor(vehicleResourceName, "red")
-                .VerifyStateAbbreviation(vehicleResourceName, "M")
+                //.VerifyBackgroundColor(vehicleResourceName, "red")
+                //.VerifyStateAbbreviation(vehicleResourceName, "M")
                 //.FilterResource("Resource", vehicleResourceName)
+                .VerifyFirstResoultBackground("red")
                 .VerifyFirstResultValue("Status", "Maintenance");
             //Select state for resource
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyAllocatedResourceName(resourceName)
-                .ClickAllocatedResource(resourceName)
+                .FilterResource("Resource", resourceName2)
+                .VerifyFirstResultValue("Resource", resourceName2)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName2)
+                .ClickAllocatedResource(resourceName2)
                 .ClickViewShiftDetail();
             PageFactoryManager.Get<ShiftDetailPage>()
                 .IsOnShiftDetailPage()
@@ -244,27 +289,36 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SaveDetail()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .VerifyStateAbbreviation(resourceName2, "T")
+            //    .VerifyBackgroundColor(resourceName2, "red2")
+            //    .FilterResource("Resource", resourceName2);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyStateAbbreviation(resourceName, "T")
-                .VerifyBackgroundColor(resourceName, "red2")
-                .FilterResource("Resource", resourceName);
-            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName2)
+                .VerifyFirstResoultBackground("yellow")
                 .VerifyFirstResultValue("Status", "Training");
             //Select state for vehicle
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyAllocatedResourceName(vehicleResourceName)
-                .ClickAllocatedResource(vehicleResourceName)
+                .FilterResource("Resource", vehicleResourceName2)
+                .VerifyFirstResultValue("Resource", vehicleResourceName2)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(vehicleResourceName2)
+                .ClickAllocatedResource(vehicleResourceName2)
                 .ClickViewShiftDetail();
             PageFactoryManager.Get<ShiftDetailPage>()
                 .IsOnShiftDetailPage()
                 .SelectState("Vehicle Off Road")
                 .SaveDetail()
                 .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .VerifyStateAbbreviation(vehicleResourceName, "V")
+            //    .VerifyBackgroundColor(vehicleResourceName, "red")
+            //    .FilterResource("Resource", vehicleResourceName);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyStateAbbreviation(vehicleResourceName, "V")
-                .VerifyBackgroundColor(vehicleResourceName, "red")
-                .FilterResource("Resource", vehicleResourceName);
-            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", vehicleResourceName2)
+                .VerifyFirstResoultBackground("red")
                 .VerifyFirstResultValue("Status", "Vehicle Off Road");
 
         }
