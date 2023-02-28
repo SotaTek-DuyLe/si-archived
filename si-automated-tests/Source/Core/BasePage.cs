@@ -845,7 +845,7 @@ namespace si_automated_tests.Source.Core
         }
 
         /// <summary>
-        /// because we can't get toast message on user screen so we temporary skip check message process. It will be recover in future
+        /// because we can't get toast message on user screen so we temporarily skip check message process. It will be recover in future
         /// </summary>
         /// <param name="message"></param>
         /// <param name="skipCheck"></param>
@@ -858,7 +858,7 @@ namespace si_automated_tests.Source.Core
         }
 
         /// <summary>
-        /// because we can't get toast message on user screen so we temporary skip check message process. It will be recover in future
+        /// because we can't get toast message on user screen so we temporarily skip check message process. It will be recover in future
         /// </summary>
         /// <param name="message"></param>
         /// <param name="skipCheck"></param>
