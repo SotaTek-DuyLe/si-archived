@@ -115,15 +115,16 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             detailTab.WaitForLoadingIconToDisappear();
             string invoiceAddress = "29 GEORGE STREET, RICHMOND, TW9 1HY";
             string billingRule = "Greater of Minimum or Actual";
+            bool skipCheck = false;
             detailTab.SelectTextFromDropDown(detailTab.InvoiceAddressSelect, invoiceAddress)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success")
-                .WaitUntilToastMessageInvisible("Success")
+                .VerifyToastMessageOnParty("Success", skipCheck)
+                .WaitUntilToastMessageInvisibleOnParty("Success", skipCheck)
                 .WaitForLoadingIconToDisappear();
             detailTab.SelectTextFromDropDown(detailTab.BillingRuleSelect, billingRule)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success")
-                .WaitUntilToastMessageInvisible("Success")
+                .VerifyToastMessageOnParty("Success", skipCheck)
+                .WaitUntilToastMessageInvisibleOnParty("Success", skipCheck)
                 .WaitForLoadingIconToDisappear()
                 .ClickCloseBtn()
                 .SwitchToFirstWindow()
