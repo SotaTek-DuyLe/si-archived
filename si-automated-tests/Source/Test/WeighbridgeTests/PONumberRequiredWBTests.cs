@@ -43,6 +43,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("PONumber")]
         [Test(Description = "Setup data test for PO number required tab"), Order(1)]
         public void SetupDataTest_Tab_PO_Number_Required()
         {
@@ -317,6 +318,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("PONumber")]
         [Test(Description = "Verify that user has to fill Po number when Purchase order number required is ticked."), Order(2)]
         public void TC_261_Tab_PO_Number_Required_Verify_That_User_Has_To_Fill_PO_Number_When_Purchase_Order_Number_Required_Is_Ticked()
         {
