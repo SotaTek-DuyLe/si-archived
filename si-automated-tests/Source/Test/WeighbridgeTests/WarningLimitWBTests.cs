@@ -366,7 +366,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             Assert.AreEqual(750, wBPartySettingVDBModels[0].creditlimitwarning);
 
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickOnDetailsTab()
+                .ClickAccountTab()
                 .WaitForLoadingIconToDisappear();
             //Step line 11: Change [Credit limit]
             PageFactoryManager.Get<DetailPartyPage>()
