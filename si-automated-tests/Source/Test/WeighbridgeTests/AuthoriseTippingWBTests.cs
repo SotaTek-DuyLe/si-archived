@@ -39,6 +39,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("AuthoriseTipping")]
         [Test(Description = "Set up data test for Authorise tipping tab"), Order(1)]
         public void SetupDataTest_Tab_authorise_tipping_tab()
         {
@@ -316,16 +317,17 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("AuthoriseTipping")]
         [Test(Description = "Verify that ticket can't be created for the customer with 'Never allow tipping' set. ON STOP button is not set"), Order(2)]
-        public void TC_261_Tab_Authrise_Tipping_Verify_that_ticket_can_not_be_created_for_the_customer_with_Never_Allow_Tipping_set_ON_STOP_button_is_not_set()
+        public void TC_261_Tab_Authorise_Tipping_Verify_that_ticket_can_not_be_created_for_the_customer_with_Never_Allow_Tipping_set_ON_STOP_button_is_not_set()
         {
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser83.UserName, AutoUser83.Password)
-                .IsOnHomePage(AutoUser83);
+                .Login(AutoUser84.UserName, AutoUser84.Password)
+                .IsOnHomePage(AutoUser84);
             //Open the party Id = partyCustomerId
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
@@ -433,16 +435,17 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("AuthoriseTipping")]
         [Test(Description = "Verify that ticket can be always created for customer with 'Always allow tipping' set"), Order(3)]
-        public void TC_261_Tab_Authrise_Tipping_Verify_that_ticket_can_be_always_created_for_customer_with_Always_allow_tipping_set()
+        public void TC_261_Tab_Authorise_Tipping_Verify_that_ticket_can_be_always_created_for_customer_with_Always_allow_tipping_set()
         {
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser83.UserName, AutoUser83.Password)
-                .IsOnHomePage(AutoUser83);
+                .Login(AutoUser84.UserName, AutoUser84.Password)
+                .IsOnHomePage(AutoUser84);
             //Open the party Id = partyCustomerId
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
@@ -501,9 +504,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
-                .AcceptAlert()
                 .SwitchToChildWindow(1);
             //Step line 17: Click on [Account] tab and Click on [ON STOP] btn
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .ClickAccountTab()
                 .CLickOnStopBtn()
@@ -550,16 +554,17 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("AuthoriseTipping")]
         [Test(Description = "Verify that ticket can't be created for the customer with 'Do not override on hold' set when click on [ON STOP] button"), Order(4)]
-        public void TC_261_Tab_Authrise_Tipping_Verify_that_ticket_can_not_be_created_for_customer_with_Do_not_override_on_hold_set()
+        public void TC_261_Tab_Authorise_Tipping_Verify_that_ticket_can_not_be_created_for_customer_with_Do_not_override_on_hold_set()
         {
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser83.UserName, AutoUser83.Password)
-                .IsOnHomePage(AutoUser83);
+                .Login(AutoUser84.UserName, AutoUser84.Password)
+                .IsOnHomePage(AutoUser84);
             //Open the party Id = partyCustomerId (PARTY is already OFF STOP)
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
@@ -614,8 +619,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .InputSecondDate()
                 .InputSecondWeight(2)
                 .ClickSaveBtn();
-            createNewTicketPage
-                .ClickOnNoWarningPopup();
             createNewTicketPage
                 .VerifyDisplayToastMessage(string.Format(MessageRequiredFieldConstants.CustomerIsOnStopMessage, partyNameCustomer, todayDate))
                 .WaitUntilToastMessageInvisible(string.Format(MessageRequiredFieldConstants.CustomerIsOnStopMessage, partyNameCustomer, todayDate))

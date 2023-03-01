@@ -16,4 +16,8 @@
         "name": "Automation Bug",
         "messageRegex": "(.*ArgumentOutOfRangeException.*)|(.*System.FormatException.*)"
     }
+    {
+        "name": "Click Action Intercepted",
+        "messageRegex": ".*ElementClickInterceptedException.*"
+    }
 ]

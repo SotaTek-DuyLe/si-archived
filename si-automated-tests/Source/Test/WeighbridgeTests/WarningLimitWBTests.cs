@@ -42,6 +42,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("WarningLimit")]
         [Test(Description = "Set up data test"), Order(1)]
         public void SetupDataTest_Tab_Warning_Limit()
         {
@@ -320,6 +321,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("WarningLimit")]
         [Test(Description = "Test ID = 1, 3, Verify that Warning limit is set up correctly for existing party and Warning limit can be modified"), Order(2)]
         public void TC_261_Tab_Warning_limit_existing_party_TestID_1_3()
         {
@@ -364,7 +366,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             Assert.AreEqual(750, wBPartySettingVDBModels[0].creditlimitwarning);
 
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickOnDetailsTab()
+                .ClickAccountTab()
                 .WaitForLoadingIconToDisappear();
             //Step line 11: Change [Credit limit]
             PageFactoryManager.Get<DetailPartyPage>()
@@ -414,6 +416,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("WarningLimit")]
         [Test(Description = "Test ID = 2, Verify that Warning limit is set up correctly for a new party"), Order(3)]
         public void TC_261_Tab_Warning_limit_a_new_party_TestID_2()
         {
@@ -502,6 +505,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("WarningLimit")]
         [Test(Description = "Test ID = 6, Verify that no warning limit is displayed when Warning limit is set to 0 "), Order(4)]
         public void TC_261_Tab_Warning_limit_TestID_6_No_warning_limit_is_displayed_when_warning_limit_is_set_to_0()
         {
@@ -571,6 +575,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("WarningLimit")]
         [Test(Description = "Test ID = 5, Verify that warning message is displayed when the customer’s Account Balance + WIP Balance >= Warning Limit. "), Order(5)]
         public void TC_261_Tab_Warning_limit_TestID_5_Warning_limit_a_new_party()
         {

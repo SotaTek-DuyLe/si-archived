@@ -40,6 +40,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("DriverNameRequired")]
         [Test(Description = "Set up data test"), Order(1)]
         public void SetupDataTest_Tab_Driver_Name_Required_()
         {
@@ -318,6 +319,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("DriverNameRequired")]
         [Test(Description = "Test ID = 1 Verify that when Driver name required user has to add the name"), Order(2)]
         public void TC_261_Tab_Driver_Name_Required_TestID_1_Verify_that_when_driver_name_required_user_has_to_add_the_name()
         {
@@ -404,6 +406,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("DriverNameRequired")]
         [Test(Description = "Test ID = 2 Verify that user doesn't have to enter the name when flag is not set"), Order(3)]
         public void TC_261_Tab_Driver_Name_Required_TestID_2_Verify_that_user_does_not_have_to_enter_the_name_when_flag_is_not_set()
         {

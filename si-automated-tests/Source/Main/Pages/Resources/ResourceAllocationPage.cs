@@ -81,6 +81,12 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string darkerRedBackground = "background-color: rgb(222, 16, 28);";
         private readonly string darkerGreenBackground = "background-color: rgb(132, 222, 150);";
 
+        private readonly string greenishBackgroundRgba = "rgba(132, 255, 182, 1)";
+        private readonly string redBackgroundRgba = "rgba(255, 49, 28, 1)";
+        private readonly string yellowBackgroundRgba = "rgba(255, 224, 152, 1)";
+        private readonly string yellwBackgroundRgba = "rgba(255, 224, 152, 1)";
+
+
         //Left Panel Default Allocation
         private readonly By roundScrollable = By.Id("rounds-scrollable");
         private readonly By roundGroups = By.XPath("//div[contains(@class,'layout-pane-west')]//tr[@class='round-group-dropdown']");
@@ -103,6 +109,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By headers = By.XPath("//div[contains(@class,'active')]//div[@class='ui-state-default slick-header-column slick-header-sortable ui-sortable-handle']/span[1]");
         private readonly By inputBoxes = By.XPath("//div[contains(@class,'active')]//div[@class='slick-headerrow ui-state-default']//*[contains(@class,'form-control')]");
         private readonly By firstResultFields = By.XPath("//div[contains(@class,'active')]//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
+        private readonly By firstResultRow = By.XPath("//div[contains(@class,'active')]//div[contains(@class,'ui-widget-content slick-row even')][1]");
         private readonly By tabLocator = By.XPath("//ul[@id='tabs']/li[not(contains(@class,'hide'))]/a");
 
         //business unit option
@@ -907,6 +914,27 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             var tabs = GetAllElements(tabLocator);
             Assert.AreEqual(1, tabs.Count);
             Assert.AreEqual("All Resources", tabs[0].Text);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage VerifyFirstResoultBackground(String color)
+        {
+            SleepTimeInSeconds(2);
+            WaitForLoadingIconToDisappear();
+            switch (color)
+            {
+                case "green":
+                    Assert.AreEqual(greenishBackgroundRgba, GetElement(firstResultRow).GetCssValue("background-color"));
+                    break;
+                case "red":
+                    Assert.AreEqual(redBackgroundRgba, GetElement(firstResultRow).GetCssValue("background-color"));
+                    break;
+                case "yellow":
+                    Assert.AreEqual(yellowBackgroundRgba, GetElement(firstResultRow).GetCssValue("background-color"));
+                    break;
+                default:
+                    break;
+            }
             return this;
         }
 

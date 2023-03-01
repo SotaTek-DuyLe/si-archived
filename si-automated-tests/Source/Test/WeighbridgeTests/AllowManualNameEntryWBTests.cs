@@ -41,6 +41,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("AllowManualNameEntry")]
         [Test(Description = "Set up data test for tab allow manual name entry"), Order(1)]
         public void SetupDataTest_Tab_Allow_Manual_Name_Entry()
         {
@@ -319,6 +320,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("AllowManualNameEntry")]
         [Test(Description = "Verify that user has the option to manually add a name/address for adhoc customer when Allow manual name entry is ticked"), Order(2)]
         public void TC_261_Tab_Allow_Manual_Name_Entry_Allow_Manual_Name_Entry_Is_Ticket() 
         {
@@ -419,9 +421,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .InputManualDestinationParty(manualDestinationParty)
                 .ClickAddTicketLineBtn()
                 .ClickProductDd()
-                .ClickAnyProductValue(product56)
+                .ClickAnyProductValue(outboundProduct)
                 //Verify Location
-                .VerifyLocationPrepolulated(outboundProduct)
+                .VerifyLocationPrepolulated(locationNameActive56)
                 //Mandatory field remaining
                 .InputFirstWeight(1)
                 .InputFirstDate()
@@ -503,6 +505,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
+        [Category("AllowManualNameEntry")]
         [Test(Description = "Verify that text field is not displayed  when Allow manual name entry is unticked"), Order(3)]
         public void TC_261_Tab_Allow_Manual_Name_Entry_Allow_Manual_Name_Entry_Is_Unticked()
         {
