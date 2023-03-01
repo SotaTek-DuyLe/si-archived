@@ -329,6 +329,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         [AllureStep]
         public CreateNewTicketPage VerifyValueInLicenceNumber(string licenceNumberValue)
         {
+            WaitUtil.WaitForElementVisible(licenceNumber);
             Assert.AreEqual(licenceNumberValue, GetAttributeValue(licenceNumber, "value"));
             return this;
         }

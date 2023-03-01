@@ -284,6 +284,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public DetailPartyPage CLickOffStopBtn()
         {
+            if(IsControlDisplayedNotThrowEx(OnStopButton))
+            {
+                CLickOnStopBtn();
+                WaitForLoadingIconToDisappear();
+                SleepTimeInSeconds(2);
+            }
             ClickOnElement(OffStopButton);
             return this;
         }

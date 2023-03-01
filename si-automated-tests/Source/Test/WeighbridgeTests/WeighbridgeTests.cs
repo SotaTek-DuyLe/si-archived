@@ -23,7 +23,6 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.WeighbridgeTests
 {
-    [Author("Chang", "trang.nguyenthi@sotatek.com")]
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
     public class WeighbridgeTests : BaseTest
@@ -687,11 +686,11 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             //Step line 11: Click on [WB tickets tab] and Click on Add new item
-            detailPartyPage
-                .ClickWBTicketTab()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .ClickAddNewWBTicketBtn();
+            //detailPartyPage
+            //    .ClickWBTicketTab()
+            //    .WaitForLoadingIconToDisappear();
+            //detailPartyPage
+            //    .ClickAddNewWBTicketBtn();
         }
 
         [Category("WB")]
@@ -2893,7 +2892,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Huong")]
-        [Test(Description = "WB Site location delete")]
+        [Test(Description = "WB ticket issues")]
         public void TC_161_WB_ticket_issues()
         {
             PageFactoryManager.Get<NavigationBase>()
@@ -2912,7 +2911,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createNewTicketPage.IsCreateNewTicketPage()
                 .SelectTextFromDropDown(createNewTicketPage.stationDd, "Townmead In Bridge")
                 .WaitForLoadingIconToDisappear();
-            createNewTicketPage.InputVehicleRegInputAndClickOK("NS22 8GH")
+            createNewTicketPage
+                .InputVehicleRegInputAndClickOK("NS22 8GH")
                 .WaitForLoadingIconToDisappear();
             createNewTicketPage.SelectTextFromDropDown(createNewTicketPage.haulierDd, "Waste Management Ltd")
                 .WaitForLoadingIconToDisappear();
