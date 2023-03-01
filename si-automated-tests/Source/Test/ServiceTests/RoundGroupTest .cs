@@ -24,7 +24,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
     public class RoundGroupTest : BaseTest
     {
         [Category("109_Add a Round Group")]
-        [Category("Huong")]
+        [Category("Huong_2")]
         [Test]
         public void TC_109_Add_Round_Group()
         {
@@ -74,7 +74,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("110_Add Round on a Round Group")]
-        [Category("Huong")]
+        [Category("Huong_2")]
         [Test]
         public void TC_110_Add_Round_on_a_Round_Group()
         {
@@ -138,7 +138,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("111_Add Default Resource on a Round Group")]
-        [Category("Huong")]
+        [Category("Huong_2")]
         [Test]
         public void TC_111_Add_Default_Resource_on_a_Round_Group()
         {
@@ -253,7 +253,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("113_Retire Default Resource on a Round Group")]
-        [Category("Huong")]
+        [Category("Huong_2")]
         [Test]
         public void TC_113_Retire_Default_Resource_on_a_Round_Group()
         {
@@ -294,7 +294,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
         }
 
         [Category("114_Add Default Resource on Round")]
-        [Category("Huong")]
+        [Category("Huong_2")]
         [Test]
         public void TC_114_Add_Default_Resource_on_a_Round()
         {
@@ -421,8 +421,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickExpandButton(index);
             Thread.Sleep(300);
             PageFactoryManager.Get<RoundGroupPage>()
-                .VerifyResourceDetailRow(index, 0, "Liz Tudor", false, "", "15/12/2021", "01/01/2050", true, false)
-                .ClickRetireDefaultResourceButton(index, "Liz Tudor")
+                .VerifyResourceDetailRow(index, 0, "Liz Tudor (E0854)", false, "", "15/12/2021", "01/01/2050", true, false)
+                .ClickRetireDefaultResourceButton(index, "Liz Tudor (E0854)")
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
                 .VerifyToastMessage("Success");
@@ -431,7 +431,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickExpandButton(index);
             Thread.Sleep(300);
             PageFactoryManager.Get<RoundGroupPage>()
-                .VerifyDetailDefaultResourceIsInVisible("Sweeper", "Liz Tudor")
+                .VerifyDetailDefaultResourceIsInVisible("Sweeper", "Liz Tudor (E0854)")
                 .ClickRetireButton("Sweeper")
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear()
@@ -786,10 +786,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
             roundInstancePage.ClickOnElement(roundInstancePage.StatusInput);
             roundInstancePage.SelectByDisplayValueOnUlElement(roundInstancePage.SelectDropdown, "Complete")
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             roundInstancePage.VerifyElementText(roundInstancePage.SelectedStatusText, "Complete")
                 .ClickCloseBtn()
-                .AceptAlertIfPresent()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
             roundGroupPage.ClickRefreshBtn()
@@ -806,7 +806,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             roundInstancePage.ClickOnElement(roundInstancePage.StatusInput);
             roundInstancePage.SelectByDisplayValueOnUlElement(roundInstancePage.SelectDropdown, "Delayed")
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             roundInstancePage.VerifyElementText(roundInstancePage.SelectedStatusText, "Delayed")
                 .ClickCloseBtn()
                 .SwitchToFirstWindow()
@@ -825,10 +826,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
             roundInstancePage.ClickOnElement(roundInstancePage.StatusInput);
             roundInstancePage.SelectByDisplayValueOnUlElement(roundInstancePage.SelectDropdown, "Not Done")
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             roundInstancePage.VerifyElementText(roundInstancePage.SelectedStatusText, "Not Done")
                 .ClickCloseBtn()
-                .AceptAlertIfPresent()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
             roundGroupPage.ClickRefreshBtn()
@@ -845,7 +846,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             roundInstancePage.ClickOnElement(roundInstancePage.StatusInput);
             roundInstancePage.SelectByDisplayValueOnUlElement(roundInstancePage.SelectDropdown, "In Progress")
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             roundInstancePage.VerifyElementText(roundInstancePage.SelectedStatusText, "In Progress")
                 .ClickCloseBtn()
                 .SwitchToFirstWindow()
