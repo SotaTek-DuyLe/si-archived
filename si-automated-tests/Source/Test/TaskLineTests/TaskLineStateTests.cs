@@ -52,7 +52,7 @@ namespace si_automated_tests.Source.Test.TaskLineTests
                 //Line 9: Click on [Detail] tab and set state = Completed
                 .ClickOnDetailTab()
                 .ClickOnTaskStateDd()
-                .SelectAnyTaskStateInDd("Completed")
+                .SelectAnyTaskStateInDd("Not Completed")
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
             DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
@@ -68,16 +68,16 @@ namespace si_automated_tests.Source.Test.TaskLineTests
             detailTaskPage
                 .ClickOnTaskLineTab()
                 .VerifyAllColumnInFirstRowDisabled()
-                .VerifyStateOfFirstRowInTaskLineTab("Completed")
+                .VerifyStateOfFirstRowInTaskLineTab("Not Completed")
                 .VerifyResoluctionCodeFirstRowInTaskLineTab("")
                 //Line 11: Verify [History] tab
                 .ClickOnHistoryTab()
                 .VerifyTitleTaskLineFirstServiceUpdate()
                 .VerifyTitleUpdate()
-                .VerifyHistoryTabUpdate(AutoUser51.DisplayName, timeUpdatedExp, completedDateDisplayed, "Completed", endDateDisplayed);
+                .VerifyHistoryTabUpdate(AutoUser51.DisplayName, timeUpdatedExp, completedDateDisplayed, "Not Completed", endDateDisplayed);
 
            detailTaskPage
-                .VerifyHistoryTabFirstAfterChangingStatus(AutoUser51.DisplayName, timeUpdatedExp, "1", "75", "Completed", "", completedDateDisplayed, "Manually Confirmed on Web");
+                .VerifyHistoryTabFirstAfterChangingStatus(AutoUser51.DisplayName, timeUpdatedExp, "0", "0", "Not Completed", "", completedDateDisplayed, "Manually Confirmed on Web");
             //Line 12: Run query to check => Need to config on master
             List<TaskLineDBModel> taskLineDBModels = finder.GetTaskLineByTaskId(int.Parse(taskId));
             int resolutioncodeId = taskLineDBModels[0].resolutioncodeID;

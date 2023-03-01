@@ -326,8 +326,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser83.UserName, AutoUser83.Password)
-                .IsOnHomePage(AutoUser83);
+                .Login(AutoUser84.UserName, AutoUser84.Password)
+                .IsOnHomePage(AutoUser84);
             //Open the party Id = partyCustomerId
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
@@ -444,8 +444,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser83.UserName, AutoUser83.Password)
-                .IsOnHomePage(AutoUser83);
+                .Login(AutoUser84.UserName, AutoUser84.Password)
+                .IsOnHomePage(AutoUser84);
             //Open the party Id = partyCustomerId
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
@@ -563,8 +563,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser83.UserName, AutoUser83.Password)
-                .IsOnHomePage(AutoUser83);
+                .Login(AutoUser84.UserName, AutoUser84.Password)
+                .IsOnHomePage(AutoUser84);
             //Open the party Id = partyCustomerId (PARTY is already OFF STOP)
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
