@@ -587,7 +587,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         }
 
         [Category("Resources")]
-        [Category("Huong")]
+        [Category("Huong_2")]
         [Test]
         public void TC_265_Leave_Entry_All_Resources_tab()
         {

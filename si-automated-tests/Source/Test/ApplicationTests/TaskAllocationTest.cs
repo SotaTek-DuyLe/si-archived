@@ -289,7 +289,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         }
 
         [Category("TaskAllocationTests")]
-        [Category("Huong")]
+        [Category("Huong_2")]
         [Test(Description = "190_A negative slot count appears on round from which the tasks were reallocated")]
         public void TC_190_A_negative_slot_count_appears_on_round_from_which_the_tasks_were_reallocated()
         {
