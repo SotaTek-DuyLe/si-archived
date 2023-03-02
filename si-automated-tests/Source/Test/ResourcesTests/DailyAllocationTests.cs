@@ -464,6 +464,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
         [Category("Resources")]
         [Category("Huong")]
+        [Category("Huong_2")]
         [Test]
         public void TC_192_Unable_to_navigate_to_round_instance_from_resource_calendar()
         {
@@ -848,6 +849,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
         [Category("Resources")]
         [Category("Huong")]
+        [Category("Huong_2")]
         [Test]
         public void TC_273_Daily_Allocation_Available_color_change()
         {
@@ -911,6 +913,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
         [Category("Resources")]
         [Category("Huong")]
+        [Category("Huong_2")]
         [Test]
         public void TC_272_Daily_Allocation_Dates_Overlap()
         {

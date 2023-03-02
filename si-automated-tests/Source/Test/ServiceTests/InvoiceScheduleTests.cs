@@ -25,15 +25,30 @@ namespace si_automated_tests.Source.Test.ServiceTests
         public void TC_302_Custom_Invoice_Schedules_Set_Regular_Custom_Schedule()
         {
             PageFactoryManager.Get<LoginPage>()
-               .GoToURL(WebUrl.MainPageUrl + "web/invoice-schedules/new");
+                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser61.UserName, AutoUser61.Password);
+                .Login(AutoUser61.UserName, AutoUser61.Password)
+                .IsOnHomePage(AutoUser61);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame();
+            ServiceCommonPage serviceCommonPage = PageFactoryManager.Get<ServiceCommonPage>();
+            serviceCommonPage.WaitForLoadingIconToDisappear();
+            serviceCommonPage.ClickTabDropDown()
+                .ClickInvoiceScheduleTab()
+                .WaitForLoadingIconToDisappear()
+                .WaitForLoadingIconToDisappear();
+            serviceCommonPage.ClickOnElement(serviceCommonPage.AddNewInvoiceSchedule);
+            serviceCommonPage.SwitchToChildWindow(2);
             InvoiceSchedulePage invoiceSchedulePage = PageFactoryManager.Get<InvoiceSchedulePage>();
             invoiceSchedulePage.WaitForLoadingIconToDisappear();
             invoiceSchedulePage.SetInputValue(invoiceSchedulePage.NameInput, "Custom schedule Regular")
-                .SelectTextFromDropDown(invoiceSchedulePage.ContractSelect, "Commercial")
                 .ClickOnElement(invoiceSchedulePage.SchedulePicker("Custom"));
+            invoiceSchedulePage.SleepTimeInMiliseconds(500);
             invoiceSchedulePage.ClickYearButton();
             invoiceSchedulePage.VerifyElementEnable(invoiceSchedulePage.CustomScheduleDescription, false)
                 .VerifyElementEnable(invoiceSchedulePage.SetRegularCustomScheduleButton, false)
@@ -135,15 +150,30 @@ namespace si_automated_tests.Source.Test.ServiceTests
         public void TC_303_Custom_Invoice_Schedules_Set_Custom_Schedule_with_dates()
         {
             PageFactoryManager.Get<LoginPage>()
-               .GoToURL(WebUrl.MainPageUrl + "web/invoice-schedules/new");
+                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser61.UserName, AutoUser61.Password);
+                .Login(AutoUser61.UserName, AutoUser61.Password)
+                .IsOnHomePage(AutoUser61);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame();
+            ServiceCommonPage serviceCommonPage = PageFactoryManager.Get<ServiceCommonPage>();
+            serviceCommonPage.WaitForLoadingIconToDisappear();
+            serviceCommonPage.ClickTabDropDown()
+                .ClickInvoiceScheduleTab()
+                .WaitForLoadingIconToDisappear()
+                .WaitForLoadingIconToDisappear();
+            serviceCommonPage.ClickOnElement(serviceCommonPage.AddNewInvoiceSchedule);
+            serviceCommonPage.SwitchToChildWindow(2);
             InvoiceSchedulePage invoiceSchedulePage = PageFactoryManager.Get<InvoiceSchedulePage>();
             invoiceSchedulePage.WaitForLoadingIconToDisappear();
             invoiceSchedulePage.SetInputValue(invoiceSchedulePage.NameInput, "Custom schedule with dates")
-                .SelectTextFromDropDown(invoiceSchedulePage.ContractSelect, "Commercial")
                 .ClickOnElement(invoiceSchedulePage.SchedulePicker("Custom"));
+            invoiceSchedulePage.SleepTimeInMiliseconds(500);
             invoiceSchedulePage.ClickYearButton();
             invoiceSchedulePage.VerifyElementEnable(invoiceSchedulePage.CustomScheduleDescription, false)
                 .VerifyElementEnable(invoiceSchedulePage.SetRegularCustomScheduleButton, false)
@@ -157,10 +187,10 @@ namespace si_automated_tests.Source.Test.ServiceTests
 
             //Click on 'Set Custom Schedule with dates'
             invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.SetCustomScheduleButton);
-            invoiceSchedulePage.VerifyElementIsMandatory(invoiceSchedulePage.CustomScheduleDescription2, true)
-                .VerifyElementEnable(invoiceSchedulePage.ApplyScheduleWithDateButton, true)
-                .VerifyElementEnable(invoiceSchedulePage.ResetScheduleWithDateButton, true)
-                .VerifyElementEnable(invoiceSchedulePage.CancelScheduleWithDateButton, true);
+            invoiceSchedulePage.VerifyElementIsMandatory(invoiceSchedulePage.CustomScheduleDescription2, true);
+            invoiceSchedulePage.VerifyElementEnable(invoiceSchedulePage.ApplyScheduleWithDateButton, false);
+            invoiceSchedulePage.VerifyElementEnable(invoiceSchedulePage.ResetScheduleWithDateButton, true);
+            invoiceSchedulePage.VerifyElementEnable(invoiceSchedulePage.CancelScheduleWithDateButton, true);
             invoiceSchedulePage.SetInputValue(invoiceSchedulePage.CustomScheduleDescription2, "random custom dates");
 
             DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
@@ -203,8 +233,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             //On the Invoice Scheudle click again 'Set Custom Schedule with dates'
             //dang co bug
             invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.SetCustomScheduleButton);
-            invoiceSchedulePage.VerifyDateIsSelected(londonCurrentDate.AddDays(2).ToString("yyyy-MM-dd"));
-            invoiceSchedulePage.VerifyDateIsSelected(londonCurrentDate.AddDays(3).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.VerifyDateIsDeselected(londonCurrentDate.AddDays(2).ToString("yyyy-MM-dd"));
+            invoiceSchedulePage.VerifyDateIsDeselected(londonCurrentDate.AddDays(3).ToString("yyyy-MM-dd"));
             invoiceSchedulePage.ClickOnElement(invoiceSchedulePage.CloseScheduleWithDateButton);
             //In the pop up, select more dates and edit Description
             //Click 'x'

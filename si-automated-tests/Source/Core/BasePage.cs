@@ -844,6 +844,32 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        /// <summary>
+        /// because we can't get toast message on user screen so we temporarily skip check message process. It will be recover in future
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="skipCheck"></param>
+        /// <returns></returns>
+        [AllureStep]
+        public BasePage VerifyToastMessageOnParty(string message, bool skipCheck)
+        {
+            if (!skipCheck) VerifyToastMessage(message);
+            return this;
+        }
+
+        /// <summary>
+        /// because we can't get toast message on user screen so we temporarily skip check message process. It will be recover in future
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="skipCheck"></param>
+        /// <returns></returns>
+        [AllureStep]
+        public BasePage WaitUntilToastMessageInvisibleOnParty(string message, bool skipCheck)
+        {
+            if (!skipCheck) WaitUntilToastMessageInvisible(message);
+            return this;
+        }
+
         //GET WARNING TEXT
         [AllureStep]
         public string GetToastMessage()

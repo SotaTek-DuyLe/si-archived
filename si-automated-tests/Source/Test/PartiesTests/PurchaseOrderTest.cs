@@ -50,7 +50,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 partyAgreementPage
                     .SelectAgreementType("Commercial Collections")
                     .ClickSaveBtn()
-                    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                    .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, false)
                     .WaitForLoadingIconToDisappear();
                 partyAgreementPage
                     .WaitForAgreementPageLoadedSuccessfully(agreementType, partyName)
@@ -120,7 +120,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                     .VerifyServicePanelPresent()
                     .VerifyAgreementLineFormHasGreenBorder()
                     .ClickSaveBtn()
-                    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                    .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, false)
                     .WaitForLoadingIconToDisappear();
                 partyAgreementPage
                     .VerifyServiceStartDate(DateTime.Now.ToString(CommonConstants.DATE_DD_MM_YYYY_FORMAT).Replace("-", "/"))

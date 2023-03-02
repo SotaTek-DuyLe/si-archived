@@ -47,6 +47,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         [Category("Add Suspension")]
         [Category("Huong")]
         [Test(Description = "Add new suspension")]
+        [Order(1)]
         public void TC_089_Add_New_Suspension()
         {
             int partyId = 73;
@@ -156,6 +157,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         [Category("Edit Suspension")]
         [Category("Huong")]
         [Test(Description = "Edit suspension")]
+        [Order(2)]
         public void TC_090_Edit_Suspension()
         {
             int partyId = 73;

@@ -43,6 +43,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             ServiceUnitPage serviceUnit = PageFactoryManager.Get<ServiceUnitPage>();
             serviceUnit.SwitchToFrame(serviceUnit.UnitIframe);
             serviceUnit.WaitForLoadingIconToDisappear();
+            serviceUnit.FindServiceUnitWithId("230038");
             serviceUnit.DoubleClickServiceUnitById("230038")
                        .SwitchToChildWindow(2);
 
