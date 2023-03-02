@@ -1470,7 +1470,7 @@ namespace si_automated_tests.Source.Test
         [Test(Description = "Regeneration of sales invoice batch is not recorded (bug fix)")]
         public void TC_208_Regeneration_of_sales_invoice_batch_is_not_recorded()
         {
-            string saleBatchIdGeneratedStatus = "6";
+            string saleBatchIdGeneratedStatus = "7";
 
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
