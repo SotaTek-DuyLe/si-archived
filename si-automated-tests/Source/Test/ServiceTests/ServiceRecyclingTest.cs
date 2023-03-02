@@ -170,11 +170,12 @@ namespace si_automated_tests.Source.Test.ServiceTests
             Random rnd = new Random();
             string assetValue = "Asset" + rnd.Next(10);
             string assetReferenceValue = "Asset Reference" + rnd.Next(10);
-            string assetType = "360L";
+            string assetType = "660L";
             string state = "On Site";
             string product = "Food";
             assetDetailItemPage.SendKeys(assetDetailItemPage.AssetInput, assetValue);
-            assetDetailItemPage.SelectTextFromDropDown(assetDetailItemPage.AssetTypeSelect, assetType)
+            assetDetailItemPage
+                .SelectTextFromDropDown(assetDetailItemPage.AssetTypeSelect, assetType)
                 .SelectTextFromDropDown(assetDetailItemPage.ProductSelect, product)
                 .SelectTextFromDropDown(assetDetailItemPage.StateSelect, state)
                 .SelectTextFromDropDown(assetDetailItemPage.AgreementLineSelect, "")
