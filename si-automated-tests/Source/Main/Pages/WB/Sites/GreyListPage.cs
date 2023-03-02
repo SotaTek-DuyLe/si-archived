@@ -17,6 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.WB
         private string GreyListVehicle = "./div[contains(@class, 'l2')]";
         private string GreyListTicket = "./div[contains(@class, 'l3')]";
         private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
+        private readonly By addNewItemLoadingBtn = By.XPath("//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
         private readonly By deleteItemBtn = By.XPath("//button[text()='Delete Item']");
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
         private readonly By filterInputByTicketNumber = By.XPath("//div[contains(@class, 'l3 r3')]/descendant::input");
@@ -40,8 +41,10 @@ namespace si_automated_tests.Source.Main.Pages.WB
         [AllureStep]
         public GreyListPage IsGreyListPage()
         {
+            WaitUtil.WaitForElementInvisible(addNewItemLoadingBtn);
             WaitUtil.WaitForElementVisible(addNewItemBtn);
             WaitUtil.WaitForElementVisible(deleteItemBtn);
+            WaitUtil.WaitForElementVisible(firstResult);
             return this;
         }
 
