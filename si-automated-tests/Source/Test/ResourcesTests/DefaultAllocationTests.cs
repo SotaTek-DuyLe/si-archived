@@ -207,7 +207,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
-                .ClickOnEndDate(2)
+                .ClickOnEndDate(-1)
                 .VerifyEndDateIsDefault()
                 .ExpandOption(-1)
                 .ClickOnLastSubEndDate()
@@ -230,7 +230,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
-                .ClickOnEndDate(2)
+                .ClickOnEndDate(-1)
                 .VerifyEndDateIsDefault()
                 .ExpandOption(-1)
                 .ClickOnLastSubEndDate()
