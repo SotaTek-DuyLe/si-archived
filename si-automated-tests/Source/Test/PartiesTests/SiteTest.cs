@@ -31,6 +31,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
     public class SiteTest : BaseTest
     {
         [Category("140_Task_Locked Tasks")]
+        [Category("Huong")]
         [Category("Huong_2")]
         [Test(Description = "Verify that Site form displays  'Lock' and 'Lock Reference' fields")]
         [Order(1)]
@@ -65,6 +66,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("140_Task_Locked Tasks")]
+        [Category("Huong")]
         [Category("Huong_2")]
         [Test(Description = "Verify that Service Unit form displays 'Lock' and 'Lock Reference' fields")]
         [Order(2)]
@@ -102,6 +104,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("140_Task_Locked Tasks")]
+        [Category("Huong")]
         [Category("Huong_2")]
         [Test(Description = "Verify that Site's  'locked' and 'Lock Reference' values are inherited by SU(s) created for this Site")]
         [Order(3)]
@@ -169,6 +172,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("140_Task_Locked Tasks")]
+        [Category("Huong")]
         [Category("Huong_2")]
         [Test(Description = "Verify that individual Service Unit (SU) can be unlocked ")]
         [Order(4)]
@@ -231,6 +235,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         }
 
         [Category("140_Task_Locked Tasks")]
+        [Category("Huong")]
         [Category("Huong_2")]
         [Test(Description = "Verify that if user attempts to reallocate Tasks which are locked (Task -> ServiceUnits.ISLocked = TRUE) from Round Instance in Core Round State other than 'Outstanding', then warning message will display")]
         [Order(5)]
