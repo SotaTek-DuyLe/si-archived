@@ -409,7 +409,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .VerifyFieldAfterBulkUpdate(topNote, timeNow, "Completed", timeNow, "");
             //Step 4: Line 53 - History tab
             string[] valueExpUpdateFirstTask = { topNote, timeNow, "Completed", timeNow };
-            string[] valueExpInServiceUpdateFirstTask = { "1", "1", "Completed", completedDateDDMMYYYY, "Manually Confirmed on Web"};
+            string[] valueExpInServiceUpdateFirstTask = { "1", "1", "Completed", "", completedDateDDMMYYYY, "Manually Confirmed on Web"};
 
             detailTaskPage
                 .ClickOnHistoryTab()
