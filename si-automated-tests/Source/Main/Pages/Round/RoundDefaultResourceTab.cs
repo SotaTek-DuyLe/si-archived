@@ -30,7 +30,15 @@ namespace si_automated_tests.Source.Main.Pages.Round
         public RoundDefaultResourceTab ClickOnEndDate(int whichRow)
         {
             IList<IWebElement> _endDates = WaitUtil.WaitForAllElementsVisible(endDates);
-            ClickOnElement(_endDates[whichRow - 1]);
+            if(whichRow == -1)
+            {
+                ClickOnElement(_endDates[_endDates.Count- 1]);
+            }
+            else
+            {
+                ClickOnElement(_endDates[whichRow - 1]);
+
+            }
             return this;
         }
         [AllureStep]
