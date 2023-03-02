@@ -86,7 +86,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyWindowClosed(1);
             eventListingPage
                 .ClickDeleteBtn()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(2);
             PageFactoryManager.Get<DeleteEventPage>()
                 .IsWarningPopup()
                 //Yes btn
