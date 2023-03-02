@@ -464,7 +464,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .WaitForLoadingIconToDisappear();
 
             List<IWebElement> availableRow = PageFactoryManager.Get<TaskTab>()
-               .VerifyNewTaskAppearWithNum(2, "Unallocated", "Remove Commercial Bin", date, "");
+               .VerifyNewTaskAppearWithNum(2, "Unallocated", "Remove Commercial Bin", tommorowDate, "");
             for (int i = 0; i < availableRow.Count; i++)
             {
                 PageFactoryManager.Get<TaskTab>()
