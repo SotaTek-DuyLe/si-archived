@@ -618,7 +618,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage VerifyAllocatingToast(List<string> expectedToasts)
         {
             VerifyToastMessages(expectedToasts);
-            expectedToasts.ForEach(t => WaitUntilToastMessageInvisible(t));
+            VerifyToastMessagesDisappear();
             return this;
         }
         [AllureStep]
