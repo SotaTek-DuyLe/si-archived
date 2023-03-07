@@ -3073,12 +3073,13 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             weighbridgeStationPage.WaitForLoadingIconToDisappear();
             weighbridgeStationPage.ClickOnElement(weighbridgeStationPage.WeighbridgeStationUserTab);
             weighbridgeStationPage.WaitForLoadingIconToDisappear();
+            weighbridgeStationPage.WaitForLoadingIconToDisappear();
             weighbridgeStationPage.ClickOnElement(weighbridgeStationPage.AddNewWeighbridgeButton);
             weighbridgeStationPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             WeighbridgeStationUserPage weighbridgeStationUserPage = PageFactoryManager.Get<WeighbridgeStationUserPage>();
             weighbridgeStationUserPage.ClickOnElement(weighbridgeStationUserPage.UserToggleDropdownButton);
-            weighbridgeStationUserPage.SendKeys(weighbridgeStationUserPage.SearchUserInput, "Neha");
+            weighbridgeStationUserPage.SendKeys(weighbridgeStationUserPage.SearchUserInput, "Ryan");
             weighbridgeStationUserPage.VerifyElementVisibility(weighbridgeStationUserPage.NoResultLabel, true);
             CommonFinder finder = new CommonFinder(DbContext);
             var inactiveUsers = finder.GetUserInActive();
