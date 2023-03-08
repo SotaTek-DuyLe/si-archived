@@ -156,7 +156,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPointDetail.ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //step 9: Update SUP type->Save
-            serviceUnitDetail.EditServiceUnitPoint(0, "Serviced Point", "")
+            serviceUnitDetail
+                .EditServiceUnitPoint(0, "Point of Service", "")
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear(false)
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
