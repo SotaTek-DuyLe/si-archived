@@ -71,6 +71,8 @@ namespace si_automated_tests.Source.Main.Pages.WB
             SendKeys(filterInputById, greylistId);
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(firstResult);
+            WaitForLoadingIconToDisappear();
+            SleepTimeInSeconds(2);
             ClickOnElement(selectAllCheckbox);
             DoubleClickOnElement(firstResult);
             return this;

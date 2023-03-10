@@ -494,6 +494,838 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyWBSettingTab();
         }
 
+
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "WB create party customer and haulier"), Order(3)]
+        public void TC_046_WB_Create_party_customer_and_haulier()
+        {
+            string partyNameTC046 = "Auto" + CommonUtil.GetRandomString(2);
+            //Create new party
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .ClickAddNewItem()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<CreatePartyPage>()
+                .IsCreatePartiesPopup(Contract.Commercial)
+                .SendKeyToThePartyInput(partyNameTC046)
+                .SelectPartyType(1)
+                .SelectPartyType(2)
+                .ClickSaveBtn();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                //.VerifyDisplaySuccessfullyMessage()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyNameTC046);
+            detailPartyPage
+                .ClickSaveBtn();
+            detailPartyPage
+                //.VerifyDisplayGreenBoderInLicenceNumberExField()
+                .VerifyDisplayYellowMesInLicenceNumberExField()
+                .InputLienceNumberExField(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .VerifyDisplayGreenBoderInLicenceNumberField()
+                .VerifyDisplayYellowMesInLicenceNumberField()
+                .InputLicenceNumber(CommonUtil.GetRandomNumber(5))
+                .ClickSaveBtn();
+            detailPartyPage
+                .VerifyDisplayMesInInvoiceAddressField()
+                .ClickOnAddInvoiceAddressBtn()
+                .SwitchToChildWindow(3);
+            PartySiteAddressPage partySiteAddressPage = PageFactoryManager.Get<PartySiteAddressPage>();
+            partySiteAddressPage.WaitForLoadingIconToDisappear();
+            partySiteAddressPage.IsOnPartySiteAddressPage()
+                .InputTextToSearchBar(address)
+                .ClickSearchBtn()
+                .VerifySearchedAddressAppear(address)
+                .ClickOnSearchedAddress(address)
+                .ClickOnNextButton()
+                .SwitchToLastWindow();
+            CreateEditSiteAddressPage createEditSiteAddressPage = PageFactoryManager.Get<CreateEditSiteAddressPage>();
+            createEditSiteAddressPage
+                .WaitForLoadingIconToDisappear();
+            addressAdded = createEditSiteAddressPage
+                .SelectRandomSiteAddress();
+            createEditSiteAddressPage
+                .SelectAddressClickNextBtn()
+                .InsertSiteName(addressSite1)
+                .ClickAnySiteInDd(siteName)
+                .ClickCreateBtn()
+                .SwitchToChildWindow(2);
+            detailPartyPage.WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .ClickCorresspondenAddress()
+                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
+                .SelectCreatedAddressInCorresspondenceAddress(addressAdded)
+                .VerifyAddressIsFilledAtInvoiceAddress(addressAdded)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            //.VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
+            //.WaitUntilToastMessageInvisible(MessageSuccessConstants.SavePartySuccessMessage);
+            detailPartyPage
+                .ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            List<SiteModel> siteModel = detailPartyPage
+                .GetAllSiteInList();
+            allSiteModel.Add(siteModel[0]);
+        }
+
+        //This TC depends on TC-45
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "WB create party haulier"), Order(4)]
+        public void TC_047_WB_Create_party_haulier()
+        {
+            //Create new party
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .ClickAddNewItem()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<CreatePartyPage>()
+                .IsCreatePartiesPopup(Contract.Commercial)
+                .SendKeyToThePartyInput(partyName047)
+                .SelectPartyType(2)
+                .ClickSaveBtn();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+               .WaitForDetailPartyPageLoadedSuccessfully(partyName047);
+            partyIdHaulier = detailPartyPage
+                .GetPartyId();
+            detailPartyPage
+                .ClickSaveBtn();
+            detailPartyPage
+                .VerifyDisplayYellowMesInLicenceNumberExField()
+                .VerifyForcusOnLicenceNumberExField()
+                .VerifyDisplayGreenBoderInLicenceNumberExField()
+                .InputLienceNumberExField(licenceExpHaulier)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .VerifyDisplayYellowMesInLicenceNumberField()
+                .VerifyForcusOnLicenceNumberField()
+                .VerifyDisplayGreenBoderInLicenceNumberField()
+                .ClickDownloadBtnAndVerify()
+                //Input LicenceNumber
+                .InputLicenceNumber(licenceNumberHaulier)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .VerifyDisplayMesInCorresspondenAddressField()
+                .ClickAddCorrespondenceAddress()
+                .SwitchToLastWindow();
+            //Test 7
+            PartySiteAddressPage partySiteAddressPage = PageFactoryManager.Get<PartySiteAddressPage>();
+            partySiteAddressPage.WaitForLoadingIconToDisappear();
+            partySiteAddressPage.IsOnPartySiteAddressPage()
+                .InputTextToSearchBar(address)
+                .ClickSearchBtn()
+                .VerifySearchedAddressAppear(address)
+                .ClickOnSearchedAddress(address)
+                .ClickOnNextButton()
+                .SwitchToLastWindow();
+            CreateEditSiteAddressPage createEditSiteAddressPage = PageFactoryManager.Get<CreateEditSiteAddressPage>();
+            createEditSiteAddressPage
+                .WaitForLoadingIconToDisappear();
+            string addressAdded = createEditSiteAddressPage.SelectRandomSiteAddress();
+            createEditSiteAddressPage.SelectAddressClickNextBtn()
+                .InsertSiteName(addressSite1)
+                .ClickAnySiteInDd(siteName)
+                .ClickCreateBtn()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
+                .ClickCorresspondenAddress()
+                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
+                .SelectCreatedAddressInCorresspondenceAddress(addressAdded)
+                .ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            List<SiteModel> siteModel = detailPartyPage
+                .GetAllSiteInList();
+            allSiteModel.Add(siteModel[0]);
+            detailPartyPage
+                .OpenFirstSiteRow()
+                .SwitchToChildWindow(3);
+            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
+            siteDetailPage
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, addressSite1 + " / " + addressAdded)
+                .VerifyDisplayAllTab(CommonConstants.AllSiteTabCase47)
+                .ClickDetailTab()
+                .ClickSomeTabAndVerifyNoErrorMessage()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            detailPartyPage
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+        }
+
+        //This TC depends on the TC-045, TC-046 and TC-047
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "WB Station"), Order(5)]
+        public void TC_048_WB_Station()
+        {
+            //Verify data in TC45, 46, 47 not apprear in WB Site
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Sites")
+                .SwitchNewIFrame();
+            SiteListingPage siteListingPage = PageFactoryManager.Get<SiteListingPage>();
+            List<SiteModel> siteModelsAfter = siteListingPage
+                .GetAllSiteDisplayed();
+            siteListingPage
+                .VerifySiteCreatedIsNotDisplayed(siteModelsAfter, allSiteModel, siteModelBefore)
+            //Back to the party customer in TC045
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(Int32.Parse(partyIdCustomer))
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName045)
+                .ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .OpenFirstSiteRow()
+                .SwitchToLastWindow();
+            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
+            siteDetailPage
+                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
+                //Station tab
+                .ClickStationTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .ClickAddNewStationItem()
+                .SwitchToLastWindow();
+            CreateStationPage createStationPage = PageFactoryManager.Get<CreateStationPage>();
+            createStationPage
+                .WaitForLoadingIconToDisappear();
+            createStationPage
+                .WaitForCreateStationPageLoaded("WEIGHBRIDGE STATION")
+                .IsCreateStationPage()
+                .ClickSaveBtn();
+            createStationPage
+                .VerifyDisplayErrorMesMissingTimezone()
+                .SelectTimezone("Europe/London")
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.NameRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.NameRequiredMessage);
+            //Missing message error name input => Fixed
+            createStationPage
+                .InputName(stationNameTC48)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            createStationPage
+                .SelectDefaultTicket("Incoming")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            siteDetailPage
+                .ClickStationTab()
+                .WaitForLoadingIconToDisappear();
+            //Get siteID
+            string siteID = siteDetailPage
+                .GetCurrentUrl()
+                .Replace(WebUrl.MainPageUrl + "web/sites/", "");
+            siteDetailPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            detailPartyPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Sites")
+                .SwitchNewIFrame();
+            siteListingPage
+                .FilterSiteById(siteID)
+                .WaitForLoadingIconToDisappear();
+            List<SiteModel> siteModelsNew = siteListingPage
+                .GetAllSiteDisplayed();
+            siteListingPage
+                .VerifyDisplayNewSite(siteModel045[0], siteModelsNew[0]);
+        }
+
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "WB VCH Human"), Order(6)]
+        public void TC_050_WB_VCH_Human()
+        {
+            string resourceName = "Auto WB50 " + CommonUtil.GetRandomNumber(2);
+            string resourceType = "Driver";
+            string businessUnit = "Collections - Recycling";
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .SelectBusinessUnit(businessUnit)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Vehicle_Customer_Haulier")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<VehicleCustomerHaulierPage>()
+                .VerifyVehicleCustomerHaulierPageDisplayed()
+                .ClickAddNewItemBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CreateVehicleCustomerHaulierPage>()
+                .IsCreateVehicleCustomerHaulierPage()
+                .VerifyDefaultMandatoryField()
+                //Input party customer from TC045
+                .InputCustomer(partyName045)
+                //Input party haulier from TC047
+                .InputHaulier(partyName047)
+                //Input human resource name
+                .InputHumanResourceName(resourceName)
+                //Verify not display suggestion
+                .VerifyNotDisplaySuggestionInResourceInput()
+                .ClickSaveBtn();
+            PageFactoryManager.Get<CreateVehicleCustomerHaulierPage>()
+                .VerifyDisplayResourceRequiredMessage();
+
+        }
+
+        //This TC depends on the TC-45, TC-47
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "WB VCH Vehicle"), Order(7)]
+        public void TC_051_WB_VCH_Vehicle()
+        {
+            resourceName = "Auto WB Van" + CommonUtil.GetRandomNumber(2);
+            string resourceType = "Van";
+            string vehicleNotActiveName = "COM7 NST";
+            string businessUnit = "Collections - Recycling";
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .SelectBusinessUnit(businessUnit)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            //Navigate to party detail in TC045
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(Int32.Parse(partyIdCustomer))
+                .OpenFirstResult()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName045)
+                //Create new Vehicle in Vehicles tab
+                .ClickOnVehicleTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .VerifyTableDisplayedInVehicle()
+                .ClickAddNewVehicleBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            AddVehiclePage addVehiclePage = PageFactoryManager.Get<AddVehiclePage>();
+            addVehiclePage
+                .IsCreateVehicleCustomerHaulierPage()
+                .VerifyDefaultMandatoryFieldAndDefaultValue(partyName045)
+                .ClickDefaultCustomerAddressDropdownAndVerify(addressAdded45)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageRequiredFieldConstants.ResourceRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.ResourceRequiredMessage);
+            addVehiclePage
+                .InputResourceName(vehicleNotActiveName)
+                .VerifyNotDisplaySuggestionInResourceInput()
+                .InputResourceName(resourceName)
+                .SelectResourceName(resourceName)
+                .InputHaulierName(partyName045)
+                .VerifyNotDisplaySuggestionInHaulierInput()
+                //Input haulier name in TC47
+                .InputHaulierName(partyName047)
+                .SelectHaulierName(partyName047)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SaveWBVCHRegistered)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            //Verify party customer
+            List<VehicleModel> allVehiclePartyCustomer = detailPartyPage
+                .GetAllVehicleModel();
+            detailPartyPage
+                .VerifyVehicleCreated(allVehiclePartyCustomer[0], resourceName, partyName045, partyName047, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonConstants.EndDateAgreement)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame();
+            //Verify party haulier
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(Int32.Parse(partyIdHaulier))
+                .OpenFirstResult()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName047)
+                .ClickOnVehicleTab()
+                .WaitForLoadingIconToDisappear();
+            List<VehicleModel> allVehiclePartyHaulier = detailPartyPage
+                .GetAllVehicleModel();
+            detailPartyPage
+                .VerifyVehicleCreated(allVehiclePartyHaulier[0], resourceName, partyName045, partyName047, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonConstants.EndDateAgreement)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            //Verify in Vehicle_Customer_Haulier
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Vehicle_Customer_Haulier")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            //Filter vehicleID
+            PageFactoryManager.Get<VehicleCustomerHaulierPage>()
+                .FilterVehicleById(allVehiclePartyHaulier[0].Id);
+            List<VehicleModel> allVehicleCustomerHaulier = PageFactoryManager.Get<VehicleCustomerHaulierPage>()
+                .VerifyVehicleCustomerHaulierPageDisplayed()
+                .GetAllVehicleModel();
+            detailPartyPage
+                .VerifyVehicleCreated(allVehicleCustomerHaulier[0], resourceName, partyName045, partyName047, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonConstants.EndDateAgreement);
+        }
+
+        //This TC depends on TC-45, TC-48
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "WB Location"), Order(8)]
+        public void TC_052_WB_Location()
+        {
+            string locationNameNotActive = "Location52WBNotActive" + CommonUtil.GetRandomNumber(2);
+            string clientRef = "Client" + CommonUtil.GetRandomNumber(2);
+
+            //Navigate to party detail in TC048
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(Int32.Parse(partyIdCustomer))
+                .OpenFirstResult()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName045)
+                .ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .OpenFirstSiteRow()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
+            siteDetailPage
+                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
+                .ClickOnLocationTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .VerifyDisplayColumnInGrid()
+                .ClickAddNewLocationItem()
+                .SwitchToLastWindow();
+            AddLocationPage addLocationPage = PageFactoryManager.Get<AddLocationPage>();
+            addLocationPage
+                .WaitForAddLocationPageLoaded()
+                .VerifyDisplayPartySitePage()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageRequiredFieldConstants.NameRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.NameRequiredMessage);
+            addLocationPage
+                .InputName(locationNameNotActive)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            siteDetailPage
+                .ClickAddNewLocationItem()
+                .SwitchToLastWindow();
+            addLocationPage
+                .WaitForAddLocationPageLoaded()
+                .VerifyDisplayPartySitePage()
+                .InputName(locationNameActive)
+                .SelectActiveCheckbox()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            addLocationPage
+                .VerifyActiveCheckboxSelected()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            //Verify in grid
+            List<LocationModel> allModels = siteDetailPage
+                .GetAllLocationInGrid();
+            siteDetailPage
+                .VerifyLocationCreated(allModels[0], locationNameActive, true, "")
+                .VerifyLocationCreated(allModels[1], locationNameNotActive, false, "");
+            siteDetailPage
+                .ClickAddNewLocationItem()
+                .SwitchToLastWindow();
+            addLocationPage
+                .WaitForAddLocationPageLoaded()
+                .VerifyDisplayPartySitePage()
+                .InputName(locationNameActive)
+                .SelectActiveCheckbox()
+                .InputClientName(clientRef)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            List<LocationModel> allModelsNew = siteDetailPage
+                .GetAllLocationInGrid();
+            siteDetailPage
+                .VerifyLocationCreated(allModelsNew[0], locationNameActive, true, clientRef);
+        }
+
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "WB Station No ticket type"), Order(9)]
+        public void TC_053_WB_Station_No_ticket_type()
+        {
+            string stationName = "AutoStation" + CommonUtil.GetRandomNumber(2);
+            //Back to the party customer in TC45
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(Int32.Parse(partyIdCustomer))
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName045)
+                .ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .OpenFirstSiteRow()
+                .SwitchToLastWindow();
+            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
+            siteDetailPage
+                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
+                .ClickStationTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .ClickAddNewStationItem()
+                .SwitchToLastWindow();
+            CreateStationPage createStationPage = PageFactoryManager.Get<CreateStationPage>();
+            createStationPage
+                .WaitForLoadingIconToDisappear();
+            createStationPage
+                .WaitForCreateStationPageLoaded("WEIGHBRIDGE STATION")
+                .IsCreateStationPage()
+                .ClickSaveBtn();
+            createStationPage
+                .VerifyDisplayErrorMesMissingTimezone()
+                .SelectTimezone("Europe/London")
+                .InputName(stationName)
+                .ClickSaveBtn()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            siteDetailPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            detailPartyPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Tickets")
+                .SwitchNewIFrame();
+            TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
+            ticketListingPage
+                .WaitForLoadingIconToDisappear();
+            ticketListingPage
+                .ClickAddNewTicketBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .VerifyDisplayVehicleType("Van")
+                .VerifyDisplayTicketTypeInput();
+        }
+
+
+        //This TC depends on the TC-045 and TC-47, TC-048, TC-051, TC-052
+        [Category("WB")]
+        [Category("Chang")]
+        [Test(Description = "WB Site product 1"), Order(10)]
+        public void TC_054_WB_Site_product_1()
+        {
+            string ticketType = "Incoming";
+            string neutralTicketType = "Neutral";
+            string outboundTicketType = "Outbound";
+            string neutralProduct = "Glass";
+            string outboundProduct = "General Recycling";
+
+            //Find party - Customer: TC045
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(Int32.Parse(partyIdCustomer))
+                .OpenFirstResult()
+                .SwitchToLastWindow();
+            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
+            detailPartyPage
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName045)
+                .ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .OpenFirstSiteRow()
+                .SwitchToLastWindow();
+            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
+            siteDetailPage
+                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
+                //==> Create new product TC54 - ticketType = Incomming
+                .ClickProductTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .VerifyDisplayColumnInProductTabGrid()
+                .ClickAddNewProductItem()
+                .SwitchToLastWindow();
+            AddProductPage addProductPage = PageFactoryManager.Get<AddProductPage>();
+            addProductPage
+                .WaitForAddProductPageDisplayed()
+                .IsAddProductPage()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageRequiredFieldConstants.ProductRequiredMessage);
+            //Select any product
+            addProductPage
+                .ClickAnyProduct(product)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageRequiredFieldConstants.TicketTypeRequiredMessage)
+                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.TicketTypeRequiredMessage);
+            //Select any ticket Type
+            addProductPage
+                .ClickAnyTicketType(ticketType)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            //==> Add new product with ticketType = Neutral
+            siteDetailPage
+                .ClickProductTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .VerifyDisplayColumnInProductTabGrid()
+                .ClickAddNewProductItem()
+                .SwitchToLastWindow();
+            addProductPage
+                .WaitForAddProductPageDisplayed()
+                .IsAddProductPage()
+                //Select any product
+                .ClickAnyProduct(neutralProduct)
+                //Select any ticket Type
+                .ClickAnyTicketType(neutralTicketType)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+            //==> Add new product with ticketType = Outbound
+            siteDetailPage
+                .ClickProductTab()
+                .WaitForLoadingIconToDisappear();
+            siteDetailPage
+                .VerifyDisplayColumnInProductTabGrid()
+                .ClickAddNewProductItem()
+                .SwitchToLastWindow();
+            addProductPage
+                .WaitForAddProductPageDisplayed()
+                .IsAddProductPage()
+                //Select any product
+                .ClickAnyProduct(outboundProduct)
+                //Select any ticket Type
+                .ClickAnyTicketType(outboundTicketType)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToChildWindow(3);
+
+            siteDetailPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            //Back to the WB ticket (same the TC053)
+            detailPartyPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1)
+                .SwitchNewIFrame()
+                .SwitchToDefaultContent();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Tickets")
+                .SwitchNewIFrame();
+            TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
+            ticketListingPage
+                .WaitForLoadingIconToDisappear();
+            ticketListingPage
+                .ClickAddNewTicketBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
+            createNewTicketPage
+                .IsCreateNewTicketPage()
+                .ClickStationDdAndSelectStation(stationNameTC48)
+                .WaitForLoadingIconToDisappear();
+            //Input resource name TC-051
+            createNewTicketPage
+                .VerifyDisplayVehicleRegInput()
+                .InputVehicleRegInput(resourceName)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                //Verify vehicle type field displayed
+                .VerifyDisplayVehicleType("Van")
+                //Verify Ticket Type field displayed
+                .VerifyDisplayTicketTypeInput()
+                .ClickTicketType()
+                .VerifyValueInTicketTypeDd()
+                //Select Ticket Type is the same with TicketType of the product
+                //===> TC063 - Select ticketType = Neutral and verify product displayed
+                .ClickAnyTicketType(neutralTicketType)
+                //Verify Haulie field displayed
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyName047)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                //Select Product created
+                .ClickProductDd()
+                .ClickAnyProductValue(neutralProduct)
+                .VerifyNoLocationIsPrepolulated()
+                .VerifyActiveLocationIsDisplayed(locationNameActive)
+                //===> TC063 - Select ticketType = Outbound and verify product displayed
+                .ClickTicketType()
+                .VerifyValueInTicketTypeDd()
+                .ClickAnyTicketType(outboundTicketType)
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyName047)
+                .WaitForLoadingIconToDisappear();
+            createNewTicketPage
+                .ClickAddTicketLineBtn()
+                //Select Product created
+                .ClickProductDd()
+                .ClickAnyProductValue(outboundProduct)
+                .VerifyNoLocationIsPrepolulated()
+                .VerifyActiveLocationIsDisplayed(locationNameActive)
+                //===> TC063 - Select ticketType = Incoming and verify product displayed
+                .ClickTicketType()
+                .VerifyValueInTicketTypeDd()
+                .ClickAnyTicketType(ticketType)
+                //Verify Haulie field displayed
+                .VerifyDisplayHaulierDd()
+                .ClickAnyHaulier(partyName047)
+                .WaitForLoadingIconToDisappear();
+            //Add ticket line
+            createNewTicketPage
+                .InputLicenceNumberExpDate()
+                .InputLicenceNumber()
+                .ClickAddTicketLineBtn()
+                //Select Product created
+                .ClickProductDd()
+                .ClickAnyProductValue(product)
+                //Verify Location
+                .VerifyNoLocationIsPrepolulated()
+                .VerifyActiveLocationIsDisplayed(locationNameActive)
+                //Mandatory field remaining
+                .InputFirstWeight(2)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(1)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+        }
+
         //BUG
         [Category("Bug fix")]
         [Category("Chang")]
@@ -695,7 +1527,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Licence number & expiry")]
+        [Test(Description = "Licence number & expiry"), Order(12)]
         public void TC_261_Licence_number_expiry_Step_1()
         {
             string partyNameHaulier = "TC261_PartyHaulier" + CommonUtil.GetRandomNumber(5);
@@ -968,6 +1800,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
         }
+
 
         [Category("WB")]
         [Category("Chang")]
@@ -1309,7 +2142,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Verify that Grey list can be created"), Order(12)]
+        [Test(Description = "Verify that Grey list can be created"), Order(11)]
         public void TC_260_Grey_lists_Verify_greylist_can_be_created()
         {
             CommonFinder commonFinder = new CommonFinder(DbContext);
@@ -2056,838 +2889,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Step line 45: Run query to check
             List<WBGreylistDBModel> wBGreylistDBModels = commonFinder.GetGreyListById(greylistCodeId);
             Assert.AreEqual(0, wBGreylistDBModels.Count);
-        }
-
-
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "WB create party customer and haulier"), Order(3)]
-        public void TC_046_WB_Create_party_customer_and_haulier()
-        {
-            string partyNameTC046 = "Auto" + CommonUtil.GetRandomString(2);
-            //Create new party
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<PartyCommonPage>()
-                .ClickAddNewItem()
-                .SwitchToChildWindow(2);
-            PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup(Contract.Commercial)
-                .SendKeyToThePartyInput(partyNameTC046)
-                .SelectPartyType(1)
-                .SelectPartyType(2)
-                .ClickSaveBtn();
-            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-            detailPartyPage
-                //.VerifyDisplaySuccessfullyMessage()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .WaitForDetailPartyPageLoadedSuccessfully(partyNameTC046);
-            detailPartyPage
-                .ClickSaveBtn();
-            detailPartyPage
-                //.VerifyDisplayGreenBoderInLicenceNumberExField()
-                .VerifyDisplayYellowMesInLicenceNumberExField()
-                .InputLienceNumberExField(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .VerifyDisplayGreenBoderInLicenceNumberField()
-                .VerifyDisplayYellowMesInLicenceNumberField()
-                .InputLicenceNumber(CommonUtil.GetRandomNumber(5))
-                .ClickSaveBtn();
-            detailPartyPage
-                .VerifyDisplayMesInInvoiceAddressField()
-                .ClickOnAddInvoiceAddressBtn()
-                .SwitchToChildWindow(3);
-            PartySiteAddressPage partySiteAddressPage = PageFactoryManager.Get<PartySiteAddressPage>();
-            partySiteAddressPage.WaitForLoadingIconToDisappear();
-            partySiteAddressPage.IsOnPartySiteAddressPage()
-                .InputTextToSearchBar(address)
-                .ClickSearchBtn()
-                .VerifySearchedAddressAppear(address)
-                .ClickOnSearchedAddress(address)
-                .ClickOnNextButton()
-                .SwitchToLastWindow();
-            CreateEditSiteAddressPage createEditSiteAddressPage = PageFactoryManager.Get<CreateEditSiteAddressPage>();
-            createEditSiteAddressPage
-                .WaitForLoadingIconToDisappear();
-            addressAdded = createEditSiteAddressPage
-                .SelectRandomSiteAddress();
-            createEditSiteAddressPage
-                .SelectAddressClickNextBtn()
-                .InsertSiteName(addressSite1)
-                .ClickAnySiteInDd(siteName)
-                .ClickCreateBtn()
-                .SwitchToChildWindow(2);
-            detailPartyPage.WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .ClickCorresspondenAddress()
-                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
-                .SelectCreatedAddressInCorresspondenceAddress(addressAdded)
-                .VerifyAddressIsFilledAtInvoiceAddress(addressAdded)
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-                //.VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
-                //.WaitUntilToastMessageInvisible(MessageSuccessConstants.SavePartySuccessMessage);
-            detailPartyPage
-                .ClickOnSitesTab()
-                .WaitForLoadingIconToDisappear();
-            List<SiteModel> siteModel = detailPartyPage
-                .GetAllSiteInList();
-            allSiteModel.Add(siteModel[0]);
-        }
-
-        //This TC depends on TC-45
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "WB create party haulier"), Order(5)]
-        public void TC_047_WB_Create_party_haulier()
-        {
-            //Create new party
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<PartyCommonPage>()
-                .ClickAddNewItem()
-                .SwitchToChildWindow(2);
-            PageFactoryManager.Get<CreatePartyPage>()
-                .IsCreatePartiesPopup(Contract.Commercial)
-                .SendKeyToThePartyInput(partyName047)
-                .SelectPartyType(2)
-                .ClickSaveBtn();
-            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-            detailPartyPage
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-               .WaitForDetailPartyPageLoadedSuccessfully(partyName047);
-            partyIdHaulier = detailPartyPage
-                .GetPartyId();
-            detailPartyPage
-                .ClickSaveBtn();
-            detailPartyPage
-                .VerifyDisplayYellowMesInLicenceNumberExField()
-                .VerifyForcusOnLicenceNumberExField()
-                .VerifyDisplayGreenBoderInLicenceNumberExField()
-                .InputLienceNumberExField(licenceExpHaulier)
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .VerifyDisplayYellowMesInLicenceNumberField()
-                .VerifyForcusOnLicenceNumberField()
-                .VerifyDisplayGreenBoderInLicenceNumberField()
-                .ClickDownloadBtnAndVerify()
-                //Input LicenceNumber
-                .InputLicenceNumber(licenceNumberHaulier)
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .VerifyDisplayMesInCorresspondenAddressField()
-                .ClickAddCorrespondenceAddress()
-                .SwitchToLastWindow();
-            //Test 7
-            PartySiteAddressPage partySiteAddressPage = PageFactoryManager.Get<PartySiteAddressPage>();
-            partySiteAddressPage.WaitForLoadingIconToDisappear();
-            partySiteAddressPage.IsOnPartySiteAddressPage()
-                .InputTextToSearchBar(address)
-                .ClickSearchBtn()
-                .VerifySearchedAddressAppear(address)
-                .ClickOnSearchedAddress(address)
-                .ClickOnNextButton()
-                .SwitchToLastWindow();
-            CreateEditSiteAddressPage createEditSiteAddressPage = PageFactoryManager.Get<CreateEditSiteAddressPage>();
-            createEditSiteAddressPage
-                .WaitForLoadingIconToDisappear();
-            string addressAdded = createEditSiteAddressPage.SelectRandomSiteAddress();
-            createEditSiteAddressPage.SelectAddressClickNextBtn()
-                .InsertSiteName(addressSite1)
-                .ClickAnySiteInDd(siteName)
-                .ClickCreateBtn()
-                .SwitchToChildWindow(2)
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
-                .ClickCorresspondenAddress()
-                .VerifyCreatedSiteAddressAppearAtAddress(addressAdded)
-                .SelectCreatedAddressInCorresspondenceAddress(addressAdded)
-                .ClickOnSitesTab()
-                .WaitForLoadingIconToDisappear();
-            List<SiteModel> siteModel = detailPartyPage
-                .GetAllSiteInList();
-            allSiteModel.Add(siteModel[0]);
-            detailPartyPage
-                .OpenFirstSiteRow()
-                .SwitchToChildWindow(3);
-            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
-            siteDetailPage
-                .WaitForLoadingIconToDisappear();
-            siteDetailPage
-                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, addressSite1 + " / " + addressAdded)
-                .VerifyDisplayAllTab(CommonConstants.AllSiteTabCase47)
-                .ClickDetailTab()
-                .ClickSomeTabAndVerifyNoErrorMessage()
-                .ClickCloseBtn()
-                .SwitchToChildWindow(2);
-            detailPartyPage
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-        }
-
-        //This TC depends on the TC-045, TC-046 and TC-047
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "WB Station"), Order(6)]
-        public void TC_048_WB_Station()
-        {
-            //Verify data in TC45, 46, 47 not apprear in WB Site
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Weighbridge)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption("Sites")
-                .SwitchNewIFrame();
-            SiteListingPage siteListingPage = PageFactoryManager.Get<SiteListingPage>();
-            List<SiteModel> siteModelsAfter = siteListingPage
-                .GetAllSiteDisplayed();
-            siteListingPage
-                .VerifySiteCreatedIsNotDisplayed(siteModelsAfter, allSiteModel, siteModelBefore)
-            //Back to the party customer in TC045
-                .SwitchToDefaultContent();
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<PartyCommonPage>()
-                .FilterPartyById(Int32.Parse(partyIdCustomer))
-                .OpenFirstResult()
-                .SwitchToLastWindow();
-            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-            detailPartyPage
-                .WaitForDetailPartyPageLoadedSuccessfully(partyName045)
-                .ClickOnSitesTab()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .OpenFirstSiteRow()
-                .SwitchToLastWindow();
-            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
-            siteDetailPage
-                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
-                //Station tab
-                .ClickStationTab()
-                .WaitForLoadingIconToDisappear();
-            siteDetailPage
-                .ClickAddNewStationItem()
-                .SwitchToLastWindow();
-            CreateStationPage createStationPage = PageFactoryManager.Get<CreateStationPage>();
-            createStationPage
-                .WaitForLoadingIconToDisappear();
-            createStationPage
-                .WaitForCreateStationPageLoaded("WEIGHBRIDGE STATION")
-                .IsCreateStationPage()
-                .ClickSaveBtn();
-            createStationPage
-                .VerifyDisplayErrorMesMissingTimezone()
-                .SelectTimezone("Europe/London")
-                .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.NameRequiredMessage)
-                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.NameRequiredMessage);
-            //Missing message error name input => Fixed
-            createStationPage
-                .InputName(stationNameTC48)
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-            createStationPage
-                .SelectDefaultTicket("Incoming")
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickStationTab()
-                .WaitForLoadingIconToDisappear();
-            //Get siteID
-            string siteID = siteDetailPage
-                .GetCurrentUrl()
-                .Replace(WebUrl.MainPageUrl + "web/sites/", "");
-            siteDetailPage
-                .ClickCloseBtn()
-                .SwitchToChildWindow(2);
-            detailPartyPage
-                .ClickCloseBtn()
-                .SwitchToChildWindow(1)
-                .SwitchNewIFrame()
-                .SwitchToDefaultContent();
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Weighbridge)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption("Sites")
-                .SwitchNewIFrame();
-            siteListingPage
-                .FilterSiteById(siteID)
-                .WaitForLoadingIconToDisappear();
-            List<SiteModel> siteModelsNew = siteListingPage
-                .GetAllSiteDisplayed();
-            siteListingPage
-                .VerifyDisplayNewSite(siteModel045[0], siteModelsNew[0]);
-        }
-
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "WB VCH Human"), Order(7)]
-        public void TC_050_WB_VCH_Human()
-        {
-            string resourceName = "Auto WB50 " + CommonUtil.GetRandomNumber(2);
-            string resourceType = "Driver";
-            string businessUnit = "Collections - Recycling";
-
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Resources)
-                .OpenOption(Contract.Commercial)
-                .SwitchNewIFrame()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .ClickAddNewItem()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<ResourceDetailTab>()
-                .IsOnDetailTab()
-                .InputResourceName(resourceName)
-                .SelectResourceType(resourceType)
-                .SelectBusinessUnit(businessUnit)
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(1)
-                .SwitchNewIFrame()
-                .SwitchToDefaultContent();
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Resources)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption("Vehicle_Customer_Haulier")
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<VehicleCustomerHaulierPage>()
-                .VerifyVehicleCustomerHaulierPageDisplayed()
-                .ClickAddNewItemBtn()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<CreateVehicleCustomerHaulierPage>()
-                .IsCreateVehicleCustomerHaulierPage()
-                .VerifyDefaultMandatoryField()
-                //Input party customer from TC045
-                .InputCustomer(partyName045)
-                //Input party haulier from TC047
-                .InputHaulier(partyName047)
-                //Input human resource name
-                .InputHumanResourceName(resourceName)
-                //Verify not display suggestion
-                .VerifyNotDisplaySuggestionInResourceInput()
-                .ClickSaveBtn();
-            PageFactoryManager.Get<CreateVehicleCustomerHaulierPage>()
-                .VerifyDisplayResourceRequiredMessage();
-
-        }
-
-        //This TC depends on the TC-45, TC-47
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "WB VCH Vehicle"), Order(8)]
-        public void TC_051_WB_VCH_Vehicle()
-        {
-            resourceName = "Auto WB Van" + CommonUtil.GetRandomNumber(2);
-            string resourceType = "Van";
-            string vehicleNotActiveName = "COM7 NST";
-            string businessUnit = "Collections - Recycling";
-
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Resources)
-                .OpenOption(Contract.Commercial)
-                .SwitchNewIFrame()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .ClickAddNewItem()
-                .SwitchToLastWindow();
-            PageFactoryManager.Get<ResourceDetailTab>()
-                .IsOnDetailTab()
-                .InputResourceName(resourceName)
-                .SelectResourceType(resourceType)
-                .SelectBusinessUnit(businessUnit)
-                .TickContractRoam()
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(1)
-                .SwitchNewIFrame()
-                .SwitchToDefaultContent();
-            //Navigate to party detail in TC045
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PartyCommonPage>()
-                .FilterPartyById(Int32.Parse(partyIdCustomer))
-                .OpenFirstResult()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-            detailPartyPage
-                .WaitForDetailPartyPageLoadedSuccessfully(partyName045)
-                //Create new Vehicle in Vehicles tab
-                .ClickOnVehicleTab()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .VerifyTableDisplayedInVehicle()
-                .ClickAddNewVehicleBtn()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            AddVehiclePage addVehiclePage = PageFactoryManager.Get<AddVehiclePage>();
-            addVehiclePage
-                .IsCreateVehicleCustomerHaulierPage()
-                .VerifyDefaultMandatoryFieldAndDefaultValue(partyName045)
-                .ClickDefaultCustomerAddressDropdownAndVerify(addressAdded45)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageRequiredFieldConstants.ResourceRequiredMessage)
-                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.ResourceRequiredMessage);
-            addVehiclePage
-                .InputResourceName(vehicleNotActiveName)
-                .VerifyNotDisplaySuggestionInResourceInput()
-                .InputResourceName(resourceName)
-                .SelectResourceName(resourceName)
-                .InputHaulierName(partyName045)
-                .VerifyNotDisplaySuggestionInHaulierInput()
-                //Input haulier name in TC47
-                .InputHaulierName(partyName047)
-                .SelectHaulierName(partyName047)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveWBVCHRegistered)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(2);
-            //Verify party customer
-            List<VehicleModel> allVehiclePartyCustomer = detailPartyPage
-                .GetAllVehicleModel();
-            detailPartyPage
-                .VerifyVehicleCreated(allVehiclePartyCustomer[0], resourceName, partyName045, partyName047, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonConstants.EndDateAgreement)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(1)
-                .SwitchNewIFrame();
-            //Verify party haulier
-            PageFactoryManager.Get<PartyCommonPage>()
-                .FilterPartyById(Int32.Parse(partyIdHaulier))
-                .OpenFirstResult()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .WaitForDetailPartyPageLoadedSuccessfully(partyName047)
-                .ClickOnVehicleTab()
-                .WaitForLoadingIconToDisappear();
-            List<VehicleModel> allVehiclePartyHaulier = detailPartyPage
-                .GetAllVehicleModel();
-            detailPartyPage
-                .VerifyVehicleCreated(allVehiclePartyHaulier[0], resourceName, partyName045, partyName047, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonConstants.EndDateAgreement)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(1)
-                .SwitchNewIFrame()
-                .SwitchToDefaultContent();
-            //Verify in Vehicle_Customer_Haulier
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Resources)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption("Vehicle_Customer_Haulier")
-                .SwitchNewIFrame()
-                .WaitForLoadingIconToDisappear();
-            //Filter vehicleID
-            PageFactoryManager.Get<VehicleCustomerHaulierPage>()
-                .FilterVehicleById(allVehiclePartyHaulier[0].Id);
-            List<VehicleModel> allVehicleCustomerHaulier = PageFactoryManager.Get<VehicleCustomerHaulierPage>()
-                .VerifyVehicleCustomerHaulierPageDisplayed()
-                .GetAllVehicleModel();
-            detailPartyPage
-                .VerifyVehicleCreated(allVehicleCustomerHaulier[0], resourceName, partyName045, partyName047, CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonConstants.EndDateAgreement);
-        }
-
-        //This TC depends on TC-45, TC-48
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "WB Location"), Order(9)]
-        public void TC_052_WB_Location()
-        {
-            string locationNameNotActive = "Location52WBNotActive" + CommonUtil.GetRandomNumber(2);
-            string clientRef = "Client" + CommonUtil.GetRandomNumber(2);
-
-            //Navigate to party detail in TC048
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PartyCommonPage>()
-                .FilterPartyById(Int32.Parse(partyIdCustomer))
-                .OpenFirstResult()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-            detailPartyPage
-                .WaitForDetailPartyPageLoadedSuccessfully(partyName045)
-                .ClickOnSitesTab()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .OpenFirstSiteRow()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
-            siteDetailPage
-                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
-                .ClickOnLocationTab()
-                .WaitForLoadingIconToDisappear();
-            siteDetailPage
-                .VerifyDisplayColumnInGrid()
-                .ClickAddNewLocationItem()
-                .SwitchToLastWindow();
-            AddLocationPage addLocationPage = PageFactoryManager.Get<AddLocationPage>();
-            addLocationPage
-                .WaitForAddLocationPageLoaded()
-                .VerifyDisplayPartySitePage()
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageRequiredFieldConstants.NameRequiredMessage)
-                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.NameRequiredMessage);
-            addLocationPage
-                .InputName(locationNameNotActive)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickAddNewLocationItem()
-                .SwitchToLastWindow();
-            addLocationPage
-                .WaitForAddLocationPageLoaded()
-                .VerifyDisplayPartySitePage()
-                .InputName(locationNameActive)
-                .SelectActiveCheckbox()
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-            addLocationPage
-                .VerifyActiveCheckboxSelected()
-                .ClickCloseBtn()
-                .SwitchToChildWindow(3);
-            //Verify in grid
-            List<LocationModel> allModels = siteDetailPage
-                .GetAllLocationInGrid();
-            siteDetailPage
-                .VerifyLocationCreated(allModels[0], locationNameActive, true, "")
-                .VerifyLocationCreated(allModels[1], locationNameNotActive, false, "");
-            siteDetailPage
-                .ClickAddNewLocationItem()
-                .SwitchToLastWindow();
-            addLocationPage
-                .WaitForAddLocationPageLoaded()
-                .VerifyDisplayPartySitePage()
-                .InputName(locationNameActive)
-                .SelectActiveCheckbox()
-                .InputClientName(clientRef)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(3);
-            List<LocationModel> allModelsNew = siteDetailPage
-                .GetAllLocationInGrid();
-            siteDetailPage
-                .VerifyLocationCreated(allModelsNew[0], locationNameActive, true, clientRef);
-        }
-
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "WB Station No ticket type"), Order(10)]
-        public void TC_053_WB_Station_No_ticket_type()
-        {
-            string stationName = "AutoStation" + CommonUtil.GetRandomNumber(2);
-            //Back to the party customer in TC45
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PartyCommonPage>()
-                .FilterPartyById(Int32.Parse(partyIdCustomer))
-                .OpenFirstResult()
-                .SwitchToLastWindow();
-            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-            detailPartyPage
-                .WaitForDetailPartyPageLoadedSuccessfully(partyName045)
-                .ClickOnSitesTab()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .OpenFirstSiteRow()
-                .SwitchToLastWindow();
-            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
-            siteDetailPage
-                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
-                .ClickStationTab()
-                .WaitForLoadingIconToDisappear();
-            siteDetailPage
-                .ClickAddNewStationItem()
-                .SwitchToLastWindow();
-            CreateStationPage createStationPage = PageFactoryManager.Get<CreateStationPage>();
-            createStationPage
-                .WaitForLoadingIconToDisappear();
-            createStationPage
-                .WaitForCreateStationPageLoaded("WEIGHBRIDGE STATION")
-                .IsCreateStationPage()
-                .ClickSaveBtn();
-            createStationPage
-                .VerifyDisplayErrorMesMissingTimezone()
-                .SelectTimezone("Europe/London")
-                .InputName(stationName)
-                .ClickSaveBtn()
-                .ClickCloseBtn()
-                .SwitchToChildWindow(3);
-            siteDetailPage
-                .ClickCloseBtn()
-                .SwitchToChildWindow(2);
-            detailPartyPage
-                .ClickCloseBtn()
-                .SwitchToChildWindow(1)
-                .SwitchNewIFrame()
-                .SwitchToDefaultContent();
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Weighbridge)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption("Tickets")
-                .SwitchNewIFrame();
-            TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
-            ticketListingPage
-                .WaitForLoadingIconToDisappear();
-            ticketListingPage
-                .ClickAddNewTicketBtn()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
-            createNewTicketPage
-                .IsCreateNewTicketPage()
-                .ClickStationDdAndSelectStation(stationName)
-                .WaitForLoadingIconToDisappear();
-            createNewTicketPage
-                .VerifyDisplayVehicleRegInput()
-                .InputVehicleRegInput(resourceName)
-                .WaitForLoadingIconToDisappear();
-            createNewTicketPage
-                .VerifyDisplayVehicleType("Van")
-                .VerifyDisplayTicketTypeInput();
-        }
-
-
-        //This TC depends on the TC-045 and TC-47, TC-048, TC-051, TC-052
-        [Category("WB")]
-        [Category("Chang")]
-        [Test(Description = "WB Site product 1"), Order(11)]
-        public void TC_054_WB_Site_product_1()
-        {
-            string ticketType = "Incoming";
-            string neutralTicketType = "Neutral";
-            string outboundTicketType = "Outbound";
-            string neutralProduct = "Glass";
-            string outboundProduct = "General Recycling";
-
-            //Find party - Customer: TC045
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Parties)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption(MainOption.Parties)
-                .SwitchNewIFrame()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PartyCommonPage>()
-                .FilterPartyById(Int32.Parse(partyIdCustomer))
-                .OpenFirstResult()
-                .SwitchToLastWindow();
-            DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
-            detailPartyPage
-                .WaitForDetailPartyPageLoadedSuccessfully(partyName045)
-                .ClickOnSitesTab()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .OpenFirstSiteRow()
-                .SwitchToLastWindow();
-            SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
-            siteDetailPage
-                .WaitForSiteDetailsLoaded(CommonConstants.WBSiteName, siteName45 + " / " + addressAdded45)
-                //==> Create new product TC54 - ticketType = Incomming
-                .ClickProductTab()
-                .WaitForLoadingIconToDisappear();
-            siteDetailPage
-                .VerifyDisplayColumnInProductTabGrid()
-                .ClickAddNewProductItem()
-                .SwitchToLastWindow();
-            AddProductPage addProductPage = PageFactoryManager.Get<AddProductPage>();
-            addProductPage
-                .WaitForAddProductPageDisplayed()
-                .IsAddProductPage()
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageRequiredFieldConstants.ProductRequiredMessage);
-            //Select any product
-            addProductPage
-                .ClickAnyProduct(product)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageRequiredFieldConstants.TicketTypeRequiredMessage)
-                .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.TicketTypeRequiredMessage);
-            //Select any ticket Type
-            addProductPage
-                .ClickAnyTicketType(ticketType)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(3);
-            //==> Add new product with ticketType = Neutral
-            siteDetailPage
-                .ClickProductTab()
-                .WaitForLoadingIconToDisappear();
-            siteDetailPage
-                .VerifyDisplayColumnInProductTabGrid()
-                .ClickAddNewProductItem()
-                .SwitchToLastWindow();
-            addProductPage
-                .WaitForAddProductPageDisplayed()
-                .IsAddProductPage()
-                //Select any product
-                .ClickAnyProduct(neutralProduct)
-                //Select any ticket Type
-                .ClickAnyTicketType(neutralTicketType)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(3);
-            //==> Add new product with ticketType = Outbound
-            siteDetailPage
-                .ClickProductTab()
-                .WaitForLoadingIconToDisappear();
-            siteDetailPage
-                .VerifyDisplayColumnInProductTabGrid()
-                .ClickAddNewProductItem()
-                .SwitchToLastWindow();
-            addProductPage
-                .WaitForAddProductPageDisplayed()
-                .IsAddProductPage()
-                //Select any product
-                .ClickAnyProduct(outboundProduct)
-                //Select any ticket Type
-                .ClickAnyTicketType(outboundTicketType)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
-                .SwitchToChildWindow(3);
-
-            siteDetailPage
-                .ClickCloseBtn()
-                .SwitchToChildWindow(2);
-            //Back to the WB ticket (same the TC053)
-            detailPartyPage
-                .ClickCloseBtn()
-                .SwitchToChildWindow(1)
-                .SwitchNewIFrame()
-                .SwitchToDefaultContent();
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Weighbridge)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption("Tickets")
-                .SwitchNewIFrame();
-            TicketListingPage ticketListingPage = PageFactoryManager.Get<TicketListingPage>();
-            ticketListingPage
-                .WaitForLoadingIconToDisappear();
-            ticketListingPage
-                .ClickAddNewTicketBtn()
-                .SwitchToLastWindow()
-                .WaitForLoadingIconToDisappear();
-            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
-            createNewTicketPage
-                .IsCreateNewTicketPage()
-                .ClickStationDdAndSelectStation(stationNameTC48)
-                .WaitForLoadingIconToDisappear();
-            //Input resource name TC-051
-            createNewTicketPage
-                .VerifyDisplayVehicleRegInput()
-                .InputVehicleRegInput(resourceName)
-                .WaitForLoadingIconToDisappear();
-            createNewTicketPage
-                //Verify vehicle type field displayed
-                .VerifyDisplayVehicleType("Van")
-                //Verify Ticket Type field displayed
-                .VerifyDisplayTicketTypeInput()
-                .ClickTicketType()
-                .VerifyValueInTicketTypeDd()
-                //Select Ticket Type is the same with TicketType of the product
-                //===> TC063 - Select ticketType = Neutral and verify product displayed
-                .ClickAnyTicketType(neutralTicketType)
-                //Verify Haulie field displayed
-                .VerifyDisplayHaulierDd()
-                .ClickAnyHaulier(partyName047)
-                .WaitForLoadingIconToDisappear();
-            createNewTicketPage
-                .ClickAddTicketLineBtn()
-                //Select Product created
-                .ClickProductDd()
-                .ClickAnyProductValue(neutralProduct)
-                .VerifyNoLocationIsPrepolulated()
-                .VerifyActiveLocationIsDisplayed(locationNameActive)
-                //===> TC063 - Select ticketType = Outbound and verify product displayed
-                .ClickTicketType()
-                .VerifyValueInTicketTypeDd()
-                .ClickAnyTicketType(outboundTicketType)
-                .VerifyDisplayHaulierDd()
-                .ClickAnyHaulier(partyName047)
-                .WaitForLoadingIconToDisappear();
-            createNewTicketPage
-                .ClickAddTicketLineBtn()
-                //Select Product created
-                .ClickProductDd()
-                .ClickAnyProductValue(outboundProduct)
-                .VerifyNoLocationIsPrepolulated()
-                .VerifyActiveLocationIsDisplayed(locationNameActive)
-                //===> TC063 - Select ticketType = Incoming and verify product displayed
-                .ClickTicketType()
-                .VerifyValueInTicketTypeDd()
-                .ClickAnyTicketType(ticketType)
-                //Verify Haulie field displayed
-                .VerifyDisplayHaulierDd()
-                .ClickAnyHaulier(partyName047)
-                .WaitForLoadingIconToDisappear();
-            //Add ticket line
-            createNewTicketPage
-                .InputLicenceNumberExpDate()
-                .InputLicenceNumber()
-                .ClickAddTicketLineBtn()
-                //Select Product created
-                .ClickProductDd()
-                .ClickAnyProductValue(product)
-                //Verify Location
-                .VerifyNoLocationIsPrepolulated()
-                .VerifyActiveLocationIsDisplayed(locationNameActive)
-                //Mandatory field remaining
-                .InputFirstWeight(2)
-                .InputFirstDate()
-                .InputSecondDate()
-                .InputSecondWeight(1)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
         }
 
         [Category("WB")]
