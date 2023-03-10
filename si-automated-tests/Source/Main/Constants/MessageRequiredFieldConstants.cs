@@ -28,7 +28,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string WhoopsSomethingIsWrongAttributesConfig = "Whoops something is wrong in the Attributes config";
         public static readonly string TheAccountingRefAlreadyUsed = "The Accounting Reference already used";
         public static readonly string HaulierLicenceNumberHasExpiredMessage = "Haulier Licence number has expired";
-        public static readonly string CustomterBalanceExceededMessage = "Customer {0} 's balance of {1} exceeded warnining limit of {2}";
+        public static readonly string CustomterBalanceExceededMessage = "Customer {0} \'s balance of {1} exceeded warnining limit of {2}";
         public static readonly string CustomerAuthoriseTippingMessage = "Customer {0} is not authorised to tip";
         public static readonly string CustomerIsOnStopMessage = "Customer {0} is on stop since {1}";
         public static readonly string ServiceUnitPointRequiredMessage = "Service Unit Point Type is required";

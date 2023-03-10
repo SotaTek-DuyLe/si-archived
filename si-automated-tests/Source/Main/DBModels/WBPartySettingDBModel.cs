@@ -5,7 +5,7 @@ namespace si_automated_tests.Source.Main.DBModels
     {
         public string licencenumber { get; set; }
         public DateTime licencenumberexpiry { get; set; }
-        public int creditlimitwarning { get; set; }
+        public decimal creditlimitwarning { get; set; }
         public int partysettingID { get; set; }
 
         public WBPartySettingDBModel()

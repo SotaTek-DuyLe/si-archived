@@ -424,11 +424,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAnyProductValue(outboundProduct)
                 //Verify Location
                 .VerifyLocationPrepolulated(locationNameActive56)
-                //Mandatory field remaining
-                .InputFirstWeight(1)
-                .InputFirstDate()
-                .InputSecondDate()
-                .InputSecondWeight(2)
                 .ClickSaveBtn();
             //Step line 14: Select [Reason] and [Save]
             createNewTicketPage

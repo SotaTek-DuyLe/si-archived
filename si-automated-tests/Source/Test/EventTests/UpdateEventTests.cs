@@ -154,7 +154,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             //Verify new Status
             eventDetailPage
-                .VerifyValueInStatus("Under Investigation")
+                .VerifyValueInStatus("Initial Assessment")
                 .VerifyValueInNameFieldInDataTab(newEventName);
             //Line 19: Verify value in [History] tab
             eventDetailPage
