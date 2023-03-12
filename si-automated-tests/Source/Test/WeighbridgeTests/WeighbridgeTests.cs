@@ -2405,6 +2405,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Get ticket number
             string ticketNumber = createNewTicketPage
                 .GetTicketNumber();
+            Console.WriteLine(ticketNumber);
 
             createNewTicketPage
                 .ClickCloseBtn()
@@ -2892,7 +2893,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
-        [Category("Huong")]
+        [Category("Chang")]
         [Test(Description = "WB ticket issues")]
         public void TC_161_WB_ticket_issues()
         {
@@ -2963,7 +2964,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
             //Click on mark for credit
             createNewTicketPage.ClickOnElement(createNewTicketPage.MarkForCreditButton);
-            createNewTicketPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            createNewTicketPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             createNewTicketPage.WaitForLoadingIconToDisappear();
             createNewTicketPage.VerifyElementText(createNewTicketPage.TicketState, "Credited");
             createNewTicketPage.VerifyElementEnable(createNewTicketPage.TakePaymentButton, false)
@@ -2996,7 +2998,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             createNewTicketPage.SwitchToFirstWindow()
                 .SwitchNewIFrame();
             ticketListingPage.FilterTicketById(idTicket.AsInteger());
-            ticketListingPage.SleepTimeInMiliseconds(1000);
+            ticketListingPage
+                .WaitForLoadingIconToDisappear();
+            ticketListingPage.SleepTimeInMiliseconds(3000);
             string number = ticketListingPage.GetFirstTicketNumber();
             PageFactoryManager.Get<NavigationBase>()
                .ClickMainOption(MainOption.Weighbridge)

@@ -222,6 +222,8 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         {
             SendKeys(vehicleReg, vehicleValue);
             ClickOnElement(anyOption, vehicleValue);
+            SleepTimeInSeconds(2);
+            WaitUtil.WaitForElementInvisible("//div[@id='grey-lists-modal']//button[text()='OK']");
             ClickOnElement(By.XPath("//div[@id='grey-lists-modal']//button[text()='OK']"));
             return this;
         }
