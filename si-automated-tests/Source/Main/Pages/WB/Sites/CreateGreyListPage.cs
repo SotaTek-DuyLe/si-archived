@@ -17,7 +17,8 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
         private readonly By vehicleInput = By.XPath("//label[text()='Vehicle']/following-sibling::div//input");
         private readonly By startDateInput = By.CssSelector("input[id='start-date']");
         private readonly By endDateInput = By.CssSelector("input[id='end-date']");
-        private readonly By ticketDd = By.XPath("//label[text()='Ticket']/following-sibling::div//button");
+        private readonly By ticketDd = By.XPath("//label[text()='Ticket']/following-sibling::div//button/parent::div");
+        private readonly By ticketBtn = By.XPath("//label[text()='Ticket']/following-sibling::div//button");
         private readonly By ticketButton = By.XPath("//label[text()='Ticket']/following-sibling::div//button/span[1]");
         private readonly By customerDd = By.CssSelector("select[id='customer']");
         private readonly By haulierDd = By.CssSelector("select[id='haulier']");
@@ -48,7 +49,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
             Assert.IsTrue(IsControlDisplayed(vehicleInput), "[Vehicle] is not displayed");
             Assert.IsTrue(IsControlDisplayed(startDateInput), "[Start Date] is not displayed");
             Assert.IsTrue(IsControlDisplayed(endDateInput), "[End Date] is not displayed");
-            Assert.IsTrue(IsControlDisplayed(ticketDd), "[Ticket] is not displayed");
+            Assert.IsTrue(IsControlDisplayed(ticketBtn), "[Ticket] is not displayed");
             Assert.IsTrue(IsControlDisplayed(customerDd), "[Customer] is not displayed");
             Assert.IsTrue(IsControlDisplayed(haulierDd), "[Haulier] is not displayed");
             Assert.IsTrue(IsControlDisplayed(visitedSiteDd), "[Visited Site] is not displayed");
@@ -183,6 +184,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
         public CreateGreyListPage ClickOnTicketDdAndVerify(string[] ticketValue)
         {
             ClickOnElement(ticketDd);
+
             foreach(string ticket in ticketValue)
             {
                 Assert.IsTrue(IsControlDisplayed(anyTicket, ticket), ticket + " is not displayed");

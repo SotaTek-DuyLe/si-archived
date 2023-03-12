@@ -157,7 +157,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToChildWindow(2);
             //step 9: Update SUP type->Save
             serviceUnitDetail
-                .EditServiceUnitPoint(0, "Point of Service", "")
+                .EditServiceUnitPoint(0, "Serviced Point", "")
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear(false)
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
@@ -245,7 +245,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
             AnnouncementRemovePage announcementRemovePage = PageFactoryManager.Get<AnnouncementRemovePage>();
             announcementRemovePage.ClickOnElement(announcementRemovePage.YesButton);
             announcementRemovePage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .SwitchToChildWindow(2);
             serviceUnitDetail.VerifyAnnouncementDeleted(announcement);
 
@@ -275,8 +274,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             RiskRegisterModel riskRegisterModel = riskRegisterPage.GetReviewRiskData();
             riskRegisterPage.ClickOnElement(riskRegisterPage.FinishButton);
             riskRegisterPage.ClickOnElement(riskRegisterPage.OKButton);
-            riskRegisterPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+            riskRegisterPage
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToChildWindow(2)
                 .SwitchToFrame(serviceUnitDetail.RiskTabIframe);
             serviceUnitDetail.VerifyNewRiskRegister(riskRegisterModel);
