@@ -358,6 +358,7 @@ namespace si_automated_tests.Source.Test.RiskTests
                 .SwitchToFirstWindow();
             riskRegisterPage.ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
+            riskRegisterPage.WaitForLoadingIconToDisappear();
             riskRegisterPage.SwitchToFrame(pointSegmentDetailPage.RiskIframe);
             foreach (var item in riskNames)
             {
