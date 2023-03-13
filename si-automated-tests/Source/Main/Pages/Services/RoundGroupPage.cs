@@ -673,7 +673,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             {
                 if (GetFirstSelectedItemInDropdown(webElements[i].FindElement(typeSelect)) == driverType)
                 {
-                    bool containDetail = detailWebElements[i].FindElements(resourceSelect).Count != 0;
+                    bool containDetail = detailWebElements.Count > i && detailWebElements[i].FindElements(resourceSelect).Count != 0;
                     if (containDetail)
                     {
                         if (!detailWebElements[i].Displayed)
