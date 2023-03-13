@@ -692,6 +692,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             taskConfirmationPage.ClickRefreshBtn();
             taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.VerifyResolutionCodeOnRoundLegs(0, "Bad Weather");
             //Double click task
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
