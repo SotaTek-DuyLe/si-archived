@@ -620,7 +620,9 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday")
+            string round = "ECREC1";
+            string roundGroup = "Monday";
+            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid(round, roundGroup)
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
@@ -635,7 +637,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday")
+            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid(round, roundGroup)
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
