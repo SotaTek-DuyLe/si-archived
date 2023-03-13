@@ -411,6 +411,7 @@ namespace si_automated_tests.Source.Test.RiskTests
                 .SwitchToFirstWindow();
             riskRegisterPage.ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
+            riskRegisterPage.WaitForLoadingIconToDisappear();
             riskRegisterPage.SwitchToFrame(pointNodeDetailPage.RiskIframe);
             foreach (var item in riskNames)
             {
@@ -463,6 +464,7 @@ namespace si_automated_tests.Source.Test.RiskTests
                 .SwitchToFirstWindow();
             riskRegisterPage.ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
+            riskRegisterPage.WaitForLoadingIconToDisappear();
             riskRegisterPage.SwitchToFrame(pointAreaDetailPage.RiskIframe);
             foreach (var item in riskNames)
             {
