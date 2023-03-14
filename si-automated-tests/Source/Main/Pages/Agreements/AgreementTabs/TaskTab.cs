@@ -36,7 +36,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 
         private string taskId = "//div[contains(@class,'r5')]/div[text()='{0}']";
         private string taskIdCheckBox = "//div[text()='{0}']/parent::div/preceding-sibling::div[contains(@class,'r0')]/input";
-        private string retiredTaskWithId = "//div[text()='{0}']/parent::div/parent::div[contains(@class,'retired')]";
+        private string retiredTaskWithId = "//div[text()='{0}']/parent::div/parent::div[contains(@class,'retired')]//div[text()='Completed']";
 
         private string firstTaskId = "(//div[contains(@class, 'r5')])[4]/div";
         private string secondTaskId = "(//div[contains(@class, 'r5')])[5]/div";
@@ -466,7 +466,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                 if(IsControlUnDisplayed(retiredTaskWithId, id.ToString())){
                     ClickRefreshBtn();
                     WaitForLoadingIconToDisappear();
-                    SleepTimeInMiliseconds(5000);
+                    SleepTimeInMiliseconds(7000);
                     i--;
                 }
                 else

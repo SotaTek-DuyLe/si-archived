@@ -1947,7 +1947,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyRetirePopup()
                 .RetirePopupClickOK()
-                //.VerifyToastMessage("Successfully retired Agreement")
+                .VerifyToastMessage("Successfully retired Agreement")
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyEndDate(tommorowDate)
