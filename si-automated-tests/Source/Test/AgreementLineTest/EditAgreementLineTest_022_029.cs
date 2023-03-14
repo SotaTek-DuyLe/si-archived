@@ -1432,12 +1432,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ServicesTaskPage>()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<ServicesTaskPage>()
-                .ClickOnTaskLineTab();
-            PageFactoryManager.Get<ServiceTaskLineTab>()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<ServiceTaskLineTab>()
-                .verifyTaskInfo(assetType, assetQty.ToString(), product, unit, futureDate, defautEndDate);
+            
             PageFactoryManager.Get<ServicesTaskPage>()
                 .ClickOnScheduleTask();
             PageFactoryManager.Get<ServiceScheduleTab>()
@@ -1445,6 +1440,62 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<ServiceScheduleTab>()
                 .verifyScheduleStartDate(futureDate)
                 .verifyScheduleEndDate(defautEndDate);
+            
+        }
+
+        [Category("EditAgreement")]
+        [Category("Huong")]
+        [Test]
+        public void TC_026_C_edit_agreement_increase_asset_qty_on_approved_agreement()
+        {
+            string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+            string futureDate = CommonUtil.GetLocalTimeMinusMonth("dd/MM/yyyy", 6); //current date plus 6 months
+            string futureDueDate = CommonUtil.GetLocalTimeFromDate(futureDate, "dd/MM/yyyy", 7);
+
+            string partyName = "Kiss the Hippo Coffee";
+
+            string assetType = AgreementConstants.ASSET_TYPE_660L;
+            int assetQty = 3;
+            string product = AgreementConstants.GENERAL_RECYCLING;
+            string defautEndDate = AgreementConstants.DEFAULT_END_DATE;
+            string unit = AgreementConstants.KILOGRAMS;
+
+            
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser13.UserName, AutoUser13.Password)
+                .IsOnHomePage(AutoUser13);
+            PageFactoryManager.Get<NavigationBase>()
+              .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Services)
+               .ExpandOption("Regions")
+               .ExpandOption(Region.UK)
+               .ExpandOption(Contract.Commercial)
+               .ExpandOption("Collections")
+               .ExpandOption("Commercial Collections")
+               .OpenOption("Active Service Tasks")
+               .SwitchNewIFrame();
+            //Verify at Active Service Task
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonActiveServicesTaskPage>()
+                .InputPartyNameToFilter(partyName)
+                .ClickApplyBtn()
+                .OpenTaskWithPartyNameAndDate(partyName, futureDate, "STARTDATE")
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInSeconds(5);//wait for Task Line update
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnTaskLineTab();
+            
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskLineTab>()
+                 .verifyTaskInfo(assetType, assetQty.ToString(), product, unit, futureDate, defautEndDate);
         }
 
         [Category("EditAgreement")]
