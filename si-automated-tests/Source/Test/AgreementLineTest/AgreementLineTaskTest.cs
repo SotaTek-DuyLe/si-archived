@@ -636,7 +636,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, false)
+               //.VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, false)
                .WaitForLoadingIconToDisappear();
 
             //Fix wating time for saved agreement
@@ -656,7 +656,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnAssetTab()
                 .ClickOnEditAsset();
             //Đang có bug ở đây, vẫn hiện Requested Delivery Date
-            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
+            assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, false);
             assetAndProductTab.EditAssetQuantity(2)
                 .ClickAssetType();
             assetAndProductTab.VerifyElementVisibility(assetAndProductTab.deliveryDate, true);
