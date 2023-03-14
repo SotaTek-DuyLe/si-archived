@@ -547,21 +547,21 @@ namespace si_automated_tests.Source.Test.ServiceTests
             var serviceTaskLinePage = PageFactoryManager.Get<ServiceTaskLinePage>();
             serviceTaskLinePage.WaitForLoadingIconToDisappear();
             serviceTaskLinePage.WaitForLoadingIconToDisappear();
-            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.TaskLineTypeSelect, true)
-                .VerifyElementEnable(serviceTaskLinePage.AssetTypeSelect, true)
-                .VerifyElementEnable(serviceTaskLinePage.MinAssetQtyInput, true)
-                .VerifyElementEnable(serviceTaskLinePage.MaxAssetQtyInput, true)
-                .VerifyElementEnable(serviceTaskLinePage.ScheduleAssetQtyInput, true)
-                .VerifyElementEnable(serviceTaskLinePage.ProductSelect, true)
-                .VerifyElementEnable(serviceTaskLinePage.MinProductQtyInput, true)
-                .VerifyElementEnable(serviceTaskLinePage.ProductUnitSelect, true)
-                .VerifyElementEnable(serviceTaskLinePage.MaxProductQtyInput, true)
-                .VerifyElementEnable(serviceTaskLinePage.ScheduleProductQtyInput, true)
-                .VerifyElementEnable(serviceTaskLinePage.SerialisedCheckbox, true)
-                .VerifyElementEnable(serviceTaskLinePage.DestinationSiteSelect, true)
-                .VerifyElementEnable(serviceTaskLinePage.SiteProductSelect, true)
-                .VerifyElementEnable(serviceTaskLinePage.StartDateInput, true)
-                .VerifyElementEnable(serviceTaskLinePage.EndDateInput, true);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.TaskLineTypeSelect, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.AssetTypeSelect, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.MinAssetQtyInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.MaxAssetQtyInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.ScheduleAssetQtyInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.ProductSelect, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.MinProductQtyInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.ProductUnitSelect, true);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.MaxProductQtyInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.ScheduleProductQtyInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.SerialisedCheckbox, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.DestinationSiteSelect, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.SiteProductSelect, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.StartDateInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.EndDateInput, false);
         }
     }
 }
