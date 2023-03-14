@@ -1034,6 +1034,13 @@ namespace si_automated_tests.Source.Core
             WaitForLoadingIconToDisappear();
             return this;
         }
+
+        [AllureStep]
+        public bool IsSaveButtonEnable()
+        {
+            return GetElement(saveBtn).Enabled;
+        }
+
         [AllureStep]
         public string ClickSaveBtnGetUTCTime()
         {
