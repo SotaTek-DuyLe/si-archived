@@ -2714,6 +2714,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CreateGreyListPage>()
                 .IsCreateWBGreyListPage()
+                .SleepTimeInSeconds(2);
+            PageFactoryManager.Get<CreateGreyListPage>()
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             createNewTicketPage
