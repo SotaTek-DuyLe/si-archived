@@ -721,18 +721,36 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public TaskConfirmationPage SelectReasonNeeded()
         {
-            WaitUtil.WaitForElementVisible(reasonNeededTitle);
-            ClickOnElement(reasonNeededDd);
-            ClickOnElement(breakdownOptionReasonNeeded);
-            ClickOnElement("//button[text()='Confirm']");
+            int i = 0;
+            while (i < 5)
+            {
+                if (IsControlDisplayedNotThrowEx(reasonNeededTitle))
+                {
+                    ClickOnElement(reasonNeededDd);
+                    ClickOnElement(breakdownOptionReasonNeeded);
+                    ClickOnElement("//button[text()='Confirm']");
+                    break;
+                }
+                i++;
+                SleepTimeInMiliseconds(1000);
+            }
             return this;
         }
 
         [AllureStep]
         public TaskConfirmationPage ConfirmationNeeded()
         {
-            WaitUtil.WaitForElementVisible(confirmationNeededTitle);
-            ClickOnElement("//button[text()='Confirm' and @data-bb-handler='Confirm']");
+            int i = 0;
+            while (i < 5)
+            {
+                if (IsControlDisplayedNotThrowEx(confirmationNeededTitle))
+                {
+                    ClickOnElement("//button[text()='Confirm' and @data-bb-handler='Confirm']");
+                    break;
+                }
+                i++;
+                SleepTimeInMiliseconds(1000);
+            }
             return this;
         }
     }

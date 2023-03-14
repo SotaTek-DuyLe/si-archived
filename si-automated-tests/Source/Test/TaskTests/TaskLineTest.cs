@@ -620,7 +620,9 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday")
+            string round = "ECREC1";
+            string roundGroup = "Monday";
+            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid(round, roundGroup)
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
@@ -635,7 +637,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday")
+            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid(round, roundGroup)
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
@@ -668,12 +670,16 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday")
+            string roundgroup = "ECREC1";
+            string round = "Monday";
+            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid(roundgroup, round)
                 .WaitForLoadingIconToDisappear(false);
             //Double click round instance
             taskConfirmationPage.DoubleClickRoundLeg(0)
                 .SwitchToChildWindow(2);
             RoundLegInstancePage roundLegInstancePage = PageFactoryManager.Get<RoundLegInstancePage>();
+            roundLegInstancePage.WaitForLoadingIconToDisappear();
+            roundLegInstancePage.WaitForLoadingIconToDisappear();
             roundLegInstancePage.ClickOnElement(roundLegInstancePage.DetailTab);
             roundLegInstancePage.waitForLoadingIconDisappear();
             roundLegInstancePage.SelectTextFromDropDown(roundLegInstancePage.StatusSelect, "Delayed");
@@ -684,11 +690,14 @@ namespace si_automated_tests.Source.Test.TaskTests
             roundLegInstancePage.ClickCloseBtn()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
+            taskConfirmationPage.ClickRefreshBtn();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.VerifyResolutionCodeOnRoundLegs(0, "Bad Weather");
             //Double click task
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday")
+            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid(roundgroup, round)
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
@@ -703,9 +712,11 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage.ClickCloseBtn()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
+            taskConfirmationPage.ClickRefreshBtn();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday")
+            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid(roundgroup, round)
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
