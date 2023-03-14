@@ -670,9 +670,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            string roundgroup = "ECREC1";
-            string round = "Monday";
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid(roundgroup, round)
+            taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
                 .WaitForLoadingIconToDisappear(false);
             //Double click round instance
             taskConfirmationPage.DoubleClickRoundLeg(0)
@@ -697,7 +695,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             //Double click task
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid(roundgroup, round)
+            taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
@@ -716,7 +714,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid(roundgroup, round)
+            taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
