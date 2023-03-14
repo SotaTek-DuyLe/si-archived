@@ -276,6 +276,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
             detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.ClickOnSitesTab()
                 .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .WaitForLoadingIconToDisappear();
             detailPartyPage.IsOnSitesTab()
                 .ClickOnAddNewItemInSiteTabBtn()
                 .SwitchToLastWindow();
