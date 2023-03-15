@@ -636,7 +636,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAnyHaulier(partyNameHaulier)
                 .WaitForLoadingIconToDisappear();
             createNewTicketPage
-                .VerifyDisplayToastMessage(string.Format(MessageRequiredFieldConstants.CustomterBalanceExceededMessage, partyNameCustomer, wipBalanceBefore, warningLimitTest))
+                .VerifyDisplayToastMessageDoubleQuote(string.Format(MessageRequiredFieldConstants.CustomterBalanceExceededMessage, partyNameCustomer, wipBalanceBefore, warningLimitTest))
                 .WaitUntilToastMessageInvisible(string.Format(MessageRequiredFieldConstants.CustomterBalanceExceededMessage, partyNameCustomer, wipBalanceBefore, warningLimitTest));
             //Create new ticket as normal
             //Add ticket line

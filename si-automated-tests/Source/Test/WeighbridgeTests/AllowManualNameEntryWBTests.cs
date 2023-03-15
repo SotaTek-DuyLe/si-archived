@@ -468,7 +468,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyTextUnderSourceField(accountNumber)
                 //Step line 20: DO NOT fill [manual Source party] and add new ticket
                 //Add ticket line and Save
-                .ClickAddTicketLineBtn()
                 .ClickProductDd()
                 .ClickAnyProductValue(product56)
                 //Verify Location

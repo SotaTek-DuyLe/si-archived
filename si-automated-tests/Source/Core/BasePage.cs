@@ -911,6 +911,12 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         [AllureStep]
+        public BasePage VerifyDisplayToastMessageDoubleQuote(string message)
+        {
+            Assert.IsTrue(IsControlDisplayed("//*[contains(text(),\"{0}\")]", message));
+            return this;
+        }
+        [AllureStep]
         public BasePage VerifyToastMessages(List<string> messages)
         {
             var notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
