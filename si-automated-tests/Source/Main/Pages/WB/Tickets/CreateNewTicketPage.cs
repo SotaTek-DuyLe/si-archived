@@ -222,9 +222,9 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         {
             SendKeys(vehicleReg, vehicleValue);
             ClickOnElement(anyOption, vehicleValue);
-            SleepTimeInSeconds(2);
-            WaitUtil.WaitForElementInvisible("//div[@id='grey-lists-modal']//button[text()='OK']");
-            ClickOnElement(By.XPath("//div[@id='grey-lists-modal']//button[text()='OK']"));
+            WaitForLoadingIconToDisappear();
+            IsGreylistCodeModel(vehicleValue);
+            ClickOnElement(By.XPath("//button[text()='OK']"));
             return this;
         }
         [AllureStep]
@@ -606,6 +606,17 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         private readonly By okBtn = By.XPath("//div[@id='grey-lists-modal']//button[text()='OK']");
         private readonly By greyId = By.XPath("//span[@title='Click to open the grey list']");
         private readonly string greyListCodeByIndex = "(//div[@class='row']//div[@data-bind='text: $data.name'])[{0}]";
+
+        [AllureStep]
+        public CreateNewTicketPage IsGreylistCodeModel(string resourceNameValue)
+        {
+            WaitUtil.WaitForElementVisible(titleGreylistCodeMode);
+            WaitUtil.WaitForElementVisible(DetailTab);
+            Assert.IsTrue(IsControlDisplayed(greylistIdTitle));
+            Assert.IsTrue(IsControlDisplayed(greylistCodeTitle));
+            Assert.AreEqual("Vehicle " + resourceNameValue + " is on the grey list", GetElementText(titleGreylistCodeMode));
+            return this;
+        }
 
         [AllureStep]
         public CreateNewTicketPage IsGreylistCodeModel(string resourceNameValue, string greylistCodeValue)

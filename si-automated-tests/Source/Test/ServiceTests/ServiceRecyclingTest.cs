@@ -343,7 +343,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string toDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             string color = "#912f91";
             string reference = "Reference";
-            string taskCount = "3";
             string maxTasks = "10";
             string maxTaskStartDate = DateTime.Now.ToString("dd/MM/yyyy");
             string taskIndicator = "Repeat Missed";
@@ -358,7 +357,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceTaskPage.SelectIndexFromDropDown(serviceTaskPage.TagSelect, 0)
                 .SendKeys(serviceTaskPage.ReferenceInput, reference);
             serviceTaskPage.ClickOnElement(serviceTaskPage.ProximityAlertCheckbox);
-            serviceTaskPage.SendKeys(serviceTaskPage.TaskCountInput, taskCount);
             serviceTaskPage.SendKeys(serviceTaskPage.MaxTaskInput, maxTasks);
             serviceTaskPage.SendKeys(serviceTaskPage.MaxTaskStartDateInput, maxTaskStartDate);
             serviceTaskPage.SelectTextFromDropDown(serviceTaskPage.TaskIndicatorSelect, taskIndicator);
@@ -376,7 +374,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifySelectedValue(serviceTaskPage.TagSelect, "")
                 .VerifyInputValue(serviceTaskPage.ReferenceInput, reference)
                 .VerifyCheckboxIsSelected(serviceTaskPage.ProximityAlertCheckbox, true)
-                .VerifyInputValue(serviceTaskPage.TaskCountInput, taskCount)
                 .VerifyInputValue(serviceTaskPage.MaxTaskInput, maxTasks)
                 .VerifyInputValue(serviceTaskPage.MaxTaskStartDateInput, maxTaskStartDate)
                 .VerifySelectedValue(serviceTaskPage.TaskIndicatorSelect, taskIndicator)
