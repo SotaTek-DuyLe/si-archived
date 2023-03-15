@@ -347,7 +347,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string toDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             string color = "#912f91";
             string reference = "Reference";
-            string taskCount = "3";
             string maxTasks = "10";
             string maxTaskStartDate = DateTime.Now.ToString("dd/MM/yyyy");
             string taskIndicator = "Repeat Missed";

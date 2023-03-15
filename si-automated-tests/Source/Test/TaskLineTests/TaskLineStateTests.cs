@@ -72,6 +72,9 @@ namespace si_automated_tests.Source.Test.TaskLineTests
                 .VerifyResoluctionCodeFirstRowInTaskLineTab("")
                 //Line 11: Verify [History] tab
                 .ClickOnHistoryTab()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInSeconds(1);
+            detailTaskPage
                 .VerifyTitleTaskLineFirstServiceUpdate()
                 .VerifyTitleUpdate()
                 .VerifyHistoryTabUpdate(AutoUser51.DisplayName, timeUpdatedExp, completedDateDisplayed, "Not Completed", endDateDisplayed);
