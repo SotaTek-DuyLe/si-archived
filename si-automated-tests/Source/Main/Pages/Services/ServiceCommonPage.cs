@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
     {
         private readonly By dropdown = By.XPath("//li[@class='dropdown']");
         private readonly By invoiceScheduleTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='invoiceSchedules-tab']");
+        private readonly By invoiceScheduleTabInLargeView = By.XPath("//li[@role='presentation']//a[@aria-controls='invoiceSchedules-tab']");
         #region Invoice Schedule tab
         public readonly By AddNewInvoiceSchedule = By.XPath("//div[@id='invoiceSchedules-tab']//button[contains(string(), 'Add New Item')]");
         #endregion
@@ -29,7 +30,15 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceCommonPage ClickInvoiceScheduleTab()
         {
-            ClickOnElement(invoiceScheduleTab);
+            if (IsControlDisplayed(invoiceScheduleTabInLargeView))
+            {
+                ClickOnElement(invoiceScheduleTabInLargeView);
+            }
+            else
+            {
+                ClickTabDropDown();
+                ClickOnElement(invoiceScheduleTab);
+            }
             return this;
         }
     }
