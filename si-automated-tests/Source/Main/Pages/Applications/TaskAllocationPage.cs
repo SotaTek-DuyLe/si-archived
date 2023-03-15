@@ -239,7 +239,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             bool isEmptyCell(IWebElement cell)
             {
-                IWebElement content = cell.FindElement(By.XPath("//span[@class='percent-complete-bar']"));
+                IWebElement content = cell.FindElement(By.XPath(".//span[@class='percent-complete-bar']"));
                 string width = content.GetCssValue("width");
                 return width == "0px";
             }
