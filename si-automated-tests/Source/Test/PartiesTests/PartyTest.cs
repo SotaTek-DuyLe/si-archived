@@ -276,6 +276,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
             detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.ClickOnSitesTab()
                 .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .WaitForLoadingIconToDisappear();
             detailPartyPage.IsOnSitesTab()
                 .ClickOnAddNewItemInSiteTabBtn()
                 .SwitchToLastWindow();
@@ -351,6 +353,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //create site 1
             detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.ClickOnSitesTab()
+                .WaitForLoadingIconToDisappear()
                 .WaitForLoadingIconToDisappear();
             detailPartyPage.IsOnSitesTab()
                 .ClickOnAddNewItemInSiteTabBtn()

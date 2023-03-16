@@ -911,6 +911,12 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         [AllureStep]
+        public BasePage VerifyDisplayToastMessageDoubleQuote(string message)
+        {
+            Assert.IsTrue(IsControlDisplayed("//*[contains(text(),\"{0}\")]", message));
+            return this;
+        }
+        [AllureStep]
         public BasePage VerifyToastMessages(List<string> messages)
         {
             WaitUtil.WaitForElementsCountToBe(By.XPath("//div[@data-notify-html='title']"), messages.Count);
@@ -1040,6 +1046,13 @@ namespace si_automated_tests.Source.Core
             WaitForLoadingIconToDisappear();
             return this;
         }
+
+        [AllureStep]
+        public bool IsSaveButtonEnable()
+        {
+            return GetElement(saveBtn).Enabled;
+        }
+
         [AllureStep]
         public string ClickSaveBtnGetUTCTime()
         {

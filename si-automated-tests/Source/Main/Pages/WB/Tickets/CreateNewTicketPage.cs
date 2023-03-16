@@ -222,7 +222,9 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         {
             SendKeys(vehicleReg, vehicleValue);
             ClickOnElement(anyOption, vehicleValue);
-            ClickOnElement(By.XPath("//div[@id='grey-lists-modal']//button[text()='OK']"));
+            //WaitForLoadingIconToDisappear();
+            //IsGreylistCodeModel(vehicleValue);
+            //ClickOnElement(By.XPath("//button[text()='OK']"));
             return this;
         }
         [AllureStep]
@@ -606,6 +608,17 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         private readonly string greyListCodeByIndex = "(//div[@class='row']//div[@data-bind='text: $data.name'])[{0}]";
 
         [AllureStep]
+        public CreateNewTicketPage IsGreylistCodeModel(string resourceNameValue)
+        {
+            WaitUtil.WaitForElementVisible(titleGreylistCodeMode);
+            WaitUtil.WaitForElementVisible(DetailTab);
+            Assert.IsTrue(IsControlDisplayed(greylistIdTitle));
+            Assert.IsTrue(IsControlDisplayed(greylistCodeTitle));
+            Assert.AreEqual("Vehicle " + resourceNameValue + " is on the grey list", GetElementText(titleGreylistCodeMode));
+            return this;
+        }
+
+        [AllureStep]
         public CreateNewTicketPage IsGreylistCodeModel(string resourceNameValue, string greylistCodeValue)
         {
             WaitUtil.WaitForElementVisible(titleGreylistCodeMode);
@@ -691,7 +704,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         private readonly By correspondenceAddressUnderSource = By.XPath("//select[@id='source-party']/following-sibling::div/p[contains(text(), 'Correspondence Address')]");
         private readonly By manualSourcePartyInputNextToSourceField = By.CssSelector("input[id='manual-source-party']");
         private readonly By manualDestinationInputNextToSourceField = By.XPath("//label[text()='Destination']/following-sibling::div/input[@id='manual-destination-party']");
-        private readonly By sourceInput = By.CssSelector("//select[@id='source-party']");
+        private readonly By sourceInput = By.XPath("//select[@id='source-party']");
 
         [AllureStep]
         public CreateNewTicketPage VerifyTextUnderSourceField(string accountNumberValue)
@@ -728,7 +741,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         [AllureStep]
         public string GetSourceValue()
         {
-            return GetAttributeValue(sourceInput, "value");
+            return GetFirstSelectedItemInDropdown(sourceInput);
         }
 
         [AllureStep]

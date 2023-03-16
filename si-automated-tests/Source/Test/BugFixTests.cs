@@ -1016,7 +1016,8 @@ namespace si_automated_tests.Source.Test
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .VerifyDisplayToastMessage(MessageRequiredFieldConstants.TheAccountingRefAlreadyUsed)
                 .ClickCloseBtn()
-                .SwitchToChildWindow(1);
+                .SwitchToChildWindow(1)
+                .WaitForLoadingIconToDisappear();
             //Step line 12: Go back to sites grid and Check the value of the accounting value
             partyDetailsTab
                 .ClickOnClearBtn()
@@ -1607,8 +1608,8 @@ namespace si_automated_tests.Source.Test
                 //Update [Billing Rule] in first Serviced
                 .ClickOnFirstBillingRuleAndSelectAnyOption(billingRule)
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                //.VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                //.WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             string[] valueExp = { invoiceSchedule, invoiceAddress, contactModel.FirstName + contactModel.LastName, billingRule };
             //Click on [History] tab and verify

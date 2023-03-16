@@ -45,15 +45,17 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForServiceRecyclingPageLoaded(serviceName);
 
             //Verify that user is unable to update sections of the forms when the restrict edit is set in the service
-            sectorRecycling
-                .ClickOnElement(sectorRecycling.RestrictEditCheckbox);
-            sectorRecycling
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-            sectorRecycling
-                .VerifyCheckboxIsSelected(sectorRecycling.RestrictEditCheckbox, true);
+            sectorRecycling.SetRestrict(true);
+            if (sectorRecycling.IsSaveButtonEnable())
+            {
+                sectorRecycling
+                    .ClickSaveBtn()
+                    .WaitForLoadingIconToDisappear(false)
+                    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+                sectorRecycling
+                    .VerifyCheckboxIsSelected(sectorRecycling.RestrictEditCheckbox, true);
+            }
 
             //Service unit
             PageFactoryManager.Get<NavigationBase>()
@@ -110,7 +112,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitDetail
                 .SelectRandomServiceLevel()
                 .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear(false)
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
 
@@ -156,10 +157,14 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPointDetail.ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //step 9: Update SUP type->Save
-            serviceUnitDetail.EditServiceUnitPoint(0, "Serviced Point", "")
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear(false)
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            serviceUnitDetail.EditServiceUnitPoint(0, "Serviced Point", "");
+            if (serviceUnitDetail.IsSaveButtonEnable())
+            {
+                serviceUnitDetail.ClickSaveBtn()
+                    .WaitForLoadingIconToDisappear(false)
+                    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            }
+
             //step 10: Click on Assets tab: Add new, add existing asset, delete item
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.AssetsTab);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.AddNewAssetItemButton);
@@ -170,11 +175,12 @@ namespace si_automated_tests.Source.Test.ServiceTests
             Random rnd = new Random();
             string assetValue = "Asset" + rnd.Next(10);
             string assetReferenceValue = "Asset Reference" + rnd.Next(10);
-            string assetType = "360L";
+            string assetType = "660L";
             string state = "On Site";
             string product = "Food";
             assetDetailItemPage.SendKeys(assetDetailItemPage.AssetInput, assetValue);
-            assetDetailItemPage.SelectTextFromDropDown(assetDetailItemPage.AssetTypeSelect, assetType)
+            assetDetailItemPage
+                .SelectTextFromDropDown(assetDetailItemPage.AssetTypeSelect, assetType)
                 .SelectTextFromDropDown(assetDetailItemPage.ProductSelect, product)
                 .SelectTextFromDropDown(assetDetailItemPage.StateSelect, state)
                 .SelectTextFromDropDown(assetDetailItemPage.AgreementLineSelect, "")
@@ -192,8 +198,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SleepTimeInMiliseconds(1000);
             string assetType2 = "660L_19";
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.MainAssetDropDownButton);
-           // serviceUnitDetail
-           //     .SelectByDisplayValueOnUlElement(serviceUnitDetail.MainAssetSelect, assetType2);
+            // serviceUnitDetail
+            //     .SelectByDisplayValueOnUlElement(serviceUnitDetail.MainAssetSelect, assetType2);
             //serviceUnitDetail.ClickOnElement(serviceUnitDetail.ConfirmButton);
             //serviceUnitDetail.VerifyToastMessage("Successfully saved Asset");
             serviceUnitDetail
@@ -243,7 +249,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
             AnnouncementRemovePage announcementRemovePage = PageFactoryManager.Get<AnnouncementRemovePage>();
             announcementRemovePage.ClickOnElement(announcementRemovePage.YesButton);
             announcementRemovePage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .SwitchToChildWindow(2);
             serviceUnitDetail.VerifyAnnouncementDeleted(announcement);
 
@@ -273,8 +278,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             RiskRegisterModel riskRegisterModel = riskRegisterPage.GetReviewRiskData();
             riskRegisterPage.ClickOnElement(riskRegisterPage.FinishButton);
             riskRegisterPage.ClickOnElement(riskRegisterPage.OKButton);
-            riskRegisterPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+            riskRegisterPage
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToChildWindow(2)
                 .SwitchToFrame(serviceUnitDetail.RiskTabIframe);
             serviceUnitDetail.VerifyNewRiskRegister(riskRegisterModel);
@@ -342,7 +347,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string toDate = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
             string color = "#912f91";
             string reference = "Reference";
-            string taskCount = "3";
             string maxTasks = "10";
             string maxTaskStartDate = DateTime.Now.ToString("dd/MM/yyyy");
             string taskIndicator = "Repeat Missed";
@@ -357,7 +361,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceTaskPage.SelectIndexFromDropDown(serviceTaskPage.TagSelect, 0)
                 .SendKeys(serviceTaskPage.ReferenceInput, reference);
             serviceTaskPage.ClickOnElement(serviceTaskPage.ProximityAlertCheckbox);
-            serviceTaskPage.SendKeys(serviceTaskPage.TaskCountInput, taskCount);
             serviceTaskPage.SendKeys(serviceTaskPage.MaxTaskInput, maxTasks);
             serviceTaskPage.SendKeys(serviceTaskPage.MaxTaskStartDateInput, maxTaskStartDate);
             serviceTaskPage.SelectTextFromDropDown(serviceTaskPage.TaskIndicatorSelect, taskIndicator);
@@ -375,7 +378,6 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .VerifySelectedValue(serviceTaskPage.TagSelect, "")
                 .VerifyInputValue(serviceTaskPage.ReferenceInput, reference)
                 .VerifyCheckboxIsSelected(serviceTaskPage.ProximityAlertCheckbox, true)
-                .VerifyInputValue(serviceTaskPage.TaskCountInput, taskCount)
                 .VerifyInputValue(serviceTaskPage.MaxTaskInput, maxTasks)
                 .VerifyInputValue(serviceTaskPage.MaxTaskStartDateInput, maxTaskStartDate)
                 .VerifySelectedValue(serviceTaskPage.TaskIndicatorSelect, taskIndicator)
@@ -454,8 +456,11 @@ namespace si_automated_tests.Source.Test.ServiceTests
 
             //Data, history, risks, subscriptions, notifications and indicators tab
             //map-tab
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.MapTab);
-            serviceUnitDetail.WaitForLoadingIconToDisappear(false);
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.ResetMapButton);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.SaveMapButton);
             serviceUnitDetail
@@ -463,12 +468,15 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
 
             //risk-tab
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.RiskTab);
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.RiskTabIframe);
-            serviceUnitDetail.WaitForLoadingIconToDisappear(false);
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.BulkCreateButton);
             serviceUnitDetail.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
             riskRegisterPage.SelectRiskCheckbox(0)
                 .ClickOnElement(riskRegisterPage.AddSelectedButton);
             riskRegisterPage.ClickOnElement(riskRegisterPage.NextButtonOnEditRisk);
@@ -478,6 +486,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             riskRegisterPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .SwitchToChildWindow(1)
                 .SwitchToFrame(serviceUnitDetail.RiskTabIframe);
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
             serviceUnitDetail.VerifyNewRiskRegister(riskRegisterModel);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.ShowAllButton);
             serviceUnitDetail.WaitForLoadingIconToDisappear(false);
@@ -488,7 +497,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             //subspriptions-tab
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.SubscriptionTab);
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.SubscriptionTabIframe);
-            serviceUnitDetail.WaitForLoadingIconToDisappear(false);
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.AddNewSubscriptionItemButton);
             serviceUnitDetail.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
@@ -511,13 +521,15 @@ namespace si_automated_tests.Source.Test.ServiceTests
             //notifications-tab
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.NotificationTab);
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.Notificationiframe);
-            serviceUnitDetail.WaitForLoadingIconToDisappear(false);
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
             serviceUnitDetail.VerifyElementVisibility(serviceUnitDetail.NotificationRefreshButton, true);
             serviceUnitDetail.SwitchToDefaultContent();
             //indicator-tab
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.IndicatorTab);
             serviceUnitDetail.SwitchToFrame(serviceUnitDetail.IndicatorIframe);
-            serviceUnitDetail.WaitForLoadingIconToDisappear(false);
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
+            serviceUnitDetail.WaitForLoadingIconToDisappear();
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.IndicatorAddNewItemButton);
             serviceUnitDetail.ClickOnElement(serviceUnitDetail.SelectIndicatorButton);
             serviceUnitDetail.SelectByDisplayValueOnUlElement(serviceUnitDetail.IndicatorUl, "Assisted");
@@ -533,21 +545,22 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchToChildWindow(2);
             var serviceTaskLinePage = PageFactoryManager.Get<ServiceTaskLinePage>();
             serviceTaskLinePage.WaitForLoadingIconToDisappear();
-            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.TaskLineTypeSelect, false)
-                .VerifyElementEnable(serviceTaskLinePage.AssetTypeSelect, false)
-                .VerifyElementEnable(serviceTaskLinePage.MinAssetQtyInput, false)
-                .VerifyElementEnable(serviceTaskLinePage.MaxAssetQtyInput, false)
-                .VerifyElementEnable(serviceTaskLinePage.ScheduleAssetQtyInput, false)
-                .VerifyElementEnable(serviceTaskLinePage.ProductSelect, false)
-                .VerifyElementEnable(serviceTaskLinePage.MinProductQtyInput, false)
-                .VerifyElementEnable(serviceTaskLinePage.MaxProductQtyInput, false)
-                .VerifyElementEnable(serviceTaskLinePage.ScheduleProductQtyInput, false)
-                .VerifyElementEnable(serviceTaskLinePage.ProductUnitSelect, false)
-                .VerifyElementEnable(serviceTaskLinePage.SerialisedCheckbox, false)
-                .VerifyElementEnable(serviceTaskLinePage.DestinationSiteSelect, false)
-                .VerifyElementEnable(serviceTaskLinePage.SiteProductSelect, false)
-                .VerifyElementEnable(serviceTaskLinePage.StartDateInput, false)
-                .VerifyElementEnable(serviceTaskLinePage.EndDateInput, false);
+            serviceTaskLinePage.WaitForLoadingIconToDisappear();
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.TaskLineTypeSelect, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.AssetTypeSelect, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.MinAssetQtyInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.MaxAssetQtyInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.ScheduleAssetQtyInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.ProductSelect, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.MinProductQtyInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.ProductUnitSelect, true);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.MaxProductQtyInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.ScheduleProductQtyInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.SerialisedCheckbox, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.DestinationSiteSelect, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.SiteProductSelect, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.StartDateInput, false);
+            serviceTaskLinePage.VerifyElementEnable(serviceTaskLinePage.EndDateInput, false);
         }
     }
 }

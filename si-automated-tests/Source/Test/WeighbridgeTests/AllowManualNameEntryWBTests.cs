@@ -419,16 +419,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyTextFieldNextToDestinationField()
                 //Step line 13: Input [Manual Destination Party] field and Add ticket line
                 .InputManualDestinationParty(manualDestinationParty)
-                .ClickAddTicketLineBtn()
                 .ClickProductDd()
                 .ClickAnyProductValue(outboundProduct)
                 //Verify Location
                 .VerifyLocationPrepolulated(locationNameActive56)
-                //Mandatory field remaining
-                .InputFirstWeight(1)
-                .InputFirstDate()
-                .InputSecondDate()
-                .InputSecondWeight(2)
                 .ClickSaveBtn();
             //Step line 14: Select [Reason] and [Save]
             createNewTicketPage
@@ -446,8 +440,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyValueInDestinationParty(manualDestinationParty);
             //Step line 15: Run query
             WBTicketDBModel wBTicketDBModelAfter = commonFinder.GetWBTicketByTicketId(ticketIdFirst);
-            Assert.AreEqual(partyNameCustomer, wBTicketDBModelAfter.destination_party);
-            Assert.AreEqual(manualDestinationParty, wBTicketDBModelAfter.source_party);
+            Assert.AreEqual(manualDestinationParty, wBTicketDBModelAfter.destination_party);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModelAfter.source_party);
             createNewTicketPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1);
