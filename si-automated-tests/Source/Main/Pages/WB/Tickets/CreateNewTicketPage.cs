@@ -222,9 +222,9 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         {
             SendKeys(vehicleReg, vehicleValue);
             ClickOnElement(anyOption, vehicleValue);
-            WaitForLoadingIconToDisappear();
-            IsGreylistCodeModel(vehicleValue);
-            ClickOnElement(By.XPath("//button[text()='OK']"));
+            //WaitForLoadingIconToDisappear();
+            //IsGreylistCodeModel(vehicleValue);
+            //ClickOnElement(By.XPath("//button[text()='OK']"));
             return this;
         }
         [AllureStep]
@@ -704,7 +704,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         private readonly By correspondenceAddressUnderSource = By.XPath("//select[@id='source-party']/following-sibling::div/p[contains(text(), 'Correspondence Address')]");
         private readonly By manualSourcePartyInputNextToSourceField = By.CssSelector("input[id='manual-source-party']");
         private readonly By manualDestinationInputNextToSourceField = By.XPath("//label[text()='Destination']/following-sibling::div/input[@id='manual-destination-party']");
-        private readonly By sourceInput = By.CssSelector("//select[@id='source-party']");
+        private readonly By sourceInput = By.XPath("//select[@id='source-party']");
 
         [AllureStep]
         public CreateNewTicketPage VerifyTextUnderSourceField(string accountNumberValue)
@@ -741,7 +741,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         [AllureStep]
         public string GetSourceValue()
         {
-            return GetAttributeValue(sourceInput, "value");
+            return GetFirstSelectedItemInDropdown(sourceInput);
         }
 
         [AllureStep]

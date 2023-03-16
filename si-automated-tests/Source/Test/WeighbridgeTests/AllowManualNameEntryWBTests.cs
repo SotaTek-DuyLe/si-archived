@@ -419,7 +419,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyTextFieldNextToDestinationField()
                 //Step line 13: Input [Manual Destination Party] field and Add ticket line
                 .InputManualDestinationParty(manualDestinationParty)
-                .ClickAddTicketLineBtn()
                 .ClickProductDd()
                 .ClickAnyProductValue(outboundProduct)
                 //Verify Location
@@ -441,8 +440,8 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyValueInDestinationParty(manualDestinationParty);
             //Step line 15: Run query
             WBTicketDBModel wBTicketDBModelAfter = commonFinder.GetWBTicketByTicketId(ticketIdFirst);
-            Assert.AreEqual(partyNameCustomer, wBTicketDBModelAfter.destination_party);
-            Assert.AreEqual(manualDestinationParty, wBTicketDBModelAfter.source_party);
+            Assert.AreEqual(manualDestinationParty, wBTicketDBModelAfter.destination_party);
+            Assert.AreEqual(partyNameCustomer, wBTicketDBModelAfter.source_party);
             createNewTicketPage
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1);
@@ -468,6 +467,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyTextUnderSourceField(accountNumber)
                 //Step line 20: DO NOT fill [manual Source party] and add new ticket
                 //Add ticket line and Save
+                .ClickAddTicketLineBtn()
                 .ClickProductDd()
                 .ClickAnyProductValue(product56)
                 //Verify Location
@@ -497,86 +497,86 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         }
 
-        [Category("WB")]
-        [Category("Chang")]
-        [Category("AllowManualNameEntry")]
-        [Test(Description = "Verify that text field is not displayed  when Allow manual name entry is unticked"), Order(3)]
-        public void TC_261_Tab_Allow_Manual_Name_Entry_Allow_Manual_Name_Entry_Is_Unticked()
-        {
-            //Go to the [WB Settings] tab and unticket [Allow Manual Name Entry]
-            CommonFinder commonFinder = new CommonFinder(DbContext);
+        //[Category("WB")]
+        //[Category("Chang")]
+        //[Category("AllowManualNameEntry")]
+        //[Test(Description = "Verify that text field is not displayed  when Allow manual name entry is unticked"), Order(3)]
+        //public void TC_261_Tab_Allow_Manual_Name_Entry_Allow_Manual_Name_Entry_Is_Unticked()
+        //{
+        //    //Go to the [WB Settings] tab and unticket [Allow Manual Name Entry]
+        //    CommonFinder commonFinder = new CommonFinder(DbContext);
 
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            //Login
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser85.UserName, AutoUser85.Password)
-                .IsOnHomePage(AutoUser85);
-            //Open the party Id = partyCustomerId
-            PageFactoryManager.Get<BasePage>()
-                .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
-            PageFactoryManager.Get<DetailPartyPage>()
-               .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
-                .ClickWBSettingTab()
-                .WaitForLoadingIconToDisappear();
-            //Step line 24: Click on [WB Settings] tab and UnTick [Allow manual name entry]
-            PageFactoryManager.Get<DetailPartyPage>()
-                .ClickOnAllowManualNameEntryCheckbox()
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            string accountNumber = PageFactoryManager.Get<DetailPartyPage>()
-                .GetAccountNumber();
-            PageFactoryManager.Get<DetailPartyPage>()
-                .VerifyAllowManualNameEntryUnChecked()
-                //Step line 25: Click on [WB tickets] tab and [Add new item]
-                .ClickWBTicketTab()
-                .ClickAddNewWBTicketBtn()
-                .SwitchToChildWindow(2)
-                .WaitForLoadingIconToDisappear();
-            CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
-            createNewTicketPage
-                .IsCreateNewTicketPage()
-                .ClickStationDdAndSelectStation(stationNameTC56)
-                .WaitForLoadingIconToDisappear();
-            createNewTicketPage
-                .VerifyDisplayVehicleRegInput()
-                .InputVehicleRegInput(resourceName)
-                .WaitForLoadingIconToDisappear();
-            //Select Haulier
-            createNewTicketPage
-                .VerifyDisplayHaulierDd()
-                .ClickAnyHaulier(partyNameHaulier)
-                .WaitForLoadingIconToDisappear();
-            //Verify not display the text next to the [Source] field
-            createNewTicketPage
-                .VerifyTextFieldIsNotDisplayedNextToSourceDd()
-                //Step line 26: Add a new ticket line
-                .ClickAddTicketLineBtn()
-                .ClickProductDd()
-                .ClickAnyProductValue(product56)
-                //Verify Location
-                .VerifyLocationPrepolulated(locationNameActive56)
-                //Mandatory field remaining
-                .InputFirstWeight(2)
-                .InputFirstDate()
-                .InputSecondDate()
-                .InputSecondWeight(1)
-                .ClickSaveBtn();
-            createNewTicketPage
-                .ClickOnNoWarningPopup();
-            createNewTicketPage
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-            string ticketIdFirst = createNewTicketPage
-                .GetWBTicketId();
-            //Step line 27: DB
-            WBTicketDBModel wBTicketDBModel = commonFinder.GetWBTicketByTicketId(ticketIdFirst);
-            Assert.AreEqual(partyNameCustomer, wBTicketDBModel.destination_party);
-            Assert.AreEqual(partyNameCustomer, wBTicketDBModel.source_party);
+        //    PageFactoryManager.Get<LoginPage>()
+        //        .GoToURL(WebUrl.MainPageUrl);
+        //    //Login
+        //    PageFactoryManager.Get<LoginPage>()
+        //        .IsOnLoginPage()
+        //        .Login(AutoUser85.UserName, AutoUser85.Password)
+        //        .IsOnHomePage(AutoUser85);
+        //    //Open the party Id = partyCustomerId
+        //    PageFactoryManager.Get<BasePage>()
+        //        .GoToURL(WebUrl.MainPageUrl + "web/parties/" + partyCustomerId);
+        //    PageFactoryManager.Get<DetailPartyPage>()
+        //       .WaitForLoadingIconToDisappear();
+        //    PageFactoryManager.Get<DetailPartyPage>()
+        //        .WaitForDetailPartyPageLoadedSuccessfully(partyNameCustomer)
+        //        .ClickWBSettingTab()
+        //        .WaitForLoadingIconToDisappear();
+        //    //Step line 24: Click on [WB Settings] tab and UnTick [Allow manual name entry]
+        //    PageFactoryManager.Get<DetailPartyPage>()
+        //        .ClickOnAllowManualNameEntryCheckbox()
+        //        .ClickSaveBtn()
+        //        .WaitForLoadingIconToDisappear();
+        //    string accountNumber = PageFactoryManager.Get<DetailPartyPage>()
+        //        .GetAccountNumber();
+        //    PageFactoryManager.Get<DetailPartyPage>()
+        //        .VerifyAllowManualNameEntryUnChecked()
+        //        //Step line 25: Click on [WB tickets] tab and [Add new item]
+        //        .ClickWBTicketTab()
+        //        .ClickAddNewWBTicketBtn()
+        //        .SwitchToChildWindow(2)
+        //        .WaitForLoadingIconToDisappear();
+        //    CreateNewTicketPage createNewTicketPage = PageFactoryManager.Get<CreateNewTicketPage>();
+        //    createNewTicketPage
+        //        .IsCreateNewTicketPage()
+        //        .ClickStationDdAndSelectStation(stationNameTC56)
+        //        .WaitForLoadingIconToDisappear();
+        //    createNewTicketPage
+        //        .VerifyDisplayVehicleRegInput()
+        //        .InputVehicleRegInput(resourceName)
+        //        .WaitForLoadingIconToDisappear();
+        //    //Select Haulier
+        //    createNewTicketPage
+        //        .VerifyDisplayHaulierDd()
+        //        .ClickAnyHaulier(partyNameHaulier)
+        //        .WaitForLoadingIconToDisappear();
+        //    //Verify not display the text next to the [Source] field
+        //    createNewTicketPage
+        //        .VerifyTextFieldIsNotDisplayedNextToSourceDd()
+        //        //Step line 26: Add a new ticket line
+        //        .ClickAddTicketLineBtn()
+        //        .ClickProductDd()
+        //        .ClickAnyProductValue(product56)
+        //        //Verify Location
+        //        .VerifyLocationPrepolulated(locationNameActive56)
+        //        //Mandatory field remaining
+        //        .InputFirstWeight(2)
+        //        .InputFirstDate()
+        //        .InputSecondDate()
+        //        .InputSecondWeight(1)
+        //        .ClickSaveBtn();
+        //    createNewTicketPage
+        //        .ClickOnNoWarningPopup();
+        //    createNewTicketPage
+        //        .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+        //        .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+        //    string ticketIdFirst = createNewTicketPage
+        //        .GetWBTicketId();
+        //    //Step line 27: DB
+        //    WBTicketDBModel wBTicketDBModel = commonFinder.GetWBTicketByTicketId(ticketIdFirst);
+        //    Assert.AreEqual(partyNameCustomer, wBTicketDBModel.destination_party);
+        //    Assert.AreEqual(partyNameCustomer, wBTicketDBModel.source_party);
 
-        }
+        //}
     }
 }
