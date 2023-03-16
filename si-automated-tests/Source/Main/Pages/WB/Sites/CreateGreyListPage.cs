@@ -17,7 +17,8 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
         private readonly By vehicleInput = By.XPath("//label[text()='Vehicle']/following-sibling::div//input");
         private readonly By startDateInput = By.CssSelector("input[id='start-date']");
         private readonly By endDateInput = By.CssSelector("input[id='end-date']");
-        private readonly By ticketDd = By.XPath("//label[text()='Ticket']/following-sibling::div//button");
+        private readonly By ticketDd = By.XPath("//select[@id='ticket']");
+        private readonly By ticketLabel = By.XPath("//label[text()='Ticket']");
         private readonly By ticketBtn = By.XPath("//label[text()='Ticket']/following-sibling::div//button");
         private readonly By ticketButton = By.XPath("//label[text()='Ticket']/following-sibling::div//button/span[1]");
         private readonly By customerDd = By.CssSelector("select[id='customer']");
@@ -183,7 +184,8 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
         [AllureStep]
         public CreateGreyListPage ClickOnTicketDdAndVerify(string[] ticketValue)
         {
-            ClickOnElement(ticketDd);
+            ClickOnElement(ticketLabel);
+            ClickOnElement(ticketBtn);
 
             foreach(string ticket in ticketValue)
             {
