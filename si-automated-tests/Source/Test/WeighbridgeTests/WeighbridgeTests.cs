@@ -2141,6 +2141,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("TC_260")]
         [Category("Chang")]
         [Test(Description = "Verify that Grey list can be created"), Order(11)]
         public void TC_260_Grey_lists_Verify_greylist_can_be_created()

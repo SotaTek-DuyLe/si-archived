@@ -17,7 +17,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
         private readonly By vehicleInput = By.XPath("//label[text()='Vehicle']/following-sibling::div//input");
         private readonly By startDateInput = By.CssSelector("input[id='start-date']");
         private readonly By endDateInput = By.CssSelector("input[id='end-date']");
-        private readonly By ticketDd = By.XPath("//select[@id='ticket']");
+        private readonly By ticketDd = By.XPath("//label[text()='Ticket']/following-sibling::div//button/parent::div");
         private readonly By ticketLabel = By.XPath("//label[text()='Ticket']");
         private readonly By ticketBtn = By.XPath("//label[text()='Ticket']/following-sibling::div//button");
         private readonly By ticketButton = By.XPath("//label[text()='Ticket']/following-sibling::div//button/span[1]");
@@ -36,7 +36,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
         private const string anyLiOption = "//li[contains(text(), '{0}')]";
         private const string noResultsMatchedGreylistCode = "//li[contains(text(), 'No results matched \"{0}\"')]";
         private const string anyGreyListCode = "//li//span[text()='{0}']";
-        private const string anyTicket = "//li//span[text()='{0}']";
+        private const string anyTicket = "//select[@id='ticket']/option[text()='{0}']";
         private const string customerOption = "//select[@id='customer']/option[contains(text(), '{0}')]";
         private const string haulierOption = "//select[@id='haulier']/option[contains(text(), '{0}')]";
 
@@ -185,7 +185,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Sites
         public CreateGreyListPage ClickOnTicketDdAndVerify(string[] ticketValue)
         {
             ClickOnElement(ticketLabel);
-            ClickOnElement(ticketBtn);
+            ClickOnElement(ticketDd);
 
             foreach(string ticket in ticketValue)
             {
