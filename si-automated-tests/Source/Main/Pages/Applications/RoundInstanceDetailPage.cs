@@ -115,7 +115,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             IWebElement cell = UnallocatedTableEle.GetCell(0, 1);
             IWebElement img = cell.FindElement(By.XPath("./div//img"));
-            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.png"));
+            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.svg"));
             return this;
         }
 

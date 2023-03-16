@@ -24,6 +24,7 @@ using si_automated_tests.Source.Main.Pages.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
 using si_automated_tests.Source.Main.Finders;
 using System.Linq;
+using System;
 
 namespace si_automated_tests.Source.Test.PartiesTests
 {
@@ -736,11 +737,11 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickCalendarTab()
                 .WaitForLoadingIconToDisappear();
             var partyCalendarPage = PageFactoryManager.Get<PartyCalendarPage>();
-            partyCalendarPage.GoToAugust()
-                .WaitForLoadingIconToDisappear();
+            var wednesdaysInMonth = CommonUtil.GetWeekDaysInCurrentMonth(System.DayOfWeek.Wednesday).Select(x => x.ToString("yyyy-MM-dd")).ToList();
+            var mondaysInMonth = CommonUtil.GetWeekDaysInCurrentMonth(System.DayOfWeek.Monday).Select(x => x.ToString("yyyy-MM-dd")).ToList();
             //Edit Task 1
             partyCalendarPage
-                .ClickDayInstance(CommonUtil.StringToDateTime("2022-08-03", "yyyy-MM-dd"))
+                .ClickDayInstance(CommonUtil.StringToDateTime(wednesdaysInMonth[0], "yyyy-MM-dd"))
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             var detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
@@ -754,7 +755,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Edit Task 2
-            partyCalendarPage.ClickDayInstance(CommonUtil.StringToDateTime("2022-08-10", "yyyy-MM-dd"))
+            partyCalendarPage.ClickDayInstance(CommonUtil.StringToDateTime(wednesdaysInMonth[1], "yyyy-MM-dd"))
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnDetailTab()
@@ -764,7 +765,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Edit Task 3
-            partyCalendarPage.ClickDayInstance(CommonUtil.StringToDateTime("2022-08-17", "yyyy-MM-dd"))
+            partyCalendarPage.ClickDayInstance(CommonUtil.StringToDateTime(wednesdaysInMonth[2], "yyyy-MM-dd"))
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnDetailTab()
@@ -791,21 +792,19 @@ namespace si_automated_tests.Source.Test.PartiesTests
             partyCalendarPage.ClickSellectAllSites();
             partyCalendarPage.ClickApplyCalendarButton()
                 .WaitForLoadingIconToDisappear();
-            partyCalendarPage.GoToAugust()
-                .WaitForLoadingIconToDisappear();
-            partyCalendarPage.VerifyDayInstanceHasRaiseHandStatus(CommonUtil.StringToDateTime("2022-08-03", "yyyy-MM-dd"), false)
-                .VerifyDayInstanceHasRaiseHandStatus(CommonUtil.StringToDateTime("2022-08-10", "yyyy-MM-dd"), false)
-                .VerifyDayInstanceHasRaiseHandStatus(CommonUtil.StringToDateTime("2022-08-17", "yyyy-MM-dd"), false)
-                .VerifyDayInstanceHasRaiseHandStatus(CommonUtil.StringToDateTime("2022-08-01", "yyyy-MM-dd"), true);
+            partyCalendarPage.VerifyDayInstanceHasRaiseHandStatus(CommonUtil.StringToDateTime(wednesdaysInMonth[0], "yyyy-MM-dd"), false)
+                .VerifyDayInstanceHasRaiseHandStatus(DateTime.Now, false)
+                .VerifyDayInstanceHasRaiseHandStatus(CommonUtil.StringToDateTime(mondaysInMonth[0], "yyyy-MM-dd"), true);
             partyCalendarPage
-                .ClickDayInstance(CommonUtil.StringToDateTime("2022-08-03", "yyyy-MM-dd"))
+                .ClickDayInstance(CommonUtil.StringToDateTime(wednesdaysInMonth[0], "yyyy-MM-dd"))
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
+            string taskId = detailTaskPage.GetCurrentUrl().Split('/').LastOrDefault();
             detailTaskPage.VerifyElementVisibility(detailTaskPage.OnHoldImg, false)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             partyCalendarPage
-                .ClickDayInstance(CommonUtil.StringToDateTime("2022-08-01", "yyyy-MM-dd"))
+                .ClickDayInstance(CommonUtil.StringToDateTime(mondaysInMonth[0], "yyyy-MM-dd"))
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.VerifyElementVisibility(detailTaskPage.OnHoldImg, true)
@@ -823,8 +822,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SwitchNewIFrame();
 
             TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
-            string from = "03/08/2022";
-            string to = "03/08/2022";
+            string from = CommonUtil.GetFirstDayInMonth(DateTime.Now).ToString("dd/MM/yyyy");
+            string to = CommonUtil.GetLastDayInMonth(DateTime.Now).ToString("dd/MM/yyyy");
             taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.Commercial);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
             taskAllocationPage.ExpandRoundNode(Contract.Commercial)
@@ -842,7 +841,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             taskAllocationPage.WaitForLoadingIconToDisappear(false);
             taskAllocationPage.DragRoundInstanceToUnlocattedGrid("REC1-AM", "Wednesday")
                 .WaitForLoadingIconToDisappear(false);
-            taskAllocationPage.SendKeys(taskAllocationPage.IdFilterInput, "9292");
+            taskAllocationPage.SendKeys(taskAllocationPage.IdFilterInput, taskId);
             taskAllocationPage.SleepTimeInMiliseconds(200);
             taskAllocationPage.VerifyRoundInstanceStatusCompleted();
 
@@ -870,7 +869,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ExpandRoundsGo);
             taskConfirmationPage.SleepTimeInMiliseconds(200);
-            taskConfirmationPage.SendKeys(taskConfirmationPage.IdFilterInput, "9292");
+            taskConfirmationPage.SendKeys(taskConfirmationPage.IdFilterInput, taskId);
             taskConfirmationPage.SleepTimeInMiliseconds(200);
             taskConfirmationPage.VerifyRoundInstanceStatusCompleted();
             taskConfirmationPage.DoubleClickRoundInstance()
@@ -882,7 +881,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             roundInstanceDetailPage.SwitchNewIFrame();
             roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.ExpandRoundsGo);
             roundInstanceDetailPage.SleepTimeInMiliseconds(300);
-            roundInstanceDetailPage.SendKeys(roundInstanceDetailPage.IdFilterInput, "9292");
+            roundInstanceDetailPage.SendKeys(roundInstanceDetailPage.IdFilterInput, taskId);
             roundInstanceDetailPage.SleepTimeInMiliseconds(200);
             roundInstanceDetailPage.VerifyRoundInstanceStatusCompleted();
         }
