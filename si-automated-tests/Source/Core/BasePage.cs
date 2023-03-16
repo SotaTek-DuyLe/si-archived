@@ -919,6 +919,7 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public BasePage VerifyToastMessages(List<string> messages)
         {
+            WaitUtil.WaitForElementsCountToBe(By.XPath("//div[@data-notify-html='title']"), messages.Count);
             var notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
             int retryCount = 0;
             while (notifyMsgs.Count < messages.Count && retryCount < 10)
@@ -928,6 +929,11 @@ namespace si_automated_tests.Source.Core
                 retryCount++;
             }
             CollectionAssert.AreEquivalent(messages, notifyMsgs);
+            return this;
+        }
+        public BasePage VerifyToastMessagesDisappear()
+        {
+            WaitUtil.WaitForElementsCountToBe(By.XPath("//div[@data-notify-html='title']"), 0);
             return this;
         }
         [AllureStep]
