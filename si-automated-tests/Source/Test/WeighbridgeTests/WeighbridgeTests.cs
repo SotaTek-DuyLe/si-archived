@@ -1309,7 +1309,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
             //Add ticket line
             createNewTicketPage
                 .InputLicenceNumberExpDate()
-                .InputLicenceNumber()
+                .InputLicenceNumber(licenceNumberHaulier)
                 .ClickAddTicketLineBtn()
                 //Select Product created
                 .ClickProductDd()
@@ -1527,7 +1527,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Licence number & expiry"), Order(12)]
+        [Test(Description = "Licence number & expiry"), Order(13)]
         public void TC_261_Licence_number_expiry_Step_1()
         {
             string partyNameHaulier = "TC261_PartyHaulier" + CommonUtil.GetRandomNumber(5);
@@ -1744,7 +1744,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Licence number & expiry"), Order(13)]
+        [Test(Description = "Licence number & expiry"), Order(14)]
         public void TC_261_Licence_number_expiry_Step_2()
         {
             PageFactoryManager.Get<NavigationBase>()
@@ -1804,7 +1804,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Licence number & expiry"), Order(14)]
+        [Test(Description = "Licence number & expiry"), Order(15)]
         public void TC_261_Licence_number_expiry_Step_4()
         {
             string partyNameCustomer = "Auto261_Step4Customer" + CommonUtil.GetRandomString(2);
@@ -2141,6 +2141,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         }
 
         [Category("WB")]
+        [Category("TC_260")]
         [Category("Chang")]
         [Test(Description = "Verify that Grey list can be created"), Order(11)]
         public void TC_260_Grey_lists_Verify_greylist_can_be_created()
@@ -2842,7 +2843,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
 
         [Category("WB")]
         [Category("Chang")]
-        [Test(Description = "Verify that it is possible to delete grey list record"), Order(13)]
+        [Test(Description = "Verify that it is possible to delete grey list record"), Order(12)]
         public void TC_260_Grey_lists_Verify_greylist_can_be_deleted()
         {
             string greylistCodeId = "1";
