@@ -1308,7 +1308,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .WaitForLoadingIconToDisappear();
             //Add ticket line
             createNewTicketPage
-                .InputLicenceNumberExpDate()
+                .InputLicenceNumberExpDate(licenceExpHaulier)
                 .InputLicenceNumber(licenceNumberHaulier)
                 .ClickAddTicketLineBtn()
                 //Select Product created
