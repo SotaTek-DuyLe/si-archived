@@ -63,6 +63,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<CreditNoteLinePage>()
                 .IsOnCreditNoteLinePage()
+                .SelectDepot(Contract.Commercial)
                 .InputInfo(lineType, site, product, priceElement, description, quantity, price)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
@@ -110,6 +111,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<CreditNoteLinePage>()
                 .IsOnCreditNoteLinePage()
+                .SelectDepot(Contract.Commercial)
                 .InputInfo(lineType, site, product, priceElement, description, quantity, price)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
@@ -188,6 +190,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<CreditNoteLinePage>()
                 .IsOnCreditNoteLinePage()
+                .SelectDepot(Contract.Commercial)
                 .InputInfo(lineType, site, product, priceElement, description, quantity, price)
                 .SelectVatRate(vat)
                 .ClickSaveBtn()
