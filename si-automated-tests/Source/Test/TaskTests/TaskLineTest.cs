@@ -592,10 +592,13 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear();
             var taskListingPage = PageFactoryManager.Get<TasksListingPage>();
             taskListingPage.VerifyHeadersVisible(new System.Collections.Generic.List<string>() { "Priority" });
+            taskListingPage.FilterPriority("Not equal to", "High");
+            taskListingPage.WaitForLoadingIconToDisappear();
             taskListingPage.ClickOnFirstRecord()
                 .SwitchToChildWindow(2);
             DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
             detailTaskPage.SelectTextFromDropDown(detailTaskPage.PrioritySelect, "High");
+            string taskId = detailTaskPage.GetCurrentUrl().Split('/').LastOrDefault();
             detailTaskPage.ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             detailTaskPage.ClickCloseBtn()
@@ -603,6 +606,9 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             taskListingPage.ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
+            taskListingPage.FilterByTaskId(taskId);
+            taskListingPage.FilterPriority("Equal to", "High");
+            taskListingPage.WaitForLoadingIconToDisappear();
             taskListingPage.VerifyPriority("High");
 
             PageFactoryManager.Get<NavigationBase>()
@@ -620,7 +626,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday")
+            taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
@@ -635,7 +641,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday")
+            taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
@@ -668,12 +674,14 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday")
+            taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
                 .WaitForLoadingIconToDisappear(false);
             //Double click round instance
             taskConfirmationPage.DoubleClickRoundLeg(0)
                 .SwitchToChildWindow(2);
             RoundLegInstancePage roundLegInstancePage = PageFactoryManager.Get<RoundLegInstancePage>();
+            roundLegInstancePage.WaitForLoadingIconToDisappear();
+            roundLegInstancePage.WaitForLoadingIconToDisappear();
             roundLegInstancePage.ClickOnElement(roundLegInstancePage.DetailTab);
             roundLegInstancePage.waitForLoadingIconDisappear();
             roundLegInstancePage.SelectTextFromDropDown(roundLegInstancePage.StatusSelect, "Delayed");
@@ -684,11 +692,14 @@ namespace si_automated_tests.Source.Test.TaskTests
             roundLegInstancePage.ClickCloseBtn()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
+            taskConfirmationPage.ClickRefreshBtn();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.VerifyResolutionCodeOnRoundLegs(0, "Bad Weather");
             //Double click task
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday")
+            taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
@@ -703,9 +714,11 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage.ClickCloseBtn()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
+            taskConfirmationPage.ClickRefreshBtn();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
-            taskConfirmationPage.DragRoundInstanceToUnlocattedGrid("ECREC1", "Thursday")
+            taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);

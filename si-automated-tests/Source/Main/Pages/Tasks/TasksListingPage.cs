@@ -42,6 +42,18 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         [AllureStep]
+        public TasksListingPage FilterPriority(string mode, string value)
+        {
+            ClickOnElement(By.XPath("//div[contains(@class, 'l23 r23')]/descendant::button"));
+            SelectByDisplayValueOnUlElement(By.XPath("//ul[@aria-expanded='true']"), mode);
+            SleepTimeInMiliseconds(100);
+            SendKeys(By.XPath("//div[contains(@class, 'l23 r23')]/descendant::input"), value);
+            ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
         public TasksListingPage VerifyPriority(string value)
         {
             VerifyCellValue(TaskTableEle, 0, TaskTableEle.GetCellIndex(TaskPriorityCell), value);

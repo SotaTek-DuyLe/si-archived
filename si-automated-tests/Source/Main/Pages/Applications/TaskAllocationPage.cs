@@ -8,6 +8,7 @@ using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Models.Applications;
 using si_automated_tests.Source.Main.Models.ServiceStatus;
 using si_automated_tests.Source.Main.Pages.Tasks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -232,6 +233,30 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DragAndDrop(cell, grid);
             return this;
         }
+
+        [AllureStep]
+        public TaskAllocationPage DragEmtyRoundInstanceToUnlocattedGrid(int dragcellIdx)
+        {
+            bool isEmptyCell(IWebElement cell)
+            {
+                IWebElement content = cell.FindElement(By.XPath(".//span[@class='percent-complete-bar']"));
+                string width = content.GetCssValue("width");
+                return width == "0px";
+            }
+            int rowCount = RoundInstanceTableEle.GetRows().Count;
+            for (int i = 0; i < rowCount; i++)
+            {
+                IWebElement cell = RoundInstanceTableEle.GetCell(i, dragcellIdx);
+                if (isEmptyCell(cell))
+                {
+                    IWebElement grid = GetElement(UnallocatedTable);
+                    DragAndDrop(cell, grid);
+                    break;
+                }
+            }
+            return this;
+        }
+
         [AllureStep]
         public TaskAllocationPage DragRoundInstanceToReallocattedGrid(string roundGroup, string round, int dragcellIdx = 3)
         {
@@ -868,7 +893,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             IWebElement cell = RoundTabTableEle.GetCell(0, 4);
             IWebElement img = cell.FindElement(By.XPath("./div//img"));
-            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.png"));
+            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.svg"));
             return this;
         }
         [AllureStep]

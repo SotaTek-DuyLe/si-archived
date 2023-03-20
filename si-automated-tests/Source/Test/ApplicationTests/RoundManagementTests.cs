@@ -135,6 +135,8 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             masterRoundManagementPage.SelectTextFromDropDown(masterRoundManagementPage.SubcontractSelect, "No Service")
                 .ClickOnElement(masterRoundManagementPage.SubcontractConfirmButton);
             masterRoundManagementPage.WaitForLoadingIconToDisappear();
+            masterRoundManagementPage.ClickRefreshBtn();
+            masterRoundManagementPage.WaitForLoadingIconToDisappear();
             //Scroll right
             masterRoundManagementPage.ScrollToSubcontractHeader()
                 .VerifyFirstAndSecondConfirmedTask("No Service");

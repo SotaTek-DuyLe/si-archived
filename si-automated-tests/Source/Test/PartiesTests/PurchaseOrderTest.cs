@@ -532,7 +532,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnPartyPurchaseOrderPage()
                 .SelectPurchaseOrder(PO_Number)
                 .ClickDeletePurchaseOrder()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(3);
             PageFactoryManager.Get<RemovePurchaseOrderPage>()
                 .IsOnRemovePurchaseOrderPage()
                 .ClickNoBtn()
@@ -540,7 +540,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<PartyPurchaseOrderPage>()
                 .VerifyPurchaseOrderAppear(PO_Number)
                 .ClickDeletePurchaseOrder()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(3);
             PageFactoryManager.Get<RemovePurchaseOrderPage>()
                 .IsOnRemovePurchaseOrderPage()
                 .ClickYesBtn()

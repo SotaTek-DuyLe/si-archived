@@ -428,7 +428,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By titleTaskLineFirstServiceUpdate = By.XPath("(//strong[text()='Update'])[1]");
         private readonly By titleTaskLineSecondServiceUpdate = By.XPath("//strong[contains(text(), 'Service Update')]");
         private readonly By userFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[1]/parent::div/following-sibling::div/strong[1]");
-        private readonly By timeFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[2]/parent::div/following-sibling::div/strong[2]");
+        private readonly By timeFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[1]/parent::div/following-sibling::div/strong[2]");
 
         private readonly By userSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[2]/parent::div/following-sibling::div/strong[1]");
         private readonly By timeSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[2]/parent::div/following-sibling::div/strong[2]");
@@ -464,6 +464,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         [AllureStep]
         public DetailTaskPage VerifyTitleTaskLineFirstServiceUpdate()
         {
+            WaitUtil.WaitForElementVisible(titleTaskLineFirstServiceUpdate);
             Assert.IsTrue(IsControlDisplayed(titleTaskLineFirstServiceUpdate), "Title Task Line is not displayed");
             return this;
         }
