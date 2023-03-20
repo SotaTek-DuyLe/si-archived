@@ -24,6 +24,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By title = By.XPath("//h4[text()='Sales Invoice Line']");
         private readonly By unmarkInvoiceLineForCreditBtn = By.XPath("//button[text()='Unmark Invoice Line From Credit']");
         private readonly By id = By.CssSelector("h4[title='Id']");
+        private readonly By depotButton = By.XPath("//button[@data-id='depot']");
 
         [AllureStep]
         public SaleInvoiceLinePage IsOnSaleInvoiceLinePage()
@@ -63,6 +64,13 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         public SaleInvoiceLinePage VerifyDisplayUnmarkInvoiceLineFromCreditBtn()
         {
             Assert.IsTrue(IsControlEnabled(unmarkInvoiceLineForCreditBtn));
+            return this;
+        }
+        [AllureStep]
+        public SaleInvoiceLinePage SelectDepot(string value)
+        {
+            ClickOnElement(depotButton);
+            ClickOnElement(By.XPath(String.Format("//span[text()='{0}']", value)));
             return this;
         }
     }

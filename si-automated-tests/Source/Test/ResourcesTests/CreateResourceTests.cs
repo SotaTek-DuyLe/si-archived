@@ -126,6 +126,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ResourceDetailTab>()
                 .IsOnDetailTab()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToTab("Calendar");
             PageFactoryManager.Get<ResourceCalendarTab>()
                 .VerifyWorkPatternNotSet()
@@ -137,7 +138,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyExtraTabsArePresent()
                 .ClickSaveBtn()
                 .SwitchToTab("Calendar")
-                .ClickRefreshBtn();
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear()
+                .SwitchToTab("Calendar")
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceCalendarTab>()
                 .VerifyWorkPatternIsSet("AM 05.00 - 14.00");
         }
