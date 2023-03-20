@@ -22,7 +22,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By MinProductQtyInput = By.XPath("//div[@id='details-tab']//input[@id='minProductQty']");
         public readonly By MaxProductQtyInput = By.XPath("//div[@id='details-tab']//input[@id='maxProductQty']");
         public readonly By ScheduleProductQtyInput = By.XPath("//div[@id='details-tab']//input[@id='scheduledProductQuantity']");
-        public readonly By ProductUnitSelect = By.XPath("//div[@id='details-tab']//select[@id='unitOfMeasure.id']");
+        public readonly By ProductUnitSelect = By.XPath("//div[@id='details-tab']//echo-select[contains(@params, 'unitOfMeasure')]");
         public readonly By SerialisedCheckbox = By.XPath("//div[@id='details-tab']//input[contains(@data-bind, 'isSerialised.id')]");
         public readonly By DestinationSiteSelect = By.XPath("//div[@id='details-tab']//select[@id='destinationSite.id']");
         public readonly By SiteProductSelect = By.XPath("//div[@id='details-tab']//select[@id='siteProduct.id']");

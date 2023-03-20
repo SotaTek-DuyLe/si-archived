@@ -233,5 +233,16 @@ namespace si_automated_tests.Source.Core
                 return attributeValue != originalValue;
             });
         }
+        [AllureStep]
+        public static void WaitForElementsCountToBe(By by, int expectedCount)
+        {
+            var driverWait = new WebDriverWait(IWebDriverManager.GetDriver(), TimeSpan.FromSeconds(shortTimeOut));
+            driverWait.Until((driver) =>
+            {
+                ICollection<IWebElement> webElements = driver.FindElements(by);
+                int count = webElements.Count;
+                return count == expectedCount;
+            });
+        }
     }
 }

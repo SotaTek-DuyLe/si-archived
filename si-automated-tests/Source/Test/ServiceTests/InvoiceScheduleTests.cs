@@ -38,8 +38,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchNewIFrame();
             ServiceCommonPage serviceCommonPage = PageFactoryManager.Get<ServiceCommonPage>();
             serviceCommonPage.WaitForLoadingIconToDisappear();
-            serviceCommonPage.ClickTabDropDown()
-                .ClickInvoiceScheduleTab()
+            serviceCommonPage.ClickInvoiceScheduleTab()
                 .WaitForLoadingIconToDisappear()
                 .WaitForLoadingIconToDisappear();
             serviceCommonPage.ClickOnElement(serviceCommonPage.AddNewInvoiceSchedule);
@@ -163,8 +162,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SwitchNewIFrame();
             ServiceCommonPage serviceCommonPage = PageFactoryManager.Get<ServiceCommonPage>();
             serviceCommonPage.WaitForLoadingIconToDisappear();
-            serviceCommonPage.ClickTabDropDown()
-                .ClickInvoiceScheduleTab()
+            serviceCommonPage.ClickInvoiceScheduleTab()
                 .WaitForLoadingIconToDisappear()
                 .WaitForLoadingIconToDisappear();
             serviceCommonPage.ClickOnElement(serviceCommonPage.AddNewInvoiceSchedule);
