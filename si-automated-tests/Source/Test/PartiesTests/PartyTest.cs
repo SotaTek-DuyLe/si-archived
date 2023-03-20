@@ -1073,6 +1073,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SaleInvoiceLinePage>()
                 .IsOnSaleInvoiceLinePage()
+                .SelectDepot(Contract.Commercial)
                 .InputInfo(lineType, site, product, priceElement, quantity, price)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
@@ -1110,6 +1111,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<SalesInvoiceDetailPage>()
                 .SelectFirstUninvoicedItem()
                 .IsOnSaleInvoiceDetailPage()
+                .SleepTimeInSeconds(3)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
@@ -1118,13 +1120,13 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValueInTab("ID", invoiceId)
                 .CloseCurrentWindow()
-                .WaitForLoadingIconToDisappear()
                 .SwitchToLastWindow<AccountStatementPage>()
                 .ClickCreateInvoiceItem()
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SaleInvoiceLinePage>()
                 .IsOnSaleInvoiceLinePage()
+                .SelectDepot(Contract.Commercial)
                 .InputInfo(lineType, site, product, priceElement, quantity, price)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
