@@ -1791,8 +1791,10 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 //Select Product created
                 .ClickProductDd()
                 .ClickAnyProductValue(product)
-                //Input Net quantity
-                .InputNetQuantity("12")
+                .InputFirstWeight(2)
+                .InputFirstDate()
+                .InputSecondDate()
+                .InputSecondWeight(1)
                 .ClickSaveBtn();
             createNewTicketPage
                 .ClickOnNoWarningPopup();
