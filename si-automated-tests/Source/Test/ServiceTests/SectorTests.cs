@@ -165,6 +165,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .OpenFirstResult()
                 .WaitForLoadingIconToDisappear()
                 .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToTab("Announcements");
             CreateAnnouncementAndVerifyInTabSection();
             PageFactoryManager.Get<BasePage>()

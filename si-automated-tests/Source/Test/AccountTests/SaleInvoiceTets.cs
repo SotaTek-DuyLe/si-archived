@@ -63,6 +63,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<SaleInvoiceLinePage>()
                 .IsOnSaleInvoiceLinePage()
+                .SelectDepot(Contract.Commercial)
                 .InputInfo(lineType, site, product, priceElement, quantity, price)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)

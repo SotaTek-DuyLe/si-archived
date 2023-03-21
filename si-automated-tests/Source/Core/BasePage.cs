@@ -689,6 +689,16 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         [AllureStep]
+        public BasePage ScrollMaxToLeft(By by)
+        {
+            WaitUtil.WaitForPageLoaded();
+            IWebElement e = GetElement(by);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollLeft += arguments[0].scrollWidth", e);
+
+            return this;
+        }
+        [AllureStep]
         public BasePage ScrollRight(By by)
         {
             WaitUtil.WaitForPageLoaded();

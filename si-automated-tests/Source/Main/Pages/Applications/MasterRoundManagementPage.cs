@@ -45,6 +45,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly String lastTaskField = "(//div[contains(@id,'round-tab') and contains(@class,'active')]//div[@class='grid-canvas']/div[contains(@class,'content slick-row')])[last()]/div[contains(@class,'{0}')]";
         private readonly String taskField = "//div[contains(@id,'round-tab') and contains(@class,'active')]//div[@class='grid-canvas']/div[contains(@class,'content slick-row')]/div[contains(@class,'{0}')]";
         private readonly By slickViewport = By.XPath("(//div[@class='slick-viewport'])[last()]");
+        private readonly By descriptionFilterHeader = By.XPath("//div[@class='tab-pane echo-grid active']//div[@class='slick-headerrow ui-state-default']//div[contains(@class,'l4 r4')]//input");
 
         public readonly By Subcontract = By.XPath("//button[@id='t-selected-rows-subcontract']");
         public readonly By SubcontractSelect = By.XPath("//select[@id='subcontractReasons']");
@@ -224,8 +225,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsPresent(unallocatedHeaders);
             for (int i = 0; i < hds.Count; i++)
             {
-                //Changed Description to Street for validation
-                if (hds[i].Text.Equals("Street", StringComparison.OrdinalIgnoreCase))
+                //Changed Description to Site for validation
+                if (hds[i].Text.Equals("Description", StringComparison.OrdinalIgnoreCase))
                 {
                     IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(activeUnallocatedTaskField);
                     temp.Description = _firstResultFields[i].Text;
@@ -276,6 +277,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
         [AllureStep]
+        public MasterRoundManagementPage FilterDescription(string value)
+        {
+            SendKeys(descriptionFilterHeader, value);
+            return this;
+        }
+        [AllureStep]
         public MasterRoundManagementPage VerifyTaskModelDescriptionAndStartDate(TaskModel expected)
         {
             //verify last task in grid
@@ -289,7 +296,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 {
                     IWebElement e = GetElement(String.Format(lastTaskField, i.ToString()));
                     actual.Description = e.Text;
-                    ScrollLeft(slickViewport);
+                    ScrollMaxToLeft(slickViewport);
                     continue;
                 }
                 else if (hds[i].Text.Equals("Start Date", StringComparison.OrdinalIgnoreCase))
@@ -317,7 +324,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 {
                     IWebElement e = GetElement(String.Format(taskField, i.ToString()));
                     actual.Description = e.Text;
-                    ScrollLeft(slickViewport);
+                    ScrollMaxToLeft(slickViewport);
                     continue;
                 }
                 else if (hds[i].Text.Equals("End Date", StringComparison.OrdinalIgnoreCase))
