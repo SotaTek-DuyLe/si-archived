@@ -16,7 +16,6 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By priceLineTab = By.CssSelector("a[aria-controls='priceLines-tab']");
         private readonly By linesTab = By.CssSelector("a[aria-controls='salesInvoiceLines-tab']");
         private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
-        private readonly By postcode = By.Id("post-code");
 
         //Uninvoiced popup
         private readonly By confirmBtn = By.XPath("//button[text()='Confirm']");
