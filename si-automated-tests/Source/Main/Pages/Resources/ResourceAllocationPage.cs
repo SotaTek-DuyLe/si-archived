@@ -485,6 +485,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage RefreshGrid()
         {
             ClickOnElement(refreshBtn);
+            SleepTimeInSeconds(2);
             WaitForLoadingIconToDisappear();
             return this;
         }

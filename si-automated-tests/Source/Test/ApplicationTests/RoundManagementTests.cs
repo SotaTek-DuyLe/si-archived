@@ -55,12 +55,13 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             PageFactoryManager.Get<MasterRoundManagementPage>()
                 .DragAndDropFirstRoundToGrid()
                 .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(5000)
+                .SleepTimeInMiliseconds(2000)
                 .SwitchToTab(firstRound);
             TaskModel expectedModel = new TaskModel();
             expectedModel.Description = model.Description;
             expectedModel.StartDate = date;
             PageFactoryManager.Get<MasterRoundManagementPage>()
+                .FilterDescription(expectedModel.Description)
                 .VerifyTaskModelDescriptionAndStartDate(expectedModel);
         }
         [Category("BusinessUnit")]
@@ -105,8 +106,15 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             PageFactoryManager.Get<MasterRoundManagementPage>()
                 .IsOnPage()
                 .InputSearchDetails(initDate);
+            string firstRound = PageFactoryManager.Get<MasterRoundManagementPage>()
+                .GetFirstRoundName();
             PageFactoryManager.Get<MasterRoundManagementPage>()
                 .DragAndDropFirstRoundToGrid()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000)
+                .SwitchToTab(firstRound);
+            PageFactoryManager.Get<MasterRoundManagementPage>()
+                .FilterDescription(expectedModel2.Description)
                 .VerifyTaskModelDescriptionAndEndDate(expectedModel2);
         }
 
