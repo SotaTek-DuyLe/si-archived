@@ -516,6 +516,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Category("Resources")]
         [Category("Dee")]
         [Test]
+        [Ignore("Ignore due to Ashna's request: Duplicated after modifying")]
         public void TC_222_verify_color_of_resource_when_hovered()
         {
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
