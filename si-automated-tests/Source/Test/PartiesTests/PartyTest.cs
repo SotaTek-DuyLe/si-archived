@@ -551,7 +551,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             string overrideValue = "Account reference value " + CommonUtil.GetRandomString(12);
             int partyId = 73;
-            string partyUrl = "https://test.echoweb.co.uk/web/parties/" + partyId;
+            string partyUrl = WebUrl.MainPageUrl + "web/parties/" + partyId;
             //login
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(charityAccountTypeSettingUrl);
