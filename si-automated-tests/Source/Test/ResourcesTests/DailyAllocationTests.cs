@@ -513,10 +513,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
         }
-        [Category("Resources")]
-        [Category("Dee")]
-        [Test]
-        [Ignore("Ignore due to Ashna's request: Duplicated after modifying")]
+        //[Category("Resources")]
+        //[Category("Dee")]
+        //[Test]
+        //[Ignore("Ignore due to Ashna's request: Duplicated after modifying")]
         public void TC_222_verify_color_of_resource_when_hovered()
         {
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
@@ -976,10 +976,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyToastMessage($"Unable to log request. {resource} has Sick request for {londonCurrentDate.ToString("dd/MM/yyyy")} - {londonCurrentDate.ToString("dd/MM/yyyy")}");
         }
 
-        [Category("Resources")]
-        [Category("Huong")]
-        [Test]
-        [Ignore("Ignore due to George's request")]
+        //[Category("Resources")]
+        //[Category("Huong")]
+        //[Test]
+        //[Ignore("Ignore due to George's request")]
         public void TC_275_Translation_DA()
         {
             var loginPage = PageFactoryManager.Get<LoginPage>();
