@@ -5,6 +5,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Models.Agreement;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
+using si_automated_tests.Source.Main.Pages.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,6 +59,9 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 
         public readonly By TaskTypeSearch = By.XPath("//div[@id='tasks-tab']//div[contains(@class, 'slick-headerrow-column l11 r1')]//input");
         public readonly By ApplyBtn = By.XPath("//div[@id='tasks-tab']//button[@title='Apply Filters']");
+
+        //DYNAMIC
+        public readonly string firstTaskAfterGenerated = "(//div[contains(text(), '{0}')]/preceding-sibling::div/div[contains(text(), '{1}')]/parent::div/following-sibling::div[contains(@class, 'l9')]/a[text()='ServiceUnit'])[1]";
 
         private TableElement taskTableEle;
         public TableElement TaskTableEle
@@ -362,6 +366,15 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             }
             return availableRow;
         }
+
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnFirstServiceUnitAfterGenerated(string taskTypeValue, string createdDateValue)
+        {
+            ClickOnElement(string.Format(firstTaskAfterGenerated, taskTypeValue, createdDateValue));
+            driver.SwitchTo().Window(driver.WindowHandles[1]);
+            return PageFactoryManager.Get<ServiceUnitDetailPage>();
+        }
+
         [AllureStep]
         public List<IWebElement> VerifyNewTaskAppearWithNum(int num, string taskState, string taskType, string dueDate, string completedDate)
         {

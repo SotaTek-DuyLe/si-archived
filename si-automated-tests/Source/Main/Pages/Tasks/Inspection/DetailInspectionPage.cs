@@ -419,7 +419,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         [AllureStep]
         public DetailInspectionPage UploadImage(string urlImage)
         {
-            ClickOnElement(addNewBtnImage);
+            //ClickOnElement(addNewBtnImage);
             SendKeysWithUrl(inputImage, urlImage);
             return this;
         }

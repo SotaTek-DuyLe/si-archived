@@ -35,6 +35,8 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private string DestinationSiteCell = "./td//select[@id='destinationSite.id']";
         private string SiteProductCell = "./td//select[@id='siteProduct.id']";
         private string RetireButtonCell = "./td//button[contains(text(), 'Retire')]";
+        private readonly By assetTypeDd = By.XPath("//td//echo-select[contains(@params, 'assetType')]//select");
+        private readonly string assetTypeOption = "//td//echo-select[contains(@params, 'assetType')]//select//option[text()='{0}']";
 
         public TableElement TaskLineTableEle
         {
@@ -123,6 +125,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             string enddate = GetElementText(endDate);
             Assert.AreEqual(enddate, date);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceTaskLineTab ClickOnAssetTypeAndSelectValue(string assetTypeValue)
+        {
+            ClickOnElement(assetTypeDd);
+            ClickOnElement(assetTypeOption, assetTypeValue);
             return this;
         }
     }
