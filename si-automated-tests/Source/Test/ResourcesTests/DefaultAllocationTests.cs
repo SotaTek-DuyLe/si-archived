@@ -68,7 +68,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //Verify end date is current date
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
-                .ClickOnEndDate(2)
+                .ClickOnEndDate(1)
                 .VerifyEndDateIsDefault()
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
@@ -91,7 +91,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
-                .ClickOnEndDate(2)
+                .ClickOnEndDate(1)
                 .VerifyEndDateIs(monthYearInFuture, dateInFutre)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
@@ -111,7 +111,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
-                .ClickOnEndDate(2)
+                .ClickOnEndDate(1)
                 .VerifyEndDateIs(monthYearInFuture, dateInFutre)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
@@ -183,7 +183,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("Default Resources");
             //Expand Driver and verify end date is current date
             PageFactoryManager.Get<RoundDefaultResourceTab>()
-                .ExpandOption(2)
+                .ExpandOption(-1)
                 .ClickOnLastSubEndDate()
                 .VerifyEndDateIsDefault()
                 .CloseCurrentWindow()
@@ -207,9 +207,9 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
-                .ClickOnEndDate(2)
+                .ClickOnEndDate(-1)
                 .VerifyEndDateIsDefault()
-                .ExpandOption(2)
+                .ExpandOption(-1)
                 .ClickOnLastSubEndDate()
                 .VerifyEndDateIs(monthYearInFuture, dateInFutre)
                 .CloseCurrentWindow()
@@ -230,9 +230,9 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
-                .ClickOnEndDate(2)
+                .ClickOnEndDate(-1)
                 .VerifyEndDateIsDefault()
-                .ExpandOption(2)
+                .ExpandOption(-1)
                 .ClickOnLastSubEndDate()
                 .VerifyEndDateIs(monthYearInFuture, dateInFutre)
                 .CloseCurrentWindow()
@@ -308,7 +308,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
-                .ExpandOption(2)
+                .ExpandOption(-1)
                 .ClickOnLastSubEndDate()
                 .VerifyEndDateIsDefault()
                 .CloseCurrentWindow()
@@ -333,7 +333,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
-                .ExpandOption(2)
+                .ExpandOption(-1)
                 .ClickOnLastSubEndDate()
                 .VerifyEndDateIs(monthYearInFuture, dateInFutre)
                 .CloseCurrentWindow()
@@ -360,10 +360,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToTab("Default Resources");
             PageFactoryManager.Get<RoundDefaultResourceTab>()
                 .IsOnDefaultResourceTab()
-                .ExpandOption(2)
+                .ExpandOption(-1)
                 .ClickOnSecondLastSubEndDate()
                 .VerifyEndDateIs(monthYearInFuture, dateInFutre)
-                .ExpandOption(3)
+                .ExpandOption(-1)
                 .ClickOnLastSubEndDate()
                 .VerifyEndDateIsDefault()
                 .CloseCurrentWindow()
@@ -561,7 +561,9 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF DIFFERENT ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundGroupToRound("Loader", 1)
-                .VerifyAllocatingToast(listMessagesResourceType);
+                .VerifyAllocatingToast(rscTypeClear)
+                .VerifyAllocatingToast(rscTypeSet);
+                //.VerifyAllocatingToast(listMessagesResourceType);
             //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF SAME ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceType(1)
@@ -577,6 +579,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundToRound(1, 2)
                 .VerifyAllocatingToast(listMessagesResourceType);
+
             //REALLOCATING RESOURCE FROM ROUND TO ROUND OF DIFFERENT ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundToRound(1, 6)
@@ -585,6 +588,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundToRoundGroup("Loader", 1)
                 .VerifyAllocatingToast(listMessagesResourceType);
+
             //REALLOCATING RESOURCE FROM ROUND TO ROUND GROUP OF SAME ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundToRound(2, 6)

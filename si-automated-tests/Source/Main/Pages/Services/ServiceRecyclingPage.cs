@@ -27,6 +27,16 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
+        public ServiceRecyclingPage SetRestrict(bool isSelected)
+        {
+            if (!GetCheckboxValue(RestrictEditCheckbox) && isSelected)
+            {
+                ClickOnElement(RestrictEditCheckbox);
+            }
+            return this;
+        }
+
+        [AllureStep]
         public ServiceRecyclingPage SelectRandomPointType()
         {
             string selectedPointType = GetFirstSelectedItemInDropdown(PointTypeSelect);

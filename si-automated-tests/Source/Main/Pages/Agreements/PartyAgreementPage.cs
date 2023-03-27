@@ -59,7 +59,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private readonly By expandBtn = By.XPath("//button[@title='Expand/close agreement line']");
         private readonly By subExpandBtns = By.XPath("//div[contains(@class,'panel-heading clickable')]");
         private readonly By editBtn = By.XPath("//button[text()='Edit']");
-        private readonly By removeBtn = By.XPath("//button[text()='Remove']");
+        public readonly By removeBtn = By.XPath("//button[text()='Remove']");
         private readonly By keepBtn = By.XPath("//button[text()='Keep']");
         private readonly By assetAndProductAssetTypeStartDate = By.XPath("//tbody[contains(@data-bind,'assetProducts')]//span[@title='Start Date']");
         private readonly By regularAssertTypeStartDate = By.XPath("//span[text()='Regular']/ancestor::div[1]/following-sibling::div//span[contains(@data-bind,'displayStartDate')]");
@@ -91,7 +91,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private readonly By retirePopUpOKBtn = By.XPath("//button[text()='OK']");
 
         //Dynamic Locator
-        private string expandAgreementLineByServicesName = "//span[text()='{0}' and contains(@data-bind, 'serviceName')]/ancestor::div[@class='panel-heading']//button[@title='Expand/close agreement line']";
+        private string expandAgreementLineByServicesName = "//span[contains(text(),'{0}') and contains(@data-bind, 'serviceName')]/ancestor::div[@class='panel-heading']//button[@title='Expand/close agreement line']";
         private string regularFrequency = "//td[text()='Commercial Collection']/following-sibling::td/p[text()='{0}']";
         private string editAgreementByAddress = "//p[text()='{0}']//ancestor::div[@class='panel-heading']//button[text()='Edit']";
         private string expandAgreementHeader = "//div[contains(@id, 'agreement-line')]//span[@data-bind='text: name' and text()='{0}']//preceding-sibling::span";

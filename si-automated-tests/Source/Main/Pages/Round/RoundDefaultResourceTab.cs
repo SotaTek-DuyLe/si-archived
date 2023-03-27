@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace si_automated_tests.Source.Main.Pages.Round
@@ -17,6 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.Round
         private readonly By activeMonthYear = By.XPath("//div[contains(@class,'bootstrap-datetimepicker-widget dropdown-menu picker-open') and contains(@style,'display: block;')]//div[@class='datepicker-days']//th[@class='picker-switch']");
         private readonly By activeDay = By.XPath("//div[contains(@class,'bootstrap-datetimepicker-widget dropdown-menu picker-open') and contains(@style,'display: block;')]//div[@class='datepicker-days']//td[@class='day active']");
         private readonly By expandBtn = By.XPath("//div[@id='toggle-actions']");
+        private readonly By type = By.XPath("//select[@id='type.id']");
 
         [AllureStep]
         public RoundDefaultResourceTab IsOnDefaultResourceTab()
@@ -28,7 +30,15 @@ namespace si_automated_tests.Source.Main.Pages.Round
         public RoundDefaultResourceTab ClickOnEndDate(int whichRow)
         {
             IList<IWebElement> _endDates = WaitUtil.WaitForAllElementsVisible(endDates);
-            ClickOnElement(_endDates[whichRow - 1]);
+            if(whichRow == -1)
+            {
+                ClickOnElement(_endDates[_endDates.Count- 1]);
+            }
+            else
+            {
+                ClickOnElement(_endDates[whichRow - 1]);
+
+            }
             return this;
         }
         [AllureStep]
@@ -71,6 +81,11 @@ namespace si_automated_tests.Source.Main.Pages.Round
         public RoundDefaultResourceTab ExpandOption(int whichRow)
         {
             IList<IWebElement> expandBtns = WaitUtil.WaitForAllElementsVisible(expandBtn);
+            if(whichRow == -1)
+            {
+                ClickOnElement(expandBtns.Last());
+                return this;
+            }
             ClickOnElement(expandBtns[whichRow-1]);
             return this;
         }

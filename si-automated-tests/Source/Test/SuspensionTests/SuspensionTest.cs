@@ -47,6 +47,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         [Category("Add Suspension")]
         [Category("Huong")]
         [Test(Description = "Add new suspension")]
+        [Order(1)]
         public void TC_089_Add_New_Suspension()
         {
             int partyId = 73;
@@ -156,6 +157,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         [Category("Edit Suspension")]
         [Category("Huong")]
         [Test(Description = "Edit suspension")]
+        [Order(2)]
         public void TC_090_Edit_Suspension()
         {
             int partyId = 73;
@@ -178,6 +180,9 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
                 .ClickTabDropDown()
                 .ClickSuspensionTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartySuspensionPage>().ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartySuspensionPage>().ClickNewSuspension();
             inputData.FromDate = DateTime.Now.AddDays(4).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);

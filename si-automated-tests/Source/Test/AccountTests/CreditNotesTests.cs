@@ -43,7 +43,8 @@ namespace si_automated_tests.Source.Test.AccountTests
             string notes = "test note" + CommonUtil.GetRandomString(5);
             PageFactoryManager.Get<NavigationBase>()
                 .OpenLastOption("Credit Notes")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             //Create credit note 1
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
@@ -62,6 +63,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<CreditNoteLinePage>()
                 .IsOnCreditNoteLinePage()
+                .SelectDepot(Contract.Commercial)
                 .InputInfo(lineType, site, product, priceElement, description, quantity, price)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
@@ -109,6 +111,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<CreditNoteLinePage>()
                 .IsOnCreditNoteLinePage()
+                .SelectDepot(Contract.Commercial)
                 .InputInfo(lineType, site, product, priceElement, description, quantity, price)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
@@ -175,6 +178,7 @@ namespace si_automated_tests.Source.Test.AccountTests
             PageFactoryManager.Get<CreditNotePage>()
                 .IsOnCreditNotePage()
                 .SearchForParty(partyName)
+                .WaitForLoadingIconToDisappear() 
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<CreditNotePage>()
@@ -186,6 +190,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<CreditNoteLinePage>()
                 .IsOnCreditNoteLinePage()
+                .SelectDepot(Contract.Commercial)
                 .InputInfo(lineType, site, product, priceElement, description, quantity, price)
                 .SelectVatRate(vat)
                 .ClickSaveBtn()

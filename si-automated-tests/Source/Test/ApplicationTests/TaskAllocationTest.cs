@@ -128,7 +128,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .VerifyElementVisibility(taskAllocationPage.GetAllocatingConfirmMsg(3), true)
                 .ClickOnElement(taskAllocationPage.AllocateAllButton);
             taskAllocationPage.WaitForLoadingIconToDisappear();
-            List<string> reasons = new List<string>() { "Select...", "Bad Weather", "Breakdown", "Roadworks", "Out of Time", "Incident" };
+            List<string> reasons = new List<string>() { "Select...", "Bad Weather", "Breakdown", "Roadworks", "Out of Time", "Incident", "Access Blocked" };
             taskAllocationPage.VerifyElementVisibility(taskAllocationPage.ReasonConfirmMsg, true)
                 .VerifySelectContainDisplayValues(taskAllocationPage.ReasonSelect, reasons)
                 .SelectTextFromDropDown(taskAllocationPage.ReasonSelect, "Breakdown")
@@ -273,6 +273,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             RoundInstanceForm roundInstanceForm = PageFactoryManager.Get<RoundInstanceForm>();
             roundInstanceForm.ClickOnElement(roundInstanceForm.EventsTab);
             roundInstanceForm.WaitForLoadingIconToDisappear();
+            roundInstanceForm.WaitForLoadingIconToDisappear();
             roundInstanceForm.ClickOnElement(roundInstanceForm.AddNewEventItemButton);
             roundInstanceForm.SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
@@ -289,6 +290,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
 
         [Category("TaskAllocationTests")]
         [Category("Huong")]
+        [Category("Huong_2")]
         [Test(Description = "190_A negative slot count appears on round from which the tasks were reallocated")]
         public void TC_190_A_negative_slot_count_appears_on_round_from_which_the_tasks_were_reallocated()
         {

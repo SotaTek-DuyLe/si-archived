@@ -527,7 +527,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
             //Verify whether when user selects a resource state in the Leave Type dropdown that has mandatoryrescode = TRUE, show the Reason field in red to denote it is a mandatory field
             createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.ResourceDropdown);
-            createLeaveEntryPage.SelectByDisplayValueOnUlElement(createLeaveEntryPage.OpenDropDown, "Margaret Knight");
+            createLeaveEntryPage.SelectByDisplayValueOnUlElement(createLeaveEntryPage.OpenDropDown, "Margaret Knight (E1556)");
             createLeaveEntryPage.SelectTextFromDropDown(createLeaveEntryPage.LeaveTypeDropdown, "Jury Service")
                 .SleepTimeInMiliseconds(200);
             createLeaveEntryPage.VerifyElementIsMandatory(createLeaveEntryPage.ReasonDropdown, false);
@@ -582,11 +582,13 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                .ExpandOption(Contract.Commercial)
                .OpenOption("Leave Entry")
                .SwitchNewIFrame();
+            leaveEntryPage.WaitForLoadingIconToDisappear();
             leaveEntryPage.VerifyRetiredResourceAreExisting();
         }
 
         [Category("Resources")]
         [Category("Huong")]
+        [Category("Huong_2")]
         [Test]
         public void TC_265_Leave_Entry_All_Resources_tab()
         {
@@ -604,7 +606,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.AllResourceTab);
             createLeaveEntryPage.WaitForLoadingIconToDisappear();
             createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.BUSelect);
-            createLeaveEntryPage.VerifySelectContainDisplayValues(createLeaveEntryPage.BUSelect, new List<string>() { "Select...", "Collections - Food", "Collections - Recycling", "Collections - Refuse" });
+            createLeaveEntryPage.VerifyBUSelectValues(new List<string>() { "Select...", "Collections - Recycling", "Collections - Refuse" });
         }
     }
 }

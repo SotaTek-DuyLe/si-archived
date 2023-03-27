@@ -21,6 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By netValue = By.Id("net-value");
         private readonly By vatRate = By.Id("vat-rate");
         private readonly By poNumber = By.Id("po-number");
+        private readonly By depotButton = By.XPath("//button[@data-id='depot']");
 
         [AllureStep]
         public CreditNoteLinePage IsOnCreditNoteLinePage()
@@ -63,6 +64,13 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             string currentUrl = GetCurrentUrl();
             Assert.IsTrue(currentUrl.Contains(WebUrl.MainPageUrl + "web/credit-note-lines/"));
+            return this;
+        }
+        [AllureStep]
+        public CreditNoteLinePage SelectDepot(string value)
+        {
+            ClickOnElement(depotButton);
+            ClickOnElement(By.XPath(String.Format("//span[text()='{0}']",value)));
             return this;
         }
     }

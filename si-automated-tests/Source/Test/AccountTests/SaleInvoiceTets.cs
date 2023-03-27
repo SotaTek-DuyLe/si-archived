@@ -45,7 +45,8 @@ namespace si_automated_tests.Source.Test.AccountTests
 
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("Sales Invoices")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickButton("Create");
             PageFactoryManager.Get<CreateInvoicePage>()
@@ -62,6 +63,7 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<SaleInvoiceLinePage>()
                 .IsOnSaleInvoiceLinePage()
+                .SelectDepot(Contract.Commercial)
                 .InputInfo(lineType, site, product, priceElement, quantity, price)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)

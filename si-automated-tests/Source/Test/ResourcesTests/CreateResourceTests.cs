@@ -103,7 +103,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickMainOption(MainOption.Services)
                 .ExpandOption("Bulky Collections")
                 .ExpandOption("Round Groups")
-                .ExpandOption("BULKY1")
+                .ExpandOption("BULKY1 (West)")
                 .OpenOption("Monday")
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear()
@@ -126,6 +126,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<ResourceDetailTab>()
                 .IsOnDetailTab()
+                .WaitForLoadingIconToDisappear()
                 .SwitchToTab("Calendar");
             PageFactoryManager.Get<ResourceCalendarTab>()
                 .VerifyWorkPatternNotSet()
@@ -137,7 +138,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyExtraTabsArePresent()
                 .ClickSaveBtn()
                 .SwitchToTab("Calendar")
-                .ClickRefreshBtn();
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear()
+                .SwitchToTab("Calendar")
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ResourceCalendarTab>()
                 .VerifyWorkPatternIsSet("AM 05.00 - 14.00");
         }
@@ -315,12 +319,14 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             resourceListingPage.VerifyBusinessUnitGroupHeaderVisible();
             resourceListingPage.SendKeys(resourceListingPage.BusinessUnitGroupHeaderInput, "Collections");
             resourceListingPage.WaitForLoadingIconToDisappear();
+            resourceListingPage.WaitForLoadingIconToDisappear();
             resourceListingPage.VerifyBusinessUnitGroupColumn("Collections");
 
             resourceListingPage.ClickOnElement(resourceListingPage.ClearFilterButton);
             resourceListingPage.WaitForLoadingIconToDisappear();
             resourceListingPage.VerifyClientReferenceVisible();
             resourceListingPage.SendKeys(resourceListingPage.ClientReferenceHeaderInput, "E1776");
+            resourceListingPage.WaitForLoadingIconToDisappear();
             resourceListingPage.WaitForLoadingIconToDisappear();
             resourceListingPage.VerifyClientReferenceColumn("E1776");
         }

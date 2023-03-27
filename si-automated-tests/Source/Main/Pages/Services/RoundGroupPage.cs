@@ -65,7 +65,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By addSiteButton = By.XPath("//div[@id='sites-tab']//button[contains(@data-bind, 'click: addSites')]");
         private readonly By removeSiteButton = By.XPath("//div[@id='sites-tab']//button[contains(@data-bind, 'click: removeSites')]");
         private readonly By roundGroupName = By.XPath("//h5[@data-bind='text: fields.roundGroup.value']");
-        private readonly By businessUnitSelect = By.Id("businessUnit.id");
+        public readonly By businessUnitSelect = By.Id("businessUnit.id");
         public readonly By ActiveStatus = By.XPath("//h5[@id='header-status']//span[text()='Active']");
         public readonly By EndDateStatus = By.XPath("//h5[@id='header-status']//span[@class='end-date']");
 
@@ -263,10 +263,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
         [AllureStep]
-        public RoundGroupPage VerifyStartDateInputIsDisable(int rowIdx)
+        public RoundGroupPage VerifyStartDateInputIsDisable(int rowIdx, bool isDisable)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
-            Assert.IsFalse(row.FindElement(startDateInput).Enabled);
+            Assert.IsFalse(row.FindElement(startDateInput).Enabled == isDisable);
             return this;
         }
         [AllureStep]
@@ -474,10 +474,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(retireButton.Displayed == isVisibleRetireBtn);
             if (checkEnable)
             {
-                Assert.IsFalse(select.Enabled);
-                Assert.IsFalse(checkbox.Enabled);
+                Assert.IsTrue(select.Enabled);
+                Assert.IsTrue(checkbox.Enabled);
                 Assert.IsFalse(input.Enabled);
-                Assert.IsFalse(startDate.Enabled);
+                Assert.IsTrue(startDate.Enabled);
                 Assert.IsTrue(endDate.Enabled);
             }
             return this;
@@ -673,7 +673,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             {
                 if (GetFirstSelectedItemInDropdown(webElements[i].FindElement(typeSelect)) == driverType)
                 {
-                    bool containDetail = detailWebElements[i].FindElements(resourceSelect).Count != 0;
+                    bool containDetail = detailWebElements.Count > i && detailWebElements[i].FindElements(resourceSelect).Count != 0;
                     if (containDetail)
                     {
                         if (!detailWebElements[i].Displayed)

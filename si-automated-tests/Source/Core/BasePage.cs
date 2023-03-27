@@ -42,6 +42,20 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        [AllureStep]
+        public BasePage OpenLocaleLanguage()
+        {
+            ClickOnElement(By.XPath("//ul[@class='dropdown-menu']//li//a[@data-bind='click: openLocaleLanguages']"));
+            return this;
+        } 
+        
+        [AllureStep]
+        public BasePage OpenSettings()
+        {
+            ClickOnElement(By.XPath("//ul[@class='dropdown-menu']//li//a[@data-bind='click: openSettings']"));
+            return this;
+        }
+
         public BasePage()
         {
             Thread.Sleep(750);
@@ -453,6 +467,7 @@ namespace si_automated_tests.Source.Core
             IWebElement iframe = WaitUtil.WaitForElementVisible(By.TagName("iframe"));
             driver.SwitchTo().Frame(iframe);
             Thread.Sleep(1000);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -494,6 +509,7 @@ namespace si_automated_tests.Source.Core
         {
             Thread.Sleep(500);
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -501,6 +517,7 @@ namespace si_automated_tests.Source.Core
         {
             Thread.Sleep(500);
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
+            WaitForLoadingIconToDisappear();
             var page = (T)Activator.CreateInstance(typeof(T));
             return page;
         }
@@ -672,6 +689,16 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         [AllureStep]
+        public BasePage ScrollMaxToLeft(By by)
+        {
+            WaitUtil.WaitForPageLoaded();
+            IWebElement e = GetElement(by);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollLeft += arguments[0].scrollWidth", e);
+
+            return this;
+        }
+        [AllureStep]
         public BasePage ScrollRight(By by)
         {
             WaitUtil.WaitForPageLoaded();
@@ -827,6 +854,32 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        /// <summary>
+        /// because we can't get toast message on user screen so we temporarily skip check message process. It will be recover in future
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="skipCheck"></param>
+        /// <returns></returns>
+        [AllureStep]
+        public BasePage VerifyToastMessageOnParty(string message, bool skipCheck)
+        {
+            if (!skipCheck) VerifyToastMessage(message);
+            return this;
+        }
+
+        /// <summary>
+        /// because we can't get toast message on user screen so we temporarily skip check message process. It will be recover in future
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="skipCheck"></param>
+        /// <returns></returns>
+        [AllureStep]
+        public BasePage WaitUntilToastMessageInvisibleOnParty(string message, bool skipCheck)
+        {
+            if (!skipCheck) WaitUntilToastMessageInvisible(message);
+            return this;
+        }
+
         //GET WARNING TEXT
         [AllureStep]
         public string GetToastMessage()
@@ -876,15 +929,21 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public BasePage VerifyToastMessages(List<string> messages)
         {
+            WaitUtil.WaitForElementsCountToBe(By.XPath("//div[@data-notify-html='title']"), messages.Count);
             var notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
-            //int retryCount = 0;
-            //while(notifyMsgs.Count < messages.Count && retryCount < 10)
-            //{
-            //    SleepTimeInMiliseconds(50);
-            //    notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
-            //    retryCount++;
-            //}
+            int retryCount = 0;
+            while (notifyMsgs.Count < messages.Count && retryCount < 10)
+            {
+                //SleepTimeInMiliseconds(50);
+                notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
+                retryCount++;
+            }
             CollectionAssert.AreEquivalent(messages, notifyMsgs);
+            return this;
+        }
+        public BasePage VerifyToastMessagesDisappear()
+        {
+            WaitUtil.WaitForElementsCountToBe(By.XPath("//div[@data-notify-html='title']"), 0);
             return this;
         }
         [AllureStep]
@@ -925,10 +984,12 @@ namespace si_automated_tests.Source.Core
                 WaitUtil.WaitForElementInvisible60("//div[@id='loading-shield']");
                 WaitUtil.WaitForElementInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
             }
-            WaitUtil.WaitForElementVisible(By.XPath("//*[contains(@data-bind,'shield: loading') or contains(@data-bind,'shield: isLoading')]"));
+            WaitUtil.WaitForPageLoaded();
+            WaitUtil.WaitForElementVisible(By.XPath("//*[contains(@data-bind,'shield: loading') or contains(@data-bind,'shield: isLoading') or contains(@data-bind,'shield: $root.isLoading')]"));
             WaitUtil.WaitForPageLoaded();
             return this;
         }
+
         public BasePage waitForLoadingIconDisappear() {
             WaitUtil.WaitAttributeChange(By.XPath("//*[contains(@data-bind,'shield: isLoading')]"), "style", "display: block;");
             return this;
@@ -941,8 +1002,10 @@ namespace si_automated_tests.Source.Core
                 if (implicitSleep) Thread.Sleep(750);
                 WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: loading')]");
+                WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: $root.isLoading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@id='loading-shield']");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
+                WaitUtil.WaitForAllElementsInvisible60("//div[@class='loading-definition' and contains(@data-bind,'loadingDefinition')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'loadingDefinition')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'shield: loading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@class,'loading-polygon')]");
@@ -990,8 +1053,16 @@ namespace si_automated_tests.Source.Core
         public BasePage ClickSaveBtn()
         {
             ClickOnElement(saveBtn);
+            WaitForLoadingIconToDisappear();
             return this;
         }
+
+        [AllureStep]
+        public bool IsSaveButtonEnable()
+        {
+            return GetElement(saveBtn).Enabled;
+        }
+
         [AllureStep]
         public string ClickSaveBtnGetUTCTime()
         {

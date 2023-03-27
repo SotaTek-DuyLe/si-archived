@@ -83,6 +83,8 @@ namespace si_automated_tests.Source.Main.Pages.WB
         {
             SendKeys(filterInputByTicketNumber, ticketNumberValue);
             WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(firstResult);
+            SleepTimeInSeconds(2);
             ClickOnElement(selectAllCheckbox);
             DoubleClickOnElement(firstResult);
             return this;

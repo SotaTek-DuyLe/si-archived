@@ -25,6 +25,7 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
     {
         [Category("Driver Debrief")]
         [Category("Huong")]
+        [Category("Huong_2")]
         [Test(Description = "Driver Debrief - GPS event matching - tasks are not immediately updated to show changes to task and task lines after matching/unmatching (bug fix) ")]
         public void TC_194_Driver_Debrief_GPS_event_matching()
         {
@@ -68,13 +69,13 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
             debriefResultPage.WaitForLoadingIconToDisappear();
             debriefResultPage.ClickOnElement(debriefResultPage.BinLiftSecondRow);
             debriefResultPage.WaitForLoadingIconToDisappear();
+            debriefResultPage.WaitForDebriefLoaded();
             debriefResultPage.ClickOnElement(debriefResultPage.UnmatchButton);
             debriefResultPage.VerifyDisplayToastMessage(MessageSuccessConstants.SavedMessage)
                 .WaitForLoadingIconToDisappear();
             //Click on x bin lift -> Find the task you are working with
             debriefResultPage.SleepTimeInMiliseconds(10000);
             debriefResultPage.ClickOnElement(debriefResultPage.BinLiftSecondRow);
-            debriefResultPage.WaitForLoadingIconToDisappear();
             debriefResultPage.VerifyFirstTaskRatio();
         }
 

@@ -50,7 +50,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 partyAgreementPage
                     .SelectAgreementType("Commercial Collections")
                     .ClickSaveBtn()
-                    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                    .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, false)
                     .WaitForLoadingIconToDisappear();
                 partyAgreementPage
                     .WaitForAgreementPageLoadedSuccessfully(agreementType, partyName)
@@ -120,7 +120,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                     .VerifyServicePanelPresent()
                     .VerifyAgreementLineFormHasGreenBorder()
                     .ClickSaveBtn()
-                    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                    .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, false)
                     .WaitForLoadingIconToDisappear();
                 partyAgreementPage
                     .VerifyServiceStartDate(DateTime.Now.ToString(CommonConstants.DATE_DD_MM_YYYY_FORMAT).Replace("-", "/"))
@@ -315,12 +315,15 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .DoubleClickAgreement(1)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
+            partyAgreementPage.ScrollDownToElement(partyAgreementPage.removeBtn);
+            partyAgreementPage.WaitForLoadingIconToDisappear();
             int count = partyAgreementPage.GetServicePanelUnDisplayCount();
             partyAgreementPage
                 .ClickRemoveAgreementBtn()
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
+            partyAgreementPage.WaitForLoadingIconToDisappear();
             partyAgreementPage.VerifyServicePanelUnDisplayAfterClickRemove(count);
         }
 
@@ -529,7 +532,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnPartyPurchaseOrderPage()
                 .SelectPurchaseOrder(PO_Number)
                 .ClickDeletePurchaseOrder()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(3);
             PageFactoryManager.Get<RemovePurchaseOrderPage>()
                 .IsOnRemovePurchaseOrderPage()
                 .ClickNoBtn()
@@ -537,7 +540,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<PartyPurchaseOrderPage>()
                 .VerifyPurchaseOrderAppear(PO_Number)
                 .ClickDeletePurchaseOrder()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(3);
             PageFactoryManager.Get<RemovePurchaseOrderPage>()
                 .IsOnRemovePurchaseOrderPage()
                 .ClickYesBtn()
@@ -555,6 +558,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully("COMMERCIAL COLLECTIONS", "Greggs");
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickTaskTabBtn();
             PageFactoryManager.Get<TaskTab>()

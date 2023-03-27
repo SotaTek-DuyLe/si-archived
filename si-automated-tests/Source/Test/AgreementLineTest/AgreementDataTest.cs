@@ -61,7 +61,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnDataTab()
                 .InputNotes(note1)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+                .WaitForLoadingIconToDisappear();
+            //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DataTab>()
                 .VerifyNote(note1)
                 .ClickRefreshBtn();
@@ -74,7 +75,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnDataTab()
                 .InputNotes(note2)
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+                .WaitForLoadingIconToDisappear();
+            //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DataTab>()
                 .VerifyNote(note2)
                 .ClickRefreshBtn();
@@ -99,7 +101,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
-                .OpenOption("Site Services")
+                .OpenOption(MainOption.SiteServices)
                 .SwitchNewIFrame();
             //Go to agreement
             PageFactoryManager.Get<SiteServicesCommonPage>()
@@ -115,15 +117,16 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             detailTab.WaitForLoadingIconToDisappear();
             string invoiceAddress = "29 GEORGE STREET, RICHMOND, TW9 1HY";
             string billingRule = "Greater of Minimum or Actual";
+            bool skipCheck = false;
             detailTab.SelectTextFromDropDown(detailTab.InvoiceAddressSelect, invoiceAddress)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success")
-                .WaitUntilToastMessageInvisible("Success")
+                .VerifyToastMessageOnParty("Success", skipCheck)
+                .WaitUntilToastMessageInvisibleOnParty("Success", skipCheck)
                 .WaitForLoadingIconToDisappear();
             detailTab.SelectTextFromDropDown(detailTab.BillingRuleSelect, billingRule)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Success")
-                .WaitUntilToastMessageInvisible("Success")
+                .VerifyToastMessageOnParty("Success", skipCheck)
+                .WaitUntilToastMessageInvisibleOnParty("Success", skipCheck)
                 .WaitForLoadingIconToDisappear()
                 .ClickCloseBtn()
                 .SwitchToFirstWindow()

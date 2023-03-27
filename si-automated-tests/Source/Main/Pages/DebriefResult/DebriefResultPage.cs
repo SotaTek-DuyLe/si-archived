@@ -24,6 +24,20 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
         public readonly By UnknownButton = By.XPath("//td[@class='actions-list']//button[contains(text(), 'Unknown')]");
         public readonly By FirstTaskRatio = By.XPath("(//div[@id='unmatched-tasks']//div[@data-bind='text: taskRatio'])[1]");
 
+        public DebriefResultPage WaitForDebriefLoaded()
+        {
+            try
+            {
+                WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'shield: gpsEventMatchForm.isLoading')]");
+                WaitUtil.WaitForPageLoaded();
+            }
+            catch (WebDriverTimeoutException)
+            {
+                Assert.Fail("Loading icon doesn't disappear after 60 seconds");
+            }
+            return this;
+        }
+
         public DebriefResultPage DragSecondBinLiftToTaskLine()
         {
             SleepTimeInMiliseconds(2000);
@@ -46,7 +60,7 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
         {
             IWebElement img = GetElement(By.XPath("(//td[@id='taskLines']//img[contains(@data-bind, 'taskStateIcon')])[1]"));
             string src = img.GetAttribute("src");
-            Assert.IsTrue(src.Contains("coretaskstate/s3.png"));
+            Assert.IsTrue(src.Contains("coretaskstate/s3.svg"));
             return this;
         }
 

@@ -55,12 +55,13 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             PageFactoryManager.Get<MasterRoundManagementPage>()
                 .DragAndDropFirstRoundToGrid()
                 .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(5000)
+                .SleepTimeInMiliseconds(2000)
                 .SwitchToTab(firstRound);
             TaskModel expectedModel = new TaskModel();
             expectedModel.Description = model.Description;
             expectedModel.StartDate = date;
             PageFactoryManager.Get<MasterRoundManagementPage>()
+                .FilterDescription(expectedModel.Description)
                 .VerifyTaskModelDescriptionAndStartDate(expectedModel);
         }
         [Category("BusinessUnit")]
@@ -105,8 +106,15 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             PageFactoryManager.Get<MasterRoundManagementPage>()
                 .IsOnPage()
                 .InputSearchDetails(initDate);
+            string firstRound = PageFactoryManager.Get<MasterRoundManagementPage>()
+                .GetFirstRoundName();
             PageFactoryManager.Get<MasterRoundManagementPage>()
                 .DragAndDropFirstRoundToGrid()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000)
+                .SwitchToTab(firstRound);
+            PageFactoryManager.Get<MasterRoundManagementPage>()
+                .FilterDescription(expectedModel2.Description)
                 .VerifyTaskModelDescriptionAndEndDate(expectedModel2);
         }
 
@@ -134,6 +142,8 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             masterRoundManagementPage.ClickOnElement(masterRoundManagementPage.Subcontract);
             masterRoundManagementPage.SelectTextFromDropDown(masterRoundManagementPage.SubcontractSelect, "No Service")
                 .ClickOnElement(masterRoundManagementPage.SubcontractConfirmButton);
+            masterRoundManagementPage.WaitForLoadingIconToDisappear();
+            masterRoundManagementPage.ClickRefreshBtn();
             masterRoundManagementPage.WaitForLoadingIconToDisappear();
             //Scroll right
             masterRoundManagementPage.ScrollToSubcontractHeader()
@@ -168,6 +178,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .ClickOnElement(taskConfirmationPage.BulkReallocateButton);
             taskConfirmationPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.VerifyReallocatedTask("No Service");
 
             //Select the 2 service tasks in the grid -> Update the from filter -> Go 
@@ -183,6 +194,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskConfirmationPage.VerifyTaskAllocated("REC1-AM", "Monday");
             //Drag and drop the round you allocated the tasks to to the grid
             taskConfirmationPage.DragRoundInstanceToReallocattedGrid("REC1-AM", "Monday");
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.WaitForLoadingIconToDisappear();
             //Scroll down and right to find your tasks
             taskConfirmationPage.VerifyTaskSubcontract(descriptions, "No Service");
@@ -223,9 +235,10 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .WaitForLoadingIconToDisappear();
 
             taskConfirmationPage.SelectAllRoundLeg()
-                .DragDropRoundLegToRoundInstance("WCREC1", roundGroupName);
-            taskConfirmationPage
-                .SelectReasonNeeded();
+                .DragDropRoundLegToRoundInstance("WCREC2", roundGroupName);
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.ConfirmationNeeded();
+            taskConfirmationPage.SelectReasonNeeded();
             taskConfirmationPage.VerifyToastMessage("Allocated 2 round leg(s)");
             taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.VerifyRoundLegNoLongerDisplay();
@@ -242,7 +255,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskConfirmationPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             taskConfirmationPage.SelectAllVirtualTask()
-                .DragDropRoundLegToRoundInstance("WCREC1", roundGroupName);
+                .DragDropRoundLegToRoundInstance("WCREC2", roundGroupName);
             taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.SelectReason, "Bad Weather");
             taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
             taskConfirmationPage.VerifyToastMessage("2 Task(s) Allocated");

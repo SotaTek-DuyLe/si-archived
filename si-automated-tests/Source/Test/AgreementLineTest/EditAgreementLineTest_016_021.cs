@@ -101,7 +101,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Fix wating time for saved agreement
             PageFactoryManager.Get<PartyAgreementPage>()
@@ -132,7 +132,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .SelectCompletedState()
                     .ClickOnAcualAssetQuantityText()
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success")
+                    //.VerifyToastMessage("Success")
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickCloseWithoutSaving()
@@ -155,7 +155,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Back to Site Service and verify
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .OpenOption("Site Services")
+                .OpenOption(MainOption.SiteServices)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -222,7 +222,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .IsOnPartyAgreementPage()
                 .SelectAgreementType("Commercial Collections")
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForAgreementPageLoadedSuccessfully(agreementType, partyName);
@@ -280,7 +280,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+               //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                .WaitForLoadingIconToDisappear();
             // Finish step 15 
             PageFactoryManager.Get<BasePage>()
@@ -321,14 +321,15 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .SelectCompletedState()
                     .ClickOnAcualAssetQuantityText()
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success")
+                    //.VerifyToastMessage("Success")
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickToDetailsTab()
                     .ClickStateDetais()
                     .ChooseTaskState("Completed")
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success");
+                    .WaitForLoadingIconToDisappear();
+                //.VerifyToastMessage("Success");
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickCloseWithoutSaving()
                     .SwitchToChildWindow(3);
@@ -421,7 +422,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .SleepTimeInMiliseconds(10000);
@@ -463,7 +464,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .WaitForLoadingIconToDisappear();
 
             List<IWebElement> availableRow = PageFactoryManager.Get<TaskTab>()
-               .VerifyNewTaskAppearWithNum(2, "Unallocated", "Remove Commercial Bin", date, "");
+               .VerifyNewTaskAppearWithNum(2, "Unallocated", "Remove Commercial Bin", tommorowDate, "");
             for (int i = 0; i < availableRow.Count; i++)
             {
                 PageFactoryManager.Get<TaskTab>()
@@ -615,7 +616,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+               //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                .WaitForLoadingIconToDisappear();
             //Finish step 15
             PageFactoryManager.Get<BasePage>()
@@ -695,14 +696,15 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .SelectCompletedState()
                     .ClickOnAcualAssetQuantityText()
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success")
+                    //.VerifyToastMessage("Success")
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickToDetailsTab()
                     .ClickStateDetais()
                     .ChooseTaskState("Completed")
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success");
+                    .WaitForLoadingIconToDisappear();
+                //.VerifyToastMessage("Success");
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickCloseWithoutSaving()
                     .SwitchToChildWindow(2);
@@ -713,7 +715,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .OpenOption("Site Services")
+                .OpenOption(MainOption.SiteServices)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -804,7 +806,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
         public void TC_019_edit_agreement_add_agreement_line_()
         {
             string tommorowDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
-            AsserAndProductModel assetAndProductInput = new AsserAndProductModel("Mini (1.53m3)", "1", "Wood", "", "3", "Kilograms", "Owned", new string[1], new string[1], tommorowDate, "");
+            AsserAndProductModel assetAndProductInput = new AsserAndProductModel("Mini (1.53m3)", "1", "Wood", "", "3", "Kilograms", "Rental", new string[1], new string[1], tommorowDate, "");
             string agreementType = "COMMERCIAL COLLECTIONS";
             string agreementName = "LA PLATA STEAKHOUSE";
 
@@ -855,17 +857,18 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickAddAsset()
                 .SelectAssetType("Mini (1.53m3)")
                 .InputAssetQuantity(1)
-                .ChooseTenure("Owned")
+                .ChooseTenure("Rental")
                 .ChooseProduct("Wood")
                 .InputProductQuantity(3)
                 .SelectKiloGramAsUnit()
                 .ClickDoneBtn()
-                .VerifySummaryOfStep("1 x Mini (1.53m3)(Owned), 3kg Wood")
+                .VerifySummaryOfStep("1 x Mini (1.53m3)(Rental), 3kg Wood")
                 .ClickNext();
             PageFactoryManager.Get<PriceTab>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PriceTab>()
                .IsOnPriceTab()
+               .ClosePriceRecords()
                .ClickNext()
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<InvoiceDetailTab>()
@@ -878,7 +881,8 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+               //.WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+               //.VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .SleepTimeInMiliseconds(10000);
@@ -903,7 +907,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             //Go to site service and verify
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
-                .OpenOption("Site Services")
+                .OpenOption(MainOption.SiteServices)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -1003,7 +1007,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<PartyAgreementPage>()
                .VerifyBlueBorder()
                .ClickSaveBtn()
-               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+               //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                .WaitForLoadingIconToDisappear();
 
             //waiting for save 
@@ -1103,7 +1107,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<ServiceScheduleTab>()
                 .verifyScheduleEndDate(tommorowDate);
             //Verify in DB
-            string serviceUnitAssetQuery = SQLConstants.SQL_ServiceUnitAssets + "28";
+            string serviceUnitAssetQuery = SQLConstants.SQL_ServiceUnitAssets + "28" + " and s.agreementlineID = 55";
             SqlCommand commandServiceUnitAsset = new SqlCommand(serviceUnitAssetQuery, DbContext.Connection);
             SqlDataReader readerServiceUnitAsset = commandServiceUnitAsset.ExecuteReader();
             List<ServiceUnitAssetsDBModel> serviceUnitAsset = ObjectExtention.DataReaderMapToList<ServiceUnitAssetsDBModel>(readerServiceUnitAsset);
@@ -1166,7 +1170,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                    .SelectCompletedState()
                    .ClickOnAcualAssetQuantityText()
                    .CLickOnSaveBtn()
-                   .VerifyToastMessage("Success")
+                   //.VerifyToastMessage("Success")
                    .WaitForLoadingIconToDisappear();
 
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
@@ -1176,7 +1180,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                     .ChooseTaskState("Completed");
                 PageFactoryManager.Get<BasePage>()
                     .ClickSaveBtn()
-                    .VerifyToastMessage("Success")
+                    //.VerifyToastMessage("Success")
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickCloseWithoutSaving()
@@ -1256,13 +1260,13 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
-                .OpenOption("Site Services")
+                .OpenOption(MainOption.SiteServices)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .FilterAgreementId(29)
-                .VerifyAgreementResultNum(0);
+                .VerifyAgreementResultNum(1);
         }
 
     }

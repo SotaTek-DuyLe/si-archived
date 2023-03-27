@@ -43,6 +43,28 @@ namespace si_automated_tests.Source.Core
             return DateTime.MinValue;
         }
 
+        public static DateTime GetFirstDayInMonth(DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, 1);
+        }
+
+        public static DateTime GetLastDayInMonth(DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
+        }
+
+        public static List<DateTime> GetWeekDaysInCurrentMonth(DayOfWeek dayOfWeek)
+        {
+            DateTime date = DateTime.Today;
+            // first generate all dates in the month of 'date'
+            var dates = Enumerable.Range(1, DateTime.DaysInMonth(date.Year, date.Month)).Select(n => new DateTime(date.Year, date.Month, n));
+            // then filter the only the start of weeks
+            var weekends = from d in dates
+                           where d.DayOfWeek == dayOfWeek
+                           select d;
+            return weekends.ToList();
+        }
+
         public static string GetLocalTimeMinusDay(string format, int day)
         {
             return DateTime.Now.AddDays(day).ToString(format).Replace('-', '/');

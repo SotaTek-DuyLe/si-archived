@@ -36,7 +36,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption(Contract.Commercial)
                 .ExpandOption(Contract.RMC)
                 .OpenOption("Point Addresses")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
         }
         [Category("PointAddress")]
         [Category("Dee")]
@@ -54,7 +55,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string pointAddType = "Commercial";
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CreatePointAddressPage>()
                 .IsOnFirstScreen()
                 .SearchPostCode(postCode)

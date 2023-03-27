@@ -84,7 +84,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string PartyTypeCheckbox = "//span[text()='{0}']/preceding-sibling::input";
 
         //SITE TAB LOCATOR
-        private const string AddNewItemSiteBtn = "//div[@id='sites-tab']//button[text()='Add New Item']";
+        private const string AddNewItemSiteBtn = "//div[@id='sites-tab']//button[contains(.,'Add New Item')]";
         private const string addNewItemSiteTabLoading = "//div[@id='sites-tab']//button[text()='Add New Item'and contains(@class, 'echo-disabled')]";
         private readonly By firstSiteRow = By.XPath("//div[@id='sites-tab']//div[@class='grid-canvas']/div[1]");
         private const string TotalSiteRow = "//div[@id='sites-tab']//div[@class='grid-canvas']/div";
@@ -530,6 +530,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             ClickOnElement(SitesTab);
             WaitUtil.WaitForElementInvisible(addNewItemSiteTabLoading);
+            return this;
+        }
+
+        public DetailPartyPage ClickOnSitesTabNoWait()
+        {
+            ClickOnElement(SitesTab);
             return this;
         }
 

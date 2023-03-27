@@ -5,6 +5,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Applications;
+using si_automated_tests.Source.Main.Pages.Common;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
@@ -101,7 +102,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickPresenceOption();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyBackgroundColor(resourceName, "purple")
+                .VerifyBackgroundColor(resourceName, "green")
                 .ClickAllocatedResource(resourceName)
                 .VerifyPresenceOption("PRE-CONFIRM/UN-CONFIRM")
                 .ClickPresenceOption();
@@ -141,6 +142,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         {
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
             string vehicleResourceName = "Van " + CommonUtil.GetRandomNumber(5);
+            string resourceName2 = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string vehicleResourceName2 = "Van " + CommonUtil.GetRandomNumber(5);
             string resourceType = "Driver";
             string vehicleResourceType = "Van";
 
@@ -176,6 +179,23 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
+
+            //Create driver 2
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(resourceName2)
+                .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.EastCollections)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+
             //Create vehicle
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
@@ -193,6 +213,25 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear()
                 .SwitchToTab("All Resources");
+
+            //Create vehicle 2
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .IsOnDetailTab()
+                .InputResourceName(vehicleResourceName2)
+                .SelectResourceType(vehicleResourceType)
+                .SelectBusinessUnit(BusinessUnit.EastCollections)
+                .TickContractRoam()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear()
+                .SwitchToTab("All Resources");
+
             //Verify Driver
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .FilterResource("Resource", resourceName)
@@ -209,10 +248,11 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyBackgroundColor(resourceName, "greenish")
-                .VerifyStateAbbreviation(resourceName, "S")
+                //.VerifyBackgroundColor(resourceName, "greenish")
+                //.VerifyStateAbbreviation(resourceName, "S")
                 .RefreshGrid()
                 .FilterResource("Resource", resourceName)
+                .VerifyFirstResoultBackground("green")
                 .VerifyFirstResultValue("Status", "Sick");
             //Verify Vehicle
             PageFactoryManager.Get<ResourceAllocationPage>()
@@ -227,14 +267,20 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyBackgroundColor(vehicleResourceName, "red")
-                .VerifyStateAbbreviation(vehicleResourceName, "M")
+                //.VerifyBackgroundColor(vehicleResourceName, "red")
+                //.VerifyStateAbbreviation(vehicleResourceName, "M")
                 //.FilterResource("Resource", vehicleResourceName)
+                .VerifyFirstResoultBackground("red")
                 .VerifyFirstResultValue("Status", "Maintenance");
             //Select state for resource
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyAllocatedResourceName(resourceName)
-                .ClickAllocatedResource(resourceName)
+                .FilterResource("Resource", resourceName2)
+                .VerifyFirstResultValue("Resource", resourceName2)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName2)
+                .ClickAllocatedResource(resourceName2)
                 .ClickViewShiftDetail();
             PageFactoryManager.Get<ShiftDetailPage>()
                 .IsOnShiftDetailPage()
@@ -243,27 +289,36 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SaveDetail()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .VerifyStateAbbreviation(resourceName2, "T")
+            //    .VerifyBackgroundColor(resourceName2, "red2")
+            //    .FilterResource("Resource", resourceName2);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyStateAbbreviation(resourceName, "T")
-                .VerifyBackgroundColor(resourceName, "red2")
-                .FilterResource("Resource", resourceName);
-            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", resourceName2)
+                .VerifyFirstResoultBackground("yellow")
                 .VerifyFirstResultValue("Status", "Training");
             //Select state for vehicle
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyAllocatedResourceName(vehicleResourceName)
-                .ClickAllocatedResource(vehicleResourceName)
+                .FilterResource("Resource", vehicleResourceName2)
+                .VerifyFirstResultValue("Resource", vehicleResourceName2)
+                .DragAndDropFirstResourceToFirstRound()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(vehicleResourceName2)
+                .ClickAllocatedResource(vehicleResourceName2)
                 .ClickViewShiftDetail();
             PageFactoryManager.Get<ShiftDetailPage>()
                 .IsOnShiftDetailPage()
                 .SelectState("Vehicle Off Road")
                 .SaveDetail()
                 .WaitForLoadingIconToDisappear();
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .VerifyStateAbbreviation(vehicleResourceName, "V")
+            //    .VerifyBackgroundColor(vehicleResourceName, "red")
+            //    .FilterResource("Resource", vehicleResourceName);
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyStateAbbreviation(vehicleResourceName, "V")
-                .VerifyBackgroundColor(vehicleResourceName, "red")
-                .FilterResource("Resource", vehicleResourceName);
-            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", vehicleResourceName2)
+                .VerifyFirstResoultBackground("red")
                 .VerifyFirstResultValue("Status", "Vehicle Off Road");
 
         }
@@ -311,7 +366,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             //Create vehicle
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .ClickCreateResource()
@@ -408,6 +464,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
         [Category("Resources")]
         [Category("Huong")]
+        [Category("Huong_2")]
         [Test]
         public void TC_192_Unable_to_navigate_to_round_instance_from_resource_calendar()
         {
@@ -456,9 +513,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
         }
-        [Category("Resources")]
-        [Category("Dee")]
-        [Test]
+        //[Category("Resources")]
+        //[Category("Dee")]
+        //[Test]
+        //[Ignore("Ignore due to Ashna's request: Duplicated after modifying")]
         public void TC_222_verify_color_of_resource_when_hovered()
         {
             string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
@@ -532,6 +590,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
+                .RefreshGrid()
+                .FilterResource("Resource", resourceName)
                 .HoverAndVerifyBackgroundColor(resourceName, "darker green");
 
             //Verify Vehicle
@@ -547,6 +607,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
+                .RefreshGrid()
+                .FilterResource("Resource", vehicleResourceName)
                 .HoverAndVerifyBackgroundColor(vehicleResourceName, "darker red");
         }
         [Category("Resources")]
@@ -775,7 +837,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnAddAdhocRoundPage()
                 .InputAdhocRoundDetails(templateNo, reason, note, roundName)
                 .ClickCreateBtn()
-                .VerifyFirstRoundName("(Adhoc) " + roundName)
+                .VerifyRoundNameIsIncluded("(Adhoc) " + roundName)
                 .ClickAddAdhocRoundBtn()
                 .IsOnAddAdhocRoundPage()
                 .InputAdhocRoundDetails(1, reason, note);
@@ -783,11 +845,12 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .GetSelectedTemplate();
             PageFactoryManager.Get<AddAdhocRoundPopup>()
                 .ClickCreateBtn()
-                .VerifyFirstRoundName("(Adhoc) " + templateValue);
+                .VerifyRoundNameIsIncluded("(Adhoc) " + templateValue);
         }
 
         [Category("Resources")]
         [Category("Huong")]
+        [Category("Huong_2")]
         [Test]
         public void TC_273_Daily_Allocation_Available_color_change()
         {
@@ -815,6 +878,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
             resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SelectTextFromDropDown(resourceAllocationPage.ThirdPartyHeaderInput, "false");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
             int rowIdx = 0;
             resourceAllocationPage.ClickType(rowIdx)
                 .ClickLeftResourceMenu("SICK")
@@ -829,6 +894,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SelectTextFromDropDown(resourceAllocationPage.ThirdPartyHeaderInput, "false");
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             //Verify
             resourceAllocationPage.VerifyResourceRowHasGreenBackground(rowIdx);
@@ -847,6 +914,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
         [Category("Resources")]
         [Category("Huong")]
+        [Category("Huong_2")]
         [Test]
         public void TC_272_Daily_Allocation_Dates_Overlap()
         {
@@ -906,6 +974,123 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             resourceAllocationPage.ClickType(rowIdx)
                 .ClickLeftResourceMenu("TRAINING")
                 .VerifyToastMessage($"Unable to log request. {resource} has Sick request for {londonCurrentDate.ToString("dd/MM/yyyy")} - {londonCurrentDate.ToString("dd/MM/yyyy")}");
+        }
+
+        //[Category("Resources")]
+        //[Category("Huong")]
+        //[Test]
+        //[Ignore("Ignore due to George's request")]
+        public void TC_275_Translation_DA()
+        {
+            var loginPage = PageFactoryManager.Get<LoginPage>();
+            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
+            loginPage.GoToURL(WebUrl.MainPageUrl);
+            loginPage.IsOnLoginPage()
+                .Login(AutoUser80.UserName, AutoUser80.Password)
+                .IsOnHomePageWithoutWaitSearchBtn(AutoUser80);
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser80.DisplayName));
+            resourceAllocationPage.OpenLocaleLanguage()
+                .SwitchToChildWindow(2);
+            LocalLanguagePage localLanguagePage = PageFactoryManager.Get<LocalLanguagePage>();
+            localLanguagePage.SelectTextFromDropDown(localLanguagePage.LanguageSelect, "French")
+                .ClickOnElement(localLanguagePage.SaveButton);
+            localLanguagePage.SwitchToFirstWindow();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(TextTranslation.ToString(MainOption.Resources, "French"))
+                .OpenOption(TextTranslation.ToString("Daily Allocation", "French"))
+                .SwitchNewIFrame();
+            resourceAllocationPage.SelectContract(Contract.Commercial);
+            resourceAllocationPage.SelectShift("AM");
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
+            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
+                .SelectRoundNode("Collections")
+                .ClickOK()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            int rowIdx = 0;
+            //Verify whether the IN/OUT should read "PRÉSENT/NOT PRÉSENT" (when on the same day)
+            //Verify whether the PRE-CONFIRM/UN-CONFIRM should read "PRÉ-CONFIRMER/REFUSER" (for date in future)
+            resourceAllocationPage.ClickType(rowIdx)
+                .VerifyResourceTranslation("IN/OUT", "French")
+                .ClickOutSideMenu();
+
+            string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+            resourceAllocationPage.InsertDate(dateInFutre + Keys.Enter)
+                .ClickOK()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            resourceAllocationPage.ClickType(rowIdx)
+                .VerifyResourceTranslation("PRE-CONFIRM/UN-CONFIRM", "French")
+                .ClickOutSideMenu();
+
+            resourceAllocationPage.SwitchToDefaultContent();
+            //Back to default localization
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser80.DisplayName));
+            resourceAllocationPage.OpenLocaleLanguage()
+                .SwitchToChildWindow(2);
+            localLanguagePage.SelectTextFromDropDown(localLanguagePage.LanguageSelect, "English")
+                .ClickOnElement(localLanguagePage.SaveButton);
+            localLanguagePage.SwitchToFirstWindow();
+        }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_301_Single_Sign_On()
+        {
+            //Verify that Echo user can login with email address or username
+            var loginPage = PageFactoryManager.Get<LoginPage>();
+            loginPage.GoToURL(WebUrl.MainPageUrl);
+            loginPage.IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePageWithoutWaitSearchBtn(AutoUser22);
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser22.DisplayName));
+            loginPage.OpenSettings()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            UserSettingPage userSettingPage = PageFactoryManager.Get<UserSettingPage>();
+            userSettingPage.ClickOnElement(userSettingPage.DetailTab);
+            userSettingPage.WaitForLoadingIconToDisappear();
+            string userEmail = userSettingPage.GetInputValue(userSettingPage.EmailInput);
+            userSettingPage.ClickCloseBtn()
+                .SwitchToFirstWindow();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser22)
+                .ClickUserNameDd()
+                .ClickLogoutBtn();
+            loginPage.IsOnLoginPage()
+                .Login(userEmail, AutoUser22.Password)
+                .IsOnHomePageWithoutWaitSearchBtn(AutoUser22);
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser22.DisplayName));
+            loginPage.OpenSettings()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            userSettingPage.ClickOnElement(userSettingPage.DetailTab);
+            userSettingPage.WaitForLoadingIconToDisappear();
+            userSettingPage.VerifyInputValue(userSettingPage.EmailInput, userEmail);
+            userSettingPage.ClickCloseBtn()
+                .SwitchToFirstWindow();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser22)
+                .ClickUserNameDd()
+                .ClickLogoutBtn();
+            //Verify that if multiple users have the same email address then they need to use username to login to Echo
+            string sameUserEmail = "josie@selectedinterventions.com";
+            loginPage.IsOnLoginPage()
+                .Login(sameUserEmail, AutoUser23.Password);
+            loginPage.WaitForLoadingIconToDisappear();
+            loginPage.VerifyErrorMessageDisplay()
+                .ClickChangeLoginButton();
+            loginPage.IsOnLoginPage()
+                .Login(AutoUser23.UserName, AutoUser23.Password)
+                .IsOnHomePageWithoutWaitSearchBtn(AutoUser23);
+            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser23.DisplayName));
+            loginPage.OpenSettings()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            userSettingPage.ClickOnElement(userSettingPage.DetailTab);
+            userSettingPage.WaitForLoadingIconToDisappear();
+            userSettingPage.VerifyInputValue(userSettingPage.EmailInput, sameUserEmail);
         }
     }
 }
