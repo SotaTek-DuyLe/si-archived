@@ -1107,7 +1107,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             PageFactoryManager.Get<ServiceScheduleTab>()
                 .verifyScheduleEndDate(tommorowDate);
             //Verify in DB
-            string serviceUnitAssetQuery = SQLConstants.SQL_ServiceUnitAssets + "28";
+            string serviceUnitAssetQuery = SQLConstants.SQL_ServiceUnitAssets + "28" + " and s.agreementlineID = 55";
             SqlCommand commandServiceUnitAsset = new SqlCommand(serviceUnitAssetQuery, DbContext.Connection);
             SqlDataReader readerServiceUnitAsset = commandServiceUnitAsset.ExecuteReader();
             List<ServiceUnitAssetsDBModel> serviceUnitAsset = ObjectExtention.DataReaderMapToList<ServiceUnitAssetsDBModel>(readerServiceUnitAsset);
