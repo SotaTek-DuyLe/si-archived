@@ -597,6 +597,9 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskListingPage.ClickOnFirstRecord()
                 .SwitchToChildWindow(2);
             DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
+            detailTaskPage.ClickOnDetailTab();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.WaitForLoadingIconToDisappear();
             detailTaskPage.SelectTextFromDropDown(detailTaskPage.PrioritySelect, "High");
             string taskId = detailTaskPage.GetCurrentUrl().Split('/').LastOrDefault();
             detailTaskPage.ClickSaveBtn()
@@ -630,9 +633,12 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
-            taskConfirmationPage.DoubleClickTaskRoundLegs(1);
+            int taskIdx = taskConfirmationPage.DoubleClickNotHighPriorityTaskRoundLegs();
             taskConfirmationPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
+            detailTaskPage.ClickOnDetailTab();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.WaitForLoadingIconToDisappear();
             detailTaskPage.SelectTextFromDropDown(detailTaskPage.PrioritySelect, "High");
             detailTaskPage.ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
@@ -645,7 +651,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
-            taskConfirmationPage.VerifyPriorityOnTaskRoundLegs(1, "High");
+            taskConfirmationPage.VerifyPriorityOnTaskRoundLegs(taskIdx, "High");
         }
 
         [Category("TaskLine")]
@@ -677,8 +683,8 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
                 .WaitForLoadingIconToDisappear(false);
             //Double click round instance
-            taskConfirmationPage.DoubleClickRoundLeg(0)
-                .SwitchToChildWindow(2);
+            int rowIdx = taskConfirmationPage.DoubleClickEmptyStatusRoundLeg();
+            taskConfirmationPage.SwitchToChildWindow(2);
             RoundLegInstancePage roundLegInstancePage = PageFactoryManager.Get<RoundLegInstancePage>();
             roundLegInstancePage.WaitForLoadingIconToDisappear();
             roundLegInstancePage.WaitForLoadingIconToDisappear();
@@ -695,7 +701,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskConfirmationPage.ClickRefreshBtn();
             taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.WaitForLoadingIconToDisappear();
-            taskConfirmationPage.VerifyResolutionCodeOnRoundLegs(0, "Bad Weather");
+            taskConfirmationPage.VerifyResolutionCodeOnRoundLegs(rowIdx, "Bad Weather");
             //Double click task
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
@@ -703,10 +709,13 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
-            taskConfirmationPage.DoubleClickTaskRoundLegs(1);
+            int taskIdx = taskConfirmationPage.DoubleClickNotCompletedTaskRoundLegs();
             taskConfirmationPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
+            detailTaskPage.ClickOnDetailTab();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.WaitForLoadingIconToDisappear();
             detailTaskPage.SelectTextFromDropDown(detailTaskPage.taskStateDd, "Not Completed");
             detailTaskPage.SelectTextFromDropDown(detailTaskPage.resolutionCode, "Too Heavy");
             detailTaskPage.ClickSaveBtn()
@@ -722,7 +731,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
-            taskConfirmationPage.VerifyResolutionCodeOnTaskRoundLegs(1, "Too Heavy");
+            taskConfirmationPage.VerifyResolutionCodeOnTaskRoundLegs(taskIdx, "Too Heavy");
         }
     }
 }
