@@ -117,14 +117,17 @@ namespace si_automated_tests.Source.Test.TaskTypeTests
                 .ClickOnDetailTab()
                 .VerifyAssuredTaskChecked()
                 .ClickCloseBtn()
-                .SwitchToChildWindow(1);
+                .SwitchToChildWindow(2);
             //Step line 11: Click the [Add New Item] in pop out [Add Service Task]
             PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsServiceUnitDetailPage()
                 .ClickOnAddNewItemServiceTaskSchedules()
                 .IsAddServiceTaskPopOut()
                 .SelectServiceTasks(serviceTask)
                 .ClickOnCreateBtn()
-                .SwitchToChildWindow(2)
+                .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServicesTaskPage>()
                 .IsServiceTaskPage()
@@ -145,7 +148,7 @@ namespace si_automated_tests.Source.Test.TaskTypeTests
                 .GetServiceTaskId();
             PageFactoryManager.Get<ServicesTaskPage>()
                 .ClickCloseBtn()
-                .SwitchToChildWindow(1)
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<ServiceUnitDetailPage>()
                 .VerifyServiceTaskScheduleCreated(serviceTaskId, serviceTask, "0 x 1100L");

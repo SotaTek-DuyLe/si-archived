@@ -185,7 +185,6 @@ namespace si_automated_tests.Source.Main.Pages.Services
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(serviceGroupTitle);
             WaitUtil.WaitForElementVisible(DetailTab);
-            WaitUtil.WaitForElementVisible(RiskTab);
 
             return this;
         }
