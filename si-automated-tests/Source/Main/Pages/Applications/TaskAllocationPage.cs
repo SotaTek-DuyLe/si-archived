@@ -569,10 +569,21 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
-        public TaskAllocationPage DoubleClickRoundLeg(int rowidx)
+        public int DoubleClickEmptyStatusRoundLeg()
         {
-            UnallocatedTableEle.DoubleClickRow(rowidx);
-            return this;
+            var rows = UnallocatedTableEle.GetRows();
+            int emptyRowIdx = 0;
+            foreach (var row in rows)
+            {
+                if (string.IsNullOrEmpty(row.FindElement(By.XPath("./div[@class='slick-cell l10 r10']//span")).Text))
+                {
+                    emptyRowIdx = rows.IndexOf(row);
+                    DoubleClickOnElement(row);
+                    break;
+                }
+            }
+            
+            return emptyRowIdx;
         }
 
         [AllureStep]
@@ -597,8 +608,53 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 };
                 roundInstances.Add(model);
                 DoubleClickOnElement(item);
+                break;
             }
             return roundInstances;
+        }
+
+        [AllureStep]
+        public int DoubleClickNotHighPriorityTaskRoundLegs()
+        {
+            int emptyRowIdx = 0;
+            List<IWebElement> taskRows = UnallocatedTableEle.GetRows().Where(row =>
+            {
+                IWebElement cell = row.FindElement(By.XPath(UnallocatedDescription));
+                var details = cell.FindElements(By.XPath("./span[@class='toggle']"));
+                return details.FirstOrDefault() != null;
+            }).ToList();
+            foreach (var row in taskRows)
+            {
+                if (row.FindElement(By.XPath("./div[@class='slick-cell l12 r12']")).Text.Trim() != "High")
+                {
+                    emptyRowIdx = taskRows.IndexOf(row);
+                    DoubleClickOnElement(row);
+                    break;
+                }
+            }
+            return emptyRowIdx;
+        }
+
+        [AllureStep]
+        public int DoubleClickNotCompletedTaskRoundLegs()
+        {
+            int emptyRowIdx = 0;
+            List<IWebElement> taskRows = UnallocatedTableEle.GetRows().Where(row =>
+            {
+                IWebElement cell = row.FindElement(By.XPath(UnallocatedDescription));
+                var details = cell.FindElements(By.XPath("./span[@class='toggle']"));
+                return details.FirstOrDefault() != null;
+            }).ToList();
+            foreach (var row in taskRows)
+            {
+                if (row.FindElement(By.XPath("./div[@class='slick-cell l10 r10']//span")).Text.Trim() != "Not Completed")
+                {
+                    emptyRowIdx = taskRows.IndexOf(row);
+                    DoubleClickOnElement(row);
+                    break;
+                }
+            }
+            return emptyRowIdx;
         }
 
         [AllureStep]
@@ -637,7 +693,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 if (count == rowCount) break;
                 count++;
                 IWebElement cell = item.FindElement(By.XPath(UnallocatedResolutionCodeCell));
-                Assert.IsTrue(cell.Text == resolutionCode);
+                Assert.IsTrue(cell.Text.Trim() == resolutionCode);
             }
             return this;
         }

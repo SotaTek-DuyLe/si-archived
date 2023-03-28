@@ -34,7 +34,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         [Category("CreateInspection")]
         [Category("Chang")]
         [Test(Description = "Creating inspection from task")]
-        public void TC_079_Create_inspection_from_task()
+        public void TC_079_254_Create_inspection_from_task()
         {
             CommonFinder finder = new CommonFinder(DbContext);
             PageFactoryManager.Get<LoginPage>()
@@ -85,7 +85,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickAllocatedUserAndSelectValue(assignedUserValue)
                 .InputNote(noteValue)
                 .ClickCreateBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
+            detailTaskPage
+                .VerifyBackGroundColorInspectionLink();
+            detailTaskPage
                 .ClickOnSuccessLink()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<DetailInspectionPage>()
@@ -362,7 +365,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         [Category("CreateInspection")]
         [Category("Chang")]
         [Test(Description = "Creating inspection from service unit")]
-        public void TC_081_Create_inspection_from_service_unit()
+        public void TC_081_TC_254_Create_inspection_from_service_unit()
         {
             CommonFinder finder = new CommonFinder(DbContext);
             string inspectionTypeValue = "Site Inspection";
@@ -420,7 +423,11 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .InputNote(noteValue)
                 .ClickCreateBtn()
                 //Bug: not display link => Fixed: 7/7/2022
-                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .VerifyBackGroundColorInspectionLink();
+
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
                 .ClickOnSuccessLink()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<DetailInspectionPage>()
