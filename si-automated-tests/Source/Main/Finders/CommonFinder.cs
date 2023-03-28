@@ -268,7 +268,7 @@ namespace si_automated_tests.Source.Main.Finders
 
         public List<ContractUnitDBModel> GetContractUnits()
         {
-            string query = "select * from SotatekTesting.dbo.contractunits;";
+            string query = "select * from contractunits;";
             return FindList<ContractUnitDBModel>(query);
         }
 
@@ -378,7 +378,7 @@ namespace si_automated_tests.Source.Main.Finders
         [AllureStep]
         public List<PurchaseOderListVDBModel> GetPurchaseOrderListVByPartyId(string partyId)
         {
-            string query = "select * from SotatekTesting.dbo.purchaseorders_list_v where partyid=" + partyId + ";";
+            string query = "select * from purchaseorders_list_v where partyid=" + partyId + ";";
             return FindList<PurchaseOderListVDBModel>(query).ToList();
         }
 

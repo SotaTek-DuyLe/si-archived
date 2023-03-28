@@ -347,5 +347,15 @@ namespace si_automated_tests.Source.Main.Pages.Events
 
             return this;
         }
+
+        private readonly By inpsectionCreatedLink = By.XPath("//a[text()='Inspection Created']/parent::div/parent::div");
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyBackGroundColorInspectionLink()
+        {
+            Assert.AreEqual("rgba(64, 159, 90, 1)", GetCssValue(inpsectionCreatedLink, "color"));
+            Assert.AreEqual("rgba(248, 254, 241, 1)", GetCssValue(inpsectionCreatedLink, "background-color"));
+            Assert.IsTrue(GetCssValue(inpsectionCreatedLink, "border").Contains("rgb(225, 247, 201)"));
+            return this;
+        }
     }
 }
