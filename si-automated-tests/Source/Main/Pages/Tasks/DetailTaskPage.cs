@@ -37,6 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By noteInput = By.CssSelector("textarea#note");
         private readonly By createBtn = By.XPath("//button[text()='Create']");
         private readonly By cancelBtn = By.XPath("//button[text()='Create']/preceding-sibling::button");
+        private readonly By inpsectionCreatedLink = By.XPath("//a[text()='Inspection Created']/parent::div/parent::div");
 
         //INSPECTION TAB
         private readonly By inspectionTab = By.CssSelector("a[aria-controls='taskInspections-tab']");
@@ -421,6 +422,16 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifyTaskNotesValue(string noteValue)
         {
             Assert.AreEqual(noteValue, GetAttributeValue(taskNotesInput, "value"));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyBackGroundColorInspectionLink()
+        {
+            Assert.AreEqual("rgba(64, 159, 90, 1)", GetCssValue(inpsectionCreatedLink, "color"));
+            Assert.AreEqual( "rgba(248, 254, 241, 1)", GetCssValue(inpsectionCreatedLink, "background-color"));
+            Console.WriteLine(GetCssValue(inpsectionCreatedLink, "border"));
+            Assert.IsTrue(GetCssValue(inpsectionCreatedLink, "border").Contains("rgb(225, 247, 201)"));
             return this;
         }
 
