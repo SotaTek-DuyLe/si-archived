@@ -73,6 +73,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] HistoryRIEvent = { "Object type", "Object ID", "Waste Type" };
         public static readonly string[] AuthoriseTipping = { "Never Allow Tipping", "Do Not Override On Stop", "Always Allow Tipping" };
         public static readonly string[] ServiceUnitPoint = { "Serviced Point", "Point of Service", "Both Serviced and Point of Service" };
+        public static readonly string[] ExecuteDays = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
         //ICON IMAGE
         public static readonly string StreetIconUrl = "web/content/images/street.svg";        

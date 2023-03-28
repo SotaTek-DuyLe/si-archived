@@ -109,6 +109,7 @@
     <None Remove="Source\Main\Pages\Applications\ServiceStatus\" />
     <None Remove="Source\Main\Models\ServiceStatus\" />
     <None Remove="Source\Main\Resources\" />
+    <None Remove="Source\Test\TaskTypeTests\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
@@ -145,6 +146,7 @@
     <Folder Include="Source\Test\HistoryTests\" />
     <Folder Include="Source\Main\Pages\Applications\ServiceStatus\" />
     <Folder Include="Source\Main\Models\ServiceStatus\" />
+    <Folder Include="Source\Test\TaskTypeTests\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">

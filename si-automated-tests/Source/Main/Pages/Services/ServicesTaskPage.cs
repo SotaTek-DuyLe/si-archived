@@ -32,6 +32,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By servicesSite = By.XPath("//div[text()='SITE']/following-sibling::a");
         private readonly By serviceName = By.XPath("//div[text()='SERVICE']/following-sibling::div");
         private readonly By serviceTaskScheduleName = By.ClassName("typeUrl");
+        private readonly By typeUrlLink = By.CssSelector("a[class='typeUrl']");
 
         private string serviceTaskName = "//span[text()='Service Task']/following-sibling::span[contains(text(),'{0}')]";
         private string headerPartyName = "//div[@class='headers-container']//a[contains(text(), '{0}')]";
@@ -183,6 +184,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(serviceGroupTitle);
+            WaitUtil.WaitForElementVisible(DetailTab);
 
             return this;
         }
@@ -309,6 +311,21 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
+        public ServicesTaskPage ClickOnAssuredTaskCheckbox()
+        {
+            ClickOnElement(assuredCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage VerifyAssuredTaskNotChecked()
+        {
+            WaitUtil.WaitForElementVisible(assuredCheckbox);
+            Assert.IsFalse(IsCheckboxChecked(assuredCheckbox));
+            return this;
+        }
+
+        [AllureStep]
         public ServicesTaskPage VerifyProximityAlertChecked()
         {
             WaitUtil.WaitForElementVisible(proximityAlertCheckbox);
@@ -425,6 +442,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public string GetServiceTaskDescription()
         {
             return GetElementText(serviceTaskScheduleName);
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnServiceTaskDesc()
+        {
+            ClickOnElement(typeUrlLink);
+            return PageFactoryManager.Get<ServiceUnitDetailPage>();
         }
         [AllureStep]
         public string GetServiceTaskId()

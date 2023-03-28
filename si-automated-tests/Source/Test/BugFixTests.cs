@@ -2383,6 +2383,32 @@ namespace si_automated_tests.Source.Test
                 .VerifyPopupIsDisappear();
 
         }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Exclude days missing in service form (bug fix)")]
+        public void TC_253_Exclude_days_missing_in_Service_form()
+        {
+            string serviceId = "3";
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Step line 7: Go to service detail page with id = 3
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/services/" + serviceId);
+            PageFactoryManager.Get<ServiceDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceDetailPage>()
+                .IsServiceDetailPage()
+                //Set a flag Notification active to true
+                .ClickOnNotificationActiveCheckbox()
+                .VerifyTheDisplayOfExecuteDays(CommonConstants.ExecuteDays);
+        }
+
         [Category("BugFix")]
         [Category("Dee")]
         [Test]

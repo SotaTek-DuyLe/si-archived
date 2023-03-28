@@ -38,6 +38,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By retireBtn = By.XPath("button[title='Retire']");
         private readonly By serviceGroupName = By.XPath("//div[text()='SERVICE GROUP']/following-sibling::div");
         private readonly By serviceName = By.XPath("//div[text()='SERVICE']/following-sibling::div");
+        private readonly By allAssuredTaskInput = By.XPath("//div[@id='serviceTaskSchedules-tab']//input[contains(@data-bind, 'assuredTask.value')]");
 
         #region
         public readonly By searchPointSegmentBtn = By.XPath("//div[@id='details-tab']//div[contains(@class,'searchButton')]/button");
@@ -52,6 +53,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By refreshHeaderBtn = By.XPath("(//button[@title='Refresh'])[1]");
         private readonly By lockReferenceInput = By.CssSelector("input[name='lockReference']");
         private readonly By lockInput = By.XPath("//label[contains(string(), 'Lock')]/parent::span/parent::div/following-sibling::input");
+        private readonly By allStartDate = By.XPath("//div[@id='serviceTaskSchedules-tab']//input[@id='startDate.id']");
         private readonly string anyStreetOption = "//div[@id='searchFields.street']//li[text()='{0}']";
         private readonly string endDateAtAnyRowServiceTaskScheduleTab = "//div[@id='serviceTaskSchedules-tab']//tr[{0}]//input[@id='endDate.id']";
         private readonly string startDateAtAnyRowServiceTaskScheduleTab = "//div[@id='serviceTaskSchedules-tab']//tr[{0}]//input[@id='startDate.id']";
@@ -61,9 +63,29 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string editServiceTaskBtnAnyRow = "//div[@id='serviceTaskSchedules-tab']//tr[{0}]//button[@title='Edit Service Task']";
 
         [AllureStep]
+        public int GetIndexOfServiceTaskScheduleByStartDate(string startDateValue)
+        {
+            List<IWebElement> allStartDateRows = GetAllElements(allStartDate);
+            for(int i = 0; i < allStartDateRows.Count; i++)
+            {
+                if (GetAttributeValue(allStartDateRows[i], "value").Equals(startDateValue))
+                    return i+1;
+            }
+            return 1;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage ClickOnEditServiceTaskBtnByIndex(int index)
+        {
+            ClickOnElement(editServiceTaskBtnAnyRow, index.ToString());
+            return PageFactoryManager.Get<ServicesTaskPage>();
+        }
+
+        [AllureStep]
         public ServiceUnitDetailPage IsServiceUnitDetailPage()
         {
             WaitUtil.WaitForElementVisible(title);
+            WaitUtil.WaitForElementVisible(DetailTab);
             return this;
         }
 
@@ -453,6 +475,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private string STSEditSchedule = "./td//button[@title='Edit Schedule']";
         private string STSEditServiceTask = "./td//button[@title='Edit Service Task']";
         private By editServuceTaskBtnFirstRow = By.XPath("//div[@id='serviceTaskSchedules-tab']//tr[1]//button[contains(string(), 'Edit Service Task')]");
+        private By addNewItemServiceTaskSchedule = By.XPath("//div[@id='serviceTaskSchedules-tab']//button[contains(string(), 'Add New Item')]");
+        private readonly By addServiceTaskTitle = By.XPath("//h4[text()='Add Service Task']");
+        private readonly By serviceTaskOption = By.XPath("//h5[text()='Service Tasks']");
+        private readonly By createBtn = By.XPath("//button[text()='Create']");
+        private readonly string serviceTaskByName = "//h5[text()='Service Tasks']/following-sibling::ul/li[text()='{0}']";
+        private readonly string serviceTaskByIdAndTypeAndTaskLine = "//td[text()='{0}']/following-sibling::td[text()='{1}']/following-sibling::td[text()='{2}']";
+        private readonly string editServiceTaskBtnByServiceTaskId = "//div[@id='serviceTaskSchedules-tab']//td[text()='{0}']//following-sibling::td/button[contains(string(), 'Edit Service Task')]";
+        private readonly string assuredTaskCheckboxByServiceTaskId = "//div[@id='serviceTaskSchedules-tab']//td[text()='{0}']//following-sibling::td/input[contains(@data-bind, 'assuredTask.value')]";
 
         public TableElement ServiceTaskScheduleTableEle
         {
@@ -471,6 +501,43 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceUnitDetailPage VerifyServiceTaskScheduleId(string taskId)
         {
             Assert.IsNotNull(ServiceTaskScheduleTableEle.GetRowByCellValue(0, taskId));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnAddNewItemServiceTaskSchedules()
+        {
+            ClickOnElement(addNewItemServiceTaskSchedule);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage IsAddServiceTaskPopOut()
+        {
+            WaitUtil.WaitForElementVisible(addServiceTaskTitle);
+            Assert.IsTrue(IsControlDisplayed(addServiceTaskTitle));
+            Assert.IsTrue(IsControlDisplayed(serviceTaskOption));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage SelectServiceTasks(string serviceTaskName)
+        {
+            ClickOnElement(serviceTaskByName, serviceTaskName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnCreateBtn()
+        {
+            ClickOnElement(createBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyServiceTaskScheduleCreated(string serviceTaskIdValue, string taskTypeValue, string serviceTaskLineValue)
+        {
+            Assert.IsTrue(IsControlDisplayed(string.Format(serviceTaskByIdAndTypeAndTaskLine, serviceTaskIdValue, taskTypeValue, serviceTaskLineValue)));
             return this;
         }
         #endregion
@@ -608,9 +675,52 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
+        public ServiceUnitDetailPage VerifyAllAssuredTaskTicked()
+        {
+            List<IWebElement> allAssuredTask = GetAllElements(allAssuredTaskInput);
+            foreach(IWebElement assuredT in allAssuredTask)
+            {
+                Assert.IsTrue(IsCheckboxChecked(assuredT), "[Assured Task] is not checked");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyAllAssuredTaskUnTicked()
+        {
+            List<IWebElement> allAssuredTask = GetAllElements(allAssuredTaskInput);
+            foreach (IWebElement assuredT in allAssuredTask)
+            {
+                Assert.IsFalse(IsCheckboxChecked(assuredT), "[Assured Task] is checked");
+            }
+            return this;
+        }
+
+        [AllureStep]
         public ServiceUnitDetailPage ClickOnEditServiceTaskBtnAtFirstRow()
         {
             ClickOnElement(editServuceTaskBtnFirstRow);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnEditServiceTaskBtnByServiceTaskId(string serviceTaskIdValue)
+        {
+            ClickOnElement(editServiceTaskBtnByServiceTaskId, serviceTaskIdValue);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyAssuredTaskByServiceTaskIdChecked(string serviceTaskIdValue)
+        {
+            Assert.IsTrue(IsCheckboxChecked(assuredTaskCheckboxByServiceTaskId, serviceTaskIdValue));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyAssuredTaskByServiceTaskIdNotChecked(string serviceTaskIdValue)
+        {
+            Assert.IsFalse(IsCheckboxChecked(assuredTaskCheckboxByServiceTaskId, serviceTaskIdValue));
             return this;
         }
 
