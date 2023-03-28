@@ -38,7 +38,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         public void TC_140_1_Verify_that_Site_form_displays_Lock_and_Lock_Reference_fields()
         {
             PageFactoryManager.Get<LoginPage>()
-                .GoToURL("https://test.echoweb.co.uk/web/sites/1201");
+                .GoToURL(WebUrl.MainPageUrl + "web/sites/1201");
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
@@ -73,7 +73,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         public void TC_140_2_Verify_that_ServiceUnit_form_displays_Lock_and_Lock_Reference_fields()
         {
             PageFactoryManager.Get<LoginPage>()
-                .GoToURL("https://test.echoweb.co.uk/web/service-units/230015");
+                .GoToURL(WebUrl.MainPageUrl + "web/service-units/230015");
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
@@ -179,7 +179,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         public void TC_140_4_Verify_that_individual_Service_Unit_can_be_unlocked()
         {
             PageFactoryManager.Get<LoginPage>()
-                .GoToURL("https://test.echoweb.co.uk/web/sites/24");
+                .GoToURL(WebUrl.MainPageUrl + "web/sites/24");
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
