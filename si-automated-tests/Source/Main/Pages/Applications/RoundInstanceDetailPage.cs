@@ -229,7 +229,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             List<IWebElement> taskRows = UnallocatedTableEle.GetRows().ToList();
             foreach (var row in taskRows)
             {
-                if (row.FindElement(By.XPath("./div[@class='slick-cell l19 r19']//span")).Text.Trim() != "Not Completed")
+                if (row.FindElement(By.XPath("./div[@class='slick-cell l19 r19']//span")).Text.Trim() != "Completed" && row.FindElement(By.XPath("./div[@class='slick-cell l19 r19']//span")).Text.Trim() != "Not Completed")
                 {
                     emptyRowIdx = taskRows.IndexOf(row);
                     ClickOnElement(row);
