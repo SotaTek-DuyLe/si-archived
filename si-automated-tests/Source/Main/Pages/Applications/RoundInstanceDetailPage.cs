@@ -31,7 +31,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By TaskLinesTab = By.XPath("//a[@aria-controls='taskLines-tab']");
         public readonly By ExpandRoundsGo = By.XPath("//button[@id='t-toggle-rounds']");
         private readonly By showAllTaskTab = By.CssSelector("button[id='t-all-tasks']");
-        private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
+        public readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         public readonly By IdFilterInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l3')]//input");
         public readonly string UnallocatedRow = "./div[contains(@class, 'assured')]";
         public readonly string UnallocatedCheckbox = "./div[contains(@class, 'slick-cell l0 r0')]//input";
@@ -70,6 +70,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             get => slickRoundTableEle;
         }
 
+        public readonly string UnallocatedDescription = "./div[contains(@class, 'slick-cell l4 r4')]";
         private TableElement unallocatedTableEle;
         public TableElement UnallocatedTableEle
         {
@@ -198,10 +199,44 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
-        public RoundInstanceDetailPage DoubleClickOnTask()
+        public RoundInstanceDetailPage DoubleClickOnTask(int taskIdx)
         {
-            UnallocatedTableEle.DoubleClickRow(0);
+            UnallocatedTableEle.DoubleClickRow(taskIdx);
             return this;
+        }
+
+        [AllureStep]
+        public int DoubleClickNotCompletedTaskRoundLegs()
+        {
+            int emptyRowIdx = 0;
+            List<IWebElement> taskRows = UnallocatedTableEle.GetRows().ToList();
+            foreach (var row in taskRows)
+            {
+                if (row.FindElement(By.XPath("./div[@class='slick-cell l19 r19']//span")).Text.Trim() != "Completed")
+                {
+                    emptyRowIdx = taskRows.IndexOf(row);
+                    DoubleClickOnElement(row);
+                    break;
+                }
+            }
+            return emptyRowIdx;
+        }
+
+        [AllureStep]
+        public int ClickNotNotCompletedTaskRoundLegs()
+        {
+            int emptyRowIdx = 0;
+            List<IWebElement> taskRows = UnallocatedTableEle.GetRows().ToList();
+            foreach (var row in taskRows)
+            {
+                if (row.FindElement(By.XPath("./div[@class='slick-cell l19 r19']//span")).Text.Trim() != "Completed" && row.FindElement(By.XPath("./div[@class='slick-cell l19 r19']//span")).Text.Trim() != "Not Completed")
+                {
+                    emptyRowIdx = taskRows.IndexOf(row);
+                    ClickOnElement(row);
+                    break;
+                }
+            }
+            return emptyRowIdx;
         }
 
         [AllureStep]

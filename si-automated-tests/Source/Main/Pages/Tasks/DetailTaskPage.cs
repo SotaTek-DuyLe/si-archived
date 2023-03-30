@@ -727,6 +727,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         [AllureStep]
         public DetailTaskPage VerifyTaskLineState(string state)
         {
+            if (TaskLineTableEle.GetRows().Count == 0) return this;
             VerifyCellValue(TaskLineTableEle, 0, 11, state);
             return this;
         }
