@@ -1,13 +1,10 @@
 ﻿using NTextCat;
-using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
-using si_automated_tests.Source.Main.Models.Services;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Common;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
-using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc;
 using si_automated_tests.Source.Main.Pages.PointAddress;
 using si_automated_tests.Source.Main.Pages.Services;
 using System;

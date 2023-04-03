@@ -20,8 +20,15 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         private readonly By titleDetail = By.XPath("//h4[text()='Point Area']");
         private readonly By inspectBtn = By.CssSelector("button[title='Inspect']");
         private readonly By areaName = By.XPath("//p[@class='object-name']");
-        private readonly By allAservicesTab = By.CssSelector("a[aria-controls='allServices-tab']");
-        private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
+        private readonly By detailTab = By.XPath("//a[@aria-controls='details-tab']/parent::li");
+        private readonly By activeServiceTab = By.XPath("//a[@aria-controls='activeServices-tab']/parent::li");
+
+        private readonly By allAservicesTab = By.XPath("//a[@aria-controls='allServices-tab']/parent::li");
+        private readonly By dataTab = By.XPath("//a[@aria-controls='data-tab']/parent::li");
+        private readonly By announcementsTab = By.XPath("//a[@aria-controls='announcements-tab']/parent::li");
+        private readonly By risksTab = By.XPath("//a[@aria-controls='risks-tab']/parent::li");
+        private readonly By sectorsTab = By.XPath("//a[@aria-controls='sectors-tab']/parent::li");
+        private readonly By notificationTab = By.XPath("//a[@aria-controls='notifications-tab']/parent::li");
 
         //DETAILS PAGE
         private readonly By areaNameInput = By.Id("area-name"); 
@@ -41,13 +48,12 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         private readonly By closeBtn = By.XPath("//div[@id='inspection-modal']//h4[text()='Create ']/parent::div/following-sibling::div/button[@aria-label='Close']");
 
         //POINT HISTORY TAB
-        private readonly By pointHistoryTab = By.CssSelector("a[aria-controls='pointHistory-tab']");
+        private readonly By pointHistoryTab = By.XPath("//a[@aria-controls='pointHistory-tab']/parent::li");
         private readonly By allRowInPointHistoryTabel = By.XPath("//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div");
         private const string columnInRowPointHistoryTab = "//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private readonly By filterInputById = By.XPath("//div[@id='pointHistory-tab']//div[contains(@class, 'l2 r2')]/descendant::input");
 
         //ACTIVE SERVICES TAB
-        private readonly By activeServiceTab = By.CssSelector("a[aria-controls='activeServices-tab']");
         private readonly By allActiveServiceRow = By.CssSelector("div.parent-row");
         private readonly By serviceUnit = By.XPath("//div[@class='parent-row']//div[@title='Open Service Unit']");
         private readonly By service = By.XPath("//div[@class='parent-row']//span[@title='0' or @title='Open Service Task']");
@@ -80,7 +86,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         private const string serviceUnitLink = "//tbody/tr[{0}]//a[@title='Open Service Unit' and not(contains(@style, 'display: none;'))]";
 
         #region SubscriptionTab
-        public readonly By SubscriptionTab = By.XPath("//a[@aria-controls='subscriptions-tab']");
+        public readonly By SubscriptionTab = By.XPath("//a[@aria-controls='subscriptions-tab']/parent::li");
         public readonly By AddNewSubscriptionButton = By.XPath("//button[@data-bind='click: createSubscription']");
         public readonly By SubscriptionIFrame = By.XPath("//div[@id='subscriptions-tab']//iframe");
         private readonly string SubcriptionTable = "//div[@class='grid-canvas']";
@@ -158,12 +164,6 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         }
         #endregion
 
-        [AllureStep]
-        public PointAreaDetailPage ClickOnActiveServicesTab()
-        {
-            ClickOnElement(activeServiceTab);
-            return this;
-        }
         [AllureStep]
         public List<ActiveSeviceModel> GetAllServiceWithServiceUnitModel()
         {
@@ -403,6 +403,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         public PointAreaDetailPage ClickPointHistoryTab()
         {
             ClickOnElement(pointHistoryTab);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -565,7 +566,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         }
 
         #region MAP TAB
-        private readonly By mapTab = By.CssSelector("a[aria-controls='map-tab']");
+        private readonly By mapTab = By.XPath("//a[@aria-controls='map-tab']/parent::li");
         private readonly By areaDescInMapTab = By.XPath("//td[text()='Area']/following-sibling::td");
 
         [AllureStep]
@@ -587,6 +588,129 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointAreas
         public PointAreaDetailPage ClickOnFirstServiceUnit()
         {
             ClickOnElement(serviceUnitAtFirstRow);
+            return this;
+        }
+
+        [AllureStep]
+        public PointAreaDetailPage ClickOnDetailTab()
+        {
+            ClickOnElement(detailTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage IsDetailTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(detailTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage ClickOnDataTab()
+        {
+            ClickOnElement(dataTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage IsDataTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(dataTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage ClickOnAnnouncementTab()
+        {
+            ClickOnElement(announcementsTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage IsAnnouncementTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(announcementsTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage IsMapTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(mapTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage ClickOnRisksTab()
+        {
+            ClickOnElement(risksTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage IsRisksTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(risksTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage ClickOnSectorsTab()
+        {
+            ClickOnElement(sectorsTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage IsSectorTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(sectorsTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage ClickOnSubscriptionsTab()
+        {
+            ClickOnElement(SubscriptionTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage IsSubscriptionTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(SubscriptionTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage ClickOnNotificationsTab()
+        {
+            ClickOnElement(notificationTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage IsNotificationsTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(notificationTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage IsAllServicesTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(allAservicesTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage IsActiveServicesTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(activeServiceTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage IsPointHistoryTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(pointHistoryTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public PointAreaDetailPage ClickOnActiveServicesTab()
+        {
+            ClickOnElement(activeServiceTab);
+            WaitForLoadingIconToDisappear();
             return this;
         }
     }
