@@ -946,7 +946,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             }
             return this;
         }
-        [AllureStep]
+        [AllureStep]                
 
         public ResourceAllocationPage DragAndDropFirstResultToResourceInRound(string targetResrouceName)
         {
@@ -969,6 +969,18 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage ClickWholeAbsenceBtn()
         {
             ClickOnElement(wholeAbsenceBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickJustTodayBtn()
+        {
+            ClickOnElement(justTodayBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickCustomDatesBtn()
+        {
+            ClickOnElement(customDatesBtn);
             return this;
         }
         [AllureStep]

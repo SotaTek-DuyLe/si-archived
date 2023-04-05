@@ -1168,8 +1168,101 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             Assert.AreEqual(convertedStartDate.Day, list[2].startdate.Day);
             Assert.AreEqual(convertedStartDate.Month, list[2].startdate.Month);
             Assert.AreEqual(convertedStartDate.Year, list[2].startdate.Year);
+        }
+
+        [Category("Resources")]
+        [Category("Dee")]
+        [Test]
+        public void TC_279_Resource_Substitution()
+        {
+            var resourceName = "Thomas Edison";
+            var clientReference = " (E0456)";
+            var substitutionName = "Samuel Morse";
+            var leaveType = "Holiday";
+            var leaveReason = "Paid";
+            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 14);
+            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 16);
+            string middleDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 15);
+            var details = CommonUtil.GetRandomString(5);
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClickButton("Create Leave Entry Record")
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .IsOnLeaveEntryPage()
+                .SelectLeaveResource(resourceName + clientReference)
+                .SelectLeaveType(leaveType)
+                .SelectLeaveReason(leaveReason)
+                .EnterDates(startDate)
+                .EnterEndDate(endDate + Keys.Tab)
+                .EnterDetails(details)
+                .SaveLeaveEntry()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Resources)
+               .OpenOption("Daily Allocation")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
+                .SelectShift("AM")
+                .InsertDate(middleDate)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000)
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", substitutionName)
+                .DragAndDropFirstResultToResourceInRound(resourceName)
+                .IsSubstitutionResourcePopupDisplayed()
+                .ClickJustTodayBtn()
+                .ClickConfirmSubstitution()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
 
 
+            PageFactoryManager.Get<ResourceAllocationPage>()
+               .SelectContract(Contract.Commercial)
+               .SelectShift("AM")
+               .InsertDate(startDate)
+               .ClickGo()
+               .WaitForLoadingIconToDisappear()
+               .SleepTimeInMiliseconds(2000);
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName);
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+               .SelectContract(Contract.Commercial)
+               .SelectShift("AM")
+               .InsertDate(endDate)
+               .ClickGo()
+               .WaitForLoadingIconToDisappear()
+               .SleepTimeInMiliseconds(2000);
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName);
+
+
+
+            CommonFinder finder = new CommonFinder(DbContext);
+            List<ResourceAllocationModel> list = finder.GetResourceAllocation(116);
+            var convertedEndDate = CommonUtil.StringToDateTime(middleDate, "dd/MM/yyyy");
+            Assert.AreEqual(convertedEndDate.Day, list[0].startdate.Day);
+            Assert.AreEqual(convertedEndDate.Month, list[0].startdate.Month);
+            Assert.AreEqual(convertedEndDate.Year, list[0].startdate.Year);
         }
 
     }
