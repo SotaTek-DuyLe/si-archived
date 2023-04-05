@@ -129,6 +129,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By justTodayBtn = By.XPath("//div[@class='row reallocation-buttons']/button[text()='Just today']");
         private readonly By wholeAbsenceBtn = By.XPath("//div[@class='row reallocation-buttons']/button[text()='Whole absence']");
         private readonly By customDatesBtn = By.XPath("//div[@class='row reallocation-buttons']/button[text()='Custom dates']");
+        private readonly By toDateInput = By.Id("toDate");
         private readonly By confirmSubstitutionBtn = By.XPath("//button[text()='OK']");
         private readonly By cancelSubstitutionBtn = By.XPath("//button[@data-bind='click: $parent.resetAllocationPeriodStates' and text()='Cancel']");
 
@@ -981,6 +982,12 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage ClickCustomDatesBtn()
         {
             ClickOnElement(customDatesBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage InputToDate(String date)
+        {
+            SendKeys(toDateInput, date);
             return this;
         }
         [AllureStep]
