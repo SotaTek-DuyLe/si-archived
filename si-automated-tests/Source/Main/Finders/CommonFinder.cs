@@ -395,5 +395,11 @@ namespace si_automated_tests.Source.Main.Finders
             string query = $"select * from scheduledates where scheduleID={id};";
             return FindList<ScheduleDateModel>(query);
         }
+        [AllureStep]
+        public List<ResourceAllocationModel> GetResourceAllocation(int id)
+        {
+            string query = "select * from resourceallocations where resourceID=" + id.ToString() +" order by enddate desc";
+            return FindList<ResourceAllocationModel>(query);
+        }
     }
 }

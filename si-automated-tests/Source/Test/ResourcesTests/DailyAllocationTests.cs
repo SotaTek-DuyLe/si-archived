@@ -3,6 +3,8 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Applications;
 using si_automated_tests.Source.Main.Pages.Common;
@@ -11,6 +13,7 @@ using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
 using si_automated_tests.Source.Main.Pages.Services;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 using static si_automated_tests.Source.Main.Pages.Resources.ResourceAllocationPage;
@@ -83,7 +86,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifyBackgroundColor(resourceName, "white")
-                .InsertDate(dateInFutre + Keys.Enter)
+                .InsertDate(dateInFutre)
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(2000);
@@ -117,7 +120,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyResourceDeallocated(resourceName)
                 .VerifyFirstResultValue("Status", "Available")
             //Deallocate current-date resource
-                .InsertDate(currentDate + Keys.Enter)
+                .InsertDate(currentDate)
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(2000);
@@ -453,7 +456,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .InsertDate(dateInFutre + Keys.Enter)
+                .InsertDate(dateInFutre)
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(2000);
@@ -1015,7 +1018,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         //        .ClickOutSideMenu();
 
         //    string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
-        //    resourceAllocationPage.InsertDate(dateInFutre + Keys.Enter)
+        //    resourceAllocationPage.InsertDate(dateInFutre)
         //        .ClickOK()
         //        .WaitForLoadingIconToDisappear()
         //        .SleepTimeInMiliseconds(2000);
@@ -1092,5 +1095,82 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             userSettingPage.WaitForLoadingIconToDisappear();
             userSettingPage.VerifyInputValue(userSettingPage.EmailInput, sameUserEmail);
         }
+
+        [Category("Resources")]
+        [Category("Dee")]
+        [Test]
+        public void TC_278_Resource_Substitution()
+        {
+            var resourceName = "Thomas Edison";
+            var clientReference = " (E0456)";
+            var substitutionName = "Samuel Morse";
+            var leaveType = "Holiday";
+            var leaveReason = "Paid";
+            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 6);
+            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
+            var details = CommonUtil.GetRandomString(5);
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClickButton("Create Leave Entry Record")
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .IsOnLeaveEntryPage()
+                .SelectLeaveResource(resourceName + clientReference)
+                .SelectLeaveType(leaveType)
+                .SelectLeaveReason(leaveReason)
+                .EnterDates(startDate)
+                .EnterEndDate(endDate + Keys.Tab)
+                .EnterDetails(details)
+                .SaveLeaveEntry()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Resources)
+               .OpenOption("Daily Allocation")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
+                .SelectShift("AM")
+                .InsertDate(startDate)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000)
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", substitutionName)
+                .DragAndDropFirstResultToResourceInRound(resourceName)
+                .IsSubstitutionResourcePopupDisplayed()
+                .ClickWholeAbsenceBtn()
+                .ClickConfirmSubstitution()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+
+            CommonFinder finder = new CommonFinder(DbContext);
+            List<ResourceAllocationModel> list = finder.GetResourceAllocation(116);
+            var convertedStartDate = CommonUtil.StringToDateTime(startDate, "dd/MM/yyyy");
+            var convertedEndDate = CommonUtil.StringToDateTime(endDate, "dd/MM/yyyy");
+            Assert.AreEqual(convertedEndDate.Day, list[0].startdate.Day);
+            Assert.AreEqual(convertedEndDate.Month, list[0].startdate.Month);
+            Assert.AreEqual(convertedEndDate.Year, list[0].startdate.Year);
+
+            Assert.AreEqual(convertedStartDate.Day, list[2].startdate.Day);
+            Assert.AreEqual(convertedStartDate.Month, list[2].startdate.Month);
+            Assert.AreEqual(convertedStartDate.Year, list[2].startdate.Year);
+
+
+        }
+
     }
 }

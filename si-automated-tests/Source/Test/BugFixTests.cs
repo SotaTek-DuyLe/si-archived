@@ -490,7 +490,7 @@ namespace si_automated_tests.Source.Test
                 .SelectContract(Contract.Municipal)
                 .SelectBusinessUnit(Contract.Municipal)
                 .SelectShift("AM")
-                .InsertDate(dateInFutre + Keys.Enter)
+                .InsertDate(dateInFutre)
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(2000);
