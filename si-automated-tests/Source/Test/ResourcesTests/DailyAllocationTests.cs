@@ -1099,7 +1099,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Category("Resources")]
         [Category("Dee")]
         [Test]
-        public void TC_278_Resource_Substitution()
+        public void TC_278_Resource_Substitution_Whole_Absence()
         {
             var resourceName = "Thomas Edison";
             var clientReference = " (E0456)";
@@ -1173,7 +1173,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Category("Resources")]
         [Category("Dee")]
         [Test]
-        public void TC_279_Resource_Substitution()
+        public void TC_279_Resource_Substitution_Just_Today()
         {
             var resourceName = "Thomas Edison";
             var clientReference = " (E0456)";
@@ -1267,7 +1267,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Category("Resources")]
         [Category("Dee")]
         [Test]
-        public void TC_280_Resource_Substitution()
+        public void TC_280_Resource_Substitution_Custom_Date()
         {
             var resourceName = "Thomas Edison";
             var clientReference = " (E0456)";
@@ -1364,6 +1364,64 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             Assert.AreEqual(convertedAllocationDate1.Day, list[1].startdate.Day);
             Assert.AreEqual(convertedAllocationDate1.Month, list[1].startdate.Month);
             Assert.AreEqual(convertedAllocationDate1.Year, list[1].startdate.Year);
+        }
+        [Category("Resources")]
+        [Category("Dee")]
+        [Test]
+        public void TC_281_Resource_Substitution_Last_Date()
+        {
+            var resourceName = "Thomas Edison";
+            var clientReference = " (E0456)";
+            var substitutionName = "Samuel Morse";
+            var leaveType = "Holiday";
+            var leaveReason = "Paid";
+            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 35);
+            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 37);
+            var details = CommonUtil.GetRandomString(5);
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClickButton("Create Leave Entry Record")
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .IsOnLeaveEntryPage()
+                .SelectLeaveResource(resourceName + clientReference)
+                .SelectLeaveType(leaveType)
+                .SelectLeaveReason(leaveReason)
+                .EnterDates(startDate)
+                .EnterEndDate(endDate + Keys.Tab)
+                .EnterDetails(details)
+                .SaveLeaveEntry()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Resources)
+               .OpenOption("Daily Allocation")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
+                .SelectShift("AM")
+                .InsertDate(endDate)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000)
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", substitutionName)
+                .DragAndDropFirstResultToResourceInRound(resourceName)
+                .VerifyAllocatedResourceName(substitutionName);
         }
 
     }
