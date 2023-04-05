@@ -946,6 +946,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             }
             return this;
         }
+        [AllureStep]
 
         public ResourceAllocationPage DragAndDropFirstResultToResourceInRound(string targetResrouceName)
         {
@@ -954,6 +955,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             DragAndDrop(source, targetElement);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage IsSubstitutionResourcePopupDisplayed()
         {
             WaitUtil.WaitForElementVisible(justTodayBtn);
@@ -963,11 +965,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             WaitUtil.WaitForElementVisible(cancelSubstitutionBtn);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickWholeAbsenceBtn()
         {
             ClickOnElement(wholeAbsenceBtn);
             return this;
         }
+        [AllureStep]
         public ResourceAllocationPage ClickConfirmSubstitution()
         {
             ClickOnElement(confirmSubstitutionBtn);
