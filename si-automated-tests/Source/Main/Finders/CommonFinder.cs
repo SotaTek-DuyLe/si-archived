@@ -395,5 +395,12 @@ namespace si_automated_tests.Source.Main.Finders
             string query = $"select * from scheduledates where scheduleID={id};";
             return FindList<ScheduleDateModel>(query);
         }
+
+        [AllureStep]
+        public List<ResourceShiftScheduleModel> GetResourceShiftSchedules(string resourceshiftscheduleID)
+        {
+            string query = $"select * from resourceshiftschedules where resourceshiftscheduleID = {resourceshiftscheduleID};";
+            return FindList<ResourceShiftScheduleModel>(query);
+        }
     }
 }

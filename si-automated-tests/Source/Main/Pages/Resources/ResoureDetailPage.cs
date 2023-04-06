@@ -40,6 +40,11 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         }
         #endregion
 
+        #region Shift Schedule tab
+        public readonly By ShiftScheduleTab = By.XPath("//a[@aria-controls='shiftSchedules-tab']");
+        public readonly By AddNewShiftScheduleButton = By.XPath("//div[@id='shiftSchedules-tab']//button[text()='Add New Item']");
+        #endregion
+
         [AllureStep]
         public ResoureDetailPage IsRetiredPopup()
         {

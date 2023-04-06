@@ -28,14 +28,15 @@ namespace si_automated_tests.Source.Main.Pages
         {
         }
         [AllureStep]
-        public CommonBrowsePage FilterItem(int id)
+        public CommonBrowsePage FilterItem(int id, bool clickApply = true)
         {
             WaitForLoadingIconToDisappear();
             //WaitUtil.WaitForAllElementsVisible(addNewItemBtn);
             SendKeys(filterInputById, id.ToString());
-            ClickOnElement(applyBtn);
+            if(clickApply) ClickOnElement(applyBtn);
             return this;
         }
+
         [AllureStep]
         public CommonBrowsePage OpenFirstResult()
         {
