@@ -245,5 +245,43 @@ namespace si_automated_tests.Source.Test.ServiceTests
             invoiceSchedulePage.VerifyDateIsDeselected(londonCurrentDate.AddDays(2).ToString("yyyy-MM-dd"));
             invoiceSchedulePage.VerifyDateIsDeselected(londonCurrentDate.AddDays(3).ToString("yyyy-MM-dd"));
         }
+
+        [Category("Invoice")]
+        [Category("Huong")]
+        [Test]
+        public void TC_307_Create_an_Invoice_Schedule_from_Contract()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser61.UserName, AutoUser61.Password)
+                .IsOnHomePage(AutoUser61);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame();
+            ServiceCommonPage serviceCommonPage = PageFactoryManager.Get<ServiceCommonPage>();
+            serviceCommonPage.WaitForLoadingIconToDisappear();
+            serviceCommonPage.ClickInvoiceScheduleTab()
+                .WaitForLoadingIconToDisappear()
+                .WaitForLoadingIconToDisappear();
+            serviceCommonPage.ClickOnElement(serviceCommonPage.AddNewInvoiceSchedule);
+            serviceCommonPage.SwitchToChildWindow(2);
+            InvoiceSchedulePage invoiceSchedulePage = PageFactoryManager.Get<InvoiceSchedulePage>();
+            invoiceSchedulePage.WaitForLoadingIconToDisappear();
+            invoiceSchedulePage.SetInputValue(invoiceSchedulePage.NameInput, "Custom schedule with dates")
+                .ClickOnElement(invoiceSchedulePage.SchedulePicker("Custom"));
+            invoiceSchedulePage.SleepTimeInMiliseconds(500);
+            invoiceSchedulePage.ClickYearButton();
+            invoiceSchedulePage.VerifyElementEnable(invoiceSchedulePage.CustomScheduleDescription, false)
+                .VerifyElementEnable(invoiceSchedulePage.SetRegularCustomScheduleButton, false)
+                .VerifyElementEnable(invoiceSchedulePage.SetCustomScheduleButton, false);
+            invoiceSchedulePage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+        }
     }
 }
