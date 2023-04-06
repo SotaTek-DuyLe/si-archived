@@ -80,6 +80,56 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         }
         #endregion
 
+        #region Custom schedule with dates
+        public readonly By CustomScheduleModal = By.XPath("//div[@id='custom-schedule-dates-modal']");
+        public readonly By CustomScheduleWithDateDescriptionInput = By.XPath("//div[@id='custom-schedule-dates-modal']//textarea");
+        public readonly By ApplyCustomScheduleWithDateButton = By.XPath("//div[@id='custom-schedule-dates-modal']//button[text()='Apply']");
+        public readonly By ResetCustomScheduleWithDateButton = By.XPath("//div[@id='custom-schedule-dates-modal']//button[text()='Reset']");
+        public readonly By CancelCustomScheduleWithDateButton = By.XPath("//div[@id='custom-schedule-dates-modal']//button[text()='Cancel']");
+        private readonly By datesInYear = By.XPath("//div[@id='custom-schedule-dates-modal']//tbody//td[@data-date]");
+        public readonly By CloseCustomScheduleWithDateButton = By.XPath("//div[@id='custom-schedule-dates-modal']//button[@title='Close']");
+
+        public ShiftSchedulePage ClickCustomSchedule(DateTime date)
+        {
+            var dateEles = this.driver.FindElements(datesInYear);
+            string dateAsString = date.ToString("yyyy-MM-dd");
+            foreach (var item in dateEles)
+            {
+                string dataDate = item.GetAttribute("data-date");
+                if (dataDate == dateAsString)
+                {
+                    item.Click();
+                    break;
+                }
+            }
+            return this;
+        }
+
+        public ShiftSchedulePage VerifyCustomSchedule(DateTime date, bool isSelected)
+        {
+            var dateEles = this.driver.FindElements(datesInYear);
+            string dateAsString = date.ToString("yyyy-MM-dd");
+            foreach (var item in dateEles)
+            {
+                string dataDate = item.GetAttribute("data-date");
+                if (dataDate == dateAsString)
+                {
+                    string backgroundColor = item.GetCssValue("background-color");
+                    if (isSelected)
+                    {
+                        Assert.IsTrue(backgroundColor == "rgba(58, 135, 173, 1)");
+                    }
+                    else
+                    {
+                        Assert.IsFalse(backgroundColor == "rgba(58, 135, 173, 1)");
+                    }
+                    break;
+                }
+            }
+            return this;
+        }
+        #endregion
+
         public ShiftSchedulePage ClickYearButton()
         {
             ClickOnElement(this.driver.FindElements(CustomYearButton).ToList().FirstOrDefault(x => x.Displayed));
