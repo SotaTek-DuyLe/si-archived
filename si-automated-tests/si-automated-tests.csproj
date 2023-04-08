@@ -111,6 +111,8 @@
     <None Remove="Source\Main\Resources\" />
     <None Remove="Source\Test\TaskTypeTests\" />
     <None Remove="Source\Main\Pages\RoundLeg\" />
+    <None Remove="Source\Test\FormTests\" />
+    <None Remove="Source\Main\Pages\Contract\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
@@ -149,6 +151,8 @@
     <Folder Include="Source\Main\Models\ServiceStatus\" />
     <Folder Include="Source\Test\TaskTypeTests\" />
     <Folder Include="Source\Main\Pages\RoundLeg\" />
+    <Folder Include="Source\Test\FormTests\" />
+    <Folder Include="Source\Main\Pages\Contract\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">

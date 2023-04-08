@@ -13,6 +13,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static string TaskTypeUrlIE;
         public static string TaskLineUrlIE;
         public static string WBSettingUrlIE;
+        public static string AgreementLineTypeIE;
 
         public WebUrl()
         {
@@ -39,6 +40,7 @@ namespace si_automated_tests.Source.Main.Constants
             TaskTypeUrlIE = url + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=TaskType&ObjectID={0}#";
             TaskLineUrlIE = url + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=TaskLineWorkFlow&ObjectID={0}";
             WBSettingUrlIE = url + "echo2/echo2extra/PopupDefault.aspx?CPath=&ObjectID=83&CTypeName=SystemSetting&CReferenceName=none&CObjectID=0&TypeName=SystemSetting&RefTypeName=none&ReferenceName=none&InEdit=true";
+            AgreementLineTypeIE = url + "Echo2/Echo2Extra/PopupDefault.aspx?RefTypeName=none&TypeName=AgreementLineType&ObjectID={0}";
         }
         public static string GetDBName()
         {

@@ -395,5 +395,12 @@ namespace si_automated_tests.Source.Main.Finders
             string query = $"select * from scheduledates where scheduleID={id};";
             return FindList<ScheduleDateModel>(query);
         }
+
+        [AllureStep]
+        public List<AgreementLineAssetProductDBModel> GetAgreementLineAssetProductByAgreementLineId(string agreementLineId)
+        {
+            string query = "select productcodeID, * from agreementlineassetproducts where agreementlineID=" + agreementLineId + ";";
+            return FindList<AgreementLineAssetProductDBModel>(query);
+        }
     }
 }

@@ -3534,5 +3534,36 @@ namespace si_automated_tests.Source.Test
                 .IsRisksActive()
                 .VerifyToastMessagesIsUnDisplayed();
         }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Inspection form - button size inconsistency and UI colour (bug fix)")]
+        public void TC_236_insepection_form_button_size_inconsistency_and_UI_colour()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Go to any unallocated inspection
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/inspections/2420");
+            PageFactoryManager.Get<DetailInspectionPage>()
+                .WaitForInspectionDetailDisplayed("Street Cleansing Assessment")
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            //Verify two buttons [Complete] and [Cancel] are the same size
+            PageFactoryManager.Get<DetailInspectionPage>()
+                .VerifyCompleteAndCancelBtnAreTheSameSize()
+                //Step 8: Update anything in the form and fill in all mandatory values
+                .InputNote("Note TC236 " + CommonUtil.GetRandomString(3))
+                .ClickOnDataTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailInspectionPage>()
+                .SelectStreetGrade("A")
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+        }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using si_automated_tests.Source.Core;
-using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models.Services;
 using System;
 using System.Collections.Generic;
@@ -15,6 +13,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
 {
     public class RoundDetailPage : BasePageCommonActions
     {
+        private readonly By title = By.XPath("//span[text()='Round']");
         private readonly By roundInput = By.XPath("//div[@id='details-tab']//input[@name='round']");
         private readonly By roundTypeSelect = By.XPath("//div[@id='details-tab']//select[@id='roundType.id']");
         private readonly By dispatchSiteSelect = By.XPath("//div[@id='details-tab']//select[@id='dispatchSite.id']");
@@ -36,6 +35,16 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By editBtn = By.XPath("./td//button[@title='Edit']");
         private readonly By roundGroupHyperLink = By.XPath("//a[@class='typeUrl']");
         private readonly By contractUnit = By.Id("contractUnit.id");
+
+        private readonly By slotCountInput = By.CssSelector("input[id='slots.id']");
+
+        [AllureStep]
+        public RoundDetailPage IsRoundDetailPage()
+        {
+            WaitUtil.WaitForElementVisible(title);
+            WaitUtil.WaitForElementVisible(DetailTab);
+            return this;
+        }
 
         [AllureStep]
         public RoundDetailPage VerifyRoundInput(string expectedValue)
@@ -143,6 +152,34 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(contractUnit),expected);
 
+            return this;
+        }
+
+        [AllureStep]
+        public RoundDetailPage VerifyMinValueInSlotCountField()
+        {
+            Assert.AreEqual("0", GetAttributeValue(slotCountInput, "min"));
+            return this;
+        }
+
+        [AllureStep]
+        public RoundDetailPage InputSlotCount(string slotCountValue)
+        {
+            SendKeys(slotCountInput, slotCountValue);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundDetailPage ClearSlotCount()
+        {
+            ClearInputValue(slotCountInput);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundDetailPage VerifyValueInSlotCount(string slotCountValue)
+        {
+            Assert.AreEqual(slotCountValue, GetAttributeValue(slotCountInput, "value"));
             return this;
         }
     }
