@@ -122,8 +122,17 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By resizerHeight = By.XPath("(//div[@title='Close'])[3]");
         private readonly By addResourceBtn = By.Id("t-create");
         public readonly By FirstRoundInstanceRow = By.XPath("//div[@id='rounds-scrollable']//table[2]//tbody[1]/tr[1]//td[1]");
-        public readonly By SecondRoundInstanceRow = By.XPath("//div[@id='rounds-scrollable']//table[1]//tbody[1]/tr[1]");
+        public readonly By SecondRoundInstanceRow = By.XPath("//div[@id='rounds-scrollable']//table[1]//tbody[1]/tr[not(@data-bind)][2]");
         public readonly By BusinessUnitInput = By.XPath("//input[@id='business-units']");
+
+        //Resource substitution pop-up
+        private readonly By justTodayBtn = By.XPath("//div[@class='row reallocation-buttons']/button[text()='Just today']");
+        private readonly By wholeAbsenceBtn = By.XPath("//div[@class='row reallocation-buttons']/button[text()='Whole absence']");
+        private readonly By customDatesBtn = By.XPath("//div[@class='row reallocation-buttons']/button[text()='Custom dates']");
+        private readonly By toDateInput = By.Id("toDate");
+        private readonly By confirmSubstitutionBtn = By.XPath("//button[text()='OK']");
+        private readonly By cancelSubstitutionBtn = By.XPath("//button[@data-bind='click: $parent.resetAllocationPeriodStates' and text()='Cancel']");
+
 
         private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-1')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]", "./i[contains(@class, 'jstree-ocl')][1]");
         private TreeViewElement ServicesTreeView
@@ -478,7 +487,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         [AllureStep]
         public ResourceAllocationPage InsertDate(string _date)
         {
-            SendKeys(date, _date);
+            SendKeys(date, _date + Keys.Enter);
             return this;
         }
         [AllureStep]
@@ -936,6 +945,55 @@ namespace si_automated_tests.Source.Main.Pages.Resources
                 default:
                     break;
             }
+            return this;
+        }
+        [AllureStep]                
+
+        public ResourceAllocationPage DragAndDropFirstResultToResourceInRound(string targetResrouceName)
+        {
+            var source = GetFirstResult();
+            var targetElement = WaitUtil.WaitForElementVisible(allocatedResource, targetResrouceName);
+            DragAndDrop(source, targetElement);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage IsSubstitutionResourcePopupDisplayed()
+        {
+            WaitUtil.WaitForElementVisible(justTodayBtn);
+            WaitUtil.WaitForElementVisible(wholeAbsenceBtn);
+            WaitUtil.WaitForElementVisible(customDatesBtn);
+            WaitUtil.WaitForElementVisible(confirmSubstitutionBtn);
+            WaitUtil.WaitForElementVisible(cancelSubstitutionBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickWholeAbsenceBtn()
+        {
+            ClickOnElement(wholeAbsenceBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickJustTodayBtn()
+        {
+            ClickOnElement(justTodayBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickCustomDatesBtn()
+        {
+            ClickOnElement(customDatesBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage InputToDate(String date)
+        {
+            SendKeys(toDateInput, date);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickConfirmSubstitution()
+        {
+            ClickOnElement(confirmSubstitutionBtn);
             return this;
         }
 

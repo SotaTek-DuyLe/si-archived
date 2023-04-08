@@ -319,7 +319,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnTaskLineTab()
                 .WaitForLoadingIconToDisappear();
-            detailTaskPage.VerifyTaskLineState("Pending")
+            detailTaskPage.VerifyTaskLineState("Not Completed")
                 .ClickCloseBtn()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
@@ -412,36 +412,17 @@ namespace si_automated_tests.Source.Test.TaskTests
 
             //Verify whether user able to update Taskstate from Daily Allocation-Round Instance Worksheet
             PageFactoryManager.Get<LoginPage>()
-               .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Resources)
-                .OpenOption("Daily Allocation")
-                .SwitchNewIFrame();
-            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            resourceAllocationPage.SelectContract(Contract.Commercial);
-            resourceAllocationPage.SelectShift("AM");
-            resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
-            Thread.Sleep(1000);
-            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
-                .ExpandRoundNode("*Unassigned")
-                .SelectRoundNode("*Unassigned")
-                .InputCalendarDate(resourceAllocationPage.date, "07/11/2022");
-            resourceAllocationPage.ClickGo();
-            resourceAllocationPage
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
-            resourceAllocationPage.ClickRoundInstance()
-                .SwitchToChildWindow(2)
-                .WaitForLoadingIconToDisappear();
+               .GoToURL(WebUrl.MainPageUrl + "web/round-instances/13016");
+            roundInstanceDetailPage.WaitForLoadingIconToDisappear();
             roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.WorkSheetTab);
             roundInstanceDetailPage.WaitForLoadingIconToDisappear();
             roundInstanceDetailPage.SwitchNewIFrame();
             roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.ExpandRoundsGo);
             roundInstanceDetailPage.SleepTimeInMiliseconds(300);
-            roundInstanceDetailPage.SendKeys(roundInstanceDetailPage.IdFilterInput, "20833");
-            roundInstanceDetailPage.SleepTimeInMiliseconds(200);
-            roundInstanceDetailPage.DoubleClickOnTask()
-                .SwitchToChildWindow(3)
+            roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.expandRoundLegsBtn);
+            roundInstanceDetailPage.SleepTimeInMiliseconds(300);
+            int taskIdx = roundInstanceDetailPage.DoubleClickNotCompletedTaskRoundLegs();
+            roundInstanceDetailPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
@@ -453,41 +434,18 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.VerifyTaskLineState("Completed")
                 .ClickCloseBtn()
-                .SwitchToChildWindow(2);
-            roundInstanceDetailPage.ClickCloseBtn()
                 .SwitchToFirstWindow();
 
             //Verify whether user able to update Taskstate using Bulk Update from Daily Allocation-Round Instance Worksheet
             PageFactoryManager.Get<LoginPage>()
-               .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Resources)
-                .OpenOption("Daily Allocation")
-                .SwitchNewIFrame();
-            resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            resourceAllocationPage.SelectContract(Contract.Commercial);
-            resourceAllocationPage.SelectShift("AM");
-            resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
-            Thread.Sleep(1000);
-            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
-                .ExpandRoundNode("*Unassigned")
-                .SelectRoundNode("*Unassigned")
-                .InputCalendarDate(resourceAllocationPage.date, "07/11/2022");
-            resourceAllocationPage.ClickGo();
-            resourceAllocationPage
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
-            resourceAllocationPage.ClickRoundInstance()
-                .SwitchToChildWindow(2)
-                .WaitForLoadingIconToDisappear();
+               .GoToURL(WebUrl.MainPageUrl + "web/round-instances/13016");
+            roundInstanceDetailPage.WaitForLoadingIconToDisappear();
             roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.WorkSheetTab);
             roundInstanceDetailPage.WaitForLoadingIconToDisappear();
             roundInstanceDetailPage.SwitchNewIFrame();
             roundInstanceDetailPage.ClickOnMinimiseRoundsAndRoundLegsBtn();
-            roundInstanceDetailPage
-                .SendKeyInDesc("Tesco Express")
-                .ClickOnSelectAndDeselectBtn();
             roundInstanceDetailPage.SleepTimeInMiliseconds(200);
+            int taskIdx2 = roundInstanceDetailPage.ClickNotNotCompletedTaskRoundLegs();
             roundInstanceDetailPage
                 .ClickOnElement(roundInstanceDetailPage.BulkUpdateButton);
             roundInstanceDetailPage
@@ -497,8 +455,8 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnElement(roundInstanceDetailPage.ConfirmButton);
             //Wait for server updating
             roundInstanceDetailPage.SleepTimeInMiliseconds(10000);
-            roundInstanceDetailPage.DoubleClickOnTask()
-                .SwitchToChildWindow(3)
+            roundInstanceDetailPage.DoubleClickOnTask(taskIdx2)
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnTaskLineTab()
                 .WaitForLoadingIconToDisappear();

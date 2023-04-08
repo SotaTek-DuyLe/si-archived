@@ -3,6 +3,8 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Applications;
 using si_automated_tests.Source.Main.Pages.Common;
@@ -11,6 +13,7 @@ using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
 using si_automated_tests.Source.Main.Pages.Services;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 using static si_automated_tests.Source.Main.Pages.Resources.ResourceAllocationPage;
@@ -83,7 +86,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             Thread.Sleep(500);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifyBackgroundColor(resourceName, "white")
-                .InsertDate(dateInFutre + Keys.Enter)
+                .InsertDate(dateInFutre)
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(2000);
@@ -117,7 +120,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyResourceDeallocated(resourceName)
                 .VerifyFirstResultValue("Status", "Available")
             //Deallocate current-date resource
-                .InsertDate(currentDate + Keys.Enter)
+                .InsertDate(currentDate)
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(2000);
@@ -453,7 +456,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .InsertDate(dateInFutre + Keys.Enter)
+                .InsertDate(dateInFutre)
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(2000);
@@ -517,100 +520,100 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         //[Category("Dee")]
         //[Test]
         //[Ignore("Ignore due to Ashna's request: Duplicated after modifying")]
-        public void TC_222_verify_color_of_resource_when_hovered()
-        {
-            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
-            string vehicleResourceName = "Van " + CommonUtil.GetRandomNumber(5);
-            string resourceType = "Driver";
-            string vehicleResourceType = "Van";
+        //public void TC_222_verify_color_of_resource_when_hovered()
+        //{
+        //    string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+        //    string vehicleResourceName = "Van " + CommonUtil.GetRandomNumber(5);
+        //    string resourceType = "Driver";
+        //    string vehicleResourceType = "Van";
 
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser22.UserName, AutoUser22.Password)
-                .IsOnHomePage(AutoUser22);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Resources)
-                .OpenOption("Daily Allocation")
-                .SwitchNewIFrame();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.Municipal)
-                .SelectBusinessUnit(Contract.Municipal)
-                .SelectShift("AM")
-                .ClickGo()
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
-            //Create driver
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .ClickCreateResource()
-                .SwitchToLastWindow();
-            PageFactoryManager.Get<ResourceDetailTab>()
-                .IsOnDetailTab()
-                .InputResourceName(resourceName)
-                .SelectResourceType(resourceType)
-                .SelectBusinessUnit(BusinessUnit.EastCollections)
-                .TickContractRoam()
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
-                .SwitchToLastWindow()
-                .SwitchNewIFrame();
-            //Create vehicle
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .ClickCreateResource()
-                .SwitchToLastWindow();
-            PageFactoryManager.Get<ResourceDetailTab>()
-                .IsOnDetailTab()
-                .InputResourceName(vehicleResourceName)
-                .SelectResourceType(vehicleResourceType)
-                .SelectBusinessUnit(BusinessUnit.EastCollections)
-                .TickContractRoam()
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .ClickCloseBtn()
-                .SwitchToLastWindow()
-                .SwitchNewIFrame()
-                .WaitForLoadingIconToDisappear()
-                .SwitchToTab("All Resources");
-            //Verify Driver
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Resource", resourceName)
-                .VerifyFirstResultValue("Resource", resourceName)
-                .DragAndDropFirstResourceToFirstRound()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyAllocatedResourceName(resourceName)
-                .HoverAndVerifyBackgroundColor(resourceName, "light blue")
-                .ClickAllocatedResource(resourceName)
-                .SelectResourceState("SICK")
-                .IsReasonPopupDisplayed()
-                .SelectReason(ResourceReason.Paid)
-                .ClickConfirmButton()
-                .WaitForLoadingIconToDisappear();
-            Thread.Sleep(500);
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .RefreshGrid()
-                .FilterResource("Resource", resourceName)
-                .HoverAndVerifyBackgroundColor(resourceName, "darker green");
+        //    PageFactoryManager.Get<LoginPage>()
+        //        .GoToURL(WebUrl.MainPageUrl);
+        //    PageFactoryManager.Get<LoginPage>()
+        //        .IsOnLoginPage()
+        //        .Login(AutoUser22.UserName, AutoUser22.Password)
+        //        .IsOnHomePage(AutoUser22);
+        //    PageFactoryManager.Get<NavigationBase>()
+        //        .ClickMainOption(MainOption.Resources)
+        //        .OpenOption("Daily Allocation")
+        //        .SwitchNewIFrame();
+        //    PageFactoryManager.Get<ResourceAllocationPage>()
+        //        .SelectContract(Contract.Municipal)
+        //        .SelectBusinessUnit(Contract.Municipal)
+        //        .SelectShift("AM")
+        //        .ClickGo()
+        //        .WaitForLoadingIconToDisappear()
+        //        .SleepTimeInMiliseconds(2000);
+        //    //Create driver
+        //    PageFactoryManager.Get<ResourceAllocationPage>()
+        //        .ClickCreateResource()
+        //        .SwitchToLastWindow();
+        //    PageFactoryManager.Get<ResourceDetailTab>()
+        //        .IsOnDetailTab()
+        //        .InputResourceName(resourceName)
+        //        .SelectResourceType(resourceType)
+        //        .SelectBusinessUnit(BusinessUnit.EastCollections)
+        //        .TickContractRoam()
+        //        .ClickSaveBtn()
+        //        .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+        //        .ClickCloseBtn()
+        //        .SwitchToLastWindow()
+        //        .SwitchNewIFrame();
+        //    //Create vehicle
+        //    PageFactoryManager.Get<ResourceAllocationPage>()
+        //        .ClickCreateResource()
+        //        .SwitchToLastWindow();
+        //    PageFactoryManager.Get<ResourceDetailTab>()
+        //        .IsOnDetailTab()
+        //        .InputResourceName(vehicleResourceName)
+        //        .SelectResourceType(vehicleResourceType)
+        //        .SelectBusinessUnit(BusinessUnit.EastCollections)
+        //        .TickContractRoam()
+        //        .ClickSaveBtn()
+        //        .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+        //        .ClickCloseBtn()
+        //        .SwitchToLastWindow()
+        //        .SwitchNewIFrame()
+        //        .WaitForLoadingIconToDisappear()
+        //        .SwitchToTab("All Resources");
+        //    //Verify Driver
+        //    PageFactoryManager.Get<ResourceAllocationPage>()
+        //        .FilterResource("Resource", resourceName)
+        //        .VerifyFirstResultValue("Resource", resourceName)
+        //        .DragAndDropFirstResourceToFirstRound()
+        //        .WaitForLoadingIconToDisappear();
+        //    PageFactoryManager.Get<ResourceAllocationPage>()
+        //        .VerifyAllocatedResourceName(resourceName)
+        //        .HoverAndVerifyBackgroundColor(resourceName, "light blue")
+        //        .ClickAllocatedResource(resourceName)
+        //        .SelectResourceState("SICK")
+        //        .IsReasonPopupDisplayed()
+        //        .SelectReason(ResourceReason.Paid)
+        //        .ClickConfirmButton()
+        //        .WaitForLoadingIconToDisappear();
+        //    Thread.Sleep(500);
+        //    PageFactoryManager.Get<ResourceAllocationPage>()
+        //        .RefreshGrid()
+        //        .FilterResource("Resource", resourceName)
+        //        .HoverAndVerifyBackgroundColor(resourceName, "darker green");
 
-            //Verify Vehicle
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Resource", vehicleResourceName)
-                .VerifyFirstResultValue("Resource", vehicleResourceName)
-                .DragAndDropFirstResourceToFirstRound()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyAllocatedResourceName(vehicleResourceName)
-                .ClickAllocatedResource(vehicleResourceName)
-                .SelectResourceState("MAINTENANCE")
-                .WaitForLoadingIconToDisappear();
-            Thread.Sleep(500);
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .RefreshGrid()
-                .FilterResource("Resource", vehicleResourceName)
-                .HoverAndVerifyBackgroundColor(vehicleResourceName, "darker red");
-        }
+        //    //Verify Vehicle
+        //    PageFactoryManager.Get<ResourceAllocationPage>()
+        //        .FilterResource("Resource", vehicleResourceName)
+        //        .VerifyFirstResultValue("Resource", vehicleResourceName)
+        //        .DragAndDropFirstResourceToFirstRound()
+        //        .WaitForLoadingIconToDisappear();
+        //    PageFactoryManager.Get<ResourceAllocationPage>()
+        //        .VerifyAllocatedResourceName(vehicleResourceName)
+        //        .ClickAllocatedResource(vehicleResourceName)
+        //        .SelectResourceState("MAINTENANCE")
+        //        .WaitForLoadingIconToDisappear();
+        //    Thread.Sleep(500);
+        //    PageFactoryManager.Get<ResourceAllocationPage>()
+        //        .RefreshGrid()
+        //        .FilterResource("Resource", vehicleResourceName)
+        //        .HoverAndVerifyBackgroundColor(vehicleResourceName, "darker red");
+        //}
         [Category("Resources")]
         [Category("Dee")]
         [Test]
@@ -980,58 +983,58 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         //[Category("Huong")]
         //[Test]
         //[Ignore("Ignore due to George's request")]
-        public void TC_275_Translation_DA()
-        {
-            var loginPage = PageFactoryManager.Get<LoginPage>();
-            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            loginPage.GoToURL(WebUrl.MainPageUrl);
-            loginPage.IsOnLoginPage()
-                .Login(AutoUser80.UserName, AutoUser80.Password)
-                .IsOnHomePageWithoutWaitSearchBtn(AutoUser80);
-            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser80.DisplayName));
-            resourceAllocationPage.OpenLocaleLanguage()
-                .SwitchToChildWindow(2);
-            LocalLanguagePage localLanguagePage = PageFactoryManager.Get<LocalLanguagePage>();
-            localLanguagePage.SelectTextFromDropDown(localLanguagePage.LanguageSelect, "French")
-                .ClickOnElement(localLanguagePage.SaveButton);
-            localLanguagePage.SwitchToFirstWindow();
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(TextTranslation.ToString(MainOption.Resources, "French"))
-                .OpenOption(TextTranslation.ToString("Daily Allocation", "French"))
-                .SwitchNewIFrame();
-            resourceAllocationPage.SelectContract(Contract.Commercial);
-            resourceAllocationPage.SelectShift("AM");
-            resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
-            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
-                .SelectRoundNode("Collections")
-                .ClickOK()
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
-            int rowIdx = 0;
-            //Verify whether the IN/OUT should read "PRÉSENT/NOT PRÉSENT" (when on the same day)
-            //Verify whether the PRE-CONFIRM/UN-CONFIRM should read "PRÉ-CONFIRMER/REFUSER" (for date in future)
-            resourceAllocationPage.ClickType(rowIdx)
-                .VerifyResourceTranslation("IN/OUT", "French")
-                .ClickOutSideMenu();
+        //public void TC_275_Translation_DA()
+        //{
+        //    var loginPage = PageFactoryManager.Get<LoginPage>();
+        //    var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
+        //    loginPage.GoToURL(WebUrl.MainPageUrl);
+        //    loginPage.IsOnLoginPage()
+        //        .Login(AutoUser80.UserName, AutoUser80.Password)
+        //        .IsOnHomePageWithoutWaitSearchBtn(AutoUser80);
+        //    loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser80.DisplayName));
+        //    resourceAllocationPage.OpenLocaleLanguage()
+        //        .SwitchToChildWindow(2);
+        //    LocalLanguagePage localLanguagePage = PageFactoryManager.Get<LocalLanguagePage>();
+        //    localLanguagePage.SelectTextFromDropDown(localLanguagePage.LanguageSelect, "French")
+        //        .ClickOnElement(localLanguagePage.SaveButton);
+        //    localLanguagePage.SwitchToFirstWindow();
+        //    PageFactoryManager.Get<NavigationBase>()
+        //        .ClickMainOption(TextTranslation.ToString(MainOption.Resources, "French"))
+        //        .OpenOption(TextTranslation.ToString("Daily Allocation", "French"))
+        //        .SwitchNewIFrame();
+        //    resourceAllocationPage.SelectContract(Contract.Commercial);
+        //    resourceAllocationPage.SelectShift("AM");
+        //    resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
+        //    resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
+        //        .SelectRoundNode("Collections")
+        //        .ClickOK()
+        //        .WaitForLoadingIconToDisappear()
+        //        .SleepTimeInMiliseconds(2000);
+        //    int rowIdx = 0;
+        //    //Verify whether the IN/OUT should read "PRÉSENT/NOT PRÉSENT" (when on the same day)
+        //    //Verify whether the PRE-CONFIRM/UN-CONFIRM should read "PRÉ-CONFIRMER/REFUSER" (for date in future)
+        //    resourceAllocationPage.ClickType(rowIdx)
+        //        .VerifyResourceTranslation("IN/OUT", "French")
+        //        .ClickOutSideMenu();
 
-            string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
-            resourceAllocationPage.InsertDate(dateInFutre + Keys.Enter)
-                .ClickOK()
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
-            resourceAllocationPage.ClickType(rowIdx)
-                .VerifyResourceTranslation("PRE-CONFIRM/UN-CONFIRM", "French")
-                .ClickOutSideMenu();
+        //    string dateInFutre = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 1);
+        //    resourceAllocationPage.InsertDate(dateInFutre)
+        //        .ClickOK()
+        //        .WaitForLoadingIconToDisappear()
+        //        .SleepTimeInMiliseconds(2000);
+        //    resourceAllocationPage.ClickType(rowIdx)
+        //        .VerifyResourceTranslation("PRE-CONFIRM/UN-CONFIRM", "French")
+        //        .ClickOutSideMenu();
 
-            resourceAllocationPage.SwitchToDefaultContent();
-            //Back to default localization
-            loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser80.DisplayName));
-            resourceAllocationPage.OpenLocaleLanguage()
-                .SwitchToChildWindow(2);
-            localLanguagePage.SelectTextFromDropDown(localLanguagePage.LanguageSelect, "English")
-                .ClickOnElement(localLanguagePage.SaveButton);
-            localLanguagePage.SwitchToFirstWindow();
-        }
+        //    resourceAllocationPage.SwitchToDefaultContent();
+        //    //Back to default localization
+        //    loginPage.ClickOnElement(loginPage.GetToogleButton(AutoUser80.DisplayName));
+        //    resourceAllocationPage.OpenLocaleLanguage()
+        //        .SwitchToChildWindow(2);
+        //    localLanguagePage.SelectTextFromDropDown(localLanguagePage.LanguageSelect, "English")
+        //        .ClickOnElement(localLanguagePage.SaveButton);
+        //    localLanguagePage.SwitchToFirstWindow();
+        //}
 
         [Category("Resources")]
         [Category("Huong")]
@@ -1092,5 +1095,334 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             userSettingPage.WaitForLoadingIconToDisappear();
             userSettingPage.VerifyInputValue(userSettingPage.EmailInput, sameUserEmail);
         }
+
+        [Category("Resources")]
+        [Category("Dee")]
+        [Test]
+        public void TC_278_Resource_Substitution_Whole_Absence()
+        {
+            var resourceName = "Thomas Edison";
+            var clientReference = " (E0456)";
+            var substitutionName = "Samuel Morse";
+            var leaveType = "Holiday";
+            var leaveReason = "Paid";
+            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 6);
+            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
+            var details = CommonUtil.GetRandomString(5);
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClickButton("Create Leave Entry Record")
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .IsOnLeaveEntryPage()
+                .SelectLeaveResource(resourceName + clientReference)
+                .SelectLeaveType(leaveType)
+                .SelectLeaveReason(leaveReason)
+                .EnterDates(startDate)
+                .EnterEndDate(endDate + Keys.Tab)
+                .EnterDetails(details)
+                .SaveLeaveEntry()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Resources)
+               .OpenOption("Daily Allocation")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
+                .SelectShift("AM")
+                .InsertDate(startDate)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000)
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", substitutionName)
+                .DragAndDropFirstResultToResourceInRound(resourceName)
+                .IsSubstitutionResourcePopupDisplayed()
+                .ClickWholeAbsenceBtn()
+                .ClickConfirmSubstitution()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+
+            CommonFinder finder = new CommonFinder(DbContext);
+            List<ResourceAllocationModel> list = finder.GetResourceAllocation(116);
+            var convertedStartDate = CommonUtil.StringToDateTime(startDate, "dd/MM/yyyy");
+            var convertedEndDate = CommonUtil.StringToDateTime(endDate, "dd/MM/yyyy");
+            Assert.AreEqual(convertedEndDate.Day, list[0].startdate.Day);
+            Assert.AreEqual(convertedEndDate.Month, list[0].startdate.Month);
+            Assert.AreEqual(convertedEndDate.Year, list[0].startdate.Year);
+
+            Assert.AreEqual(convertedStartDate.Day, list[2].startdate.Day);
+            Assert.AreEqual(convertedStartDate.Month, list[2].startdate.Month);
+            Assert.AreEqual(convertedStartDate.Year, list[2].startdate.Year);
+        }
+
+        [Category("Resources")]
+        [Category("Dee")]
+        [Test]
+        public void TC_279_Resource_Substitution_Just_Today()
+        {
+            var resourceName = "Thomas Edison";
+            var clientReference = " (E0456)";
+            var substitutionName = "Samuel Morse";
+            var leaveType = "Holiday";
+            var leaveReason = "Paid";
+            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 14);
+            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 16);
+            string middleDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 15);
+            var details = CommonUtil.GetRandomString(5);
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClickButton("Create Leave Entry Record")
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .IsOnLeaveEntryPage()
+                .SelectLeaveResource(resourceName + clientReference)
+                .SelectLeaveType(leaveType)
+                .SelectLeaveReason(leaveReason)
+                .EnterDates(startDate)
+                .EnterEndDate(endDate + Keys.Tab)
+                .EnterDetails(details)
+                .SaveLeaveEntry()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Resources)
+               .OpenOption("Daily Allocation")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
+                .SelectShift("AM")
+                .InsertDate(middleDate)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000)
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", substitutionName)
+                .DragAndDropFirstResultToResourceInRound(resourceName)
+                .IsSubstitutionResourcePopupDisplayed()
+                .ClickJustTodayBtn()
+                .ClickConfirmSubstitution()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+               .SelectContract(Contract.Commercial)
+               .SelectShift("AM")
+               .InsertDate(startDate)
+               .ClickGo()
+               .WaitForLoadingIconToDisappear()
+               .SleepTimeInMiliseconds(2000);
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName);
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+               .SelectContract(Contract.Commercial)
+               .SelectShift("AM")
+               .InsertDate(endDate)
+               .ClickGo()
+               .WaitForLoadingIconToDisappear()
+               .SleepTimeInMiliseconds(2000);
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName);
+
+
+
+            CommonFinder finder = new CommonFinder(DbContext);
+            List<ResourceAllocationModel> list = finder.GetResourceAllocation(116);
+            var convertedEndDate = CommonUtil.StringToDateTime(middleDate, "dd/MM/yyyy");
+            Assert.AreEqual(convertedEndDate.Day, list[0].startdate.Day);
+            Assert.AreEqual(convertedEndDate.Month, list[0].startdate.Month);
+            Assert.AreEqual(convertedEndDate.Year, list[0].startdate.Year);
+        }
+        [Category("Resources")]
+        [Category("Dee")]
+        [Test]
+        public void TC_280_Resource_Substitution_Custom_Date()
+        {
+            var resourceName = "Thomas Edison";
+            var clientReference = " (E0456)";
+            var substitutionName = "Samuel Morse";
+            var leaveType = "Holiday";
+            var leaveReason = "Paid";
+            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 21);
+            string middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 22);
+            string middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 23);
+            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 28);
+
+            var details = CommonUtil.GetRandomString(5);
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClickButton("Create Leave Entry Record")
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .IsOnLeaveEntryPage()
+                .SelectLeaveResource(resourceName + clientReference)
+                .SelectLeaveType(leaveType)
+                .SelectLeaveReason(leaveReason)
+                .EnterDates(startDate)
+                .EnterEndDate(endDate + Keys.Tab)
+                .EnterDetails(details)
+                .SaveLeaveEntry()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Resources)
+               .OpenOption("Daily Allocation")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
+                .SelectShift("AM")
+                .InsertDate(middleDate1)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000)
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", substitutionName)
+                .DragAndDropFirstResultToResourceInRound(resourceName)
+                .IsSubstitutionResourcePopupDisplayed()
+                .ClickCustomDatesBtn()
+                .InputToDate(middleDate2)
+                .ClickConfirmSubstitution()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+               .SelectContract(Contract.Commercial)
+               .SelectShift("AM")
+               .InsertDate(startDate)
+               .ClickGo()
+               .WaitForLoadingIconToDisappear()
+               .SleepTimeInMiliseconds(2000);
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName);
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+               .SelectContract(Contract.Commercial)
+               .SelectShift("AM")
+               .InsertDate(endDate)
+               .ClickGo()
+               .WaitForLoadingIconToDisappear()
+               .SleepTimeInMiliseconds(2000);
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(resourceName);
+
+
+
+            CommonFinder finder = new CommonFinder(DbContext);
+            List<ResourceAllocationModel> list = finder.GetResourceAllocation(116);
+            var convertedAllocationDate1 = CommonUtil.StringToDateTime(middleDate1, "dd/MM/yyyy");
+            var convertedAllocationDate2 = CommonUtil.StringToDateTime(middleDate2, "dd/MM/yyyy");
+            Assert.AreEqual(convertedAllocationDate2.Day, list[0].startdate.Day);
+            Assert.AreEqual(convertedAllocationDate2.Month, list[0].startdate.Month);
+            Assert.AreEqual(convertedAllocationDate2.Year, list[0].startdate.Year);
+            Assert.AreEqual(convertedAllocationDate1.Day, list[1].startdate.Day);
+            Assert.AreEqual(convertedAllocationDate1.Month, list[1].startdate.Month);
+            Assert.AreEqual(convertedAllocationDate1.Year, list[1].startdate.Year);
+        }
+        [Category("Resources")]
+        [Category("Dee")]
+        [Test]
+        public void TC_281_Resource_Substitution_Last_Date()
+        {
+            var resourceName = "Thomas Edison";
+            var clientReference = " (E0456)";
+            var substitutionName = "Samuel Morse";
+            var leaveType = "Holiday";
+            var leaveReason = "Paid";
+            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 35);
+            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 37);
+            var details = CommonUtil.GetRandomString(5);
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClickButton("Create Leave Entry Record")
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .IsOnLeaveEntryPage()
+                .SelectLeaveResource(resourceName + clientReference)
+                .SelectLeaveType(leaveType)
+                .SelectLeaveReason(leaveReason)
+                .EnterDates(startDate)
+                .EnterEndDate(endDate + Keys.Tab)
+                .EnterDetails(details)
+                .SaveLeaveEntry()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Resources)
+               .OpenOption("Daily Allocation")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
+                .SelectShift("AM")
+                .InsertDate(endDate)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000)
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", substitutionName)
+                .DragAndDropFirstResultToResourceInRound(resourceName)
+                .VerifyAllocatedResourceName(substitutionName);
+        }
+
     }
 }
