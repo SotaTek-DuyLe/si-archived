@@ -121,7 +121,7 @@ namespace si_automated_tests.Source.Test.FormTests
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<RoundDetailPage>()
-                .VerifyValueInSlotCount("0");
+                .VerifyValueInSlotCount("");
         }
 
         [Category("Various Form")]
@@ -143,22 +143,22 @@ namespace si_automated_tests.Source.Test.FormTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<RoundGroupDetailPage>()
                 .IsRoundGroupDetailPage()
-                .VerifyMinValueInSlotCountField()
-                //Step line 20: Input [-10] into slot aount -> Save
-                .InputSlotCount("-10")
+                //Step line 19: Go to [Rounds] tab and verify slots 
+                .ClickOnRoundTab()
+                .VerifyMinValueAtAllSlotsInput()
+                .InputValueIntoSlotAtRoundTab("-6", "2")
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageRequiredFieldConstants.SlotCannotBeNegativeMessage)
                 .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.SlotCannotBeNegativeMessage);
-            //Step line 21: Remove the number in slot count and Save
+
             PageFactoryManager.Get<RoundGroupDetailPage>()
-                .ClearSlotCount()
+                //Step line 22: Remove value
+                .ClearValueIntoSlotAtRoundTab("2")
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<RoundGroupDetailPage>()
-                .VerifyValueInSlotCount("0")
-                //Step line 22: Go to [Rounds] tab and verify
-                .ClickOnRoundTab()
+                .VerifyValueInSlotCountSlotAtRoundTab("", "2")
                 .ClickOnArrowInAnyRow("1")
                 .IsRightRoundPanel()
                 //Step line 23: Verify Min value of [Slot] round detail
@@ -177,7 +177,7 @@ namespace si_automated_tests.Source.Test.FormTests
             PageFactoryManager.Get<RoundGroupDetailPage>()
                 .ClickOnArrowInAnyRow("1")
                 .IsRightRoundPanel()
-                .VerifyValueInSlotCount("");
+                .VerifyValueInSlotRightRoundPanel("");
         }
 
         [Category("Various Form")]

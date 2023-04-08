@@ -1,4 +1,5 @@
-﻿using NUnit.Allure.Attributes;
+﻿using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -13,13 +14,17 @@ namespace si_automated_tests.Source.Main.Pages.Round
         private readonly By slotCountInput = By.CssSelector("div[id='details-tab'] input[name='sortOrder']");
         private readonly By roundTab = By.CssSelector("a[aria-controls='rounds-tab']");
 
+        //ROUND TAB
+        private readonly By slotsInputRows = By.CssSelector("div[id='rounds-tab'] input[id='slot.id']");
+
         //RIGHT ROUND PANEL
         private readonly By rightRoundPanelTitle = By.XPath("//div[@id='rightRoundPanel']//span[text()='Round']");
         private readonly By rightRoundPanelRoundInput = By.XPath("//div[@id='rightRoundPanel']//input[@name='round']");
         private readonly By rightRoundPanelSlotInput = By.CssSelector("div[id='rightRoundPanel'] input[id='slot.id']");
 
         //DYNAMIC
-        private readonly string anyArrowInRoundTab = "//div[@id='rounds-tab']//tr[1]//div[@id='toggle-actions']";
+        private readonly string anyArrowInRoundTab = "//div[@id='rounds-tab']//tr[{0}]//div[@id='toggle-actions']";
+        private readonly string anySlotsInputInRoundTab = "//div[@id='rounds-tab']//tr[2]//input[@id='slot.id']";
 
         [AllureStep]
         public RoundGroupDetailPage IsRoundGroupDetailPage()
@@ -37,23 +42,23 @@ namespace si_automated_tests.Source.Main.Pages.Round
         }
 
         [AllureStep]
-        public RoundGroupDetailPage InputSlotCount(string slotCountValue)
+        public RoundGroupDetailPage InputValueIntoSlotAtRoundTab(string slotCountValue, string numberOfRow)
         {
-            SendKeys(slotCountInput, slotCountValue);
+            SendKeys(string.Format(anySlotsInputInRoundTab, numberOfRow), slotCountValue);
             return this;
         }
 
         [AllureStep]
-        public RoundGroupDetailPage ClearSlotCount()
+        public RoundGroupDetailPage ClearValueIntoSlotAtRoundTab(string numberOfRow)
         {
-            ClearInputValue(slotCountInput);
+            ClearInputValue(string.Format(anySlotsInputInRoundTab, numberOfRow));
             return this;
         }
 
         [AllureStep]
-        public RoundGroupDetailPage VerifyValueInSlotCount(string slotCountValue)
+        public RoundGroupDetailPage VerifyValueInSlotCountSlotAtRoundTab(string slotCountValue, string numberOfRow)
         {
-            Assert.AreEqual(slotCountValue, GetAttributeValue(slotCountInput, "value"));
+            Assert.AreEqual(slotCountValue, GetAttributeValue(string.Format(anySlotsInputInRoundTab, numberOfRow), "value"));
             return this;
         }
 
@@ -62,6 +67,17 @@ namespace si_automated_tests.Source.Main.Pages.Round
         {
             ClickOnElement(roundTab);
             WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public RoundGroupDetailPage VerifyMinValueAtAllSlotsInput()
+        {
+            List<IWebElement> allSlots = GetAllElements(slotsInputRows);
+            foreach(IWebElement slot in allSlots)
+            {
+                Assert.AreEqual("0", GetAttributeValue(slot, "min"));
+            }
             return this;
         }
 
@@ -104,7 +120,7 @@ namespace si_automated_tests.Source.Main.Pages.Round
         [AllureStep]
         public RoundGroupDetailPage VerifyValueInSlotRightRoundPanel(string slotCountValue)
         {
-            Assert.AreEqual(rightRoundPanelSlotInput, GetAttributeValue(rightRoundPanelSlotInput, "value"));
+            Assert.AreEqual(slotCountValue, GetAttributeValue(rightRoundPanelSlotInput, "value"));
             return this;
         }
     }
