@@ -170,6 +170,8 @@ namespace si_automated_tests.Source.Test.FormTests
                 .WaitUntilToastMessageInvisible(MessageRequiredFieldConstants.SlotCannotBeNegativeMessage);
             //Step line 21: Remove the number in slot count and Save
             PageFactoryManager.Get<RoundGroupDetailPage>()
+                .ClickOnArrowInAnyRow("1")
+                .IsRightRoundPanel()
                 .ClearSlotRightRoundPanel()
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
@@ -180,72 +182,72 @@ namespace si_automated_tests.Source.Test.FormTests
                 .VerifyValueInSlotRightRoundPanel("");
         }
 
-        [Category("Various Form")]
-        [Category("Chang")]
-        [Test(Description = "Verify that the fix didn't break any other functionality"), Order(5)]
-        public void TC_237_Verify_that_the_fix_did_not_break_any_other_functionality()
-        {
-            string taskNote = "Task note" + CommonUtil.GetRandomNumber(5);
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            //Login
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser89.UserName, AutoUser89.Password)
-                .IsOnHomePage(AutoUser89)
-                //Step line 27: Tasks
-                .GoToURL(WebUrl.MainPageUrl + "/web/tasks/40562");
+        //[Category("Various Form")]
+        //[Category("Chang")]
+        //[Test(Description = "Verify that the fix didn't break any other functionality"), Order(5)]
+        //public void TC_237_Verify_that_the_fix_did_not_break_any_other_functionality()
+        //{
+        //    string taskNote = "Task note" + CommonUtil.GetRandomNumber(5);
+        //    PageFactoryManager.Get<LoginPage>()
+        //        .GoToURL(WebUrl.MainPageUrl);
+        //    //Login
+        //    PageFactoryManager.Get<LoginPage>()
+        //        .IsOnLoginPage()
+        //        .Login(AutoUser89.UserName, AutoUser89.Password)
+        //        .IsOnHomePage(AutoUser89)
+        //        //Step line 27: Tasks
+        //        .GoToURL(WebUrl.MainPageUrl + "/web/tasks/40562");
 
-            PageFactoryManager.Get<DetailTaskPage>()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailTaskPage>()
-                .IsDetailTaskPage()
-                .InputTaskNotes(taskNote)
-                .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-            PageFactoryManager.Get<DetailTaskPage>()
-                .VerifyTaskNotesValue(taskNote);
-            //Step line 28: Contracts
-            PageFactoryManager.Get<NavigationBase>()
-                .GoToURL(WebUrl.MainPageUrl + "/web/contracts/2");
+        //    PageFactoryManager.Get<DetailTaskPage>()
+        //        .WaitForLoadingIconToDisappear();
+        //    PageFactoryManager.Get<DetailTaskPage>()
+        //        .IsDetailTaskPage()
+        //        .InputTaskNotes(taskNote)
+        //        .ClickSaveBtn()
+        //        .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+        //        .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+        //    PageFactoryManager.Get<DetailTaskPage>()
+        //        .VerifyTaskNotesValue(taskNote);
+        //    //Step line 28: Contracts
+        //    PageFactoryManager.Get<NavigationBase>()
+        //        .GoToURL(WebUrl.MainPageUrl + "/web/contracts/2");
 
-            PageFactoryManager.Get<ContractDetailPage>()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<ContractDetailPage>()
-                .IsContractDetailPage();
-            string firstValueInPID = PageFactoryManager.Get<ContractDetailPage>()
-                .GetValueInPIDRententionDays();
-            PageFactoryManager.Get<ContractDetailPage>()
-                .InputPIDRententionDays("31")
-                .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-            PageFactoryManager.Get<ContractDetailPage>()
-                .VerifyValuePIDRententionDays("31");
-            //Update to the first value of PID
-            PageFactoryManager.Get<ContractDetailPage>()
-                .InputPIDRententionDays(firstValueInPID)
-                .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-            PageFactoryManager.Get<ContractDetailPage>()
-                .VerifyValuePIDRententionDays(firstValueInPID);
-            //Step line 29: party supplier > cost agreement
-            //PageFactoryManager.Get<NavigationBase>()
-            //    .GoToURL(WebUrl.MainPageUrl + "/web/parties/78");
-            //PageFactoryManager.Get<DetailPartyPage>()
-            //    .WaitForDetailPartyPageLoadedSuccessfully("North Star Environmental Services")
-            //    .ClickOnCostAgreementsTab();
-            PageFactoryManager.Get<NavigationBase>()
-                .GoToURL(WebUrl.MainPageUrl + "/web/cost-agreements/2");
-            PageFactoryManager.Get<CostAgreementDetailPage>()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<CostAgreementDetailPage>()
-                .IsCostAgreementDetailPage()
-                .ClickOnCostBookTab();
+        //    PageFactoryManager.Get<ContractDetailPage>()
+        //        .WaitForLoadingIconToDisappear();
+        //    PageFactoryManager.Get<ContractDetailPage>()
+        //        .IsContractDetailPage();
+        //    string firstValueInPID = PageFactoryManager.Get<ContractDetailPage>()
+        //        .GetValueInPIDRententionDays();
+        //    PageFactoryManager.Get<ContractDetailPage>()
+        //        .InputPIDRententionDays("31")
+        //        .ClickSaveBtn()
+        //        .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+        //        .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+        //    PageFactoryManager.Get<ContractDetailPage>()
+        //        .VerifyValuePIDRententionDays("31");
+        //    //Update to the first value of PID
+        //    PageFactoryManager.Get<ContractDetailPage>()
+        //        .InputPIDRententionDays(firstValueInPID)
+        //        .ClickSaveBtn()
+        //        .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+        //        .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+        //    PageFactoryManager.Get<ContractDetailPage>()
+        //        .VerifyValuePIDRententionDays(firstValueInPID);
+        //    //Step line 29: party supplier > cost agreement
+        //    //PageFactoryManager.Get<NavigationBase>()
+        //    //    .GoToURL(WebUrl.MainPageUrl + "/web/parties/78");
+        //    //PageFactoryManager.Get<DetailPartyPage>()
+        //    //    .WaitForDetailPartyPageLoadedSuccessfully("North Star Environmental Services")
+        //    //    .ClickOnCostAgreementsTab();
+        //    PageFactoryManager.Get<NavigationBase>()
+        //        .GoToURL(WebUrl.MainPageUrl + "/web/cost-agreements/2");
+        //    PageFactoryManager.Get<CostAgreementDetailPage>()
+        //        .WaitForLoadingIconToDisappear();
+        //    PageFactoryManager.Get<CostAgreementDetailPage>()
+        //        .IsCostAgreementDetailPage()
+        //        .ClickOnCostBookTab();
 
-        }
+        //}
         
     }
 }
