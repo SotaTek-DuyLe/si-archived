@@ -25,11 +25,11 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public readonly By ServiceLevelSelect = By.XPath("//select[@id='serviceLevel.id']");
         public readonly By NoteInput = By.XPath("//input[@id='3']");
         public readonly By AccessPointInput = By.XPath("//input[@id='4']");
-        public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']");
-        public readonly By DataTab = By.XPath("//a[@aria-controls='data-tab']");
+        public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']/parent::li");
+        public readonly By DataTab = By.XPath("//a[@aria-controls='data-tab']/parent::li");
         public readonly By AssetsTab = By.XPath("//a[@aria-controls='assets-tab']");
-        public readonly By ServiceTaskScheduleTab = By.XPath("//a[@aria-controls='serviceTaskSchedules-tab']");
-        public readonly By ServiceUnitPointTab = By.XPath("//a[@aria-controls='serviceUnitPoints-tab']");
+        public readonly By ServiceTaskScheduleTab = By.XPath("//a[@aria-controls='serviceTaskSchedules-tab']/parent::li");
+        public readonly By ServiceUnitPointTab = By.XPath("//a[@aria-controls='serviceUnitPoints-tab']/parent::li");
         public readonly By AddNewImageButton = By.XPath("//button[contains(text(), 'Add New')]");
         public readonly By AddNewItemButton = By.XPath("//div[@id='serviceTaskSchedules-tab']//button");
         public readonly By AddPointButton = By.XPath("//div[@id='serviceUnitPoints-tab']//button");
@@ -39,6 +39,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By serviceGroupName = By.XPath("//div[text()='SERVICE GROUP']/following-sibling::div");
         private readonly By serviceName = By.XPath("//div[text()='SERVICE']/following-sibling::div");
         private readonly By allAssuredTaskInput = By.XPath("//div[@id='serviceTaskSchedules-tab']//input[contains(@data-bind, 'assuredTask.value')]");
+        private readonly By announcementsTab = By.XPath("//a[@aria-controls='announcements-tab']/parent::li");
+
+        private readonly By mapTab = By.XPath("//a[@aria-controls='map-tab']/parent::li");
+        private readonly By risksTab = By.XPath("//a[@aria-controls='risks-tab']/parent::li");
+        private readonly By notificationTab = By.XPath("//a[@aria-controls='notifications-tab']/parent::li");
+        private readonly By rentalAssetsTab = By.XPath("//a[@aria-controls='rentalAssets-tab']/parent::li");
+        private readonly By timeRestrictionsTab = By.XPath("//a[@aria-controls='serviceExclusions-tab']/parent::li");
 
         #region
         public readonly By searchPointSegmentBtn = By.XPath("//div[@id='details-tab']//div[contains(@class,'searchButton')]/button");
@@ -623,6 +630,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceUnitDetailPage ClickOnServiceUnitPointsTab()
         {
             ClickOnElement(ServiceUnitPointTab);
+            WaitForLoadingIconToDisappear();
             return this;
         }
 
@@ -813,7 +821,144 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         #endregion
+        private readonly By addBtnNextToServiceUnitGroup = By.XPath("//span[text()='Add']");
 
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnAddBtnNextToServiceUnitGroupField()
+        {
+            ClickOnElement(addBtnNextToServiceUnitGroup);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitDetailPage IsDetailTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(DetailTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnDataTab()
+        {
+            ClickOnElement(DataTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage IsDataTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(DataTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage IsServiceTaskSchedulesTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(ServiceTaskScheduleTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage IsServiceUnitPointTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(ServiceUnitPointTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage IsAssetTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(assetTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnMapTab()
+        {
+            ClickOnElement(mapTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage IsMapTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(mapTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnRisksTab()
+        {
+            ClickOnElement(risksTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage IsRisksTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(risksTab, "class"));
+            return this;
+        }
+        
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnSubscriptionsTab()
+        {
+            ClickOnElement(SubscriptionTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage IsSubscriptionTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(SubscriptionTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnNotificationsTab()
+        {
+            ClickOnElement(notificationTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage IsNotificationsTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(notificationTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnRentalAssetsTab()
+        {
+            ClickOnElement(rentalAssetsTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage IsRentalAssetsTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(rentalAssetsTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnTimeRestrictionsTab()
+        {
+            ClickOnElement(timeRestrictionsTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage IsTimeRestrictionsTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(timeRestrictionsTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage ClickOnAnnouncementTab()
+        {
+            ClickOnElement(announcementsTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public ServiceUnitDetailPage IsAnnouncementTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(announcementsTab, "class"));
+            return this;
+        }
 
     }
 }

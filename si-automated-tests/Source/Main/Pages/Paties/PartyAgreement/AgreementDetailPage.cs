@@ -35,6 +35,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
         private readonly By secondInvoiceContactDd = By.XPath("(//label[text()='Invoice Contact:']/following-sibling::div/select)[2]");
         private readonly By secondInvoiceAddressDd = By.XPath("(//label[text()='Invoice Address:']/following-sibling::div/select)[2]");
         private readonly By secondBillingRuleDd = By.XPath("(//label[text()='Billing Rule:']/following-sibling::div/select)[2]");
+        private readonly By firstAgreementLineLink = By.XPath("(//label[text()='Service:'])[1]/following-sibling::div/a");
+        private readonly string agreementLineByStartDate = "//span[text()='{0}']/parent::div/parent::div/following-sibling::div//label[text()='Service:']/following-sibling::div/a";
 
         //DYNAMIC LOCATOR
         private const string primaryContactValue = "//select[@id='primary-contact']/option[text()='{0}']";
@@ -336,10 +338,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
         private readonly By tenureDdInStep2 = By.CssSelector("div[id='step-2'] select[id='tenure']");
         private readonly By productDdInStep2 = By.XPath("//div[@id='step-2']//label[text()='Product']/following-sibling::select");
         private readonly By ewcCodeDdInStep2 = By.XPath("//div[@id='step-2']//label[text()='EWC Code']/following-sibling::select");
+        private readonly By ewcCodeDdDiv = By.XPath("//div[@id='step-2']//label[text()='EWC Code']/parent::div");
         private readonly By unitDdInStep2 = By.XPath("//div[@id='step-2']//label[text()='Unit']/following-sibling::select");
         private readonly By productQtyAssetInStep2 = By.XPath("//div[@id='step-2']//input[@id='product-quantity']");
         private readonly By assetTypeLabel = By.XPath("//label[text()='Asset Type']");
         private readonly By doneBtnInStep2 = By.XPath("//div[@id='step-2']//button[text()='Done']");
+        private readonly By cancelBtnInStep2 = By.XPath("//div[@id='step-2']//button[text()='Cancel']");
+        private readonly By doneBtnInStep3 = By.XPath("//div[@id='step-3']//button[text()='Done']");
 
         //STEP 3: Schedule services
         private readonly By addRegularServicesInStep3 = By.XPath("//div[@id='step-3']//button[text()='Add regular service']");
@@ -348,6 +353,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
         private readonly By firstProductValueInStep3 = By.XPath("(//div[@id='step-3']//span[@data-bind='text: product().name'])[1]");
         private readonly By firstUnitValueInStep3 = By.XPath("(//div[@id='step-3']//span[@data-bind='text: unit().name'])[1]");
         private readonly By firstEWCCodeValueInStep3 = By.XPath("(//div[@id='step-3']//span[@data-bind='text: productCode().name'])[1]");
+        private readonly By firstEWCCodeValueInStep3Div = By.XPath("(//div[contains(@data-bind, 'allowProductCode')])[1]");
         private readonly By firstProductQtyPerAssetInStep3 = By.XPath("(//div[@id='step-3']//input[@data-bind='value: productQty'])[1]");
 
         [AllureStep]
@@ -424,6 +430,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
         }
 
         [AllureStep]
+        public AgreementDetailPage VerifyEWCCodeInStep2Hidden()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(ewcCodeDdDiv));
+            return this;
+        }
+
+        [AllureStep]
         public AgreementDetailPage InputProductQtyPerAsset(string productQty)
         {
             SendKeys(productQtyAssetInStep2, productQty);
@@ -445,6 +458,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
         }
 
         [AllureStep]
+        public AgreementDetailPage ClickDoneBtnInStep3()
+        {
+            ClickOnElement(doneBtnInStep3);
+            return this;
+        }
+
+        [AllureStep]
         public AgreementDetailPage ClickOnAddRegularServiceStep3()
         {
             ClickOnElement(addRegularServicesInStep3);
@@ -452,18 +472,102 @@ namespace si_automated_tests.Source.Main.Pages.Paties.PartyAgreement
         }
 
         [AllureStep]
-        public AgreementDetailPage VerifyValueInStep3(string assetTypeExp, string productExp, string unitExp, string ewcCodeExp, string productQty)
+        public AgreementDetailPage VerifyValueInStep3(string assetTypeExp, string productExp, string unitExp, string productQty)
         {
             WaitUtil.WaitForElementVisible(assetTypeInStep3);
             Assert.AreEqual(assetTypeExp, GetElementText(firstAssetTypeValueInStep3), "Asset Type in Step 3 is not correct");
             Assert.AreEqual(productExp, GetElementText(firstProductValueInStep3), "Product in Step 3 is not correct");
             Assert.AreEqual(unitExp, GetElementText(firstUnitValueInStep3), "Unit in Step 3 is not correct");
-            Assert.AreEqual(ewcCodeExp, GetElementText(firstEWCCodeValueInStep3), "EWC Code in Step 3 is not correct");
             Assert.AreEqual(productQty, GetAttributeValue(firstProductQtyPerAssetInStep3, "value"), "Product Qty Per Asset in Step 3 is not correct");
             //Readonly
             Assert.AreEqual("true", GetAttributeValue(firstProductQtyPerAssetInStep3, "readonly"), "Product Qty Per Asset in Step 3 is not readonly" );
             return this;
         }
+
+        [AllureStep]
+        public AgreementDetailPage VerifyValueEWCCodeInStep3(string ewcCodeExp)
+        {
+            Assert.AreEqual(ewcCodeExp, GetElementText(firstEWCCodeValueInStep3), "EWC Code in Step 3 is not correct");
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage VerifyNotDisplayEWCCodeInStep3()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(firstEWCCodeValueInStep3));
+            return this;
+        }
+
         #endregion
+
+        [AllureStep]
+        public AgreementDetailPage ClickNewAgreementLineCreatedLink(string startDateValue)
+        {
+            ScrollToBottomOfPage();
+            WaitUtil.WaitForPageLoaded();
+            ClickOnElement(agreementLineByStartDate, startDateValue);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage VerifyDoneBtnDisabled()
+        {
+            Assert.AreEqual("true", GetAttributeValue(doneBtnInStep2, "disabled"));
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage VerifyCancelBtnDisabled()
+        {
+            Assert.AreEqual("true", GetAttributeValue(cancelBtnInStep2, "disabled"));
+            return this;
+        }
+
+        private readonly By firstExpandAgreementLineBtn = By.XPath("(//button[@title='Expand/close agreement line'])[1]");
+        private readonly string expandAgreementLineBtnByStartDate = "//span[text()='{0}']/parent::div/parent::div/following-sibling::div//button[@title='Expand/close agreement line']";
+        private readonly By assetAndProduct = By.XPath("//span[text()='Assets and Products']/parent::div");
+        private readonly By firstEWCCodeColumn = By.XPath("(//div[contains(@class, 'collapse in')]//th[text()='EWC Code'])[1]");
+        private readonly By firstEWCAssetTypeColumn = By.XPath("(//div[contains(@class, 'collapse in')]//th[text()='Asset Type'])[1]");
+        private readonly string firstEWCCodeAtAssetAndProductTable = "(//div[contains(@class, 'collapse in')]//tbody/tr[1]/td[count(//th[text()='EWC Code']/preceding-sibling::th) + boolean(//th[text()='EWC Code'])])[1]";
+
+        [AllureStep]
+        public AgreementDetailPage ClickToExpandFirstAgreementLine()
+        {
+            ClickOnElement(firstExpandAgreementLineBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage ClickToExpandAgreementLineByStartDate(string startDateValue)
+        {
+            ClickOnElement(expandAgreementLineBtnByStartDate, startDateValue);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage ClickToExpandAssetsAndProducts()
+        {
+            ClickOnElement(assetAndProduct);
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage VerifyDisplayEWCCodeColumn(string ewcCodeValueExp)
+        {
+            WaitUtil.WaitForElementVisible(firstEWCCodeColumn);
+            Assert.IsTrue(IsControlDisplayed(firstEWCCodeAtAssetAndProductTable));
+            Assert.AreEqual(ewcCodeValueExp, GetElementText(firstEWCCodeAtAssetAndProductTable));
+            return this;
+        }
+
+        [AllureStep]
+        public AgreementDetailPage VerifyNotDisplayEWCCodeColumn()
+        {
+            WaitUtil.WaitForElementVisible(firstEWCAssetTypeColumn);
+            Assert.IsTrue(IsControlUnDisplayed(firstEWCCodeColumn));
+            return this;
+        }
+
+
     }
 }

@@ -17,6 +17,10 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By notesTab = By.CssSelector("a[aria-controls='notes-tab']");
         private readonly By titleInNotesTab = By.XPath("//label[text()='Title']/following-sibling::input");
         private readonly By noteInNotesTab = By.XPath("//label[text()='Note']/following-sibling::textarea");
+        private readonly By lineRows = By.XPath("//div[@id='creditNoteLines-tab']//div[@class='grid-canvas']/div[1]");
+        private readonly By approveBtn = By.XPath("//button[text()='Approve']");
+        private readonly By rejectBtn = By.XPath("//button[text()='Reject']");
+        private readonly By creditNoteStatus = By.CssSelector("h5[title='Credit Note Status']");
 
         //DYNAMIC
         private readonly string partyName = "//p[text()='{0}']";
@@ -40,6 +44,48 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         public DetailCreditNotePage ClickOnLinesTab()
         {
             ClickOnElement(linesTab);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailCreditNotePage VerifyNoRecordInLinesTab()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(lineRows));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailCreditNotePage VerifyApproveBtnIsDisabled()
+        {
+            Assert.AreEqual("true", GetAttributeValue(approveBtn, "disabled"), "Approve btn is not disabled");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailCreditNotePage VerifyRejectBtnIsDisabled()
+        {
+            Assert.AreEqual("true", GetAttributeValue(rejectBtn, "disabled"), "Reject btn is not disabled");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailCreditNotePage VerifyApproveBtnIsEnabled()
+        {
+            Assert.IsTrue(IsControlEnabled(approveBtn), "[Approve] btn is not enabled");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailCreditNotePage ClickOnApproveBtn()
+        {
+            ClickOnElement(approveBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailCreditNotePage VerifyRejectBtnIsEnabled()
+        {
+            Assert.IsTrue(IsControlEnabled(rejectBtn), "[Reject] btn is not enabled");
             return this;
         }
 
@@ -68,6 +114,13 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         {
             Assert.IsTrue(IsControlDisplayed(titleInNotesTab), "Title in Notes tab is not displayed");
             Assert.IsTrue(IsControlDisplayed(noteInNotesTab), "Note in Notes tab is not displayed");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailCreditNotePage VerifyStatusOfCreditNote(string creditNoteValueExp)
+        {
+            Assert.AreEqual(creditNoteValueExp, GetElementText(creditNoteStatus));
             return this;
         }
     }
