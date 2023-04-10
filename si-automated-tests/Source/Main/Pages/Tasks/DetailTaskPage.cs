@@ -54,6 +54,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public readonly By endDateInput = By.CssSelector("input[id='endDate.id']");
         public readonly By resolutionCode = By.CssSelector("select[id='resolutionCode.id']");
         public readonly By PrioritySelect = By.CssSelector("select[id='priority.id']");
+        private readonly By slotCountInput = By.CssSelector("input[id='slotCount.id']");
         //DYNAMIC LOCATOR
         private const string sourceName = "//select[@id='source']/option[text()='{0}']";
         private const string inspectionTypeOption = "//select[@id='inspection-type']/option[text()='{0}']";
@@ -181,6 +182,34 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage ClickOnPartyLink()
         {
             ClickOnElement(partyLink);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyMinValueInSlotCountField()
+        {
+            Assert.AreEqual("0", GetAttributeValue(slotCountInput, "min"));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage InputSlotCount(string slotCountValue)
+        {
+            SendKeys(slotCountInput, slotCountValue);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage ClearSlotCount()
+        {
+            ClearInputValue(slotCountInput);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyValueInSlotCount(string slotCountValue)
+        {
+            Assert.AreEqual(slotCountValue, GetAttributeValue(slotCountInput, "value"));
             return this;
         }
 
@@ -415,6 +444,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             string completedDateDisplayed = GetAttributeValue(completionDateInput, "value");
             Assert.IsFalse(string.IsNullOrEmpty(completedDateDisplayed));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage InputTaskNotes(string noteValue)
+        {
+            SendKeys(taskNotesInput, noteValue);
             return this;
         }
 

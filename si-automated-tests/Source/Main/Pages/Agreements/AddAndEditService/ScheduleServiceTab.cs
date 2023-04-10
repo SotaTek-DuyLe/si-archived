@@ -3,8 +3,6 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
 {
@@ -67,6 +65,12 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService
         public ScheduleServiceTab ClickDoneScheduleBtn()
         {
             ClickOnElement(doneAssetScheduleBtn);
+            return this;
+        }
+        [AllureStep]
+        public ScheduleServiceTab ClickOnDoneScheduleBtn2()
+        {
+            ClickOnElement("//div[@id='schedule']//button[text()='Done']");
             return this;
         }
         [AllureStep]

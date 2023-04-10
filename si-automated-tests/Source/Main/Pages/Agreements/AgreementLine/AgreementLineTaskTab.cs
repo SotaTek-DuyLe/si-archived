@@ -4,7 +4,6 @@ using System.Text;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Models.Agreement;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
 

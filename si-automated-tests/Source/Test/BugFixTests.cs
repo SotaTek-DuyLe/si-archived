@@ -24,13 +24,16 @@ using si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage;
 using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Paties.Sites;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
+using si_automated_tests.Source.Main.Pages.PointAddress;
 using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Resources.Tabs;
+using si_automated_tests.Source.Main.Pages.RoundLeg;
 using si_automated_tests.Source.Main.Pages.Search.PointAreas;
 using si_automated_tests.Source.Main.Pages.Search.PointNodes;
 using si_automated_tests.Source.Main.Pages.Search.PointSegment;
 using si_automated_tests.Source.Main.Pages.Services;
 using si_automated_tests.Source.Main.Pages.Sites;
+using si_automated_tests.Source.Main.Pages.Streets;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
 using si_automated_tests.Source.Main.Pages.WB;
@@ -490,7 +493,7 @@ namespace si_automated_tests.Source.Test
                 .SelectContract(Contract.Municipal)
                 .SelectBusinessUnit(Contract.Municipal)
                 .SelectShift("AM")
-                .InsertDate(dateInFutre + Keys.Enter)
+                .InsertDate(dateInFutre)
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(2000);
@@ -1115,7 +1118,7 @@ namespace si_automated_tests.Source.Test
         //BUG => Need to confirm when selecting Allocated Unit = [Select...] and User listing
         [Category("BugFix")]
         [Category("Chang")]
-        [Test(Description = "Invalid users listed in the users list in contract unit form (bug fix)")]
+        [Test(Description = "Invalid users listed in the users list in contract unit form (bug fix)"), Order(2)]
         public void TC_215_Invalid_users_listed_in_the_users_list_in_contract_unit_form()
         {
             CommonFinder commonFinder = new CommonFinder(DbContext);
@@ -2193,7 +2196,7 @@ namespace si_automated_tests.Source.Test
                 .IsRetiredPopup()
                 .ClickOnCancelBtn()
                 .VerifyPopupIsDisappear();
-            
+
         }
 
         [Category("BugFix")]
@@ -2392,7 +2395,7 @@ namespace si_automated_tests.Source.Test
             string serviceId = "3";
 
             PageFactoryManager.Get<LoginPage>()
-                   .GoToURL(WebUrl.MainPageUrl);
+                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser46.UserName, AutoUser46.Password)
@@ -2415,7 +2418,7 @@ namespace si_automated_tests.Source.Test
         public void TC_138_task_line_mapping()
         {
             string taskType = "Commercial Collection";
-            string url = WebUrl.MainPageUrl+ "Echo2/Echo2Extra/PopupDefault.aspx?VName=ConfigView&VNodeID=79&CPath=T245R1M3350M3350T181R3&ObjectID=3&TypeName=TaskType&RefTypeName=none&ReferenceName=none";
+            string url = WebUrl.MainPageUrl + "Echo2/Echo2Extra/PopupDefault.aspx?VName=ConfigView&VNodeID=79&CPath=T245R1M3350M3350T181R3&ObjectID=3&TypeName=TaskType&RefTypeName=none&ReferenceName=none";
 
             CommonFinder commonFinder = new CommonFinder(DbContext);
             var oldVersion = commonFinder.GetTaskTypeByName(taskType)[0];
@@ -2432,6 +2435,1135 @@ namespace si_automated_tests.Source.Test
                 .SleepTimeInSeconds(5);
             var newVersion = commonFinder.GetTaskTypeByName(taskType)[0];
             Assert.IsFalse(oldVersion.Equals(newVersion));
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "An error has occurred when adding service unit group in new SU form (bug fix)")]
+        public void TC_255_An_error_has_occurred_when_adding_service_unit_group_in_new_SU_form()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Step line 7: Go to point address detail page with id = 483982
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/point-addresses/483982");
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .WaitForPointAddressDetailDisplayed()
+                .ClickOnAllServicesTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .ClickOnAnyActionBtn(2)
+                .ClickOnAnyAddServiceUnitBtn(2)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsServiceUnitDetailPage()
+                .ClickOnAddBtnNextToServiceUnitGroupField()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitGroupDetailPage>()
+                .IsServiceUnitGroupDetailPage()
+                .VerifyCurrentUrl();
+
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "The credit note without credit lines can be approved (bug fix), Credit note with no values set"), Order(1)]
+        public void TC_256_The_credit_note_without_credit_lines_can_be_approved_credit_note_with_no_values_set()
+        {
+            string creditId = "7";
+            string partyName = "PREMIER INN";
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Step line 7: Navigate to Credit note with no values set -> Lines tab
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Accounts)
+                .OpenOption("Credit Notes")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CreditNotePage>()
+                .FilterByCreditId(creditId)
+                .ClickOnFirstCreditRow()
+                .DoubleClickOnFirstCreditRow()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .IsCreditNoteDetailPage(partyName)
+                .ClickOnLinesTab()
+                .WaitForLoadingIconToDisappear()
+                .VerifyNotDisplayErrorMessage();
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .VerifyNoRecordInLinesTab()
+                .VerifyApproveBtnIsDisabled()
+                .VerifyRejectBtnIsDisabled();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "The credit note without credit lines can be approved (bug fix), Credit note with NEW state and some values set")]
+        public void TC_256_The_credit_note_without_credit_lines_can_be_approved_credit_note_with_NEW_state_some_values_set()
+        {
+            string partyName = "Premier Inn";
+            string lineType = "Commercial Line Type";
+            string site = "Premier Inn - Chertsey Road, 416 Chertsey Road, Twickenham, TW2 6LS";
+            string product = "General Refuse";
+            string priceElement = "Revenue";
+            string description = "test 256 no." + CommonUtil.GetRandomNumber(5);
+            string quantity = "1";
+            string price = "150.00";
+            string vat = "20";
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Step line 8: Navigate to Credit note with no values set -> Lines tab
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Accounts)
+                .OpenOption("Credit Notes")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            //Create a new credit note
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreditNotePage>()
+                .IsOnCreditNotePage()
+                .SearchForParty(partyName)
+                .WaitForLoadingIconToDisappear()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<CreditNotePage>()
+                .VerifyNewTabsArePresent()
+                .SwitchToTab("Lines");
+            PageFactoryManager.Get<LinesTab>()
+                 .IsOnLinesTab()
+                 .ClickAddNewItem()
+                 .SwitchToLastWindow();
+            PageFactoryManager.Get<CreditNoteLinePage>()
+                .IsOnCreditNoteLinePage()
+                .SelectDepot(Contract.Commercial)
+                .InputInfo(lineType, site, product, priceElement, description, quantity, price)
+                .SelectVatRate(vat)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .CloseCurrentWindow()
+                .SwitchToChildWindow(2);
+            PageFactoryManager.Get<LinesTab>()
+                .IsOnLinesTab()
+                .VerifyLineInfo(partyName, product, description, quantity, vat, price);
+            //Verify [Approve] and [Reject] btn are enabled
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .VerifyApproveBtnIsEnabled()
+                .VerifyRejectBtnIsEnabled();
+            //Step line 9: CLick on [Approve] btn
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .ClickOnApproveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<DetailCreditNotePage>()
+                .VerifyApproveBtnIsDisabled()
+                .VerifyRejectBtnIsDisabled()
+                .VerifyStatusOfCreditNote("APPROVED");
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Risk tab doesn't load if this tab was last opened tab (bug fix)")]
+        public void TC_257_Risk_tab_does_not_load_if_this_tab_was_last_opened_tab_point_address()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Step line 6: Verify Round-leg - [Risks] tab
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/round-legs/221");
+            PageFactoryManager.Get<RoundLegDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundLegDetailPage>()
+                .IsRoundLegDetailPage()
+                .ClickOnRisksTab()
+                .VerifyToastMessagesIsUnDisplayed()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Step line 7: Verify Round-leg - [Attributes] tab
+            PageFactoryManager.Get<RoundLegDetailPage>()
+                .ClickOnAttributesTab()
+                .VerifyToastMessagesIsUnDisplayed()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Step line 8: Verify Round-leg - [Detail] tab
+            PageFactoryManager.Get<RoundLegDetailPage>()
+                .ClickOnDetailsTab()
+                .VerifyToastMessagesIsUnDisplayed()
+                .Refresh()
+                .WaitForLoadingIconToDisappear()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Step line 9: Point address URL
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/point-addresses/363511");
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .WaitForPointAddressDetailDisplayed()
+                //Point address URL: Detail - tab
+                .ClickOnDetailTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsDetailTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsDetailTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point address URL: Data - tab
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .ClickOnDataTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsDataTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsDataTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point address URL: Point History - tab
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .ClickPointHistoryTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsPointHistoryTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsPointHistoryTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point address URL: Active Services - tab
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .ClickOnActiveServicesTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsActiveServicesTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsActiveServicesTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point address URL: All Services - tab
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .ClickOnAllServicesTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsAllServicesTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsAllServicesTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point address URL: Announcement - tab
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .ClickOnAnnouncementTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsAnnouncementTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsAnnouncementTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point address URL: Map - tab
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .ClickOnMapTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsMapTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsMapTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point address URL: Risks - tab
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .ClickOnRisksTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsRisksTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsRisksTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point address URL: Sectors - tab
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .ClickOnSectorsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsSectorTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsSectorTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point address URL: Subscriptions - tab
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .ClickOnSubscriptionsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsSubscriptionTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsSubscriptionTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point address URL: Notifications - tab
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .ClickOnNotificationsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsNotificationsTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressDetailPage>()
+                .IsNotificationsTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Risk tab doesn't load if this tab was last opened tab (bug fix)")]
+        public void TC_257_Risk_tab_does_not_load_if_this_tab_was_last_opened_tab_point_segment()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Step line 10: Verify Point Segment - [Risks] tab
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/point-segments/32844");
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .WaitForPointSegmentDetailPageDisplayed()
+                //Point Segment URL: 1. Detail - tab
+                .ClickOnDetailTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsDetailTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsDetailTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Segment URL: 2. Data - tab
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .ClickOnDataTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsDataTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsDataTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Segment URL: 3. Point History - tab
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .ClickPointHistoryTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsPointHistoryTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsPointHistoryTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Segment URL: 4. Active Services - tab
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .ClickOnActiveServicesTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsActiveServicesTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsActiveServicesTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Segment URL: 5. All Services - tab
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .ClickOnAllServicesTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsAllServicesTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsAllServicesTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Segment URL: 6. Announcement - tab
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .ClickOnAnnouncementTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsAnnouncementTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsAnnouncementTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Segment URL: 7. Map - tab
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .ClickOnMapTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsMapTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsMapTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Segment URL: 8. Risks - tab
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .ClickOnRisksTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsRisksTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsRisksTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Segment URL: 9. Sectors - tab
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .ClickOnSectorsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsSectorTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsSectorTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Segment URL: 10. Subscriptions - tab
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .ClickOnSubscriptionsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsSubscriptionTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsSubscriptionTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Segment URL: 11. Notifications - tab
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .ClickOnNotificationsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsNotificationsTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentDetailPage>()
+                .IsNotificationsTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Risk tab doesn't load if this tab was last opened tab (bug fix)")]
+        public void TC_257_Risk_tab_does_not_load_if_this_tab_was_last_opened_tab_point_node()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Step line 11: Verify Point Node - [Risks] tab
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/point-nodes/1");
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .WaitForPointNodeDetailDisplayed()
+                //Point Node URL: 1. Detail - tab
+                .ClickOnDetailTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsDetailTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsDetailTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Node URL: 2. Data - tab
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .ClickOnDataTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsDataTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsDataTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Node URL: 3. Point History - tab
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .ClickPointHistoryTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsPointHistoryTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsPointHistoryTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Node URL: 4. Active Services - tab
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .ClickOnActiveServicesTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsActiveServicesTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsActiveServicesTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Node URL: 5. All Services - tab
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .ClickOnAllServicesTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsAllServicesTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsAllServicesTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Node URL: 6. Announcement - tab
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .ClickOnAnnouncementTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsAnnouncementTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsAnnouncementTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Node URL: 7. Map - tab
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .ClickOnMapTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsMapTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsMapTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Node URL: 8. Risks - tab
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .ClickOnRisksTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsRisksTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsRisksTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Node URL: 9. Sectors - tab
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .ClickOnSectorsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsSectorTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsSectorTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Node URL: 10. Subscriptions - tab
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .ClickOnSubscriptionsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsSubscriptionTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsSubscriptionTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Node URL: 11. Notifications - tab
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .ClickOnNotificationsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsNotificationsTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointNodeDetailPage>()
+                .IsNotificationsTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Risk tab doesn't load if this tab was last opened tab (bug fix)")]
+        public void TC_257_Risk_tab_does_not_load_if_this_tab_was_last_opened_tab_point_area()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Step line 12: Verify Point Area - [Risks] tab
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/point-areas/12");
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .WaitForAreaDetailDisplayed()
+                //Point Area URL: 1. Detail - tab
+                .ClickOnDetailTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsDetailTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsDetailTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Area URL: 2. Data - tab
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .ClickOnDataTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsDataTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsDataTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Area URL: 3. Point History - tab
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .ClickPointHistoryTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsPointHistoryTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsPointHistoryTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Area URL: 4. Active Services - tab
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .ClickOnActiveServicesTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsActiveServicesTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsActiveServicesTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Area URL: 5. All Services - tab
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .ClickOnAllServicesTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsAllServicesTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsAllServicesTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Area URL: 6. Announcement - tab
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .ClickOnAnnouncementTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsAnnouncementTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsAnnouncementTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Area URL: 7. Map - tab
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .ClickOnMapTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsMapTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsMapTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Area URL: 8. Risks - tab
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .ClickOnRisksTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsRisksTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsRisksTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Area URL: 9. Sectors - tab
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .ClickOnSectorsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsSectorTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsSectorTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Area URL: 10. Subscriptions - tab
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .ClickOnSubscriptionsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsSubscriptionTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsSubscriptionTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Point Area URL: 11. Notifications - tab
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .ClickOnNotificationsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsNotificationsTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaDetailPage>()
+                .IsNotificationsTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Risk tab doesn't load if this tab was last opened tab (bug fix)")]
+        public void TC_257_Risk_tab_does_not_load_if_this_tab_was_last_opened_tab_service_unit()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Step line 13: Verify Service Unit - [Details] tab
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/service-units/230037");
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsServiceUnitDetailPage()
+                .ClickOnDetailTab()
+                //Service Unit URL: 1. Detail - tab
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsDetailTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsDetailTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 2. Data - tab
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .ClickOnDataTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsDataTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsDataTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 3. Service task schedules - tab
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .ClickOnServiceTaskSchedulesTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsServiceTaskSchedulesTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsServiceTaskSchedulesTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 4. Service unit points - tab
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .ClickOnServiceUnitPointsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsServiceUnitPointTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsServiceUnitPointTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 5. Assets - tab
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .ClickOnAssetTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsAssetTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsAssetTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 6. Announcement - tab
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .ClickOnAnnouncementTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsAnnouncementTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsAnnouncementTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 7. Map - tab
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .ClickOnMapTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsMapTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsMapTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 8. Risks - tab
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .ClickOnRisksTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsRisksTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsRisksTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 9. Subscriptions - tab
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .ClickOnSubscriptionsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsSubscriptionTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsSubscriptionTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 10. Notifications - tab
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .ClickOnNotificationsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsNotificationsTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsNotificationsTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 11. Rental Assets - tab
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .ClickOnRentalAssetsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsRentalAssetsTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsRentalAssetsTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 12. Time Restrictions - tab
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .ClickOnTimeRestrictionsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsTimeRestrictionsTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .IsTimeRestrictionsTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Risk tab doesn't load if this tab was last opened tab (bug fix)")]
+        public void TC_257_Risk_tab_does_not_load_if_this_tab_was_last_opened_tab_service_tasks()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Step line 14: Verify Service Tasks - [Details] tab
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/service-tasks/120898");
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsServiceTaskPage()
+                .ClickOnDetailTab()
+                //Service Unit URL: 1. Detail - tab
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsDetailTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsDetailTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 2. Data - tab
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnDataTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsDataTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            //Service Unit URL: 3. Task Lines - tab
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnDataTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsDataTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            //Service Unit URL: 4. Announcement - tab
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnAnnouncementTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsAnnouncementTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsAnnouncementTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 5. Schedules - tab
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnSchedulesTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsSchedulesTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsSchedulesTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 6. History - tab
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnHistoryTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsHistoryTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsHistoryTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 7. Map - tab
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnMapTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsMapTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsMapTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 8. Risks - tab
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnRisksTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsRisksTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsRisksTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 9. Subscriptions - tab
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnSubscriptionsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsSubscriptionTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsSubscriptionTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 10. Notifications - tab
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnNotificationsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsNotificationsTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsNotificationsTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Service Unit URL: 10. Indicators - tab
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .ClickOnIndicatorsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsIndicatorsTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServicesTaskPage>()
+                .IsIndicatorsTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Risk tab doesn't load if this tab was last opened tab (bug fix)")]
+        public void TC_257_Risk_tab_does_not_load_if_this_tab_was_last_opened_tab_street()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Step line 15: Verify Streets - 1. [Details] tab
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/streets/6059");
+            PageFactoryManager.Get<StreetDetailPage>()
+                .IsStreetDetailPage("TREE CLOSE")
+                .ClickOnDetailTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<StreetDetailPage>()
+                .IsDetailTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<StreetDetailPage>()
+                .IsDetailTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Streets URL: 2. Time Data - tab
+            PageFactoryManager.Get<StreetDetailPage>()
+                .ClickOnDataTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<StreetDetailPage>()
+                .IsDataTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<StreetDetailPage>()
+                 .IsDataTabActive()
+                 .VerifyToastMessagesIsUnDisplayed();
+            //Streets URL: 3. Post Code Outwards - tab
+            PageFactoryManager.Get<StreetDetailPage>()
+                .ClickOnPostCodeOutwards()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<StreetDetailPage>()
+                .IsPostCodeOutwardsTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<StreetDetailPage>()
+                 .IsPostCodeOutwardsTabActive()
+                 .VerifyToastMessagesIsUnDisplayed();
+            //Streets URL: 4. Sectors - tab
+            PageFactoryManager.Get<StreetDetailPage>()
+                .ClickOnSectorsTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<StreetDetailPage>()
+                .IsSectorsTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<StreetDetailPage>()
+                .IsSectorsTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Streets URL: 5. Map - tab
+            PageFactoryManager.Get<StreetDetailPage>()
+                .ClickOnMapTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<StreetDetailPage>()
+                .IsMapsTabActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<StreetDetailPage>()
+                .IsMapsTabActive()
+                .VerifyToastMessagesIsUnDisplayed();
+            //Streets URL: 6. Risks - tab
+            PageFactoryManager.Get<StreetDetailPage>()
+                .ClickOnRisksTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            PageFactoryManager.Get<StreetDetailPage>()
+                .IsRisksActive()
+                .Refresh()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<StreetDetailPage>()
+                .IsRisksActive()
+                .VerifyToastMessagesIsUnDisplayed();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Inspection form - button size inconsistency and UI colour (bug fix)")]
+        public void TC_236_insepection_form_button_size_inconsistency_and_UI_colour()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Go to any unallocated inspection
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "web/inspections/2420");
+            PageFactoryManager.Get<DetailInspectionPage>()
+                .WaitForInspectionDetailDisplayed("Street Cleansing Assessment")
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            //Verify two buttons [Complete] and [Cancel] are the same size
+            PageFactoryManager.Get<DetailInspectionPage>()
+                .VerifyCompleteAndCancelBtnAreTheSameSize()
+                //Step 8: Update anything in the form and fill in all mandatory values
+                .InputNote("Note TC236 " + CommonUtil.GetRandomString(3))
+                .ClickOnDataTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailInspectionPage>()
+                .SelectStreetGrade("A")
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
         }
     }
 }

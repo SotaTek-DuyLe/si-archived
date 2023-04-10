@@ -52,8 +52,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public CreatePartyPage VerifyContractDropdownVlues()
         {
             Assert.AreEqual(GetElementText(String.Format(ContractOption, 1)), "Select...");
-            Assert.AreEqual(GetElementText(String.Format(ContractOption, 2)), Contract.Commercial);
-            Assert.AreEqual(GetElementText(String.Format(ContractOption, 3)), Contract.Municipal);
+            Assert.AreEqual(GetElementText(String.Format(ContractOption, 2)), "Commercial");
+            Assert.AreEqual(GetElementText(String.Format(ContractOption, 3)), "Municipal");
             return this;
         }
         [AllureStep]
