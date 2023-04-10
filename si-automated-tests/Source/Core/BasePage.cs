@@ -552,19 +552,29 @@ namespace si_automated_tests.Source.Core
             }
         }
 
+        [AllureStep]
         public void HoverElement(string xpath)
         {
             Actions action = new Actions(driver);
             action.MoveToElement(GetElement(xpath)).Perform();
         }
 
+        [AllureStep]
         public void HoverElement(IWebElement webElement)
         {
             Actions action = new Actions(driver);
             action.MoveToElement(webElement).Perform();
         }
-
+        [AllureStep]
+        public void HoverElement(By by)
+        {
+            IWebElement e = WaitUtil.WaitForElementVisible(by);
+            Actions action = new Actions(driver);
+            action.MoveToElement(e).Perform();
+        }
         //ALERT
+
+        [AllureStep]
         public String GetAlertText()
         {
             WaitUtil.WaitForAlert();

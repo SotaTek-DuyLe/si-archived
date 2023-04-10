@@ -50,6 +50,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By historyTabAlt = By.XPath("//span[text()='History']/parent::a");
         private readonly By notesTab = By.XPath("//ul[contains(@class,'nav-tabs')]/li[contains(@style,'visible')]/a[@aria-controls='notes-tab']");
         private readonly By notesTabAlt = By.XPath("(//ul[contains(@class,'nav-tabs')]//a[@aria-controls='notes-tab'])[2]");
+        private readonly By costAgreementTab = By.XPath("//ul[contains(@class,'nav-tabs')]/li[contains(@style,'visible')]/a[@aria-controls='costAgreements-tab']");
+        private readonly By costAgreementTabAlt = By.XPath("//span[text()='Cost Agreements']/parent::a");
 
         //COMMON DYNAMIC LOCATOR
         private const string partyName = "//p[text()='{0}']";
@@ -1434,5 +1436,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         #endregion
+
+        [AllureStep]
+        public DetailPartyPage ClickOnCostAgreementsTab()
+        {
+            if (!IsControlDisplayedNotThrowEx(costAgreementTab))
+            {
+                ClickTabDropDown();
+                ClickOnElement(costAgreementTabAlt);
+            }
+            else
+            {
+                ClickOnElement(costAgreementTab);
+            }
+            return this;
+        }
     }
 }
