@@ -307,5 +307,102 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceDetailPage.ClickOnElement(serviceDetailPage.DynamicOptimisationHelpButton);
             serviceDetailPage.VerifyTooltip("Improve service efficiency by allowing automated task re-allocations between optimised round instances. If set to True, Tasks will only be re-allocated to round instances which are in the same service, are scheduled for the same day, and are configured to be able to perform that task.");
         }
+
+        [Category("ServiceUnitPoint")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_309_Active_Services_tab()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl + "web/service-units/229631");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser40.UserName, AutoUser40.Password);
+            SiteServiceUnitPage serviceUnitPage = PageFactoryManager.Get<SiteServiceUnitPage>();
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickOnElement(serviceUnitPage.ServiceTaskScheduleTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickOnElement(serviceUnitPage.AddServiceTaskButton);
+            serviceUnitPage.SleepTimeInMiliseconds(200);
+            serviceUnitPage.ClickOnElement(serviceUnitPage.CommercialCollectionOpt);
+            serviceUnitPage.ClickOnElement(serviceUnitPage.CreateSTButton);
+            serviceUnitPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
+            servicesTaskPage.ClickOnTaskLineTab();
+            ServiceTaskLineTab serviceTaskLineTab = PageFactoryManager.Get<ServiceTaskLineTab>();
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            //a) Type = Service, Asset Type = 1100L, Sched Asset Qty = 3; Product = General Recycling, Sched Product Qty = 300.Save Service task
+            string typeA = "Service";
+            string AssetTypeA = "1100L";
+            string SchedAssetQtyA = "3";
+            string productA = "General Recycling";
+            string schedProductQtyA = "300";
+            serviceTaskLineTab.InputTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeA, assetType: AssetTypeA, shedAssetQty: SchedAssetQtyA, product: productA, shedProductQty: schedProductQtyA);
+            serviceTaskLineTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.VerifyTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeA, assetType: AssetTypeA, scheduleAssetQty: SchedAssetQtyA, product: productA, sheduleProductQty: schedProductQtyA);
+
+            //b) Type = Service, Asset Type = 1100L, Sched Asset Qty = 5.Save Service task
+            string typeB = "Service";
+            string AssetTypeB = "1100L";
+            string SchedAssetQtyB = "5";
+            serviceTaskLineTab.ClickOnElement(serviceTaskLineTab.AddNewItemButton);
+            serviceTaskLineTab.InputTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeB, assetType: AssetTypeB, shedAssetQty: SchedAssetQtyB, product: "", shedProductQty: "");
+            serviceTaskLineTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.VerifyTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeB, assetType: AssetTypeB, scheduleAssetQty: SchedAssetQtyB, product: "", sheduleProductQty: "");
+
+            //c) Type = Service, Product = General Recycling, Sched Product Qty = 500.Save Service task
+            string typeC = "Service";
+            string productC = "General Recycling";
+            string schedProductQtyC = "500";
+            serviceTaskLineTab.ClickOnElement(serviceTaskLineTab.AddNewItemButton);
+            serviceTaskLineTab.InputTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeC, assetType: "", shedAssetQty: "", product: productC, shedProductQty: schedProductQtyC);
+            serviceTaskLineTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.VerifyTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeC, assetType: "", scheduleAssetQty: "", product: productC, sheduleProductQty: schedProductQtyC);
+
+            //d) Type = Service, Asset Type = 660L.Save Service task
+            string typeD = "Service";
+            string AssetTypeD = "600L";
+            serviceTaskLineTab.ClickOnElement(serviceTaskLineTab.AddNewItemButton);
+            serviceTaskLineTab.InputTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeD, assetType: AssetTypeD, shedAssetQty: "", product: "", shedProductQty: "");
+            serviceTaskLineTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.VerifyTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeD, assetType: AssetTypeD, scheduleAssetQty: "", product: "", sheduleProductQty: "");
+
+            //e) Type = Service, Product = General Refuse.Save Service task
+            string typeE = "Service";
+            string productE = "General Refuse";
+            serviceTaskLineTab.ClickOnElement(serviceTaskLineTab.AddNewItemButton);
+            serviceTaskLineTab.InputTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeE, assetType: "", shedAssetQty: "", product: productE, shedProductQty: "");
+            serviceTaskLineTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.VerifyTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeE, assetType: "", scheduleAssetQty: "", product: productE, sheduleProductQty: "");
+
+            // f) Type = Service, Asset Type = 660L, Product = General Refuse.Save Service task
+            string typeF = "Service";
+            string AssetTypeF = "600L";
+            string productF = "General Refuse";
+            serviceTaskLineTab.ClickOnElement(serviceTaskLineTab.AddNewItemButton);
+            serviceTaskLineTab.InputTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeF, assetType: AssetTypeF, shedAssetQty: "", product: productF, shedProductQty: "");
+            serviceTaskLineTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.VerifyTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeF, assetType: AssetTypeF, scheduleAssetQty: "", product: productF, sheduleProductQty: "");
+        }
     }
 }

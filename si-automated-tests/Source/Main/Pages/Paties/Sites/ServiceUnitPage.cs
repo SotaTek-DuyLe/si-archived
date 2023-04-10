@@ -148,5 +148,18 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
             return this;
         }
         #endregion
+
+        #region Service task schedule
+        public readonly By ServiceTaskScheduleTab = By.XPath("//a[@aria-controls='serviceTaskSchedules-tab']");
+        public readonly By AddServiceTaskButton = By.XPath("//div[@id='serviceTaskSchedules-tab']//button[contains(., 'Add New Item')]");
+        public readonly By CommercialCollectionOpt = By.XPath("//div[@id='add-service-task']//li[text()='Commercial Collection']");
+        public readonly By CreateSTButton = By.XPath("//div[@id='add-service-task']//button[text()='Create']");
+
+        public ServiceUnitPage ClickEditNewServiceTask()
+        {
+            ClickOnElement("(//div[@id='serviceTaskSchedules-tab']//button[contains(., 'Edit Service Task')])[1]");
+            return this;
+        }
+        #endregion
     }
 }
