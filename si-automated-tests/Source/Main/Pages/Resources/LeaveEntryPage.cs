@@ -121,6 +121,15 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             return this;
         }
         [AllureStep]
+        public LeaveEntryPage EnterEndDate(string _date)
+        {
+            ClickOnElement(endDate);
+            WaitForLoadingIconToDisappear();
+            SendKeys(endDate, _date);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
         public LeaveEntryPage EnterDetails(string _details)
         {
             SendKeys(details, _details);

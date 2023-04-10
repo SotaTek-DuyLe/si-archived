@@ -580,5 +580,12 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             GoToURL(WebUrl.MainPageUrl + "web/inspections/" + inspectionId);
             return PageFactoryManager.Get<DetailInspectionPage>();
         }
+
+        [AllureStep]
+        public DetailInspectionPage VerifyCompleteAndCancelBtnAreTheSameSize()
+        {
+            Assert.AreEqual(GetAttributeValue(completeBtn, "style"), GetAttributeValue(cancelBtn, "style"));
+            return this;
+        }
     }
 }

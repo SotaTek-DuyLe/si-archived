@@ -45,6 +45,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By firstRowAfterFiltering = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]/parent::div");
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
         private readonly By openRoundBtn = By.ClassName("header-round");
+        private readonly By slotCountInput = By.XPath("//label[text()='Slots']/following-sibling::div/input");
 
         public readonly string SlickRoundRow = "./div[contains(@class, 'slick-group')]";
         public readonly string RoundDescriptionCell = "./div[contains(@class, 'slick-cell l0')]";
@@ -315,5 +316,33 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         #endregion
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyMinValueInSlotCountField()
+        {
+            Assert.AreEqual("0", GetAttributeValue(slotCountInput, "min"));
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage InputSlotCount(string slotCountValue)
+        {
+            SendKeys(slotCountInput, slotCountValue);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClearSlotCount()
+        {
+            ClearInputValue(slotCountInput);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyValueInSlotCount(string slotCountValue)
+        {
+            Assert.AreEqual(slotCountValue, GetAttributeValue(slotCountInput, "value"));
+            return this;
+        }
     }
 }

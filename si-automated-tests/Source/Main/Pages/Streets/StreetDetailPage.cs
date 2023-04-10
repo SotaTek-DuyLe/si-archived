@@ -26,12 +26,12 @@ namespace si_automated_tests.Source.Main.Pages.Streets
         private readonly By streetId = By.XPath("//h4[contains(@data-bind, 'text: displayedIdType()')]");
 
         //TAB
-        private readonly By detailsTab = By.CssSelector("a[aria-controls='details-tab']");
-        private readonly By dataTab = By.CssSelector("a[aria-controls='data-tab']");
-        private readonly By postCodeOutwardsTab = By.CssSelector("a[aria-controls='postCodeOutwards-tab']");
-        private readonly By sectorsTab = By.CssSelector("a[aria-controls='sectors-tab']");
-        private readonly By mapTab = By.CssSelector("a[aria-controls='map-tab']");
-        private readonly By risksTab = By.CssSelector("a[aria-controls='risks-tab']");
+        private readonly By detailsTab = By.XPath("//a[@aria-controls='details-tab']/parent::li");
+        private readonly By dataTab = By.XPath("//a[@aria-controls='data-tab']/parent::li");
+        private readonly By postCodeOutwardsTab = By.XPath("//a[@aria-controls='postCodeOutwards-tab']/parent::li");
+        private readonly By sectorsTab = By.XPath("//a[@aria-controls='sectors-tab']/parent::li");
+        private readonly By mapTab = By.XPath("//a[@aria-controls='map-tab']/parent::li");
+        private readonly By risksTab = By.XPath("//a[@aria-controls='risks-tab']/parent::li");
 
         //DETAILS TAB
         private readonly By streetTypeDd = By.CssSelector("select[id='streetType.id']");
@@ -75,7 +75,7 @@ namespace si_automated_tests.Source.Main.Pages.Streets
         private const string anySectorRow = "//div[@id='sectors-tab']//td[text()='{0}']";
 
         #region Risk
-        public readonly By RiskTab = By.XPath("//a[@aria-controls='risks-tab']");
+        public readonly By RiskTab = By.XPath("//a[@aria-controls='risks-tab']/parent::li");
         public readonly By RiskIframe = By.XPath("//div[@id='risks-tab']//iframe");
         public readonly By BulkCreateButton = By.XPath("//button[@title='Add risk register(s)']");
         private readonly string riskTable = "//div[@id='risk-grid']//div[@class='grid-canvas']";
@@ -401,6 +401,43 @@ namespace si_automated_tests.Source.Main.Pages.Streets
             DoubleClickOnElement(selectedRow);
             return PageFactoryManager.Get<RiskDetailPage>();
 
+        }
+
+        [AllureStep]
+        public StreetDetailPage IsDetailTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(detailsTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public StreetDetailPage IsDataTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(dataTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public StreetDetailPage IsPostCodeOutwardsTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(postCodeOutwardsTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public StreetDetailPage IsSectorsTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(sectorsTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public StreetDetailPage IsMapsTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(mapTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public StreetDetailPage IsRisksActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(RiskTab, "class"));
+            return this;
         }
     }
 }

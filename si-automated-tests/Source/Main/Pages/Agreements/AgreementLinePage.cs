@@ -51,6 +51,13 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
             return this;
         }
         [AllureStep]
+        public AgreementLinePage IsAgreementLinePage()
+        {
+            WaitUtil.WaitForAllElementsVisible(title);
+            WaitUtil.WaitForAllElementsVisible(anyTab, "Details");
+            return this;
+        }
+        [AllureStep]
         public AgreementLinePage CloseWithoutSaving()
         {
             ClickOnElement(closeWithoutSavingBtn);
@@ -221,6 +228,12 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
         {
             ClickOnElement(closeBtn);
             return this;
+        }
+
+        [AllureStep]
+        public string GetAgreementLineId()
+        {
+            return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/agreement-lines/", "");
         }
     }
 }
