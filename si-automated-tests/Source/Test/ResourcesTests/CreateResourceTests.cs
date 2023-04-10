@@ -385,7 +385,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //Click on 'Set Regular Custom Schedule'
             shiftSchedulePage.ClickOnElement(shiftSchedulePage.SetRegularCustomScheduleButton);
             shiftSchedulePage.SleepTimeInMiliseconds(200);
-            DateTime tomorrow = DateTime.Now.AddDays(1);
+            DateTime tomorrow = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0).AddDays(1);
             shiftSchedulePage.VerifyInputValue(shiftSchedulePage.PatternWeekInput, "1")
                 .VerifyInputValue(shiftSchedulePage.EffectiveDateInput, tomorrow.ToString("dd/MM/yyyy"))
                 .VerifyInputValue(shiftSchedulePage.PatternEndDateInput, endDate.ToString("dd/MM/yyyy"))
@@ -465,6 +465,135 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             var resourceShift = commonFinder.GetResourceShiftSchedules(resourceshiftscheduleID).FirstOrDefault();
             var scheduleDates = commonFinder.GetScheduleDateModel(resourceShift.scheduleID);
             Assert.IsTrue(scheduleDates.OrderBy(x => x.scheduledate).First().scheduledate > tomorrow);
+        }
+
+        [Category("InvoiceShedules")]
+        [Category("Huong")]
+        [Test()]
+        public void TC_306_Custom_Invoice_Schedules_Resource_Shift_Schedule_Set_Custom_Schedule_with_dates()
+        {
+            //Verify that user can set Custom Schedule with dates
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser23.UserName, AutoUser23.Password)
+                .IsOnHomePage(AutoUser23);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItem(117, false);
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .OpenFirstResult()
+                .SwitchToChildWindow(2);
+            ResoureDetailPage resoureDetailPage = PageFactoryManager.Get<ResoureDetailPage>();
+            resoureDetailPage.WaitForLoadingIconToDisappear();
+            resoureDetailPage.ClickOnElement(resoureDetailPage.ShiftScheduleTab);
+            resoureDetailPage.WaitForLoadingIconToDisappear();
+            resoureDetailPage.WaitForLoadingIconToDisappear();
+            resoureDetailPage.ClickOnElement(resoureDetailPage.AddNewShiftScheduleButton);
+            resoureDetailPage.SwitchToChildWindow(3);
+            resoureDetailPage.WaitForLoadingIconToDisappear();
+            ShiftSchedulePage shiftSchedulePage = PageFactoryManager.Get<ShiftSchedulePage>();
+            shiftSchedulePage.ClickOnElement(shiftSchedulePage.ShiftDropdown);
+            shiftSchedulePage.SelectByDisplayValueOnUlElement(shiftSchedulePage.ShiftMenu, "14.00 - 21.30 PM");
+            DateTime endDate = DateTime.Now.AddYears(5);
+            shiftSchedulePage.SendKeys(shiftSchedulePage.EndDateInput, endDate.ToString("dd/MM/yyyy"));
+            shiftSchedulePage.ClickOnElement(shiftSchedulePage.CustomButton);
+            shiftSchedulePage.ClickYearButton();
+            shiftSchedulePage.VerifyElementVisibility(shiftSchedulePage.YearDatePicker, true);
+            //Click 'Save' on Shift Schedule form
+            shiftSchedulePage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            shiftSchedulePage.VerifyElementEnable(shiftSchedulePage.SetRegularCustomScheduleButton, true)
+                .VerifyElementEnable(shiftSchedulePage.SetCustomScheduleDatesButton, true);
+
+            //Click on 'Set Custom Schedule with dates'
+            shiftSchedulePage.ClickOnElement(shiftSchedulePage.SetCustomScheduleDatesButton);
+            shiftSchedulePage.SleepTimeInMiliseconds(200);
+            shiftSchedulePage.VerifyElementIsMandatory(shiftSchedulePage.CustomScheduleWithDateDescriptionInput, true)
+                .VerifyElementEnable(shiftSchedulePage.ApplyCustomScheduleWithDateButton, false)
+                .VerifyElementEnable(shiftSchedulePage.ResetCustomScheduleWithDateButton, true)
+                .VerifyElementEnable(shiftSchedulePage.CancelCustomScheduleWithDateButton, true);
+
+            //In pop up, set:
+            // 'Custom Schedule Description' = random custom dates
+            //In yearly calendar view, select few dates between tomorrow and Invoice Schedule End Date
+            DateTime tomorrow = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0).AddDays(1);
+            shiftSchedulePage.SetInputValue(shiftSchedulePage.CustomScheduleWithDateDescriptionInput, "random custom dates");
+            shiftSchedulePage.ClickCustomSchedule(tomorrow);
+            shiftSchedulePage.ClickCustomSchedule(tomorrow.AddDays(1));
+            shiftSchedulePage.VerifyElementEnable(shiftSchedulePage.ApplyCustomScheduleWithDateButton, true);
+            shiftSchedulePage.ClickOnElement(shiftSchedulePage.ApplyCustomScheduleWithDateButton);
+            shiftSchedulePage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+
+            //1) In DB, run following query: 
+            // select* from resourceshiftschedules where resourceID = x(resource to which schedule is being added) - and take note of ScheduleID
+            //2) Next, run:
+            // select* from scheduledates where scheduleID = y(from query above)
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+            string resourceshiftscheduleID = shiftSchedulePage.GetCurrentUrl().Split('/').Last();
+            var resourceShift = commonFinder.GetResourceShiftSchedules(resourceshiftscheduleID).FirstOrDefault();
+            var scheduleDates = commonFinder.GetScheduleDateModel(resourceShift.scheduleID);
+            Assert.IsTrue(scheduleDates.OrderBy(x => x.scheduledate).First().scheduledate >= tomorrow);
+
+            //On the Shift Schedule click again 'Set Custom Schedule with dates'
+            //In the pop up, select more dates and edit Description
+            //Click 'Reset'
+            shiftSchedulePage.ClickOnElement(shiftSchedulePage.SetCustomScheduleDatesButton);
+            shiftSchedulePage.SleepTimeInMiliseconds(200);
+            shiftSchedulePage.SetInputValue(shiftSchedulePage.CustomScheduleWithDateDescriptionInput, "random custom dates123");
+            shiftSchedulePage.ClickCustomSchedule(tomorrow.AddDays(2));
+            shiftSchedulePage.ClickCustomSchedule(tomorrow.AddDays(3));
+            shiftSchedulePage.ClickOnElement(shiftSchedulePage.ResetCustomScheduleWithDateButton);
+            shiftSchedulePage.VerifyInputValue(shiftSchedulePage.CustomScheduleWithDateDescriptionInput, "random custom dates");
+            shiftSchedulePage.VerifyCustomSchedule(tomorrow, true)
+                .VerifyCustomSchedule(tomorrow.AddDays(1), true)
+                .VerifyCustomSchedule(tomorrow.AddDays(2), false)
+                .VerifyCustomSchedule(tomorrow.AddDays(3), false);
+
+            //On the Shift Schedule click again 'Set Custom Schedule with dates'
+            //In the pop up, select more dates and edit Description
+            //Click 'Cancel'
+            shiftSchedulePage.SetInputValue(shiftSchedulePage.CustomScheduleWithDateDescriptionInput, "random custom dates123");
+            shiftSchedulePage.ClickCustomSchedule(tomorrow.AddDays(2));
+            shiftSchedulePage.ClickCustomSchedule(tomorrow.AddDays(3));
+            shiftSchedulePage.ClickOnElement(shiftSchedulePage.CancelCustomScheduleWithDateButton);
+            shiftSchedulePage.SleepTimeInMiliseconds(200);
+            shiftSchedulePage.VerifyElementVisibility(shiftSchedulePage.CustomScheduleModal, false);
+            //On the Shift Schedule click again 'Set Custom Schedule with dates'
+            shiftSchedulePage.ClickOnElement(shiftSchedulePage.SetCustomScheduleDatesButton);
+            shiftSchedulePage.SleepTimeInMiliseconds(200);
+            shiftSchedulePage.VerifyInputValue(shiftSchedulePage.CustomScheduleWithDateDescriptionInput, "random custom dates");
+            shiftSchedulePage.VerifyCustomSchedule(tomorrow, true)
+                .VerifyCustomSchedule(tomorrow.AddDays(1), true)
+                .VerifyCustomSchedule(tomorrow.AddDays(2), false)
+                .VerifyCustomSchedule(tomorrow.AddDays(3), false);
+
+            //In the pop up, select more dates and edit Description
+            //Click 'x'
+            shiftSchedulePage.SetInputValue(shiftSchedulePage.CustomScheduleWithDateDescriptionInput, "random custom dates123");
+            shiftSchedulePage.ClickCustomSchedule(tomorrow.AddDays(2));
+            shiftSchedulePage.ClickCustomSchedule(tomorrow.AddDays(3));
+            shiftSchedulePage.ClickOnElement(shiftSchedulePage.CloseCustomScheduleWithDateButton);
+            shiftSchedulePage.SleepTimeInMiliseconds(200);
+            shiftSchedulePage.VerifyElementVisibility(shiftSchedulePage.CustomScheduleModal, false);
+            //On the Shift Schedule click again 'Set Custom Schedule with dates'
+            shiftSchedulePage.ClickOnElement(shiftSchedulePage.SetCustomScheduleDatesButton);
+            shiftSchedulePage.SleepTimeInMiliseconds(200);
+            shiftSchedulePage.VerifyInputValue(shiftSchedulePage.CustomScheduleWithDateDescriptionInput, "random custom dates");
+            shiftSchedulePage.VerifyCustomSchedule(tomorrow, true)
+                .VerifyCustomSchedule(tomorrow.AddDays(1), true)
+                .VerifyCustomSchedule(tomorrow.AddDays(2), false)
+                .VerifyCustomSchedule(tomorrow.AddDays(3), false);
         }
     }
 }
