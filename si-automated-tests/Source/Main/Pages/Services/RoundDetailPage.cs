@@ -36,6 +36,11 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By roundGroupHyperLink = By.XPath("//a[@class='typeUrl']");
         private readonly By contractUnit = By.Id("contractUnit.id");
 
+        //SCHEDULES TAB
+        private readonly By scheduleTab = By.CssSelector("a[aria-controls='schedules-tab']");
+        private readonly By patternStartInput = By.XPath("//div[@id='schedules-tab']//input[@id='startDate.id']");
+        private readonly By patternEndInput = By.XPath("//div[@id='schedules-tab']//input[@id='endDate.id']");
+
         private readonly By slotCountInput = By.CssSelector("input[id='slots.id']");
 
         [AllureStep]
@@ -180,6 +185,22 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public RoundDetailPage VerifyValueInSlotCount(string slotCountValue)
         {
             Assert.AreEqual(slotCountValue, GetAttributeValue(slotCountInput, "value"));
+            return this;
+        }
+
+        [AllureStep]
+        public RoundDetailPage ClickOnSchedulesTab()
+        {
+            ClickOnElement(scheduleTab);
+            waitForLoadingIconDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public RoundDetailPage InputPatternDateSchedulesTab(string startDateValue, string endDateValue)
+        {
+            InputCalendarDate(patternStartInput, startDateValue);
+            InputCalendarDate(patternEndInput, endDateValue);
             return this;
         }
     }
