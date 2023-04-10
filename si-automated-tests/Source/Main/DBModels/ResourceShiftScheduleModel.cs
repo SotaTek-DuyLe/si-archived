@@ -4,10 +4,10 @@ using System.Text;
 
 namespace si_automated_tests.Source.Main.DBModels
 {
-    public class ScheduleDateModel
+    public class ResourceShiftScheduleModel
     {
-        public DateTime scheduledate { get; set; }
-
+        public int resourceshiftscheduleID { get; set; }
+        public int resourceID { get; set; }
         public int scheduleID { get; set; }
     }
 }
