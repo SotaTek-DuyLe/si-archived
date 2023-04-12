@@ -24,7 +24,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         public readonly By LockHelpButton = By.XPath("//span[contains(@class, 'lock-help')]");
         public readonly By LockHelpContent = By.XPath("//div[contains(@class, 'popover-content')]");
         public readonly By ClientReferenceInput = By.XPath("//input[@name='clientReference']");
-
+        public readonly By ServiceUnitTitle = By.XPath("//h5[@data-bind='text: serviceUnit']");
         #region ServiceUnitPoint
         public readonly By AddPointButton = By.XPath("//button[@data-target='#add-service-unit-points']");
         public readonly By AddServiceUnitButton = By.XPath("//button[text()='Add Service Unit Points']");
@@ -84,6 +84,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         }
 
         [AllureStep]
+        public ServiceUnitPage ClickPointAddress(string pointAddress)
+        {
+            ServiceUnitPointTableEle.ClickCellOnCellValue(ServiceUnitPointTableEle.GetCellIndex(DescriptionCell), ServiceUnitPointTableEle.GetCellIndex(DescriptionCell), pointAddress);
+            return this;
+        }
+
+        [AllureStep]
         public ServiceUnitPage CheckSearchResult(string pointnodeId)
         {
             SearchResultTableEle.ClickCellOnCellValue(0, SearchResultTableEle.GetCellIndex(PointNodeIdCell), pointnodeId);
@@ -94,6 +101,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         public ServiceUnitPage SelectServiceUnitPointType(string type)
         {
             ServiceUnitPointTableEle.SetCellValue(0, 3, type);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitPage DoubleClickServiceUnitPoint()
+        {
+            ServiceUnitPointTableEle.DoubleClickRow(0);
             return this;
         }
         #endregion

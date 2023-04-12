@@ -37,6 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private string RetireButtonCell = "./td//button[contains(text(), 'Retire')]";
         private readonly By assetTypeDd = By.XPath("//td//echo-select[contains(@params, 'assetType')]//select");
         private readonly string assetTypeOption = "//td//echo-select[contains(@params, 'assetType')]//select//option[text()='{0}']";
+        public readonly By ServiceDesTitle = By.XPath("//a[contains(@data-bind, 'serviceUnitDesc')]");
 
         public TableElement TaskLineTableEle
         {
