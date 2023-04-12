@@ -57,6 +57,18 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
             SendKeys(mobileInput, mobile);
             return this;
         }
+
+        [AllureStep]
+        public CreatePartyContactPage EnterContactInfo(ContactModel contactModel)
+        {
+            SendKeys(titleInput, contactModel.Title);
+            SendKeys(contactFistNameInput, contactModel.FirstName);
+            SendKeys(contactLastNameInput, contactModel.LastName);
+            SendKeys(contactPositionInput, contactModel.Position);
+            SendKeys(mobileInput, contactModel.Mobile);
+            return this;
+        }
+
         [AllureStep]
         public CreatePartyContactPage EnterValueRemainingFields(ContactModel contactModel)
         {

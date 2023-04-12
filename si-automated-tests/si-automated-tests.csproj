@@ -118,7 +118,6 @@
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
     <Folder Include="Source\Main\Pages\Paties\SiteServices\" />
     <Folder Include="Source\Test\ContactTests\" />
-    <Folder Include="Source\Main\Pages\Paties\Parties\PartyContactPage\" />
     <Folder Include="Source\Test\WeighbridgeTests\" />
     <Folder Include="TestResults\Screenshots\" />
     <Folder Include="Source\Main\Pages\WB\Sites\" />
