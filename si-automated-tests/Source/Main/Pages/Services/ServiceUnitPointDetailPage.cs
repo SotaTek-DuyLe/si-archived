@@ -23,7 +23,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By pointTypeSelect = By.CssSelector("select[id='pointType.id']");
         private readonly By startDateInput = By.CssSelector("input[name='startDate']");
         private readonly By endDateInput = By.CssSelector("input[name='endDate']");
-        private readonly By serviceUnitPointTypeDd = By.CssSelector("select[name='serviceUnitPointType']");
+        public readonly By serviceUnitPointTypeDd = By.CssSelector("select[name='serviceUnitPointType']");
         private readonly string serviceUnitPointTypeOption = "//select[@id='serviceUnitPointType.id']/option[text()='{0}']";
 
         //MAP TAB

@@ -155,6 +155,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private readonly By allScheduledCountRows = By.CssSelector("tbody[data-bind='foreach: allServices'] td[data-bind='text: $data.scheduleCount']");
         private readonly By allStatusRows = By.CssSelector("tbody[data-bind='foreach: allServices'] td:nth-child(6)");
         private const string serviceUnitLink = "//tbody/tr[{0}]//a[@title='Open Service Unit' and not(contains(@style, 'display: none;'))]";
+        private readonly By ServiceRows = By.XPath("//div[@id='activeServices-tab']//div[@class='parent-row']//div[@data-bind='foreach: $data.asset']");
 
         [AllureStep]
         public List<AllServiceInPointAddressModel> GetAllServicesInAllServicesTab()
@@ -648,6 +649,25 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             ClickOnElement(activeServiceTab);
             return this;
         }
+
+        [AllureStep]
+        public PointAddressDetailPage VerifyPointAddress(List<string> assetTypes)
+        {
+            var serviceRows = GetAllElements(ServiceRows);
+            for (int i = 0; i < serviceRows.Count; i++)
+            {
+                string[] serviceAssetTypes = serviceRows[i].FindElements(By.XPath("./div[@data-bind='text: $data']")).Select(x => x.Text).ToArray();
+                if (serviceAssetTypes.Length == 6)
+                {
+                    foreach (var assetType in assetTypes)
+                    {
+                        Assert.IsTrue(serviceAssetTypes.Any(x => x.Contains(assetType)));
+                    }
+                }
+            }
+            return this;
+        }
+
         [AllureStep]
         public List<ActiveSeviceModel> GetAllServiceWithoutServiceUnitModel(List<ActiveSeviceModel> GetAllServiceInTab)
         {

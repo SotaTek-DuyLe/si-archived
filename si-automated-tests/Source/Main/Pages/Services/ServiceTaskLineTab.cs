@@ -37,6 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private string RetireButtonCell = "./td//button[contains(text(), 'Retire')]";
         private readonly By assetTypeDd = By.XPath("//td//echo-select[contains(@params, 'assetType')]//select");
         private readonly string assetTypeOption = "//td//echo-select[contains(@params, 'assetType')]//select//option[text()='{0}']";
+        public readonly By ServiceDesTitle = By.XPath("//a[contains(@data-bind, 'serviceUnitDesc')]");
 
         public TableElement TaskLineTableEle
         {
@@ -134,6 +135,35 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(assetTypeDd);
             ClickOnElement(assetTypeOption, assetTypeValue);
             return this;
+        }
+
+        [AllureStep]
+        public ServiceTaskLineTab InputTaskLine(int rowIdx, string type, string assetType, string shedAssetQty, string product, string shedProductQty)
+        {
+            TaskLineTableEle.SetCellValue(rowIdx, TaskLineTableEle.GetCellIndex(OrderCell), rowIdx.ToString());
+            TaskLineTableEle.SetCellValue(rowIdx, TaskLineTableEle.GetCellIndex(TaskLineTypeCell), type);
+            TaskLineTableEle.SetCellValue(rowIdx, TaskLineTableEle.GetCellIndex(AssetTypeCell), assetType);
+            TaskLineTableEle.SetCellValue(rowIdx, TaskLineTableEle.GetCellIndex(ScheduleAssetQtyCell), shedAssetQty);
+            TaskLineTableEle.SetCellValue(rowIdx, TaskLineTableEle.GetCellIndex(ProductCell), product);
+            TaskLineTableEle.SetCellValue(rowIdx, TaskLineTableEle.GetCellIndex(SheduleProductQtyCell), shedProductQty);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceTaskLineTab VerifyTaskLine(int rowIdx, string type, string assetType, string scheduleAssetQty, string product, string sheduleProductQty)
+        {
+            VerifyCellValue(TaskLineTableEle, rowIdx, 1, type);
+            VerifyCellValue(TaskLineTableEle, rowIdx, 2, assetType);
+            VerifyCellValue(TaskLineTableEle, rowIdx, 3, scheduleAssetQty);
+            VerifyCellValue(TaskLineTableEle, rowIdx, 6, product);
+            VerifyCellValue(TaskLineTableEle, rowIdx, 7, sheduleProductQty);
+            return this;
+        }
+
+        [AllureStep]
+        public int GetNewTaskLineIndex()
+        {
+            return TaskLineTableEle.GetRows().Count - 1;
         }
     }
 }
