@@ -5,6 +5,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 using si_automated_tests.Source.Main.Pages.Applications;
@@ -690,6 +691,37 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
             taskConfirmationPage.VerifyResolutionCodeOnTaskRoundLegs(taskIdx, "Too Heavy");
+        }
+
+        [Category("TaskLine")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_312_Proximity_Alert_on_Task_form()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl + "web/tasks/41612");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser56.UserName, AutoUser56.Password);
+            DetailTaskPage taskDetailTab = PageFactoryManager.Get<DetailTaskPage>();
+            taskDetailTab.WaitForLoadingIconToDisappear();
+            bool isChecked = taskDetailTab.GetCheckboxValue(taskDetailTab.ProximityAlertCheckbox);
+            taskDetailTab.ClickOnElement(taskDetailTab.ProximityAlertCheckbox);
+            taskDetailTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+            var taskDBModel = commonFinder.GetProximityAlert(41612);
+            if (isChecked)
+            {
+                taskDetailTab.VerifyCheckboxIsSelected(taskDetailTab.ProximityAlertCheckbox, false);
+                Assert.IsFalse(taskDBModel.proximityalert);
+            }
+            else
+            {
+                taskDetailTab.VerifyCheckboxIsSelected(taskDetailTab.ProximityAlertCheckbox, true);
+                Assert.IsTrue(taskDBModel.proximityalert);
+            }
         }
     }
 }
