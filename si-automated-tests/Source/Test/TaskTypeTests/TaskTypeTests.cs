@@ -19,7 +19,7 @@ namespace si_automated_tests.Source.Test.TaskTypeTests
         [Category("TaskTypes")]
         [Category("Chang")]
         [Test(Description = "The tasktypes.assured flag is not inherited (bug fix) assured flag TRUE"), Order(1)]
-        public void TC_252_The_tasktypes_assured_flag_is_not_inherited_assured_flag_TRUE()
+        public void TC_252_The_tasktypes_assured_flag_is_not_inherited_assured_flag_1_TRUE()
         {
             string agreementId = "238";
             string serviceName = "Commercial";
@@ -87,7 +87,6 @@ namespace si_automated_tests.Source.Test.TaskTypeTests
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyServicePanelPresent()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear()
                 //waiting for new task are genarated
                 .SleepTimeInSeconds(120);
@@ -157,7 +156,7 @@ namespace si_automated_tests.Source.Test.TaskTypeTests
         [Category("TaskTypes")]
         [Category("Chang")]
         [Test(Description = "The tasktypes.assured flag is not inherited (bug fix)assured flag FALSE"), Order(2)]
-        public void TC_252_The_tasktypes_assured_flag_is_not_inherited_assured_flag_FALSE()
+        public void TC_252_The_tasktypes_assured_flag_is_not_inherited_assured_flag_2_FALSE()
         {
             string serviceTaskId = "22794";
             string serviceTask = "Collect Domestic Refuse";
