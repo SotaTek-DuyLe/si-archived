@@ -25,6 +25,7 @@ using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
 using si_automated_tests.Source.Main.Finders;
 using System.Linq;
 using System;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
 
 namespace si_automated_tests.Source.Test.PartiesTests
 {
@@ -1142,6 +1143,65 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
 
 
+        }
+
+        [Category("Contracts")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_313_Contact_Changes()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .Login(AutoUser6.UserName, AutoUser6.Password)
+                .IsOnHomePage(AutoUser6);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Contacts")
+                .SwitchNewIFrame();
+            ContractListPage contractListPage = PageFactoryManager.Get<ContractListPage>();
+            contractListPage.WaitForLoadingIconToDisappear();
+            contractListPage.IsContractListExist();
+            contractListPage.ClickOnElement(contractListPage.AddNewContractButton);
+            contractListPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+
+            CreateContractPage createContractPage = PageFactoryManager.Get<CreateContractPage>();
+            createContractPage.SelectIndexFromDropDown(createContractPage.ContractSelect, 2);
+            createContractPage.ClickOnElement(createContractPage.NextButton);
+            createContractPage.WaitForLoadingIconToDisappear();
+            createContractPage.WaitForLoadingIconToDisappear();
+
+            CreatePartyContactPage createPartyContactPage = PageFactoryManager.Get<CreatePartyContactPage>();
+            ContactModel contactModel = new ContactModel();
+            contactModel.Title = "Test Contact";
+            contactModel.FirstName = "First Contact Name";
+            contactModel.LastName = "Last Contact Name";
+            contactModel.Mobile = "+4421234567";
+            contactModel.Position = "";
+            createPartyContactPage.EnterContactInfo(contactModel)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Navigate to Contacts grid under the Contract for which the Party for which the contact was created
+            createPartyContactPage.SwitchToFirstWindow()
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            contractListPage.VerifyNewContact(contactModel)
+                .SwitchToChildWindow(2);
+
+            //Navigate to the Contact you added. Edit soem fields. Save.
+            contactModel.Title = "Test Contact 11";
+            contactModel.Position = "New Position";
+            createPartyContactPage.EnterContactInfo(contactModel)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            createPartyContactPage.SwitchToFirstWindow()
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            contractListPage.VerifyNewContact(contactModel);
         }
     }
 }

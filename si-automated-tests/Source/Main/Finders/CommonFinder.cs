@@ -417,5 +417,12 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from resourceallocations where resourceID=" + id.ToString() +" order by enddate desc";
             return FindList<ResourceAllocationModel>(query);
         }
+
+        [AllureStep]
+        public TaskDBModel GetProximityAlert(int taskId)
+        {
+            string query = $"select proximityalert from tasks where taskID={taskId};";
+            return FindList<TaskDBModel>(query).FirstOrDefault();
+        }
     }
 }

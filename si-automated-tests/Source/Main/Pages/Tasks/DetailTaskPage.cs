@@ -55,6 +55,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public readonly By resolutionCode = By.CssSelector("select[id='resolutionCode.id']");
         public readonly By PrioritySelect = By.CssSelector("select[id='priority.id']");
         private readonly By slotCountInput = By.CssSelector("input[id='slotCount.id']");
+        public readonly By ProximityAlertCheckbox = By.XPath("//input[contains(@data-bind, 'proximityAlert')]");
         //DYNAMIC LOCATOR
         private const string sourceName = "//select[@id='source']/option[text()='{0}']";
         private const string inspectionTypeOption = "//select[@id='inspection-type']/option[text()='{0}']";
