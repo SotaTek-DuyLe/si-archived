@@ -123,7 +123,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
         private readonly By closeBtn = By.XPath("//div[@id='inspection-modal']//h4[text()='Create ']/parent::div/following-sibling::div/button[@aria-label='Close']");
 
         //POINT HISTORY TAB
-        private readonly By pointHistoryTab = By.CssSelector("a[aria-controls='pointHistory-tab']");
+        private readonly By pointHistoryTab = By.XPath("//a[@aria-controls='pointHistory-tab']/parent::li");
         private readonly By allRowInPointHistoryTabel = By.XPath("//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div");
         private const string columnInRowPointHistoryTab = "//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private readonly By filterInputById = By.XPath("//div[@id='pointHistory-tab']//div[contains(@class, 'l2 r2')]/descendant::input");

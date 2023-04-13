@@ -748,8 +748,8 @@ namespace si_automated_tests.Source.Test
 
         [Category("BugFix")]
         [Category("Chang")]
-        [Test(Description = "The read only images are black & white (bug fix) - Update inspection Unallocated to Completed")]
-        public void TC_209_The_read_only_images_are_black_and_white_unallocated_to_completed()
+        [Test(Description = "The read only images are black & white (bug fix) - Update inspection Unallocated to Completed - Inspection form - button size inconsistency and UI colour (bug fix)")]
+        public void TC_209_TC_236_The_read_only_images_are_black_and_white_unallocated_to_completed_inspection_form_button_size_inconsistency_and_UI_colour()
         {
             string unallocatedStatus = "Unallocated";
             string relLogo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Source/Main/Resources/echo.jpeg");
@@ -771,7 +771,7 @@ namespace si_automated_tests.Source.Test
                 .FilterInspectionByStatus(unallocatedStatus)
                 .WaitForLoadingIconToDisappear();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
-                .getAllInspectionInList(2);
+                .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
                 .FilterInspectionById(inspectionModels[0].ID + Keys.Enter)
                 .WaitForLoadingIconToDisappear();
@@ -782,6 +782,13 @@ namespace si_automated_tests.Source.Test
             detailInspectionPage
                 .WaitForInspectionDetailDisplayed(inspectionModels[0].inspectionType)
                 .VerifyInspectionId(inspectionModels[0].ID)
+                //Verify two buttons [Complete] and [Cancel] are the same size
+                .VerifyCompleteAndCancelBtnAreTheSameSize()
+                //Step 8: Update anything in the form and fill in all mandatory values
+                .InputNote("Note TC236 " + CommonUtil.GetRandomString(3))
+                .ClickOnDataTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailInspectionPage>()
                 //Click on [Data] tab
                 .ClickOnDataTab()
                 .WaitForLoadingIconToDisappear();
@@ -834,7 +841,7 @@ namespace si_automated_tests.Source.Test
                 .FilterInspectionByStatus(unallocatedStatus)
                 .WaitForLoadingIconToDisappear();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
-                .getAllInspectionInList(2);
+                .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
                 .FilterInspectionById(inspectionModels[0].ID + Keys.Enter)
                 .WaitForLoadingIconToDisappear();
@@ -897,7 +904,7 @@ namespace si_automated_tests.Source.Test
                 .FilterInspectionByStatus(unallocatedStatus)
                 .WaitForLoadingIconToDisappear();
             List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
-                .getAllInspectionInList(2);
+                .getAllInspectionInList(1);
             PageFactoryManager.Get<AllInspectionListingPage>()
                 .FilterInspectionById(inspectionModels[0].ID + Keys.Enter)
                 .WaitForLoadingIconToDisappear();
@@ -1474,7 +1481,7 @@ namespace si_automated_tests.Source.Test
         [Test(Description = "Regeneration of sales invoice batch is not recorded (bug fix)")]
         public void TC_208_Regeneration_of_sales_invoice_batch_is_not_recorded()
         {
-            string saleBatchIdGeneratedStatus = "7";
+            string saleBatchIdGeneratedStatus = "11";
 
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
@@ -2510,6 +2517,7 @@ namespace si_automated_tests.Source.Test
                 .VerifyRejectBtnIsDisabled();
         }
 
+        //BUG: APPROVE BTN IS NOT ENABLED (NEED CONFIG PER)
         [Category("BugFix")]
         [Category("Chang")]
         [Test(Description = "The credit note without credit lines can be approved (bug fix), Credit note with NEW state and some values set")]
@@ -3533,37 +3541,6 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<StreetDetailPage>()
                 .IsRisksActive()
                 .VerifyToastMessagesIsUnDisplayed();
-        }
-
-        [Category("BugFix")]
-        [Category("Chang")]
-        [Test(Description = "Inspection form - button size inconsistency and UI colour (bug fix)")]
-        public void TC_236_insepection_form_button_size_inconsistency_and_UI_colour()
-        {
-            PageFactoryManager.Get<LoginPage>()
-                .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<LoginPage>()
-                .IsOnLoginPage()
-                .Login(AutoUser46.UserName, AutoUser46.Password)
-                .IsOnHomePage(AutoUser46);
-            //Go to any unallocated inspection
-            PageFactoryManager.Get<NavigationBase>()
-                .GoToURL(WebUrl.MainPageUrl + "web/inspections/2420");
-            PageFactoryManager.Get<DetailInspectionPage>()
-                .WaitForInspectionDetailDisplayed("Street Cleansing Assessment")
-                .ClickOnDetailTab()
-                .WaitForLoadingIconToDisappear();
-            //Verify two buttons [Complete] and [Cancel] are the same size
-            PageFactoryManager.Get<DetailInspectionPage>()
-                .VerifyCompleteAndCancelBtnAreTheSameSize()
-                //Step 8: Update anything in the form and fill in all mandatory values
-                .InputNote("Note TC236 " + CommonUtil.GetRandomString(3))
-                .ClickOnDataTab()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<DetailInspectionPage>()
-                .SelectStreetGrade("A")
-                .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
         }
     }
 }

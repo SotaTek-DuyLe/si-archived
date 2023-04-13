@@ -29,6 +29,7 @@ namespace si_automated_tests.Source.Main.Pages.Streets
         private readonly By detailsTab = By.XPath("//a[@aria-controls='details-tab']/parent::li");
         private readonly By dataTab = By.XPath("//a[@aria-controls='data-tab']/parent::li");
         private readonly By postCodeOutwardsTab = By.XPath("//a[@aria-controls='postCodeOutwards-tab']/parent::li");
+        private readonly By postCodeOutwardsTabATag = By.XPath("//a[@aria-controls='postCodeOutwards-tab']");
         private readonly By sectorsTab = By.XPath("//a[@aria-controls='sectors-tab']/parent::li");
         private readonly By mapTab = By.XPath("//a[@aria-controls='map-tab']/parent::li");
         private readonly By risksTab = By.XPath("//a[@aria-controls='risks-tab']/parent::li");
@@ -166,7 +167,7 @@ namespace si_automated_tests.Source.Main.Pages.Streets
         [AllureStep]
         public StreetDetailPage VerifyPostCodeOutwardsTabIsSelected()
         {
-            Assert.AreEqual("true", GetAttributeValue(postCodeOutwardsTab, "aria-expanded"));
+            Assert.AreEqual("true", GetAttributeValue(postCodeOutwardsTabATag, "aria-expanded"));
             return this;
         }
 

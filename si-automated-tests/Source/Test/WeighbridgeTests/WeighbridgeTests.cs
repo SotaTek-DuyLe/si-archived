@@ -2451,18 +2451,22 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickOnAnyGreyListCode(greyListDesc[0])
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
-            string lastUpdated = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            string updatedTime = CommonUtil.ParseDateTimeToFormat(londonCurrentDate, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+
+
             PageFactoryManager.Get<CreateGreyListPage>()
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<CreateGreyListPage>()
                 .VerifyValueInLastUpdatedBy(AutoUser9.DisplayName)
-                .VerifyValueInLastUpdated(lastUpdated)
+                .VerifyValueInLastUpdated(updatedTime)
                 //Step line 17: Change [Vehicle] value and click [Save]
                 .InputVehicle(secondResourceName)
                 .SelectVehicleName(secondResourceName)
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
-            string lastUpdatedAfter = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+            DateTime londonCurrentDateAfter = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            string lastUpdatedAfter = CommonUtil.ParseDateTimeToFormat(londonCurrentDateAfter, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             PageFactoryManager.Get<CreateGreyListPage>()
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<CreateGreyListPage>()
@@ -2506,7 +2510,9 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickAndSelectHaulier(partyNameHaulier)
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
-            string updatedValue_2 = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+
+            DateTime londonCurrentDate_2 = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            string updatedValue_2 = CommonUtil.ParseDateTimeToFormat(londonCurrentDate_2, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             PageFactoryManager.Get<CreateGreyListPage>()
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<CreateGreyListPage>()

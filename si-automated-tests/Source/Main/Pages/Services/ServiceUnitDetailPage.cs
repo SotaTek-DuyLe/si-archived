@@ -383,7 +383,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         #endregion
 
         #region subscriptions-tab
-        public readonly By SubscriptionTab = By.XPath("//a[@aria-controls='subscriptions-tab']");
+        public readonly By SubscriptionTab = By.XPath("//a[@aria-controls='subscriptions-tab']/parent::li");
         public readonly By SubscriptionTabIframe = By.XPath("//iframe[@id='subscriptions-tab']");
         public readonly By AddNewSubscriptionItemButton = By.XPath("//button[text()[contains(.,'Add New Item')]]");
         public readonly By SubscriptionRefreshButton = By.XPath("//button[@title='Refresh']");
@@ -795,7 +795,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         #region Asset tab
-        private readonly By assetTab = By.XPath("//li/a[@aria-controls='assets-tab']");
+        private readonly By assetTab = By.XPath("//a[@aria-controls='assets-tab']/parent::li");
         private readonly By addNewItemAtAssetTabBtn = By.XPath("//div[@id='assets-tab']//button[contains(string(), 'Add New Item')]");
         private readonly By firstRowAtAssetTab = By.CssSelector("div[id='assets-tab'] tbody>tr:nth-child(1)");
 
