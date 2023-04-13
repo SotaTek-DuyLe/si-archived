@@ -18,7 +18,7 @@ namespace si_automated_tests.Source.Test.TaskTypeTests
     {
         [Category("TaskTypes")]
         [Category("Chang")]
-        [Test(Description = "The tasktypes.assured flag is not inherited (bug fix) assured flag TRUE")]
+        [Test(Description = "The tasktypes.assured flag is not inherited (bug fix) assured flag TRUE"), Order(1)]
         public void TC_252_The_tasktypes_assured_flag_is_not_inherited_assured_flag_TRUE()
         {
             string agreementId = "238";
@@ -156,7 +156,7 @@ namespace si_automated_tests.Source.Test.TaskTypeTests
 
         [Category("TaskTypes")]
         [Category("Chang")]
-        [Test(Description = "The tasktypes.assured flag is not inherited (bug fix)assured flag FALSE")]
+        [Test(Description = "The tasktypes.assured flag is not inherited (bug fix)assured flag FALSE"), Order(1)]
         public void TC_252_The_tasktypes_assured_flag_is_not_inherited_assured_flag_FALSE()
         {
             string serviceTaskId = "22794";

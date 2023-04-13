@@ -36,7 +36,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(detailsTab);
             Assert.AreEqual(idValue, GetElementText(id));
-            //Assert.IsTrue(IsControlDisplayed(statusSaleInvoice, statusValue));
+           // Assert.IsTrue(IsControlDisplayed(statusSaleInvoice, statusValue));
             return this;
         }
 

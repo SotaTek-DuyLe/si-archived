@@ -1474,7 +1474,7 @@ namespace si_automated_tests.Source.Test
         [Test(Description = "Regeneration of sales invoice batch is not recorded (bug fix)")]
         public void TC_208_Regeneration_of_sales_invoice_batch_is_not_recorded()
         {
-            string saleBatchIdGeneratedStatus = "7";
+            string saleBatchIdGeneratedStatus = "11";
 
             PageFactoryManager.Get<LoginPage>()
                    .GoToURL(WebUrl.MainPageUrl);
@@ -3540,6 +3540,8 @@ namespace si_automated_tests.Source.Test
         [Test(Description = "Inspection form - button size inconsistency and UI colour (bug fix)")]
         public void TC_236_insepection_form_button_size_inconsistency_and_UI_colour()
         {
+            string unallocatedStatus = "Unallocated";
+
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -3548,9 +3550,25 @@ namespace si_automated_tests.Source.Test
                 .IsOnHomePage(AutoUser46);
             //Go to any unallocated inspection
             PageFactoryManager.Get<NavigationBase>()
-                .GoToURL(WebUrl.MainPageUrl + "web/inspections/2420");
+                .ClickMainOption(MainOption.Inspections)
+                .OpenOption("All Inspections")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .FilterInspectionByStatus(unallocatedStatus)
+                .WaitForLoadingIconToDisappear();
+            List<InspectionModel> inspectionModels = PageFactoryManager.Get<AllInspectionListingPage>()
+                .getAllInspectionInList(2);
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .FilterInspectionById(inspectionModels[0].ID + Keys.Enter)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AllInspectionListingPage>()
+                .DoubleClickFirstInspectionRow()
+                .SwitchToLastWindow()
+                .waitForLoadingIconDisappear();
+
             PageFactoryManager.Get<DetailInspectionPage>()
-                .WaitForInspectionDetailDisplayed("Street Cleansing Assessment")
+                .WaitForInspectionDetailDisplayed(inspectionModels[0].inspectionType)
                 .ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             //Verify two buttons [Complete] and [Cancel] are the same size

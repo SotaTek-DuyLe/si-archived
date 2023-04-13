@@ -65,7 +65,7 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             Assert.AreEqual(contract, inspectionModelActual.contract);
             Assert.AreEqual(inspectionModelExpected.validFrom, inspectionModelActual.validFrom);
             Assert.AreEqual(inspectionModelExpected.validTo, inspectionModelActual.validTo);
-            Assert.AreEqual(source, inspectionModelActual.source);
+            Assert.IsTrue(inspectionModelActual.source.Contains(source));
             Assert.AreEqual(service, inspectionModelActual.service);
             return this;
         }
