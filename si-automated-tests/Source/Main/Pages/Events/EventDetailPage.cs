@@ -307,7 +307,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(eventTitle);
             WaitUtil.WaitForElementVisible(locationName);
-            WaitUtil.WaitForElementVisible(anyTab, "history-tab");
+            WaitUtil.WaitForElementVisible(anyTab, "data-tab");
             return this;
         }
         [AllureStep]

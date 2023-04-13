@@ -18,7 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By serviceTaskLink = By.XPath("//span[text()='Service Task Schedule']/following-sibling::span");
         private readonly By roundDd = By.XPath("//div[@id='div-round']//label[contains(string(), 'Round')]/following-sibling::echo-select/select");
         private readonly By statusText = By.XPath("//h5[@id='header-status']/span[1]");
-        private readonly By firstTimeBand = By.XPath("//select[@id='timeband.id']/option[1]");
+        private readonly By firstTimeBand = By.XPath("//select[@id='timeBand.id']/option[1]");
 
         [AllureStep]
         public string GetServiceTaskScheduleID(string url)
