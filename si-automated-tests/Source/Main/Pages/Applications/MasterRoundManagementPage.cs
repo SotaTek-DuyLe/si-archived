@@ -50,7 +50,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By Subcontract = By.XPath("//button[@id='t-selected-rows-subcontract']");
         public readonly By SubcontractSelect = By.XPath("//select[@id='subcontractReasons']");
         public readonly By SubcontractConfirmButton = By.XPath("//button[text()='Confirm']");
-        private readonly string roundItem = "//li[contains(@class, 'list-group-item round')]//span[text()='{0}']";
+        private readonly string roundItem = "//li[contains(@class, 'list-group-item round')]//span[contains(text(), '{0}')]";
 
         //round grid
         private readonly By rounds = By.XPath("//ul[@id='rounds']/li[not(contains(@style, 'display: none;'))]");
