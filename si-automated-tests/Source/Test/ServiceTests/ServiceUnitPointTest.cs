@@ -63,13 +63,27 @@ namespace si_automated_tests.Source.Test.ServiceTests
             localLanguagePage.SelectTextFromDropDown(localLanguagePage.LanguageSelect, "French")
                 .ClickOnElement(localLanguagePage.SaveButton);
             localLanguagePage.SwitchToFirstWindow();
-            string description = serviceUnit.GetElementText(serviceUnit.CreateDescriptionButton);
-            var factory = new RankedLanguageIdentifierFactory();
-            var identifier = factory.Load(@"Source\Main\Data\Core14.profile.xml");
-            var languages = identifier.Identify(description);
-            var mostCertainLanguage = languages.FirstOrDefault();
-            Assert.IsNotNull(mostCertainLanguage);
-            Assert.IsTrue(mostCertainLanguage.Item1.Iso639_2T == "fra");
+            PageFactoryManager.Get<NavigationBase>()
+                 .ClickMainOption(MainOption.Services)
+                 .ExpandOption("Régions")
+                 .ExpandOption(Region.UK)
+                 .ExpandOption(Contract.Commercial)
+                 .ExpandOption("Collections")
+                 .ExpandOption("Commercial Collections")
+                 .OpenOption("Unités de service actives");
+            serviceUnit.SwitchToFrame(serviceUnit.UnitIframe);
+            serviceUnit.WaitForLoadingIconToDisappear();
+            serviceUnit.FindServiceUnitWithId("230038");
+            serviceUnit.DoubleClickServiceUnitById("230038")
+                       .SwitchToChildWindow(2);
+            serviceUnitDetail.WaitForLoadingIconToDisappear(false);
+            serviceUnitDetail.ClickOnElement(serviceUnitDetail.ServiceUnitPointTab);
+            serviceUnitDetail.WaitForLoadingIconToDisappear(false);
+            serviceUnitDetail.ClickOnElement(serviceUnitDetail.AddPointButton);
+            serviceUnitDetail.VerifyElementVisibility(serviceUnitDetail.AddServiceUnitPointDiv, true);
+            serviceUnitDetail.VerifyFrenchRadioIsSelected()
+                .VerifySelectedValue(serviceUnitDetail.SectorSelect, "Richmond")
+                .ClickOnElement(serviceUnitDetail.AddServiceUnitPointCloseButton);
         }
 
         [Category("ServiceUnitPoint")]
