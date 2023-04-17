@@ -113,10 +113,13 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
             debriefResultPage.VerifyBinLiftStateIsCompleted();
             debriefResultPage.ClickOnElement(debriefResultPage.BinLiftFirstRow);
             debriefResultPage.WaitForLoadingIconToDisappear();
+            debriefResultPage.WaitForDebriefLoaded();
             debriefResultPage.ClickOnElement(debriefResultPage.UnknownButton);
             debriefResultPage.WaitForLoadingIconToDisappear();
+            debriefResultPage.WaitForDebriefLoaded();
             debriefResultPage.ClickOnElement(debriefResultPage.MatchButton);
             debriefResultPage.WaitForLoadingIconToDisappear();
+            debriefResultPage.WaitForDebriefLoaded();
             debriefResultPage.DragFirstBinLiftToTaskLine()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
