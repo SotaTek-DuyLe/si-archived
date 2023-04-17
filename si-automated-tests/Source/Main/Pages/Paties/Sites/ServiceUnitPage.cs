@@ -137,7 +137,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         #endregion
 
         #region Risk
-        public readonly By RiskIframe = By.XPath("//iframe[@id='risks-tab']");
+        public readonly By RiskIframe = By.XPath("//div[@id='risks-tab']//iframe");
         public readonly By BulkCreateButton = By.XPath("//button[@title='Add risk register(s)']");
         private readonly string riskTable = "//div[@id='risk-grid']//div[@class='grid-canvas']";
         private readonly string riskRow = "./div[contains(@class,'slick-row')]";
