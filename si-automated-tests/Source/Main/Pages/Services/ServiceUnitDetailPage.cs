@@ -466,6 +466,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(this.driver.FindElement(AddressRadio).GetAttribute("checked").Contains("true"));
             return this;
         }
+
+        [AllureStep]
+        public ServiceUnitDetailPage VerifyFrenchRadioIsSelected()
+        {
+            Assert.IsTrue(this.driver.FindElement(By.XPath("//div[@id='add-service-unit-points']//input[@value='Adresse']")).GetAttribute("checked").Contains("true"));
+            return this;
+        }
         #endregion
 
         #region Service Task Schedule

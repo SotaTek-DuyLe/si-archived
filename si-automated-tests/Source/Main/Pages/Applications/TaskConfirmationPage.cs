@@ -74,6 +74,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string optionInStatusFirstRow = "(//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l19')])/select/option[{0}]";
         private readonly string statusOptionInBulkUpdate = "//label[text()='Status']/following-sibling::select[1]/option[{0}]";
 
+        public readonly By TaskConfirmationIframe = By.XPath("//div[@id='iframe-container']//iframe");
+
         #region Bulk update
         public readonly By BulkUpdateStateSelect = By.XPath("//div[@class='bulk-confirmation']//select[1]");
         public readonly By BulkUpdateReasonSelect = By.XPath("//div[@class='bulk-confirmation']//select[2]");

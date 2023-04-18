@@ -149,11 +149,11 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             masterRoundManagementPage.ScrollToSubcontractHeader()
                 .VerifyFirstAndSecondConfirmedTask("No Service");
             //Navigate to task confirmation screen->Filter the same contract, service and round
+            TaskConfirmationPage taskConfirmationPage = PageFactoryManager.Get<TaskConfirmationPage>();
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
                 .OpenOption("Task Confirmation")
-                .SwitchNewIFrame();
-            TaskConfirmationPage taskConfirmationPage = PageFactoryManager.Get<TaskConfirmationPage>();
+                .SwitchToFrame(taskConfirmationPage.TaskConfirmationIframe);
             taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, contract);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ServiceInput);
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
