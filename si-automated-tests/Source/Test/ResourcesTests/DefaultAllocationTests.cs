@@ -530,7 +530,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .FilterResource("Resource", resourceName);
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DragAndDropFirstResultToBlankResourceType("Driver")
-                .VerifyAllocatingToast("Default Resource Set");
+                .VerifyAllocatingToast(rscSet);
             //ALLOCATING RESOURCE TYPE TO NEW BOX
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .SwitchToTab("Resource Types");
@@ -561,9 +561,9 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF DIFFERENT ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .RelocateResourceTypeFromRoundGroupToRound("Loader", 1)
-                .VerifyAllocatingToast(rscTypeClear)
-                .VerifyAllocatingToast(rscTypeSet);
-                //.VerifyAllocatingToast(listMessagesResourceType);
+                .VerifyAllocatingToast(listMessagesResourceType);
+
+            //.VerifyAllocatingToast(listMessagesResourceType);
             //REALLOCATING RESOURCE FROM ROUND GROUP TO ROUND OF SAME ROUND GROUP
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .DeallocateResourceType(1)
