@@ -3,9 +3,9 @@ namespace si_automated_tests.Source.Main.Constants
 {
     public class CommonConstants
     {
-        public static readonly string[] InvoiceScheduleAssetAndProduct = {"Use Agreement", "Daily in Arrears", "Monthly in Arrears"};
+        public static readonly string[] InvoiceScheduleAssetAndProduct = {"Use Agreement", "Custom Schedule (Tue & Fri every other week)", "Daily in Arrears", "Monthly in Arrears"};
         public static readonly string[] InvoiceAddressAssetAndProduct = { "Use Agreement", "15 HILL STREET, RICHMOND, TW9 1SX" };
-        public static readonly string[] InvoiceScheduleMobilization = { "Use Agreement Line", "Daily in Arrears", "Monthly in Arrears" };
+        public static readonly string[] InvoiceScheduleMobilization = { "Use Agreement Line", "Custom Schedule (Tue & Fri every other week)", "Daily in Arrears", "Monthly in Arrears" };
         public static readonly string[] InvoiceAddressMobilization = { "Use Agreement Line", "15 HILL STREET, RICHMOND, TW9 1SX" };
         public static readonly string[] TaskLineType = { "Service" };
         public static readonly string[] AssetType = { "1100L" };
