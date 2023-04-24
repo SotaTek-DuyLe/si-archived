@@ -217,7 +217,17 @@ namespace si_automated_tests.Source.Test.AgreementLineTest
                 .ClickToExpandAgreementLineByStartDate(tommorowDate)
                 .ClickToExpandAssetsAndProducts()
                 .VerifyNotDisplayEWCCodeColumn();
+            //Update ewc code
 
+            PageFactoryManager.Get<BasePage>()
+                .GoToURL(string.Format(WebUrl.AgreementLineTypeIE, "1"));
+            PageFactoryManager.Get<AgreementLineTypeIEPage>()
+                .IsAgreementLineTypeIEPage()
+                .ClickOnAllowProductCode()
+                .SleepTimeInMiliseconds(3);
+            PageFactoryManager.Get<AgreementLineTypeIEPage>()
+                .ClickOnSaveForm()
+                .SleepTimeInSeconds(5);
         }
     }
 }
