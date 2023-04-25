@@ -14,6 +14,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By addNewItemLoading = By.XPath("//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
         private readonly string customBtn = "//button[text()='{0}']";
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
+        private readonly By inputs = By.XPath("//div[contains(@class,'ui-state-default slick-headerrow-column')]/descendant::input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
         private readonly By firstResult = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')]");
         private readonly By headers = By.XPath("//div[contains(@class,'ui-state-default slick-header-column')]/span[1]");
@@ -152,6 +153,23 @@ namespace si_automated_tests.Source.Main.Pages
                 }
             }
             return result;
+        }
+        [AllureStep]
+        public CommonBrowsePage FilterItemBy(string field, string value) {
+
+            IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
+            IList<IWebElement> filterInputs = WaitUtil.WaitForAllElementsVisible(inputs);
+            for (int i = 0; i < hds.Count; i++)
+            {
+                if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
+                {
+                    SendKeys(filterInputs[i - 1], value);
+                    break;
+                }
+            }
+            ClickOnElement(applyBtn);
+
+            return this;
         }
         //For task grid only
         [AllureStep]
