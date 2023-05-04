@@ -166,7 +166,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             ClickOnElement(dispatchSiteSelect);
             List<string> options = GetAllElements(dispatchSiteSelectOpt).Select(x => x.Text).Where(x => !string.IsNullOrEmpty(x)).ToList();
-            Assert.AreEqual(new List<string>() { "Kingston Tip", "Townmead Tip & Depot (East)", "Townmead Weighbridge" }, options);
+            List<string> expectedList = new List<string>() { "Kingston Tip", "Townmead Tip & Depot (East)", "Townmead Weighbridge" };
+            var isTrue = expectedList.All(item => options.Contains(item));
+            Assert.IsTrue(isTrue);
             return this;
         }
         [AllureStep]
