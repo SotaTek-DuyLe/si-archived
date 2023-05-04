@@ -482,18 +482,20 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public BasePage AcceptAlertIfAny()
         {
-            try
+            
+            for (int i = 0; i < 2; i++)
             {
-                for (int i = 0; i < 2; i++)
+                SleepTimeInMiliseconds(1000);
+                try
                 {
-                    SleepTimeInMiliseconds(1000);
                     this.driver.SwitchTo().Alert().Accept();
                 }
+                catch (NoAlertPresentException)
+                {
+                    continue;
+                }
             }
-            catch (NoAlertPresentException)
-            {
-                return this;
-            }
+            
             return this;
         }
 

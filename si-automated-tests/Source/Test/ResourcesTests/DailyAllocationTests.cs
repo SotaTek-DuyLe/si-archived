@@ -290,7 +290,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SelectState("Training")
                 .SelectResolutionCode("Paid")
                 .SaveDetail()
-                .AcceptAlert()
+                .AcceptAlertIfAny()
                 .WaitForLoadingIconToDisappear();
             //PageFactoryManager.Get<ResourceAllocationPage>()
             //    .VerifyStateAbbreviation(resourceName2, "T")
