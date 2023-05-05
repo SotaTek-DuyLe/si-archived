@@ -1109,7 +1109,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             ClickOnElement(downloadBtn);
             SwitchToLastWindow();
-            WaitUtil.WaitForElementVisible("//h2[text()='Tell us whether you accept cookies']");
+            WaitUtil.WaitForElementVisible("//h1[contains(text(), 'Search across all the registers')]");
             Assert.AreEqual("https://environment.data.gov.uk/public-register/view/search-all", GetCurrentUrl());
             Assert.AreEqual("Search all public registers", GetCurrentTitle());
             CloseCurrentWindow();

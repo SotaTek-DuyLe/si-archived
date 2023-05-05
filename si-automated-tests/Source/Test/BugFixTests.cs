@@ -2534,7 +2534,7 @@ namespace si_automated_tests.Source.Test
             string vat = "20";
 
             PageFactoryManager.Get<LoginPage>()
-                   .GoToURL(WebUrl.MainPageUrl);
+                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser46.UserName, AutoUser46.Password)
