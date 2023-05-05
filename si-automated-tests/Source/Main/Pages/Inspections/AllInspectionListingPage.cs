@@ -70,6 +70,23 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             return this;
         }
         [AllureStep]
+        public AllInspectionListingPage VerifyTheFirstInspection(InspectionModel inspectionModelExpected, InspectionModel inspectionModelActual, string location, string contract, string source, string service, string status)
+        {
+            Assert.AreEqual(inspectionModelExpected.ID, inspectionModelActual.ID);
+            Assert.AreEqual(location, inspectionModelActual.point);
+            Assert.AreEqual(inspectionModelExpected.inspectionType, inspectionModelActual.inspectionType);
+            Assert.IsTrue(inspectionModelActual.createdByUser.Contains(inspectionModelExpected.createdByUser));
+            Assert.AreEqual(inspectionModelExpected.assignedUser, inspectionModelActual.assignedUser);
+            Assert.AreEqual(inspectionModelExpected.allocatedUnit, inspectionModelActual.allocatedUnit);
+            Assert.AreEqual(status, inspectionModelActual.status);
+            Assert.AreEqual(contract, inspectionModelActual.contract);
+            Assert.AreEqual(inspectionModelExpected.validFrom, inspectionModelActual.validFrom);
+            Assert.AreEqual(inspectionModelExpected.validTo, inspectionModelActual.validTo);
+            Assert.IsTrue(inspectionModelActual.source.Contains(source));
+            Assert.AreEqual(service, inspectionModelActual.service);
+            return this;
+        }
+        [AllureStep]
         public AllInspectionListingPage VerifyTheFirstInspection(PointHistoryModel pointHistoryModel, InspectionModel inspectionModelActual, string location, string contract, string source, string service, string createdByUser, string assignedUser, string allocatedUnit)
         {
             Assert.AreEqual(pointHistoryModel.ID, inspectionModelActual.ID);
@@ -79,6 +96,23 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             Assert.True(assignedUser.Contains(inspectionModelActual.assignedUser));
             Assert.AreEqual(allocatedUnit, inspectionModelActual.allocatedUnit);
             Assert.AreEqual(pointHistoryModel.state, inspectionModelActual.status);
+            Assert.AreEqual(contract, inspectionModelActual.contract);
+            Assert.True(inspectionModelActual.validFrom.Contains(pointHistoryModel.date));
+            Assert.True(inspectionModelActual.validTo.Contains(pointHistoryModel.dueDate));
+            Assert.True(inspectionModelActual.source.Contains(source));
+            Assert.AreEqual(service, inspectionModelActual.service);
+            return this;
+        }
+        [AllureStep]
+        public AllInspectionListingPage VerifyTheFirstInspection(PointHistoryModel pointHistoryModel, InspectionModel inspectionModelActual, string location, string contract, string source, string service, string createdByUser, string assignedUser, string allocatedUnit, string status)
+        {
+            Assert.AreEqual(pointHistoryModel.ID, inspectionModelActual.ID);
+            Assert.AreEqual(location, inspectionModelActual.point);
+            Assert.True(inspectionModelActual.inspectionType.Contains(pointHistoryModel.type));
+            Assert.AreEqual(createdByUser, inspectionModelActual.createdByUser);
+            Assert.True(assignedUser.Contains(inspectionModelActual.assignedUser));
+            Assert.AreEqual(allocatedUnit, inspectionModelActual.allocatedUnit);
+            Assert.AreEqual(status, inspectionModelActual.status);
             Assert.AreEqual(contract, inspectionModelActual.contract);
             Assert.True(inspectionModelActual.validFrom.Contains(pointHistoryModel.date));
             Assert.True(inspectionModelActual.validTo.Contains(pointHistoryModel.dueDate));
