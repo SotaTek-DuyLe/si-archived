@@ -628,10 +628,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAccountPage>()
                 .IsOnAccountPage()
-                .CheckOnAccountType("PO Number Required")
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
-                .WaitForLoadingIconToDisappear();
+                .CheckOnAccountTypeAndClickSave("PO Number Required");
             PageFactoryManager.Get<PartyAccountPage>()
                 .VerifyAccountTypeChecked("PO Number Required");
             //Verify "Purchase Order # is required"

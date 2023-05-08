@@ -5,6 +5,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount
 {
@@ -33,6 +34,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount
             }
             return this;
         }
+
+        [AllureStep]
+        public PartyAccountPage CheckOnAccountTypeAndClickSave(string account)
+        {
+            if (!IsElementSelected(accountCheckBox, account))
+            {
+                ClickOnElement(accountCheckBox, account);
+                this.ClickSaveBtn()
+                    .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
+                    .WaitForLoadingIconToDisappear();
+            }
+            return this;
+        }
+
         [AllureStep]
         public PartyAccountPage UncheckOnAccountType(string account)
         {
