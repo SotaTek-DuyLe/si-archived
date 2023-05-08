@@ -657,7 +657,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
 
             string savedUTCTime = PageFactoryManager.Get<TaskDetailTab>()
                 .ClickSaveBtnGetUTCTime();
-            string updatedUTCTime = CommonUtil.GetTimeMinusHour(savedUTCTime, "dd/MM/yyyy hh:mm", 0);
+            string updatedUTCTime = CommonUtil.GetTimeMinusHour(savedUTCTime, "dd/MM/yyyy hh:mm", 1);
 
             PageFactoryManager.Get<BasePage>()
                 .VerifyToastMessage("Success")
@@ -716,10 +716,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAccountPage>()
                 .IsOnAccountPage()
-                .UncheckOnAccountType("PO Number Required")
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
-                .WaitForLoadingIconToDisappear();
+                .UncheckOnAccountTypeAndClickSave("PO Number Required");
             PageFactoryManager.Get<PartyAccountPage>()
                 .VerifyAccountTypeUnchecked("PO Number Required");
             //Verify "Purchase Order # is not required"
@@ -739,7 +736,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .InputReferenceValue(refValue1);
             string savedUTCTime1 = PageFactoryManager.Get<TaskDetailTab>()
                 .ClickSaveBtnGetUTCTime();
-            string updatedUTCTime1 = CommonUtil.GetTimeMinusHour(savedUTCTime1, "dd/MM/yyyy hh:mm", 0);
+            string updatedUTCTime1 = CommonUtil.GetTimeMinusHour(savedUTCTime1, "dd/MM/yyyy hh:mm", 1);
             PageFactoryManager.Get<TaskDetailTab>()
                 .VerifyToastMessage("Success");
             //Go to History task and confirm task Update for Ref

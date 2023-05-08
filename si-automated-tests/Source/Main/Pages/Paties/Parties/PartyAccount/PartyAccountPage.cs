@@ -56,7 +56,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount
                 ClickOnElement(accountCheckBox, account);
             }
             return this;
+        } 
+        
+        [AllureStep]
+        public PartyAccountPage UncheckOnAccountTypeAndClickSave(string account)
+        {
+            if (IsElementSelected(accountCheckBox, account))
+            {
+                ClickOnElement(accountCheckBox, account);
+                this.ClickSaveBtn()
+                    .WaitForLoadingIconToDisappear();
+            }
+            return this;
         }
+
         [AllureStep]
         public PartyAccountPage VerifyAccountTypeChecked(string account)
         {
