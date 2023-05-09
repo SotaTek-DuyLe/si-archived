@@ -424,5 +424,12 @@ namespace si_automated_tests.Source.Main.Finders
             string query = $"select proximityalert from tasks where taskID={taskId};";
             return FindList<TaskDBModel>(query).FirstOrDefault();
         }
+
+        [AllureStep]
+        public List<BusinessUnitGroupDBModel> GetBusinessUnitGroupByContractId(int contractId)
+        {
+            string query = "select * from businessunitgroups WHERE contractID = " + contractId + ";";
+            return FindList<BusinessUnitGroupDBModel>(query);
+        }
     }
 }

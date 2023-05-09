@@ -36,6 +36,18 @@ namespace si_automated_tests.Source.Core
         }
 
         [AllureStep]
+        public List<string> GetTextFromDd(By by)
+        {
+            List<string> allText = new List<string>();
+            List<IWebElement> webElements = GetAllElements(by);
+            foreach(IWebElement webElement in webElements)
+            {
+                allText.Add(GetElementText(webElement));
+            }
+            return allText;
+        }
+
+        [AllureStep]
         public BasePage ClickOnRetiredBtn()
         {
             ClickOnElement(retiredBtn);
