@@ -16,6 +16,9 @@ namespace si_automated_tests.Source.Main.Pages.Common
         private readonly By ServiceRows = By.XPath("//div[@id='services-tab']//div[@class='parent-row']//div[@data-bind='foreach: $data.asset']");
         private readonly By EventSelect = By.XPath("//div[@id='services-tab']//div[@class='parent-row']//div[@id='create-event-dropdown']//ul");
 
+        public readonly By ServiceTab = By.XPath("//a[@aria-controls='services-tab']");
+        public readonly By AssetTypeColumn = By.XPath("//div[@class='services-grid--root']//div[text()='Asset Type (Product)']");
+
         private string ResultTable = "//div[@id='results-grid']//div[@class='grid-canvas']";
         private string ResultRow = "./div[contains(@class, 'slick-row')]";
         private string PointIdCell = "./div[@class='slick-cell l0 r0']";

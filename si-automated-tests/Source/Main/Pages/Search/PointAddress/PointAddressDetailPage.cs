@@ -157,6 +157,11 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private const string serviceUnitLink = "//tbody/tr[{0}]//a[@title='Open Service Unit' and not(contains(@style, 'display: none;'))]";
         private readonly By ServiceRows = By.XPath("//div[@id='activeServices-tab']//div[@class='parent-row']//div[@data-bind='foreach: $data.asset']");
 
+        #region Active Service Tab
+        public readonly By ServiceTab = By.XPath("//a[@aria-controls='activeServices-tab']");
+        public readonly By AssetTypeColumn = By.XPath("//div[@class='services-grid--root']//div[text()='Asset Type (Product)']");
+        #endregion
+
         [AllureStep]
         public List<AllServiceInPointAddressModel> GetAllServicesInAllServicesTab()
         {
