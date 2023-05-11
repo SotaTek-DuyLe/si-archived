@@ -289,9 +289,12 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnShiftDetailPage()
                 .SelectState("Training")
                 .SelectResolutionCode("Paid")
-                .SaveDetail()
-                .AcceptAlertIfAny()
-                .WaitForLoadingIconToDisappear();
+                .SaveDetail();
+            if(PageFactoryManager.Get<BasePage>().GetAlertText().Equals("Ensure course and location are noted"))
+            {
+                PageFactoryManager.Get<BasePage>().AcceptAlertIfAny();
+            }
+            PageFactoryManager.Get<BasePage>().WaitForLoadingIconToDisappear();
             //PageFactoryManager.Get<ResourceAllocationPage>()
             //    .VerifyStateAbbreviation(resourceName2, "T")
             //    .VerifyBackgroundColor(resourceName2, "red2")
