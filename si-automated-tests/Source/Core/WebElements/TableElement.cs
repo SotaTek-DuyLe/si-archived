@@ -39,8 +39,8 @@ namespace si_automated_tests.Source.Core.WebElements
 
         public List<IWebElement> GetCells(int rowIdx)
         {
-            var rows = GetRows();
             WaitForRowLoaded(rowIdx);
+            var rows = GetRows();
             var row = rows[rowIdx];
             return CellXpaths.Select(x => row.FindElement(By.XPath(x))).ToList();
         }
@@ -177,8 +177,8 @@ namespace si_automated_tests.Source.Core.WebElements
 
         public List<object> GetRowValue(int rowIdx)
         {
-            var rows = GetRows();
             WaitForRowLoaded(rowIdx);
+            var rows = GetRows();
             var row = rows[rowIdx];
             List<object> values = new List<object>();
             foreach (var cellXpath in CellXpaths)
