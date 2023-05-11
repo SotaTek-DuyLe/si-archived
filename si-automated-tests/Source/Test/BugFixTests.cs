@@ -1723,7 +1723,7 @@ namespace si_automated_tests.Source.Test
                 .ClickOnGoBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<MapListingPage>()
-                .ClickOnFirstRoundInRightHand()
+                .ClickOnFirstRoundInLeftHand()
                 .ClickOnOptionsTab()
                 .VerifyOptionIsNotDisplay("Show Road Trail For Selected Resource");
         }
@@ -3541,6 +3541,80 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<StreetDetailPage>()
                 .IsRisksActive()
                 .VerifyToastMessagesIsUnDisplayed();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Generation of Guided Route - Round instance with no servicetaskschedules that have some GPS trail data (bug fix) ")]
+        public void TC_206_Generation_of_Guided_route_round_instance_with_no_service_tasks_schedules_that_have_some_GPS_trail_data()
+        {
+            string resourceVehicleName = "SKP1 NST";
+
+            //Step line 8: Round instance with no servicetaskschedules that have some GPS trail data
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Maps)
+                .OpenOption(Contract.Municipal)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MapListingPage>()
+                .WaitForMapsTabDisplayed()
+                .SendKeyInFromDate("13/10/2022 00:00")
+                .ClickOnGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MapListingPage>()
+                .ClickOnFirstRoundInLeftHand()
+                .ClickOnRoundTab()
+                .WaitForRoundsTabLoaded()
+                .ClickOnFirstShowRoundInstanceBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MapListingPage>()
+                .ClickOnRouteTab()
+                .WaitForRouteTabLoaded()
+                .ClickOnGenerateGuidedRouteBtnByResourceName(resourceVehicleName)
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.ErrorRetrievingTasksForRouteMessage)
+                .VerifyRedToasMessage(MessageRequiredFieldConstants.ErrorRetrievingTasksForRouteMessage);
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Generation of Guided Route - Any round instance with no GPS trail data record (bug fix) ")]
+        public void TC_206_Generation_of_Guided_route_any_round_instance_with_no_GPS_trail_data_record()
+        {
+            string resourceName = "SI14 NST";
+
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Maps)
+                .OpenOption(Contract.Municipal)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MapListingPage>()
+                .WaitForMapsTabDisplayed();
+                //.SendKeyInFromDate("11/05/2023 00:00")
+                //.ClickOnGoBtn()
+                //.WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MapListingPage>()
+                .ClickOnFirstRoundInLeftHand(resourceName)
+                .ClickOnRoundTab()
+                .WaitForRoundsTabLoaded()
+                .ClickOnFirstShowRoundInstanceBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MapListingPage>()
+                .ClickOnRouteTab()
+                .WaitForRouteTabLoaded()
+                .ClickOnGenerateGuidedRouteBtnByResourceName(resourceName)
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.NoGPSTrailAvailableMessage);
         }
     }
 }
