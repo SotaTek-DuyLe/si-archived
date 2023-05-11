@@ -1109,7 +1109,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             ClickOnElement(downloadBtn);
             SwitchToLastWindow();
-            WaitUtil.WaitForElementVisible("//h2[text()='Tell us whether you accept cookies']");
+            WaitUtil.WaitForElementVisible("//h1[contains(text(), 'Search across all the registers')]");
             Assert.AreEqual("https://environment.data.gov.uk/public-register/view/search-all", GetCurrentUrl());
             Assert.AreEqual("Search all public registers", GetCurrentTitle());
             CloseCurrentWindow();
@@ -1437,6 +1437,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         #endregion
 
+        #region
+        private readonly By addNewItemCostAgreementTab = By.XPath("//div[@id='costAgreements-tab']//button[text()='Add New Item']");
+        private readonly By addNewItemLoadingCostAgreementTab = By.XPath("//div[@id='costAgreements-tab']//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
+
         [AllureStep]
         public DetailPartyPage ClickOnCostAgreementsTab()
         {
@@ -1451,5 +1455,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return this;
         }
+
+        [AllureStep]
+        public DetailPartyPage ClickOnAddNewItemCostAgreementTab()
+        {
+            WaitUtil.WaitForElementInvisible(addNewItemLoadingCostAgreementTab);
+            ClickOnElement(addNewItemCostAgreementTab);
+            return this;
+        }
+
+        #endregion
     }
 }

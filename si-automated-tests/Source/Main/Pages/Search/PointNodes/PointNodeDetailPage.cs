@@ -171,6 +171,11 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointNodes
         }
         #endregion
 
+        #region Active Service Tab
+        public readonly By ServiceTab = By.XPath("//a[@aria-controls='activeServices-tab']");
+        public readonly By AssetTypeColumn = By.XPath("//div[@class='services-grid--root']//div[text()='Asset Type (Product)']");
+        #endregion
+
         [AllureStep]
         public string GetPointNodeName()
         {

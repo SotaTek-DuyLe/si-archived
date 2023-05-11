@@ -6,6 +6,9 @@ using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Common;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PointAddress;
+using si_automated_tests.Source.Main.Pages.Search.PointAreas;
+using si_automated_tests.Source.Main.Pages.Search.PointNodes;
+using si_automated_tests.Source.Main.Pages.Search.PointSegment;
 using si_automated_tests.Source.Main.Pages.Services;
 using System;
 using System.Collections.Generic;
@@ -528,6 +531,64 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+        }
+
+        [Category("ActiveService")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_308_Active_Services_tab()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                  .GoToURL(WebUrl.MainPageUrl + "web/point-picker");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser40.UserName, AutoUser40.Password);
+            PointPickerPage pointPickerPage = PageFactoryManager.Get<PointPickerPage>();
+            pointPickerPage.WaitForLoadingIconToDisappear();
+            pointPickerPage.WaitForLoadingIconToDisappear();
+            pointPickerPage.ClickOnElement(pointPickerPage.ServiceTab);
+            pointPickerPage.WaitForLoadingIconToDisappear();
+            pointPickerPage.VerifyElementVisibility(pointPickerPage.AssetTypeColumn, true);
+
+            //1) Navigate to a Point Address> Active Services tab by enter following URL: https://test.echoweb.co.uk/web/point-addresses/363175
+            //2) Click 'Active Services' tab
+            PageFactoryManager.Get<LoginPage>()
+                  .GoToURL(WebUrl.MainPageUrl + "web/point-addresses/363175");
+            PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
+            pointAddressDetailPage.WaitForLoadingIconToDisappear();
+            pointAddressDetailPage.ClickOnElement(pointAddressDetailPage.ServiceTab);
+            pointAddressDetailPage.WaitForLoadingIconToDisappear();
+            pointAddressDetailPage.VerifyElementVisibility(pointAddressDetailPage.AssetTypeColumn, true);
+
+            //1) Navigate to a Point Area> Active Services tab by enter following URL: https://test.echoweb.co.uk/web/point-areas/1
+            //2) Click 'Active Services' tab
+            PageFactoryManager.Get<LoginPage>()
+                 .GoToURL(WebUrl.MainPageUrl + "web/point-areas/1");
+            PointAreaDetailPage pointAreaDetailPage = PageFactoryManager.Get<PointAreaDetailPage>();
+            pointAreaDetailPage.WaitForLoadingIconToDisappear();
+            pointAreaDetailPage.ClickOnElement(pointAreaDetailPage.ServiceTab);
+            pointAreaDetailPage.WaitForLoadingIconToDisappear();
+            pointAreaDetailPage.VerifyElementVisibility(pointAreaDetailPage.AssetTypeColumn, true);
+            
+            //1) Navigate to a Point Segment > Active Services tab by enter following URL: https://test.echoweb.co.uk/web/point-segments/32684
+            //2) Click 'Active Services' tab
+            PageFactoryManager.Get<LoginPage>()
+                 .GoToURL(WebUrl.MainPageUrl + "web/point-segments/32684");
+            PointSegmentDetailPage pointSegmentDetailPage = PageFactoryManager.Get<PointSegmentDetailPage>();
+            pointSegmentDetailPage.WaitForLoadingIconToDisappear();
+            pointSegmentDetailPage.ClickOnElement(pointSegmentDetailPage.ServiceTab);
+            pointSegmentDetailPage.WaitForLoadingIconToDisappear();
+            pointSegmentDetailPage.VerifyElementVisibility(pointSegmentDetailPage.AssetTypeColumn, true);
+            
+            //1) Navigate to a Point Node> Active Services tab by enter following URL: https://test.echoweb.co.uk/web/point-nodes/2
+            //2) Click 'Active Services' tab"
+            PageFactoryManager.Get<LoginPage>()
+                 .GoToURL(WebUrl.MainPageUrl + "web/point-addresses/363175");
+            PointNodeDetailPage pointNodeDetailPage = PageFactoryManager.Get<PointNodeDetailPage>();
+            pointNodeDetailPage.WaitForLoadingIconToDisappear();
+            pointNodeDetailPage.ClickOnElement(pointNodeDetailPage.ServiceTab);
+            pointNodeDetailPage.WaitForLoadingIconToDisappear();
+            pointNodeDetailPage.VerifyElementVisibility(pointNodeDetailPage.AssetTypeColumn, true);
         }
     }
 }
