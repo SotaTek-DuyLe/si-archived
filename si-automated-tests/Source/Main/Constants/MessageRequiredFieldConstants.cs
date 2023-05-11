@@ -34,5 +34,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string CustomerIsOnStopMessage = "Customer {0} is on stop since {1}";
         public static readonly string ServiceUnitPointRequiredMessage = "Service Unit Point Type is required";
         public static readonly string SlotCannotBeNegativeMessage = "Slots cannot be negative";
+        public static readonly string ErrorRetrievingTasksForRouteMessage = "Error retrieving tasks for this route";
+        public static readonly string NoGPSTrailAvailableMessage = "No GPS trail available";
     }
 }

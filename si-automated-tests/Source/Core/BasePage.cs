@@ -944,6 +944,14 @@ namespace si_automated_tests.Source.Core
             Assert.IsTrue(IsControlDisplayed("//*[contains(text(),'{0}')]", message));
             return this;
         }
+
+        [AllureStep]
+        public BasePage VerifyRedToasMessage(string message)
+        {
+            Assert.IsTrue(IsControlDisplayed("//div[text()='{0}']/parent::div[contains(@class, 'notifyjs-echo-error')]", message));
+            return this;
+        }
+
         [AllureStep]
         public BasePage VerifyDisplayToastMessageDoubleQuote(string message)
         {
