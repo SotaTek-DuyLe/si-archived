@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
@@ -10,7 +11,10 @@ using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartyAgreement;
+using si_automated_tests.Source.Main.Pages.Paties;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar;
 using si_automated_tests.Source.Main.Pages.Paties.SiteServices;
+using si_automated_tests.Source.Main.Pages.Sites;
 using si_automated_tests.Source.Main.Pages.Task;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
@@ -140,6 +144,125 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             detailTab.WaitForLoadingIconToDisappear();
             detailTab.VerifySelectedValue(detailTab.InvoiceAddressSelect, invoiceAddress);
             detailTab.VerifySelectedValue(detailTab.BillingRuleSelect, billingRule);
+        }
+
+        [Category("Agreement")]
+        [Category("Huong")]
+        [Test]
+        public void TC_311_Expose_OnStop_button_on_agreements_with_related_functionality()
+        {
+            //Verify that 'ON STOP' displays on an Agreement
+            PageFactoryManager.Get<LoginPage>()
+              .GoToURL(WebUrl.MainPageUrl + "web/agreements/40");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser31.UserName, AutoUser31.Password);
+            PartyAgreementPage partyAgreementPage = PageFactoryManager.Get<PartyAgreementPage>();
+            partyAgreementPage.WaitForLoadingIconToDisappear();
+            partyAgreementPage.ClickOnDetailsTab();
+            partyAgreementPage.WaitForLoadingIconToDisappear();
+            partyAgreementPage.VerifyElementVisibility(partyAgreementPage.OnStopBtn, true);
+
+            //Verify that user can set individual Agreement 'ON STOP' 
+            //On Active Agreement click 'On Stop'
+            partyAgreementPage.ClickOnElement(partyAgreementPage.OnStopBtn);
+            partyAgreementPage.WaitForLoadingIconToDisappear();
+            partyAgreementPage.WaitForLoadingIconToDisappear();
+            partyAgreementPage.VerifyElementVisibility(partyAgreementPage.OffStopBtn, true);
+            partyAgreementPage.VerifyAgreementStatus("On Stop");
+
+            //Navigate to Tasks tab on Agreement
+            TaskTab taskTab = partyAgreementPage.OpenTaskTab();
+            taskTab.VerifyOnStopTaskState();
+
+            //Navigate to the Party for this Agreement>Calendar tab>filter Site/Services for the task on the 'On Stop' Agreement. Click 'Apply'
+            PageFactoryManager.Get<LoginPage>()
+              .GoToURL(WebUrl.MainPageUrl + "web/parties/49");
+            DetailPartyPage partyCommonPage = PageFactoryManager.Get<DetailPartyPage>();
+            partyCommonPage.WaitForLoadingIconToDisappear();
+            PartyCalendarPage partyCalendarPage = partyCommonPage.ClickCalendarTab();
+            partyCalendarPage.WaitForLoadingIconToDisappear();
+            DateTime fromDateTime = CommonUtil.GetFirstDayInMonth(DateTime.Now);
+            DateTime toDateTime = CommonUtil.GetLastDayInMonth(DateTime.Now);
+            var serviceTasks = PageFactoryManager.Get<PartyCalendarPage>().GetAllDataInMonth(fromDateTime, toDateTime).Where(x => x.ImagePath.AsString().Contains("task-onhold.png")).ToList();
+            Assert.IsTrue(serviceTasks.Where(x => fromDateTime <= x.DateTime && x.DateTime <= toDateTime).Count() != 0);
+
+            //Navigate to the Party for this Agreement>Sites>open Site>filter Services for the task on the 'On Stop' Agreement. Click 'Apply'
+            PageFactoryManager.Get<DetailPartyPage>()
+                 .ClickSiteTab()
+                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .DoubleClickSiteRow(70)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailSitePage>()
+                .ClickCalendarTab()
+                .WaitForLoadingIconToDisappear();
+            var serviceTasksInSitePage = PageFactoryManager.Get<DetailSitePage>().GetAllDataInMonth(fromDateTime, toDateTime).Where(x => x.ImagePath.AsString().Contains("task-onhold.png")).ToList();
+            Assert.IsTrue(serviceTasksInSitePage.Where(x => fromDateTime <= x.DateTime && x.DateTime <= toDateTime).Count() != 0);
+            PageFactoryManager.Get<DetailSitePage>().ClickCloseBtn()
+                .SwitchToFirstWindow();
+
+            //On this Agreement click 'Off Stop'
+            PageFactoryManager.Get<LoginPage>()
+              .GoToURL(WebUrl.MainPageUrl + "web/agreements/40");
+            partyAgreementPage.WaitForLoadingIconToDisappear();
+            partyAgreementPage.ClickOnDetailsTab();
+            partyAgreementPage.WaitForLoadingIconToDisappear();
+            partyAgreementPage.ClickOnElement(partyAgreementPage.OffStopBtn);
+            partyAgreementPage.WaitForLoadingIconToDisappear();
+            partyAgreementPage.VerifyElementVisibility(partyAgreementPage.OnStopBtn, true);
+            partyAgreementPage.VerifyAgreementStatus("Active");
+
+
+            //Verify that it's not possible to take individual agreement OFF STOP if its Party is ON STOP
+            partyAgreementPage.ClickOnElement(partyAgreementPage.PartyTitle);
+            partyAgreementPage.SwitchToChildWindow(2);
+            partyCommonPage.WaitForLoadingIconToDisappear();
+            partyCommonPage.ClickAccountTab();
+            partyCommonPage.WaitForLoadingIconToDisappear();
+            partyCommonPage.ClickOnElement(partyCommonPage.OnStopBtnInAccountTab);
+            partyCommonPage.WaitForLoadingIconToDisappear();
+            partyCommonPage.WaitForLoadingIconToDisappear();
+            partyCommonPage.VerifyElementText(partyCommonPage.PartyStatus, "On Stop");
+            AgreementTab agreementTab = partyCommonPage.OpenAgreementTab();
+            agreementTab.VerifyStatus(0, "On Stop");
+
+            //Open On Stop Agreement>Click 'Off Stop' button
+            agreementTab.OpenFirstAgreement()
+                .SwitchToChildWindow(3);
+
+            partyAgreementPage.WaitForLoadingIconToDisappear();
+            partyAgreementPage.WaitForLoadingIconToDisappear();
+            partyAgreementPage.ClickOnDetailsTab();
+            partyAgreementPage.WaitForLoadingIconToDisappear();
+            partyAgreementPage.ClickOnElement(partyAgreementPage.OffStopBtn);
+            partyAgreementPage.VerifyToastMessage("You cannot take an Agreement 'Off Stop' when the associated Party is 'On Stop'")
+                .WaitUntilToastMessageInvisible("You cannot take an Agreement 'Off Stop' when the associated Party is 'On Stop'");
+
+            //Navigate to the Party where Party status=On stop AND party has 'On Stop' Agreements
+            //In Account tab click 'Off Stop'
+            //Click 'Cancel' 
+            partyAgreementPage.ClickCloseBtn()
+                .SwitchToChildWindow(2);
+            partyCommonPage.ClickAccountTab();
+            partyCommonPage.WaitForLoadingIconToDisappear();
+            partyCommonPage.ClickOnElement(partyCommonPage.OffStopButton);
+            partyCommonPage.VerifyElementVisibility(partyCommonPage.OffStopTitle, true);
+            partyCommonPage.ClickOnElement(partyCommonPage.CancelButton);
+            partyCommonPage.VerifyElementText(partyCommonPage.PartyStatus, "On Stop");
+
+            //Click 'No' 
+            partyCommonPage.ClickOnElement(partyCommonPage.OffStopButton);
+            partyCommonPage.VerifyElementVisibility(partyCommonPage.OffStopTitle, true);
+            partyCommonPage.ClickOnElement(partyCommonPage.NoButton);
+            partyCommonPage.VerifyElementText(partyCommonPage.PartyStatus, "On Stop");
+
+            //Click 'Yes'
+            partyCommonPage.ClickOnElement(partyCommonPage.OffStopButton);
+            partyCommonPage.VerifyElementVisibility(partyCommonPage.OffStopTitle, true);
+            partyCommonPage.ClickOnElement(partyCommonPage.YesButton);
+            partyCommonPage.VerifyElementText(partyCommonPage.PartyStatus, "Active");
         }
     }
 }
