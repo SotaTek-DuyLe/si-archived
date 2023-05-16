@@ -42,6 +42,7 @@ namespace si_automated_tests.Source.Test.TaskTests
         [Test(Description = "Tasks/tasklines - Detail Tasks - Source - sevice task")]
         public void TC_125_Detail_tasks()
         {
+            //Task from Contract = Commercial
             string taskIDWithSourceServiceTask = "3964";
             //Run query to get task's information
             List<TaskDBModel> taskInfoById = finder.GetTask(int.Parse(taskIDWithSourceServiceTask));
@@ -53,16 +54,11 @@ namespace si_automated_tests.Source.Test.TaskTests
 
             //Login ECHO and check the detail of the task
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Tasks")
-                .OpenOption("North Star Commercial")
-                .SwitchNewIFrame()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<TasksListingPage>()
-                .WaitForTaskListinPageDisplayed()
-                .FilterByTaskId(taskIDWithSourceServiceTask)
-                .ClickOnFirstRecord()
-                .SwitchToLastWindow();
+                .GoToURL(WebUrl.MainPageUrl + "web/tasks/3964");
+            
             DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
+            detailTaskPage
+                .WaitForLoadingIconToDisappear();
             detailTaskPage
                 .IsDetailTaskPage()
                 .VerifyCurrentUrlOfDetailTaskPage(taskIDWithSourceServiceTask)
@@ -81,14 +77,14 @@ namespace si_automated_tests.Source.Test.TaskTests
             //Line 12: Click on hyperlink in a description
             detailTaskPage
                 .ClickOnHyperlinkInADesciption()
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
             serviceUnitDetailPage
                 .WaitForServiceUnitDetailPageDisplayed()
                 .VerifyCurrentUrlServiceTaskDetail(taskInfoById[0].serviceunitID.ToString())
                 .ClickCloseBtn()
-                .SwitchToChildWindow(2);
+                .SwitchToChildWindow(1);
             //Line 13: only party, site and round have hyperlink in the header
             detailTaskPage
                 .VerifyFieldInHeaderWithLink("Party")
@@ -100,36 +96,36 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .VerifyFieldInHeaderReadOnly("Round Group")
                 //Line 14: Click party hyperlink
                 .ClickPartyHyperLink()
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
                 .WaitForDetailPartyPageLoadedSuccessfully("Lidl")
                 .VerifyCurrentUrlPartyDetailPage(taskInfoById[0].partyID.ToString())
                 .ClickCloseBtn()
-                .SwitchToChildWindow(2);
+                .SwitchToChildWindow(1);
             //Line 15: Click site hyperlink
             detailTaskPage
                 .ClickSiteHyperLink()
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             DetailSitePage detailSitePage = PageFactoryManager.Get<DetailSitePage>();
             detailSitePage
                 .WaitForSiteDetailPageDisplayed()
                 .VerifyCurrentUrlSitePage(taskInfoById[0].siteID.ToString())
                 .ClickCloseBtn()
-                .SwitchToChildWindow(2);
+                .SwitchToChildWindow(1);
             //Line 16: Click round hyperlink
             detailTaskPage
                 .ClickRoundHyperLink()
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             RoundInstancesDetailPage roundInstancesDetailPage = PageFactoryManager.Get<RoundInstancesDetailPage>();
             roundInstancesDetailPage
                 .WaitForRoundInstanceDetailPageDisplayed()
                 .VerifyCurrentUrlRoundPage(taskInfoById[0].roundinstanceID.ToString())
                 .ClickCloseBtn()
-                .SwitchToChildWindow(2);
+                .SwitchToChildWindow(1);
             //Line 17 - Details tab
             detailTaskPage
                 .VerifyDetailTabWithDataInDB(taskInfoById[0])
