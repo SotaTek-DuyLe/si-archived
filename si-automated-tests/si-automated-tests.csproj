@@ -117,6 +117,7 @@
     <None Remove="Source\Test\BusinessFormTests\" />
     <None Remove="Source\Main\Pages\CostRules\" />
     <None Remove="Source\Main\Pages\CostAgreements\" />
+    <None Remove="Source\Main\Pages\Paties\Contacts\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
@@ -160,6 +161,7 @@
     <Folder Include="Source\Test\BusinessFormTests\" />
     <Folder Include="Source\Main\Pages\CostRules\" />
     <Folder Include="Source\Main\Pages\CostAgreements\" />
+    <Folder Include="Source\Main\Pages\Paties\Contacts\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">

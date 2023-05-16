@@ -25,6 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private string TaskTable = "//div[@class='grid-canvas']";
         private string TaskRow = "./div[contains(@class, 'slick-row')]";
         private string TaskPriorityCell = "./div[contains(@class, 'slick-cell l23 r23')]";
+        private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
 
         private TableElement taskTableEle;
         public TableElement TaskTableEle
