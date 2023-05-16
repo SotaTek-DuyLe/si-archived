@@ -18,6 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
         private readonly By clearBtn = By.CssSelector("button[title='Clear Filters']");
         private readonly By statusInput = By.XPath("//div[contains(@class, 'l9')]//input");
+        private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
 
 
         //DYNAMIC LOCATOR
@@ -164,6 +165,5 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             ClickOnElement(clearBtn);
             return this;
         }
-
     }
 }

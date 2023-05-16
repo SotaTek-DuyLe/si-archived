@@ -18,6 +18,8 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By eventRow = By.XPath("//div[@class='grid-canvas']");
         private readonly By allRecordCheckbox = By.XPath("//div[@title='Select/Deselect All']//input");
         private readonly By bulkUpdateBtn = By.XPath("//button[text()='Bulk Update']");
+        private readonly By allEventsRows = By.XPath("//div[@class='grid-canvas']/div");
+        private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
 
         [AllureStep]
         public EventsListingPage FilterByEventId(string eventId)
@@ -82,5 +84,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual("", GetElementText(eventRow));
             return this;
         }
+
     }
+
 }

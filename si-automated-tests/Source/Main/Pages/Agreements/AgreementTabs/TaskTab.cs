@@ -20,6 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 
         private readonly By taskType = By.XPath("//div[@class='slick-cell l11 r11']");
         private readonly By taskDueDate = By.XPath("//div[@class='slick-cell l13 r13']");
+        private readonly By containerTasksTab = By.XPath("//div[@id='tasks-tab']//div[@class='grid-canvas']");
 
         private readonly By taskTabBtn = By.XPath("//a[@aria-controls='tasks-tab']");
         private readonly By refreshBtn = By.XPath("//button[@title='Refresh']");
@@ -572,6 +573,21 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         {
             int firstId = int.Parse(GetElementText(fourthTaskId));
             return firstId;
+        }
+
+        [AllureStep]
+        public TaskTab IsTaskTabLoaded()
+        {
+            WaitUtil.WaitForAllElementsVisible("//div[@id='tasks-tab']//div[@class='grid-canvas']/div");
+            return this;
+        }
+
+
+        [AllureStep]
+        public TaskTab VerifyDisplayVerticalScrollBarTasksTab()
+        {
+            VerifyDisplayVerticalScrollBar(containerTasksTab);
+            return this;
         }
     }
 

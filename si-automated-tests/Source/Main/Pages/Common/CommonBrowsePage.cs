@@ -24,6 +24,8 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By secondResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row odd')][1]/div");
         private readonly By availableRows = By.XPath("//div[contains(@class,'ui-widget-content slick-row')]");
         private readonly String resultFields = "//div[contains(@class,'ui-widget-content slick-row')][{0}]/div";
+        private readonly By allRowInTabel = By.XPath("//div[@class='grid-canvas']/div");
+        private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
 
         public CommonBrowsePage()
         {
@@ -179,6 +181,21 @@ namespace si_automated_tests.Source.Main.Pages
             ClickOnElement(firstServiceTaskLink);
             return this;
         }
+
+        [AllureStep]
+        public CommonBrowsePage IsListPageLoaded()
+        {
+            WaitUtil.WaitForAllElementsVisible(allRowInTabel);
+            return this;
+        }
+
+        [AllureStep]
+        public CommonBrowsePage VerifyDisplayVerticalScrollBarInListingPage()
+        {
+            VerifyDisplayVerticalScrollBar(containerPage);
+            return this;
+        }
+
 
     }
 }

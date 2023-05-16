@@ -16,6 +16,8 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         private readonly By firstPointAddressRow = By.XPath("//div[@class='grid-canvas']/div[not(contains(@style, 'display: none;'))][1]");
         private readonly By filterInputById = By.XPath("//div[contains(@class, 'l1 r1')]/descendant::input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
+        private readonly By allPointAddressRows = By.XPath("//div[@class='grid-canvas']/div");
+        private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
 
         //DYNAMIC LOCATOR
         private const string columnInRowPointAddress = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
@@ -55,6 +57,7 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
         {
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(addNewPointAddressBtn);
+            WaitUtil.WaitForElementVisible(allPointAddressRows);
             return this;
         }
         [AllureStep]
@@ -93,6 +96,17 @@ namespace si_automated_tests.Source.Main.Pages.PointAddress
             WaitForLoadingIconToDisappear();
             SendKeys(filterInputById, pointAddressId);
             ClickOnElement(applyBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public PointAddressListingPage VerifyDisplayVerticalScrollBarPointAddressPage()
+        {
+            List<IWebElement> webElements = GetAllElements(allPointAddressRows);
+            if (webElements.Count >= 25)
+            {
+                VerifyDisplayVerticalScrollBar(containerPage);
+            }
             return this;
         }
     }

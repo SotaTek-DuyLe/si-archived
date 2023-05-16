@@ -13,7 +13,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications.ServiceStatus
         private readonly By selectAllCheckbox = By.XPath("//div[@title='Select/Deselect All']//input");
         private readonly By allServiceStatusRow = By.XPath("//div[@class='grid-canvas']/div");
         private readonly By loadingIconFrameTab = By.XPath("//div[@id='form']/following-sibling::div/div[@class='loading-data']");
+        private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
 
+        [AllureStep]
+        public ServiceStatusPage IsServiceStatusLoaded()
+        {
+            WaitUtil.WaitForAllElementsVisible("//div[@class='grid-canvas']/div");
+            return this;
+        }
 
         [AllureStep]
         public ServiceStatusPage FilterServiceStatusById(string id)
@@ -32,6 +39,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications.ServiceStatus
             ClickOnElement(selectAllCheckbox);
             DoubleClickOnElement(firstResult);
             return PageFactoryManager.Get<RoundInstanceForm>();
+        }
+
+        [AllureStep]
+        public ServiceStatusPage VerifyDisplayVerticalScrollBarServiceStatusPage()
+        {
+            VerifyDisplayVerticalScrollBar(containerPage);
+            return this;
         }
 
     }
