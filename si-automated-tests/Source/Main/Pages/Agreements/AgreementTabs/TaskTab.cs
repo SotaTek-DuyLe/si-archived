@@ -80,6 +80,21 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         }
 
         [AllureStep]
+        public TaskTab VerifyOnStopTaskState()
+        {
+            int count = TaskTableEle.GetRows().Count;
+            for (int i = 0; i < count; i++)
+            {
+                string taskImageUrl = TaskTableEle.GetCell(i, TaskTableEle.GetCellIndex(TaskStateImgCell)).GetAttribute("background-image");
+                if (taskImageUrl.Contains("task-onhold.png"))
+                {
+                    return this;
+                }
+            }
+            return this;
+        }
+
+        [AllureStep]
         public TaskTab VerifyFirstTaskType(string expected)
         {
             IList<IWebElement> listTaskType = WaitUtil.WaitForAllElementsVisible(taskType);

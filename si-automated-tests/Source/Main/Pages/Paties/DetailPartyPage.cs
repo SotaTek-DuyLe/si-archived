@@ -156,6 +156,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public readonly By OnStopButton = By.XPath("//div[@id='account-tab']//button[text()='ON STOP']");
         public readonly By OffStopButton = By.XPath("//div[@id='account-tab']//button[text()='OFF STOP']");
         public readonly By PartyStatus = By.XPath("//div[@title='Party Status']//span");
+        #region OffStop Dialog
+        public readonly By OffStopTitle = By.XPath("//div[@class='text-info' and text()='Are you sure you want to take all linked Agreements \"Off Stop\"?']");
+        public readonly By CancelButton = By.XPath("//div[@class='bootbox modal fade in']//button[text()='Cancel']");
+        public readonly By YesButton = By.XPath("//div[@class='bootbox modal fade in']//button[text()='Yes']");
+        public readonly By NoButton = By.XPath("//div[@class='bootbox modal fade in']//button[text()='No']");
+        #endregion
 
         //HISTORY TAB
         private readonly string historyItem = "(//span[text()='{0}']/following-sibling::span[1])[1]";
@@ -171,6 +177,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By creditLimitInput = By.CssSelector("input[id='party-credit-limit']");
         private readonly By wipBalanceInput = By.CssSelector("input[id='wip-balance']");
         private readonly By accountBalanceInput = By.CssSelector("input[id='account-balance']");
+        public readonly By OnStopBtnInAccountTab = By.XPath("//div[@id='account-tab']//button[text()='ON STOP']");
 
         [AllureStep]
         public DetailPartyPage InputCreditLimt(string creditLimitValue)
