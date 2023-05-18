@@ -219,5 +219,6 @@ namespace si_automated_tests.Source.Main.Pages
             ClickOnElement(searchInPopupBtn);
             return this;
         }
+
     }
 }

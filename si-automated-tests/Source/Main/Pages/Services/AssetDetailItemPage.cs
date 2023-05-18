@@ -3,6 +3,9 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace si_automated_tests.Source.Main.Pages.Services
 {
@@ -29,6 +32,14 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             WaitUtil.WaitForElementVisible(title);
             Assert.IsTrue(IsControlDisplayed(AssetInput));
+            return this;
+        }
+
+        [AllureStep]
+        public AssetDetailItemPage AssetTypeDisplayCorrectly(List<string> assetTypes)
+        {
+            var list = GetSelectDisplayValues(AssetTypeSelect).Where(x => !string.IsNullOrEmpty(x)).ToList();
+            CollectionAssert.AreEqual(assetTypes, list);
             return this;
         }
 

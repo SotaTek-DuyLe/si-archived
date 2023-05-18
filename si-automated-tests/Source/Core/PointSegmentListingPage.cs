@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -9,6 +10,8 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
     public class PointSegmentListingPage : BasePage
     {
         private readonly By idColumn = By.XPath("//span[text()='ID']");
+        private readonly By allPointSegmentRows = By.XPath("//div[@class='grid-canvas']/div");
+        private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
 
         //DYNAMIC LOCATOR
         private const string columnInRowPointAddress = "//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
@@ -16,12 +19,15 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
 
+        [AllureStep]
         public PointSegmentListingPage WaitForPointSegmentsPageDisplayed()
         {
             WaitUtil.WaitForElementVisible(idColumn);
+            WaitUtil.WaitForAllElementsVisible(allPointSegmentRows);
             return this;
         }
 
+        [AllureStep]
         public List<PointSegmentModel> getAllPointSegmentInList(int numberOfRow)
         {
             List<PointSegmentModel> allModel = new List<PointSegmentModel>();
@@ -39,17 +45,30 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
             return allModel;
         }
 
+        [AllureStep]
         public PointSegmentDetailPage DoubleClickFirstPointSegmentRow()
         {
             DoubleClickOnElement(firstPointSegementRow);
             return PageFactoryManager.Get<PointSegmentDetailPage>();
         }
 
+        [AllureStep]
         public PointSegmentListingPage FilterSegmentById(string id)
         {
             WaitForLoadingIconToDisappear();
             SendKeys(filterInputById, id);
             ClickOnElement(applyBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public PointSegmentListingPage VerifyDisplayVerticalScrollBarPointSegmentPage()
+        {
+            List<IWebElement> webElements = GetAllElements(allPointSegmentRows);
+            if (webElements.Count >= 25)
+            {
+                VerifyDisplayVerticalScrollBar(containerPage);
+            }
             return this;
         }
 

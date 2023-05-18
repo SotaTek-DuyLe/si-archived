@@ -18,6 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By firstCheckboxAtRow = By.XPath("//div[@class='grid-canvas']//input");
         private readonly By firstStatusAtRow = By.XPath("//div[@class='grid-canvas']//div[contains(@class, 'l9 r9')]");
         private readonly By firstRegenerateBatchBtn = By.XPath("//div[@class='grid-canvas']//button[text()='Regenerate Batch']");
+        private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
         //DYNAMIC
         private readonly string firstRecordById = "//div[@class='grid-canvas']/div[1]//div[contains(@class, 'r1')]/div[text()='{0}']";
 
@@ -116,6 +117,13 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         public SalesInvoiceBatchesPage ClickOnFirstRegenerateBatchBtn()
         {
             ClickOnElement(firstRegenerateBatchBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public SalesInvoiceBatchesPage VerifyDisplayVerticalScrollBarSiteListPage()
+        {
+            VerifyDisplayVerticalScrollBar(containerPage);
             return this;
         }
 

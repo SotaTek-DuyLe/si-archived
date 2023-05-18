@@ -438,5 +438,18 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select approveddatetime, approveduserID,* FROM COSTAGREEMENTS where partyid=" + partyId + "and costagreementID = " + costAgreementId + ";";
             return FindList<COSTAGREEMENTSDBModel>(query);
         }
+
+        [AllureStep]
+        public List<ServiceAssetTypeDBModel> GetServiceAssetTypes(string serviceUnitID)
+        {
+            string query = @"select serviceunitID,assettype
+                            from serviceassettypes SAT
+                            inner
+                            join assettypes ATT on ATT.assettypeID = SAT.assettypeID
+                            inner
+                            join serviceunits SU on SU.serviceID = SAT.serviceID
+                            where serviceunitID = " + serviceUnitID + "; ";
+            return FindList<ServiceAssetTypeDBModel>(query);
+        }
     }
 }

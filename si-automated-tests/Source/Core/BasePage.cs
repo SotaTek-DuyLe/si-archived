@@ -1379,5 +1379,36 @@ namespace si_automated_tests.Source.Core
             return this;
         }
 
+        //Scroll bar - Vertical
+        [AllureStep]
+        public BasePage VerifyDisplayVerticalScrollBar(By container)
+        {
+            IWebElement webElement = (IWebElement)driver.FindElement(container);
+
+            Assert.IsTrue(GetAttributeValue(webElement, "style").Contains("overflow: auto;"));
+            Assert.IsTrue(GetAttributeValue(webElement, "style").Contains("height"));
+            return this;
+        }
+
+        //Scroll bar - Horizontal
+        [AllureStep]
+        public BasePage VerifyDisplayHorizontalScrollBar()
+        {
+            String execScript = "return arguments[0].scrollHeight > arguments[0].offsetHeight;";
+            this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
+            Boolean test = (Boolean)(this.javascriptExecutor.ExecuteScript(execScript));
+            Assert.IsTrue(test);
+            return this;
+        }
+
+        //Zoom
+        [AllureStep]
+        public BasePage SetZoomLevel(int zoomRate)
+        {
+            this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
+            javascriptExecutor.ExecuteScript(string.Format("document.body.style.zoom='{0}%'", zoomRate));
+            return this;
+        }
+
     }
 }
