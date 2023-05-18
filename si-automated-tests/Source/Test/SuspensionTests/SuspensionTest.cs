@@ -47,6 +47,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         [Category("Add Suspension")]
         [Category("Huong")]
         [Test(Description = "Add new suspension")]
+        [Order(1)]
         public void TC_089_Add_New_Suspension()
         {
             int partyId = 73;
@@ -144,7 +145,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                  .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .DoubleClickSiteRow(97)
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailSitePage>()
                 .ClickCalendarTab()
@@ -156,6 +157,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         [Category("Edit Suspension")]
         [Category("Huong")]
         [Test(Description = "Edit suspension")]
+        [Order(2)]
         public void TC_090_Edit_Suspension()
         {
             int partyId = 73;
@@ -178,6 +180,9 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
                 .ClickTabDropDown()
                 .ClickSuspensionTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartySuspensionPage>().ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartySuspensionPage>().ClickNewSuspension();
             inputData.FromDate = DateTime.Now.AddDays(4).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -212,7 +217,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCalendarPage>()
                 .ClickSiteCombobox()
-                .ClickSellectAllSites()
+                .ClickSellectSite(1)
                 .ClickServiceCombobox()
                 .ClickSellectAllServices()
                 .ClickApplyCalendarButton()
@@ -312,7 +317,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .ClickTabDropDown()
                 .ClickSuspensionTab()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<AddNewSuspensionPage>().ClickDeleteSuspension(0)
+            PageFactoryManager.Get<AddNewSuspensionPage>().ClickDeleteNewSuspension()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
 

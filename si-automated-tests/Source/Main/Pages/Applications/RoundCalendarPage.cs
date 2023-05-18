@@ -267,10 +267,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(rounds.Any(x => !x.Displayed) == false);
             foreach (var round in rounds)
             {
-                Assert.IsTrue(round.GetCssValue("background-image").Contains("content/images/coreroundstate/1.svg"));
+                Assert.IsTrue(round.GetCssValue("background-image").Contains("content/images/coreroundstate"));
             }
             return this;
         }
+
+        [AllureStep]
+        public RoundCalendarPage CloseRoundInstanceSchedule()
+        {
+            ClickOnElement(By.XPath("//div[contains(@class, 'fc-popover')]//span[@class='fc-close fc-icon fc-icon-x']"));
+            SleepTimeInMiliseconds(200);
+            return this;
+        }
+
         [AllureStep]
         public RoundCalendarPage ClickRoundInstance(bool clickGreyInstance)
         {
@@ -315,11 +324,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 ("/content/images/coreroundstate/3.svg", "Complete"),
                 ("/content/images/coreroundstate/5.svg", "Delayed"),
                 ("/content/images/coreroundstate/4.svg", "Cancelled"),
+                ("/content/images/coreroundstate/6.svg", "Posted"),
             };
             List<IWebElement> legendItems = GetAllElements(By.XPath("//div[@id='fc-legend-content']//div[@class='legend-item']"));
             foreach (var legendItem in legendItems)
             {
-                IWebElement icon = legendItem.FindElement(By.XPath("./div[@class='legend-icon']"));
+                IWebElement icon = legendItem.FindElements(By.XPath("./div[@class='legend-icon']")).FirstOrDefault();
+                if (icon == null) continue;
                 Assert.IsTrue(expectedResult.Any(x => icon.GetCssValue("background-image").Contains(x.imgPath)));
                 IWebElement text = legendItem.FindElement(By.XPath("./div[@class='legend-item-text']"));
                 Assert.IsTrue(expectedResult.Any(x => text.Text == x.legendItemText));

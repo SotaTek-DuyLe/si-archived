@@ -132,7 +132,9 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         private readonly By partyInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l7')]/input");
         private readonly By idValueInFistRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l3')]");
         private readonly By partyValueInFirstRow = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l7')])[1]");
-        private readonly By statusValueInFirstRow = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l19')])[1]");
+        private readonly By statusValueInFirstRow = By.XPath("(//img[@src='/web/content/images/coretaskstate/s2.svg']/parent::div/parent::div/following-sibling::div[contains(@class, 'l19')])[1]");
+        private readonly By statusOfTaskOnHoldAtFirstColumn = By.XPath("(//img[@src='/web/content/style/images/task-onhold.png']/parent::div/parent::div/following-sibling::div[contains(@class, 'l19')])[1]");
+        private readonly By checkboxIdOfFirstRow = By.XPath("(//img[@src='/web/content/images/coretaskstate/s2.svg']/parent::div/parent::div/preceding-sibling::div[contains(@class, 'l0')])[1]");
         private readonly By frameWorksheet = By.CssSelector("iframe[id='worksheet-tab']");
 
         //DYNAMIC
@@ -209,19 +211,32 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         }
 
         [AllureStep]
-        public MapListingPage ClickOnStatusInFirstRow()
+        public MapListingPage ClickOnStatusInFirstRowAndVerify(string[] taskStateValues, string[] taskStateOnHoldValues)
         {
-            ClickOnElement(statusValueInFirstRow);
+            if (IsControlDisplayedNotThrowEx(statusValueInFirstRow))
+            {
+                ClickOnElement(statusValueInFirstRow);
+                for (int i = 0; i < taskStateValues.Length; i++)
+                {
+                    Assert.AreEqual(taskStateValues[i], GetElementText(statusOptionInFirstRow, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+                }
+            }
+            else if (IsControlDisplayedNotThrowEx(statusOfTaskOnHoldAtFirstColumn))
+            {
+                ClickOnElement(statusOfTaskOnHoldAtFirstColumn);
+                for (int i = 0; i < taskStateOnHoldValues.Length; i++)
+                {
+                    Assert.AreEqual(taskStateOnHoldValues[i], GetElementText(statusOptionInFirstRow, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+                }
+            }
+            
             return this;
         }
 
         [AllureStep]
-        public MapListingPage VerifyOrderInTaskStateDd(string[] taskStateValues)
+        public MapListingPage ClickOnCheckboxFirstRow()
         {
-            for (int i = 0; i < taskStateValues.Length; i++)
-            {
-                Assert.AreEqual(taskStateValues[i], GetElementText(statusOptionInFirstRow, (i + 2).ToString()), "Task state at " + i + "is incorrect");
-            }
+            ClickOnElement(checkboxIdOfFirstRow);
             return this;
         }
 

@@ -174,7 +174,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         {
             ClickOnElement(inspectionAddress, address);
             //Verify
-            SwitchToLastWindow();
+            SwitchToChildWindow(4);
             WaitUtil.WaitForElementVisible("//span[text()='Service Unit']");
             string currentUrl = GetCurrentUrl();
             Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "web/service-units/" + serviceUnitId);
@@ -186,10 +186,10 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         {
             ClickOnElement(inspectionAddress, address);
             //Verify
-            SwitchToLastWindow();
-            WaitUtil.WaitForElementVisible("//span[text()='Service Task']");
+            SwitchToChildWindow(4);
+            WaitUtil.WaitForElementVisible("//span[text()='Task']");
             string currentUrl = GetCurrentUrl();
-            Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "web/service-tasks/" + sourceId);
+            Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "web/tasks/" + sourceId);
             ClickCloseBtn();
             SwitchToChildWindow(3);
             return this;
@@ -579,6 +579,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         {
             GoToURL(WebUrl.MainPageUrl + "web/inspections/" + inspectionId);
             return PageFactoryManager.Get<DetailInspectionPage>();
+        }
+
+        [AllureStep]
+        public DetailInspectionPage VerifyCompleteAndCancelBtnAreTheSameSize()
+        {
+            Assert.AreEqual(GetAttributeValue(completeBtn, "style"), GetAttributeValue(cancelBtn, "style"));
+            return this;
         }
     }
 }

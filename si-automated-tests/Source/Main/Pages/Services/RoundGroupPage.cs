@@ -40,7 +40,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By roundRows = By.XPath("//div[@id='rounds-tab']//table//tbody//tr");
         private readonly By resourceRows = By.XPath("//div[@id='defaultResources-tab']//table//tbody//tr[contains(@data-bind, 'with: $data.getFields()')][not(ancestor::tr)]");
         private readonly string resourceDetailContainerRows = "//div[@id='defaultResources-tab']//table//tbody//tr[contains(@id, 'child-target{0}')]";
-        private readonly string resourceDetailRows = "//div[@id='defaultResources-tab']//table//tbody//tr[contains(@id, 'child-target{0}')]//tr[@data-bind='with: $data.getFields()']";
+        private readonly string resourceDetailRows = "//div[@id='defaultResources-tab']//table//tbody//tr[contains(@id, 'child-target{0}')]//tr[contains(@data-bind, 'with: $data.getFields()')]";
         private readonly By typeSelect = By.XPath("./td//select[@id='type.id']");
         private readonly By resourceSelect = By.XPath("./td//select[@id='resource.id']");
         private readonly By resourceSelectOpt = By.XPath("./td//select[@id='resource.id']//option");
@@ -65,7 +65,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By addSiteButton = By.XPath("//div[@id='sites-tab']//button[contains(@data-bind, 'click: addSites')]");
         private readonly By removeSiteButton = By.XPath("//div[@id='sites-tab']//button[contains(@data-bind, 'click: removeSites')]");
         private readonly By roundGroupName = By.XPath("//h5[@data-bind='text: fields.roundGroup.value']");
-        private readonly By businessUnitSelect = By.Id("businessUnit.id");
+        public readonly By businessUnitSelect = By.Id("businessUnit.id");
+        public readonly By ActiveStatus = By.XPath("//h5[@id='header-status']//span[text()='Active']");
+        public readonly By EndDateStatus = By.XPath("//h5[@id='header-status']//span[@class='end-date']");
 
         #region Schedule Tab
         public readonly By ScheduleTab = By.XPath("//a[@aria-controls='schedules-tab']");
@@ -261,10 +263,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
         [AllureStep]
-        public RoundGroupPage VerifyStartDateInputIsDisable(int rowIdx)
+        public RoundGroupPage VerifyStartDateInputIsDisable(int rowIdx, bool isDisable)
         {
             IWebElement row = GetAllElements(resourceRows)[rowIdx];
-            Assert.IsFalse(row.FindElement(startDateInput).Enabled);
+            Assert.IsFalse(row.FindElement(startDateInput).Enabled == isDisable);
             return this;
         }
         [AllureStep]
@@ -472,10 +474,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.IsTrue(retireButton.Displayed == isVisibleRetireBtn);
             if (checkEnable)
             {
-                Assert.IsFalse(select.Enabled);
-                Assert.IsFalse(checkbox.Enabled);
+                Assert.IsTrue(select.Enabled);
+                Assert.IsTrue(checkbox.Enabled);
                 Assert.IsFalse(input.Enabled);
-                Assert.IsFalse(startDate.Enabled);
+                Assert.IsTrue(startDate.Enabled);
                 Assert.IsTrue(endDate.Enabled);
             }
             return this;
@@ -550,6 +552,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
             return this.driver.FindElements(resourceDetailXPath).Count - 1;
+        }
+
+        [AllureStep]
+        public RoundGroupPage WaitForResourceRowsVisible()
+        {
+            WaitUtil.WaitForAllElementsVisible(resourceRows);
+            return this;
         }
 
         [AllureStep]
@@ -631,9 +640,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
         [AllureStep]
 
-        public RoundGroupPage ClickRetireDefaultResourceButton(string resource)
+        public RoundGroupPage ClickRetireDefaultResourceButton(int resourceRowIdx, string resource)
         {
-            List<IWebElement> webElements = new List<IWebElement>();
+            By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, resourceRowIdx));
+            List<IWebElement> webElements = this.driver.FindElements(resourceDetailXPath).ToList();
             for (int i = 0; i < webElements.Count; i++)
             {
                 if (GetFirstSelectedItemInDropdown(webElements[i].FindElement(resourceSelect)) == resource)
@@ -663,7 +673,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             {
                 if (GetFirstSelectedItemInDropdown(webElements[i].FindElement(typeSelect)) == driverType)
                 {
-                    bool containDetail = detailWebElements[i].FindElements(resourceSelect).Count != 0;
+                    bool containDetail = detailWebElements.Count > i && detailWebElements[i].FindElements(resourceSelect).Count != 0;
                     if (containDetail)
                     {
                         if (!detailWebElements[i].Displayed)
@@ -682,16 +692,17 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             List<DefaultResourceModel> defaultResources = new List<DefaultResourceModel>();
             List<IWebElement> webElements = GetAllElements(resourceRows);
-            List<IWebElement> webDetailElements = new List<IWebElement>();
             for (int i = 0; i < webElements.Count; i++)
             {
                 DefaultResourceModel defaultResource = new DefaultResourceModel();
                 defaultResource.Type = GetFirstSelectedItemInDropdown(webElements[i].FindElement(typeSelect));
                 defaultResource.Quantity = webElements[i].FindElement(quantityInput).GetAttribute("value");
-                bool containDetail = webDetailElements[i].FindElements(resourceSelect).Count != 0;
+                By resourceDetailXPath = By.XPath(string.Format(resourceDetailRows, i));
+                var webDetailElements = this.driver.FindElements(resourceDetailXPath);
+                bool containDetail = webDetailElements.Count != 0;
                 if (containDetail)
                 {
-                    if (!webDetailElements[i].Displayed)
+                    if (!webDetailElements[0].Displayed)
                     {
                         ClickExpandButton(i);
                         Thread.Sleep(300);
@@ -699,9 +710,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
                     defaultResource.Detail = new DetailDefaultResourceModel()
                     {
-                        Resource = GetFirstSelectedItemInDropdown(webDetailElements[i].FindElement(resourceSelect)),
-                        HasSchedule = webDetailElements[i].FindElement(hasScheduleCheckbox).Selected,
-                        Schedule = webDetailElements[i].FindElement(scheduleInput).GetAttribute("value"),
+                        Resource = GetFirstSelectedItemInDropdown(webDetailElements[0].FindElement(resourceSelect)),
+                        HasSchedule = webDetailElements[0].FindElement(hasScheduleCheckbox).Selected,
+                        Schedule = webDetailElements[0].FindElement(scheduleInput).GetAttribute("value"),
                     };
                 }
                 defaultResources.Add(defaultResource);
@@ -775,6 +786,19 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 WaitForLoadingIconToDisappear();
             }
             return DateTime.MinValue;
+        }
+
+        [AllureStep]
+        public DateTime TryDoubleClickRoundGroup(DateTime startDate, DateTime endDate, List<DayOfWeek> dayOfWeeks, List<DateTime> ignoreDateTimes = null)
+        {
+            try
+            {
+                return DoubleClickRoundGroup(startDate, endDate, dayOfWeeks, ignoreDateTimes);
+            }
+            catch (OpenQA.Selenium.StaleElementReferenceException ex)
+            {
+                return DoubleClickRoundGroup(startDate, endDate, dayOfWeeks, ignoreDateTimes);
+            }
         }
 
         public RoundGroupPage VerifyRoundInstanceState(DateTime roundDate, string state)

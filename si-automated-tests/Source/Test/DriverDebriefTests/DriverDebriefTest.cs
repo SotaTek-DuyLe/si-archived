@@ -25,6 +25,7 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
     {
         [Category("Driver Debrief")]
         [Category("Huong")]
+        [Category("Huong_2")]
         [Test(Description = "Driver Debrief - GPS event matching - tasks are not immediately updated to show changes to task and task lines after matching/unmatching (bug fix) ")]
         public void TC_194_Driver_Debrief_GPS_event_matching()
         {
@@ -68,13 +69,13 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
             debriefResultPage.WaitForLoadingIconToDisappear();
             debriefResultPage.ClickOnElement(debriefResultPage.BinLiftSecondRow);
             debriefResultPage.WaitForLoadingIconToDisappear();
+            debriefResultPage.WaitForDebriefLoaded();
             debriefResultPage.ClickOnElement(debriefResultPage.UnmatchButton);
             debriefResultPage.VerifyDisplayToastMessage(MessageSuccessConstants.SavedMessage)
                 .WaitForLoadingIconToDisappear();
             //Click on x bin lift -> Find the task you are working with
             debriefResultPage.SleepTimeInMiliseconds(10000);
             debriefResultPage.ClickOnElement(debriefResultPage.BinLiftSecondRow);
-            debriefResultPage.WaitForLoadingIconToDisappear();
             debriefResultPage.VerifyFirstTaskRatio();
         }
 
@@ -84,40 +85,13 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
         public void TC_172_1_Debrief_Results_screen()
         {
             PageFactoryManager.Get<LoginPage>()
-               .GoToURL(WebUrl.MainPageUrl);
+               .GoToURL(WebUrl.MainPageUrl + "web/debrief-results/5059");
             PageFactoryManager.Get<LoginPage>()
                .IsOnLoginPage()
                .Login(AutoUser60.UserName, AutoUser60.Password);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Resources)
-                .OpenOption("Daily Allocation")
-                .SwitchNewIFrame();
-            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            resourceAllocationPage.SelectContract(Contract.Commercial);
-            resourceAllocationPage.SelectShift("AM");
-            resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
-            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
-                .SelectRoundNode("Collections")
-                .InputCalendarDate(resourceAllocationPage.date, "25/07/2022");
-            resourceAllocationPage.ClickGo();
-            resourceAllocationPage
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
-            resourceAllocationPage.ClickRoundInstance()
-                .SwitchToChildWindow(2)
-                .WaitForLoadingIconToDisappear();
-            RoundInstanceForm roundInstanceForm = PageFactoryManager.Get<RoundInstanceForm>();
-            roundInstanceForm.WaitForLoadingIconToDisappear();
-            roundInstanceForm
-               .ClickOnDetailTab()
-               .ClickOnStatusDdAndSelectValue("Complete")
-               .ClickSaveBtn()
-               .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
-               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-            roundInstanceForm.ClickOnElement(roundInstanceForm.DebriefButton);
-            roundInstanceForm.SwitchToChildWindow(3)
-                .WaitForLoadingIconToDisappear();
+            
             DebriefResultPage debriefResultPage = PageFactoryManager.Get<DebriefResultPage>();
+            debriefResultPage.WaitForLoadingIconToDisappear();
             // At Debrief-result > Activity > Confirations > Click a bin lift with tick icon - Select Unmatch
             debriefResultPage.ClickOnElement(debriefResultPage.ActivityHeader);
             debriefResultPage.ClickOnElement(debriefResultPage.ConfirmationHeader);
@@ -139,10 +113,13 @@ namespace si_automated_tests.Source.Test.DriverDebriefTests
             debriefResultPage.VerifyBinLiftStateIsCompleted();
             debriefResultPage.ClickOnElement(debriefResultPage.BinLiftFirstRow);
             debriefResultPage.WaitForLoadingIconToDisappear();
+            debriefResultPage.WaitForDebriefLoaded();
             debriefResultPage.ClickOnElement(debriefResultPage.UnknownButton);
             debriefResultPage.WaitForLoadingIconToDisappear();
+            debriefResultPage.WaitForDebriefLoaded();
             debriefResultPage.ClickOnElement(debriefResultPage.MatchButton);
             debriefResultPage.WaitForLoadingIconToDisappear();
+            debriefResultPage.WaitForDebriefLoaded();
             debriefResultPage.DragFirstBinLiftToTaskLine()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();

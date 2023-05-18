@@ -16,8 +16,11 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string ServiceUnitRow = "./div[contains(@class, 'slick-row')]";
         private readonly string IdCell = "./div[contains(@class, 'l1 r1')]";
         private readonly string NameCell = "./div[contains(@class, 'l2 r2')]";
-        private readonly By applyFilterBtn = By.XPath("//button[@title='Apply Filters']");
+        private readonly By applyFilterBtn = By.XPath("//button[contains(@data-bind, 'applySearch')]");
         private readonly By retireBtn = By.XPath("button[title='Retire']");
+        private readonly By firstServiceUnitRow = By.XPath("//div[@class='grid-canvas']/div[1]");
+        private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
+        private readonly By allServiceUnitRows = By.XPath("//div[@class='grid-canvas']/div");
 
         public TableElement ServiceUnitTableEle
         {
@@ -47,10 +50,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public ServiceUnitPage FindServiceUnitWithId(string serviceUnitId)
         {
+            WaitUtil.WaitForPageLoaded();
+            WaitUtil.WaitForElementsPresent(allServiceUnitRows);
             SendKeys(By.XPath("//div[contains(@class, 'slick-headerrow-column l1 r1')]//input"), serviceUnitId);
-            SleepTimeInMiliseconds(300);
+            WaitForLoadingIconToDisappear();
             ClickOnElement(applyFilterBtn);
-            WaitForLoadingIconToDisappear(false);
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(firstServiceUnitRow);
             return this;
         }
 

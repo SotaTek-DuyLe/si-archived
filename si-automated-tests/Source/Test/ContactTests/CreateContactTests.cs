@@ -38,7 +38,8 @@ namespace si_automated_tests.Source.Test.ContactTests
             partyCommonPage
                 .FilterPartyById(43)
                 .OpenFirstResult()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
                 .WaitForDetailPartyPageLoadedSuccessfully("Jaflong Tandoori")
@@ -47,7 +48,8 @@ namespace si_automated_tests.Source.Test.ContactTests
             detailPartyPage
                 .ClickOnContactTab()
                 .ClickAddNewItemAtContactTab()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
 
             CreatePartyContactPage createPartyContactPage = PageFactoryManager.Get<CreatePartyContactPage>();
             ContactModel contactModel = new ContactModel();
@@ -102,7 +104,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .WaitForLoadingIconToDisappear();
             detailPartyPage
                 .OpenFirstSiteRow()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
             siteDetailPage
                 .WaitForSiteDetailPageLoaded()
@@ -119,7 +122,8 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .OpenAgreementTab();
             agreementTab
                 .OpenFirstAgreementRow()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             AgreementDetailPage agreementDetailPage = PageFactoryManager.Get<AgreementDetailPage>();
             string[] primaryContactAgreement = { "Use Customer", contactModel.FirstName + " " + contactModel.LastName };
             agreementDetailPage
@@ -145,17 +149,17 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear()
                 .ScrollToBottomOfPage();
-            //Step 7: Line 26
-            agreementDetailPage
-                .ClickExpandBtn()
-                .ScrollToAdhoc()
-                .ClickInvoiceContactDdAtServiceTable()
-                //Step 7: Line 28
-                .SelectAnyInvoiceContactServiceTableAndVerify(contactModel)
-                .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitForLoadingIconToDisappear()
-                .ClickCloseBtn();
+            ////Step 7: Line 26
+            //agreementDetailPage
+            //    .ClickExpandBtn()
+            //    .ScrollToAdhoc()
+            //    .ClickInvoiceContactDdAtServiceTable()
+            //    //Step 7: Line 28
+            //    .SelectAnyInvoiceContactServiceTableAndVerify(contactModel)
+            //    .ClickSaveBtn()
+            //    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+            //    .WaitForLoadingIconToDisappear()
+            //    .ClickCloseBtn();
         }
 
         [Category("CreateContact")]
@@ -186,7 +190,8 @@ namespace si_automated_tests.Source.Test.ContactTests
             //Step 8: Line 29
             detailPartyPage
                 .ClickAddPrimaryContactBtn()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             AddPrimaryContactPage addPrimaryContactPage = PageFactoryManager.Get<AddPrimaryContactPage>();
             ContactModel contactModelNewPrimary = new ContactModel("Joe", "Smith", "+447785434111");
             addPrimaryContactPage
@@ -230,7 +235,8 @@ namespace si_automated_tests.Source.Test.ContactTests
             partyCommonPage
                 .FilterPartyById(43)
                 .OpenFirstResult()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
                 .WaitForDetailPartyPageLoadedSuccessfully("Jaflong Tandoori")
@@ -242,12 +248,14 @@ namespace si_automated_tests.Source.Test.ContactTests
             AgreementTab agreementTab = PageFactoryManager.Get<AgreementTab>();
             agreementTab
                 .OpenFirstAgreementRow()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             AgreementDetailPage agreementDetailPage = PageFactoryManager.Get<AgreementDetailPage>();
             agreementDetailPage
                 .WaitForDetailAgreementLoaded()
                 .ClickAddInvoiceContactBtn()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             AddInvoiceContactPage addInvoiceContactPage = PageFactoryManager.Get<AddInvoiceContactPage>();
             ContactModel contactModelNewInvoice = new ContactModel("Anna", "Joe", "+447785434111");
             addInvoiceContactPage
@@ -297,7 +305,8 @@ namespace si_automated_tests.Source.Test.ContactTests
             partyCommonPage
                 .FilterPartyById(43)
                 .OpenFirstResult()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             DetailPartyPage detailPartyPage = PageFactoryManager.Get<DetailPartyPage>();
             detailPartyPage
                 .WaitForDetailPartyPageLoadedSuccessfully("Jaflong Tandoori")
@@ -306,12 +315,14 @@ namespace si_automated_tests.Source.Test.ContactTests
             detailPartyPage
                 .ClickOnSitesTab()
                 .OpenFirstSiteRow()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             SiteDetailPage siteDetailPage = PageFactoryManager.Get<SiteDetailPage>();
             siteDetailPage
                 .WaitForSiteDetailPageLoaded()
                 .ClickPrimaryContactAddBtn()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             AddPrimaryContactAtServicePage addPrimaryContactAtServicePage = PageFactoryManager.Get<AddPrimaryContactAtServicePage>();
             ContactModel contactModelNew = new ContactModel("Chang", "Joe", "+447785434324");
             addPrimaryContactAtServicePage

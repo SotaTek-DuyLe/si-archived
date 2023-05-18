@@ -25,20 +25,26 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         private readonly By stationTab = By.XPath("//a[text()='Stations']");
 
         //STATION TAB
+        private readonly By addNewItemLoadingStationTab = By.XPath("//div[@id='weighbridgeStations-tab']//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
         private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
+        private readonly By loadingInStationTab = By.XPath("//div[@id='weighbridgeStations-tab']//div[@class='loading-data']");
 
         //LOCATION TAB
         private readonly By locationTab = By.XPath("//a[text()='Locations']");
         private readonly By allRowInTabel = By.XPath("//div[@id='weighbridgeSiteLocations-tab']//div[@class='grid-canvas']/div");
         private readonly By deleteItemLocationBtn = By.XPath("//div[@id='weighbridgeSiteLocations-tab']//button[text()='Delete Item']");
         private readonly By addNewItemLocationBtn = By.XPath("//div[@id='weighbridgeSiteLocations-tab']//button[text()='Add New Item']");
+        private readonly By addNewItemLoandingLocationBtn = By.XPath("//div[@id='weighbridgeSiteLocations-tab']//button[text()='Add New Item'and contains(@class, 'echo-disabled')]");
         private const string columnInRowLocations = "//div[@id='weighbridgeSiteLocations-tab']//div[@class='grid-canvas']/div/div[count(//span[text()='{0}']/parent::div/preceding-sibling::div) + 1]";
         private const string selectAndDeSelectCheckboxLocations = "//div[@id='weighbridgeSiteLocations-tab']//div[@class='grid-canvas']/div//input[{0}]";
         private const string activeColumn = "//div[@id='weighbridgeSiteLocations-tab']//div[contains(@class, 'l3 r3')]/div";
+        private readonly By loadingInLocationTab = By.XPath("//div[@id='weighbridgeSiteLocations-tab']//div[@class='loading-data']");
 
         //PRODUCT TAB
         private readonly By productTab = By.XPath("//a[text()='Products']");
+        private readonly By addNewItemLoadingProductTab = By.XPath("//div[@id='weighbridgeSiteProductLocations-tab']//button[text()='Add New Item'and contains(@class, 'echo-disabled')]");
         private readonly By addNewProductItem = By.XPath("//div[@id='weighbridgeSiteProductLocations-tab']//button[text()='Add New Item']");
+        private readonly By loadingIconInProductTab = By.XPath("//div[@id='weighbridgeSiteProductLocations-tab']//div[@class='loading-data']");
 
         //DYNAMIC LOCATOR
         private const string allPrimaryContactValue = "//select[@id='primary-contact']/option";
@@ -165,13 +171,16 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         public SiteDetailPage ClickStationTab()
         {
             ClickOnElement(stationTab);
+            WaitForLoadingIconToDisappear();
             return this;
         }
+
 
         //STATION TAB
         [AllureStep]
         public CreateStationPage ClickAddNewStationItem()
         {
+            WaitUtil.WaitForElementInvisible(addNewItemLoadingStationTab);
             ClickOnElement(addNewItemBtn);
             return PageFactoryManager.Get< CreateStationPage>();
         }
@@ -191,11 +200,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         public SiteDetailPage ClickOnLocationTab()
         {
             ClickOnElement(locationTab);
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementInvisible(loadingInLocationTab);
             return this;
         }
         [AllureStep]
         public AddLocationPage ClickAddNewLocationItem()
         {
+            WaitUtil.WaitForElementInvisible(addNewItemLoandingLocationBtn);
             ClickOnElement(addNewItemLocationBtn);
             return PageFactoryManager.Get<AddLocationPage>();
         }
@@ -260,6 +272,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
         {
             ClickOnElement(productTab);
             WaitForLoadingIconToDisappear();
+            //WaitUtil.WaitForElementVisible(loadingIconInProductTab);
+            WaitUtil.WaitForElementInvisible(loadingIconInProductTab);
             return this;
         }
         [AllureStep]
@@ -272,8 +286,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartySitePage
             return this;
         }
         [AllureStep]
+        public SiteDetailPage WaitForLoadingIconInProductTabDisappear()
+        {
+            WaitUtil.WaitForElementInvisible(loadingIconInProductTab);
+            return this;
+        }
+        [AllureStep]
         public AddProductPage ClickAddNewProductItem()
         {
+            WaitUtil.WaitForElementInvisible(addNewItemLoadingProductTab);
             ClickOnElement(addNewProductItem);
             return PageFactoryManager.Get< AddProductPage>();
         }

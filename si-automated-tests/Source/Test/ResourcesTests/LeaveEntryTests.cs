@@ -507,5 +507,106 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             //    .VerifyToastMessage("Default resource-type cleared")
             //    .WaitUntilToastMessageInvisible("Default resource-type cleared");
         }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_264_Leave_Entry_Rescode()
+        {
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            LeaveEntryPage leaveEntryPage = PageFactoryManager.Get<LeaveEntryPage>();
+            leaveEntryPage.WaitForLoadingIconToDisappear();
+            leaveEntryPage.ClickOnElement(leaveEntryPage.CreateLeaveEntryButton);
+            leaveEntryPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            CreateLeaveEntryPage createLeaveEntryPage = PageFactoryManager.Get<CreateLeaveEntryPage>();
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            //Verify whether when user selects a resource state in the Leave Type dropdown that has mandatoryrescode = TRUE, show the Reason field in red to denote it is a mandatory field
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.ResourceDropdown);
+            createLeaveEntryPage.SelectByDisplayValueOnUlElement(createLeaveEntryPage.OpenDropDown, "Margaret Knight (E1556)");
+            createLeaveEntryPage.SelectTextFromDropDown(createLeaveEntryPage.LeaveTypeDropdown, "Jury Service")
+                .SleepTimeInMiliseconds(200);
+            createLeaveEntryPage.VerifyElementIsMandatory(createLeaveEntryPage.ReasonDropdown, false);
+            createLeaveEntryPage.SelectTextFromDropDown(createLeaveEntryPage.LeaveTypeDropdown, "Holiday")
+                .SleepTimeInMiliseconds(200);
+            createLeaveEntryPage.VerifyElementIsMandatory(createLeaveEntryPage.ReasonDropdown, true);
+            createLeaveEntryPage.SendKeys(createLeaveEntryPage.FromDateInput, londonCurrentDate.ToString("dd/MM/yyyy"));
+            createLeaveEntryPage.WaitForLoadingIconToDisappear();
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.ToDateInput);
+            createLeaveEntryPage.WaitForLoadingIconToDisappear();
+            //Verify whether save is still enabled, and if user selects the Save button the error displays
+            createLeaveEntryPage.VerifyElementEnable(createLeaveEntryPage.SaveButton, true);
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.SaveButton);
+            createLeaveEntryPage.VerifyToastMessage("Reason is required");
+            
+        }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_267_Leave_Entry_Active_Resources()
+        {
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            LeaveEntryPage leaveEntryPage = PageFactoryManager.Get<LeaveEntryPage>();
+            leaveEntryPage.WaitForLoadingIconToDisappear();
+            //Verify whether user not able to see retired resources in the leave entry dropdown list
+            leaveEntryPage.OpenResource(false)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            CreateLeaveEntryPage createLeaveEntryPage = PageFactoryManager.Get<CreateLeaveEntryPage>();
+            createLeaveEntryPage.VerifyResourceIsDisable(true)
+                .CloseCurrentWindow()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            //Verify whether user able to view active or resources starting in future
+            leaveEntryPage.ClickOnElement(leaveEntryPage.CreateLeaveEntryButton);
+            leaveEntryPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createLeaveEntryPage.VerifyResourceIsDisable(false)
+                .ClickOnElement(createLeaveEntryPage.ResourceDropdown);
+            createLeaveEntryPage.VerifyResourceHasValue()
+                .CloseCurrentWindow()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            //Verify whether user able to view retired resources in existing records leave entry form
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Resources)
+               .ExpandOption(Contract.Commercial)
+               .OpenOption("Leave Entry")
+               .SwitchNewIFrame();
+            leaveEntryPage.WaitForLoadingIconToDisappear();
+            leaveEntryPage.VerifyRetiredResourceAreExisting();
+        }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Category("Huong_2")]
+        [Test]
+        public void TC_265_Leave_Entry_All_Resources_tab()
+        {
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            LeaveEntryPage leaveEntryPage = PageFactoryManager.Get<LeaveEntryPage>();
+            leaveEntryPage.WaitForLoadingIconToDisappear();
+            leaveEntryPage.OpenResource(0)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            CreateLeaveEntryPage createLeaveEntryPage = PageFactoryManager.Get<CreateLeaveEntryPage>();
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.AllResourceTab);
+            createLeaveEntryPage.WaitForLoadingIconToDisappear();
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.BUSelect);
+            createLeaveEntryPage.VerifyBUSelectValues(new List<string>() { "Select...", "Collections - Recycling", "Collections - Refuse" });
+        }
     }
 }

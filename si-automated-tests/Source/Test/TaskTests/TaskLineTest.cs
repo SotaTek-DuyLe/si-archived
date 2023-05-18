@@ -5,6 +5,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTask;
 using si_automated_tests.Source.Main.Pages.Applications;
@@ -295,7 +296,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
                 .WaitForTaskListinPageDisplayed()
-                .FilterByTaskId("17212")
+                .FilterByTaskId("9687")
                 .ClickCheckboxFirstTaskInList()
                 .ClickOnBulkUpdateBtn()
                 .SwitchToLastWindow()
@@ -319,13 +320,13 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnTaskLineTab()
                 .WaitForLoadingIconToDisappear();
-            detailTaskPage.VerifyTaskLineState("Pending")
+            detailTaskPage.VerifyTaskLineState("Not Completed")
                 .ClickCloseBtn()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
 
             //Verify whether user able to update Taskstate from Task Confirmation Grid
-            string from = "26/09/2022";
+            string from = "26/09/2022"; //Monday
             PageFactoryManager.Get<LoginPage>()
                  .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<NavigationBase>()
@@ -344,16 +345,14 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SelectRoundNode("REC1-AM");
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ScheduleDateInput);
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
-            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, Keys.Control + "a");
-            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, Keys.Delete);
-            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, from);
+            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.ScheduleDateInput, from);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ExpandRoundsGo);
             taskConfirmationPage.SleepTimeInMiliseconds(200);
-            taskConfirmationPage.SendKeys(taskConfirmationPage.IdFilterInput, "15683");
-            taskConfirmationPage.SleepTimeInMiliseconds(200);
+            taskConfirmationPage.SendKeys(taskConfirmationPage.IdFilterInput, "15650");
+            taskConfirmationPage.SleepTimeInSeconds(2);
             taskConfirmationPage.DoubleClickRoundInstanceDetail()
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
@@ -389,9 +388,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SelectRoundNode("REC1-AM");
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ScheduleDateInput);
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
-            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, Keys.Control + "a");
-            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, Keys.Delete);
-            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, from);
+            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.ScheduleDateInput, from);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
@@ -414,38 +411,19 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickCloseBtn()
                 .SwitchToFirstWindow();
 
-            //Verify whether user able to update Taskstate from Daily Allocation-Round Instance Worksheet 
+            //Verify whether user able to update Taskstate from Daily Allocation-Round Instance Worksheet
             PageFactoryManager.Get<LoginPage>()
-               .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Resources)
-                .OpenOption("Daily Allocation")
-                .SwitchNewIFrame();
-            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            resourceAllocationPage.SelectContract(Contract.Commercial);
-            resourceAllocationPage.SelectShift("AM");
-            resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
-            Thread.Sleep(1000);
-            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
-                .ExpandRoundNode("Collections")
-                .SelectRoundNode("Collections - Recycling")
-                .InputCalendarDate(resourceAllocationPage.date, "27/09/2022");
-            resourceAllocationPage.ClickGo();
-            resourceAllocationPage
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
-            resourceAllocationPage.ClickRoundInstance()
-                .SwitchToChildWindow(2)
-                .WaitForLoadingIconToDisappear();
+               .GoToURL(WebUrl.MainPageUrl + "web/round-instances/13016");
+            roundInstanceDetailPage.WaitForLoadingIconToDisappear();
             roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.WorkSheetTab);
             roundInstanceDetailPage.WaitForLoadingIconToDisappear();
             roundInstanceDetailPage.SwitchNewIFrame();
             roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.ExpandRoundsGo);
             roundInstanceDetailPage.SleepTimeInMiliseconds(300);
-            roundInstanceDetailPage.SendKeys(roundInstanceDetailPage.IdFilterInput, "15904");
-            roundInstanceDetailPage.SleepTimeInMiliseconds(200);
-            roundInstanceDetailPage.DoubleClickOnTask()
-                .SwitchToChildWindow(3)
+            roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.expandRoundLegsBtn);
+            roundInstanceDetailPage.SleepTimeInMiliseconds(300);
+            int taskIdx = roundInstanceDetailPage.DoubleClickNotCompletedTaskRoundLegs();
+            roundInstanceDetailPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
@@ -457,51 +435,29 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.VerifyTaskLineState("Completed")
                 .ClickCloseBtn()
-                .SwitchToChildWindow(2);
-            roundInstanceDetailPage.ClickCloseBtn()
                 .SwitchToFirstWindow();
 
             //Verify whether user able to update Taskstate using Bulk Update from Daily Allocation-Round Instance Worksheet
             PageFactoryManager.Get<LoginPage>()
-               .GoToURL(WebUrl.MainPageUrl);
-            PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption(MainOption.Resources)
-                .OpenOption("Daily Allocation")
-                .SwitchNewIFrame();
-            resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            resourceAllocationPage.SelectContract(Contract.Commercial);
-            resourceAllocationPage.SelectShift("AM");
-            resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
-            Thread.Sleep(1000);
-            resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
-                .ExpandRoundNode("Collections")
-                .SelectRoundNode("Collections - Recycling")
-                .InputCalendarDate(resourceAllocationPage.date, "27/09/2022");
-            resourceAllocationPage.ClickGo();
-            resourceAllocationPage
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
-            resourceAllocationPage.ClickRoundInstance()
-                .SwitchToChildWindow(2)
-                .WaitForLoadingIconToDisappear();
+               .GoToURL(WebUrl.MainPageUrl + "web/round-instances/13016");
+            roundInstanceDetailPage.WaitForLoadingIconToDisappear();
             roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.WorkSheetTab);
             roundInstanceDetailPage.WaitForLoadingIconToDisappear();
             roundInstanceDetailPage.SwitchNewIFrame();
-            roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.ExpandRoundsGo);
-            roundInstanceDetailPage.SleepTimeInMiliseconds(300);
-            roundInstanceDetailPage.SendKeys(roundInstanceDetailPage.IdFilterInput, "15902");
+            roundInstanceDetailPage.ClickOnMinimiseRoundsAndRoundLegsBtn();
             roundInstanceDetailPage.SleepTimeInMiliseconds(200);
+            int taskIdx2 = roundInstanceDetailPage.ClickNotNotCompletedTaskRoundLegs();
             roundInstanceDetailPage
-                .ClickOnFirstRound()
                 .ClickOnElement(roundInstanceDetailPage.BulkUpdateButton);
             roundInstanceDetailPage
                 .SelectTextFromDropDown(roundInstanceDetailPage.BulkUpdateStateSelect, "Not Completed")
-                .SelectTextFromDropDown(roundInstanceDetailPage.BulkUpdateReasonSelect, "Food")
+                .SleepTimeInMiliseconds(300)
+                .SelectTextFromDropDown(roundInstanceDetailPage.BulkUpdateReasonSelect, "No key")
                 .ClickOnElement(roundInstanceDetailPage.ConfirmButton);
             //Wait for server updating
             roundInstanceDetailPage.SleepTimeInMiliseconds(10000);
-            roundInstanceDetailPage.DoubleClickOnTask()
-                .SwitchToChildWindow(3)
+            roundInstanceDetailPage.DoubleClickOnTask(taskIdx2)
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnTaskLineTab()
                 .WaitForLoadingIconToDisappear();
@@ -574,6 +530,198 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage.SwitchToFrame(detailTaskPage.IndicatorIframe);
             detailTaskPage.ClickOnRetireButton(0)
                 .VerifyToastMessage("Inherited indicators cannot be retired.");
+        }
+
+        [Category("TaskLine")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_250_Priority_Column_in_Task_Grid()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser56.UserName, AutoUser56.Password)
+                .IsOnHomePage(AutoUser56);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonTaskPage>()
+                .WaitForLoadingIconToDisappear();
+            var taskListingPage = PageFactoryManager.Get<TasksListingPage>();
+            taskListingPage.VerifyHeadersVisible(new System.Collections.Generic.List<string>() { "Priority" });
+            taskListingPage.FilterPriority("Not equal to", "High");
+            taskListingPage.WaitForLoadingIconToDisappear();
+            taskListingPage.ClickOnFirstRecord()
+                .SwitchToChildWindow(2);
+            DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
+            detailTaskPage.ClickOnDetailTab();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.SelectTextFromDropDown(detailTaskPage.PrioritySelect, "High");
+            string taskId = detailTaskPage.GetCurrentUrl().Split('/').LastOrDefault();
+            detailTaskPage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            detailTaskPage.ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            taskListingPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            taskListingPage.FilterByTaskId(taskId);
+            taskListingPage.FilterPriority("Equal to", "High");
+            taskListingPage.WaitForLoadingIconToDisappear();
+            taskListingPage.VerifyPriority("High");
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption("Task Allocation")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+            si_automated_tests.Source.Main.Pages.Applications.TaskAllocationPage taskConfirmationPage = PageFactoryManager.Get<si_automated_tests.Source.Main.Pages.Applications.TaskAllocationPage>();
+            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, Contract.Municipal);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ServiceInput);
+            Thread.Sleep(1000);
+            taskConfirmationPage.ExpandRoundNode(Contract.Municipal)
+                .SelectRoundNode("Recycling");
+            taskConfirmationPage.SleepTimeInMiliseconds(1000);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            taskConfirmationPage.WaitForLoadingIconToDisappear(false);
+            taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
+                .WaitForLoadingIconToDisappear(false);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
+            taskConfirmationPage.SleepTimeInMiliseconds(300);
+            int taskIdx = taskConfirmationPage.DoubleClickNotHighPriorityTaskRoundLegs();
+            taskConfirmationPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            detailTaskPage.ClickOnDetailTab();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.SelectTextFromDropDown(detailTaskPage.PrioritySelect, "High");
+            detailTaskPage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            detailTaskPage.ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            taskConfirmationPage.WaitForLoadingIconToDisappear(false);
+            taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
+                .WaitForLoadingIconToDisappear(false);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
+            taskConfirmationPage.SleepTimeInMiliseconds(300);
+            taskConfirmationPage.VerifyPriorityOnTaskRoundLegs(taskIdx, "High");
+        }
+
+        [Category("TaskLine")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_251_Res_code_Column_in_Task_Grid()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser56.UserName, AutoUser56.Password)
+                .IsOnHomePage(AutoUser56);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption("Task Allocation")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+            si_automated_tests.Source.Main.Pages.Applications.TaskAllocationPage taskConfirmationPage = PageFactoryManager.Get<si_automated_tests.Source.Main.Pages.Applications.TaskAllocationPage>();
+            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, Contract.Municipal);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ServiceInput);
+            Thread.Sleep(1000);
+            taskConfirmationPage.ExpandRoundNode(Contract.Municipal)
+                .SelectRoundNode("Recycling");
+            taskConfirmationPage.SleepTimeInMiliseconds(1000);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            taskConfirmationPage.WaitForLoadingIconToDisappear(false);
+            taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
+                .WaitForLoadingIconToDisappear(false);
+            //Double click round instance
+            int rowIdx = taskConfirmationPage.DoubleClickEmptyStatusRoundLeg();
+            taskConfirmationPage.SwitchToChildWindow(2);
+            RoundLegInstancePage roundLegInstancePage = PageFactoryManager.Get<RoundLegInstancePage>();
+            roundLegInstancePage.WaitForLoadingIconToDisappear();
+            roundLegInstancePage.WaitForLoadingIconToDisappear();
+            roundLegInstancePage.ClickOnElement(roundLegInstancePage.DetailTab);
+            roundLegInstancePage.waitForLoadingIconDisappear();
+            roundLegInstancePage.SelectTextFromDropDown(roundLegInstancePage.StatusSelect, "Delayed");
+            roundLegInstancePage.SleepTimeInMiliseconds(300);
+            roundLegInstancePage.SelectTextFromDropDown(roundLegInstancePage.ResolutionCodeSelect, "Bad Weather");
+            roundLegInstancePage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            roundLegInstancePage.ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            taskConfirmationPage.ClickRefreshBtn();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.VerifyResolutionCodeOnRoundLegs(rowIdx, "Bad Weather");
+            //Double click task
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            taskConfirmationPage.WaitForLoadingIconToDisappear(false);
+            taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
+                .WaitForLoadingIconToDisappear(false);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
+            taskConfirmationPage.SleepTimeInMiliseconds(300);
+            int taskIdx = taskConfirmationPage.DoubleClickNotCompletedTaskRoundLegs();
+            taskConfirmationPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
+            detailTaskPage.ClickOnDetailTab();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.SelectTextFromDropDown(detailTaskPage.taskStateDd, "Not Completed");
+            detailTaskPage.SelectTextFromDropDown(detailTaskPage.resolutionCode, "Too Heavy");
+            detailTaskPage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            detailTaskPage.ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            taskConfirmationPage.ClickRefreshBtn();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            taskConfirmationPage.WaitForLoadingIconToDisappear(false);
+            taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
+                .WaitForLoadingIconToDisappear(false);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
+            taskConfirmationPage.SleepTimeInMiliseconds(300);
+            taskConfirmationPage.VerifyResolutionCodeOnTaskRoundLegs(taskIdx, "Too Heavy");
+        }
+
+        [Category("TaskLine")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_312_Proximity_Alert_on_Task_form()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl + "web/tasks/41612");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser56.UserName, AutoUser56.Password);
+            DetailTaskPage taskDetailTab = PageFactoryManager.Get<DetailTaskPage>();
+            taskDetailTab.WaitForLoadingIconToDisappear();
+            bool isChecked = taskDetailTab.GetCheckboxValue(taskDetailTab.ProximityAlertCheckbox);
+            taskDetailTab.ClickOnElement(taskDetailTab.ProximityAlertCheckbox);
+            taskDetailTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+            var taskDBModel = commonFinder.GetProximityAlert(41612);
+            if (isChecked)
+            {
+                taskDetailTab.VerifyCheckboxIsSelected(taskDetailTab.ProximityAlertCheckbox, false);
+                Assert.IsFalse(taskDBModel.proximityalert);
+            }
+            else
+            {
+                taskDetailTab.VerifyCheckboxIsSelected(taskDetailTab.ProximityAlertCheckbox, true);
+                Assert.IsTrue(taskDBModel.proximityalert);
+            }
         }
     }
 }

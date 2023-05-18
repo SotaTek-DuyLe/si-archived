@@ -38,7 +38,8 @@ namespace si_automated_tests.Source.Test.SiteServiceTests
                 .ClickMainOption(MainOption.Parties)
                 .ExpandOption(Contract.Commercial)
                 .OpenOption(MainOption.SiteServices)
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SiteServicesCommonPage>()
                 .FilterAgreementId(agreementLineId)
                 .OpenFirstResult()

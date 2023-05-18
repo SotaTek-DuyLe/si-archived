@@ -54,8 +54,10 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             roundCalendarPage
                 .ClickMoreButton(true)
                 .IsListOfRoundInstanceScheduleDisplayed()
-                .ClickMoreButton(false)
+                .CloseRoundInstanceSchedule();
+           roundCalendarPage.ClickMoreButton(false)
                 .IsListOfRoundInstanceScheduleDisplayed()
+                .CloseRoundInstanceSchedule()
                 .ClickRoundInstance(true)
                 .VerifyToastMessage("Cannot reschedule rounds more than a week in the past")
                 .WaitUntilToastMessageInvisible("Cannot reschedule rounds more than a week in the past");

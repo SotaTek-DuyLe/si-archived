@@ -30,7 +30,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']");
         public readonly By TaskLinesTab = By.XPath("//a[@aria-controls='taskLines-tab']");
         public readonly By ExpandRoundsGo = By.XPath("//button[@id='t-toggle-rounds']");
-        private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
+        private readonly By showAllTaskTab = By.CssSelector("button[id='t-all-tasks']");
+        public readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         public readonly By IdFilterInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l3')]//input");
         public readonly string UnallocatedRow = "./div[contains(@class, 'assured')]";
         public readonly string UnallocatedCheckbox = "./div[contains(@class, 'slick-cell l0 r0')]//input";
@@ -44,6 +45,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By firstRowAfterFiltering = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]/parent::div");
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
         private readonly By openRoundBtn = By.ClassName("header-round");
+        private readonly By slotCountInput = By.XPath("//label[text()='Slots']/following-sibling::div/input");
 
         public readonly string SlickRoundRow = "./div[contains(@class, 'slick-group')]";
         public readonly string RoundDescriptionCell = "./div[contains(@class, 'slick-cell l0')]";
@@ -69,6 +71,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             get => slickRoundTableEle;
         }
 
+        public readonly string UnallocatedDescription = "./div[contains(@class, 'slick-cell l4 r4')]";
         private TableElement unallocatedTableEle;
         public TableElement UnallocatedTableEle
         {
@@ -114,7 +117,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             IWebElement cell = UnallocatedTableEle.GetCell(0, 1);
             IWebElement img = cell.FindElement(By.XPath("./div//img"));
-            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.png"));
+            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.svg"));
             return this;
         }
 
@@ -138,6 +141,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public RoundInstanceDetailPage ClickOnMinimiseRoundsAndRoundLegsBtn()
         {
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(showAllTaskTab);
             ClickOnElement(ExpandRoundsGo);
             ClickOnElement(expandRoundLegsBtn);
             WaitForLoadingIconToDisappear();
@@ -195,10 +200,44 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
-        public RoundInstanceDetailPage DoubleClickOnTask()
+        public RoundInstanceDetailPage DoubleClickOnTask(int taskIdx)
         {
-            UnallocatedTableEle.DoubleClickRow(0);
+            UnallocatedTableEle.DoubleClickRow(taskIdx);
             return this;
+        }
+
+        [AllureStep]
+        public int DoubleClickNotCompletedTaskRoundLegs()
+        {
+            int emptyRowIdx = 0;
+            List<IWebElement> taskRows = UnallocatedTableEle.GetRows().ToList();
+            foreach (var row in taskRows)
+            {
+                if (row.FindElement(By.XPath("./div[@class='slick-cell l19 r19']//span")).Text.Trim() != "Completed")
+                {
+                    emptyRowIdx = taskRows.IndexOf(row);
+                    DoubleClickOnElement(row);
+                    break;
+                }
+            }
+            return emptyRowIdx;
+        }
+
+        [AllureStep]
+        public int ClickNotNotCompletedTaskRoundLegs()
+        {
+            int emptyRowIdx = 0;
+            List<IWebElement> taskRows = UnallocatedTableEle.GetRows().ToList();
+            foreach (var row in taskRows)
+            {
+                if (row.FindElement(By.XPath("./div[@class='slick-cell l19 r19']//span")).Text.Trim() != "Completed" && row.FindElement(By.XPath("./div[@class='slick-cell l19 r19']//span")).Text.Trim() != "Not Completed")
+                {
+                    emptyRowIdx = taskRows.IndexOf(row);
+                    ClickOnElement(row);
+                    break;
+                }
+            }
+            return emptyRowIdx;
         }
 
         [AllureStep]
@@ -253,7 +292,56 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public RoundInstanceDetailPage OpenRound()
         {
+            WaitUtil.WaitForElementSize(openRoundBtn);
             ClickOnElement(openRoundBtn);
+            return this;
+        }
+
+        #region Event tab
+        private readonly By eventTab = By.CssSelector("a[aria-controls='roundInstanceEvents-tab']");
+        private readonly By addNewItemEventTab = By.XPath("//div[@id='roundInstanceEvents-tab']//button[text()='Add New Item']");
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickOnEventTab()
+        {
+            ClickOnElement(eventTab);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickOnAddNewItemEventTab()
+        {
+            ClickOnElement(addNewItemEventTab);
+            return this;
+        }
+
+        #endregion
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyMinValueInSlotCountField()
+        {
+            Assert.AreEqual("0", GetAttributeValue(slotCountInput, "min"));
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage InputSlotCount(string slotCountValue)
+        {
+            SendKeys(slotCountInput, slotCountValue);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClearSlotCount()
+        {
+            ClearInputValue(slotCountInput);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyValueInSlotCount(string slotCountValue)
+        {
+            Assert.AreEqual(slotCountValue, GetAttributeValue(slotCountInput, "value"));
             return this;
         }
     }

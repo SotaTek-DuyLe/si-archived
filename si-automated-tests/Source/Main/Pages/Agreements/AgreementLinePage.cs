@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
@@ -49,6 +48,13 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
                 WaitForLoadingIconToDisappear();
                 Assert.IsFalse(IsControlDisplayedNotThrowEx(frameMessage));
             }
+            return this;
+        }
+        [AllureStep]
+        public AgreementLinePage IsAgreementLinePage()
+        {
+            WaitUtil.WaitForAllElementsVisible(title);
+            WaitUtil.WaitForAllElementsVisible(anyTab, "Details");
             return this;
         }
         [AllureStep]
@@ -222,6 +228,12 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
         {
             ClickOnElement(closeBtn);
             return this;
+        }
+
+        [AllureStep]
+        public string GetAgreementLineId()
+        {
+            return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/agreement-lines/", "");
         }
     }
 }

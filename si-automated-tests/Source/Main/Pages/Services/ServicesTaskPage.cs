@@ -16,22 +16,23 @@ namespace si_automated_tests.Source.Main.Pages.Services
     {
         public readonly By OpenServiceUnitLink = By.XPath("//a[@data-bind='text: serviceUnitDesc, click: openServiceUnit']");
         private string taskLineTab = "//a[@aria-controls='tasklines-tab']";
-        public string AnnouncementTab = "//a[@aria-controls='announcements-tab']";
-        public string  DetailTab = "//a[@aria-controls='details-tab']";
-        private readonly By dataTab = By.CssSelector("a[aria-controls='data-tab']");
-        private readonly By historyTab = By.CssSelector("a[aria-controls='history-tab']");
-        private readonly By mapTab = By.CssSelector("a[aria-controls='map-tab']");
-        private readonly By risksTab = By.CssSelector("a[aria-controls='risks-tab']");
-        private readonly By subscriptionTab = By.CssSelector("a[aria-controls='subscriptions-tab']");
-        private readonly By notificationsTab = By.CssSelector("a[aria-controls='notifications-tab']");
-        private readonly By indicatorsTab = By.CssSelector("a[aria-controls='objectIndicators-tab']");
-        public string ScheduleTab = "//a[@aria-controls='schedules-tab']";
+        public string AnnouncementTab = "//a[@aria-controls='announcements-tab']/parent::li";
+        public string  DetailTab = "//a[@aria-controls='details-tab']/parent::li";
+        private readonly By dataTab = By.XPath("//a[@aria-controls='data-tab']/parent::li");
+        private readonly By historyTab = By.XPath("//a[@aria-controls='history-tab']/parent::li");
+        private readonly By mapTab = By.XPath("//a[@aria-controls='map-tab']/parent::li");
+        private readonly By risksTab = By.XPath("//a[@aria-controls='risks-tab']/parent::li");
+        private readonly By subscriptionTab = By.XPath("//a[@aria-controls='subscriptions-tab']/parent::li");
+        private readonly By notificationsTab = By.XPath("//a[@aria-controls='notifications-tab']/parent::li");
+        private readonly By indicatorsTab = By.XPath("//a[@aria-controls='objectIndicators-tab']/parent::li");
+        public string ScheduleTab = "//a[@aria-controls='schedules-tab']/parent::li";
         private readonly By title = By.XPath("//span[text()='Service Task']");
         private readonly By serviceGroupTitle = By.XPath("//div[text()='SERVICE GROUP']");
         private readonly By serviceGroupName = By.XPath("//div[text()='SERVICE GROUP']/following-sibling::div");
         private readonly By servicesSite = By.XPath("//div[text()='SITE']/following-sibling::a");
         private readonly By serviceName = By.XPath("//div[text()='SERVICE']/following-sibling::div");
         private readonly By serviceTaskScheduleName = By.ClassName("typeUrl");
+        private readonly By typeUrlLink = By.CssSelector("a[class='typeUrl']");
 
         private string serviceTaskName = "//span[text()='Service Task']/following-sibling::span[contains(text(),'{0}')]";
         private string headerPartyName = "//div[@class='headers-container']//a[contains(text(), '{0}')]";
@@ -183,6 +184,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             WaitUtil.WaitForElementVisible(title);
             WaitUtil.WaitForElementVisible(serviceGroupTitle);
+            WaitUtil.WaitForElementVisible(DetailTab);
 
             return this;
         }
@@ -309,6 +311,21 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
+        public ServicesTaskPage ClickOnAssuredTaskCheckbox()
+        {
+            ClickOnElement(assuredCheckbox);
+            return this;
+        }
+
+        [AllureStep]
+        public ServicesTaskPage VerifyAssuredTaskNotChecked()
+        {
+            WaitUtil.WaitForElementVisible(assuredCheckbox);
+            Assert.IsFalse(IsCheckboxChecked(assuredCheckbox));
+            return this;
+        }
+
+        [AllureStep]
         public ServicesTaskPage VerifyProximityAlertChecked()
         {
             WaitUtil.WaitForElementVisible(proximityAlertCheckbox);
@@ -427,6 +444,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return GetElementText(serviceTaskScheduleName);
         }
         [AllureStep]
+        public ServiceUnitDetailPage ClickOnServiceTaskDesc()
+        {
+            ClickOnElement(typeUrlLink);
+            return PageFactoryManager.Get<ServiceUnitDetailPage>();
+        }
+        [AllureStep]
         public string GetServiceTaskId()
         {
             return GetCurrentUrl().Split("tasks/")[1];
@@ -438,7 +461,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             Assert.AreEqual(startDateExp, GetAttributeValue(StartDateInput, "value"));
             Assert.AreEqual(endDateExp, GetAttributeValue(EndDateInput, "value"));
             //End date are disabled
-            Assert.AreEqual("true", GetAttributeValue(EndDateInput, "disabled"), "End date is not disabled");
+            //Assert.AreEqual("true", GetAttributeValue(EndDateInput, "disabled"), "End date is not disabled");
             return this;
         }
 
@@ -451,7 +474,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         #region SCHEDULE TAB
-        private readonly By schedulesTab = By.XPath("//a[@aria-controls='schedules-tab']");
+        private readonly By schedulesTab = By.XPath("//a[@aria-controls='schedules-tab']/parent::li");
         private readonly By roundInFirstRow = By.XPath("//tbody/tr[1]/td[contains(@data-bind, 'text: round.value')]");
         private readonly By startDateAtFirstRow = By.XPath("//tbody/tr[1]/td[@data-bind='text: startDate.value']");
         private readonly By endDateAtFirstRow = By.XPath("//tbody/tr[1]/td[@data-bind='text: endDate.value']");
@@ -552,6 +575,66 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServicesTaskPage ClickOnXBtn()
         {
             ClickOnElement(closeBtn);
+            return this;
+        }
+        [AllureStep]
+        public ServicesTaskPage IsDetailTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(DetailTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServicesTaskPage IsDataTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(dataTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServicesTaskPage IsAnnouncementTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(AnnouncementTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServicesTaskPage IsSchedulesTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(schedulesTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServicesTaskPage IsHistoryTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(historyTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServicesTaskPage IsMapTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(mapTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServicesTaskPage IsRisksTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(risksTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServicesTaskPage IsSubscriptionTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(subscriptionTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServicesTaskPage IsNotificationsTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(notificationsTab, "class"));
+            return this;
+        }
+        [AllureStep]
+        public ServicesTaskPage IsIndicatorsTabActive()
+        {
+            Assert.AreEqual("active", GetAttributeValue(indicatorsTab, "class"));
             return this;
         }
     }

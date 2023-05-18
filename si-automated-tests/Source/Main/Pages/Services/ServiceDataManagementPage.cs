@@ -11,9 +11,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
     public class ServiceDataManagementPage : BasePage
     {
         private readonly By serviceLocationTypeTitle = By.XPath("//label[text()='Service Location Type']");
-        private readonly By refreshPageBtn = By.XPath("//label[text()='Service Location Type']/parent::div/following-sibling::div//button[@title='Refresh']");
-        private readonly By showInformationBtn = By.XPath("//label[text()='Service Location Type']/parent::div/following-sibling::div//button[@title='Show Information']");
-        private readonly By popOutBtn = By.XPath("//label[text()='Service Location Type']/parent::div/following-sibling::div//button[@title='Pop out']");
+        private readonly By refreshPageBtn = By.XPath("//label[text()='Service Location Type']/parent::div/preceding-sibling::div//button[@title='Refresh']");
+        private readonly By showInformationBtn = By.XPath("//label[text()='Service Location Type']/parent::div/preceding-sibling::div//button[@title='Show Information']");
+        private readonly By popOutBtn = By.XPath("//label[text()='Service Location Type']/parent::div/preceding-sibling::div//button[@title='Pop out']");
         private readonly By inputServicesTree = By.XPath("//label[text()='Services']/following-sibling::input");
         private readonly By selectTypeDd = By.CssSelector("select[id='type']");
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
@@ -38,14 +38,15 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By secondRedRow = By.XPath("(//table[@id='description-table']//td[contains(@class, 'no-service-definition')])[2]");
         private readonly By referenceIdInput = By.XPath("//div[@id='point-grid']//div[contains(@class, 'l1')]//input");
         private readonly By totalRecord = By.XPath("//span[contains(text(),'Total =')]");
-
+        private readonly By effectiveInput = By.CssSelector("input[id='effective-date']");
+        private readonly By effectiveDateLabel = By.XPath("//label[text()='Effective Date']");
 
         //WARINING POPUP
         private readonly By warningTitle = By.XPath("//h4[text()='Warning']");
         private readonly By warningContent = By.XPath("//h4[text()='Warning']/parent::div/following-sibling::div//div[text()='Please Note – Any previous row selections will be lost once filters are applied']");
         private readonly By checkboxMessage = By.XPath("//h4[text()='Warning']/parent::div/following-sibling::div//label[text()='Do not show this message again']");
-        private readonly By okBtn = By.XPath("//button[text()='OK']");
-        private readonly By cancelBtn = By.XPath("//button[text()='OK']/following-sibling::button");
+        private readonly By okBtn = By.XPath("//h4[text()='Warning']/parent::div/following-sibling::div//button[text()='OK']");
+        private readonly By cancelBtn = By.XPath("//h4[text()='Warning']/parent::div/following-sibling::div//button[text()='Cancel']");
 
         //DYNAMIC
         private readonly string serviceTypeOption = "//select[@id='type']/option[text()='{0}']";
@@ -676,7 +677,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
 
         #region locators and steps for Step [Reallocate]
         private readonly By tuesdayEveryWeekNotAllocated = By.XPath("//table[@id='master-table']//tbody/tr[1]/td[count(//thead/tr[@class='round-row']/td[@title='REC1-AM:Tuesday']/preceding-sibling::td) + 1]");
-        private readonly By wednesdayEveryWeekNotAllocated = By.XPath("//table[@id='master-table']//tbody/tr[1]/td[count(//thead/tr[@class='round-row']/td[@title='REC1-AM:Wednesday']/preceding-sibling::td) + 1]");
+        private readonly By wednesdayEveryWeekNotAllocated = By.XPath("//table[@id='master-table']//tbody/tr[1]/td[count(//thead/tr[@class='round-row']/td[@title='REF1-AM:Wednesday']/preceding-sibling::td) + 1]");
 
         [AllureStep]
         public ServiceDataManagementPage RightClickOnTuesdayEveryWeek()
@@ -748,6 +749,132 @@ namespace si_automated_tests.Source.Main.Pages.Services
             return this;
         }
 
+        [AllureStep]
+        public ServiceDataManagementPage InputEffectiveDate(string effectiveDateValue)
+        {
+            InputCalendarDate(effectiveInput, effectiveDateValue);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage ClickOutsiteEffectiveDate()
+        {
+            ClickOnElement(effectiveDateLabel);
+            return this;
+        }
+
+        #endregion
+
+        #region TC-238
+        private readonly By rec1AMMonday = By.XPath("//table[@id='master-table']//td[text()='Monday every week']");
+        private readonly By spanHiddenBtnREC1AMMonday = By.XPath("//table[@id='master-table']//td[text()='Monday every week']//span[contains(@class, 'add-new-column-hidden')]");
+        private readonly By spanExpandBtnREC1AMMonday = By.XPath("//table[@id='master-table']//td[text()='Monday every week']//span[contains(@class, 'add-new-column')]");
+        private readonly By addColumnTitle = By.XPath("//h4[text()='Add columns(s)']");
+        private readonly By servicesDd = By.XPath("//label[text()='Services']/following-sibling::div[1]");
+        private readonly By taskTypeDd = By.XPath("//label[text()='Task Types']/following-sibling::select[1]");
+        private readonly By scheduleDd = By.XPath("//label[text()='Schedules']/following-sibling::select[1]");
+        private readonly By roundDd = By.XPath("//label[text()='Round(s)']/following-sibling::select[1]");
+        private readonly By okAddColumnBtn = By.XPath("//button[text()='OK']");
+        private readonly By closeAddColumnBtn = By.XPath("//h4[text()='Add columns(s)']/following-sibling::button[@aria-label='Close']");
+
+        //DYNAMIC
+        private readonly string schedulesOptionInAddColumn = "//label[text()='Schedules']/following-sibling::select[1]/option[text()='{0}']";
+        private readonly string roundOptionInAddColumn = "//label[text()='Round(s)']/following-sibling::select[1]/option[text()='{0}']";
+        private readonly string roundOption = "//table[@id='master-table']//td[text()='{0}']";
+        private readonly string spanExpandBtnByRound = "//table[@id='master-table']//td[text()='{0}']//span[contains(@class, 'add-new-column')]";
+        private readonly string spanColapseBtnByRound = "//table[@id='master-table']//td[text()='{0}']//span[contains(@class, 'add-new-column-hidden')]";
+
+        [AllureStep]
+        public ServiceDataManagementPage ClickOnREC1AMMondaySchedule()
+        {
+            HoverElement(rec1AMMonday);
+            WaitUtil.WaitForElementInvisible(spanHiddenBtnREC1AMMonday);
+            WaitUtil.WaitForElementVisible(spanExpandBtnREC1AMMonday);
+            ClickOnElement(spanExpandBtnREC1AMMonday);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage ClickOnAnyRound(string roundName)
+        {
+            HoverElement(string.Format(roundOption, roundName));
+            WaitUtil.WaitForElementInvisible(spanColapseBtnByRound, roundName);
+            WaitUtil.WaitForElementVisible(spanExpandBtnByRound, roundName);
+            ClickOnElement(spanExpandBtnByRound, roundName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage IsAddColumnPopup()
+        {
+            WaitUtil.WaitForElementVisible(addColumnTitle);
+            Assert.IsTrue(IsControlDisplayed(servicesDd));
+            Assert.IsTrue(IsControlDisplayed(taskTypeDd));
+            Assert.IsTrue(IsControlDisplayed(scheduleDd));
+            Assert.IsTrue(IsControlDisplayed(roundDd));
+            Assert.IsTrue(IsControlDisplayed(okAddColumnBtn));
+            Assert.IsTrue(IsControlDisplayed(closeAddColumnBtn));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyDisplayOfSchedules(string[] allSchedulesValue)
+        {
+            ClickOnElement(scheduleDd);
+            //Verify
+            foreach(string schedule in allSchedulesValue)
+            {
+                Assert.IsTrue(IsControlDisplayed(schedulesOptionInAddColumn, schedule), schedule + " is not displayed in dd");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyDisplayOfSchedules(string schedulesValue)
+        {
+            ClickOnElement(scheduleDd);
+            //Verify
+            Assert.IsTrue(IsControlDisplayed(schedulesOptionInAddColumn, schedulesValue), schedulesValue + " is not displayed in dd");
+            
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyDisplayOfRound(string roundValue)
+        {
+            ClickOnElement(roundDd);
+            //Verify
+            Assert.IsTrue(IsControlDisplayed(roundOptionInAddColumn, roundValue), roundValue + " is not displayed in dd");
+
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyNotDisplayOfRound(string roundValue)
+        {
+            ClickOnElement(roundDd);
+            //Verify
+            Assert.IsTrue(IsControlUnDisplayed(roundOptionInAddColumn, roundValue), roundValue + " is displayed in dd");
+
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyNotDisplayOfSchedules(string schedulesValue)
+        {
+            ClickOnElement(scheduleDd);
+            //Verify
+            Assert.IsTrue(IsControlUnDisplayed(schedulesOptionInAddColumn, schedulesValue), schedulesValue + " is displayed in dd");
+
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage ClickCloseAddColumnBtn()
+        {
+            ClickOnElement(closeAddColumnBtn);
+            return this;
+        }
         #endregion
     }
 }

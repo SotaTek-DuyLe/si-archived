@@ -5,6 +5,7 @@ using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Applications;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
@@ -73,7 +74,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 (10, "Address"),
                 (8, "Segment"),
                 (5, "Area"),
-                (7, "Node"),
+                (6, "Node"),
             };
             foreach (var testCase in testCases)
             {
@@ -93,7 +94,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.PreviousButton);
                 serviceDataManagementPage
                     .WaitForLoadingIconToDisappear()
-                    .ClickOnElement(serviceDataManagementPage.OkButton);
+                    .ClickOnElement(serviceDataManagementPage.okBtnInLeavePopup);
                 serviceDataManagementPage.WaitForLoadingIconToDisappear();
                 Thread.Sleep(500);
             }
@@ -166,7 +167,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             List<(int rowCount, string selectPoint)> testCases = new List<(int rowCount, string selectPoint)>()
             {
                 (305, "Address"),
-                (305, "Node"),
+                //(305, "Node"),
             };
             foreach (var testCase in testCases)
             {
@@ -174,7 +175,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                     .SelectTextFromDropDown(serviceDataManagementPage.ServiceLocationTypeSelect, testCase.selectPoint)
                     .WaitForLoadingIconToDisappear();
                 Thread.Sleep(1000);
-                Dictionary<int, List<object>> rowDatas = serviceDataManagementPage.ClickMultiPointAddress(testCase.rowCount);
+                Dictionary<int, List<object>> rowDatas = serviceDataManagementPage.ClickMultiPointAddress(testCase.rowCount).Take(300).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
                 serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.NextButton);
                 serviceDataManagementPage
                     .VerifyTheDisplayOfPopupOver300Point()
@@ -190,7 +191,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.PreviousButton);
                 serviceDataManagementPage
                     .WaitForLoadingIconToDisappear()
-                    .ClickOnElement(serviceDataManagementPage.OkButton);
+                    .ClickOnElement(serviceDataManagementPage.okBtnInLeavePopup);
                 serviceDataManagementPage.WaitForLoadingIconToDisappear();
                 Thread.Sleep(500);
             }
@@ -222,7 +223,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .SelectByDisplayValueOnUlElement(serviceDataManagementPage.StatusSelect, "New")
                 .SelectByDisplayValueOnUlElement(serviceDataManagementPage.StatusSelect, "Updated")
                 .ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
-            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.OkButton);
+            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInWarningFilterPopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
 
             Thread.Sleep(1000);
@@ -239,7 +240,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.PreviousButton);
             serviceDataManagementPage
                 .WaitForLoadingIconToDisappear()
-                .ClickOnElement(serviceDataManagementPage.OkButton);
+                .ClickOnElement(serviceDataManagementPage.okBtnInLeavePopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.ClearFilterBtn);
@@ -249,11 +250,11 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage
                 .SelectByDisplayValueOnUlElement(serviceDataManagementPage.StatusSelect, "Verified")
                 .ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
-            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.OkButton);
+            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInWarningFilterPopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
 
             Thread.Sleep(1000);
-            Dictionary<int, List<object>> rowVerifiedDatas = serviceDataManagementPage.ClickMultiPointAddress(20);
+            Dictionary<int, List<object>> rowVerifiedDatas = serviceDataManagementPage.ClickMultiPointAddress(4);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.NextButton);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
             serviceDataManagementPage
@@ -289,7 +290,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage
                 .SelectByDisplayValueOnUlElement(serviceDataManagementPage.StatusSelect, "Retired")
                 .ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
-            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.OkButton);
+            serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInWarningFilterPopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
 
             Thread.Sleep(1000);

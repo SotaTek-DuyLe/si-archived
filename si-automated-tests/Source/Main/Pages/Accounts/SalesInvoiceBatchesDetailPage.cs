@@ -34,8 +34,9 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         public SalesInvoiceBatchesDetailPage IsSalesInvoiceBatchesDetailPage(string statusValue, string idValue)
         {
             WaitUtil.WaitForElementVisible(title);
-            Assert.AreEqual(GetElementText(id), idValue);
-            //Assert.IsTrue(IsControlDisplayed(statusSaleInvoice, statusValue));
+            WaitUtil.WaitForElementVisible(detailsTab);
+            Assert.AreEqual(idValue, GetElementText(id));
+           // Assert.IsTrue(IsControlDisplayed(statusSaleInvoice, statusValue));
             return this;
         }
 

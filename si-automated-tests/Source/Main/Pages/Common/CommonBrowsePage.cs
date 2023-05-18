@@ -12,6 +12,7 @@ namespace si_automated_tests.Source.Main.Pages
     public class CommonBrowsePage : BasePage
     {
         private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
+        private readonly By addNewItemLoading = By.XPath("//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
         private readonly string customBtn = "//button[text()='{0}']";
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
@@ -32,14 +33,15 @@ namespace si_automated_tests.Source.Main.Pages
         {
         }
         [AllureStep]
-        public CommonBrowsePage FilterItem(int id)
+        public CommonBrowsePage FilterItem(int id, bool clickApply = true)
         {
             WaitForLoadingIconToDisappear();
             //WaitUtil.WaitForAllElementsVisible(addNewItemBtn);
             SendKeys(filterInputById, id.ToString());
-            ClickOnElement(applyBtn);
+            if(clickApply) ClickOnElement(applyBtn);
             return this;
         }
+
         [AllureStep]
         public CommonBrowsePage OpenFirstResult()
         {
@@ -55,6 +57,7 @@ namespace si_automated_tests.Source.Main.Pages
         [AllureStep]
         public CommonBrowsePage ClickAddNewItem()
         {
+            WaitUtil.WaitForElementInvisible(addNewItemLoading);
             ClickOnElement(addNewItemBtn);
             return this;
         }

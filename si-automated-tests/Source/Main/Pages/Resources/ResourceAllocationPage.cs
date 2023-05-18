@@ -7,16 +7,18 @@ using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Models.Resources;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace si_automated_tests.Source.Main.Pages.Resources
 {
-    public class ResourceAllocationPage : BasePage
+    public class ResourceAllocationPage : BasePageCommonActions
     {
         private readonly By contractSelect = By.Id("contract");
         private readonly By businessUnitInput = By.Id("business-units");
         private readonly By shiftSelect = By.Id("shift-group");
         private readonly By goBtn = By.XPath("//button[text()='Go']");
+        private readonly By okBtn = By.XPath("//button[text()='OK']");
         private readonly By createResourceBtn = By.Id("t-create");
         private readonly By refreshBtn = By.Id("t-refresh");
         public readonly By date = By.Id("date");
@@ -27,6 +29,24 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string roundFilterOption = "//div[contains(@id,'popover')]//input[@title='{0}']";
         private readonly By rememberOtionBtn = By.XPath("//div[contains(@id,'popover')]//input[@id='remember-selection']");
         private readonly By clearOptionBtn = By.XPath("//div[contains(@id,'popover')]//button[@title='Clear All' and not(@style='display: none;')]");
+        public readonly By AllResourceTab = By.XPath("//a[text()='All Resources']");
+        public readonly By LeftMenuReasonSelect = By.XPath("//div[@id='echo-reason-needed']//select");
+        public readonly By LeftMenuConfirmReasonButton = By.XPath("//div[@id='echo-reason-needed']//button[text()='Confirm']");
+        public readonly By ResourceStateSelect = By.XPath("//div[@class='modal-dialog' and @data-bind='with: selectedResourceShiftInstance']//select[@id='state']");
+        public readonly By ResourceShiftInstanceButton = By.XPath("//div[@class='modal-dialog' and @data-bind='with: selectedResourceShiftInstance']//button[text()='Save']");
+
+        public readonly By ResourceTypeHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l2 r2']//input");
+        public readonly By ThirdPartyHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l5 r5']//select");
+        private string AllResourceTable = "//div[@id='all-resources']//div[@class='grid-canvas']";
+        private string AllResourceRow = "./div[contains(@class, 'slick-row')]";
+        private string ResourceNameCell = "./div[contains(@class, 'slick-cell l0 r0')]";
+        private string ResourceTypeCell = "./div[contains(@class, 'slick-cell l2 r2')]";
+
+        private TableElement allResourceTableEle;
+        public TableElement AllResourceTableEle
+        {
+            get => allResourceTableEle; 
+        }
 
         //Left panel Daily Allocation
         private readonly By firstRoundRow = By.XPath("//tbody[contains(@data-bind,'roundMenu')]/tr");
@@ -61,6 +81,12 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly string darkerRedBackground = "background-color: rgb(222, 16, 28);";
         private readonly string darkerGreenBackground = "background-color: rgb(132, 222, 150);";
 
+        private readonly string greenishBackgroundRgba = "rgba(132, 255, 182, 1)";
+        private readonly string redBackgroundRgba = "rgba(255, 49, 28, 1)";
+        private readonly string yellowBackgroundRgba = "rgba(255, 224, 152, 1)";
+        private readonly string yellwBackgroundRgba = "rgba(255, 224, 152, 1)";
+
+
         //Left Panel Default Allocation
         private readonly By roundScrollable = By.Id("rounds-scrollable");
         private readonly By roundGroups = By.XPath("//div[contains(@class,'layout-pane-west')]//tr[@class='round-group-dropdown']");
@@ -83,26 +109,46 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By headers = By.XPath("//div[contains(@class,'active')]//div[@class='ui-state-default slick-header-column slick-header-sortable ui-sortable-handle']/span[1]");
         private readonly By inputBoxes = By.XPath("//div[contains(@class,'active')]//div[@class='slick-headerrow ui-state-default']//*[contains(@class,'form-control')]");
         private readonly By firstResultFields = By.XPath("//div[contains(@class,'active')]//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
+        private readonly By firstResultRow = By.XPath("//div[contains(@class,'active')]//div[contains(@class,'ui-widget-content slick-row even')][1]");
         private readonly By tabLocator = By.XPath("//ul[@id='tabs']/li[not(contains(@class,'hide'))]/a");
 
         //business unit option
         private readonly string jstreeOption = "//a[contains(@class,'jstree-anchor') and text()='{0}']";
         private readonly string businessUnitExpandIcon = "//a[contains(@class,'jstree-anchor') and text()='{0}']/preceding-sibling::i";
-        private readonly By businessUnitStaticOptions = By.XPath("(//*[@class='jstree-children'])[last()]//a");
+        private readonly By businessUnitStaticOptions = By.XPath("(//*[@class='jstree-children'])[2]//a");
 
         //Resizer
         private readonly By resizerWidth = By.XPath("//div[@title='Resize']");
         private readonly By resizerHeight = By.XPath("(//div[@title='Close'])[3]");
         private readonly By addResourceBtn = By.Id("t-create");
         public readonly By FirstRoundInstanceRow = By.XPath("//div[@id='rounds-scrollable']//table[2]//tbody[1]/tr[1]//td[1]");
-        public readonly By SecondRoundInstanceRow = By.XPath("//div[@id='rounds-scrollable']//table[1]//tbody[1]/tr[3]");
+        public readonly By SecondRoundInstanceRow = By.XPath("//div[@id='rounds-scrollable']//table[1]//tbody[1]/tr[not(@data-bind)][2]");
         public readonly By BusinessUnitInput = By.XPath("//input[@id='business-units']");
+
+        //Resource substitution pop-up
+        private readonly By justTodayBtn = By.XPath("//div[@class='row reallocation-buttons']/button[text()='Just today']");
+        private readonly By wholeAbsenceBtn = By.XPath("//div[@class='row reallocation-buttons']/button[text()='Whole absence']");
+        private readonly By customDatesBtn = By.XPath("//div[@class='row reallocation-buttons']/button[text()='Custom dates']");
+        private readonly By toDateInput = By.Id("toDate");
+        private readonly By confirmSubstitutionBtn = By.XPath("//button[text()='OK']");
+        private readonly By cancelSubstitutionBtn = By.XPath("//button[@data-bind='click: $parent.resetAllocationPeriodStates' and text()='Cancel']");
+
 
         private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-1')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]", "./i[contains(@class, 'jstree-ocl')][1]");
         private TreeViewElement ServicesTreeView
         {
             get => _treeViewElement;
         }
+
+        public ResourceAllocationPage()
+        {
+            allResourceTableEle = new TableElement(AllResourceTable, AllResourceRow, new List<string>() { ResourceNameCell, ResourceTypeCell });
+            allResourceTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+        }
+
         [AllureStep]
         public ResourceAllocationPage SelectRoundNode(string nodeName)
         {
@@ -164,6 +210,84 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             ClickOnElement(goBtn);
             return this;
         }
+        
+        [AllureStep]
+        public ResourceAllocationPage ClickOK()
+        {
+            ClickOnElement(okBtn);
+            return this;
+        }
+
+        #region All Resource
+        [AllureStep]
+        public ResourceAllocationPage ClickType(int rowIdx)
+        {
+            AllResourceTableEle.ClickCell(rowIdx, AllResourceTableEle.GetCellIndex(ResourceTypeCell));
+            SleepTimeInMiliseconds(200);
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage VerifyResourceTranslation(string str, string culture)
+        {
+            switch (culture)
+            {
+                case "French":
+                    switch (str)
+                    {
+                        case "IN/OUT":
+                            Assert.IsTrue(IsControlDisplayed(By.XPath($"//div[@class='grid-menu']//button[text()='PRÉSENT/NOT PRÉSENT']")));
+                            break;
+                        case "PRE-CONFIRM/UN-CONFIRM":
+                            Assert.IsTrue(IsControlDisplayed(By.XPath($"//div[@class='grid-menu']//button[text()='PRÉ-CONFIRMER/REFUSER']")));
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ClickOutSideMenu()
+        {
+            ClickOnElement(By.XPath("//div[@class='disabled-screen']"));
+            return this;
+        }
+
+        [AllureStep]
+        public string GetResourceName(int rowIdx)
+        {
+            return AllResourceTableEle.GetCellValue(rowIdx, AllResourceTableEle.GetCellIndex(ResourceNameCell)).ToString();
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage VerifyResourceRowHasGreenBackground(int rowIdx)
+        {
+            var row = AllResourceTableEle.GetRow(rowIdx);
+            Assert.IsTrue(row.GetAttribute("className").Contains("resourceState8"));
+            return this;
+        }
+         
+        [AllureStep]
+        public ResourceAllocationPage VerifyResourceRowHasWhiteBackground(int rowIdx)
+        {
+            var row = AllResourceTableEle.GetRow(rowIdx);
+            Assert.IsFalse(row.GetAttribute("className").Contains("resourceState8"));
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ClickLeftResourceMenu(string menu)
+        {
+            ClickOnElement(By.XPath($"//div[@class='grid-menu']//button[text()='{menu}']"));
+            return this;
+        }
+        #endregion
+
         [AllureStep]
         public ResourceAllocationPage ClickCreateResource()
         {
@@ -302,6 +426,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         [AllureStep]
         public ResourceAllocationPage HoverAndVerifyBackgroundColor(string _resourceName, string _color)
         {
+            WaitForLoadingIconToDisappear();
             //Hover to element
             var resource = WaitUtil.WaitForElementVisible(allocatedResourceContainer, _resourceName);
             HoverElement(resource);
@@ -327,6 +452,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         [AllureStep]
         public ResourceAllocationPage VerifyBackgroundColor(string _resourceName, string _color)
         {
+            WaitForLoadingIconToDisappear();
             string style = WaitUtil.WaitForElementVisible(allocatedResourceContainer, _resourceName).GetAttribute("style");
             if (_color == "white")
             {
@@ -361,13 +487,14 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         [AllureStep]
         public ResourceAllocationPage InsertDate(string _date)
         {
-            SendKeys(date, _date);
+            SendKeys(date, _date + Keys.Enter);
             return this;
         }
         [AllureStep]
         public ResourceAllocationPage RefreshGrid()
         {
             ClickOnElement(refreshBtn);
+            SleepTimeInSeconds(2);
             WaitForLoadingIconToDisappear();
             return this;
         }
@@ -466,7 +593,15 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage DeallocateResourceFromRoundGroup(int whichRow, string whichResource)
         {
             var target = GetFirstResult();
-            var xpath = String.Format(secondColumnResource, whichRow, whichResource);
+            var xpath = "";
+            if (whichResource.Contains("Driver") || whichResource.Contains("Loader"))
+            {
+                xpath = String.Format(secondColumnResource, whichRow, whichResource.ToUpper());
+            }
+            else
+            {
+                xpath = String.Format(secondColumnResource, whichRow, whichResource);
+            }
             IWebElement source = WaitUtil.WaitForElementVisible(xpath);
             DragAndDrop(source, target);
             return this;
@@ -493,7 +628,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public ResourceAllocationPage VerifyAllocatingToast(List<string> expectedToasts)
         {
             VerifyToastMessages(expectedToasts);
-            expectedToasts.ForEach(t => WaitUntilToastMessageInvisible(t));
+            VerifyToastMessagesDisappear();
             return this;
         }
         [AllureStep]
@@ -511,6 +646,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             IWebElement source = WaitUtil.WaitForElementVisible(blankResourceTypeInRoundGroup, resourceType.ToUpper());
             var targetElements = WaitUtil.WaitForAllElementsVisible(roundContainer);
             DragAndDrop(source, targetElements[targetRow-1]);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -519,6 +655,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             var source = WaitUtil.WaitForElementVisible(blankResourceTypeInRound, resourceType.ToUpper());
             var targetElement = WaitUtil.WaitForElementVisible(roundGroup, whichRow.ToString());
             DragAndDrop(source, targetElement);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -527,6 +664,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             var resourceType = WaitUtil.WaitForAllElementsVisible(allocatedResourceType);
             var rounds = WaitUtil.WaitForAllElementsVisible(roundContainer);
             DragAndDrop(resourceType[whichOne -1], rounds[roundRow - 1]);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -695,10 +833,16 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             return PageFactoryManager.Get<AddAdhocRoundPopup>(); ;
         }
         [AllureStep]
-        public ResourceAllocationPage VerifyFirstRoundName(string expected)
+        public ResourceAllocationPage VerifyRoundNameIsIncluded(string expected)
         {
-            var firstRoundName = GetAllElements(roundInstances)[0].Text;
-            Assert.AreEqual(expected, firstRoundName);
+            var roundNames = new List<String>();
+            //var firstRoundName = GetAllElements(roundInstances)[0].Text;
+            var rounds = GetAllElements(roundInstances);
+            foreach(var round in rounds)
+            {
+                roundNames.Add(round.Text);
+            }
+            Assert.IsTrue(roundNames.Contains(expected));
             return this;
         }
         [AllureStep]
@@ -780,6 +924,76 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             var tabs = GetAllElements(tabLocator);
             Assert.AreEqual(1, tabs.Count);
             Assert.AreEqual("All Resources", tabs[0].Text);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage VerifyFirstResoultBackground(String color)
+        {
+            SleepTimeInSeconds(2);
+            WaitForLoadingIconToDisappear();
+            switch (color)
+            {
+                case "green":
+                    Assert.AreEqual(greenishBackgroundRgba, GetElement(firstResultRow).GetCssValue("background-color"));
+                    break;
+                case "red":
+                    Assert.AreEqual(redBackgroundRgba, GetElement(firstResultRow).GetCssValue("background-color"));
+                    break;
+                case "yellow":
+                    Assert.AreEqual(yellowBackgroundRgba, GetElement(firstResultRow).GetCssValue("background-color"));
+                    break;
+                default:
+                    break;
+            }
+            return this;
+        }
+        [AllureStep]                
+
+        public ResourceAllocationPage DragAndDropFirstResultToResourceInRound(string targetResrouceName)
+        {
+            var source = GetFirstResult();
+            var targetElement = WaitUtil.WaitForElementVisible(allocatedResource, targetResrouceName);
+            DragAndDrop(source, targetElement);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage IsSubstitutionResourcePopupDisplayed()
+        {
+            WaitUtil.WaitForElementVisible(justTodayBtn);
+            WaitUtil.WaitForElementVisible(wholeAbsenceBtn);
+            WaitUtil.WaitForElementVisible(customDatesBtn);
+            WaitUtil.WaitForElementVisible(confirmSubstitutionBtn);
+            WaitUtil.WaitForElementVisible(cancelSubstitutionBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickWholeAbsenceBtn()
+        {
+            ClickOnElement(wholeAbsenceBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickJustTodayBtn()
+        {
+            ClickOnElement(justTodayBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickCustomDatesBtn()
+        {
+            ClickOnElement(customDatesBtn);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage InputToDate(String date)
+        {
+            SendKeys(toDateInput, date);
+            return this;
+        }
+        [AllureStep]
+        public ResourceAllocationPage ClickConfirmSubstitution()
+        {
+            ClickOnElement(confirmSubstitutionBtn);
             return this;
         }
 

@@ -5,10 +5,11 @@ using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 
 namespace si_automated_tests.Source.Main.Pages.Resources
 {
-    public class LeaveEntryPage : BasePage
+    public class LeaveEntryPage : BasePageCommonActions
     {
         private readonly By selectBtn = By.XPath("//button[@data-id='resource']");
         private readonly string resourceOption = "//option[text()='{0}']";
@@ -33,6 +34,55 @@ namespace si_automated_tests.Source.Main.Pages.Resources
 
         //ALL RESOURCES TAB
         private readonly By totalUnavailableAM = By.XPath("((//div[@class='tab-pane active']//tr[@style='background-color: skyblue;'])[2]//span)[2]");
+        public readonly By CreateLeaveEntryButton = By.XPath("//button[text()='Create Leave Entry Record']");
+
+        private string ResourceTable = "//div[@class='grid-canvas']";
+        private string ResourceRow = "./div[contains(@class, 'slick-row')]";
+        private string ResourceStartDateCell = "./div[@class='slick-cell l8 r8']"; 
+        private string ResourceEndDateCell = "./div[@class='slick-cell l9 r9']";
+        private readonly By EndDateFilterInput = By.XPath("//div[@class='ui-state-default slick-headerrow-column l9 r9']//input");
+        private readonly By EndDateFilterButton = By.XPath("//div[@class='ui-state-default slick-headerrow-column l9 r9']//button");
+        private readonly By FilterDropDown = By.XPath("//ul[@role='listbox' and @aria-expanded='true']");
+        private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
+
+        public TableElement ResourceTableEle
+        {
+            get => new TableElement(ResourceTable, ResourceRow, new List<string>() { ResourceStartDateCell, ResourceEndDateCell });
+        }
+
+        [AllureStep]
+        public LeaveEntryPage OpenResource(bool isActive)
+        {
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            ClickOnElement(EndDateFilterButton);
+            SelectByDisplayValueOnUlElement(FilterDropDown, isActive ? "Greater than" : "Less than");
+            SendKeys(EndDateFilterInput, londonCurrentDate.ToString("dd/MM/yyyy"));
+            ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
+            ResourceTableEle.DoubleClickRow(0);
+            return this;
+        }
+
+        [AllureStep]
+        public LeaveEntryPage OpenResource(int rowIdx)
+        {
+            ResourceTableEle.DoubleClickRow(rowIdx);
+            return this;
+        }
+
+        [AllureStep]
+        public LeaveEntryPage VerifyRetiredResourceAreExisting()
+        {
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            ClickOnElement(EndDateFilterButton);
+            SelectByDisplayValueOnUlElement(FilterDropDown, "Less than");
+            SendKeys(EndDateFilterInput, londonCurrentDate.ToString("dd/MM/yyyy"));
+            ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
+            string endDate = ResourceTableEle.GetCellValue(0, ResourceTableEle.GetCellIndex(ResourceEndDateCell)).AsString();
+            Assert.IsTrue(CommonUtil.StringToDateTime(endDate, "dd/MM/yyyy") < londonCurrentDate);
+            return this;
+        }
 
         [AllureStep]
         public LeaveEntryPage IsOnLeaveEntryPage()
@@ -67,6 +117,15 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public LeaveEntryPage EnterDates(string _date)
         {
             SendKeys(startDate, _date);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+        [AllureStep]
+        public LeaveEntryPage EnterEndDate(string _date)
+        {
+            ClickOnElement(endDate);
+            WaitForLoadingIconToDisappear();
+            SendKeys(endDate, _date);
             WaitForLoadingIconToDisappear();
             return this;
         }

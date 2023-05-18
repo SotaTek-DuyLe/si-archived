@@ -1,16 +1,14 @@
 ﻿using NTextCat;
-using NUnit.Allure.Core;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
-using si_automated_tests.Source.Main.Models.Services;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Common;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
-using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAdHoc;
 using si_automated_tests.Source.Main.Pages.PointAddress;
 using si_automated_tests.Source.Main.Pages.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 using SiteServiceUnitPage = si_automated_tests.Source.Main.Pages.Paties.Sites.ServiceUnitPage;
@@ -43,6 +41,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             ServiceUnitPage serviceUnit = PageFactoryManager.Get<ServiceUnitPage>();
             serviceUnit.SwitchToFrame(serviceUnit.UnitIframe);
             serviceUnit.WaitForLoadingIconToDisappear();
+            serviceUnit.FindServiceUnitWithId("230038");
             serviceUnit.DoubleClickServiceUnitById("230038")
                        .SwitchToChildWindow(2);
 
@@ -64,13 +63,27 @@ namespace si_automated_tests.Source.Test.ServiceTests
             localLanguagePage.SelectTextFromDropDown(localLanguagePage.LanguageSelect, "French")
                 .ClickOnElement(localLanguagePage.SaveButton);
             localLanguagePage.SwitchToFirstWindow();
-            string description = serviceUnit.GetElementText(serviceUnit.CreateDescriptionButton);
-            var factory = new RankedLanguageIdentifierFactory();
-            var identifier = factory.Load(@"Source\Main\Data\Core14.profile.xml");
-            var languages = identifier.Identify(description);
-            var mostCertainLanguage = languages.FirstOrDefault();
-            Assert.IsNotNull(mostCertainLanguage);
-            Assert.IsTrue(mostCertainLanguage.Item1.Iso639_2T == "fra");
+            PageFactoryManager.Get<NavigationBase>()
+                 .ClickMainOption(MainOption.Services)
+                 .ExpandOption("Régions")
+                 .ExpandOption(Region.UK)
+                 .ExpandOption(Contract.Commercial)
+                 .ExpandOption("Collections")
+                 .ExpandOption("Commercial Collections")
+                 .OpenOption("Unités de service actives");
+            serviceUnit.SwitchToFrame(serviceUnit.UnitIframe);
+            serviceUnit.WaitForLoadingIconToDisappear();
+            serviceUnit.FindServiceUnitWithId("230038");
+            serviceUnit.DoubleClickServiceUnitById("230038")
+                       .SwitchToChildWindow(2);
+            serviceUnitDetail.WaitForLoadingIconToDisappear(false);
+            serviceUnitDetail.ClickOnElement(serviceUnitDetail.ServiceUnitPointTab);
+            serviceUnitDetail.WaitForLoadingIconToDisappear(false);
+            serviceUnitDetail.ClickOnElement(serviceUnitDetail.AddPointButton);
+            serviceUnitDetail.VerifyElementVisibility(serviceUnitDetail.AddServiceUnitPointDiv, true);
+            serviceUnitDetail.VerifyFrenchRadioIsSelected()
+                .VerifySelectedValue(serviceUnitDetail.SectorSelect, "Richmond")
+                .ClickOnElement(serviceUnitDetail.AddServiceUnitPointCloseButton);
         }
 
         [Category("ServiceUnitPoint")]
@@ -286,6 +299,235 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
             servicesTaskPage.VerifyInputValue(servicesTaskPage.IndicatorStartDateInput, "");
             servicesTaskPage.VerifyInputValue(servicesTaskPage.IndicatorEndDateInput, "");
+        }
+
+        [Category("ServiceUnitPoint")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_270_AO_Intra_day_MultiRound_Optimisation()
+        {
+            //Verify whether Service form is updated to display new checkbox 
+            PageFactoryManager.Get<LoginPage>()
+              .GoToURL(WebUrl.MainPageUrl + "web/services/15");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser40.UserName, AutoUser40.Password);
+            ServiceDetailPage serviceDetailPage = PageFactoryManager.Get<ServiceDetailPage>();
+            serviceDetailPage.VerifyElementVisibility(serviceDetailPage.DynamicOptimisationLabel, true)
+                .VerifyCheckboxIsSelected(serviceDetailPage.DynamicOptimisationCheckbox, false);
+            //Verify whether question mark is added next to field (like on screenshot of Service Unit below)
+            serviceDetailPage.ClickOnElement(serviceDetailPage.DynamicOptimisationHelpButton);
+            serviceDetailPage.VerifyTooltip("Improve service efficiency by allowing automated task re-allocations between optimised round instances. If set to True, Tasks will only be re-allocated to round instances which are in the same service, are scheduled for the same day, and are configured to be able to perform that task.");
+        }
+
+        [Category("ServiceUnitPoint")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_309_Active_Services_tab()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl + "web/service-units/229631");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser40.UserName, AutoUser40.Password);
+            SiteServiceUnitPage serviceUnitPage = PageFactoryManager.Get<SiteServiceUnitPage>();
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            string serviceUnit = serviceUnitPage.GetElementText(serviceUnitPage.ServiceUnitTitle);
+            serviceUnitPage.ClickOnElement(serviceUnitPage.ServiceTaskScheduleTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickOnElement(serviceUnitPage.AddServiceTaskButton);
+            serviceUnitPage.SleepTimeInMiliseconds(200);
+            serviceUnitPage.ClickOnElement(serviceUnitPage.CommercialCollectionOpt);
+            serviceUnitPage.ClickOnElement(serviceUnitPage.CreateSTButton);
+            serviceUnitPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
+            servicesTaskPage.ClickOnTaskLineTab();
+            ServiceTaskLineTab serviceTaskLineTab = PageFactoryManager.Get<ServiceTaskLineTab>();
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            //a) Type = Service, Asset Type = 1100L, Sched Asset Qty = 3; Product = General Recycling, Sched Product Qty = 300.Save Service task
+            string typeA = "Service";
+            string AssetTypeA = "1100L";
+            string SchedAssetQtyA = "3";
+            string productA = "General Recycling";
+            string schedProductQtyA = "300";
+            serviceTaskLineTab.InputTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeA, assetType: AssetTypeA, shedAssetQty: SchedAssetQtyA, product: productA, shedProductQty: schedProductQtyA);
+            serviceTaskLineTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.VerifyTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeA, assetType: AssetTypeA, scheduleAssetQty: SchedAssetQtyA, product: productA, sheduleProductQty: schedProductQtyA);
+
+            //b) Type = Service, Asset Type = 1100L, Sched Asset Qty = 5.Save Service task
+            string typeB = "Service";
+            string AssetTypeB = "1100L";
+            string SchedAssetQtyB = "5";
+            serviceTaskLineTab.ClickOnElement(serviceTaskLineTab.AddNewItemButton);
+            serviceTaskLineTab.InputTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeB, assetType: AssetTypeB, shedAssetQty: SchedAssetQtyB, product: "", shedProductQty: "");
+            serviceTaskLineTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.VerifyTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeB, assetType: AssetTypeB, scheduleAssetQty: SchedAssetQtyB, product: "", sheduleProductQty: "");
+
+            //c) Type = Service, Product = General Recycling, Sched Product Qty = 500.Save Service task
+            string typeC = "Service";
+            string productC = "General Recycling";
+            string schedProductQtyC = "500";
+            serviceTaskLineTab.ClickOnElement(serviceTaskLineTab.AddNewItemButton);
+            serviceTaskLineTab.InputTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeC, assetType: "", shedAssetQty: "", product: productC, shedProductQty: schedProductQtyC);
+            serviceTaskLineTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.VerifyTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeC, assetType: "", scheduleAssetQty: "", product: productC, sheduleProductQty: schedProductQtyC);
+
+            //d) Type = Service, Asset Type = 660L.Save Service task
+            string typeD = "Service";
+            string AssetTypeD = "660L";
+            serviceTaskLineTab.ClickOnElement(serviceTaskLineTab.AddNewItemButton);
+            serviceTaskLineTab.InputTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeD, assetType: AssetTypeD, shedAssetQty: "", product: "", shedProductQty: "");
+            serviceTaskLineTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.VerifyTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeD, assetType: AssetTypeD, scheduleAssetQty: "", product: "", sheduleProductQty: "");
+
+            //e) Type = Service, Product = General Refuse.Save Service task
+            string typeE = "Service";
+            string productE = "General Refuse";
+            serviceTaskLineTab.ClickOnElement(serviceTaskLineTab.AddNewItemButton);
+            serviceTaskLineTab.InputTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeE, assetType: "", shedAssetQty: "", product: productE, shedProductQty: "");
+            serviceTaskLineTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.VerifyTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeE, assetType: "", scheduleAssetQty: "", product: productE, sheduleProductQty: "");
+
+            // f) Type = Service, Asset Type = 660L, Product = General Refuse.Save Service task
+            string typeF = "Service";
+            string AssetTypeF = "660L";
+            string productF = "General Refuse";
+            serviceTaskLineTab.ClickOnElement(serviceTaskLineTab.AddNewItemButton);
+            serviceTaskLineTab.InputTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeF, assetType: AssetTypeF, shedAssetQty: "", product: productF, shedProductQty: "");
+            serviceTaskLineTab.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.WaitForLoadingIconToDisappear();
+            serviceTaskLineTab.VerifyTaskLine(serviceTaskLineTab.GetNewTaskLineIndex(), type: typeF, assetType: AssetTypeF, scheduleAssetQty: "", product: productF, sheduleProductQty: "");
+            
+            string postCode = serviceUnit.Split(',').Last().Trim();
+            string pointAddress = serviceUnit.Split(',')[1].Trim();
+            serviceTaskLineTab.SwitchToFirstWindow();
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl + "web/point-picker");
+            PointPickerPage pointPickerPage = PageFactoryManager.Get<PointPickerPage>();
+            pointPickerPage.WaitForLoadingIconToDisappear();
+            pointPickerPage.SetPostCode(postCode)
+                .ClickOnElement(pointPickerPage.SearchButton);
+            pointPickerPage.WaitForLoadingIconToDisappear();
+            pointPickerPage.SetInputValue(pointPickerPage.PointDescriptionInput, pointAddress);
+            pointPickerPage.WaitForLoadingIconToDisappear();
+            pointPickerPage.SelectPoint(pointAddress);
+            pointPickerPage.WaitForLoadingIconToDisappear();
+            string GetAssetType(string assetQty, string assetType, string product)
+            {
+                string productDisplay = string.IsNullOrEmpty(product) ? "" : $" ({product})";
+                string assetTypeDisplay = string.IsNullOrEmpty(assetType) ? "" : $" x {assetType}";
+                return (assetQty + assetTypeDisplay + productDisplay).Trim().TrimStart('x').Trim();
+            }
+            List<string> assetTypes = new List<string>()
+            {
+                GetAssetType(SchedAssetQtyA, AssetTypeA, productA),
+                GetAssetType(SchedAssetQtyB, AssetTypeB, ""),
+                GetAssetType("", "", productC),
+                GetAssetType("", AssetTypeD, ""),
+                GetAssetType("", "", productE),
+                GetAssetType("", AssetTypeF, productF),
+            };
+            pointPickerPage.VerifyPointAddressAndClickEventButton(assetTypes, "Standard - Complaint");
+            pointPickerPage.SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+
+            EventComplaintPage eventComplaintPage = PageFactoryManager.Get<EventComplaintPage>();
+            eventComplaintPage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            eventComplaintPage.WaitForLoadingIconToDisappear();
+            eventComplaintPage.ClickOnElement(eventComplaintPage.ServiceTab);
+            eventComplaintPage.WaitForLoadingIconToDisappear();
+            eventComplaintPage.VerifyPointAddress(assetTypes)
+                .CloseCurrentWindow();
+            eventComplaintPage.SwitchToChildWindow(2);
+
+            serviceTaskLineTab.ClickOnElement(serviceTaskLineTab.ServiceDesTitle);
+            serviceTaskLineTab.SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickOnElement(serviceUnitPage.ServiceUnitPointTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickPointAddress("5 CHURCH ROAD, TEDDINGTON, TW11 8PF");
+            serviceTaskLineTab.SwitchToChildWindow(4)
+                .WaitForLoadingIconToDisappear();
+
+            PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
+            pointAddressDetailPage.ClickOnActiveServicesTab()
+                .WaitForLoadingIconToDisappear();
+            pointAddressDetailPage.VerifyPointAddress(assetTypes);
+        }
+
+        [Category("ServiceUnitPoint")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_310_Service_Unit_Point_validation_in_UI()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl + "web/service-units/229719");
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser40.UserName, AutoUser40.Password);
+            SiteServiceUnitPage serviceUnitPage = PageFactoryManager.Get<SiteServiceUnitPage>();
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.ClickOnElement(serviceUnitPage.ServiceUnitPointTab);
+            serviceUnitPage.WaitForLoadingIconToDisappear();
+            serviceUnitPage.DoubleClickServiceUnitPoint()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+
+            ServiceUnitPointDetailPage serviceUnitPointDetailPage = PageFactoryManager.Get<ServiceUnitPointDetailPage>();
+            serviceUnitPointDetailPage.SelectTextFromDropDown(serviceUnitPointDetailPage.serviceUnitPointTypeDd, "")
+                .ClickSaveBtn()
+                .VerifyToastMessage("Service Unit Point Type is required")
+                .WaitUntilToastMessageInvisible("Service Unit Point Type is required");
+
+            //Select any value in 'Service Unit Point Type'  and click 'Save' on SUP form
+            serviceUnitPointDetailPage.SelectAnyValueInServiceUnitPointType("Point of Service")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+
+            //Verify that Type field  is mandatory on Service Unit form>Service Unit Points tab
+            serviceUnitPointDetailPage.ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .WaitForLoadingIconToDisappear();
+
+            serviceUnitPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceUnitPage.SelectServiceUnitPointType("")
+                .ClickSaveBtn()
+                .VerifyToastMessage("Service Unit Point Type is required")
+                .WaitUntilToastMessageInvisible("Service Unit Point Type is required");
+
+            //Select any value in 'Service Unit Point Type'  and click 'Save' on SUP form
+            serviceUnitPage.SelectServiceUnitPointType("Both Serviced and Point of Service")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
         }
     }
 }

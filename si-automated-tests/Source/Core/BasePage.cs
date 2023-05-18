@@ -22,7 +22,7 @@ namespace si_automated_tests.Source.Core
         private readonly By refreshBtn = By.XPath("//button[@title='Refresh']");
         private readonly By saveBtn = By.XPath("//button[@title='Save']");
         private readonly By saveAndCloseBtn = By.XPath("//button[@title='Save and Close']");
-        private readonly By deleteItemBtn = By.XPath("//button[@title='Delete Item']");
+        private readonly By deleteItemBtn = By.XPath("//button[contains(.,'Delete Item')]");
         private readonly By confirmActionButton = By.XPath("//button[@data-bb-handler='Confirm']");
         private readonly string tab = "//a[@data-toggle='tab' and contains(text(),'{0}')]";
         private readonly string tabs = "//a[@data-toggle='tab']";
@@ -39,6 +39,20 @@ namespace si_automated_tests.Source.Core
         public BasePage ClickOnRetiredBtn()
         {
             ClickOnElement(retiredBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public BasePage OpenLocaleLanguage()
+        {
+            ClickOnElement(By.XPath("//ul[@class='dropdown-menu']//li//a[@data-bind='click: openLocaleLanguages']"));
+            return this;
+        } 
+        
+        [AllureStep]
+        public BasePage OpenSettings()
+        {
+            ClickOnElement(By.XPath("//ul[@class='dropdown-menu']//li//a[@data-bind='click: openSettings']"));
             return this;
         }
 
@@ -133,7 +147,7 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public void SendKeys(By by, string value)
         {
-            WaitUtil.WaitForElementClickable(by);
+            WaitUtil.WaitForElementVisible(by);
             IWebElement element = WaitUtil.WaitForElementVisible(by);
             element.Clear();
             element.SendKeys(value);
@@ -453,6 +467,7 @@ namespace si_automated_tests.Source.Core
             IWebElement iframe = WaitUtil.WaitForElementVisible(By.TagName("iframe"));
             driver.SwitchTo().Frame(iframe);
             Thread.Sleep(1000);
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -494,6 +509,7 @@ namespace si_automated_tests.Source.Core
         {
             Thread.Sleep(500);
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]
@@ -501,6 +517,7 @@ namespace si_automated_tests.Source.Core
         {
             Thread.Sleep(500);
             IWebDriverManager.GetDriver().SwitchTo().Window(IWebDriverManager.GetDriver().WindowHandles.Last());
+            WaitForLoadingIconToDisappear();
             var page = (T)Activator.CreateInstance(typeof(T));
             return page;
         }
@@ -535,19 +552,29 @@ namespace si_automated_tests.Source.Core
             }
         }
 
+        [AllureStep]
         public void HoverElement(string xpath)
         {
             Actions action = new Actions(driver);
             action.MoveToElement(GetElement(xpath)).Perform();
         }
 
+        [AllureStep]
         public void HoverElement(IWebElement webElement)
         {
             Actions action = new Actions(driver);
             action.MoveToElement(webElement).Perform();
         }
-
+        [AllureStep]
+        public void HoverElement(By by)
+        {
+            IWebElement e = WaitUtil.WaitForElementVisible(by);
+            Actions action = new Actions(driver);
+            action.MoveToElement(e).Perform();
+        }
         //ALERT
+
+        [AllureStep]
         public String GetAlertText()
         {
             WaitUtil.WaitForAlert();
@@ -692,6 +719,16 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         [AllureStep]
+        public BasePage ScrollMaxToLeft(By by)
+        {
+            WaitUtil.WaitForPageLoaded();
+            IWebElement e = GetElement(by);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollLeft += arguments[0].scrollWidth", e);
+
+            return this;
+        }
+        [AllureStep]
         public BasePage ScrollRight(By by)
         {
             WaitUtil.WaitForPageLoaded();
@@ -822,23 +859,7 @@ namespace si_automated_tests.Source.Core
             WaitForLoadingIconToDisappear();
             return this;
         }
-        [AllureStep]
-        public BasePage SelectValueFromDropDown(By by, string _value)
-        {
-            IWebElement comboBox = WaitUtil.WaitForElementVisible(by);
-            SelectElement selectedValue = new SelectElement(comboBox);
-            selectedValue.SelectByValue(_value);
-            WaitForLoadingIconToDisappear();
-            return this;
-        }
-        [AllureStep]
-        public BasePage SelectValueFromDropDown(IWebElement comboBox, string _value)
-        {
-            SelectElement selectedValue = new SelectElement(comboBox);
-            selectedValue.SelectByValue(_value);
-            WaitForLoadingIconToDisappear();
-            return this;
-        }
+        
         [AllureStep]
         public BasePage SelectIndexFromDropDown(By by, int index)
         {
@@ -860,6 +881,32 @@ namespace si_automated_tests.Source.Core
             SelectElement selectedValue = new SelectElement(webElement);
             selectedValue.SelectByIndex(index);
             WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        /// <summary>
+        /// because we can't get toast message on user screen so we temporarily skip check message process. It will be recover in future
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="skipCheck"></param>
+        /// <returns></returns>
+        [AllureStep]
+        public BasePage VerifyToastMessageOnParty(string message, bool skipCheck)
+        {
+            if (!skipCheck) VerifyToastMessage(message);
+            return this;
+        }
+
+        /// <summary>
+        /// because we can't get toast message on user screen so we temporarily skip check message process. It will be recover in future
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="skipCheck"></param>
+        /// <returns></returns>
+        [AllureStep]
+        public BasePage WaitUntilToastMessageInvisibleOnParty(string message, bool skipCheck)
+        {
+            if (!skipCheck) WaitUntilToastMessageInvisible(message);
             return this;
         }
 
@@ -904,18 +951,29 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         [AllureStep]
+        public BasePage VerifyDisplayToastMessageDoubleQuote(string message)
+        {
+            Assert.IsTrue(IsControlDisplayed("//*[contains(text(),\"{0}\")]", message));
+            return this;
+        }
+        [AllureStep]
         public BasePage VerifyToastMessages(List<string> messages)
         {
-            SleepTimeInMiliseconds(500);
+            WaitUtil.WaitForElementsCountToBe(By.XPath("//div[@data-notify-html='title']"), messages.Count);
             var notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
-            //int retryCount = 0;
-            //while(notifyMsgs.Count < messages.Count && retryCount < 10)
-            //{
-            //    SleepTimeInMiliseconds(50);
-            //    notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
-            //    retryCount++;
-            //}
+            int retryCount = 0;
+            while (notifyMsgs.Count < messages.Count && retryCount < 10)
+            {
+                //SleepTimeInMiliseconds(50);
+                notifyMsgs = GetAllElements(By.XPath("//div[@data-notify-html='title']")).Select(x => x.Text).ToList();
+                retryCount++;
+            }
             CollectionAssert.AreEquivalent(messages, notifyMsgs);
+            return this;
+        }
+        public BasePage VerifyToastMessagesDisappear()
+        {
+            WaitUtil.WaitForElementsCountToBe(By.XPath("//div[@data-notify-html='title']"), 0);
             return this;
         }
         [AllureStep]
@@ -956,10 +1014,12 @@ namespace si_automated_tests.Source.Core
                 WaitUtil.WaitForElementInvisible60("//div[@id='loading-shield']");
                 WaitUtil.WaitForElementInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
             }
-            WaitUtil.WaitForElementVisible(By.XPath("//*[contains(@data-bind,'shield: loading') or contains(@data-bind,'shield: isLoading')]"));
+            WaitUtil.WaitForPageLoaded();
+            WaitUtil.WaitForElementVisible(By.XPath("//*[contains(@data-bind,'shield: loading') or contains(@data-bind,'shield: isLoading') or contains(@data-bind,'shield: $root.isLoading')]"));
             WaitUtil.WaitForPageLoaded();
             return this;
         }
+
         public BasePage waitForLoadingIconDisappear() {
             WaitUtil.WaitAttributeChange(By.XPath("//*[contains(@data-bind,'shield: isLoading')]"), "style", "display: block;");
             return this;
@@ -972,8 +1032,10 @@ namespace si_automated_tests.Source.Core
                 if (implicitSleep) Thread.Sleep(750);
                 WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: isLoading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: loading')]");
+                WaitUtil.WaitForAllElementsInvisible60("//*[contains(@data-bind,'shield: $root.isLoading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@id='loading-shield']");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='loading-data' and contains(@data-bind,'loadingDefinition')]");
+                WaitUtil.WaitForAllElementsInvisible60("//div[@class='loading-definition' and contains(@data-bind,'loadingDefinition')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'loadingDefinition')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'shield: loading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[contains(@class,'loading-polygon')]");
@@ -986,8 +1048,24 @@ namespace si_automated_tests.Source.Core
             {
                 Assert.Fail("Loading icon doesn't disappear after 60 seconds");
             }
+            
             return this;
         }
+
+        [AllureStep]
+        public BasePage TryWaitForLoadingIconToDisappear(bool implicitSleep = true)
+        {
+            try
+            {
+                WaitForLoadingIconToDisappear(implicitSleep);
+            }
+            catch (OpenQA.Selenium.StaleElementReferenceException ex)
+            {
+                WaitForLoadingIconToDisappear(implicitSleep);
+            }
+            return this;
+        }
+
         [AllureStep]
         public BasePage VerifyToastMessageNotAppear(string message)
         {
@@ -1005,8 +1083,16 @@ namespace si_automated_tests.Source.Core
         public BasePage ClickSaveBtn()
         {
             ClickOnElement(saveBtn);
+            WaitForLoadingIconToDisappear();
             return this;
         }
+
+        [AllureStep]
+        public bool IsSaveButtonEnable()
+        {
+            return GetElement(saveBtn).Enabled;
+        }
+
         [AllureStep]
         public string ClickSaveBtnGetUTCTime()
         {
@@ -1122,6 +1208,12 @@ namespace si_automated_tests.Source.Core
         public bool IsCheckboxChecked(By by)
         {
             return GetElement(by).Selected;
+        }
+        [AllureStep]
+        public bool IsCheckboxChecked(string xpath, string value)
+        {
+            xpath = string.Format(xpath, value);
+            return WaitUtil.WaitForElementVisible(xpath).Selected;
         }
         [AllureStep]
         public bool IsCheckboxChecked(IWebElement e)

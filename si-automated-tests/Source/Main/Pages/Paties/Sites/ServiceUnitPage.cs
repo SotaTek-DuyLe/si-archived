@@ -24,7 +24,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         public readonly By LockHelpButton = By.XPath("//span[contains(@class, 'lock-help')]");
         public readonly By LockHelpContent = By.XPath("//div[contains(@class, 'popover-content')]");
         public readonly By ClientReferenceInput = By.XPath("//input[@name='clientReference']");
-
+        public readonly By ServiceUnitTitle = By.XPath("//h5[@data-bind='text: serviceUnit']");
         #region ServiceUnitPoint
         public readonly By AddPointButton = By.XPath("//button[@data-target='#add-service-unit-points']");
         public readonly By AddServiceUnitButton = By.XPath("//button[text()='Add Service Unit Points']");
@@ -37,16 +37,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         private string SearchResultTable = "//div[@id='results-grid']//div[contains(@data-bind, 'selectedType() === \"Node\"')]//div[@class='grid-canvas']";
         private string SearchResultRow = "./div[contains(@class, 'slick-row')]";
         private string CheckboxCell = "./div[contains(@class, 'l0')]//input[@type='checkbox']";
-        private string IdCell = "./div[contains(@class, 'l1')]";
-        private string PointNodeIdCell = "./div[contains(@class, 'l2')]";
-        private string NodeCell = "./div[contains(@class, 'l3')]";
-        private string ClientRefCell = "./div[contains(@class, 'l4')]";
-        private string StreetCell = "./div[contains(@class, 'l5')]";
-        private string ServiceUnitCell = "./div[contains(@class, 'l6')]";
+        private string PointNodeIdCell = "./div[contains(@class, 'l1')]";
+        private string NodeCell = "./div[contains(@class, 'l2')]";
+        private string ClientRefCell = "./div[contains(@class, 'l3')]";
+        private string StreetCell = "./div[contains(@class, 'l4')]";
+        private string ServiceUnitCell = "./div[contains(@class, 'l5')]";
 
         public TableElement SearchResultTableEle
         {
-            get => new TableElement(SearchResultTable, SearchResultRow, new List<string>() { CheckboxCell, IdCell, PointNodeIdCell, NodeCell, ClientRefCell, StreetCell, ServiceUnitCell });
+            get => new TableElement(SearchResultTable, SearchResultRow, new List<string>() { CheckboxCell, PointNodeIdCell, NodeCell, ClientRefCell, StreetCell, ServiceUnitCell });
         }
 
         private string ServiceUnitPointTable = "//div[@id='serviceUnitPoints-tab']//table//tbody";
@@ -79,15 +78,22 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         [AllureStep]
         public ServiceUnitPage VerifySearchResult(string pointnodeId)
         {
-            var cell = SearchResultTableEle.GetRowByCellValue(2, pointnodeId);
+            var cell = SearchResultTableEle.GetRowByCellValue(SearchResultTableEle.GetCellIndex(PointNodeIdCell), pointnodeId);
             Assert.IsNotNull(cell);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitPage ClickPointAddress(string pointAddress)
+        {
+            ServiceUnitPointTableEle.ClickCellOnCellValue(ServiceUnitPointTableEle.GetCellIndex(DescriptionCell), ServiceUnitPointTableEle.GetCellIndex(DescriptionCell), pointAddress);
             return this;
         }
 
         [AllureStep]
         public ServiceUnitPage CheckSearchResult(string pointnodeId)
         {
-            SearchResultTableEle.ClickCellOnCellValue(0, 2, pointnodeId);
+            SearchResultTableEle.ClickCellOnCellValue(0, SearchResultTableEle.GetCellIndex(PointNodeIdCell), pointnodeId);
             return this;
         }
 
@@ -95,6 +101,13 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         public ServiceUnitPage SelectServiceUnitPointType(string type)
         {
             ServiceUnitPointTableEle.SetCellValue(0, 3, type);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitPage DoubleClickServiceUnitPoint()
+        {
+            ServiceUnitPointTableEle.DoubleClickRow(0);
             return this;
         }
         #endregion
@@ -124,7 +137,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
         #endregion
 
         #region Risk
-        public readonly By RiskIframe = By.XPath("//iframe[@id='risks-tab']");
+        public readonly By RiskIframe = By.XPath("//div[@id='risks-tab']//iframe");
         public readonly By BulkCreateButton = By.XPath("//button[@title='Add risk register(s)']");
         private readonly string riskTable = "//div[@id='risk-grid']//div[@class='grid-canvas']";
         private readonly string riskRow = "./div[contains(@class,'slick-row')]";
@@ -146,6 +159,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Sites
                 { RiskTableEle.GetCellIndex(riskStartDateCell), startdate },
                 { RiskTableEle.GetCellIndex(riskEndDateCell), endDate },
             }));
+            return this;
+        }
+        #endregion
+
+        #region Service task schedule
+        public readonly By ServiceTaskScheduleTab = By.XPath("//a[@aria-controls='serviceTaskSchedules-tab']");
+        public readonly By AddServiceTaskButton = By.XPath("//div[@id='serviceTaskSchedules-tab']//button[contains(., 'Add New Item')]");
+        public readonly By CommercialCollectionOpt = By.XPath("//div[@id='add-service-task']//li[text()='Commercial Collection']");
+        public readonly By CreateSTButton = By.XPath("//div[@id='add-service-task']//button[text()='Create']");
+
+        public ServiceUnitPage ClickEditNewServiceTask()
+        {
+            ClickOnElement("(//div[@id='serviceTaskSchedules-tab']//button[contains(., 'Edit Service Task')])[1]");
             return this;
         }
         #endregion

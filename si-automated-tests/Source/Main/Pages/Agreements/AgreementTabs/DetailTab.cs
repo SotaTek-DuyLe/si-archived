@@ -104,8 +104,8 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         private const string beginLocatorAdhoc = "//span[text()='Ad-hoc']/ancestor::div[@data-toggle='collapse']/following-sibling::div";
         private readonly By indexNumbAdhoc = By.XPath(beginLocatorAdhoc + "//td[@data-bind='text: $index() + 1']");
         private readonly By taskTypeAdhoc = By.XPath(beginLocatorAdhoc + "//td[@data-bind='text: $index() + 1']/following-sibling::td[1]");
-        private const string invoiceScheduleAdhoc = beginLocatorAdhoc + "//td[@data-bind='text: $index() + 1']/following-sibling::td[2]//select";
-        private const string invoiceAddressAdhoc = beginLocatorAdhoc + "//td[@data-bind='text: $index() + 1']/following-sibling::td[3]//select";
+        private readonly string invoiceScheduleAdhoc = "(" + beginLocatorAdhoc + "//td[@data-bind='text: $index() + 1']/following-sibling::td[2])[{0}]//select";
+        private readonly string invoiceAddressAdhoc = "(" + beginLocatorAdhoc + "//td[@data-bind='text: $index() + 1']/following-sibling::td[3])[{0}]//select";
         private readonly By startAndEndDateAdhoc = By.XPath(beginLocatorAdhoc + "//td[@data-bind='text: $index() + 1']/following-sibling::td[4]//p");
         private const string beginLocatorAdhocTaskLine = "//span[text()='Ad-hoc']/ancestor::div[@data-toggle='collapse']/following-sibling::div//tbody[@data-bind='foreach: taskLines']";
         private readonly By taskLineTypeAdhoc = By.XPath(beginLocatorAdhocTaskLine + "//td[@data-bind='text: name']");
@@ -149,21 +149,22 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             string productQuantityM = GetElementText(productQuantity);
             string unitM = GetElementText(unitName);
             string tenureM = GetElementText(tenureName);
-            string[] invoiceScheduleM = new string[3];
+            List<string> invoiceScheduleMM = new List<string>();
             List<IWebElement> invoiceScheduleList = GetAllElements(invoiceSchedule + "/option");
             for (int i = 0; i < invoiceScheduleList.Count; i++)
             {
-                invoiceScheduleM[i] = GetElementText(invoiceScheduleList[i]);
+                invoiceScheduleMM.Add(GetElementText(invoiceScheduleList[i]));
             }
-            string[] invoiceAddressM = new string[2];
+            List<string> invoiceAddressMM = new List<string>();
+
             List<IWebElement> invoiceAddressList = GetAllElements(invoiceAddress + "/option");
             for (int i = 0; i < invoiceAddressList.Count; i++)
             {
-                invoiceAddressM[i] = GetElementText(invoiceAddressList[i]);
+                invoiceAddressMM.Add(GetElementText(invoiceAddressList[i]));
             }
             string startDateM = GetElementText(startDateAssetAndProduct);
             string endDateM = GetElementText(endDateAssetAndProduct);
-            return new AsserAndProductModel(assertTypeM, quantity1M, productM, ewcCodeM, productQuantityM, unitM, tenureM, invoiceScheduleM, invoiceAddressM, startDateM, endDateM);
+            return new AsserAndProductModel(assertTypeM, quantity1M, productM, ewcCodeM, productQuantityM, unitM, tenureM, invoiceScheduleMM.ToArray(), invoiceAddressMM.ToArray(), startDateM, endDateM);
         }
         [AllureStep]
         public AsserAndProductModel GetAllInfoAssetAndProductAgreement()
@@ -229,16 +230,16 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             string indexM = GetElementText(indexNumb);
             string taskTypeM = GetElementText(taskType);
             List<IWebElement> invoiceScheduleMobiList = GetAllElements(invoiceScheduleMobi + "/option");
-            string[] invoiceScheduleM = new string[3];
+            List<string> invoiceScheduleM = new List<string>();
             for (int i = 0; i < invoiceScheduleMobiList.Count; i++)
             {
-                invoiceScheduleM[i] = GetElementText(invoiceScheduleMobiList[i]);
+                invoiceScheduleM.Add(GetElementText(invoiceScheduleMobiList[i]));
             }
             List<IWebElement> invoiceAddressMobiList = GetAllElements(invoiceAddressMobi + "/option");
-            string[] invoiceAddressM = new string[2];
+            List<string> invoiceAddressM = new List<string>();
             for (int i = 0; i < invoiceAddressMobiList.Count; i++)
             {
-                invoiceAddressM[i] = GetElementText(invoiceAddressMobiList[i]);
+                invoiceAddressM.Add(GetElementText(invoiceAddressMobiList[i]));
             }
             string startEndDateM = GetElementText(startAndEndDate);
             string taskLineTypeM = GetElementText(taskLineType);
@@ -253,7 +254,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             string unitM = GetElementText(unit);
             string startDateM = GetElementText(startDateCover);
             string endDateM = GetElementText(endDateCover);
-            return new MobilizationModel(indexM, taskTypeM, invoiceScheduleM, invoiceAddressM, startEndDateM, taskLineTypeM, assetTypeM,
+            return new MobilizationModel(indexM, taskTypeM, invoiceScheduleM.ToArray(), invoiceAddressM.ToArray(), startEndDateM, taskLineTypeM, assetTypeM,
                 assetQtyM, minAssetM, maxAssetM, productM, amountOfProductM, minProdQtyM, maxProdQtyM, unitM, startDateM, endDateM);
         }
         [AllureStep]
@@ -312,16 +313,16 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             string indexR = GetElementText(indexNumbRe);
             string taskTypeR = GetElementText(taskTypeRe);
             List<IWebElement> invoiceScheduleReList = GetAllElements(invoiceScheduleRe + "/option");
-            string[] invoiceScheduleR = new string[3];
+            List<string> invoiceScheduleR = new List<string>();
             for (int i = 0; i < invoiceScheduleReList.Count; i++)
             {
-                invoiceScheduleR[i] = GetElementText(invoiceScheduleReList[i]);
+                invoiceScheduleR.Add(GetElementText(invoiceScheduleReList[i]));
             }
             List<IWebElement> invoiceAddressReList = GetAllElements(invoiceAddressRe + "/option");
-            string[] invoiceAddressR = new string[2];
+            List<string> invoiceAddressR = new List<string>();
             for (int i = 0; i < invoiceAddressReList.Count; i++)
             {
-                invoiceAddressR[i] = GetElementText(invoiceAddressReList[i]);
+                invoiceAddressR.Add(GetElementText(invoiceAddressReList[i]));
             }
             string frequencyR = GetElementText(frequencyRe);
             string startEndDateR = GetElementText(startEndDateRe);
@@ -339,7 +340,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             string siteProductR = GetElementText(siteProductRe);
             string startDateCoverR = GetElementText(startDateCoverRe);
             string endDateCoverR = GetElementText(endDateCoverRe);
-            return new RegularModel(indexR, taskTypeR, invoiceScheduleR, invoiceAddressR, frequencyR, startEndDateR, taskLineTypeR, assetTypeR, assetQtyR, minAssetR, maxAssetR, productR, amountOfProductR, minProdQtyR, maxProdQtyR, unitR, destinationSiteR,
+            return new RegularModel(indexR, taskTypeR, invoiceScheduleR.ToArray(), invoiceAddressR.ToArray(), frequencyR, startEndDateR, taskLineTypeR, assetTypeR, assetQtyR, minAssetR, maxAssetR, productR, amountOfProductR, minProdQtyR, maxProdQtyR, unitR, destinationSiteR,
               siteProductR, startDateCoverR, endDateCoverR);
         }
         [AllureStep]
@@ -373,7 +374,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             return this;
         }
         [AllureStep]
-        public DetailTab VerifyRegularTaskTypeDate(string dateRange) 
+        public DetailTab VerifyRegularTaskTypeDate(string dateRange)
         {
             Assert.AreEqual(dateRange, GetElementText(startEndDateRe));
             return this;
@@ -413,16 +414,16 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             string indexM = GetElementText(indexNumbDeMobi);
             string taskTypeM = GetElementText(taskTypeDeMobi);
             List<IWebElement> invoiceScheduleMobiList = GetAllElements(invoiceScheduleDeMobi + "/option");
-            string[] invoiceScheduleM = new string[3];
+            List<string> invoiceScheduleM = new List<string>();
             for (int i = 0; i < invoiceScheduleMobiList.Count; i++)
             {
-                invoiceScheduleM[i] = GetElementText(invoiceScheduleMobiList[i]);
+                invoiceScheduleM.Add(GetElementText(invoiceScheduleMobiList[i]));
             }
             List<IWebElement> invoiceAddressMobiList = GetAllElements(invoiceAddressDeMobi + "/option");
-            string[] invoiceAddressM = new string[2];
+            List<string> invoiceAddressM = new List<string>();
             for (int i = 0; i < invoiceAddressMobiList.Count; i++)
             {
-                invoiceAddressM[i] = GetElementText(invoiceAddressMobiList[i]);
+                invoiceAddressM.Add(GetElementText(invoiceAddressMobiList[i]));
             }
             string startEndDateM = GetElementText(startAndEndDateDeMobi);
             string taskLineTypeM = GetElementText(taskLineTypeDeMobi);
@@ -437,7 +438,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             string unitM = GetElementText(unitDeMobi);
             string startDateM = GetElementText(startDateCoverDeMobi);
             string endDateM = GetElementText(endDateCoverDeMobi);
-            return new MobilizationModel(indexM, taskTypeM, invoiceScheduleM, invoiceAddressM, startEndDateM, taskLineTypeM, assetTypeM,
+            return new MobilizationModel(indexM, taskTypeM, invoiceScheduleM.ToArray(), invoiceAddressM.ToArray(), startEndDateM, taskLineTypeM, assetTypeM,
                 assetQtyM, minAssetM, maxAssetM, productM, amountOfProductM, minProdQtyM, maxProdQtyM, unitM, startDateM, endDateM);
         }
         [AllureStep]
@@ -486,8 +487,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 
             List<IWebElement> allIds = GetAllElements(indexNumbAdhoc);
             List<IWebElement> allTaskType = GetAllElements(taskTypeAdhoc);
-            List<IWebElement> allInvoiceSchedule = GetAllElements(invoiceScheduleAdhoc + "/option");
-            List<IWebElement> allInvoiceAddress = GetAllElements(invoiceAddressAdhoc + "/option");
+
             List<IWebElement> allStartEndDate = GetAllElements(startAndEndDateAdhoc);
             List<IWebElement> allTaskLineType = GetAllElements(taskLineTypeAdhoc);
             List<IWebElement> allAssetType = GetAllElements(assetTypeAdhoc);
@@ -504,31 +504,25 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 
             for (int i = 0; i < allIds.Count; i++)
             {
+                List<IWebElement> allInvoiceSchedule = GetAllElements(String.Format(invoiceScheduleAdhoc, (i + 1).ToString()) + "/option");
+                List<IWebElement> allInvoiceAddress = GetAllElements(String.Format(invoiceAddressAdhoc, (i + 1).ToString()) + "/option");
                 string indexM = GetElementText(allIds[i]);
                 string taskTypeM = GetElementText(allTaskType[i]);
-                string[] invoiceScheduleM = new string[3];
-                string[] invoiceAddressM = new string[2];
-                if (i == 0)
+                List<string> invoiceScheduleM = new List<string>();
+                List<string> invoiceAddressM = new List<string>();
+                Console.WriteLine(allInvoiceSchedule.Count);
+                Console.WriteLine(allInvoiceAddress.Count);
+                for (int j = 0; j < allInvoiceSchedule.Count; j++)
                 {
-                    for (int j = 0; j < 3; j++)
-                    {
-                        invoiceScheduleM[j] = GetElementText(allInvoiceSchedule[j]);
-                    }
-
-                    for (int j = 0; j < 2; j++)
-                    {
-                        invoiceAddressM[j] = GetElementText(allInvoiceAddress[j]);
-                    }
+                    Console.WriteLine(GetElementText(allInvoiceSchedule[j]));
+                    invoiceScheduleM.Add(GetElementText(allInvoiceSchedule[j]));
 
                 }
-                else
+                for (int j = 0; j < allInvoiceAddress.Count; j++)
                 {
-                    invoiceScheduleM[0] = GetElementText(allInvoiceSchedule[3]);
-                    invoiceScheduleM[1] = GetElementText(allInvoiceSchedule[4]);
-                    invoiceScheduleM[2] = GetElementText(allInvoiceSchedule[5]);
-                    invoiceAddressM[0] = GetElementText(allInvoiceAddress[2]);
-                    invoiceAddressM[1] = GetElementText(allInvoiceAddress[3]);
+                    invoiceAddressM.Add(GetElementText(allInvoiceAddress[j]));
                 }
+
 
                 string startEndDateM = GetElementText(allStartEndDate[i]);
                 string taskLineTypeM = GetElementText(allTaskLineType[i]);
@@ -543,7 +537,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                 string unitM = GetElementText(allUnit[i]);
                 string startDateM = GetElementText(allStartDate[i]);
                 string endDateM = GetElementText(allEndDate[i]);
-                allAdhoc.Add(new MobilizationModel(indexM, taskTypeM, invoiceScheduleM, invoiceAddressM, startEndDateM, taskLineTypeM, assetTypeM, assetQtyM, minAssetM, maxAssetM, productM, amountOfProductM, minProdQtyM, maxProdQtyM, unitM, startDateM, endDateM));
+                allAdhoc.Add(new MobilizationModel(indexM, taskTypeM, invoiceScheduleM.ToArray(), invoiceAddressM.ToArray(), startEndDateM, taskLineTypeM, assetTypeM, assetQtyM, minAssetM, maxAssetM, productM, amountOfProductM, minProdQtyM, maxProdQtyM, unitM, startDateM, endDateM));
             }
             return allAdhoc;
         }
@@ -552,7 +546,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         {
             for (int i = 0; i < mobilizationModelList.Count; i++)
             {
-                if(i == 0)
+                if (i == 0)
                 {
                     Assert.AreEqual(mobilizationModelList[i].TaskType, "Repair Commercial Bin");
                 }
@@ -575,7 +569,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                 Assert.AreEqual(mobilizationModelList[i].Unit, CommonConstants.Unit[0]);
                 Assert.AreEqual(mobilizationModelList[i].StartDateCover, CommonConstants.StartDateAgreement);
                 Assert.AreEqual(mobilizationModelList[i].EndDateCover, CommonConstants.EndDateAgreement);
-                
+
             }
             return this;
         }
@@ -601,7 +595,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
             int n = 0;
             for (int i = 0; i < mobilizationModelList.Count; i++)
             {
-                if(mobilizationModelList[i].TaskLineType == input.TaskLineType && mobilizationModelList[i].StartDateCover == input.StartDateCover)
+                if (mobilizationModelList[i].TaskLineType == input.TaskLineType && mobilizationModelList[i].StartDateCover == input.StartDateCover)
                 {
                     Assert.AreEqual(mobilizationModelList[i].TaskLineType, input.TaskLineType);
                     Assert.AreEqual(mobilizationModelList[i].AssetType, input.AssetType);
@@ -612,7 +606,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
                     Assert.AreEqual(mobilizationModelList[i].StartDateCover, input.StartDateCover);
                     n++;
                 }
-                
+
             }
             Assert.AreEqual(n, num);
             return this;

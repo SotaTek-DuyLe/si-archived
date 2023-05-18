@@ -35,8 +35,7 @@ namespace si_automated_tests.Source.Test.HistoryTests
                 .ClickMainOption(MainOption.Applications)
                 .ExpandOption(MainOption.ServiceStatus)
                 .OpenOption(Contract.Commercial)
-                .SwitchNewIFrame()
-                .WaitForLoadingIconToDisappear();
+                .SwitchNewIFrame();
             //Filter any service status
             PageFactoryManager.Get<ServiceStatusPage>()
                 .FilterServiceStatusById(serviceId)

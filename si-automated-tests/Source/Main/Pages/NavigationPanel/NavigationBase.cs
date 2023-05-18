@@ -35,6 +35,7 @@ namespace si_automated_tests.Source.Main.Pages.NavigationPanel
         [AllureStep]
         public NavigationBase ExpandOption(string optionName)
         {
+            WaitForLoadingIconToDisappear();
             Thread.Sleep(500);
             String expandedAttribute = GetAttributeValue(string.Format(dropdownOption, optionName), "class");
             if(!expandedAttribute.Contains("expanded"))

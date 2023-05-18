@@ -24,6 +24,8 @@ using si_automated_tests.Source.Main.Pages.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Agrrements.AddAndEditService;
 using si_automated_tests.Source.Main.Finders;
 using System.Linq;
+using System;
+using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
 
 namespace si_automated_tests.Source.Test.PartiesTests
 {
@@ -61,13 +63,14 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SendKeyToThePartyInput(partyModel.PartyName)
                 .SelectStartDate(-1)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             //PageFactoryManager.Get<DetailPartyPage>()
             //    .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
             //    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName)
-                .SleepTimeInMiliseconds(2000);
+                .SleepTimeInMiliseconds(3000);
             //PageFactoryManager.Get<DetailPartyPage>()
             //    .MergeAllTabInDetailPartyAndVerify();
             PageFactoryManager.Get<DetailPartyPage>()
@@ -101,14 +104,15 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SelectContract(3)
                 .SelectStartDate(-1)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             //Verify all tab display correctly
             //PageFactoryManager.Get<DetailPartyPage>()
             //    .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
             //    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<DetailPartyPage>()
                  .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName)
-                 .SleepTimeInMiliseconds(2000);
+                 .SleepTimeInMiliseconds(3000);
             //.MergeAllTabInDetailPartyAndVerify()
             PageFactoryManager.Get<DetailPartyPage>()
                 .ClickAllTabAndVerify()
@@ -273,7 +277,10 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //Test path for TC 008
             detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.ClickOnSitesTab()
-                .IsOnSitesTab()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage.IsOnSitesTab()
                 .ClickOnAddNewItemInSiteTabBtn()
                 .SwitchToLastWindow();
             partySiteAddressPage.WaitForLoadingIconToDisappear();
@@ -296,7 +303,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             detailPartyPage.ClickOnDetailsTab()
                 .ClickOnInvoiceAddressButton()
                 .VerifyCreatedAddressAppearAtInvoiceAddress(addressAdded)
-                .ClickOnSitesTab()
+                .ClickOnSitesTabNoWait()
                 .VerifyAddressAppearAtSitesTab(addressSite1);
         }
 
@@ -348,7 +355,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //create site 1
             detailPartyPage.WaitForLoadingIconToDisappear();
             detailPartyPage.ClickOnSitesTab()
-                .IsOnSitesTab()
+                .WaitForLoadingIconToDisappear()
+                .WaitForLoadingIconToDisappear();
+            detailPartyPage.IsOnSitesTab()
                 .ClickOnAddNewItemInSiteTabBtn()
                 .SwitchToLastWindow();
             partySiteAddressPage.WaitForLoadingIconToDisappear();
@@ -424,7 +433,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SendKeyToThePartyInput(partyModel.PartyName)
                 .SelectStartDate(-1)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyModel.PartyName)
             //Test path for TC 010
@@ -494,7 +504,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SendKeyToThePartyInput(partyModel.PartyName)
                 .SelectStartDate(-1)
                 .SelectPartyType(1)
-                .ClickSaveBtn();
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
             //    .VerifyDisplaySuccessfullyMessage()
             //Test path for TC 011
@@ -541,7 +552,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PartyModel partyModel = new PartyModel("AutoParty" + CommonUtil.GetRandomNumber(4), "North Star Commercial", CommonUtil.GetLocalTimeMinusDay(PartyTabConstant.DATE_DD_MM_YYYY_FORMAT, -1));
             string overrideValue = "Account reference value " + CommonUtil.GetRandomString(12);
             int partyId = 73;
-            string partyUrl = "https://test.echoweb.co.uk/web/parties/" + partyId;
+            string partyUrl = WebUrl.MainPageUrl + "web/parties/" + partyId;
             //login
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(charityAccountTypeSettingUrl);
@@ -594,11 +605,13 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<PartyAccountPage>()
                 .SelectAccountType("Charity")
                 .ClickSaveBtn()
-                .SleepTimeInMiliseconds(1000);
+                .SleepTimeInMiliseconds(1000)
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 //.VerifyDisplaySuccessfullyMessage()
                 //.ClickTabDropDown()
-                .ClickOnAccountStatement();
+                .ClickOnAccountStatement()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AccountStatementPage>()
                 .ClickCreateCreditNote()
                 .SwitchToLastWindow();
@@ -725,25 +738,25 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickCalendarTab()
                 .WaitForLoadingIconToDisappear();
             var partyCalendarPage = PageFactoryManager.Get<PartyCalendarPage>();
-            partyCalendarPage.GoToAugust()
-                .WaitForLoadingIconToDisappear();
+            var wednesdaysInMonth = CommonUtil.GetWeekDaysInCurrentMonth(System.DayOfWeek.Wednesday).Select(x => x.ToString("yyyy-MM-dd")).ToList();
+            var mondaysInMonth = CommonUtil.GetWeekDaysInCurrentMonth(System.DayOfWeek.Monday).Select(x => x.ToString("yyyy-MM-dd")).ToList();
             //Edit Task 1
             partyCalendarPage
-                .ClickDayInstance(CommonUtil.StringToDateTime("2022-08-03", "yyyy-MM-dd"))
+                .ClickDayInstance(CommonUtil.StringToDateTime(wednesdaysInMonth[0], "yyyy-MM-dd"))
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             var detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
             detailTaskPage.ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.SelectTextFromDropDown(detailTaskPage.taskStateDd, "Completed");
-            string scheduledate = detailTaskPage.GetElementText(detailTaskPage.ScheduleDateInput);
+            string scheduledate = detailTaskPage.GetAttributeValue(detailTaskPage.ScheduleDateInput, "value");
             detailTaskPage.SendKeys(detailTaskPage.completionDateInput, scheduledate);
             detailTaskPage.ClickSaveBtn()
                 .VerifyToastMessage("Success")
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Edit Task 2
-            partyCalendarPage.ClickDayInstance(CommonUtil.StringToDateTime("2022-08-10", "yyyy-MM-dd"))
+            partyCalendarPage.ClickDayInstance(CommonUtil.StringToDateTime(wednesdaysInMonth[1], "yyyy-MM-dd"))
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnDetailTab()
@@ -753,7 +766,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             //Edit Task 3
-            partyCalendarPage.ClickDayInstance(CommonUtil.StringToDateTime("2022-08-17", "yyyy-MM-dd"))
+            partyCalendarPage.ClickDayInstance(CommonUtil.StringToDateTime(wednesdaysInMonth[2], "yyyy-MM-dd"))
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnDetailTab()
@@ -780,21 +793,19 @@ namespace si_automated_tests.Source.Test.PartiesTests
             partyCalendarPage.ClickSellectAllSites();
             partyCalendarPage.ClickApplyCalendarButton()
                 .WaitForLoadingIconToDisappear();
-            partyCalendarPage.GoToAugust()
-                .WaitForLoadingIconToDisappear();
-            partyCalendarPage.VerifyDayInstanceHasRaiseHandStatus(CommonUtil.StringToDateTime("2022-08-03", "yyyy-MM-dd"), false)
-                .VerifyDayInstanceHasRaiseHandStatus(CommonUtil.StringToDateTime("2022-08-10", "yyyy-MM-dd"), false)
-                .VerifyDayInstanceHasRaiseHandStatus(CommonUtil.StringToDateTime("2022-08-17", "yyyy-MM-dd"), false)
-                .VerifyDayInstanceHasRaiseHandStatus(CommonUtil.StringToDateTime("2022-08-01", "yyyy-MM-dd"), true);
+            partyCalendarPage.VerifyDayInstanceHasRaiseHandStatus(CommonUtil.StringToDateTime(wednesdaysInMonth[0], "yyyy-MM-dd"), false)
+                .VerifyDayInstanceHasRaiseHandStatus(DateTime.Now, false)
+                .VerifyDayInstanceHasRaiseHandStatus(CommonUtil.StringToDateTime(mondaysInMonth[0], "yyyy-MM-dd"), true);
             partyCalendarPage
-                .ClickDayInstance(CommonUtil.StringToDateTime("2022-08-03", "yyyy-MM-dd"))
+                .ClickDayInstance(CommonUtil.StringToDateTime(wednesdaysInMonth[0], "yyyy-MM-dd"))
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
+            string taskId = detailTaskPage.GetCurrentUrl().Split('/').LastOrDefault();
             detailTaskPage.VerifyElementVisibility(detailTaskPage.OnHoldImg, false)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             partyCalendarPage
-                .ClickDayInstance(CommonUtil.StringToDateTime("2022-08-01", "yyyy-MM-dd"))
+                .ClickDayInstance(CommonUtil.StringToDateTime(mondaysInMonth[0], "yyyy-MM-dd"))
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.VerifyElementVisibility(detailTaskPage.OnHoldImg, true)
@@ -812,8 +823,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SwitchNewIFrame();
 
             TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
-            string from = "03/08/2022";
-            string to = "03/08/2022";
+            string from = CommonUtil.GetFirstDayInMonth(DateTime.Now).ToString("dd/MM/yyyy");
+            string to = CommonUtil.GetLastDayInMonth(DateTime.Now).ToString("dd/MM/yyyy");
             taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.Commercial);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
             taskAllocationPage.ExpandRoundNode(Contract.Commercial)
@@ -831,7 +842,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             taskAllocationPage.WaitForLoadingIconToDisappear(false);
             taskAllocationPage.DragRoundInstanceToUnlocattedGrid("REC1-AM", "Wednesday")
                 .WaitForLoadingIconToDisappear(false);
-            taskAllocationPage.SendKeys(taskAllocationPage.IdFilterInput, "9292");
+            taskAllocationPage.SendKeys(taskAllocationPage.IdFilterInput, taskId);
             taskAllocationPage.SleepTimeInMiliseconds(200);
             taskAllocationPage.VerifyRoundInstanceStatusCompleted();
 
@@ -859,7 +870,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ExpandRoundsGo);
             taskConfirmationPage.SleepTimeInMiliseconds(200);
-            taskConfirmationPage.SendKeys(taskConfirmationPage.IdFilterInput, "9292");
+            taskConfirmationPage.SendKeys(taskConfirmationPage.IdFilterInput, taskId);
             taskConfirmationPage.SleepTimeInMiliseconds(200);
             taskConfirmationPage.VerifyRoundInstanceStatusCompleted();
             taskConfirmationPage.DoubleClickRoundInstance()
@@ -871,7 +882,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             roundInstanceDetailPage.SwitchNewIFrame();
             roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.ExpandRoundsGo);
             roundInstanceDetailPage.SleepTimeInMiliseconds(300);
-            roundInstanceDetailPage.SendKeys(roundInstanceDetailPage.IdFilterInput, "9292");
+            roundInstanceDetailPage.SendKeys(roundInstanceDetailPage.IdFilterInput, taskId);
             roundInstanceDetailPage.SleepTimeInMiliseconds(200);
             roundInstanceDetailPage.VerifyRoundInstanceStatusCompleted();
         }
@@ -1051,6 +1062,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .WaitForLoadingIconToDisappear();
             var partyName = PageFactoryManager.Get<DetailPartyPage>()
                 .GetPartyName();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .SwitchToTab("Details");
             var address = PageFactoryManager.Get<DetailPartyPage>()
                 .GetAddress();
             var site = partyName + " - " + address;
@@ -1063,6 +1076,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SaleInvoiceLinePage>()
                 .IsOnSaleInvoiceLinePage()
+                .SelectDepot(Contract.Commercial)
                 .InputInfo(lineType, site, product, priceElement, quantity, price)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
@@ -1100,6 +1114,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<SalesInvoiceDetailPage>()
                 .SelectFirstUninvoicedItem()
                 .IsOnSaleInvoiceDetailPage()
+                .SleepTimeInSeconds(3)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
@@ -1114,6 +1129,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<SaleInvoiceLinePage>()
                 .IsOnSaleInvoiceLinePage()
+                .SelectDepot(Contract.Commercial)
                 .InputInfo(lineType, site, product, priceElement, quantity, price)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
@@ -1127,6 +1143,65 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
 
 
+        }
+
+        [Category("Contracts")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_313_Contact_Changes()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .Login(AutoUser6.UserName, AutoUser6.Password)
+                .IsOnHomePage(AutoUser6);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Contacts")
+                .SwitchNewIFrame();
+            ContractListPage contractListPage = PageFactoryManager.Get<ContractListPage>();
+            contractListPage.WaitForLoadingIconToDisappear();
+            contractListPage.IsContractListExist();
+            contractListPage.ClickOnElement(contractListPage.AddNewContractButton);
+            contractListPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+
+            CreateContractPage createContractPage = PageFactoryManager.Get<CreateContractPage>();
+            createContractPage.SelectIndexFromDropDown(createContractPage.ContractSelect, 2);
+            createContractPage.ClickOnElement(createContractPage.NextButton);
+            createContractPage.WaitForLoadingIconToDisappear();
+            createContractPage.WaitForLoadingIconToDisappear();
+
+            CreatePartyContactPage createPartyContactPage = PageFactoryManager.Get<CreatePartyContactPage>();
+            ContactModel contactModel = new ContactModel();
+            contactModel.Title = "Test Contact";
+            contactModel.FirstName = "First Contact Name";
+            contactModel.LastName = "Last Contact Name";
+            contactModel.Mobile = "+4421234567";
+            contactModel.Position = "";
+            createPartyContactPage.EnterContactInfo(contactModel)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Navigate to Contacts grid under the Contract for which the Party for which the contact was created
+            createPartyContactPage.SwitchToFirstWindow()
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            contractListPage.VerifyNewContact(contactModel)
+                .SwitchToChildWindow(2);
+
+            //Navigate to the Contact you added. Edit soem fields. Save.
+            contactModel.Title = "Test Contact 11";
+            contactModel.Position = "New Position";
+            createPartyContactPage.EnterContactInfo(contactModel)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            createPartyContactPage.SwitchToFirstWindow()
+                .WaitForLoadingIconToDisappear()
+                .SwitchNewIFrame();
+            contractListPage.VerifyNewContact(contactModel);
         }
     }
 }

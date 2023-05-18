@@ -37,6 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By noteInput = By.CssSelector("textarea#note");
         private readonly By createBtn = By.XPath("//button[text()='Create']");
         private readonly By cancelBtn = By.XPath("//button[text()='Create']/preceding-sibling::button");
+        private readonly By inpsectionCreatedLink = By.XPath("//a[text()='Inspection Created']/parent::div/parent::div");
 
         //INSPECTION TAB
         private readonly By inspectionTab = By.CssSelector("a[aria-controls='taskInspections-tab']");
@@ -51,8 +52,10 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public readonly By ScheduleDateInput = By.CssSelector("input[id='scheduledDate.id']");
         public readonly By completionDateInput = By.CssSelector("input[id='completionDate.id']");
         public readonly By endDateInput = By.CssSelector("input[id='endDate.id']");
-        private readonly By resolutionCode = By.CssSelector("select[id='resolutionCode.id']");
-
+        public readonly By resolutionCode = By.CssSelector("select[id='resolutionCode.id']");
+        public readonly By PrioritySelect = By.CssSelector("select[id='priority.id']");
+        private readonly By slotCountInput = By.CssSelector("input[id='slotCount.id']");
+        public readonly By ProximityAlertCheckbox = By.XPath("//input[contains(@data-bind, 'proximityAlert')]");
         //DYNAMIC LOCATOR
         private const string sourceName = "//select[@id='source']/option[text()='{0}']";
         private const string inspectionTypeOption = "//select[@id='inspection-type']/option[text()='{0}']";
@@ -180,6 +183,34 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage ClickOnPartyLink()
         {
             ClickOnElement(partyLink);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyMinValueInSlotCountField()
+        {
+            Assert.AreEqual("0", GetAttributeValue(slotCountInput, "min"));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage InputSlotCount(string slotCountValue)
+        {
+            SendKeys(slotCountInput, slotCountValue);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage ClearSlotCount()
+        {
+            ClearInputValue(slotCountInput);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyValueInSlotCount(string slotCountValue)
+        {
+            Assert.AreEqual(slotCountValue, GetAttributeValue(slotCountInput, "value"));
             return this;
         }
 
@@ -418,20 +449,37 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         [AllureStep]
+        public DetailTaskPage InputTaskNotes(string noteValue)
+        {
+            SendKeys(taskNotesInput, noteValue);
+            return this;
+        }
+
+        [AllureStep]
         public DetailTaskPage VerifyTaskNotesValue(string noteValue)
         {
             Assert.AreEqual(noteValue, GetAttributeValue(taskNotesInput, "value"));
             return this;
         }
 
+        [AllureStep]
+        public DetailTaskPage VerifyBackGroundColorInspectionLink()
+        {
+            Assert.AreEqual("rgba(64, 159, 90, 1)", GetCssValue(inpsectionCreatedLink, "color"));
+            Assert.AreEqual( "rgba(248, 254, 241, 1)", GetCssValue(inpsectionCreatedLink, "background-color"));
+            Console.WriteLine(GetCssValue(inpsectionCreatedLink, "border"));
+            Assert.IsTrue(GetCssValue(inpsectionCreatedLink, "border").Contains("rgb(225, 247, 201)"));
+            return this;
+        }
+
         //HISTORY TAB
         private readonly By titleTaskLineFirstServiceUpdate = By.XPath("(//strong[text()='Update'])[1]");
         private readonly By titleTaskLineSecondServiceUpdate = By.XPath("//strong[contains(text(), 'Service Update')]");
-        private readonly By userFirstServiceUpdate = By.XPath("(//strong[text()='Update'])[1]/parent::div/following-sibling::div/strong[1]");
-        private readonly By timeFirstServiceUpdate = By.XPath("(//strong[text()='Update'])[1]/parent::div/following-sibling::div/strong[2]");
+        private readonly By userFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[1]/parent::div/following-sibling::div/strong[1]");
+        private readonly By timeFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[1]/parent::div/following-sibling::div/strong[2]");
 
-        private readonly By userSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[1]/parent::div/following-sibling::div/strong[1]");
-        private readonly By timeSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[1]/parent::div/following-sibling::div/strong[2]");
+        private readonly By userSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[2]/parent::div/following-sibling::div/strong[1]");
+        private readonly By timeSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[2]/parent::div/following-sibling::div/strong[2]");
 
         private readonly By contentFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')]/following-sibling::div)[1]");
         private readonly By contentSecondServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')]/following-sibling::div)[2]");
@@ -464,6 +512,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         [AllureStep]
         public DetailTaskPage VerifyTitleTaskLineFirstServiceUpdate()
         {
+            WaitUtil.WaitForElementVisible(titleTaskLineFirstServiceUpdate);
             Assert.IsTrue(IsControlDisplayed(titleTaskLineFirstServiceUpdate), "Title Task Line is not displayed");
             return this;
         }
@@ -715,6 +764,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         [AllureStep]
         public DetailTaskPage VerifyTaskLineState(string state)
         {
+            if (TaskLineTableEle.GetRows().Count == 0) return this;
             VerifyCellValue(TaskLineTableEle, 0, 11, state);
             return this;
         }

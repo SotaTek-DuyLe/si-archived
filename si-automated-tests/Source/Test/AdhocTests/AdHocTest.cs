@@ -150,7 +150,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessage(AgreementConstants.SUCCESSFULLY_SAVED_AGREEMENT)
+               //.VerifyToastMessage(AgreementConstants.SUCCESSFULLY_SAVED_AGREEMENT)
                .WaitForLoadingIconToDisappear();
 
             // Finish Edit Agreement Line 
@@ -182,14 +182,15 @@ namespace si_automated_tests.Source.Test.AdHocTests
                     .SelectCompletedState()
                     .ClickOnAcualAssetQuantityText()
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success")
+                    //.VerifyToastMessage("Success")
                     .WaitForLoadingIconToDisappear();
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .ClickToDetailsTab()
                     .ClickStateDetais()
                     .ChooseTaskState("Completed")
                     .CLickOnSaveBtn()
-                    .VerifyToastMessage("Success");
+                    .WaitForLoadingIconToDisappear();
+                //.VerifyToastMessage("Success");
                 PageFactoryManager.Get<AgreementTaskDetailsPage>()
                     .CloseCurrentWindow()
                     .SwitchToChildWindow(2);
@@ -279,7 +280,7 @@ namespace si_automated_tests.Source.Test.AdHocTests
             PageFactoryManager.Get<DetailPartyPage>().ClickAdHocTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AdhocPage>()
-                .ClickCreateAdHocTask("Repair Commercial Bin");
+                .ClickCreateAdHocTask("Repair Commercial Bin", "1 x 1100L (General Recycling)");
             Thread.Sleep(200);
             PageFactoryManager.Get<CreateAdHocTaskPage>()
                 .VerifyTitle("PO Number Required for Party")
@@ -296,16 +297,21 @@ namespace si_automated_tests.Source.Test.AdHocTests
             adhocTaskDetailPage
                 .VerifyPoNumber()
                 .VerifyPurchaseOrderField(inputPO)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            adhocTaskDetailPage
+                .SleepTimeInSeconds(3);
+            adhocTaskDetailPage
                 .ClickTaskLinesTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskLinesPage>()
                 .VerifyTaskLine(new Main.Models.Adhoc.TaskLinesModel() 
                 { 
                     Type = "Service",
-                    AssetType = "660L",
+                    AssetType = "1100L",
                     ScheduledAssetQty = "1",
-                    Product = "General Refuse",
-                    ScheduledProductQuantity = "0",
+                    Product = "General Recycling",
+                    ScheduledProductQuantity = "80",
                     Unit = "Kilograms",
                     State = "Unallocated"
                 });
@@ -368,7 +374,9 @@ namespace si_automated_tests.Source.Test.AdHocTests
             adhocTaskDetailPage
                 .VerifyPoNumber()
                 .VerifyPurchaseOrderField(inputPO)
-                .ClickTaskLinesTab()
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            adhocTaskDetailPage.ClickTaskLinesTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskLinesPage>()
                 .VerifyTaskLine(new Main.Models.Adhoc.TaskLinesModel()

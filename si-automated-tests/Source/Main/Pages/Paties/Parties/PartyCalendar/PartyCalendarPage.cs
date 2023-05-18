@@ -76,6 +76,16 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar
             ClickOnElement(selectAllSitesBtn);
             return this;
         }
+
+        [AllureStep]
+        public PartyCalendarPage ClickSellectSite(int index)
+        {
+            WaitUtil.WaitForElementVisible(By.XPath("//ul[@aria-expanded='true']"));
+            var sites = GetAllElements(By.XPath("//ul[@aria-expanded='true']/li/a"));
+            ClickOnElement(sites[index]);
+            return this;
+        }
+
         [AllureStep]
         public PartyCalendarPage ClickServiceCombobox()
         {

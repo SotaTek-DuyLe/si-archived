@@ -18,6 +18,8 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By firstCheckboxAtRow = By.XPath("//div[@class='grid-canvas']//input");
         private readonly By firstStatusAtRow = By.XPath("//div[@class='grid-canvas']//div[contains(@class, 'l9 r9')]");
         private readonly By firstRegenerateBatchBtn = By.XPath("//div[@class='grid-canvas']//button[text()='Regenerate Batch']");
+        //DYNAMIC
+        private readonly string firstRecordById = "//div[@class='grid-canvas']/div[1]//div[contains(@class, 'r1')]/div[text()='{0}']";
 
         [AllureStep]
         public SalesInvoiceBatchesPage ClickSalesInvoiceBatches(int invoiceID)
@@ -72,6 +74,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             SendKeys(filterInputById, id);
             SendKeys(filterInputById, Keys.Enter);
             WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForElementVisible(firstRecordById, id);
             return this;
         }
         [AllureStep]

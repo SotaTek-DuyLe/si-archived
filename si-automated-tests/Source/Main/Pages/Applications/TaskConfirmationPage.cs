@@ -23,11 +23,14 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By serviceInput = By.XPath("//label[text()='Services']/following-sibling::input");
         private readonly string serviceOption = "//a[contains(@class,'jstree-anchor') and text()='{0}']";
         private readonly By scheduledDateInput = By.XPath("//label[text()='Scheduled Date']/following-sibling::input");
+        private readonly By fromDateInput = By.XPath("//label[text()='From']/following-sibling::input");
         private readonly By expandRoundsBtn = By.XPath("//span[text()='Expand Rounds']/parent::button");
         private readonly By outstandingTaskBtn = By.XPath("//span[text()='Show Outstanding Tasks']/parent::button");
         private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
         private readonly By descAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
+        private readonly By statusOfTaskNotOnHoldAtFirstColumn = By.XPath("(//img[@src='/web/content/images/coretaskstate/s2.svg']/parent::div/parent::div/following-sibling::div[contains(@class, 'l19')])[1]");
+        private readonly By statusOfTaskOnHoldAtFirstColumn = By.XPath("(//img[@src='/web/content/style/images/task-onhold.png']/parent::div/parent::div/following-sibling::div[contains(@class, 'l19')])[1]");
         private readonly By firstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]");
         private readonly By completedDateAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l23') and contains(@class,'selected')])[1]");
         private readonly By completedDateAtBulkUpdate = By.XPath("//div[@class='bulk-confirmation']//label[text()='Completed Date']/following-sibling::input");
@@ -74,6 +77,10 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By statusDd = By.XPath("//label[text()='Status']/following-sibling::select[1]");
         private readonly By resolutionDd = By.XPath("//label[text()='Resolution Code']/following-sibling::select[1]");
         private readonly By closeBtnBulkUpdate = By.XPath("//button[@type='button' and text()='×']");
+        private readonly By breakdownOptionReasonNeeded = By.XPath("//label[contains(string(), 'Please select the reason below and confirm.')]/following-sibling::select/option[text()='Breakdown']");
+        private readonly By reasonNeededDd = By.XPath("//label[contains(string(), 'Please select the reason below and confirm.')]/following-sibling::select");
+        private readonly By reasonNeededTitle = By.XPath("//label[contains(string(), 'Please select the reason below and confirm.')]");
+        private readonly By confirmationNeededTitle = By.XPath("//h4[contains(string(), 'Confirmation Needed')]");
 
         private readonly By optionSelect = By.XPath("//div[contains(@class,'selected editable')]/select"); //applicable for multiple select in page
 
@@ -85,6 +92,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string firstRoundByRoundNameInGrid = "//span[contains(string(), '{0}')]/parent::div/parent::div";
         private readonly string optionInStatusFirstRow = "(//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l19')])/select/option[{0}]";
         private readonly string statusOptionInBulkUpdate = "//label[text()='Status']/following-sibling::select[1]/option[{0}]";
+
+        public readonly By TaskConfirmationIframe = By.XPath("//div[@id='iframe-container']//iframe");
 
         #region Bulk update
         public readonly By BulkUpdateStateSelect = By.XPath("//div[@class='bulk-confirmation']//select[1]");
@@ -287,9 +296,11 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 
         #region Round Leg
         private readonly By toggleRoundLeg = By.XPath("//button[@id='t-toggle-roundlegs']");
-        private readonly By expandThirdRoundGroup = By.XPath("(//div[contains(@class, 'slick-group')][2])//span[contains(@class, 'slick-group-toggle')]");
-        private readonly By firstRoundLegEpxandButton = By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row') and contains(@style, 'top:50px')]//div[@class='slick-cell l4 r4']//span[@class='toggle expand']");
-        
+        private readonly By expandThirdRoundGroup = By.XPath("(//div[contains(@class, 'slick-group')][3])//span[contains(@class, 'slick-group-toggle')]");
+        private readonly By roundGroupName = By.XPath("(//div[contains(@class, 'slick-group')][3])//span[contains(@class, 'slick-group-title')]");
+        private readonly By firstRoundLegEpxandButton = By.XPath("(//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row')]//div[@class='slick-cell l4 r4']//span[@class='toggle expand'])[1]");
+        private readonly By roundLegRows = By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row')]");
+
         [AllureStep]
         private IWebElement GetVirtualTask(int idx)
         {
@@ -300,7 +311,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         private IWebElement GetRoundLegWithUndefinedState(int idx)
         {
-            var roundEles = this.driver.FindElements(By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row')]//div[@class='slick-cell l1 r1' and not(div/img)]//parent::div"));
+            var roundEles = this.driver.FindElements(By.XPath("//div[not(contains(@class, 'slick-group')) and contains(@class, 'slick-row')]/div[contains(@class, 'l3') and contains(text(), '-')]/parent::div"));
 
             return roundEles.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList()[idx];
         }
@@ -309,7 +320,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TaskConfirmationPage SelectRoundLegsOnSecondRoundGroup()
         {
             ClickOnElement(expandThirdRoundGroup);
-            SleepTimeInMiliseconds(300);
+            SleepTimeInMiliseconds(1000);
             IWebElement roundLeg1 = GetRoundLegWithUndefinedState(0);
             IWebElement checkboxRoundLeg1 = roundLeg1.FindElement(By.XPath("./div/input"));
             checkboxRoundLeg1.Click();
@@ -320,16 +331,42 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
+        public TaskConfirmationPage ExpandThirdRoundGroup()
+        {
+            ClickOnElement(expandThirdRoundGroup);
+            SleepTimeInMiliseconds(1000);
+            return this;
+        }
+
+        [AllureStep]
+        public string GetRoundName()
+        {
+            string roundGroupNameValue = GetElementText(roundGroupName);
+            string item = roundGroupNameValue.Split(":")[1];
+            return item.Split("(")[0];
+        }
+
+        [AllureStep]
         public TaskConfirmationPage ExpandRoundLegAndSelectTask()
         {
-            ClickOnElement(firstRoundLegEpxandButton);
+            ClickFirstRoundLeg();
             SleepTimeInMiliseconds(300);
             IWebElement virtualTask1 = GetVirtualTask(0);
             IWebElement checkboxvirtualTask1 = virtualTask1.FindElement(By.XPath("./div/input"));
             checkboxvirtualTask1.Click();
+            SleepTimeInMiliseconds(300);
             IWebElement virtualTask2 = GetVirtualTask(1);
             IWebElement checkboxvirtualTask2 = virtualTask2.FindElement(By.XPath("./div/input"));
             checkboxvirtualTask2.Click();
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage ClickFirstRoundLeg()
+        {
+            var row = GetAllElements(roundLegRows).OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).FirstOrDefault();
+            IWebElement expandIcon = row.FindElement(By.XPath("./div[@class='slick-cell l4 r4']//span[@class='toggle expand']"));
+            expandIcon.Click();
             return this;
         }
 
@@ -365,6 +402,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 { 2, round }
             });
             WaitUtil.WaitForElementClickable(cell).Click();
+            ClickOnElement(cell);
             WaitForLoadingIconToDisappear();
             cell = RoundInstanceTableEle.GetCellByCellValues(3, new Dictionary<int, object>()
             {
@@ -439,6 +477,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TaskConfirmationPage SendDateInScheduledDate(string dateValue)
         {
             InputCalendarDate(scheduledDateInput, dateValue);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage SendDateInFromDate(string dateValue)
+        {
+            InputCalendarDate(fromDateInput, dateValue);
             return this;
         }
 
@@ -601,7 +646,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             IWebElement cell = UnallocatedTableEle.GetCell(0, 1);
             IWebElement img = cell.FindElement(By.XPath("./div//img"));
-            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.png"));
+            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.svg"));
             return this;
         }
         [AllureStep]
@@ -655,6 +700,26 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        [AllureStep]
+        public TaskConfirmationPage ClickOnStatusAtFirstColumnAndVerifyTheOrderStatus(string[] taskStateValues, string[] taskStateOnHolds)
+        {
+            if(IsControlDisplayedNotThrowEx(statusOfTaskNotOnHoldAtFirstColumn))
+            {
+                ClickOnElement(statusOfTaskNotOnHoldAtFirstColumn);
+                for (int i = 0; i < taskStateValues.Length; i++)
+                {
+                    Assert.AreEqual(taskStateValues[i], GetElementText(optionInStatusFirstRow, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+                }
+            } else if (IsControlDisplayedNotThrowEx(statusOfTaskOnHoldAtFirstColumn))
+            {
+                ClickOnElement(statusOfTaskOnHoldAtFirstColumn);
+                for (int i = 0; i < taskStateOnHolds.Length; i++)
+                {
+                    Assert.AreEqual(taskStateOnHolds[i], GetElementText(optionInStatusFirstRow, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+                }
+            }
+            return this;
+        }
         [AllureStep]
         public TaskConfirmationPage InsertDayInFutre(string dayOfMonth)
         {
@@ -765,6 +830,42 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TaskConfirmationPage ClickOnCloseBulkUpdateModel()
         {
             ClickOnElement(closeBtnBulkUpdate);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage SelectReasonNeeded()
+        {
+            int i = 0;
+            while (i < 5)
+            {
+                if (IsControlDisplayedNotThrowEx(reasonNeededTitle))
+                {
+                    ClickOnElement(reasonNeededDd);
+                    ClickOnElement(breakdownOptionReasonNeeded);
+                    ClickOnElement("//button[text()='Confirm']");
+                    break;
+                }
+                i++;
+                SleepTimeInMiliseconds(1000);
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage ConfirmationNeeded()
+        {
+            int i = 0;
+            while (i < 5)
+            {
+                if (IsControlDisplayedNotThrowEx(confirmationNeededTitle))
+                {
+                    ClickOnElement("//button[text()='Confirm' and @data-bb-handler='Confirm']");
+                    break;
+                }
+                i++;
+                SleepTimeInMiliseconds(1000);
+            }
             return this;
         }
         [AllureStep]

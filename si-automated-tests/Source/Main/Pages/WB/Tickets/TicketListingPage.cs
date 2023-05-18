@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         private string TicketCheckboxCell = "./div[contains(@class, 'l0')]//input";
         private string TicketIdCell = "./div[contains(@class, 'l1')]";
         private string TicketNumber = "./div[contains(@class, 'l2')]";
+        private readonly By loadingIconFrameTab = By.XPath("//div[@id='form']/following-sibling::div/div[@class='loading-data']");
 
         public TableElement TicketTableEle
         {
@@ -51,6 +52,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         {
             WaitForLoadingIconToDisappear();
             SendKeys(filterInputById, ticketId);
+            WaitUtil.WaitForElementVisible(loadingIconFrameTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
@@ -60,6 +62,13 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
             ClickOnElement(selectAllCheckbox);
             DoubleClickOnElement(firstResult);
             return PageFactoryManager.Get<WeighbridgeTicketDetailPage>();
+        }
+
+        [AllureStep]
+        public TicketListingPage IsTicketListingPage()
+        {
+            WaitUtil.WaitForElementVisible(addNewTicketBtn);
+            return this;
         }
 
     }

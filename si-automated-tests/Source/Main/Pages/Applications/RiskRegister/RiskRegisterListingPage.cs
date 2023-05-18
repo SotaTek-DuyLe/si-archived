@@ -23,6 +23,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications.RiskRegister
         private readonly By idFilter = By.XPath("//div[contains(@class, 'l1 r1')]//input");
         private readonly string firstCheckboxInFirstRow = "(//div[@class='grid-canvas']//div[text()='{0}']/preceding-sibling::div/input)[1]";
         private readonly string firstRow = "(//div[@class='grid-canvas']//div[text()='{0}']/parent::div)[1]";
+        private readonly By loadingIconFrameTab = By.XPath("//div[@id='form']/following-sibling::div[@data-bind='shield: loading']");
 
         private string HeaderNameXPath = "//div[@id='risk-grid']//div[contains(@class, 'slick-header-column')]//span[@class='slick-column-name' and text()='{0}']";
         private string RiskRegisterTable = "//div[@class='grid-canvas']";
@@ -90,6 +91,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications.RiskRegister
         public RiskRegisterListingPage FilterByRiskId(string riskId)
         {
             SendKeys(idFilter, riskId);
+            WaitUtil.WaitForElementVisible(loadingIconFrameTab);
             WaitForLoadingIconToDisappear();
             return this;
         }

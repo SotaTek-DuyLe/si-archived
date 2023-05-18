@@ -3,9 +3,9 @@ namespace si_automated_tests.Source.Main.Constants
 {
     public class CommonConstants
     {
-        public static readonly string[] InvoiceScheduleAssetAndProduct = {"Use Agreement", "Daily in Arrears", "Monthly in Arrears"};
+        public static readonly string[] InvoiceScheduleAssetAndProduct = {"Use Agreement", "Custom Schedule (Tue & Fri every other week)", "Daily in Arrears", "Monthly in Arrears"};
         public static readonly string[] InvoiceAddressAssetAndProduct = { "Use Agreement", "15 HILL STREET, RICHMOND, TW9 1SX" };
-        public static readonly string[] InvoiceScheduleMobilization = { "Use Agreement Line", "Daily in Arrears", "Monthly in Arrears" };
+        public static readonly string[] InvoiceScheduleMobilization = { "Use Agreement Line", "Custom Schedule (Tue & Fri every other week)", "Daily in Arrears", "Monthly in Arrears" };
         public static readonly string[] InvoiceAddressMobilization = { "Use Agreement Line", "15 HILL STREET, RICHMOND, TW9 1SX" };
         public static readonly string[] TaskLineType = { "Service" };
         public static readonly string[] AssetType = { "1100L" };
@@ -39,7 +39,7 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string UpdateEventTitle = "Update Event - Event";
         public static readonly string AddNoteEventTitle = "Add Note - Event";
         public static readonly string CancelEventTitle = "Cancel - Event";
-        public static readonly string[] ColumnInFindServiceUnitWindow = { "ID", "Service Unit", "Point Count", "Select" };        public static readonly string[] ServiceUpdateColumnHistoryTab = { "ActualAssetQuantity", "ActualProductQuantity", "State", "Completed Date", "Auto Confirmed" };
+        public static readonly string[] ColumnInFindServiceUnitWindow = { "ID", "Service Unit", "Point Count", "Select" };        public static readonly string[] ServiceUpdateColumnHistoryTab = { "ActualAssetQuantity", "ActualProductQuantity", "State", "Resolution Code", "Completed Date", "Auto Confirmed" };
         public static readonly string[] ServiceUpdateColumnNotCompletedHistoryTab = { "ActualAssetQuantity", "ActualProductQuantity", "State", "Completed Date", "Auto Confirmed" };        public static readonly string[] UpdateColumnHistoryTabFirst = { "Task notes", "Completed date", "State", "End date", "Resolution code" };
         public static readonly string[] UpdateColumnHistoryTabSecond = { "Task notes", "Completed date", "State", "End date" };
         public static readonly string[] ServiceUpdateTaskLineFromCancelledToNotCompleted = { "State", "Completed Date", "Auto Confirmed" };
@@ -70,6 +70,10 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string[] AssociateObjectResource = { "Associated objects", "Round Resource Allocation", "Resource Qualification", "Round Group Resource Allocation" };
         public static readonly string[] AssociateObjectSite = { "Associated objects", "AgreementLine", "Service Unit Asset", "Agreement Line Task Type", "Service Task", "Service Task Schedule", "Service Task Line", "Agreement Line TaskTypeTaskLine", "Agreement Line Asset Product", "Service Unit", "Service Unit Point" };
         public static readonly string[] AssociateObjectAgreement = { "Service Task", "Service Task Schedule", "Service Task Line", "AgreementLine", "Service Unit Asset", "Agreement Line Task Type", "Agreement Line TaskTypeTaskLine", "Agreement Line Asset Product" };
+        public static readonly string[] HistoryRIEvent = { "Object type", "Object ID", "Waste Type" };
+        public static readonly string[] AuthoriseTipping = { "Never Allow Tipping", "Do Not Override On Stop", "Always Allow Tipping" };
+        public static readonly string[] ServiceUnitPoint = { "Serviced Point", "Point of Service", "Both Serviced and Point of Service" };
+        public static readonly string[] ExecuteDays = { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 
         //ICON IMAGE
         public static readonly string StreetIconUrl = "web/content/images/street.svg";        

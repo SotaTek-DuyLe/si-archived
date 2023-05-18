@@ -10,8 +10,6 @@ using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.DBModels.GetPointHistory;
 using si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint;
 using si_automated_tests.Source.Main.Models;
-using si_automated_tests.Source.Main.Pages.PointAddress;
-using static si_automated_tests.Source.Main.Models.ActiveSeviceModel;
 
 namespace si_automated_tests.Source.Main.Pages.Events
 {
@@ -103,6 +101,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         //HISTORY TAB
         private const string titleHistoryTab = "//strong[text()='{0}']";
         private readonly By stateInHistoryTab = By.XPath("//span[text()='State']/following-sibling::span[@data-bind='text: $data.value'][1]");
+        private readonly By stateOfEventInHistoryTab = By.XPath("//strong[text()='Create Event - Event']/following-sibling::div/span[text()='State']/following-sibling::span[@data-bind='text: $data.value'][1]");
         private readonly By eventDateInHistoryTab = By.XPath("//span[text()='Event date']/following-sibling::span[@data-bind='text: $data.value'][1]");
         private readonly By dueDateInHistoryTab = By.XPath("//span[text()='Due date']/following-sibling::span[@data-bind='text: $data.value'][1]");
         private readonly By createdByUserInHistoryTab = By.XPath("//strong[text()='Create Event - Event']/parent::div/following-sibling::div//strong[@data-bind='text: $data.createdByUser']");
@@ -308,6 +307,8 @@ namespace si_automated_tests.Source.Main.Pages.Events
         {
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(eventTitle);
+            WaitUtil.WaitForElementVisible(locationName);
+            WaitUtil.WaitForElementVisible(anyTab, "data-tab");
             return this;
         }
         [AllureStep]
@@ -480,7 +481,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventDetailPage VerifyHistoryWithDB(EventDBModel eventDBModel, string displayUserLogin)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CreateEventEventTitle));
-            Assert.AreEqual(GetElementText(stateInHistoryTab), eventDBModel.basestatedesc + ".");
+            Assert.AreEqual(GetElementText(stateOfEventInHistoryTab), eventDBModel.basestatedesc + ".");
             Assert.AreEqual(GetElementText(eventDateInHistoryTab), eventDBModel.eventdate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT) + ".");
             Assert.AreEqual(GetElementText(dueDateInHistoryTab), eventDBModel.eventduedate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT) + ".");
             Assert.AreEqual(GetElementText(createdByUserInHistoryTab), displayUserLogin);
@@ -924,7 +925,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         [AllureStep]
         public EventDetailPage VerifyDefaultSourceDd(string sourceValue)
         {
-            Assert.AreEqual(GetFirstSelectedItemInDropdown(sourceDd), sourceValue);
+            Assert.AreEqual(sourceValue, GetFirstSelectedItemInDropdown(sourceDd));
             return this;
         }
         [AllureStep]

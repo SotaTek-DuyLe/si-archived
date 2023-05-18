@@ -8,6 +8,7 @@ using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Models.Applications;
 using si_automated_tests.Source.Main.Models.ServiceStatus;
 using si_automated_tests.Source.Main.Pages.Tasks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -59,6 +60,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly string UnallocatedDescription = "./div[contains(@class, 'slick-cell l4 r4')]";
         public readonly string UnallocatedService = "./div[contains(@class, 'slick-cell l5 r5')]";
         public readonly string UnallocatedID = "./div[contains(@class, 'slick-cell l3 r3')]";
+        public readonly string UnallocatedPriorityCell = "./div[contains(@class, 'slick-cell l12 r12')]";
+        public readonly string UnallocatedResolutionCodeCell = "./div[contains(@class, 'slick-cell l11 r11')]";
         private readonly By taskName = By.XPath("//div[@id='tabs-container']//li[@role='presentation'][2]");
         private readonly By thirdTaskName = By.XPath("//div[@id='tabs-container']//li[@role='presentation'][3]");
         private readonly By contractTitle = By.XPath("//label[text()='Contract']");
@@ -148,6 +151,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 while(count < 5)
                 {
                     count++;
+                    SleepTimeInMiliseconds(300);
                     var cell = OutstandingTableEle.GetCellByValue(1, item.ID);
                     if (cell == null)
                     {
@@ -229,6 +233,30 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DragAndDrop(cell, grid);
             return this;
         }
+
+        [AllureStep]
+        public TaskAllocationPage DragEmtyRoundInstanceToUnlocattedGrid(int dragcellIdx)
+        {
+            bool isEmptyCell(IWebElement cell)
+            {
+                IWebElement content = cell.FindElement(By.XPath(".//span[@class='percent-complete-bar']"));
+                string width = content.GetCssValue("width");
+                return width == "0px";
+            }
+            int rowCount = RoundInstanceTableEle.GetRows().Count;
+            for (int i = 0; i < rowCount; i++)
+            {
+                IWebElement cell = RoundInstanceTableEle.GetCell(i, dragcellIdx);
+                if (isEmptyCell(cell))
+                {
+                    IWebElement grid = GetElement(UnallocatedTable);
+                    DragAndDrop(cell, grid);
+                    break;
+                }
+            }
+            return this;
+        }
+
         [AllureStep]
         public TaskAllocationPage DragRoundInstanceToReallocattedGrid(string roundGroup, string round, int dragcellIdx = 3)
         {
@@ -539,6 +567,146 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return roundInstances;
         }
+
+        [AllureStep]
+        public int DoubleClickEmptyStatusRoundLeg()
+        {
+            var rows = UnallocatedTableEle.GetRows();
+            int emptyRowIdx = 0;
+            foreach (var row in rows)
+            {
+                if (string.IsNullOrEmpty(row.FindElement(By.XPath("./div[@class='slick-cell l10 r10']//span")).Text))
+                {
+                    emptyRowIdx = rows.IndexOf(row);
+                    DoubleClickOnElement(row);
+                    break;
+                }
+            }
+            
+            return emptyRowIdx;
+        }
+
+        [AllureStep]
+        public List<RoundInstanceModel> DoubleClickTaskRoundLegs(int rowCount)
+        {
+            List<RoundInstanceModel> roundInstances = new List<RoundInstanceModel>();
+            List<IWebElement> rowDetails = UnallocatedTableEle.GetRows().Where(row =>
+            {
+                IWebElement cell = row.FindElement(By.XPath(UnallocatedDescription));
+                var details = cell.FindElements(By.XPath("./span[@class='toggle']"));
+                return details.FirstOrDefault() != null;
+            }).ToList();
+            int count = 0;
+            foreach (var item in rowDetails)
+            {
+                if (count == rowCount) break;
+                count++;
+                RoundInstanceModel model = new RoundInstanceModel()
+                {
+                    Description = item.FindElement(By.XPath(UnallocatedDescription)).Text.Trim(),
+                    Service = item.FindElement(By.XPath(UnallocatedService)).Text.Trim()
+                };
+                roundInstances.Add(model);
+                DoubleClickOnElement(item);
+                break;
+            }
+            return roundInstances;
+        }
+
+        [AllureStep]
+        public int DoubleClickNotHighPriorityTaskRoundLegs()
+        {
+            int emptyRowIdx = 0;
+            List<IWebElement> taskRows = UnallocatedTableEle.GetRows().Where(row =>
+            {
+                IWebElement cell = row.FindElement(By.XPath(UnallocatedDescription));
+                var details = cell.FindElements(By.XPath("./span[@class='toggle']"));
+                return details.FirstOrDefault() != null;
+            }).ToList();
+            foreach (var row in taskRows)
+            {
+                if (row.FindElement(By.XPath("./div[@class='slick-cell l12 r12']")).Text.Trim() != "High")
+                {
+                    emptyRowIdx = taskRows.IndexOf(row);
+                    DoubleClickOnElement(row);
+                    break;
+                }
+            }
+            return emptyRowIdx;
+        }
+
+        [AllureStep]
+        public int DoubleClickNotCompletedTaskRoundLegs()
+        {
+            int emptyRowIdx = 0;
+            List<IWebElement> taskRows = UnallocatedTableEle.GetRows().Where(row =>
+            {
+                IWebElement cell = row.FindElement(By.XPath(UnallocatedDescription));
+                var details = cell.FindElements(By.XPath("./span[@class='toggle']"));
+                return details.FirstOrDefault() != null;
+            }).ToList();
+            foreach (var row in taskRows)
+            {
+                if (row.FindElement(By.XPath("./div[@class='slick-cell l10 r10']//span")).Text.Trim() != "Not Completed")
+                {
+                    emptyRowIdx = taskRows.IndexOf(row);
+                    DoubleClickOnElement(row);
+                    break;
+                }
+            }
+            return emptyRowIdx;
+        }
+
+        [AllureStep]
+        public List<RoundInstanceModel> VerifyPriorityOnTaskRoundLegs(int rowCount, string priority)
+        {
+            List<RoundInstanceModel> roundInstances = new List<RoundInstanceModel>();
+            List<IWebElement> rowDetails = UnallocatedTableEle.GetRows().Where(row =>
+            {
+                IWebElement cell = row.FindElement(By.XPath(UnallocatedDescription));
+                var details = cell.FindElements(By.XPath("./span[@class='toggle']"));
+                return details.FirstOrDefault() != null;
+            }).ToList();
+            int count = 0;
+            foreach (var item in rowDetails)
+            {
+                if (count == rowCount) break;
+                count++;
+                IWebElement cell = item.FindElement(By.XPath(UnallocatedPriorityCell));
+                Assert.IsTrue(cell.Text == priority);
+            }
+            return roundInstances;
+        }
+
+        [AllureStep]
+        public TaskAllocationPage VerifyResolutionCodeOnTaskRoundLegs(int rowCount, string resolutionCode)
+        {
+            List<IWebElement> rowDetails = UnallocatedTableEle.GetRows().Where(row =>
+            {
+                IWebElement cell = row.FindElement(By.XPath(UnallocatedDescription));
+                var details = cell.FindElements(By.XPath("./span[@class='toggle']"));
+                return details.FirstOrDefault() != null;
+            }).ToList();
+            int count = 0;
+            foreach (var item in rowDetails)
+            {
+                if (count == rowCount) break;
+                count++;
+                IWebElement cell = item.FindElement(By.XPath(UnallocatedResolutionCodeCell));
+                Assert.IsTrue(cell.Text.Trim() == resolutionCode);
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public TaskAllocationPage VerifyResolutionCodeOnRoundLegs(int rowIdx, string resolutionCode)
+        {
+            var row = UnallocatedTableEle.GetRow(rowIdx);
+            IWebElement cell = row.FindElement(By.XPath(UnallocatedResolutionCodeCell));
+            Assert.IsTrue(cell.Text == resolutionCode);
+            return this;
+        }
+
         [AllureStep]
         public TaskAllocationPage DragRoundLegRowToRoundInstance(string roundGroup, string round, int dropCellIdx = 4)
         {
@@ -781,7 +949,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             IWebElement cell = RoundTabTableEle.GetCell(0, 4);
             IWebElement img = cell.FindElement(By.XPath("./div//img"));
-            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.png"));
+            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.svg"));
             return this;
         }
         [AllureStep]

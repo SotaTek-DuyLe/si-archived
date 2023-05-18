@@ -34,7 +34,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         [Category("CreateInspection")]
         [Category("Chang")]
         [Test(Description = "Creating inspection from task")]
-        public void TC_079_Create_inspection_from_task()
+        public void TC_079_254_Create_inspection_from_task()
         {
             CommonFinder finder = new CommonFinder(DbContext);
             PageFactoryManager.Get<LoginPage>()
@@ -85,7 +85,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickAllocatedUserAndSelectValue(assignedUserValue)
                 .InputNote(noteValue)
                 .ClickCreateBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
+            detailTaskPage
+                .VerifyBackGroundColorInspectionLink();
+            detailTaskPage
                 .ClickOnSuccessLink()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<DetailInspectionPage>()
@@ -250,16 +253,20 @@ namespace si_automated_tests.Source.Test.InspectionTests
             PageFactoryManager.Get<EventsListingPage>()
                 .FilterByEventId(eventIdWithoutIcon)
                 .ClickOnFirstRecord()
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<EventDetailPage>()
                 .WaitForEventDetailDisplayed();
 
-            string locationValueWithoutIcon = PageFactoryManager.Get<EventDetailPage>()
-                .GetLocationName();
             PageFactoryManager.Get<EventDetailPage>()
                 .ClickInspectionBtn()
                 .IsCreateInspectionPopup(false)
-                .VerifyDefaulValue(false)
+                .VerifyDefaulValue(false);
+
+            string locationValueWithoutIcon = PageFactoryManager.Get<EventDetailPage>()
+                .GetLocationName();
+            Console.WriteLine("Location: " + locationValueWithoutIcon);
+            PageFactoryManager.Get<EventDetailPage>()
                 .VerifyDefaultSourceDd(locationValueWithoutIcon)
                 .ClickAndSelectInspectionType(inspectionTypeValue)
                 .ClickAndSelectAllocatedUnit(allocatedUnitValue)
@@ -340,7 +347,6 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<EventDetailPage>()
                 .ClickCloseBtn()
-                .AcceptAlert()
                 .SwitchToChildWindow(1);
             PageFactoryManager.Get<TasksListingPage>()
                 .SwitchNewIFrame()
@@ -359,7 +365,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         [Category("CreateInspection")]
         [Category("Chang")]
         [Test(Description = "Creating inspection from service unit")]
-        public void TC_081_Create_inspection_from_service_unit()
+        public void TC_081_TC_254_Create_inspection_from_service_unit()
         {
             CommonFinder finder = new CommonFinder(DbContext);
             string inspectionTypeValue = "Site Inspection";
@@ -417,7 +423,11 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .InputNote(noteValue)
                 .ClickCreateBtn()
                 //Bug: not display link => Fixed: 7/7/2022
-                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
+                .VerifyBackGroundColorInspectionLink();
+
+            PageFactoryManager.Get<ServiceUnitDetailPage>()
                 .ClickOnSuccessLink()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<DetailInspectionPage>()
@@ -629,6 +639,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string inspectionTypeValue = "Street Cleansing Assessment";
             string noteValue = "AutoTC086 " + CommonUtil.GetRandomString(5);
             string idSegment = "32844";
+            string pointSegmentName = "Mallard Place 1 To 97 Near Strawberry Vale";
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -753,9 +764,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 //Click on header
                 .ClickAddressLink(locationValue)
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PointSegmentDetailPage>()
-                .WaitForPointSegmentDetailPageDisplayed()
+                .WaitForPointSegmentDetailPageDisplayed(pointSegmentName)
                 .VerifyPointSegmentId(idPointSegment)
                 //Verify data in [Point History] tab
                 .ClickPointHistoryTab()
@@ -776,6 +788,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string inspectionTypeValue = "Grounds Maintenance Assessment";
             string noteValue = "AutoTC087 " + CommonUtil.GetRandomString(5);
             string idArea = "17";
+            string pointAreaName = "Buccleugh Gardens";
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -895,9 +908,10 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .VerifyDataInHistoryTab(AutoUser14.DisplayName, noteValue, allocatedUnitValue, assignedUserValue, "0", CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1))
                 //Click on header
                 .ClickAddressLink(locationValue)
-                .SwitchToLastWindow();
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PointAreaDetailPage>()
-                .WaitForAreaDetailDisplayed()
+                .WaitForAreaDetailDisplayed(pointAreaName)
                 .VerifyPointAreaId(idArea)
                 //Verify data in [Point History] tab
                 .ClickPointHistoryTab()
@@ -920,6 +934,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string noteValue = "AutoTC088 " + CommonUtil.GetRandomString(5);
             string idNode = "3";
             string locationValue = "Sainsburys Hampton Bring Site";
+            string noteName = "Sainsburys Hampton Bring Site";
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -1036,7 +1051,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickAddressLink(locationValue)
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PointNodeDetailPage>()
-                .WaitForPointNodeDetailDisplayed()
+                .WaitForPointNodeDetailDisplayed(noteName)
                 .VerifyPointNodeId(idNode)
                 //Verify data in [Point History] tab
                 .ClickPointHistoryTab()

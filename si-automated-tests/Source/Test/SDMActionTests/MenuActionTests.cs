@@ -1867,7 +1867,6 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .DragWednesdayToTuesDayToTestReallocate()
                 .ClickOnApplyAtBottomBtn()
                 .AcceptAlert()
-                .WaitForLoadingIconToDisappear()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             serviceDataManagementPage
@@ -2158,5 +2157,244 @@ namespace si_automated_tests.Source.Test.SDMActionTests
                 .ClickOnAnyOptionInActions(CommonConstants.ActionMenuSDM[0])
                 .VerifyToastMessage(MessageRequiredFieldConstants.YouCannotCreateServiceTaskMessage);
         }
+
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "SDM - Display future rounds in dropdown - Saturday")]
+        public void TC_224_SDM_display_future_rounds_in_dropdown_Saturday()
+        {
+            string[] scheduleDdFull = { "Please Select", "Friday every week", "Monday every week", "Saturday every week", "Thursday every week", "Tuesday every week", "Wednesday every week" };
+            string[] scheduleDd = { "Please Select", "Friday every week", "Monday every week", "Thursday every week", "Tuesday every week", "Wednesday every week" };
+            //Pattern Start = today - 7days
+            string patternStart = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -7);
+            //Pattern End = today + 7days
+            string patternEnd = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+            //Go to the rounds detail and config start date
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "/web/rounds/238");
+            PageFactoryManager.Get<RoundDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundDetailPage>()
+                .IsRoundDetailPage()
+                .ClickOnSchedulesTab()
+                .InputPatternDateSchedulesTab(patternStart, patternEnd)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Step line 9: Verify schedule is displayed from start date and end date
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<NavigationBase>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.Commercial, "Collections", "Commercial Collections")
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .SelectCheckboxByReferenceId("30688")
+                .SelectCheckboxByReferenceId("77755")
+                .SelectCheckboxByReferenceId("80147")
+                .SelectCheckboxByReferenceId("98558")
+                .SelectCheckboxByReferenceId("101589")
+                .SelectCheckboxByReferenceId("103129")
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnREC1AMMondaySchedule()
+                .IsAddColumnPopup()
+                .VerifyDisplayOfSchedules(scheduleDdFull)
+                .ClickCloseAddColumnBtn();
+            //Step line 8: Verify the schedule is not displayed out side start date and end date
+            serviceDataManagementPage
+                .InputEffectiveDate(patternEnd)
+                .ClickOutsiteEffectiveDate()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnREC1AMMondaySchedule()
+                .IsAddColumnPopup()
+                .VerifyDisplayOfSchedules(scheduleDd)
+                .ClickCloseAddColumnBtn();
+        }
+
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "SDM - Display future rounds in dropdown - Wednesday")]
+        public void TC_224_SDM_display_future_rounds_in_dropdown_Wednesday()
+        {
+            string roundName = "REC1-AM:Wednesday";
+            string roundNameFormat = "REC1-AM: Wednesday";
+            //Pattern Start = today - 7days
+            string patternStart = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -7);
+            //Pattern End = today + 7days
+            string patternEnd = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+            //Go to the rounds detail and config start date
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "/web/rounds/45");
+            PageFactoryManager.Get<RoundDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundDetailPage>()
+                .IsRoundDetailPage()
+                .ClickOnSchedulesTab()
+                .InputPatternDateSchedulesTab(patternStart, patternEnd)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Step line 9: Verify schedule is displayed from start date and end date
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<NavigationBase>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.Commercial, "Collections", "Commercial Collections")
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .SelectCheckboxByReferenceId("30688")
+                .SelectCheckboxByReferenceId("77755")
+                .SelectCheckboxByReferenceId("80147")
+                .SelectCheckboxByReferenceId("98558")
+                .SelectCheckboxByReferenceId("101589")
+                .SelectCheckboxByReferenceId("103129")
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnAnyRound(roundName)
+                .IsAddColumnPopup()
+                .VerifyDisplayOfRound(roundNameFormat)
+                .ClickCloseAddColumnBtn();
+            //Step line 8: Verify the schedule is not displayed out side start date and end date
+            serviceDataManagementPage
+                .InputEffectiveDate(patternEnd)
+                .ClickOutsiteEffectiveDate()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnAnyRound(roundName)
+                .IsAddColumnPopup()
+                .VerifyNotDisplayOfRound(roundNameFormat)
+                .ClickCloseAddColumnBtn();
+        }
+
+        [Category("SDM Actions")]
+        [Category("Chang")]
+        [Test(Description = "SDM - Display future rounds in dropdown - Friday")]
+        public void TC_224_SDM_display_future_rounds_in_dropdown_Friday()
+        {
+            string roundName = "REF1-AM:Friday";
+            string roundNameFormat = "REF1-AM: Friday";
+            //Pattern Start = today - 7days
+            string patternStart = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, -7);
+            //Pattern End = today + 7days
+            string patternEnd = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser52.UserName, AutoUser52.Password)
+                .IsOnHomePage(AutoUser52);
+            //Go to the rounds detail and config start date
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "/web/rounds/52");
+            PageFactoryManager.Get<RoundDetailPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundDetailPage>()
+                .IsRoundDetailPage()
+                .ClickOnSchedulesTab()
+                .InputPatternDateSchedulesTab(patternStart, patternEnd)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            //Step line 9: Verify schedule is displayed from start date and end date
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<NavigationBase>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.ServiceDataManagement)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            ServiceDataManagementPage serviceDataManagementPage = PageFactoryManager.Get<ServiceDataManagementPage>();
+            serviceDataManagementPage
+                .IsServiceDataManagementPage()
+                .ClickServiceLocationTypeDdAndSelectOption("Address")
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnServicesAndSelectGroupInTree(Contract.Commercial, "Collections", "Commercial Collections")
+                .ClickOnApplyFiltersBtn()
+                .VerifyWarningPopupDisplayed()
+                .ClickOnOkBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .SelectCheckboxByReferenceId("30688")
+                .SelectCheckboxByReferenceId("77755")
+                .SelectCheckboxByReferenceId("80147")
+                .SelectCheckboxByReferenceId("98558")
+                .SelectCheckboxByReferenceId("101589")
+                .SelectCheckboxByReferenceId("103129")
+                .ClickOnNextBtn()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnAnyRound(roundName)
+                .IsAddColumnPopup()
+                .VerifyDisplayOfRound(roundNameFormat)
+                .ClickCloseAddColumnBtn();
+            //Step line 8: Verify the schedule is not displayed out side start date and end date
+            serviceDataManagementPage
+                .InputEffectiveDate(patternEnd)
+                .ClickOutsiteEffectiveDate()
+                .AcceptAlert()
+                .WaitForLoadingIconToDisappear();
+            serviceDataManagementPage
+                .ClickOnAnyRound(roundName)
+                .IsAddColumnPopup()
+                .VerifyNotDisplayOfRound(roundNameFormat)
+                .ClickCloseAddColumnBtn();
+        }
+
+        
     }
 }

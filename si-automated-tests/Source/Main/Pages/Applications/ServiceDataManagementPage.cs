@@ -5,7 +5,6 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 
 namespace si_automated_tests.Source.Main.Pages.Applications
@@ -17,11 +16,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By PreviousButton = By.XPath("//div[@id='screen2']//button[contains(string(), 'Previous')]");
         public readonly By ApplyButton = By.XPath("//div[@id='screen2']//button[contains(string(), 'Apply')]");
         public readonly By TotalSpan = By.XPath("//div[@id='screen2']//div[contains(@class, 'south-panel2')]//span");
-        public readonly By OkButton = By.XPath("//div[@class='modal-dialog']//button[contains(string(), 'OK')]");
+        public readonly By OkButton = By.XPath("//div[text()='Only first 300 points will be displayed on the next screen']/parent::div/following-sibling::div//button[contains(string(), 'OK')]");
+        public readonly By okBtnInLeavePopup = By.XPath("//div[text()='Are you sure you want to leave this page?']/parent::div/following-sibling::div//button[contains(string(), 'OK')]");
+        public readonly By okBtnInWarningFilterPopup = By.XPath("//div[text()='Please Note – Any previous row selections will be lost once filters are applied']/ancestor::div[@class='modal-body']/following-sibling::div//button[text()='OK']");
         public readonly By StatusExpandButton = By.XPath("//div[@id='screen1']//div[contains(@class, 'slick-headerrow-column l6')]//button");
         public readonly By StatusSelect = By.XPath("//div[contains(@class, 'bs-container')]//ul");
         public readonly By ApplyFilterBtn = By.XPath("//div[@id='screen1']//button[@id='filter-button']");
         public readonly By ClearFilterBtn = By.XPath("//div[@id='screen1']//button[@id='clear-filters-button']");
+
+        public readonly By SelectAndDeselectAllCheckbox = By.XPath("//div[@id='point-grid']//div[@title='Select/Deselect All']//input");
 
         /// <summary>
         /// SDM: Service Data Management
@@ -48,7 +51,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string SDMMasterServiceTaskCellXPath = "./td[2]//span";
         private readonly string popup300PointsDisplayedMessage = "//div[text()='Only first 300 points will be displayed on the next screen']";
         private readonly string okBtn = "//button[text()='OK']";
-        private readonly string cancelBtn = "//button[text()='Cancel']";
+        private readonly string cancelBtn = "//div[text()='Only first 300 points will be displayed on the next screen']/parent::div/following-sibling::div//button[contains(string(), 'Cancel')]";
 
         private TableElement serviceDataManagementTableElement;
         public TableElement ServiceDataManagementTableElement
@@ -104,33 +107,39 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public Dictionary<int, List<object>> ClickMultiPointAddress(int rowCount)
         {
             Dictionary<int, List<object>> rows = new Dictionary<int, List<object>>();
-            for (int i = 0; i < rowCount; i++)
+            int i = 0;
+            while (i < rowCount)
             {
                 List<IWebElement> unselectedRows = ServiceDataManagementTableElement.GetRows().Where(x => !x.FindElement(By.XPath(SDMCheckboxXPath)).Selected).ToList();
                 if (unselectedRows.Count == 0)
                 {
-                    int retry = 0;
-                    while (retry <= 10)
+                    return rows;
+                }
+
+                int j = 0;
+                while (j < unselectedRows.Count)
+                {
+                    try
                     {
-                        retry++;
-                        Thread.Sleep(100);
+                        rows.Add(i, ServiceDataManagementTableElement.GetRowValue(unselectedRows[j]));
+                        unselectedRows[j].FindElement(By.XPath(SDMCheckboxXPath)).Click();
+                        j++;
+                        i++;
+                    }
+                    catch (OpenQA.Selenium.StaleElementReferenceException ex)
+                    {
+                        SleepTimeInMiliseconds(200);
                         unselectedRows = ServiceDataManagementTableElement.GetRows().Where(x => !x.FindElement(By.XPath(SDMCheckboxXPath)).Selected).ToList();
-                        if (unselectedRows.Count != 0)
-                        {
-                            break;
-                        }
-                        else if (retry == 10)
-                        {
-                            return rows;
-                        }
+                        j = 0;
+                        rows.Add(i, ServiceDataManagementTableElement.GetRowValue(unselectedRows[j]));
+                        unselectedRows[j].FindElement(By.XPath(SDMCheckboxXPath)).Click();
+                        j++;
+                        i++;
                     }
                 }
-                if (unselectedRows.Count != 0)
-                { 
-                    rows.Add(i, ServiceDataManagementTableElement.GetRowValue(unselectedRows[0]));
-                    unselectedRows[0].FindElement(By.XPath(SDMCheckboxXPath)).Click();
-                }
-                if(i >= 299) WaitForLoadingIconToDisappear();
+                if (i >= 299) WaitForLoadingIconToDisappear();
+                if (i >= rowCount) break;
+                WaitUtil.WaitForElementClickable(By.XPath($"(//div[@id='screen1']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]//div[@class='slick-cell l0 r0']//input[not(@checked)])[1]"));
             }
             return rows;
         }
@@ -158,6 +167,24 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
+        public ServiceDataManagementPage VerifyDescriptionLayout(Dictionary<int, List<object>> rowDatas)
+        {
+            var rows = DescriptionTableElement.GetRows();
+            int rowIdx = 0;
+            foreach (var row in rows)
+            {
+                if (rowIdx > rowDatas.Count) break;
+                List<object> pointValues = rowDatas[rowIdx];
+                ScrollDownToElement(row, false);
+                Assert.IsTrue(DescriptionTableElement.GetCellVisibility(row, 0));
+                Assert.IsTrue(DescriptionTableElement.GetCellValue(row, 2).AsString() == pointValues[3].AsString());
+                Assert.IsTrue(GetDescriptionStatus(DescriptionTableElement.GetCellAttribute(row, 1, "src")).Contains(pointValues[6].AsString()));
+                rowIdx++;
+            }
+            return this;
+        }
+
+        [AllureStep]
         public ServiceDataManagementPage VerifyDescriptionLayout(List<object> pointValues, string imgName, int selectedRowIdx = 0)
         {
             ScrollDownToElement(DescriptionTableElement.GetRow(selectedRowIdx));
@@ -171,7 +198,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public ServiceDataManagementPage VerifyTheDisplayOfPopupOver300Point()
         {
             Assert.IsTrue(IsControlDisplayed(popup300PointsDisplayedMessage));
-            Assert.IsTrue(IsControlEnabled(okBtn));
+            Assert.IsTrue(IsControlEnabled(OkButton));
             Assert.IsTrue(IsControlEnabled(cancelBtn));
             return this;
         }
@@ -179,7 +206,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public ServiceDataManagementPage ClickOnOkBtn()
         {
-            ClickOnElement(okBtn);
+            ClickOnElement(OkButton);
             return this;
         }
 

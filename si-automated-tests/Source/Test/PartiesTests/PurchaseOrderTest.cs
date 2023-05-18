@@ -50,7 +50,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 partyAgreementPage
                     .SelectAgreementType("Commercial Collections")
                     .ClickSaveBtn()
-                    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                    .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, false)
                     .WaitForLoadingIconToDisappear();
                 partyAgreementPage
                     .WaitForAgreementPageLoadedSuccessfully(agreementType, partyName)
@@ -120,7 +120,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                     .VerifyServicePanelPresent()
                     .VerifyAgreementLineFormHasGreenBorder()
                     .ClickSaveBtn()
-                    .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                    .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, false)
                     .WaitForLoadingIconToDisappear();
                 partyAgreementPage
                     .VerifyServiceStartDate(DateTime.Now.ToString(CommonConstants.DATE_DD_MM_YYYY_FORMAT).Replace("-", "/"))
@@ -131,8 +131,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser33.UserName, AutoUser33.Password)
-                .IsOnHomePage(AutoUser33);
+                .Login(AutoUser68.UserName, AutoUser68.Password)
+                .IsOnHomePage(AutoUser68);
             int partyId = 73;
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()
@@ -204,8 +204,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser33.UserName, AutoUser33.Password)
-                .IsOnHomePage(AutoUser33);
+                .Login(AutoUser68.UserName, AutoUser68.Password)
+                .IsOnHomePage(AutoUser68);
             //Go to Services and verify 
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption("Services")
@@ -315,12 +315,15 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .DoubleClickAgreement(1)
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
+            partyAgreementPage.ScrollDownToElement(partyAgreementPage.removeBtn);
+            partyAgreementPage.WaitForLoadingIconToDisappear();
             int count = partyAgreementPage.GetServicePanelUnDisplayCount();
             partyAgreementPage
                 .ClickRemoveAgreementBtn()
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
+            partyAgreementPage.WaitForLoadingIconToDisappear();
             partyAgreementPage.VerifyServicePanelUnDisplayAfterClickRemove(count);
         }
 
@@ -334,8 +337,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser33.UserName, AutoUser33.Password)
-                .IsOnHomePage(AutoUser33);
+                .Login(AutoUser68.UserName, AutoUser68.Password)
+                .IsOnHomePage(AutoUser68);
             int partyId = 73;
             string partyName = "Greggs";
             PageFactoryManager.Get<NavigationBase>()
@@ -411,6 +414,17 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName);
+            //Uncheck PO required
+            PageFactoryManager.Get<DetailPartyPage>()
+                .GoToATab("Account");
+            PageFactoryManager.Get<PartyAccountPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAccountPage>()
+                .IsOnAccountPage()
+                .UncheckOnAccountType("PO Number Required")
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            //Test path
             PageFactoryManager.Get<DetailPartyPage>()
                 .GoToATab("Purchase Orders");
             PageFactoryManager.Get<PartyPurchaseOrderPage>()
@@ -518,7 +532,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .IsOnPartyPurchaseOrderPage()
                 .SelectPurchaseOrder(PO_Number)
                 .ClickDeletePurchaseOrder()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(3);
             PageFactoryManager.Get<RemovePurchaseOrderPage>()
                 .IsOnRemovePurchaseOrderPage()
                 .ClickNoBtn()
@@ -526,7 +540,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<PartyPurchaseOrderPage>()
                 .VerifyPurchaseOrderAppear(PO_Number)
                 .ClickDeletePurchaseOrder()
-                .SwitchToLastWindow();
+                .SwitchToChildWindow(3);
             PageFactoryManager.Get<RemovePurchaseOrderPage>()
                 .IsOnRemovePurchaseOrderPage()
                 .ClickYesBtn()
@@ -544,6 +558,8 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyAgreementPage>()
+                .WaitForAgreementPageLoadedSuccessfully("COMMERCIAL COLLECTIONS", "Greggs");
             PageFactoryManager.Get<PartyAgreementPage>()
                 .ClickTaskTabBtn();
             PageFactoryManager.Get<TaskTab>()

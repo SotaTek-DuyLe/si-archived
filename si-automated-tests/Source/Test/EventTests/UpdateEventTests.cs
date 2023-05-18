@@ -154,7 +154,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             //Verify new Status
             eventDetailPage
-                .VerifyValueInStatus("Under Investigation")
+                .VerifyValueInStatus("Initial Assessment")
                 .VerifyValueInNameFieldInDataTab(newEventName);
             //Line 19: Verify value in [History] tab
             eventDetailPage
@@ -232,8 +232,12 @@ namespace si_automated_tests.Source.Test.EventTests
             string endDate = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT);
             string resolvedDate = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT);
             eventDetailPage
-                .VerifyValueInStatus("Cancelled")
-                .VerifyEndDateAndResolvedDate();
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            eventDetailPage
+                .WaitForEventDetailDisplayed()
+                .VerifyEndDateAndResolvedDate()
+                .VerifyValueInStatus("Cancelled");
             //Step 26: Verify history tab
             eventDetailPage
                 .ClickHistoryTab()

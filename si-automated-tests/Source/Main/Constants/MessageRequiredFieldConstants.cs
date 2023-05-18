@@ -12,6 +12,11 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string ResourceRequiredMessage = "Resource is required";
         public static readonly string MissingTimezoneMessage = "Time Zone is required";
         public static readonly string StreetNameRequiredMessage = "Street Name is required";
+        public static readonly string GreylistCodeIsRequiredMessage = "Greylist Code is required";
+        public static readonly string LicenceNumberExIsRequiredMessage = "Licence Number Expiry is required";
+        public static readonly string LicenceNumberIsRequiredMessage = "Licence Number is required";
+        public static readonly string DriverNameIsRequiredMessage = "Driver Name is required";
+        public static readonly string PONumberIsRequiredMessage = "PO Number is required";
 
         //WARNING MESSAGES
         public static readonly string LocationRestrictWarningMessage = "Default location must be selected as a restricted location.";
@@ -22,5 +27,11 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string YouCannotCreateServiceTaskMessage = "You cannot create service tasks under own schedule header!";
         public static readonly string WhoopsSomethingIsWrongAttributesConfig = "Whoops something is wrong in the Attributes config";
         public static readonly string TheAccountingRefAlreadyUsed = "The Accounting Reference already used";
+        public static readonly string HaulierLicenceNumberHasExpiredMessage = "Haulier Licence number has expired";
+        public static readonly string CustomterBalanceExceededMessage = "Customer {0} 's balance of {1} exceeded warnining limit of {2}";
+        public static readonly string CustomerAuthoriseTippingMessage = "Customer {0} is not authorised to tip";
+        public static readonly string CustomerIsOnStopMessage = "Customer {0} is on stop since {1}";
+        public static readonly string ServiceUnitPointRequiredMessage = "Service Unit Point Type is required";
+        public static readonly string SlotCannotBeNegativeMessage = "Slots cannot be negative";
     }
 }
