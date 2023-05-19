@@ -64,6 +64,26 @@ namespace si_automated_tests.Source.Main.Models
         public static User AutoUser58;
         public static User AutoUser59;
         public static User AutoUser60;
+        public static User AutoUser61;
+        public static User AutoUser62;
+        public static User AutoUser66;
+        public static User AutoUser67;
+        public static User AutoUser68;
+        public static User AutoUser69;
+        public static User AutoUser71;
+        public static User AutoUser80;
+        public static User AutoUser82;
+        public static User AutoUser83;
+        public static User AutoUser84;
+        public static User AutoUser85;
+        public static User AutoUser86;
+        public static User AutoUser87;
+        public static User AutoUser88;
+        public static User AutoUser89;
+        public static User AutoUser90;
+        public static User AutoUser91;
+        public static User AutoUser92;
+
         public static User TestAutoUser;
 
         public UserRegistry()
@@ -138,6 +158,25 @@ namespace si_automated_tests.Source.Main.Models
             AutoUser58 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_58"].ToString());
             AutoUser59 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_59"].ToString());
             AutoUser60 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_60"].ToString());
+            AutoUser61 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_61"].ToString());
+            AutoUser62 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_62"].ToString());
+            AutoUser66 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_66"].ToString());
+            AutoUser67 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_67"].ToString());
+            AutoUser68 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_68"].ToString());
+            AutoUser69 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_69"].ToString());
+            AutoUser71 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_71"].ToString());
+            AutoUser80 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_80"].ToString());
+            AutoUser82 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_82"].ToString());
+            AutoUser83 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_83"].ToString());
+            AutoUser84 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_84"].ToString());
+            AutoUser85 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_85"].ToString());
+            AutoUser86 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_86"].ToString());
+            AutoUser87 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_87"].ToString());
+            AutoUser88 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_88"].ToString());
+            AutoUser89 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_89"].ToString());
+            AutoUser90 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_90"].ToString());
+            AutoUser91 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_91"].ToString());
+            AutoUser92 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_92"].ToString());
             TestAutoUser = JsonConvert.DeserializeObject<User>(jsonObject["testauto"].ToString());
         } 
     }

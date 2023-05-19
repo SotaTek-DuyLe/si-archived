@@ -5,13 +5,14 @@ using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
-namespace si_automated_tests.Source.Test
+namespace si_automated_tests.Source.Test.CommonTests
 {
     [Parallelizable(scope: ParallelScope.Fixtures)]
     [TestFixture]
     public class LoginTests : BaseTest
     {
         [Category("User")]
+        [Category("Chang")]
         [Test]
         public void TC_001_login()
         {
@@ -22,14 +23,14 @@ namespace si_automated_tests.Source.Test
             login
                 .IsOnLoginPage()
                 .SendKeyToUsername("acv")
+                .ClickNextButton()
                 .SendKeyToPassword("cdcd")
                 .ClickOnSignIn()
                 .VerifyErrorMessageDisplay();
+            login.GoToURL(WebUrl.MainPageUrl);
             //Success case
             login
-                .SendKeyToUsername(AutoUser1.UserName)
-                .SendKeyToPassword(AutoUser1.Password)
-                .ClickOnSignIn();
+                .Login(AutoUser1.UserName, AutoUser1.Password);
             homePage
                 .IsOnHomePage(AutoUser1)
                 .ClickUserNameDd()

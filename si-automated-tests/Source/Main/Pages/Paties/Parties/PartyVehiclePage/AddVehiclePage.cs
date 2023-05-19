@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -28,6 +29,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage
         private const string DefaultCustomerAddressOption = "//select[@id='default-site']/option[text()='{0}']";
         private const string AnyLiOption = "//li[contains(text(), '{0}')]";
 
+        [AllureStep]
         public AddVehiclePage IsCreateVehicleCustomerHaulierPage()
         {
             WaitForLoadingIconToDisappear();
@@ -47,7 +49,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage
             
             return this;
         }
-
+        [AllureStep]
         public AddVehiclePage VerifyDefaultMandatoryFieldAndDefaultValue(string partyName)
         {
             //Mandatory field
@@ -64,7 +66,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage
             
             return this;
         }
-
+        [AllureStep]
         public AddVehiclePage ClickDefaultCustomerAddressDropdownAndVerify(string addressSite)
         {
             ClickOnElement(defaultSiteSelect);
@@ -73,46 +75,40 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyVehiclePage
             Assert.IsTrue(IsControlDisplayed(DefaultCustomerAddressOption, addressSite));
             return this;
         }
-
-        public AddVehiclePage VerifyDisplayResourceRequiredMessage()
-        {
-            Assert.IsTrue(IsControlDisplayed(messageHumanResourceRequired));
-            return this;
-        }
-
+        [AllureStep]
         public AddVehiclePage InputResourceName(string resourceValue)
         {
             SendKeys(resourceInput, resourceValue);
             return this;
         }
-
+        [AllureStep]
         public AddVehiclePage SelectResourceName(string resourceValue)
         {
             WaitUtil.WaitForElementVisible(AnyLiOption, resourceValue);
             ClickOnElement(AnyLiOption, resourceValue);
             return this;
         }
-
+        [AllureStep]
         public AddVehiclePage InputHaulierName(string haulierName)
         { 
             SendKeys(haulierInput, haulierName);
             return this;
         }
-
+        [AllureStep]
         public AddVehiclePage SelectHaulierName(string haulierName)
         {
             WaitUtil.WaitForElementVisible(AnyLiOption, haulierName);
             ClickOnElement(AnyLiOption, haulierName);
             return this;
         }
-
+        [AllureStep]
         public AddVehiclePage VerifyNotDisplaySuggestionInResourceInput()
         {
             Assert.IsTrue(IsControlUnDisplayed(suggestionResource));
             //Verify field is highlighted in red
             return this;
         }
-
+        [AllureStep]
         public AddVehiclePage VerifyNotDisplaySuggestionInHaulierInput()
         {
             Assert.IsTrue(IsControlUnDisplayed(suggestionHaulier));

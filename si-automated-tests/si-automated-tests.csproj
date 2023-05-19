@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -17,7 +17,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="JUnitTestLogger" Version="1.1.0" />
-    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NTextCat" Version="0.3.65" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="NUnit.Allure" Version="1.2.1.1" />
     <PackageReference Include="NUnit.Engine.Api" Version="3.15.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
@@ -39,6 +41,8 @@
     <None Remove="Source\" />
     <None Remove="Source\Core\" />
     <None Remove="Source\Main\" />
+    <None Remove="Source\Main\Data\Core14.profile.xml" />
+    <None Remove="Source\Main\Resources\echo.jpeg" />
     <None Remove="Source\Test\" />
     <None Remove="WebDriverManager" />
     <None Remove="Source\Main\Pages\" />
@@ -85,6 +89,7 @@
     <None Remove="Source\Main\Pages\Search\PointAreas\" />
     <None Remove="Source\Main\Data\TestUserData.json" />
     <None Remove="Source\Main\Data\DemoUserData.json" />
+	<None Remove="Source\Main\Data\Core14.profile.xml" />
     <None Remove="Source\Main\Pages\Search\PointNodes\" />
     <None Remove="Source\Test\EventTests\" />
     <None Remove="Source\Test\ServiceTests\" />
@@ -94,17 +99,36 @@
     <None Remove="Source\Main\Pages\Services\ServiceTask\" />
     <None Remove="Source\Main\Pages\Services\ServiceUnit\" />
     <None Remove="Source\Main\Pages\Round\RoundInstance\" />
+    <None Remove="Source\Main\DBModels\GetAllServicesForPoint2\" />
+    <None Remove="Source\Test\TaskTests\" />
+    <None Remove="Source\Test\RiskTests\" />
+    <None Remove="Source\Main\Pages\Applications\RiskRegister\" />
+    <None Remove="Source\Main\Pages\Streets\" />
+    <None Remove="Source\Test\SDMActionTests\" />
+    <None Remove="Source\Test\TaskLineTests\" />
+    <None Remove="Source\Test\OrphanCreditLineTests\" />
+    <None Remove="Source\Test\SiteServiceTests\" />
+    <None Remove="Source\Test\AccountStatementTests\" />
+    <None Remove="Source\Test\HistoryTests\" />
+    <None Remove="Source\Main\Pages\Applications\ServiceStatus\" />
+    <None Remove="Source\Main\Models\ServiceStatus\" />
+    <None Remove="Source\Main\Resources\" />
+    <None Remove="Source\Test\TaskTypeTests\" />
+    <None Remove="Source\Main\Pages\RoundLeg\" />
+    <None Remove="Source\Test\FormTests\" />
+    <None Remove="Source\Main\Pages\Contract\" />
+    <None Remove="Source\Test\CostAgreementTests\" />
+    <None Remove="Source\Test\BusinessFormTests\" />
+    <None Remove="Source\Main\Pages\CostRules\" />
+    <None Remove="Source\Main\Pages\CostAgreements\" />
+    <None Remove="Source\Main\Pages\Paties\Contacts\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Source\Main\Data\" />
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
     <Folder Include="Source\Main\Pages\Paties\SiteServices\" />
-    <Folder Include="Source\Main\Pages\Paties\Sites\" />
     <Folder Include="Source\Test\ContactTests\" />
-    <Folder Include="Source\Main\Pages\Paties\Parties\PartyContactPage\" />
     <Folder Include="Source\Test\WeighbridgeTests\" />
     <Folder Include="TestResults\Screenshots\" />
-    <Folder Include="Source\Main\Pages\WB\" />
     <Folder Include="Source\Main\Pages\WB\Sites\" />
     <Folder Include="Source\Main\Pages\Paties\Parties\PartyVehiclePage\" />
     <Folder Include="Source\Main\Pages\WB\Tickets\" />
@@ -112,23 +136,40 @@
     <Folder Include="Source\Test\AccountTests\" />
     <Folder Include="Source\Main\Pages\Accounts\" />
     <Folder Include="Source\Test\InspectionTests\" />
-    <Folder Include="Source\Main\Pages\Tasks\" />
     <Folder Include="Source\Main\Pages\Tasks\Inspection\" />
     <Folder Include="Source\Main\Pages\Inspections\" />
     <Folder Include="Source\Main\Pages\Events\" />
-    <Folder Include="Source\Main\Pages\Common\" />
     <Folder Include="Source\Main\Pages\Search\" />
     <Folder Include="Source\Main\Pages\Search\PointAddress\" />
     <Folder Include="Source\Main\Pages\Search\PointSegment\" />
     <Folder Include="Source\Main\Pages\Search\PointAreas\" />
     <Folder Include="Source\Main\Pages\Search\PointNodes\" />
-    <Folder Include="Source\Test\EventTests\" />
     <Folder Include="Source\Main\DBModels\GetServiceInfoForPoint\" />
     <Folder Include="Source\Main\DBModels\GetPointHistory\" />
     <Folder Include="Source\Test\TaskTests\" />
     <Folder Include="Source\Main\Pages\Services\ServiceTask\" />
     <Folder Include="Source\Main\Pages\Services\ServiceUnit\" />
     <Folder Include="Source\Main\Pages\Round\RoundInstance\" />
+    <Folder Include="Source\Main\DBModels\GetAllServicesForPoint2\" />
+    <Folder Include="Source\Test\RiskTests\" />
+    <Folder Include="Source\Main\Pages\Streets\" />
+    <Folder Include="Source\Test\SDMActionTests\" />
+    <Folder Include="Source\Test\TaskLineTests\" />
+    <Folder Include="Source\Test\OrphanCreditLineTests\" />
+    <Folder Include="Source\Test\SiteServiceTests\" />
+    <Folder Include="Source\Test\AccountStatementTests\" />
+    <Folder Include="Source\Test\HistoryTests\" />
+    <Folder Include="Source\Main\Pages\Applications\ServiceStatus\" />
+    <Folder Include="Source\Main\Models\ServiceStatus\" />
+    <Folder Include="Source\Test\TaskTypeTests\" />
+    <Folder Include="Source\Main\Pages\RoundLeg\" />
+    <Folder Include="Source\Test\FormTests\" />
+    <Folder Include="Source\Main\Pages\Contract\" />
+    <Folder Include="Source\Test\CostAgreementTests\" />
+    <Folder Include="Source\Test\BusinessFormTests\" />
+    <Folder Include="Source\Main\Pages\CostRules\" />
+    <Folder Include="Source\Main\Pages\CostAgreements\" />
+    <Folder Include="Source\Main\Pages\Paties\Contacts\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">
@@ -140,6 +181,15 @@
     <EmbeddedResource Include="Source\Main\Data\DemoUserData.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+	  <EmbeddedResource Include="Source\Main\Data\Core14.profile.xml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Source\Main\Resources\echo.jpeg">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <Resource Include="allureConfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Resource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources.resx">
@@ -157,4 +207,16 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+	<!--Allure Categories-->
+	<ItemGroup>
+		<Categories Include="categories.json" />
+	</ItemGroup>
+	<Target Name="CopyCategoriesToAllureFolder">
+		<Copy SourceFiles="@(Categories)" DestinationFolder="$(OutputPath)allure-results" />
+	</Target>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<CallTarget Targets="CopyCategoriesToAllureFolder" />
+	</Target>
+	
 </Project>

@@ -1,7 +1,10 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.Models;
 
 namespace si_automated_tests.Source.Main.Pages.Tasks
@@ -10,6 +13,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
     {
         private readonly By titleTask = By.XPath("//h4[text()='Task']");
         private readonly By titleTaskDetail = By.XPath("//h4[text()='Task Lines']");
+        private readonly By hyperLinkTask = By.XPath("//h4[text()='Task']/following-sibling::span/a");
 
         //DETAIL TAB
         private readonly By orderValue = By.CssSelector("input#order");
@@ -33,7 +37,29 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By state = By.CssSelector("select#state");
         private readonly By completedDate = By.CssSelector("input#completed-date");
         private readonly By ewcCode = By.CssSelector("select#product-code");
+        private readonly By confirmation = By.CssSelector("input[id='autoConfirmation']");
 
+        //DATA TAb
+        private readonly By dataTab = By.CssSelector("a[aria-controls='data-tab']");
+
+        //HISTORY TAB
+        private readonly By historyTab = By.CssSelector("a[aria-controls='history-tab']");
+        private readonly By actionCreateTitle = By.XPath("(//strong[text()='Action : ']/following-sibling::span[text()='Create'])[1]");
+        private readonly By actionUpdateTitle = By.XPath("(//strong[text()='Action : ']/following-sibling::span[text()='Update'])[1]");
+        private readonly By actionCreateUser = By.XPath("//span[text()='Create']/parent::div/following-sibling::div//strong[text()='User : ']/following-sibling::span");
+        private readonly By actionUpdateUser = By.XPath("//span[text()='Update']/parent::div/following-sibling::div//strong[text()='User : ']/following-sibling::span")
+        private readonly By actionCreateContent = By.XPath("//span[text()='Create']/parent::div/parent::div/following-sibling::div/div");
+        private readonly By actionUpdateContent = By.XPath("//span[text()='Update']/parent::div/parent::div/following-sibling::div/div");
+        private readonly By actionCreateDate = By.XPath("//span[text()='Create']/parent::div/following-sibling::div//strong[text()='Date : ']/following-sibling::span");
+        private readonly By actionUpdateDate = By.XPath("//span[text()='Update']/parent::div/following-sibling::div//strong[text()='Date : ']/following-sibling::span");
+
+        //DYNAMIC
+        private readonly string assetTypeOption = "//label[contains(string(), 'Asset Type')]/following-sibling::echo-select/select//option[text()='{0}']";
+        private readonly string destinationOption = "//select[@id='destinationSite.id']/option[text()='{0}']";
+        private readonly string stateOption = "//select[@id='state']/option[text()='{0}']";
+        private readonly string siteProductOption = "//select[@id='siteProduct.id']/option[text()='{0}']";
+
+        [AllureStep]
         public DetailTaskLinePage WaitForTaskLineDetailDisplayed()
         {
             WaitUtil.WaitForElementVisible(titleTask);
@@ -41,11 +67,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
         public int GetTaskLineId()
         {
-            return int.Parse(GetCurrentUrl().Replace("web/task-lines/", ""));
+            return int.Parse(GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/task-lines/", ""));
         }
 
+        [AllureStep]
         public DetailTaskLinePage VerifyTaskLineInfo(TaskLineModel taskLineModel)
         {
             Assert.AreEqual(taskLineModel.order, GetAttributeValue(orderValue, "value"));
@@ -67,6 +95,120 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(taskLineModel.actualProductQuantity, GetAttributeValue(actualProductQty, "value"));
             Assert.AreEqual(taskLineModel.siteProduct, GetFirstSelectedItemInDropdown(siteProductDd));
             Assert.AreEqual(taskLineModel.state, GetFirstSelectedItemInDropdown(state));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskLinePage InputAllFieldInDetailTab(TaskLineModel taskLineModelNew)
+        {
+            SendKeys(orderValue, taskLineModelNew.order);
+            //Asset Type
+            ClickOnElement(assetTypeDd);
+            ClickOnElement(assetTypeOption, taskLineModelNew.assetType);
+            //Min Asset Qty
+            SendKeys(this.minAssetQty, taskLineModelNew.minAssetQty);
+            //Scheduled Asset Qty
+            SendKeys(this.scheduledAssetQty, taskLineModelNew.scheduledAssetQty);
+            //Min Product Qty
+            SendKeys(this.minProductQty, taskLineModelNew.minProductQty);
+            //Scheduled Product Qty
+            SendKeys(this.scheduleProductQty, taskLineModelNew.scheduledProductQuantity);
+            //Destination Site
+            ClickOnElement(destinationSiteDd);
+            ClickOnElement(destinationOption, taskLineModelNew.destinationSite);
+            //Max ASset Qty
+            SendKeys(this.maxAssetQty, taskLineModelNew.maxAssetQty);
+            //Actual Asset Qty
+            SendKeys(this.actualAssetQuantity, taskLineModelNew.actualAssetQuantity);
+            //Max Product Qty
+            SendKeys(this.maxProductQty, taskLineModelNew.maxProductQty);
+            //Actual Product Qty
+            SendKeys(this.actualProductQty, taskLineModelNew.actualProductQuantity);
+            //Client ref
+            SendKeys(this.clientRef, taskLineModelNew.clientRef);
+            //State
+            ClickOnElement(this.state);
+            ClickOnElement(stateOption, taskLineModelNew.state);
+            //Site Product
+            ClickOnElement(siteProductDd);
+            ClickOnElement(siteProductOption, taskLineModelNew.siteProduct);
+            return this;
+
+        }
+
+        [AllureStep]
+        public DetailTaskLinePage VerifyTaskLineInfo(TaskLineModel taskLineModel, TaskLineDBModel taskLineDBModel)
+        {
+            Assert.AreEqual(taskLineDBModel.scheduledassetquantity.ToString(), taskLineModel.scheduledAssetQty);
+            Assert.AreEqual(taskLineDBModel.productID.ToString(), taskLineModel.product);
+            Assert.AreEqual(taskLineDBModel.scheduledproductquantity.ToString(), taskLineModel.scheduledProductQuantity);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage ClickOnHyperlinkOnHeader()
+        {
+            ClickOnElement(hyperLinkTask);
+            return PageFactoryManager.Get<DetailTaskPage>();
+        }
+
+        [AllureStep]
+        public DetailTaskLinePage VerifyHyperlinkOnHeader(TaskAndTaskTypeByTaskIdDBModel taskAndTaskTypeByTaskIdDBModel, string taskId)
+        {
+            string title = GetElementText(hyperLinkTask);
+            Assert.AreEqual("(" + taskId + ") : " + taskAndTaskTypeByTaskIdDBModel.tasktype + " : " + taskAndTaskTypeByTaskIdDBModel.tasktype, title);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskLinePage ClickOnDataTab()
+        {
+            ClickOnElement(dataTab);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskLinePage ClickOnHistoryTab()
+        {
+            ClickOnElement(historyTab);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskLinePage VerifyActionCreateWithUserDisplay(string timeCreated, string[] historyTitle, string[] valueExp, string userName)
+        {
+            Assert.IsTrue(IsControlDisplayed(actionCreateTitle));
+            Assert.AreEqual(userName, GetElementText(actionCreateUser));
+            Assert.AreEqual(timeCreated, GetElementText(actionCreateDate));
+            //Content
+            string[] allContent = GetElementText(actionCreateContent).Split(Environment.NewLine);
+            for (int i = 0; i < allContent.Length; i++)
+            {
+                Assert.AreEqual(historyTitle[i] + ": " + valueExp[i] + ".", allContent[i]);
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskLinePage VerifyActionUpdateWithUserDisplay(string timeUpdated, string[] historyTitle, string[] valueExp, string userName)
+        {
+            Assert.IsTrue(IsControlDisplayed(actionUpdateTitle));
+            Assert.AreEqual(userName, GetElementText(actionUpdateUser));
+            Assert.AreEqual(timeUpdated, GetElementText(actionUpdateDate));
+            //Content
+            string[] allContent = GetElementText(actionUpdateContent).Split(Environment.NewLine);
+            for (int i = 0; i < allContent.Length; i++)
+            {
+                Assert.AreEqual(historyTitle[i] + ": " + valueExp[i] + ".", allContent[i]);
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskLinePage VeriryConfirmationAndCompletedDate(string time, string valueConfirmationDate)
+        {
+            Assert.AreEqual(valueConfirmationDate, GetAttributeValue(confirmation, "value"));
+            Assert.AreEqual(time, GetAttributeValue(completedDate, "value"));
             return this;
         }
     }

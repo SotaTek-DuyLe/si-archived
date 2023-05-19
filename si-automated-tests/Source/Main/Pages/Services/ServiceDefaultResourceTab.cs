@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using si_automated_tests.Source.Core;
@@ -22,6 +23,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By tableHeader3 = By.XPath("//div[@id='default-resources']/descendant::th[text()='Start Date']");
         private readonly By tableHeader4 = By.XPath("//div[@id='default-resources']/descendant::th[text()='End Date']");
 
+        [AllureStep]
         public ServiceDefaultResourceTab IsOnServiceDefaultTab()
         {
             WaitUtil.WaitForElementVisible(tableHeader1);
@@ -30,6 +32,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
             WaitUtil.WaitForElementVisible(tableHeader4);
             return this;
         }
+        [AllureStep]
         public ServiceDefaultResourceTab ExpandOption(string option)
         {
             IList<IWebElement> _typeSelects = WaitUtil.WaitForAllElementsVisible(typeSelects);
@@ -44,11 +47,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
             }
             return this;
         }
+        [AllureStep]
         public ServiceDefaultResourceTab ClickAddResource()
         {
             ClickOnElement(addResourceBtn);
             return this;
         }
+        [AllureStep]
         public ServiceDefaultResourceTab VerifyInputIsAvailable(string option)
         {
             SelectTextFromDropDown(resourceInput, option);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -37,7 +38,9 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
 
         //DYNAMIC LOCATOR
         private const string fullName = "//p[text()='{0}']";
+        private const string anyContactGroup = "//span[text()='{0}']/parent::a/parent::li";
 
+        [AllureStep]
         public EditPartyContactPage IsEditPartyContactPage(ContactModel contactModel)
         {
             WaitUtil.WaitForPageLoaded();
@@ -58,7 +61,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
             Assert.AreEqual(contactModel.EndDate, GetAttributeValue(endDate, "value") + " 00:00");
             return this;
         }
-
+        [AllureStep]
         public EditPartyContactPage EnterAllValueFields(ContactModel contactModel)
         {
             SendKeys(firstNameInput, contactModel.FirstName);
@@ -74,15 +77,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
                 ClickOnElement(receivedEmail);
             }
             SendKeys(startDate, CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2));
+            //Select contact group
+            ClickOnElement(contactGroups);
+            ClickOnElement(anyContactGroup, contactModel.ContactGroups);
             return this;
         }
-
+        [AllureStep]
         public EditPartyContactPage NavigateToNotesTab()
         {
             ClickOnElement(notesTab);
+            WaitForLoadingIconToDisappear();
             return this;
         }
-
+        [AllureStep]
         public EditPartyContactPage NavigateToDetailsTab()
         {
             ClickOnElement(detailTab);
@@ -90,15 +97,18 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
         }
 
         //NOTE TAB
+        [AllureStep]
         public EditPartyContactPage IsNotesTab()
         {
+            WaitUtil.WaitForElementVisible(titleNotes);
+            WaitUtil.WaitForElementVisible(noteArea);
             Assert.IsTrue(IsControlDisplayed(titleNotes));
             Assert.IsTrue(IsControlDisplayed(noteArea));
             //Add Btn disabled
             Assert.AreEqual(GetAttributeValue(addBtn, "disabled"), "true");
             return this;
         }
-
+        [AllureStep]
         public EditPartyContactPage EnterTitleAndNoteField(string title, string note)
         {
             SendKeys(titleNotes, title);
@@ -106,7 +116,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
             ClickOnElement(addBtn);
             return this;
         }
-
+        [AllureStep]
         public EditPartyContactPage VerifyTitleAndNoteAfter()
         {
             Assert.AreEqual(GetAttributeValue(titleNotes, "value"), "");
@@ -115,10 +125,11 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
             Assert.AreEqual(GetAttributeValue(addBtn, "disabled"), "true");
             return this;
         }
-
-        public EditPartyContactPage GetAndVerifyNoteAfterAdding(string title, string body, string userLogin)
+        [AllureStep]
+        public EditPartyContactPage GetAndVerifyNoteAfterAdding(string title, string body, string userLogin, string timeCreatedLondon, string timeCreatedLocal)
         {
-            Assert.AreEqual(title + CommonUtil.GetUtcTimeNow("dd/MM/yyyy hh:mm"), GetElementText(headingNote));
+            Assert.IsTrue((title + timeCreatedLondon).Contains(GetElementText(headingNote))
+                || (title + timeCreatedLocal).Contains(GetElementText(headingNote)));
             List<IWebElement> allContent = GetAllElements(bodyNote);
             Assert.AreEqual("User " + userLogin + " wrote", GetElementText(allContent[0]));
             Assert.AreEqual(body, GetElementText(allContent[1]));

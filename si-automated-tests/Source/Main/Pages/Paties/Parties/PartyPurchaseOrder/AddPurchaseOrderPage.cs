@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -17,6 +18,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyPurchaseOrder
         //Dynamic locator 
         private string agreementOptions = "//select[@id='agreement']//option[text()='{0}']";
 
+        [AllureStep]
         public AddPurchaseOrderPage IsOnAddPurchaseOrderPage()
         {
             WaitUtil.WaitForElementVisible(PONumberInput);
@@ -26,22 +28,25 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyPurchaseOrder
             Assert.IsTrue(IsControlDisplayed(agreementInput));
             return this;
         }
-
+        [AllureStep]
         public AddPurchaseOrderPage InputPONumber(string num)
         {
             SendKeys(PONumberInput, num);
             return this;
         }
+        [AllureStep]
         public AddPurchaseOrderPage InputFirstDay(string date)
         {
             SendKeys(firstDayInput, date);
             return this;
         }
+        [AllureStep]
         public AddPurchaseOrderPage InputLastDay(string date)
         {
             SendKeys(lastDayInput, date);
             return this;
         }
+        [AllureStep]
         public AddPurchaseOrderPage SelectAgreement(string agr)
         {
             WaitUtil.WaitForElementVisible(agreementOptions, agr);

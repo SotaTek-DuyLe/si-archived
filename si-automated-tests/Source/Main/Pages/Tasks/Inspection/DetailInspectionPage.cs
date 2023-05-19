@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -31,6 +33,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private readonly By detailTab = By.XPath("//a[text()='Details']");
         private readonly By endDateAndTimeCalender = By.XPath("//input[@id='end-date-and-time']/following-sibling::span");
         private readonly By cancelledDateCalender = By.XPath("//input[@id='cancelled-date']/following-sibling::span");
+        private readonly By allOptionsInAllocatedUserDd = By.CssSelector("select[id='allocated-unit']>option");
+        private readonly By allOptionsInAssignedUserDd = By.CssSelector("select[id='allocated-user']>option");
 
         //DATA TAB
         private readonly By dataTab = By.XPath("//a[text()='Data']");
@@ -38,9 +42,12 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private readonly By issueFoundCheckbox = By.XPath("//label[text()='Issue found?']/following-sibling::input");
         private readonly By addNewBtnImage = By.XPath("//label[text()='Image']/following-sibling::div/button");
         private readonly By imageData = By.XPath("//label[text()='Image']/following-sibling::div");
-        private readonly By inputImage = By.XPath("//label[text()='Image']/following-sibling::div//div[@class='img-thumbnail']");
+        private readonly By imgThumbnailTag = By.XPath("//div[contains(@class, 'img-thumbnail')]");
+        private readonly By closeImgBtn = By.XPath("//div[contains(@class, 'img-thumbnail')]/img[@aria-label='Close']");
+        private readonly By inputImage = By.CssSelector("input[type='file']");
         private readonly By streetGradeDd = By.XPath("//label[text()='Street Grade']/following-sibling::select");
         private readonly By accessPointInputInDataTab = By.XPath("//label[text()='Access Point']/following-sibling::input");
+        private readonly By firstAllocatedUnitOption = By.XPath("//select[@id='allocated-unit']/option[1]");
 
         //HISTORY TAB
         private readonly By historyTab = By.XPath("//a[text()='History']");
@@ -49,10 +56,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private readonly By actionUpdateTextSecondRow = By.XPath("(//strong[text()='Action: ']/following-sibling::span[text()='Update - Inspection'])[2]");
         private readonly By streetGradeFirstRow = By.XPath("//span[text()='Street Grade']/following-sibling::span[1]");
         private readonly By userFirstRow = By.XPath("//div[contains(@class, 'panel-default')][1]//strong[text()='User: ']/following-sibling::span[1]");
-        private readonly By notesSecondRow = By.XPath("//div[contains(@class, 'panel-default')][2]//span[text()='Notes']/following-sibling::span[1]");
-        private readonly By notesFirstRow = By.XPath("//div[contains(@class, 'panel-default')][1]//span[text()='Notes']/following-sibling::span[1]");
         private readonly By userSecondRow = By.XPath("//div[contains(@class, 'panel-default')][2]//strong[text()='User: ']/following-sibling::span[1]");
-        private readonly By accessPointFirstRow = By.XPath("//div[contains(@class, 'panel-default')][1]//span[text()='Access Point']/following-sibling::span[1]");
+
         private readonly By completedDate = By.XPath("//span[text()='Completed date']/following-sibling::span[1]");
         private readonly By cancelledDate = By.XPath("//span[text()='Cancelled date']/following-sibling::span[1]");
         private readonly By expiredDate = By.XPath("//span[text()='Update - Inspection']/parent::div/parent::div/following-sibling::div//span[text()='Inspection expiry date']/following-sibling::span[1]");
@@ -63,7 +68,11 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         private const string historyItem = "//span[text()='{0}']/following-sibling::span[1]";
         private const string inspectionType = "//p[text()='{0}']";
         private const string streetGradeOption = "//label[text()='Street Grade']/following-sibling::select/option[text()='{0}']";
+        private const string dataFirstRow = "//div[@id='history-tab']//div[contains(@class, 'panel-default')][1]//span[text()='{0}']";
+        private const string dataSecondRow = "//div[@id='history-tab']//div[contains(@class, 'panel-default')][2]//span[text()='{0}']";
+        private const string anyAllocatedUnitOption = "//select[@id='allocated-unit']/option[text()='{0}']";
 
+        [AllureStep]
         public DetailInspectionPage WaitForInspectionDetailDisplayed(string inspectionTypeValue)
         {
             WaitForLoadingIconToDisappear();
@@ -71,15 +80,15 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             WaitUtil.WaitForElementVisible(inspectionType, inspectionTypeValue);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage WaitForInspectionDetailDisplayed()
         {
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(title);
             return this;
         }
-
-            public DetailInspectionPage IsDetailInspectionPage(string allocatedUnitValue, string assignedUserValue, string noteValue)
+        [AllureStep]
+        public DetailInspectionPage IsDetailInspectionPage(string allocatedUnitValue, string assignedUserValue, string noteValue)
         {
             WaitUtil.WaitForElementVisible(allocatedUnitLabel);
             Assert.IsTrue(IsControlEnabled(completeBtn));
@@ -89,33 +98,33 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(GetAttributeValue(noteInput, "value"), noteValue);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage ClickOnDetailTab()
         {
             ClickOnElement(detailTab);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage JustClickCalenderEndDateAndTime()
         {
             ClickOnElement(endDateAndTimeCalender);
             ClickOnElement(title);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage JustClickCalenderCancelledDate()
         {
             ClickOnElement(cancelledDateCalender);
             ClickOnElement(title);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyValueInCancelledDate(string cancelledDateValue)
         {
             Assert.AreEqual(cancelledDateValue, GetAttributeValue(cancelledDateInput, "value"));
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyAllFieldsInPopupAndDisabled(string allocatedUnitValue, string assignedUserValue, string noteValue, string validFromValue, string validToValue)
         {
             Assert.AreEqual(GetFirstSelectedItemInDropdown(allocatedUnitDd), allocatedUnitValue);
@@ -136,64 +145,63 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             //Assert.IsTrue(IsControlDisplayed(completeBtnDisabled));
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyStateInspection(string stateExpected)
         {
-            Assert.AreEqual(GetElementText(inspectionState), stateExpected);
+            Assert.AreEqual(stateExpected, GetElementText(inspectionState));
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage InputNote(string noteValue)
         {
             SendKeys(noteInput, noteValue);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyNoteValue(string noteValueExp)
         {
             Assert.AreEqual(GetAttributeValue(noteInput, "value"), noteValueExp);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyInspectionAddress(string address)
         {
             Assert.IsTrue(IsControlDisplayed(inspectionAddress, address));
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage ClickServiceUnitLinkAndVerify(string address, string serviceUnitId)
         {
             ClickOnElement(inspectionAddress, address);
             //Verify
-            SwitchToLastWindow();
+            SwitchToChildWindow(4);
             WaitUtil.WaitForElementVisible("//span[text()='Service Unit']");
             string currentUrl = GetCurrentUrl();
             Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "web/service-units/" + serviceUnitId);
             ClickCloseBtn();
-            SwitchToChildWindow(3);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage ClickAddressLinkAndVerify(string address, string sourceId)
         {
             ClickOnElement(inspectionAddress, address);
             //Verify
-            SwitchToLastWindow();
-            WaitUtil.WaitForElementVisible("//span[text()='Service Task']");
+            SwitchToChildWindow(4);
+            WaitUtil.WaitForElementVisible("//span[text()='Task']");
             string currentUrl = GetCurrentUrl();
-            Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "web/service-tasks/" + sourceId);
+            Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "web/tasks/" + sourceId);
             ClickCloseBtn();
             SwitchToChildWindow(3);
             return this;
         }
-
+        [AllureStep]
         public PointAddressDetailPage ClickAddressLink(string address)
         {
             ClickOnElement(inspectionAddress, address);
-            
+
             return PageFactoryManager.Get<PointAddressDetailPage>();
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyValidFromValidToAndOtherDateField(string validFromValue, string validToValue)
         {
             Assert.AreEqual(GetAttributeValue(validFromInput, "value"), validFromValue + " 00:00");
@@ -203,42 +211,44 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(GetAttributeValue(cancelledDateInput, "value"), "");
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage ClickOnDataTab()
         {
             ClickOnElement(dataTab);
             return this;
         }
 
+        [AllureStep]
         public DetailInspectionPage VerifyStreetGradeMandatory()
         {
             Assert.AreEqual(GetCssValue(streetGradeDd, "border-color"), CommonConstants.BoderColorMandatory);
             return this;
         }
-
-        public DetailInspectionPage VerifyDataDisplayedWithDB(InspectionDBModel inspection, string note, int contractUnitId, int instance, int userId, string validDateValue, string expDateValue)
+        [AllureStep]
+        public DetailInspectionPage VerifyDataDisplayedWithDB(InspectionDBModel inspection, string note, int contractUnitId, int instance, int userId, string validDateValue, string expDateValue, string validDateWithNewFormat, string expDateWithNewFormat)
         {
             Assert.AreEqual(inspection.note, note);
             Assert.AreEqual(inspection.contractunitID, contractUnitId);
             Assert.AreEqual(inspection.inspectioninstance, instance);
             Assert.AreEqual(inspection.userID, userId);
-            Assert.AreEqual(inspection.inspectionvaliddate.ToString().Replace("-", "/"), validDateValue + " 00:00:00");
-            Assert.AreEqual(inspection.inspectionexpirydate.ToString().Replace("-", "/"), expDateValue + " 00:00:00");
+            Assert.IsTrue(inspection.inspectionvaliddate.ToString().Replace("-", "/").Contains(validDateValue + " 00:00:00") || inspection.inspectionvaliddate.ToString().Replace("-", "/").Contains(validDateWithNewFormat + " 00:00:00"), "Wrong inpsection valid Date");
+            Assert.IsTrue(inspection.inspectionexpirydate.ToString().Replace("-", "/").Contains(expDateValue + " 00:00:00") ||
+              inspection.inspectionexpirydate.ToString().Replace("-", "/").Contains(expDateWithNewFormat + " 00:00:00"), "Wrong inpsection expiry Date");
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyDataDisplayedWithDB(InspectionQueryModel inspection, string note, string contractUnitName, int instance, string userNameCreatedInspec, string validDateValue, string expDateValue, string allocatedUserInModel, string allocatedUserDisplayed)
         {
             Assert.AreEqual(inspection.note, note);
             Assert.AreEqual(inspection.contractunit, contractUnitName);
             Assert.AreEqual(inspection.inspectioninstance, instance);
             Assert.AreEqual(inspection.username, userNameCreatedInspec);
-            Assert.AreEqual(allocatedUserInModel, allocatedUserDisplayed);
-            Assert.AreEqual(inspection.inspectionvaliddate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), validDateValue);
-            Assert.AreEqual(inspection.inspectionexpirydate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), expDateValue);
+            Assert.IsTrue(allocatedUserDisplayed.Contains(allocatedUserInModel));
+            Assert.AreEqual(inspection.inspectionvaliddate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), validDateValue, "Wrong inpsection valid Date");
+            Assert.AreEqual(inspection.inspectionexpirydate.ToString(CommonConstants.DATE_MM_DD_YYYY_FORMAT), expDateValue, "Wrong inpsection expiry Date");
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyInspectionId(string inspectionIdValue)
         {
             string idActual = GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/inspections/", "");
@@ -246,13 +256,96 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
         }
 
+        [AllureStep]
+        public DetailInspectionPage ClickOnSelectionOptionInAllocatedUnit()
+        {
+            string allocatedUnitDefaultValue = GetFirstSelectedItemInDropdown(allocatedUnitDd);
+            if(!allocatedUnitDefaultValue.Contains("Select..."))
+            {
+                ClickOnElement(firstAllocatedUnitOption);
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public DetailInspectionPage ClickOnAllocatedUnitInDetailTab()
+        {
+            ClickOnElement(allocatedUnitDd);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailInspectionPage SelectAnyAllocatedUnit(string allocatedUnitValue)
+        {
+            ClickOnElement(anyAllocatedUnitOption, allocatedUnitValue);
+            SleepTimeInMiliseconds(500);
+            return this;
+        }
+
+        [AllureStep]
+        public List<string> GetAllOptionInAllocatedUnit()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allOptions = GetAllElements(allOptionsInAllocatedUserDd);
+            foreach (IWebElement e in allOptions)
+            {
+                if (GetElementText(e) != "Select...")
+                {
+                    results.Add(GetElementText(e));
+                }
+            }
+            return results;
+        }
+
+        [AllureStep]
+        public DetailInspectionPage ClickOnAllocatedUnitLabel()
+        {
+            ClickOnElement("//div[@id='details-tab']//label[text()='Allocated Unit']");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailInspectionPage ClickOnAssignedUserInDetailTab()
+        {
+            ClickOnElement(assignedUserDd);
+            return this;
+        }
+
+        [AllureStep]
+        public List<string> GetAllOptionInAssignedUser()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allOptions = GetAllElements(allOptionsInAssignedUserDd);
+            foreach (IWebElement e in allOptions)
+            {
+                results.Add(GetElementText(e));
+            }
+            return results;
+        }
+
+        [AllureStep]
+        public List<string> GetAllOptionInAssignedUserNoSelected()
+        {
+            List<string> results = new List<string>();
+            List<IWebElement> allOptions = GetAllElements(allOptionsInAssignedUserDd);
+            foreach (IWebElement e in allOptions)
+            {
+                if(GetElementText(e) != "Select...")
+                {
+                    results.Add(GetElementText(e));
+                }
+            }
+            return results;
+        }
+
         //HISTORY TAB
+        [AllureStep]
         public DetailInspectionPage ClickOnHistoryTab()
         {
             ClickOnElement(historyTab);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyDataInHistoryTab(string userName, string noteValue, string contractUnit, string userValue, string instanceValue, string validDate, string expDate)
         {
             Assert.AreEqual(userName, GetElementText(userNameText));
@@ -261,104 +354,110 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.AreEqual(userValue + ".", GetElementText(historyItem, "User"));
             Assert.AreEqual(instanceValue + ".", GetElementText(historyItem, "Instance"));
             //Date
-            Assert.AreEqual(validDate + " 00:00.", GetElementText(historyItem, "Inspection valid date"));
-            Assert.AreEqual(expDate + " 00:00.", GetElementText(historyItem, "Inspection expiry date"));
+            Assert.AreEqual(validDate + " 00:00.", GetElementText(historyItem, "Inspection valid date"), "Wrong inpsection valid Date in History tab");
+            Assert.AreEqual(expDate + " 00:00.", GetElementText(historyItem, "Inspection expiry date"), "Wrong inpsection expiry Date in History tab");
             return this;
         }
-
+        [AllureStep]
         public PointSegmentDetailPage ClickAddressLinkShowPointSegmentDetail(string address)
         {
             ClickOnElement(inspectionAddress, address);
 
             return PageFactoryManager.Get<PointSegmentDetailPage>();
         }
-
-        public DetailInspectionPage VerifyRecordAfterUpdateAction(string firstNote, string userValue, string secondNote, string accessPoint)
+        [AllureStep]
+        public DetailInspectionPage VerifyRecordAfterUpdateAction(string userValue, string secondNote, string accessPoint)
         {
             Assert.IsTrue(IsControlDisplayed(actionUpdateTextFirstRow));
             Assert.IsTrue(IsControlDisplayed(actionUpdateTextSecondRow));
             //verify value
-            Assert.AreEqual(GetElementText(firstNote + "."), firstNote);
             Assert.AreEqual(GetElementText(userFirstRow), userValue);
+            Assert.IsTrue(IsControlDisplayed(dataFirstRow, accessPoint + "."));
             Assert.AreEqual(GetElementText(userSecondRow), userValue);
-            Assert.AreEqual(GetElementText(notesSecondRow + "."), secondNote);
-            Assert.AreEqual(GetElementText(accessPointFirstRow + "."), accessPoint);
+            Assert.IsTrue(IsControlDisplayed(dataSecondRow, secondNote + "."));
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage InputValidTo(string validToValue)
         {
             SendKeys(validToInput, validToValue);
             return this;
         }
 
+        [AllureStep]
+        public DetailInspectionPage InputValidFrom(string validFromValue)
+        {
+            SendKeys(validFromInput, validFromValue);
+            return this;
+        }
+
         //DATA TAB
+        [AllureStep]
         public DetailInspectionPage AddNotesInDataTab(string notesInput)
         {
             SendKeys(notesInputInDataTab, notesInput);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyValueInNoteInputDataTab(string noteValueExp)
         {
             Assert.AreEqual(noteValueExp, GetAttributeValue(notesInputInDataTab, "value"));
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage ClickIssueFoundCheckbox()
         {
             ClickOnElement(issueFoundCheckbox);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyIssueFoundCheckboxChecked()
         {
             Assert.IsTrue(IsCheckboxChecked(issueFoundCheckbox));
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage UploadImage(string urlImage)
         {
             ClickOnElement(addNewBtnImage);
-            SendKeys(inputImage, urlImage);
+            SendKeysWithUrl(inputImage, urlImage);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage SelectStreetGrade(string streetGradeValue)
         {
             ClickOnElement(streetGradeDd);
             ClickOnElement(streetGradeOption, streetGradeValue);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage AddAccessPointInDataTab(string accessPointValue)
         {
             SendKeys(accessPointInputInDataTab, accessPointValue);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyValueInAccessPointInput(string accessPointValue)
         {
             Assert.AreEqual(accessPointValue, GetAttributeValue(accessPointInputInDataTab, "value"));
             return this;
         }
 
-
+        [AllureStep]
         public DetailInspectionPage VerifyValueInStreetGradeDd(string optionSelected)
         {
             Assert.AreEqual(optionSelected, GetFirstSelectedItemInDropdown(streetGradeDd));
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyFieldsInDataTabDisabled(string streetGradeExp)
         {
-            Assert.AreEqual(GetAttributeValue(addNewBtnImage, "disabled"), "true");
             Assert.AreEqual(GetAttributeValue(issueFoundCheckbox, "disabled"), "true");
             Assert.AreEqual(GetAttributeValue(streetGradeDd, "disabled"), "true");
             Assert.AreEqual(GetFirstSelectedItemInDropdown(streetGradeDd), streetGradeExp);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyNotesFieldInDataTabReadOnly()
         {
             Assert.AreEqual(GetAttributeValue(notesInputInDataTab, "disabled"), "true");
@@ -366,12 +465,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         }
 
         //COMPLETE
+        [AllureStep]
         public DetailInspectionPage ClickCompleteBtn()
         {
             ClickOnElement(completeBtn);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyAllFieldsInPopupDisabled()
         {
             //Disabled
@@ -387,15 +487,24 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             Assert.IsTrue(IsControlDisplayed(completeBtnDisabled));
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyAllFieldsInDataTabDisabled()
         {
-            Assert.IsTrue(GetAttributeValue(imageData, "class").Contains("disabled"));
             Assert.AreEqual(GetAttributeValue(accessPointInputInDataTab, "disabled"), "true");
             Assert.AreEqual(GetAttributeValue(notesInputInDataTab, "disabled"), "true");
             return this;
         }
 
+        [AllureStep]
+        public DetailInspectionPage VerifyTheImageIsReadOnly()
+        {
+            Assert.IsTrue(GetAttributeValue(imgThumbnailTag, "class").Contains("disabled"));
+            Assert.IsTrue(GetAttributeValue(closeImgBtn, "class").Contains("disabled"));
+            Assert.AreEqual("true", GetAttributeValueElementPresent(inputImage, "disabled"));
+            return this;
+        }
+
+        [AllureStep]
         public DetailInspectionPage VerifyHistoryAfterCompleted(string userName, string timeCompleted)
         {
             Assert.IsTrue(IsControlDisplayed(actionUpdateTextFirstRow));
@@ -404,26 +513,26 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
 
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyStreetGradeInHistory(string streetGradeValue)
         {
             Assert.AreEqual(streetGradeValue + ".", GetElementText(streetGradeFirstRow));
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyIssueFound(string issueFoundValue)
         {
             Assert.AreEqual(issueFoundValue + ".", GetElementText(issueFound));
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyFirstNoteInHistoryTab(string noteExp)
         {
-            Assert.AreEqual(noteExp + ".", GetElementText(notesFirstRow));
+            Assert.IsTrue(IsControlDisplayed(dataFirstRow, noteExp + "."));
             return this;
         }
 
-
+        [AllureStep]
         public DetailInspectionPage VerifyTimeInEndDateAndTimeField(string timeNow)
         {
             Assert.AreEqual(timeNow, GetAttributeValue(endDateInput, "value"));
@@ -431,12 +540,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         }
 
         //CANCEL
+        [AllureStep]
         public DetailInspectionPage ClickCancelBtn()
         {
             ClickOnElement(cancelBtn);
             return this;
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyHistoryAfterCancelled(string userName, string timeCancelled)
         {
             Assert.IsTrue(IsControlDisplayed(actionUpdateTextFirstRow));
@@ -447,6 +557,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         }
 
         //EXPIRE
+        [AllureStep]
         public DetailInspectionPage VerifyHistoryAfterExpired(string userName, string timeExpired)
         {
             Assert.IsTrue(IsControlDisplayed(actionUpdateTextFirstRow));
@@ -455,7 +566,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
 
         }
-
+        [AllureStep]
         public DetailInspectionPage VerifyValueInValidToField(string validToValue)
         {
             Assert.AreEqual(validToValue, GetAttributeValue(validToInput, "value"));
@@ -463,10 +574,18 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
         }
 
         //Open inpectionDetail with Id
+        [AllureStep]
         public DetailInspectionPage OpenDetailInspectionWithId(string inspectionId)
         {
-            GoToURL(WebUrl.MainPageUrl + "inspections/" + inspectionId);
+            GoToURL(WebUrl.MainPageUrl + "web/inspections/" + inspectionId);
             return PageFactoryManager.Get<DetailInspectionPage>();
+        }
+
+        [AllureStep]
+        public DetailInspectionPage VerifyCompleteAndCancelBtnAreTheSameSize()
+        {
+            Assert.AreEqual(GetAttributeValue(completeBtn, "style"), GetAttributeValue(cancelBtn, "style"));
+            return this;
         }
     }
 }

@@ -17,6 +17,7 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyCalendar;
 using si_automated_tests.Source.Main.Finders;
 using System.Threading;
+using NUnit.Allure.Core;
 
 namespace si_automated_tests.Source.Test.SuspensionTests
 {
@@ -44,16 +45,18 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         }
 
         [Category("Add Suspension")]
+        [Category("Huong")]
         [Test(Description = "Add new suspension")]
+        [Order(1)]
         public void TC_089_Add_New_Suspension()
         {
             int partyId = 73;
             string partyName = "Greggs";
             SuspensionInputData inputData = new SuspensionInputData();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -142,7 +145,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                  .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .DoubleClickSiteRow(97)
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailSitePage>()
                 .ClickCalendarTab()
@@ -152,16 +155,18 @@ namespace si_automated_tests.Source.Test.SuspensionTests
         }
 
         [Category("Edit Suspension")]
+        [Category("Huong")]
         [Test(Description = "Edit suspension")]
+        [Order(2)]
         public void TC_090_Edit_Suspension()
         {
             int partyId = 73;
             string partyName = "Greggs";
             SuspensionInputData inputData = new SuspensionInputData();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Parties")
-                .ExpandOption("North Star Commercial")
-                .OpenOption("Parties")
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
                 .SwitchNewIFrame();
             PageFactoryManager.Get<PartyCommonPage>()
                 .WaitForLoadingIconToDisappear();
@@ -176,7 +181,10 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .ClickTabDropDown()
                 .ClickSuspensionTab()
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<PartySuspensionPage>().DoubleClickNewSuspension();
+            PageFactoryManager.Get<PartySuspensionPage>().ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartySuspensionPage>().ClickNewSuspension();
             inputData.FromDate = DateTime.Now.AddDays(4).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
             inputData.LastDate = DateTime.Now.AddDays(18).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
             inputData.SuspensedDay = "Everyday";
@@ -209,7 +217,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyCalendarPage>()
                 .ClickSiteCombobox()
-                .ClickSellectAllSites()
+                .ClickSellectSite(1)
                 .ClickServiceCombobox()
                 .ClickSellectAllServices()
                 .ClickApplyCalendarButton()
@@ -231,6 +239,103 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitForLoadingIconToDisappear();
             var serviceTasksInSitePage = PageFactoryManager.Get<DetailSitePage>().GetAllDataInMonth(fromDateTime, toDateTime).Where(x => x.ImagePath.AsString().Contains("service-suspension.svg")).ToList();
             Assert.IsTrue(serviceTasksInSitePage.Where(x => fromDateTime <= x.DateTime && x.DateTime <= toDateTime).Count() == 0);
+        }
+
+        [Category("Delete Suspension")]
+        [Category("Huong")]
+        [Test(Description = "Delete suspension")]
+        public void TC_181_Deleting_Service_Suspensions()
+        {
+            int partyId = 73;
+            string partyName = "Greggs";
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Parties)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .FilterPartyById(partyId)
+                .OpenFirstResult();
+            PageFactoryManager.Get<BasePage>()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
+                .ClickTabDropDown()
+                .ClickSuspensionTab()
+                .WaitForLoadingIconToDisappear();
+            //Add New Suspension
+            PageFactoryManager.Get<PartySuspensionPage>().ClickAddNewSuspension();
+            PageFactoryManager.Get<AddNewSuspensionPage>()
+                .WaitServiceSuspensionVisible()
+                .VerifySuspensionTitle(partyName + " - Add Service Suspension");
+            PageFactoryManager.Get<AddNewSuspensionPage>()
+                .VerifyNextButtonIsDisable()
+                .ClickSelectAllSiteCheckbox()
+                .VerifyNextButtonIsEnable()
+                .ClickNextButton();
+            PageFactoryManager.Get<AddNewSuspensionPage>()
+                .VerifyServiceNames()
+                .VerifyNextButtonIsDisable()
+                .ClickSelectAllServiceCheckbox()
+                .VerifyNextButtonIsEnable()
+                .ClickNextButton();
+            var fromDate = DateTime.Now.AddDays(30).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+            var lastDate = DateTime.Now.AddDays(60).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+            PageFactoryManager.Get<AddNewSuspensionPage>()
+               .IsFirstDayInputVisible()
+               .IsLastDayInputVisible()
+               .IsDateDiffLabelVisible()
+               .IsEveryDayRadioVisible()
+               .IsSelectedDayRadioVisible()
+               .ClickFinish()
+               .VerifyWarningMessage("First Day is required")
+               .InputDaysAndVerifyDaysCalculationLbl(fromDate, lastDate, "31 days")
+               .ClickFinish()
+               .VerifySaveMessage("Saved")
+               .IsAddSuspensionModalInVisible();
+            PageFactoryManager.Get<PartySuspensionPage>()
+                .WaitForLoadingIconToDisappear();
+            //Go to Calendar and Verify
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickCalendarTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCalendarPage>()
+                .ClickSiteCombobox()
+                .ClickSellectAllSites()
+                .ClickServiceCombobox()
+                .ClickSellectAllServices()
+                .ClickApplyCalendarButton()
+                .WaitForLoadingIconToDisappear();
+            DateTime fromDateTime = DateTime.ParseExact(fromDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+            DateTime toDateTime = DateTime.ParseExact(lastDate, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+            var serviceTasks = PageFactoryManager.Get<PartyCalendarPage>().GetAllDataInMonth(fromDateTime, toDateTime).Where(x => x.ImagePath.AsString().Contains("service-suspension.svg")).ToList();
+            Assert.IsTrue(serviceTasks.Where(x => fromDateTime <= x.DateTime && x.DateTime <= toDateTime).Count() != 0);
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickTabDropDown()
+                .ClickSuspensionTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AddNewSuspensionPage>().ClickDeleteNewSuspension()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<DetailPartyPage>().ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            //Go to Calendar and Verify
+            PageFactoryManager.Get<DetailPartyPage>()
+                .ClickCalendarTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCalendarPage>()
+                .ClickSiteCombobox()
+                .ClickSellectAllSites()
+                .ClickServiceCombobox()
+                .ClickSellectAllServices()
+                .ClickApplyCalendarButton()
+                .WaitForLoadingIconToDisappear();
+            serviceTasks = PageFactoryManager.Get<PartyCalendarPage>().GetAllDataInMonth(fromDateTime, toDateTime).Where(x => x.ImagePath.AsString().Contains("service-suspension.svg")).ToList();
+            Assert.IsTrue(serviceTasks.Where(x => fromDateTime <= x.DateTime && x.DateTime <= toDateTime).Count() == 0);
         }
     }
 }

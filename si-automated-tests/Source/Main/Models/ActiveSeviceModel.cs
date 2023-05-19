@@ -27,13 +27,14 @@ namespace si_automated_tests.Source.Main.Models
             this.service = serviceValue;
         }
 
-        public ActiveSeviceModel(string eventLocator, string serviceUnitValue, string serviceValue, string statusDescParentValue, string scheduleParentValue, string lastParentValue, string nextParentValue, string assetTypeParentValue, List<ChildSchedule> listSchedule) : this(eventLocator, serviceUnitValue, serviceValue)
+        public ActiveSeviceModel(string eventLocator, string serviceUnitValue, string serviceValue, string statusDescParentValue, string scheduleParentValue, string lastParentValue, string nextParentValue, string assetTypeParentValue, string allocationService, List<ChildSchedule> listSchedule) : this(eventLocator, serviceUnitValue, serviceValue)
         {
             this.status = statusDescParentValue;
             this.schedule = scheduleParentValue;
             this.lastService = lastParentValue;
             this.nextService = nextParentValue;
             this.assetTypeService = assetTypeParentValue;
+            this.allocationService = allocationService;
             this.listChildSchedule = listSchedule;
         }
 
@@ -46,6 +47,18 @@ namespace si_automated_tests.Source.Main.Models
             this.nextService = nextValue;
             this.assetTypeService = assetTypeValue;
             this.allocationService = allocationValue;
+        }
+
+        public ActiveSeviceModel(string serviceUnitValue, string serviceValue, string scheduleValue, string lastValue, string nextValue, string assetTypeValue, string allocationValue, List<ChildSchedule> listChildSchedule)
+        {
+            this.serviceUnit = serviceUnitValue;
+            this.service = serviceValue;
+            this.schedule = scheduleValue;
+            this.lastService = lastValue;
+            this.nextService = nextValue;
+            this.assetTypeService = assetTypeValue;
+            this.allocationService = allocationValue;
+            this.listChildSchedule = listChildSchedule;
         }
 
         public ActiveSeviceModel(string serviceUnitValue, string serviceValue, string scheduleValue, string lastValue, string nextValue, string assetTypeValue, string allocationValue, string locator, string nextReScheduled)
@@ -90,6 +103,20 @@ namespace si_automated_tests.Source.Main.Models
                 this.allocationRound = allocationChildValue;
             }
 
+            public ChildSchedule(string roundChildValue, string resolutionCode)
+            {
+                this.round = roundChildValue;
+                this.resolutionCode = resolutionCode;
+            }
+
+            public ChildSchedule(string scheludeChild, string lastChild, string nextChild, string allocationChild)
+            {
+                this.scheduleRound = scheludeChild;
+                this.lastRound = lastChild;
+                this.nextRound = nextChild;
+                this.allocationRound = allocationChild;
+            }
+
             public string round { get; set; }
             public string stateRound { get; set; }
             public string lastRound { get; set; }
@@ -99,6 +126,8 @@ namespace si_automated_tests.Source.Main.Models
             public string timeBandRound { get; set; }
             public string assuredTaskRound { get; set; }
             public string clientRefRound { get; set; }
+            public string scheduleRound { get; set; }
+            public string resolutionCode { get; set; }
         }
     }
 }

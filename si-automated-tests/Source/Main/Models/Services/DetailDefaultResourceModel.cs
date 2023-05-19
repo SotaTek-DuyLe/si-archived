@@ -16,5 +16,15 @@ namespace si_automated_tests.Source.Main.Models.Services
                 this.HasSchedule == (obj as DetailDefaultResourceModel).HasSchedule &&
                 this.Schedule == (obj as DetailDefaultResourceModel).Schedule;
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

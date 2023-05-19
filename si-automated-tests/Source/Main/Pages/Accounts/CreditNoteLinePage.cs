@@ -1,6 +1,9 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.Accounts
 {
@@ -18,7 +21,9 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
         private readonly By netValue = By.Id("net-value");
         private readonly By vatRate = By.Id("vat-rate");
         private readonly By poNumber = By.Id("po-number");
+        private readonly By depotButton = By.XPath("//button[@data-id='depot']");
 
+        [AllureStep]
         public CreditNoteLinePage IsOnCreditNoteLinePage()
         {
             WaitUtil.WaitForElementVisible(lineType);
@@ -34,6 +39,7 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             WaitUtil.WaitForElementVisible(poNumber);
             return this;
         }
+        [AllureStep]
         public CreditNoteLinePage InputInfo(string _lineType, string _site, string _product, string _priceElement, string _description, string _quantity, string _price)
         {
             SelectTextFromDropDown(lineType, _lineType);
@@ -44,6 +50,27 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             SendKeys(quantity, _quantity);
             SendKeys(price, _price);
             SleepTimeInMiliseconds(1000);
+            return this;
+        }
+        [AllureStep]
+        public CreditNoteLinePage SelectVatRate(string vat)
+        {
+            SelectTextFromDropDown(vatRate, vat);
+            return this;
+        }
+        [AllureStep]
+
+        public CreditNoteLinePage VerifyCurrentUrl()
+        {
+            string currentUrl = GetCurrentUrl();
+            Assert.IsTrue(currentUrl.Contains(WebUrl.MainPageUrl + "web/credit-note-lines/"));
+            return this;
+        }
+        [AllureStep]
+        public CreditNoteLinePage SelectDepot(string value)
+        {
+            ClickOnElement(depotButton);
+            ClickOnElement(By.XPath(String.Format("//span[text()='{0}']",value)));
             return this;
         }
     }

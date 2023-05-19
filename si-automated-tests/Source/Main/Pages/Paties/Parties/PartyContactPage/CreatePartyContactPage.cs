@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -23,35 +24,52 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
         private readonly By endDate = By.CssSelector("input#end-date");
         private readonly By selectAllBtn = By.XPath("//button[contains(@class, 'bs-select-all')]");
         private readonly By deSelectAllBtn = By.XPath("//button[contains(@class, 'bs-deselect-all')]");
+        private readonly By notesTab = By.CssSelector("a[aria-controls='notes-tab']");
+        private readonly By titleInNotesTab = By.XPath("//label[text()='Title']/following-sibling::input");
+        private readonly By noteInNotesTab = By.XPath("//label[text()='Note']/following-sibling::textarea");
 
         //DYNAMIC LOCATOR
         private const string anyContactGroups = "//ul[contains(@class, 'dropdown-menu')]//a/span[text()='{0}']";
 
+        [AllureStep]
         public CreatePartyContactPage IsCreatePartyContactPage()
         {
             WaitUtil.WaitForPageLoaded();
             WaitUtil.WaitForElementVisible(title);
             return this;
         }
-
+        [AllureStep]
         public CreatePartyContactPage EnterFirstName(string firstName)
         {
             SendKeys(contactFistNameInput, firstName);
             return this;
         }
+        [AllureStep]
 
         public CreatePartyContactPage EnterLastName(string lastName)
         {
             SendKeys(contactLastNameInput, lastName);
             return this;
         }
-
+        [AllureStep]
         public CreatePartyContactPage EnterMobileValue(string mobile)
         {
             SendKeys(mobileInput, mobile);
             return this;
         }
 
+        [AllureStep]
+        public CreatePartyContactPage EnterContactInfo(ContactModel contactModel)
+        {
+            SendKeys(titleInput, contactModel.Title);
+            SendKeys(contactFistNameInput, contactModel.FirstName);
+            SendKeys(contactLastNameInput, contactModel.LastName);
+            SendKeys(contactPositionInput, contactModel.Position);
+            SendKeys(mobileInput, contactModel.Mobile);
+            return this;
+        }
+
+        [AllureStep]
         public CreatePartyContactPage EnterValueRemainingFields(ContactModel contactModel)
         {
             SendKeys(titleInput, contactModel.Title);
@@ -66,7 +84,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
             
             return this;
         }
-
+        [AllureStep]
         public CreatePartyContactPage ClickAnyContactGroupsAndVerify(string contactGroup)
         {
             //Click contact groups and verify
@@ -74,6 +92,21 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage
             Assert.IsTrue(IsControlDisplayed(selectAllBtn));
             Assert.IsTrue(IsControlDisplayed(deSelectAllBtn));
             ClickOnElement(anyContactGroups, contactGroup);
+            return this;
+        }
+
+        [AllureStep]
+        public CreatePartyContactPage ClickOnNotesTab()
+        {
+            ClickOnElement(notesTab);
+            return this;
+        }
+
+        [AllureStep]
+        public CreatePartyContactPage VerifyDisplayNotesTab()
+        {
+            Assert.IsTrue(IsControlDisplayed(titleInNotesTab), "Title in Notes tab is not displayed");
+            Assert.IsTrue(IsControlDisplayed(noteInNotesTab), "Note in Notes tab is not displayed");
             return this;
         }
     }

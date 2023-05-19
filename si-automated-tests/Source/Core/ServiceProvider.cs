@@ -16,7 +16,7 @@ namespace si_automated_tests.Source.Core
 
         public List<T> FindList<T>(string query)
         {
-            SqlCommand command = new SqlCommand(query, DatabaseContext.Conection);
+            SqlCommand command = new SqlCommand(query, DatabaseContext.Connection);
             SqlDataReader readers = command.ExecuteReader();
             List<T> data = ObjectExtention.DataReaderMapToList<T>(readers);
             readers.Close();

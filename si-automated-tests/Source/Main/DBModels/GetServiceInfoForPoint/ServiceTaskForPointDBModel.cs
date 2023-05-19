@@ -17,6 +17,8 @@ namespace si_automated_tests.Source.Main.DBModels.GetServiceInfoForPoint
         public string next { get; set; }
         public string round { get; set; }
         public string roundgroup { get; set; }
+        public string patterndesc { get; set; }
+        public DateTime lastdate { get; set; }
         public DateTime nextdate { get; set; }
     }
 }

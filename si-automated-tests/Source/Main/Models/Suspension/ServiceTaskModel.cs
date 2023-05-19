@@ -9,11 +9,10 @@ namespace si_automated_tests.Source.Main.Models.Suspension
         /// <summary>
         /// ddMMyyyy
         /// </summary>
-        public int Date { get; set; }
-
+        public DateTime Date { get; set; }
         public DateTime DateTime
         {
-            get => DateTime.ParseExact(Date.ToString(), "ddMMyyyy", System.Globalization.CultureInfo.InvariantCulture);
+            get => Date;
         }
 
         public string Content { get; set; }

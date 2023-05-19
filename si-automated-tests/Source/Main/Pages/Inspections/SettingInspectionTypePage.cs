@@ -1,6 +1,6 @@
 ﻿
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using si_automated_tests.Source.Core;
@@ -20,13 +20,14 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
         private readonly string anyTab = "//a[text()='{0}']/parent::li";
         private readonly string inspectionTypeName = "//span[contains(string(),'{0}')]";
 
+        [AllureStep]
         public SettingInspectionTypePage WaitForInpsectionTypeSettingDisplayed(string inspectionNameValue)
         {
             WaitUtil.WaitForElementVisible(inspectionTypeTitle);
             WaitUtil.WaitForElementVisible(inspectionTypeName, inspectionNameValue);
             return this;
         }
-
+        [AllureStep]
         public SettingInspectionTypePage ClickRolesTab()
         {
             ClickOnElement(anyTab, "Roles");
@@ -44,9 +45,9 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
         //        SendKeys(allRoleInRightColumn, Keys.Control + "a");
         //    }
         //    return this;
-            
-        //}
 
+        //}
+        [AllureStep]
         public SettingInspectionTypePage SelectAllRoleInRightColumn()
         {
             SelectElement oSelect = new SelectElement(driver.FindElement(allRoleInRightColumn));
@@ -58,19 +59,19 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             //Select all
             return this;
         }
-
+        [AllureStep]
         public SettingInspectionTypePage ClickRemoveBtn()
         {
             ClickOnElement(removeBtn);
             return this;
         }
-
+        [AllureStep]
         public SettingInspectionTypePage ClickSaveBtnToUpdateRole()
         {
             ClickOnElement(saveRoleBtn);
             return this;
         }
-
+        [AllureStep]
         public SettingInspectionTypePage WaitForLoadingIconDisappear()
         {
             WaitUtil.WaitForAllElementsPresent(loadingIconDisappear);
@@ -78,7 +79,7 @@ namespace si_automated_tests.Source.Main.Pages.Inspections
             return this;
 
         }
-
+        [AllureStep]
         public DetailInspectionPage OpenDetailInspectionWithId(string inspectionId)
         {
             GoToURL(WebUrl.MainPageUrl + "web/inspections/" + inspectionId);

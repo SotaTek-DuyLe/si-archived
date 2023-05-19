@@ -8,22 +8,23 @@ using si_automated_tests.Source.Main.Pages.SystemTools.SystemMonitoring;
 using si_automated_tests.Source.Main.Pages.UserAndRole;
 using si_automated_tests.Source.Main.Models;
 using OpenQA.Selenium;
+using NUnit.Allure.Attributes;
 
 namespace si_automated_tests.Source.Main.Pages
 {
     public class HomePage : BasePage
     {
         
-        private const string CreateEvenDropdownBtn = "//button[contains(text(), 'Create')]/following-sibling::button";
+        private const string CreateEvenDropdownBtn = "//button[contains(text(), 'Create Agreement')]/following-sibling::button";
 
         //CREATE EVEN SUB MENU
-        private const string PartyInCreateEvenBtn = "//button[contains(text(), 'Create')]/following-sibling::ul//a[text()='Party']";
-        private const string AgreementInCreateEvenBtn = "//button[contains(text(), 'Create')]/following-sibling::ul//a[text()='Agreement']";
-        private const string EventInCreateEvenBtn = "//button[contains(text(), 'Create')]/following-sibling::ul//a[text()='Event']";
-
-        private const string PointAddressInCreateEvenBtn = "//button[contains(text(), 'Create')]/following-sibling::ul//a[text()='Point Address']";
-        private const string ResourceInCreateEvenBtn = "//button[contains(text(), 'Create')]/following-sibling::ul//a[text()='Resource']";
-        private const string WeighbridgeTicketInCreateEvenBtn = "//button[contains(text(), 'Create')]/following-sibling::ul//a[text()='Weighbridge Ticket']";
+        private const string PartyInCreateEvenBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Party']";
+        private const string AgreementInCreateEvenBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Agreement']";
+        private const string EventInCreateEvenBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Event']";
+        private const string PointAddressInCreateEvenBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Point Address']";
+        private const string ResourceInCreateEvenBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Resource']";
+        private const string ServiceUnitGroupBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Service Unit Group']";
+        private const string WeighbridgeTicketInCreateEvenBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Weighbridge Ticket']";
 
 
         private readonly string userNameBtn = ConfigManager.GetCurrentPlatform().Equals(WebPlatform.IE)
@@ -60,6 +61,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly string userNameValue = "//span[contains(text(),'{0}')]";
         private readonly string anyGroupUser = "//table[@groupkey='{0}']/descendant::span";
 
+        [AllureStep]
         public HomePage IsOnHomePage(User user)
         {
             Thread.Sleep(500);
@@ -73,37 +75,53 @@ namespace si_automated_tests.Source.Main.Pages
             return this;
         }
 
+        [AllureStep]
+        public HomePage IsOnHomePageWithoutWaitSearchBtn(User user)
+        {
+            Thread.Sleep(500);
+            SwitchToDefaultContent();
+            WaitUtil.WaitForElementVisible(pageTitle);
+            Assert.AreEqual(GetElementText(userNameBtn).Trim(), user.DisplayName);
+            return this;
+        }
+
+        [AllureStep]
         public HomePage ClickOnSearchBtn()
         {
             ClickOnElement(searchBtn);
             return this;
         }
-
+        [AllureStep]
         public HomePage ClickUserNameDd()
         {
             ClickOnElement(userNameBtn);
             return this;
         }
+        [AllureStep]
         public HomePage ClickLogoutBtn()
         {
             ClickOnElement(logoutBtn);
             return this;
         }
+        [AllureStep]
         public HomePage ClickSystemTool()
         {
             ClickOnElement(systemTool);
             return this;
         }
+        [AllureStep]
         public HomePage ClickUserAndRole()
         {
             ClickOnElement(userAndRole);
             return this;
         }
+        [AllureStep]
         public HomePage ClickUser()
         {
             ClickOnElement(user);
             return this;
         }
+        [AllureStep]
         public HomePage ClickCreateEventDropdownAndVerify()
         {
             ClickOnElement(CreateEvenDropdownBtn);
@@ -112,40 +130,47 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.IsTrue(IsControlDisplayed(EventInCreateEvenBtn));
             Assert.IsTrue(IsControlDisplayed(PointAddressInCreateEvenBtn));
             Assert.IsTrue(IsControlDisplayed(ResourceInCreateEvenBtn));
+            Assert.IsTrue(IsControlDisplayed(ServiceUnitGroupBtn));
             Assert.IsTrue(IsControlDisplayed(WeighbridgeTicketInCreateEvenBtn));
             return this;
         }
+        [AllureStep]
         public CreatePartyPage GoToThePatiesByCreateEvenDropdown()
         {
             ClickOnElement(PartyInCreateEvenBtn);
             return new CreatePartyPage();
         }
+        [AllureStep]
         public UserPage ClickGroup()
         {
             ClickOnElement(group);
             return PageFactoryManager.Get<UserPage>();
         }
+        [AllureStep]
         public HomePage ExpandGroup()
         {
             ClickOnElement(groupExpand);
             return PageFactoryManager.Get<HomePage>();
         }
+        [AllureStep]
         public HomePage ClickSysMonitoring()
         {
             ClickOnElement(systemMonitoring);
             return this;
         }
+        [AllureStep]
         public EmailPage ClickEmail()
         {
             ClickOnElement(emailOption);
             return PageFactoryManager.Get<EmailPage>();
         }
+        [AllureStep]
         public UserDetailPage ClickUserName(string userName)
         {
             ClickOnElement(String.Format(userNameValue, userName));
             return PageFactoryManager.Get<UserDetailPage>();
         }
-
+        [AllureStep]
         public UserPage ClickAnyGroup(string groupName)
         {
             ClickOnElement(anyGroupUser, groupName);
@@ -153,6 +178,7 @@ namespace si_automated_tests.Source.Main.Pages
         }
 
         //SEARCH MODEL
+        [AllureStep]
         public HomePage IsSearchModel()
         {
             WaitUtil.WaitForElementVisible(searchInput);
@@ -167,31 +193,32 @@ namespace si_automated_tests.Source.Main.Pages
             Assert.IsTrue(IsControlDisplayed(closeInPopupBtn));
             return this;
         }
-
+        [AllureStep]
         public HomePage ClickAnySearchForOption(string option)
         {
             ClickOnElement(searchForOption, option);
             return this;
         }
-
+        [AllureStep]
         public HomePage ClickAndSelectRichmondCommercialSectorValue()
         {
             ClickOnElement(sectorDd);
             ClickOnElement(richomndCommercialOption);
             return this;
         }
-
+        [AllureStep]
         public HomePage ClickAndSelectRichmondSectorValue()
         {
             ClickOnElement(sectorDd);
             ClickOnElement(richomndOption);
             return this;
         }
-
+        [AllureStep]
         public HomePage ClickOnSearchBtnInPopup()
         {
             ClickOnElement(searchInPopupBtn);
             return this;
         }
+
     }
 }

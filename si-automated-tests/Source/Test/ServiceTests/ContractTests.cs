@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PartySitePage;
-using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Services;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
@@ -17,7 +14,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
     [TestFixture]
     public class ContractTests : BaseTest
     {
-        private string successToast = "Successfully saved Contract Site";
+        private string successToast = MessageSuccessConstants.SuccessMessage;
         public override void Setup()
         {
             base.Setup();
@@ -29,12 +26,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .Login(AutoUser29.UserName, AutoUser29.Password)
                 .IsOnHomePage(AutoUser29);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Services")
+                .ClickMainOption(MainOption.Services)
                 .ExpandOption("Regions")
-                .ExpandOption("London")
-                .ExpandOption("North Star Commercial");
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.Commercial);
         }
         [Category("Create Contract And Unit Site")]
+        [Category("Dee")]
         [Test]
         public void TC_121_A_create_contract_and_unit_site()
         {
@@ -43,7 +41,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string siteName = "Contra 2 " + CommonUtil.GetRandomNumber(5);
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("Contract Sites")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
@@ -79,6 +78,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SleepTimeInMiliseconds(5000);
         }
         [Category("Create Contract And Unit Site")]
+        [Category("Dee")]
         [Test]
         public void TC_121_B_create_contract_and_unit_site()
         {
@@ -86,7 +86,9 @@ namespace si_automated_tests.Source.Test.ServiceTests
             string address = "35 THE QUADRANT";
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("Contract Sites")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();
@@ -99,15 +101,17 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .SleepTimeInMiliseconds(5000);
         }
         [Category("Create Contract And Unit Site")]
+        [Category("Dee")]
         [Test]
         public void TC_121_C_create_contract_and_unit_site()
         {
-            successToast = "Successfully saved Contract Unit";
+            successToast = MessageSuccessConstants.SuccessMessage;
             string name = "Municipal " + CommonUtil.GetRandomNumber(5);
             string reference = "Test " + CommonUtil.GetRandomNumber(5);
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("Contract Units")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickAddNewItem()
                 .SwitchToLastWindow();

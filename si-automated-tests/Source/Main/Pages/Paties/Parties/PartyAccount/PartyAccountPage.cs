@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount
 {
@@ -14,6 +16,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount
 
         private string accountCheckBox = "//label[text()='{0}']/following-sibling::div/input";
 
+        [AllureStep]
         public PartyAccountPage IsOnAccountPage()
         {
             WaitUtil.WaitForElementVisible(accountTypeInput);
@@ -22,6 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount
             Assert.IsTrue(IsControlDisplayed(accountRefInput));
             return this;
         }
+        [AllureStep]
         public PartyAccountPage CheckOnAccountType(string account)
         {
             if(!IsElementSelected(accountCheckBox, account))
@@ -30,6 +34,21 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount
             }
             return this;
         }
+
+        [AllureStep]
+        public PartyAccountPage CheckOnAccountTypeAndClickSave(string account)
+        {
+            if (!IsElementSelected(accountCheckBox, account))
+            {
+                ClickOnElement(accountCheckBox, account);
+                this.ClickSaveBtn()
+                    .VerifyToastMessage(MessageSuccessConstants.SavePartySuccessMessage)
+                    .WaitForLoadingIconToDisappear();
+            }
+            return this;
+        }
+
+        [AllureStep]
         public PartyAccountPage UncheckOnAccountType(string account)
         {
             if (IsElementSelected(accountCheckBox, account))
@@ -37,15 +56,53 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccount
                 ClickOnElement(accountCheckBox, account);
             }
             return this;
+        } 
+        
+        [AllureStep]
+        public PartyAccountPage UncheckOnAccountTypeAndClickSave(string account)
+        {
+            if (IsElementSelected(accountCheckBox, account))
+            {
+                ClickOnElement(accountCheckBox, account);
+                this.ClickSaveBtn()
+                    .WaitForLoadingIconToDisappear();
+            }
+            return this;
         }
+
+        [AllureStep]
         public PartyAccountPage VerifyAccountTypeChecked(string account)
         {
             Assert.IsTrue(IsElementSelected(accountCheckBox, account));
             return this;
         }
+        [AllureStep]
         public PartyAccountPage VerifyAccountTypeUnchecked(string account)
         {
             Assert.IsFalse(IsElementSelected(accountCheckBox, account));
+            return this;
+        }
+        [AllureStep]
+        public PartyAccountPage VerifyAccountReferenceEnabled(bool isEnabled)
+        {
+            Assert.AreEqual(isEnabled, GetElement(accountRefInput).Enabled);
+            return this;
+        }
+        [AllureStep]
+        public PartyAccountPage SelectAccountType(string accountType)
+        {
+            SelectTextFromDropDown(accountTypeInput, accountType);
+            return this;
+        }
+        [AllureStep]
+        public PartyAccountPage VerifyAllAcountReferenceDisabled()
+        {
+            int totalOption = GetNumberOfOptionInSelect(accountTypeInput);
+            for (int i = 0; i < totalOption; i++)
+            {
+                SelectIndexFromDropDown(accountTypeInput, i);
+                VerifyAccountReferenceEnabled(false);
+            }
             return this;
         }
     }

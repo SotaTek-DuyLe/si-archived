@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Allure.Attributes;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 
@@ -11,6 +12,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
         private readonly By endDate = By.Id("end-date");
         private readonly By createBtn = By.XPath("//button[text()='Create Exception']");
 
+        [AllureStep]
         public ResourceShiftExceptionTab IsOnShiftExceptionTab()
         {
             WaitUtil.WaitForElementVisible(stateSelect);
@@ -19,16 +21,19 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             WaitUtil.WaitForElementVisible(createBtn);
             return this;
         }
+        [AllureStep]
         public ResourceShiftExceptionTab SelectState(string state)
         {
             SelectTextFromDropDown(stateSelect, state);
             return this;
         }
+        [AllureStep]
         public ResourceShiftExceptionTab SetEndDate(string _endDate)
         {
             SendKeys(endDate, _endDate);
             return this;
         }
+        [AllureStep]
         public ResourceShiftExceptionTab ClickCreateException()
         {
             ClickOnElement(createBtn);

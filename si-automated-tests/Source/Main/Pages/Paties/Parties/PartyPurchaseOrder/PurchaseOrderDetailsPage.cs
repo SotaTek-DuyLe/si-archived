@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -10,6 +11,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyPurchaseOrder
     public class PurchaseOrderDetailsPage : BasePage
     {
         private string poHeader = "//div[@class='headers-container']/h5[text()='{0}']";
+        private readonly By poTitle = By.XPath("//span[text()='Purchase Order']");
+        private readonly By detailTab = By.XPath("//a[text()='Details']");
 
         private readonly By poNumber = By.Id("number");
         private readonly By firstDay = By.Id("start-date");
@@ -22,13 +25,45 @@ namespace si_automated_tests.Source.Main.Pages.Paties.Parties.PartyPurchaseOrder
         private readonly By removeBtn = By.XPath("//button[text()='Remove']");
         private readonly By addBtn = By.XPath("//button[text()='Add']");
 
+        [AllureStep]
         public PurchaseOrderDetailsPage WaitingForPurchaseOrderPageLoadedSuccessfully(string po)
         {
             WaitUtil.WaitForElementVisible(poHeader, po);
             return this;
         }
+
+        [AllureStep]
+        public PurchaseOrderDetailsPage WaitingForPurchaseOrderPageLoadedSuccessfully()
+        {
+            WaitUtil.WaitForElementVisible(poTitle);
+            WaitUtil.WaitForElementVisible(detailTab);
+            return this;
+        }
+
+        [AllureStep]
+        public PurchaseOrderDetailsPage InputPurchaseOrderNumberName(string purchaseOrderNumberValue)
+        {
+            SendKeys(poNumber, purchaseOrderNumberValue);
+            return this;
+        }
+
+        [AllureStep]
+        public PurchaseOrderDetailsPage SetFirstDay(string firstDayValue)
+        {
+            SendKeys(firstDay, firstDayValue);
+            return this;
+        }
+
+        [AllureStep]
+        public PurchaseOrderDetailsPage SetLastDay(string lastDayValue)
+        {
+            SendKeys(lastDay, lastDayValue);
+            return this;
+        }
+
         //All fields are disabled apart from 'First Day' and 'Last Day'
         //In Criteria section, Object=Task, ObjectID= Task ID
+        [AllureStep]
         public PurchaseOrderDetailsPage VerifyDetailsPageWithDateEnabled(string startDate, string endDate, string taskID)
         {
             Assert.IsFalse(IsControlEnabled(poNumber));

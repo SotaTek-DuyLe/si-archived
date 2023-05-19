@@ -1,42 +1,53 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Core;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Inspections;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.PointAddress;
+using si_automated_tests.Source.Main.Pages.Search.PointAreas;
+using si_automated_tests.Source.Main.Pages.Search.PointNodes;
 using si_automated_tests.Source.Main.Pages.Search.PointSegment;
+using si_automated_tests.Source.Main.Pages.Services;
+using si_automated_tests.Source.Main.Pages.Tasks;
 using si_automated_tests.Source.Main.Pages.Tasks.Inspection;
 using si_automated_tests.Source.Main.Pages.UserAndRole;
+using System;
+using System.Linq;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.InspectionTests
 {
+    [Parallelizable(scope: ParallelScope.Fixtures)]
+    [TestFixture]
     public class UpdateInspectionTests : BaseTest
     {
         private string inspectionIdCompleteType2;
         private string inspectionIdCancelledType2;
 
+        //Need to confirm
         [Category("UpdateInspection"), Order(1)]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Complete - InspectionType = 4")]
         public void TC_120_Inspection_update_and_states_complete_inspection_inspection_type_4()
         {
             string inspectionId = "323";
             string inspectionTypeValue = "Repeat Missed Assessment";
             string inpectionAddress = "4 RALEIGH ROAD, RICHMOND, TW9 2DX";
-            string allocatedUnitValue = "Ancillary";
+            string allocatedUnitValue = "East Waste";
 
             PageFactoryManager.Get<LoginPage>()
                     .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
@@ -88,7 +99,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                .VerifyStateInspection("Unallocated")
                .InputNote(noteUpdate)
                .ClickSaveBtn()
-               .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage);
+               .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             detailInspectionPage
                 .VerifyNoteValue(noteUpdate)
                 //Line 32
@@ -101,16 +113,18 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 //.UploadImage("")
                 .AddAccessPointInDataTab(accessPointDataTab)
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
             detailInspectionPage
                 .VerifyValueInNoteInputDataTab(noteInDataTab)
                 .VerifyValueInAccessPointInput(accessPointDataTab);
             //Line 33: Verify history
             detailInspectionPage
-                .ClickOnHistoryTab()
-                .WaitForLoadingIconToDisappear();
+                .ClickOnHistoryTab();
             detailInspectionPage
-                .VerifyRecordAfterUpdateAction(noteUpdate, AutoUser59.DisplayName, noteInDataTab, accessPointDataTab);
+                .VerifyRecordAfterUpdateAction(AutoUser59.DisplayName, noteUpdate, accessPointDataTab)
+                .VerifyFirstNoteInHistoryTab(noteInDataTab);
             //Line 34 => Complete
             detailInspectionPage
                 .ClickOnDetailTab()
@@ -118,7 +132,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             detailInspectionPage
                 .ClickCompleteBtn()
                 .WaitForLoadingIconToDisappear()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
             string timeComplete = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             detailInspectionPage
                 .VerifyAllFieldsInPopupDisabled()
@@ -133,28 +147,28 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnHistoryTab()
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
-                .VerifyHistoryAfterCompleted(timeComplete, AutoUser59.DisplayName);
+                .VerifyHistoryAfterCompleted(AutoUser59.DisplayName, timeComplete);
         }
 
         [Category("UpdateInspection")]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Cancel - InspectionType = 4"), Order(2)]
         public void TC_120_Inspection_update_and_states_cancel_inspection_inspection_type_4()
         {
             string inspectionId = "323";
             string inspectionTypeValue = "Repeat Missed Assessment";
             string inpectionAddress = "4 RALEIGH ROAD, RICHMOND, TW9 2DX";
-            string allocatedUnitValue = "Ancillary";
+            string allocatedUnitValue = "East Waste";
 
             PageFactoryManager.Get<LoginPage>()
                     .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
@@ -215,7 +229,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             //Line 37 => Cancel
             detailInspectionPage
                 .ClickCancelBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
             string timeCancelled = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             detailInspectionPage
                 .VerifyAllFieldsInPopupDisabled()
@@ -233,24 +247,24 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("UpdateInspection")]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Expire - InspectionType = 4"), Order(3)]
         public void TC_120_Inspection_update_and_states_Expire_inspection_inspection_type_4()
         {
             string inspectionId = "323";
             string inspectionTypeValue = "Repeat Missed Assessment";
             string inpectionAddress = "4 RALEIGH ROAD, RICHMOND, TW9 2DX";
-            string allocatedUnitValue = "Ancillary";
+            string allocatedUnitValue = "East Waste";
 
             PageFactoryManager.Get<LoginPage>()
                     .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
@@ -302,8 +316,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                //.VerifyStateInspection("Unallocated")
                .InputValidTo(validToValue)
                .ClickSaveBtn()
-               .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
-               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveInspectionSuccessMessage);
+               .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             detailInspectionPage
                 .VerifyAllFieldsInPopupDisabled()
                 .VerifyStateInspection("Expired")
@@ -318,24 +332,24 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("UpdateInspection")]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Complete - 1"), Order(4)]
         public void TC_120_Inspection_update_and_states_Complete_1_inspection_inspection_type_2()
         {
             string inspectionId = "4";
             string inspectionTypeValue = "Street Cleansing Assessment";
             string inpectionAddress = "Holly Road 64 To 70 Between Heath Road And Copthall Gardens";
-            string allocatedUnitValue = "Ancillary";
+            string allocatedUnitValue = "East Waste";
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
@@ -371,8 +385,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .InputNote(noteValue)
                 .ClickCreateBtn()
                 //Bug message
-                //.VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
-                .VerifyToastMessage(MessageSuccessConstants.SavePointSegmentSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
             //Click success link and execute line 45 - Complete
             pointSegmentDetailPage
                 .ClickOnInspectionCreatedLink()
@@ -403,7 +416,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickCompleteBtn();
             string timeCompleted = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             detailInspectionPage
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
             detailInspectionPage
                 .VerifyStateInspection("Complete")
                 .VerifyAllFieldsInPopupDisabled()
@@ -424,6 +437,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("UpdateInspection")]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Complete - 2"), Order(5)]
         public void TC_120_Inspection_update_and_states_Complete_2_inspection_inspection_type_2()
         {
@@ -436,12 +450,11 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
@@ -477,8 +490,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .InputNote(noteValue)
                 .ClickCreateBtn()
                 //Bug message
-                //.VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
-                .VerifyToastMessage(MessageSuccessConstants.SavePointSegmentSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
             //Click success link and execute line 51 - Fill all fields in Data tab
             pointSegmentDetailPage
                 .ClickOnInspectionCreatedLink()
@@ -499,14 +511,15 @@ namespace si_automated_tests.Source.Test.InspectionTests
             string timeCompleted = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             detailInspectionPage
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
                 .VerifyStateInspection("Complete")
                 .VerifyTimeInEndDateAndTimeField(timeCompleted)
                 .VerifyAllFieldsInPopupDisabled();
             string newNoteDataTab = "New Note Data tab" + CommonUtil.GetRandomString(5);
-            //Line 52 => Verify Data tab
+            //Line 52 => Verify Data tab => Bug (Failed)
             detailInspectionPage
                 .ClickOnDataTab()
                 .WaitForLoadingIconToDisappear();
@@ -527,8 +540,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 //Line 54 => Edit Note
                 .AddNotesInDataTab(newNoteDataTab)
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             detailInspectionPage
                 .ClickOnHistoryTab()
                 .VerifyFirstNoteInHistoryTab(newNoteDataTab);
@@ -536,6 +549,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("UpdateInspection")]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Cancel"), Order(6)]
         public void TC_120_Inspection_update_and_states_Cancel_inspection_inspection_type_2()
         {
@@ -548,12 +562,11 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
@@ -588,9 +601,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickAndSelectAllocatedUnit(allocatedUnitValue)
                 .InputNote(noteValue)
                 .ClickCreateBtn()
-                //Bug message
-                //.VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
-                .VerifyToastMessage(MessageSuccessConstants.SavePointSegmentSuccessMessage);
+                //Bug message => Fix (07/07/2022)
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
             //Click success link and execute line 56 - Click Detail tab and click cancelled date calendar icon
             pointSegmentDetailPage
                 .ClickOnInspectionCreatedLink()
@@ -621,7 +633,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 //Line 57 => Complete
                 .SelectStreetGrade("C")
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
             detailInspectionPage
                 .VerifyValueInNoteInputDataTab(noteDataTab)
                 .VerifyFieldsInDataTabDisabled("C")
@@ -643,6 +655,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
         }
 
         [Category("UpdateInspection")]
+        [Category("Chang")]
         [Test(Description = "Inspection Update and states - Expired"), Order(7)]
         public void TC_120_Inspection_update_and_states_Expired_inspection_inspection_type_2()
         {
@@ -655,12 +668,11 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .SendKeyToUsername(AutoUser59.UserName)
-                .SendKeyToPassword(AutoUser59.Password + Keys.Enter);
+                .Login(AutoUser59.UserName, AutoUser59.Password);
             PageFactoryManager.Get<HomePage>()
                 .IsOnHomePage(AutoUser59);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Inspections")
+                .ClickMainOption(MainOption.Inspections)
                 .OpenOption("All Inspections")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<AllInspectionListingPage>()
@@ -696,8 +708,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .InputNote(noteValue)
                 .ClickCreateBtn()
                 //Bug message
-                //.VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
-                .VerifyToastMessage(MessageSuccessConstants.SavePointSegmentSuccessMessage);
+                .VerifyToastMessage(MessageSuccessConstants.SaveInspectionCreatedMessage);
             //Click success link and execute line 59 - Update Valid to = now (UTC) - 2hours
             pointSegmentDetailPage
                 .ClickOnInspectionCreatedLink()
@@ -729,8 +740,8 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SaveInspectionSuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SaveInspectionSuccessMessage);
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             //Verify Details tab is read only
             detailInspectionPage
                 .VerifyStateInspection("Expired")
@@ -764,9 +775,11 @@ namespace si_automated_tests.Source.Test.InspectionTests
             PageFactoryManager.Get<UserDetailPage>()
                 .IsOnUserDetailPage()
                 .ClickAdminRoles()
-                .ChooseAdminRole("Inspections")
+                .ChooseInspectionAdminRole()
                 .ClickSave()
                 .WaitForLoadingIconDisappear();
+            PageFactoryManager.Get<UserDetailPage>()
+                .SleepTimeInSeconds(3);
 
             PageFactoryManager.Get<BasePage>()
                 .GoToURL(WebUrl.InspectionTypeUrlIE);
@@ -811,5 +824,159 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .VerifyNotesFieldInDataTabReadOnly();
         }
 
+        [Category("Point address subscription")]
+        [Category("Huong")]
+        [Test()]
+        public void TC_201_Subscriptions_grid_spelling_error()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/point-addresses/483986");
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser59.UserName, AutoUser59.Password);
+            PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
+            pointAddressDetailPage.ClickOnElement(pointAddressDetailPage.SubscriptionTab);
+            pointAddressDetailPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(pointAddressDetailPage.SubscriptionIFrame);
+            pointAddressDetailPage.ClickOnElement(pointAddressDetailPage.AddNewSubscriptionButton);
+            pointAddressDetailPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            SubscriptionsDetailPage subscriptionsDetailPage = PageFactoryManager.Get<SubscriptionsDetailPage>();
+            Random rnd = new Random();
+            int number = rnd.Next(1, 13);
+            string title = "Title" + number;
+            string firstName = "FirstName" + number;
+            string lastName = "LastName" + number;
+            string mobile = "+4471274";
+            subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.TitleInput, title);
+            subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.FirstNameInput, firstName);
+            subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.LastNameInput, lastName);
+            subscriptionsDetailPage.SendKeys(subscriptionsDetailPage.MobileInput, mobile);
+            subscriptionsDetailPage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            string subjectDescription = subscriptionsDetailPage.GetElementText(subscriptionsDetailPage.SubjectDescriptionText);
+            string id = subscriptionsDetailPage.GetElementText(subscriptionsDetailPage.IdTitle);
+            subscriptionsDetailPage.ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchToFrame(pointAddressDetailPage.SubscriptionIFrame);
+            pointAddressDetailPage.VerifyNewSubscription(id, firstName, lastName, mobile, subjectDescription);
+            string contractId = pointAddressDetailPage.GetNewContractId();
+            //Verify DB
+            CommonFinder finder = new CommonFinder(DbContext);
+            var subscriptions = finder.GetSubscriptionById(id);
+            Assert.IsTrue(subscriptions.Count != 0);
+            var contracts = finder.GetContractById(contractId);
+            Assert.IsTrue(contracts.Count != 0);
+
+            System.Collections.Generic.List<string> columnNames = new System.Collections.Generic.List<string>() { "ID", "Contact ID", "Contact", "Mobile", "Subscription State", "Start Date", "End Date", "Notes", "Subject", "Subject Description" };
+            //Navigate to point segment form URL: point - segments / 32799->Click on subscriptions tab
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/point-segments/32799");
+            PointSegmentDetailPage pointSegmentDetailPage = PageFactoryManager.Get<PointSegmentDetailPage>();
+            pointSegmentDetailPage.WaitForLoadingIconToDisappear();
+            pointSegmentDetailPage.ClickOnElement(pointSegmentDetailPage.SubscriptionTab);
+            pointSegmentDetailPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(pointSegmentDetailPage.SubscriptionIFrame);
+            pointSegmentDetailPage.VerifyColumnsDisplay(columnNames);
+
+            //Navigate to point node form URL: point-nodes/5 -> Click on subscriptions tab
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/point-nodes/5");
+            PointNodeDetailPage pointNodeDetailPage = PageFactoryManager.Get<PointNodeDetailPage>();
+            pointNodeDetailPage.WaitForLoadingIconToDisappear();
+            pointNodeDetailPage.ClickOnElement(pointNodeDetailPage.SubscriptionTab);
+            pointNodeDetailPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(pointNodeDetailPage.SubscriptionIFrame);
+            pointNodeDetailPage.VerifyColumnsDisplay(columnNames);
+
+            //Navigate to point area form URL: point-areas/5 -> Click on subscriptions tab
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/point-areas/5");
+            PointAreaDetailPage pointAreaDetailPage = PageFactoryManager.Get<PointAreaDetailPage>();
+            pointAreaDetailPage.WaitForLoadingIconToDisappear();
+            pointAreaDetailPage.ClickOnElement(pointAreaDetailPage.SubscriptionTab);
+            pointAreaDetailPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(pointAreaDetailPage.SubscriptionIFrame);
+            pointAreaDetailPage.VerifyColumnsDisplay(columnNames);
+
+            //Navigate to service unit form URL: service-units/229980 -> Click on subscriptions tab
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/service-units/229980");
+            ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
+            serviceUnitDetailPage.WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.ClickOnElement(serviceUnitDetailPage.SubscriptionTab);
+            serviceUnitDetailPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(serviceUnitDetailPage.SubscriptionTabIframe);
+            serviceUnitDetailPage.VerifyColumnsDisplay(columnNames);
+
+            //Navigate to service task form URL: service-tasks/120785 -> Click on subscriptions tab
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/service-tasks/120785");
+            ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
+            servicesTaskPage.WaitForLoadingIconToDisappear();
+            servicesTaskPage.ClickOnElement(servicesTaskPage.SubscriptionTab);
+            servicesTaskPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(servicesTaskPage.SubscriptionIFrame);
+            servicesTaskPage.VerifyColumnsDisplay(columnNames);
+
+            //Navigate to task form URL: tasks/17075 -> Click on subscriptions tab
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/tasks/17075");
+            DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.ClickOnElement(detailTaskPage.SubscriptionTab);
+            detailTaskPage.WaitForLoadingIconToDisappear()
+                .SwitchToFrame(detailTaskPage.SubscriptionIFrame);
+            detailTaskPage.VerifyColumnsDisplay(columnNames);
+        }
+
+        [Category("ServiceTaskSchedule")]
+        [Category("Huong")]
+        [Test()]
+        public void TC_202_Cannot_duplicate_ServiceTaskSchedule()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/service-tasks/120842");
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser59.UserName, AutoUser59.Password);
+            ServicesTaskPage servicesTaskPage = PageFactoryManager.Get<ServicesTaskPage>();
+            servicesTaskPage.WaitForLoadingIconToDisappear();
+            servicesTaskPage.ClickOnScheduleTask()
+                .WaitForLoadingIconToDisappear();
+            servicesTaskPage.ClickDuplicateButton(0);
+            servicesTaskPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            ServiceTaskSchedulePage serviceTaskSchedulePage = PageFactoryManager.Get<ServiceTaskSchedulePage>();
+            string startDate = DateTime.Now.ToString("dd/MM/yyyy");
+            string endDate = "01/01/2050";
+            string round = "REF1-AM:Monday";
+            serviceTaskSchedulePage.VerifyInputValue(serviceTaskSchedulePage.StartDateInput, startDate)
+                .VerifyInputValue(serviceTaskSchedulePage.EndDateInput, endDate)
+                .SelectTextFromDropDown(serviceTaskSchedulePage.RoundSelect, round)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            string serviceTaskScheduleId = serviceTaskSchedulePage.GetServiceTaskScheduleID(WebUrl.MainPageUrl + "web/service-task-schedules/");
+            serviceTaskSchedulePage
+                .ClickCloseBtn()
+                .SwitchToFirstWindow();
+            servicesTaskPage.WaitForLoadingIconToDisappear();
+            servicesTaskPage.VerifyNewSchedule(startDate, endDate, "REF1-AM Monday");
+
+            CommonFinder finder = new CommonFinder(DbContext);
+            var serviceTaskSchedule = finder.GetServiceTaskScheduleBySTSID(serviceTaskScheduleId).FirstOrDefault();
+            //Click on the hyperlink in the header
+            servicesTaskPage.ClickOnElement(servicesTaskPage.OpenServiceUnitLink);
+            servicesTaskPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            ServiceUnitDetailPage serviceUnitDetailPage = PageFactoryManager.Get<ServiceUnitDetailPage>();
+            serviceUnitDetailPage.WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.ClickOnElement(serviceUnitDetailPage.ServiceTaskScheduleTab);
+            serviceUnitDetailPage.WaitForLoadingIconToDisappear();
+            serviceUnitDetailPage.VerifyServiceTaskScheduleId(serviceTaskSchedule.servicetaskID.ToString());
+        }
     }
 }

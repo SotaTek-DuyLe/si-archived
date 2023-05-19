@@ -1,8 +1,7 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Attributes;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
 {
@@ -10,6 +9,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
     {
         private readonly By resourceName = By.Id("resource");
         private readonly By resourceBtn = By.XPath("//button[@data-id='resource-type']");
+        private readonly By businessUnitDd = By.CssSelector("select[id='businessUnit']");
         private readonly By resourceType = By.Id("resource-type"); 
         private readonly By clientReference = By.Id("clientReference");
         private readonly By contract = By.Id("contract");
@@ -32,6 +32,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
         //Resource type options
         private readonly string resourceOptions = "//span[text()='{0}']";
 
+        [AllureStep]
         public ResourceDetailTab IsOnDetailTab()
         {
             WaitUtil.WaitForElementVisible(resourceName);
@@ -56,11 +57,13 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             WaitUtil.WaitForElementVisible(personalContactNum);
             return this;
         }
+        [AllureStep]
         public ResourceDetailTab InputResourceName(string name)
         {
             SendKeys(resourceName, name);
             return this;
         }
+        [AllureStep]
         public ResourceDetailTab SelectResourceType(string type)
         {
             ClickOnElement(resourceBtn);
@@ -70,26 +73,38 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
             //SelectTextFromDropDown(resourceType, type);
             return this;
         }
+        [AllureStep]
+        public ResourceDetailTab SelectBusinessUnit(string businessUnitValue)
+        {
+            SelectTextFromDropDown(businessUnitDd, businessUnitValue);
+            return this;
+        }
+
+        [AllureStep]
         public ResourceDetailTab SelectService(string _service)
         {
             SelectTextFromDropDown(service, _service);
             return this;
         }
+        [AllureStep]
         public ResourceDetailTab TickSiteRoam()
         {
             if (!IsElementSelected(siteRoam)) ClickOnElement(siteRoam);
             return this;
         }
+        [AllureStep]
         public ResourceDetailTab UntickSiteRoam()
         {
             if (IsElementSelected(siteRoam)) ClickOnElement(siteRoam);
             return this;
         }
+        [AllureStep]
         public ResourceDetailTab TickContractRoam()
         {
             if (!IsElementSelected(contractRoam)) ClickOnElement(contractRoam);
             return this;
         }
+        [AllureStep]
         public ResourceDetailTab UntickContractRoam()
         {
             if (IsElementSelected(contractRoam)) ClickOnElement(contractRoam);

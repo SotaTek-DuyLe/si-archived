@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Allure.Attributes;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,8 @@ namespace si_automated_tests.Source.Main.Pages.Round
     public class RoundGroupDefaultResourceTab : BasePage
     {
         private readonly By syncResourceBtn = By.XPath("//button[contains(text(),'Sync Round Resources')]");
+
+        [AllureStep]
         public RoundGroupDefaultResourceTab IsOnDefaultResourceTab()
         {
             WaitUtil.WaitForElementVisible(syncResourceBtn);

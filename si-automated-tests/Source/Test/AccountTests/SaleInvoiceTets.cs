@@ -26,11 +26,12 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .Login(AutoUser24.UserName, AutoUser24.Password)
                 .IsOnHomePage(AutoUser24);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Accounts")
-                .ExpandOption("North Star Commercial");
+                .ClickMainOption(MainOption.Accounts)
+                .ExpandOption(Contract.Commercial);
         }
 
         [Category("Account")]
+        [Category("Dee")]
         [Test]
         public void TC_84_Create_sales_invoice()
         {
@@ -44,14 +45,15 @@ namespace si_automated_tests.Source.Test.AccountTests
 
             PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("Sales Invoices")
-                .SwitchNewIFrame();
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClickButton("Create");
             PageFactoryManager.Get<CreateInvoicePage>()
                 .IsOnCreateInvoicePage()
                 .SearchForParty(partyName)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Sales Invoice");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<CreateInvoicePage>()
                 .VerifyNewTabsArePresent()
                 .SwitchToTab("Lines");
@@ -61,14 +63,15 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .SwitchToLastWindow();
             PageFactoryManager.Get<SaleInvoiceLinePage>()
                 .IsOnSaleInvoiceLinePage()
+                .SelectDepot(Contract.Commercial)
                 .InputInfo(lineType, site, product, priceElement, quantity, price)
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved Sales Invoice Line")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
             PageFactoryManager.Get<LinesTab>()
                 .IsOnLinesTab()
-                .VerifyLineInfo(partyName, product, product, quantity, price)
+                .VerifyLineInfo(partyName, product, product + " {AssetType.LedgerCode},", quantity, price)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
@@ -77,12 +80,15 @@ namespace si_automated_tests.Source.Test.AccountTests
                 .ClickButton("Post");
             PageFactoryManager.Get<PostConfirmationPage>()
                 .ClickConfirm()
-                .VerifyToastMessage("Success")
-                .SleepTimeInMiliseconds(1500);
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .SleepTimeInMiliseconds(2500)
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .VerifyFirstResultValue("Status", "POSTED");
         }
         [Category("Account")]
+        [Category("Dee")]
         [Test]
         public void TC_85_Create_sales_invoice_batch()
         {

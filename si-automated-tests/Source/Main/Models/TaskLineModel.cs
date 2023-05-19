@@ -3,8 +3,6 @@ namespace si_automated_tests.Source.Main.Models
 {
     public class TaskLineModel
     {
-        private string scheduleAssetQty { get; set; }
-
         public string order { get; set; }
         public string type { get; set; }
         public string assetType { get; set; }
@@ -24,29 +22,45 @@ namespace si_automated_tests.Source.Main.Models
         public string asset { get; set; }
         public string state { get; set; }
         public string resolutionCode { get; set; }
+        public string clientRef { get; set; }
 
         public TaskLineModel()
         {
         }
 
-        public TaskLineModel(string order, string type, string assetType, string scheduleAssetQty, string actualAssetQuantity, string minAssetQty, string maxAssetQty, string product, string scheduledProductQuantity, string actualProductQuantity, string minProductQty, string maxProductQty, string unit, string destinationSite, string siteProduct, string asset, string state, string resolutionCode)
+        public TaskLineModel(string order, string assetType, string minAssetQty, string scheduledAssetQty, string minProductQty, string scheduledProductQty, string destinationSite, string maxAssetQty, string actualAssetQty, string maxProductQty, string actualProductQty, string state, string siteProduct, string clientRef, string product, string unit)
+        {
+            this.order = order;
+            this.assetType = assetType;
+            this.minAssetQty = minAssetQty;
+            this.scheduledAssetQty = scheduledAssetQty;
+            this.minProductQty = minProductQty;
+            this.scheduledProductQuantity = scheduledProductQty;
+            this.destinationSite = destinationSite;
+            this.maxAssetQty = maxAssetQty;
+            this.actualAssetQuantity = actualAssetQty;
+            this.maxProductQty = maxProductQty;
+            this.actualProductQuantity = actualProductQty;
+            this.state = state;
+            this.siteProduct = siteProduct;
+            this.clientRef = clientRef;
+            this.product = product;
+            this.unit = unit;
+        }
+
+        public TaskLineModel(string order, string type, string assetType, string scheduleAssetQty, string actualAssetQuantity, string product, string scheduledProductQuantity, string actualProductQuantity, string unit, string destinationSite, string siteProduct, string state, string resolutionCode)
         {
             this.order = order;
             this.type = type;
             this.assetType = assetType;
-            this.scheduleAssetQty = scheduleAssetQty;
+            this.scheduledAssetQty = scheduleAssetQty;
             this.actualAssetQuantity = actualAssetQuantity;
-            this.minAssetQty = minAssetQty;
-            this.maxAssetQty = maxAssetQty;
             this.product = product;
             this.scheduledProductQuantity = scheduledProductQuantity;
             this.actualProductQuantity = actualProductQuantity;
-            this.minProductQty = minProductQty;
-            this.maxProductQty = maxProductQty;
             this.unit = unit;
             this.destinationSite = destinationSite;
             this.siteProduct = siteProduct;
-            this.asset = asset;
             this.state = state;
             this.resolutionCode = resolutionCode;
         }

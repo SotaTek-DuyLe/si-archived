@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NUnit.Allure.Core;
+using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages;
@@ -28,12 +29,12 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .Login(AutoUser21.UserName, AutoUser21.Password)
                 .IsOnHomePage(AutoUser21);
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
+                .ClickMainOption(MainOption.Resources)
                 .OpenOption("Default Allocation")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract("North Star Commercial")
-                .SelectBusinessUnit("North Star Commercial")
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
                 .SelectShift("AM")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
@@ -42,6 +43,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         }
 
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_67_68_create_and_approve_leave_entry_descision_false()
         {
@@ -61,15 +63,16 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnDetailTab()
                 .InputResourceName(resourceName)
                 .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.CollectionRecycling)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -84,7 +87,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .EnterDates(currentDate)
                 .EnterDetails(details)
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<LeaveEntryPage>()
                 .VerifyNewButtonsDisplayed()
                 .CloseCurrentWindow()
@@ -118,10 +121,12 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemBy("Resource", resourceName)
                 .VerifyFirstResultValue("Resource", resourceName)
                 .VerifyFirstResultValue("Verdict", "Approved");
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_69_deny_leave_entry()
         {
@@ -141,15 +146,16 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnDetailTab()
                 .InputResourceName(resourceName)
                 .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.CollectionRecycling)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -164,7 +170,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .EnterDates(currentDate)
                 .EnterDetails(details)
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<LeaveEntryPage>()
                 .VerifyNewButtonsDisplayed()
                 .CloseCurrentWindow()
@@ -174,6 +180,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemBy("Resource", resourceName)
                 .VerifyFirstResultValue("Resource", resourceName)
                 .VerifyFirstResultValue("Verdict", "Pending")
                 .OpenFirstResult()
@@ -194,10 +201,12 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemBy("Resource", resourceName)
                 .VerifyFirstResultValue("Resource", resourceName)
                 .VerifyFirstResultValue("Verdict", "Declined");
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_70_delete_leave_entry()
         {
@@ -217,15 +226,16 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnDetailTab()
                 .InputResourceName(resourceName)
                 .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.CollectionRecycling)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -240,7 +250,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .EnterDates(currentDate)
                 .EnterDetails(details)
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<LeaveEntryPage>()
                 .VerifyNewButtonsDisplayed()
                 .CloseCurrentWindow()
@@ -275,6 +285,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Verdict", "Cancelled");
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_71_create_leave_entry_decision_false()
         {
@@ -293,15 +304,16 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnDetailTab()
                 .InputResourceName(resourceName)
                 .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.CollectionRecycling)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow();
 
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -315,7 +327,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .EnterDates(currentDate)
                 .EnterDetails(details)
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
@@ -348,6 +360,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyFirstResultValue("Verdict", "Cancelled");
         }
         [Category("Resources")]
+        [Category("Dee")]
         [Test]
         public void TC_77_default_resource_count_leave_entry()
         {
@@ -370,9 +383,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnDetailTab()
                 .InputResourceName(resourceNameA)
                 .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.CollectionRecycling)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame();
@@ -386,9 +400,10 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnDetailTab()
                 .InputResourceName(resourceNameB)
                 .SelectResourceType(resourceType)
+                .SelectBusinessUnit(BusinessUnit.CollectionRecycling)
                 .TickContractRoam()
                 .ClickSaveBtn()
-                .VerifyToastMessage("Successfully saved resource.")
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToLastWindow()
                 .SwitchNewIFrame()
@@ -398,20 +413,20 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .FilterResource("Resource", resourceNameA)
                 .VerifyFirstResultValue("Resource", resourceNameA)
-                .DragAndDropFirstResultToRound(2)
+                .DragAndDropFirstResultToRoundGroup(2)
                 .VerifyToastMessage("Default Resource Set");
 
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .FilterResource("Resource", resourceNameB)
                 .VerifyFirstResultValue("Resource", resourceNameB)
-                .DragAndDropFirstResultToRound(2)
+                .DragAndDropFirstResultToRoundGroup(2)
                 .VerifyToastMessage("Default Resource Set")
 
             //CREATE LEAVE ENTRY
                 .SwitchToDefaultContent();
             PageFactoryManager.Get<NavigationBase>()
-                .ClickMainOption("Resources")
-                .ExpandOption("North Star Commercial")
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
                 .OpenOption("Leave Entry")
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -426,7 +441,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .EnterDates(currentDate)
                 .EnterDetails(details)
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             //VERIFY
             PageFactoryManager.Get<LeaveEntryPage>()
                 .VerifyNewButtonsDisplayed()
@@ -452,7 +468,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .EnterDates(currentDate)
                 .EnterDetails(details)
                 .SaveLeaveEntry()
-                .VerifyToastMessage("Successfully saved Leave Entry");
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             //VERIFY
             PageFactoryManager.Get<LeaveEntryPage>()
                 .VerifyNewButtonsDisplayed()
@@ -466,29 +482,134 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .CloseCurrentWindow()
                 .SwitchToLastWindow();
 
+            //PageFactoryManager.Get<NavigationBase>()
+            //   .ClickMainOption(MainOption.Resources)
+            //   .OpenOption("Default Allocation")
+            //   .SwitchNewIFrame();
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .SelectContract(Contract.NSC)
+            //    .SelectBusinessUnit(Contract.NSC)
+            //    .SelectShift("AM")
+            //    .ClickGo()
+            //    .WaitForLoadingIconToDisappear()
+            //    .SleepTimeInMiliseconds(2000);
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .DeallocateResourceFromRoundGroup(2, resourceNameA)
+            //    .VerifyToastMessage("Default resource cleared")
+            //    .WaitUntilToastMessageInvisible("Default resource cleared");
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .DeallocateResourceFromRoundGroup(2, resourceNameB)
+            //    .VerifyToastMessage("Default resource cleared")
+            //    .WaitUntilToastMessageInvisible("Default resource cleared");
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .DeallocateResourceFromRoundGroup(2, resourceType)
+            //    .VerifyToastMessage("Default resource-type cleared")
+            //    .WaitUntilToastMessageInvisible("Default resource-type cleared");
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .DeallocateResourceFromRoundGroup(2, resourceType)
+            //    .VerifyToastMessage("Default resource-type cleared")
+            //    .WaitUntilToastMessageInvisible("Default resource-type cleared");
+        }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_264_Leave_Entry_Rescode()
+        {
             PageFactoryManager.Get<NavigationBase>()
-               .ClickMainOption("Resources")
-               .OpenOption("Default Allocation")
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            LeaveEntryPage leaveEntryPage = PageFactoryManager.Get<LeaveEntryPage>();
+            leaveEntryPage.WaitForLoadingIconToDisappear();
+            leaveEntryPage.ClickOnElement(leaveEntryPage.CreateLeaveEntryButton);
+            leaveEntryPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            CreateLeaveEntryPage createLeaveEntryPage = PageFactoryManager.Get<CreateLeaveEntryPage>();
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            //Verify whether when user selects a resource state in the Leave Type dropdown that has mandatoryrescode = TRUE, show the Reason field in red to denote it is a mandatory field
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.ResourceDropdown);
+            createLeaveEntryPage.SelectByDisplayValueOnUlElement(createLeaveEntryPage.OpenDropDown, "Margaret Knight (E1556)");
+            createLeaveEntryPage.SelectTextFromDropDown(createLeaveEntryPage.LeaveTypeDropdown, "Jury Service")
+                .SleepTimeInMiliseconds(200);
+            createLeaveEntryPage.VerifyElementIsMandatory(createLeaveEntryPage.ReasonDropdown, false);
+            createLeaveEntryPage.SelectTextFromDropDown(createLeaveEntryPage.LeaveTypeDropdown, "Holiday")
+                .SleepTimeInMiliseconds(200);
+            createLeaveEntryPage.VerifyElementIsMandatory(createLeaveEntryPage.ReasonDropdown, true);
+            createLeaveEntryPage.SendKeys(createLeaveEntryPage.FromDateInput, londonCurrentDate.ToString("dd/MM/yyyy"));
+            createLeaveEntryPage.WaitForLoadingIconToDisappear();
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.ToDateInput);
+            createLeaveEntryPage.WaitForLoadingIconToDisappear();
+            //Verify whether save is still enabled, and if user selects the Save button the error displays
+            createLeaveEntryPage.VerifyElementEnable(createLeaveEntryPage.SaveButton, true);
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.SaveButton);
+            createLeaveEntryPage.VerifyToastMessage("Reason is required");
+            
+        }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_267_Leave_Entry_Active_Resources()
+        {
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            LeaveEntryPage leaveEntryPage = PageFactoryManager.Get<LeaveEntryPage>();
+            leaveEntryPage.WaitForLoadingIconToDisappear();
+            //Verify whether user not able to see retired resources in the leave entry dropdown list
+            leaveEntryPage.OpenResource(false)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            CreateLeaveEntryPage createLeaveEntryPage = PageFactoryManager.Get<CreateLeaveEntryPage>();
+            createLeaveEntryPage.VerifyResourceIsDisable(true)
+                .CloseCurrentWindow()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            //Verify whether user able to view active or resources starting in future
+            leaveEntryPage.ClickOnElement(leaveEntryPage.CreateLeaveEntryButton);
+            leaveEntryPage.SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            createLeaveEntryPage.VerifyResourceIsDisable(false)
+                .ClickOnElement(createLeaveEntryPage.ResourceDropdown);
+            createLeaveEntryPage.VerifyResourceHasValue()
+                .CloseCurrentWindow()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            //Verify whether user able to view retired resources in existing records leave entry form
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Resources)
+               .ExpandOption(Contract.Commercial)
+               .OpenOption("Leave Entry")
                .SwitchNewIFrame();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract("North Star Commercial")
-                .SelectBusinessUnit("North Star Commercial")
-                .SelectShift("AM")
-                .ClickGo()
-                .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000);
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .DeallocateResourceFromRoundGroup(2, resourceNameA)
-                .VerifyToastMessage("Default resource cleared");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .DeallocateResourceFromRoundGroup(2, resourceType)
-                .VerifyToastMessage("Default resource-type cleared");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .DeallocateResourceFromRoundGroup(2, resourceNameB)
-                .VerifyToastMessage("Default resource cleared");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .DeallocateResourceFromRoundGroup(2, resourceType)
-                .VerifyToastMessage("Default resource-type cleared");
+            leaveEntryPage.WaitForLoadingIconToDisappear();
+            leaveEntryPage.VerifyRetiredResourceAreExisting();
+        }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Category("Huong_2")]
+        [Test]
+        public void TC_265_Leave_Entry_All_Resources_tab()
+        {
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            LeaveEntryPage leaveEntryPage = PageFactoryManager.Get<LeaveEntryPage>();
+            leaveEntryPage.WaitForLoadingIconToDisappear();
+            leaveEntryPage.OpenResource(0)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            CreateLeaveEntryPage createLeaveEntryPage = PageFactoryManager.Get<CreateLeaveEntryPage>();
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.AllResourceTab);
+            createLeaveEntryPage.WaitForLoadingIconToDisappear();
+            createLeaveEntryPage.ClickOnElement(createLeaveEntryPage.BUSelect);
+            createLeaveEntryPage.VerifyBUSelectValues(new List<string>() { "Select...", "Collections - Recycling", "Collections - Refuse" });
         }
     }
 }
