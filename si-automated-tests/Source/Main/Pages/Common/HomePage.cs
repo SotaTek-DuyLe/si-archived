@@ -16,6 +16,7 @@ namespace si_automated_tests.Source.Main.Pages
     {
         
         private const string CreateEvenDropdownBtn = "//button[contains(text(), 'Create Agreement')]/following-sibling::button";
+        private readonly By segementNameInput = By.CssSelector("input[id='segment-name']");
 
         //CREATE EVEN SUB MENU
         private const string PartyInCreateEvenBtn = "//button[text()='Create Agreement']/following-sibling::ul//span[text()='Party']";
@@ -204,6 +205,12 @@ namespace si_automated_tests.Source.Main.Pages
         {
             ClickOnElement(sectorDd);
             ClickOnElement(richomndCommercialOption);
+            return this;
+        }
+        [AllureStep]
+        public HomePage InputSegmentName(string segmentName)
+        {
+            SendKeys(segementNameInput, segmentName);
             return this;
         }
         [AllureStep]

@@ -247,6 +247,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .IsSearchModel()
                 .ClickAnySearchForOption(searchForSegment)
                 .ClickAndSelectRichmondCommercialSectorValue()
+                .InputSegmentName(segment)
                 .ClickOnSearchBtnInPopup()
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();

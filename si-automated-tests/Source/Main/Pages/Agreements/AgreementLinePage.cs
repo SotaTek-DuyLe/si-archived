@@ -152,10 +152,14 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements
             return this;
         }
         [AllureStep]
-        public AgreementLinePage VerifyHistoryAfterUpdatingAgreementLine(string billingRuleExp, string userUpdatedExp, string timeUpdatedExp)
+        public AgreementLinePage VerifyHistoryAfterUpdatingAgreementLine(string[] billingRuleExp, string[] billingRuleExpLabel, string userUpdatedExp, string timeUpdatedExp)
         {
             Assert.IsTrue(IsControlDisplayed(updateAgreementLineTitle));
-            Assert.AreEqual("Billing Rule: " + billingRuleExp + ".", GetElementText(billingRuleUpdated));
+            string[] updateAgreementLine = GetElementText(billingRuleUpdated).Split(Environment.NewLine);
+            for(int i = 0; i < billingRuleExpLabel.Length; i++)
+            {
+                Assert.AreEqual(billingRuleExpLabel[i] + ": " + billingRuleExp[i] + ".", updateAgreementLine[i]);
+            }
             Assert.AreEqual(userUpdatedExp, GetElementText(displayUserUpdated));
             Assert.AreEqual(timeUpdatedExp, GetElementText(timeUpdated));
             return this;
