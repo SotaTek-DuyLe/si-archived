@@ -142,6 +142,22 @@ namespace si_automated_tests.Source.Core
             SendKeysWithoutClear(by, Keys.Enter);
         }
 
+        [AllureStep]
+        public void InputCalendarDate(IWebElement webElement, string value)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                webElement.SendKeys(Keys.Command + "a");
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                webElement.SendKeys(Keys.Control + "a");
+            }
+            webElement.SendKeys(Keys.Delete);
+            webElement.SendKeys(value);
+            webElement.SendKeys(Keys.Enter);
+        }
+
         //SEND KEYS
         [AllureStep]
         public void SendKeys(IWebElement element, string value)
