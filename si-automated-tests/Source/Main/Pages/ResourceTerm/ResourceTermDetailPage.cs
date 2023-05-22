@@ -28,6 +28,43 @@ namespace si_automated_tests.Source.Main.Pages.ResourceTerm
             get => new TableElement(EntitlementTable, EntitlementRow, new List<string>() { ResourceStateCell, EntitleDaysCell, ProRataCell, StartDateCell, EndDateCell, RemoveResourceButtonCell });
         }
 
+        #region EntitleTab
+        public readonly By AddEntitleButton = By.XPath("//button[contains(@data-bind, 'addResourceTermState')]");
+
+        public int GetNewRowIdx()
+        {
+            return ResourceTermTableEle.GetRows().Count - 1;
+        }
+
+        public ResourceTermDetailPage VerifyNewRowIsDisappear(int rowIdx)
+        {
+            Assert.IsTrue(GetNewRowIdx() < rowIdx);
+            return this;
+        }
+
+        public ResourceTermDetailPage EditResourceEntitleValues(int rowIdx, string state, string days, bool proDate, string stateDate, string endDate)
+        {
+            ResourceTermTableEle.SetCellValue(rowIdx, ResourceTermTableEle.GetCellIndex(ResourceStateCell), state);
+            ResourceTermTableEle.SetCellValue(rowIdx, ResourceTermTableEle.GetCellIndex(EntitleDaysCell), days);
+            ResourceTermTableEle.SetCellValue(rowIdx, ResourceTermTableEle.GetCellIndex(ProRataCell), proDate);
+            IWebElement startDateCell = ResourceTermTableEle.GetCell(rowIdx, ResourceTermTableEle.GetCellIndex(StartDateCell));
+            IWebElement endDateCell = ResourceTermTableEle.GetCell(rowIdx, ResourceTermTableEle.GetCellIndex(EndDateCell));
+            InputCalendarDate(startDateCell, stateDate);
+            InputCalendarDate(endDateCell, endDate);
+            return this;
+        }
+
+        public ResourceTermDetailPage VerifyResourceEntitleValues(int rowIdx, string state, string days, bool proDate, string stateDate, string endDate)
+        {
+            VerifyCellValue(ResourceTermTableEle, rowIdx, ResourceTermTableEle.GetCellIndex(ResourceStateCell), state);
+            VerifyCellValue(ResourceTermTableEle, rowIdx, ResourceTermTableEle.GetCellIndex(EntitleDaysCell), days);
+            VerifyCellValue(ResourceTermTableEle, rowIdx, ResourceTermTableEle.GetCellIndex(ProRataCell), proDate);
+            VerifyCellValue(ResourceTermTableEle, rowIdx, ResourceTermTableEle.GetCellIndex(StartDateCell), stateDate);
+            VerifyCellValue(ResourceTermTableEle, rowIdx, ResourceTermTableEle.GetCellIndex(EndDateCell), endDate);
+            return this;
+        }
+        #endregion
+
         [AllureStep]
         public ResourceTermDetailPage VerifyResourceStateValue(int rowIdx, List<string> resourceStates)
         {
