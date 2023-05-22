@@ -207,7 +207,7 @@ namespace si_automated_tests.Source.Test.AccountTests
         [Category("Account")]
         [Category("Dee")]
         [Test]
-        public void TC_145_()
+        public void TC_145_Rejecting_credit_note()
         {
             string partyName = "Greggs";
             string notes = "test note" + CommonUtil.GetRandomString(5);
