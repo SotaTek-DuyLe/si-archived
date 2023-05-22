@@ -105,7 +105,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         public TaskTab VerifyFirstTaskDueDate(string expected)
         {
             IList<IWebElement> listTaskDueDate = WaitUtil.WaitForAllElementsVisible(taskDueDate);
-            Assert.IsTrue(GetElementText(listTaskDueDate[0]).Contains(expected));
+            Assert.IsTrue(GetElementText(listTaskDueDate[0]).Contains(expected), "Incorrect due date. Expected " + listTaskDueDate[0].Text + " to contain " + expected);
             return this;
         }
         [AllureStep]
