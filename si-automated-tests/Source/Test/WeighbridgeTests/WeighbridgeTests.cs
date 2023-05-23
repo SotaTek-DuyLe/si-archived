@@ -2908,6 +2908,23 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
         [Test(Description = "WB ticket issues")]
         public void TC_161_WB_ticket_issues()
         {
+            string partyName = "GeoFossils";
+            //Open the party Geo Fossils and set dormain date
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "/web/parties/30");
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
+                .ClickWBSettingTab()
+                .InputDormantDate(CommonConstants.FUTURE_END_DATE)
+                .ClickSaveBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser9);
+
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Weighbridge)
                 .ExpandOption(Contract.Commercial)
