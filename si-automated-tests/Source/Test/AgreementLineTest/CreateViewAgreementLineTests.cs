@@ -140,7 +140,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickFinish();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyServicePanelPresent()
-                .ClickSaveBtn()
+                .ClickSaveBtn(false)
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(5000);
@@ -299,7 +299,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickFinish();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyServicePanelPresent()
-                .ClickSaveBtn()
+                .ClickSaveBtn(false)
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(5000);
@@ -475,7 +475,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .ClickFinish();
             PageFactoryManager.Get<PartyAgreementPage>()
                 .VerifyServicePanelPresent()
-                .ClickSaveBtn()
+                .ClickSaveBtn(false)
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             Thread.Sleep(5000);
