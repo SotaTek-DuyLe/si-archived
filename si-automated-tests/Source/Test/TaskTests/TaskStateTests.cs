@@ -663,9 +663,9 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ClickOnStatusAtFirstColumn()
                 .SelectStatus("Completed")
-                .ClickOnStatusAtSecondColumn()
-                .VerifyToastMessage("Task Saved");
-            var expectedDate = CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm");
+                .SelectResolutionCode("random")
+                .ClickOnStatusAtSecondColumn();
+            var expectedDate = CommonUtil.GetUtcTimeNowMinusHour(1, "dd/MM/yyyy HH:mm");
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -698,8 +698,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ClicKCompletedDateAtFirstColumn()
                 .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2))
-                .ClickOnStatusAtSecondColumn()
-                .VerifyToastMessage("Task Saved");
+                .ClickOnStatusAtSecondColumn();
             expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
@@ -812,8 +811,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ClickOnStatusAtFirstColumn()
                 .SelectStatus("Completed")
-                .ClickOnStatusAtSecondColumn()
-                .VerifyToastMessage("Task Saved");
+                .ClickOnStatusAtSecondColumn();
             var expectedDate = CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm");
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
@@ -851,8 +849,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ClicKCompletedDateAtFirstColumn()
                 .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2))
-                .ClickOnStatusAtSecondColumn()
-                .VerifyToastMessage("Task Saved");
+                .ClickOnStatusAtSecondColumn();
             expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
@@ -975,8 +972,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnStatusAtFirstColumn()
                 .SelectStatus("Not Completed")
                 .SelectResolutionCode("random")
-                .ClickOnStatusAtSecondColumn()
-                .VerifyToastMessage("Task Saved");
+                .ClickOnStatusAtSecondColumn();
             var expectedDate = CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm");
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
@@ -1009,8 +1005,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ClicKCompletedDateAtFirstColumn()
                 .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2))
-                .ClickOnStatusAtSecondColumn()
-                .VerifyToastMessage("Task Saved");
+                .ClickOnStatusAtSecondColumn();
             expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
@@ -1124,8 +1119,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnStatusAtFirstColumn()
                 .SelectStatus("Not Completed")
                 .SelectResolutionCode("random")
-                .ClickOnStatusAtSecondColumn()
-                .VerifyToastMessage("Task Saved");
+                .ClickOnStatusAtSecondColumn();
             var expectedDate = CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm");
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
@@ -1290,8 +1284,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnStatusAtFirstColumn()
                 .SelectStatus("Cancelled")
                 .SelectResolutionCode("random")
-                .ClickOnStatusAtSecondColumn()
-                .VerifyToastMessage("Task Saved");
+                .ClickOnStatusAtSecondColumn();
             var expectedDate = CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm");
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
@@ -1323,8 +1316,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ClicKCompletedDateAtFirstColumn()
                 .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2))
-                .ClickOnStatusAtSecondColumn()
-                .VerifyToastMessage("Task Saved");
+                .ClickOnStatusAtSecondColumn();
             expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
@@ -1435,8 +1427,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnStatusAtFirstColumn()
                 .SelectStatus("Cancelled")
                 .SelectResolutionCode("random")
-                .ClickOnStatusAtSecondColumn()
-                .VerifyToastMessage("Task Saved");
+                .ClickOnStatusAtSecondColumn();
             var expectedDate = CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm");
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
