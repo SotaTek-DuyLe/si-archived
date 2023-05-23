@@ -3709,8 +3709,12 @@ namespace si_automated_tests.Source.Test
             //Step line 14: Party/tasks tab
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl + "web/parties/1231");
+
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
+                .ClickTabDropDown()
                 .ClickTasksTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskTab>()
