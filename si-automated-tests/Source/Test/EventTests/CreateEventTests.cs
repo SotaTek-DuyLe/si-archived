@@ -78,7 +78,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForPointAddressPageDisplayed()
                 .FilterPointAddressWithId(pointAddressId)
                 .DoubleClickFirstPointAddressRow()
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             //Get all point history in point history tab
             PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
@@ -112,7 +112,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickFirstEventInFirstServiceRow()
                 .VerifyEventTypeWhenClickEventBtn(FilterCommonServiceForPointWithServiceId)
                 .ClickAnyEventOption(eventOption)
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             EventDetailPage eventDetailPage = PageFactoryManager.Get<EventDetailPage>();
             eventDetailPage
@@ -240,7 +240,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForPointAddressPageDisplayed()
                 .FilterPointAddressWithId(pointAddressId)
                 .DoubleClickFirstPointAddressRow()
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             //Get all point history in point history tab
             PageFactoryManager.Get<PointAddressDetailPage>()
@@ -274,7 +274,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetAllEventTypeInDd();
             PageFactoryManager.Get<PointAddressDetailPage>()
                 .ClickAnyEventOption(allEventTypes[0])
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
 
             //Event detail
