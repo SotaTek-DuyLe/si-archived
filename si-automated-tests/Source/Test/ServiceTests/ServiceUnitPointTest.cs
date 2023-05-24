@@ -110,7 +110,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             var pointAddressListPage = PageFactoryManager.Get<PointAddressListingPage>();
-            pointAddressListPage.DoubleClickPointAddress("2")
+            string pointAddressId = "4";
+            pointAddressListPage.DoubleClickPointAddress(pointAddressId)
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
@@ -151,13 +152,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPage.SendKeys(serviceUnitPage.ClientRefInput, "1478");
             serviceUnitPage.ClickOnElement(serviceUnitPage.SearchButton);
             serviceUnitPage.WaitForLoadingIconToDisappear();
-            serviceUnitPage.VerifySearchResult("2")
-                .CheckSearchResult("2");
+            serviceUnitPage.VerifySearchResult(pointAddressId)
+                .CheckSearchResult(pointAddressId);
             serviceUnitPage.ClickOnElement(serviceUnitPage.AddServiceUnitButton);
             serviceUnitPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             serviceUnitPage.WaitForLoadingIconToDisappear();
-            serviceUnitPage.VerifyPointIdOnServiceUnitPointList("2");
+            serviceUnitPage.VerifyPointIdOnServiceUnitPointList(pointAddressId);
         }
 
         [Category("ServiceUnitPoint")]
