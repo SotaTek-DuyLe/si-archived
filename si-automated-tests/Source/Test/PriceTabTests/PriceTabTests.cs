@@ -124,13 +124,13 @@ namespace si_automated_tests.Source.Test.PriceTabTests
             pricesTab.WaitForLoadingIconToDisappear();
             pricesTab.SwitchToFrame(pricesTab.PricesIFrame);
             pricesTab.ClickAddNewPrice(0)
-                .EditPriceRecord(0, "RMC Collection", "10", "0")
+                .EditPriceRecord(0, "RMC Collection", "10", "1")
                 .ClickOnElement(pricesTab.ApplyChangesButton);
             pricesTab.WaitForLoadingIconToDisappear()
                 .VerifyToastMessage("PriceBook Saved.")
                 .ClickRefreshBtn();
             pricesTab.WaitForLoadingIconToDisappear();
-            pricesTab.VerifyPriceRecord("RMC Collection", "10", "0");
+            pricesTab.VerifyPriceRecord("RMC Collection", "10", "1");
         }
     }
 }
