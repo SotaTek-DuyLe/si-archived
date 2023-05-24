@@ -487,7 +487,7 @@ namespace si_automated_tests.Source.Test.RiskTests
             serviceUnitPage.WaitForLoadingIconToDisappear();
             serviceUnitPage.ClickOnElement(serviceUnitPage.RiskTab);
             serviceUnitPage.WaitForLoadingIconToDisappear();
-            serviceUnitPage.SwitchToFrame(serviceUnitPage.RiskIframe);
+            serviceUnitPage.SwitchToFrame(By.XPath("//iframe[@id='risks-tab']"));
             //Click on bulk create
             serviceUnitPage.WaitForLoadingIconToDisappear();
             serviceUnitPage.ClickOnElement(serviceUnitPage.BulkCreateButton);
@@ -518,7 +518,7 @@ namespace si_automated_tests.Source.Test.RiskTests
                 .SwitchToFirstWindow();
             riskRegisterPage.ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
-            riskRegisterPage.SwitchToFrame(serviceUnitPage.RiskIframe);
+            riskRegisterPage.SwitchToFrame(By.XPath("//iframe[@id='risks-tab']"));
             foreach (var item in riskNames)
             {
                 serviceUnitPage.VerifyRiskSelect(item, "20/08/2022 00:00", "31/01/2040 00:00");
