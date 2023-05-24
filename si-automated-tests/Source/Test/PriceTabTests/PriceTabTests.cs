@@ -54,13 +54,13 @@ namespace si_automated_tests.Source.Test.PriceTabTests
             PricesTab pricesTab = PageFactoryManager.Get<PricesTab>();
             detailPartyPage.SwitchToFrame(pricesTab.PricesIFrame);
             pricesTab.ClickAddNewPrice(0)
-                .EditPriceRecord(0, "Parties Collection", "10", "0")
+                .EditPriceRecord(0, "Parties Collection", "10", "2")
                 .ClickOnElement(pricesTab.ApplyChangesButton);
             pricesTab.WaitForLoadingIconToDisappear()
                 .VerifyToastMessage("PriceBook Saved.")
                 .ClickRefreshBtn();
             pricesTab.WaitForLoadingIconToDisappear();
-            pricesTab.VerifyPriceRecord(0, "Parties Collection", "10", "0");
+            pricesTab.VerifyPriceRecord(0, "Parties Collection", "10", "2");
         }
 
         [Category("Create price record")]
@@ -91,13 +91,13 @@ namespace si_automated_tests.Source.Test.PriceTabTests
             partyAgreementPage.WaitForLoadingIconToDisappear();
             PricesTab pricesTab = PageFactoryManager.Get<PricesTab>();
             partyAgreementPage.SwitchToFrame(pricesTab.PricesIFrame);
-            pricesTab.EditPriceRecord(0, "Selco Ham Re1", "13", "0")
+            pricesTab.EditPriceRecord(0, "Selco Ham Re1", "13", "1")
                 .ClickOnElement(pricesTab.ApplyChangesButton);
             pricesTab.WaitForLoadingIconToDisappear()
                 .VerifyToastMessage("PriceBook Saved.")
                 .ClickRefreshBtn();
             pricesTab.WaitForLoadingIconToDisappear();
-            pricesTab.VerifyPriceRecord(3, "Selco Ham Re1", "13", "0");
+            pricesTab.VerifyPriceRecord(3, "Selco Ham Re1", "13", "1");
         }
 
         [Category("Create price record")]
