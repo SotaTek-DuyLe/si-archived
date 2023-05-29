@@ -41,7 +41,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 allocatedResources.Add(new AllocatedResourceModel()
                 {
                     Type = cells[0],
-                    Resource = cells[1],
+                    Resource = cells[2],
                 });
             }
             return allocatedResources;
