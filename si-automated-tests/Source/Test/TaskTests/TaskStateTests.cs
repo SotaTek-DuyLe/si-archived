@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -615,5 +616,85 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnStateDdAndVerify(orderStatus);
         }
 
+        [Category("Task state")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_314_Costs_on_Task()
+        {
+            //Verify that Costs tab is added to Task form
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            //Login
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser56.UserName, AutoUser56.Password)
+                .IsOnHomePage(AutoUser56);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<TasksListingPage>()
+                .WaitForTaskListinPageDisplayed()
+                .ClickOnFirstRecord()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
+            detailTaskPage.ClickOnElement(detailTaskPage.CostTab);
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.VerifyCostLineColumnsDisplayCorrectly();
+
+            //Verify that costs display correctly in the Costs grid on Task form: Task and Task Line cost line
+            //2)In Details tab, set Subcontract = True; select Subcontract Reason, select Subcontractor = North Star Environmental Services > Save task.
+            detailTaskPage.ClickCloseBtn()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<TasksListingPage>()
+                .FilterTaskState("contains any of", "In Progress")
+                .ClickOnFirstRecord()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            detailTaskPage.ClickOnDetailTab();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.ClickOnElement(detailTaskPage.SubContractCheckbox);
+            detailTaskPage.SelectTextFromDropDown(detailTaskPage.SubContractReasonSelect, "No Capacity");
+            detailTaskPage.ClickOnElement(detailTaskPage.SubContractorButton);
+            detailTaskPage.SleepTimeInMiliseconds(200);
+            detailTaskPage.SelectByDisplayValueOnUlElement(detailTaskPage.SubContractorUl, "North Star Environmental Services");
+            detailTaskPage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            detailTaskPage.VerifySelectedValue(detailTaskPage.taskStateDd, "Unallocated");
+            string taskId = detailTaskPage.GetCurrentUrl().Split('/').LastOrDefault();
+            detailTaskPage.SwitchToFirstWindow()
+                .SwitchNewIFrame();
+
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Applications)
+               .OpenOption("Subcontracted Tasks")
+               .SwitchNewIFrame()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SubcontractedTasksListPage>()
+                .IsSubcontractedTasksLoaded();
+            PageFactoryManager.Get<SubcontractedTasksListPage>()
+                .FilterTaskId("contains any of", taskId)
+                .VerifyTaskExists();
+
+            //3) In  details tab of this task, set Task status=Completed. Save task.
+            detailTaskPage.SwitchToChildWindow(2);
+            detailTaskPage.ClickOnDetailTab();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.SelectTextFromDropDown(detailTaskPage.taskStateDd, "Completed");
+            detailTaskPage.ClickSaveBtn()
+               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+            Assert.IsTrue(commonFinder.GetCostLineDBModels(taskId).Count != 0);
+
+            detailTaskPage.ClickOnElement(detailTaskPage.CostTab);
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.VerifyCostLinesExist();
+        }
     }
 }
