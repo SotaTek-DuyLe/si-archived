@@ -193,7 +193,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             roundGroupPage.VerifyRowDetailIsVisible(newRow, relTypeIdx);
             int countOpt = PageFactoryManager.Get<RoundGroupPage>().GetResourceOptionCount(newRow, relTypeIdx);
             Random rnd = new Random();
-            int index = rnd.Next(0, countOpt);
+            int index = rnd.Next(1, countOpt);
             PageFactoryManager.Get<RoundGroupPage>()
                 .SelectResourceType(newRow, relTypeIdx, index)
                 .ClickHasSchedule(newRow, relTypeIdx)
