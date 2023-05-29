@@ -269,6 +269,7 @@ namespace si_automated_tests.Source.Core
         public void ClickToElementByAction(string xpath)
         {
             IWebElement element = this.driver.FindElement(By.XPath(xpath));
+            this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
             this.javascriptExecutor.ExecuteScript("arguments[0].scrollIntoViewIfNeeded(true);", new Object[] { element });
             Actions actions = new Actions(driver);
             WaitUtil.WaitForElementVisible(xpath);
