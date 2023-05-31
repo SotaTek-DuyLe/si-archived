@@ -1424,6 +1424,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .FilterResource("Resource", substitutionName)
                 .DragAndDropFirstResultToResourceInRound(resourceName)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifyAllocatedResourceName(substitutionName);
         }
 
