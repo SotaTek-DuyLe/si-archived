@@ -1061,6 +1061,8 @@ namespace si_automated_tests.Source.Core
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='ui-widget-overlay shield' and contains(@data-bind,'shield: $root.isLoading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='ui-widget-overlay shield' and contains(@data-bind,'shield: loading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//img[@src='images/ajax-loader.gif']");
+                WaitUtil.WaitForAllElementsInvisible60("//div[@id='resources-loading-shield']");
+                WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'shield: gridIsLoading')]");
                 WaitUtil.WaitForPageLoaded();
             }
             catch (WebDriverTimeoutException)
@@ -1099,10 +1101,13 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         [AllureStep]
-        public BasePage ClickSaveBtn()
+        public BasePage ClickSaveBtn(bool waitForLoadingIconDisappear = true)
         {
             ClickOnElement(saveBtn);
-            WaitForLoadingIconToDisappear();
+            if (waitForLoadingIconDisappear)
+            {
+                WaitForLoadingIconToDisappear();
+            }
             return this;
         }
 

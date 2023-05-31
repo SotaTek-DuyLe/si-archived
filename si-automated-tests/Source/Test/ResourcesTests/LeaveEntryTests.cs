@@ -260,6 +260,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemBy("Resource", resourceName)
                 .VerifyFirstResultValue("Resource", resourceName)
                 .VerifyFirstResultValue("Verdict", "Pending")
                 .OpenFirstResult()
@@ -281,6 +282,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemBy("Resource", resourceName)
                 .VerifyFirstResultValue("Resource", resourceName)
                 .VerifyFirstResultValue("Verdict", "Cancelled");
         }
@@ -335,6 +337,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemBy("Resource", resourceName)
                 .VerifyFirstResultValue("Resource", resourceName)
                 .VerifyFirstResultValue("Verdict", "N/A")
                 .OpenFirstResult()
@@ -356,6 +359,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemBy("Resource", resourceName)
                 .VerifyFirstResultValue("Resource", resourceName)
                 .VerifyFirstResultValue("Verdict", "Cancelled");
         }
