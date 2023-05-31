@@ -172,6 +172,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             partyAgreementPage.VerifyAgreementStatus("On Stop");
 
             //Navigate to Tasks tab on Agreement
+            partyAgreementPage.WaitForLoadingIconToDisappear();
             TaskTab taskTab = partyAgreementPage.OpenTaskTab();
             taskTab.VerifyOnStopTaskState();
 
@@ -216,6 +217,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
 
             //Verify that it's not possible to take individual agreement OFF STOP if its Party is ON STOP
+            partyAgreementPage.WaitForLoadingIconToDisappear();
             partyAgreementPage.ClickOnElement(partyAgreementPage.PartyTitle);
             partyAgreementPage.SwitchToChildWindow(2);
             partyCommonPage.WaitForLoadingIconToDisappear();
@@ -229,6 +231,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             agreementTab.VerifyStatus(0, "On Stop");
 
             //Open On Stop Agreement>Click 'Off Stop' button
+            partyAgreementPage.WaitForLoadingIconToDisappear();
             agreementTab.OpenFirstAgreement()
                 .SwitchToChildWindow(3);
 
@@ -253,12 +256,14 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             partyCommonPage.VerifyElementText(partyCommonPage.PartyStatus, "On Stop");
 
             //Click 'No' 
+            partyCommonPage.WaitForLoadingIconToDisappear();
             partyCommonPage.ClickOnElement(partyCommonPage.OffStopButton);
             partyCommonPage.VerifyElementVisibility(partyCommonPage.OffStopTitle, true);
             partyCommonPage.ClickOnElement(partyCommonPage.NoButton);
             partyCommonPage.VerifyElementText(partyCommonPage.PartyStatus, "On Stop");
 
             //Click 'Yes'
+            partyCommonPage.WaitForLoadingIconToDisappear();
             partyCommonPage.ClickOnElement(partyCommonPage.OffStopButton);
             partyCommonPage.VerifyElementVisibility(partyCommonPage.OffStopTitle, true);
             partyCommonPage.ClickOnElement(partyCommonPage.YesButton);

@@ -451,5 +451,12 @@ namespace si_automated_tests.Source.Main.Finders
                             where serviceunitID = " + serviceUnitID + "; ";
             return FindList<ServiceAssetTypeDBModel>(query);
         }
+
+        [AllureStep]
+        public List<CostLineDBModel> GetCostLineDBModels(string taskID)
+        {
+            string query = "select * from costlines WHERE echotypeid=177 and echoID=" + taskID + ";";
+            return FindList<CostLineDBModel>(query);
+        }
     }
 }

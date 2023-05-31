@@ -146,8 +146,9 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             masterRoundManagementPage.ClickRefreshBtn();
             masterRoundManagementPage.WaitForLoadingIconToDisappear();
             //Scroll right
-            masterRoundManagementPage.ScrollToSubcontractHeader()
-                .VerifyFirstAndSecondConfirmedTask("No Service");
+            masterRoundManagementPage.ScrollToSubcontractHeader();
+            masterRoundManagementPage.WaitForLoadingIconToDisappear();
+            masterRoundManagementPage.VerifyFirstAndSecondConfirmedTask("No Service");
             //Navigate to task confirmation screen->Filter the same contract, service and round
             TaskConfirmationPage taskConfirmationPage = PageFactoryManager.Get<TaskConfirmationPage>();
             PageFactoryManager.Get<NavigationBase>()
@@ -179,6 +180,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskConfirmationPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.MaximumWindow();
             taskConfirmationPage.VerifyReallocatedTask("No Service");
 
             //Select the 2 service tasks in the grid -> Update the from filter -> Go 
