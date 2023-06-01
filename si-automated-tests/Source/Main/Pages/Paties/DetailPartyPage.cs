@@ -251,9 +251,19 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public TaskTab ClickTasksTab()
         {
-            ClickOnElement(taskTab);
+            if (!IsControlDisplayedNotThrowEx(taskTab))
+            {
+                ClickTabDropDown();
+                ClickOnElement(taskTab);
+            }
+            else
+            {
+                ClickOnElement(taskTab);
+            }
             return new TaskTab();
         }
+
+
         [AllureStep]
         public DetailPartyPage ClickSuspensionTab()
         {
