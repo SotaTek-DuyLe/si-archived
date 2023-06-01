@@ -222,9 +222,9 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         {
             SendKeys(vehicleReg, vehicleValue);
             ClickOnElement(anyOption, vehicleValue);
-            //WaitForLoadingIconToDisappear();
-            //IsGreylistCodeModel(vehicleValue);
-            //ClickOnElement(By.XPath("//button[text()='OK']"));
+            WaitForLoadingIconToDisappear();
+            IsGreylistCodeModel(vehicleValue);
+            ClickOnElement(By.XPath("//button[text()='OK']"));
             return this;
         }
         [AllureStep]

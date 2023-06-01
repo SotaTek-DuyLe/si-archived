@@ -27,6 +27,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
     {
         private string inspectionIdCompleteType2;
         private string inspectionIdCancelledType2;
+        private string parialStatus = "Partial";
 
         //Need to confirm
         [Category("UpdateInspection"), Order(1)]
@@ -96,7 +97,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
-               .VerifyStateInspection("Unallocated")
+               .VerifyStateInspection(parialStatus)
                .InputNote(noteUpdate)
                .ClickSaveBtn()
                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
@@ -216,7 +217,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
-               .VerifyStateInspection("Unallocated")
+               .VerifyStateInspection(parialStatus)
                .ClickOnDataTab()
                .WaitForLoadingIconToDisappear();
             string noteInDataTab = "NoteDataTab" + CommonUtil.GetRandomString(5);
@@ -396,7 +397,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             detailInspectionPage
-                .VerifyStateInspection("Unallocated")
+                .VerifyStateInspection(parialStatus)
                 .ClickCompleteBtn()
                 .VerifyDisplayToastMessage(MessageRequiredFieldConstants.FieldStreetGradeRequiredMessage);
             //line 46
@@ -498,7 +499,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             DetailInspectionPage detailInspectionPage = PageFactoryManager.Get<DetailInspectionPage>();
             detailInspectionPage
                 .WaitForInspectionDetailDisplayed(inspectionTypeValue)
-                .VerifyStateInspection("Unallocated")
+                .VerifyStateInspection(parialStatus)
                 .ClickOnDataTab()
                 .WaitForLoadingIconToDisappear();
             string noteDataTab = "Note Data tab" + CommonUtil.GetRandomString(5);
@@ -610,7 +611,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             DetailInspectionPage detailInspectionPage = PageFactoryManager.Get<DetailInspectionPage>();
             detailInspectionPage
                 .WaitForInspectionDetailDisplayed(inspectionTypeValue)
-                .VerifyStateInspection("Unallocated")
+                .VerifyStateInspection(parialStatus)
                 .ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             inspectionIdCancelledType2 = detailInspectionPage
@@ -716,7 +717,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
             DetailInspectionPage detailInspectionPage = PageFactoryManager.Get<DetailInspectionPage>();
             detailInspectionPage
                 .WaitForInspectionDetailDisplayed(inspectionTypeValue)
-                .VerifyStateInspection("Unallocated")
+                .VerifyStateInspection(parialStatus)
                 .ClickOnDetailTab()
                 .WaitForLoadingIconToDisappear();
             //Get inspectionId
@@ -725,7 +726,7 @@ namespace si_automated_tests.Source.Test.InspectionTests
                 .Replace(WebUrl.MainPageUrl + "web/inspections/", "");
             string validToValue = CommonUtil.GetUtcTimeNowMinusHour(-2, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
             detailInspectionPage
-               .VerifyStateInspection("Unallocated")
+               .VerifyStateInspection(parialStatus)
                .InputValidTo(validToValue)
                .ClickSaveBtn()
                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.FieldStreetGradeRequiredMessage);

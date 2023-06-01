@@ -57,11 +57,12 @@ namespace si_automated_tests.Source.Test.SiteServiceTests
             PageFactoryManager.Get<AgreementLinePage>()
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
-
+            string[] billingRuleTitleExp = { "Billing Rule", "Notes", "Photo Required" };
+            string[] billingRuleExp = { billingOption, "", "Unticked" };
             PageFactoryManager.Get<AgreementLinePage>()
                 //Line 10: Verify [History] tab
                 .ClickOnHistoryTab()
-                .VerifyHistoryAfterUpdatingAgreementLine(billingOption, AutoUser49.DisplayName, timeUpdatedExp);
+                .VerifyHistoryAfterUpdatingAgreementLine(billingRuleExp, billingRuleTitleExp, AutoUser49.DisplayName, timeUpdatedExp);
             //RUN QUERY CHECK
             List<AgreementLineActionDBModel> agreementLines = finder.GetAgreementLineActionById(int.Parse(agreementLineId));
             Assert.AreEqual(3, agreementLines[0].billingrule);

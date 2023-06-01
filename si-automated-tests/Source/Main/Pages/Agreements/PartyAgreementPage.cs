@@ -34,6 +34,9 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
         private readonly By statusInRed = By.XPath("//div[@title='Agreement Status' and @class='red-status']");
 
         private readonly By retireBtn = By.XPath("//button[@title='Retire']");
+        public readonly By OnStopBtn = By.XPath("//button[text()='On Stop']");
+        public readonly By OffStopBtn = By.XPath("//button[text()='Off Stop']");
+        public readonly By PartyTitle = By.XPath("//p[@title='Open Party']");
 
         public readonly By agreementTypeInput = By.Id("agreement-type");
         public readonly By startDateInput = By.Id("start-date");
@@ -83,6 +86,7 @@ namespace si_automated_tests.Source.Main.Pages.PartyAgreement
 
         //Agreement Tab locator
         private readonly By agreementTabBtn = By.XPath("//a[@aria-controls='agreements-tab']");
+        
         private string agreementWithDate = "//div[text()='{0}']";
 
         //Retire Popup

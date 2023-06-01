@@ -22,6 +22,8 @@ namespace si_automated_tests.Source.Main.DBModels
         public int tasklinestateID { get; set; }
         public int resolutioncodeID { get; set; }
         public string tasklinestate { get; set; }
+        public DateTime completeddate { get; set; }
+        public int autoconfirmed { get; set; }
 
         public TaskLineDBModel()
         {

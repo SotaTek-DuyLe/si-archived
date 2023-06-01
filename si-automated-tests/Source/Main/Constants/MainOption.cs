@@ -15,7 +15,7 @@
         //ACCOUNT
         public static readonly string Accounts = "Accounts";
         public static readonly string SalesInvoiceBatches = "Sales Invoice Batches";
-        public static readonly string SalesInvoice = "Sales Invoice";
+        public static readonly string SalesInvoice = "Sales Invoices";
         public static readonly string ServiceStatus = "Service Status";
 
         //PARTIES

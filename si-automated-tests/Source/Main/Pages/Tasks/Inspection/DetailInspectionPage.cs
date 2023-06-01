@@ -170,11 +170,11 @@ namespace si_automated_tests.Source.Main.Pages.Tasks.Inspection
             return this;
         }
         [AllureStep]
-        public DetailInspectionPage ClickServiceUnitLinkAndVerify(string address, string serviceUnitId)
+        public DetailInspectionPage ClickServiceUnitLinkAndVerify(string address, string serviceUnitId, int numberChildWindow)
         {
             ClickOnElement(inspectionAddress, address);
             //Verify
-            SwitchToChildWindow(4);
+            SwitchToChildWindow(numberChildWindow);
             WaitUtil.WaitForElementVisible("//span[text()='Service Unit']");
             string currentUrl = GetCurrentUrl();
             Assert.AreEqual(currentUrl, WebUrl.MainPageUrl + "web/service-units/" + serviceUnitId);

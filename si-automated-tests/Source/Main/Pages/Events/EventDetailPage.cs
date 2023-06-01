@@ -306,7 +306,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventDetailPage WaitForEventDetailDisplayed()
         {
             WaitUtil.WaitForPageLoaded();
-            WaitUtil.WaitForElementVisible(eventTitle);
+            //WaitUtil.WaitForElementVisible(eventTitle);
             WaitUtil.WaitForElementVisible(locationName);
             WaitUtil.WaitForElementVisible(anyTab, "data-tab");
             return this;

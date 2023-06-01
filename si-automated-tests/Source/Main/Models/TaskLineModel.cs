@@ -28,7 +28,7 @@ namespace si_automated_tests.Source.Main.Models
         {
         }
 
-        public TaskLineModel(string order, string assetType, string minAssetQty, string scheduledAssetQty, string minProductQty, string scheduledProductQty, string destinationSite, string maxAssetQty, string actualAssetQty, string maxProductQty, string actualProductQty, string state, string siteProduct, string clientRef, string product, string unit)
+        public TaskLineModel(string order, string assetType, string minAssetQty, string scheduledAssetQty, string minProductQty, string scheduledProductQty, string destinationSite, string maxAssetQty, string actualAssetQty, string maxProductQty, string actualProductQty, string state, string siteProduct, string clientRef, string product, string unit, string resolutionCode)
         {
             this.order = order;
             this.assetType = assetType;
@@ -46,6 +46,7 @@ namespace si_automated_tests.Source.Main.Models
             this.clientRef = clientRef;
             this.product = product;
             this.unit = unit;
+            this.resolutionCode = resolutionCode;
         }
 
         public TaskLineModel(string order, string type, string assetType, string scheduleAssetQty, string actualAssetQuantity, string product, string scheduledProductQuantity, string actualProductQuantity, string unit, string destinationSite, string siteProduct, string state, string resolutionCode)

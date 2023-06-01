@@ -14,6 +14,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By titleTask = By.XPath("//h4[text()='Task']");
         private readonly By titleTaskDetail = By.XPath("//h4[text()='Task Lines']");
         private readonly By hyperLinkTask = By.XPath("//h4[text()='Task']/following-sibling::span/a");
+        private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
 
         //DETAIL TAB
         private readonly By orderValue = By.CssSelector("input#order");
@@ -45,11 +46,11 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         //HISTORY TAB
         private readonly By historyTab = By.CssSelector("a[aria-controls='history-tab']");
         private readonly By actionCreateTitle = By.XPath("(//strong[text()='Action : ']/following-sibling::span[text()='Create'])[1]");
-        private readonly By actionUpdateTitle = By.XPath("(//strong[text()='Action : ']/following-sibling::span[text()='Update'])[1]");
+        private readonly string actionUpdateTitle = "(//strong[text()='Action : ']/following-sibling::span[text()='Update'])[{0}]";
         private readonly By actionCreateUser = By.XPath("//span[text()='Create']/parent::div/following-sibling::div//strong[text()='User : ']/following-sibling::span");
-        private readonly By actionUpdateUser = By.XPath("//span[text()='Update']/parent::div/following-sibling::div//strong[text()='User : ']/following-sibling::span")
+        private readonly string actionUpdateUser = "(//span[text()='Update']/parent::div/following-sibling::div//strong[text()='User : ']/following-sibling::span)[{0}]";
         private readonly By actionCreateContent = By.XPath("//span[text()='Create']/parent::div/parent::div/following-sibling::div/div");
-        private readonly By actionUpdateContent = By.XPath("//span[text()='Update']/parent::div/parent::div/following-sibling::div/div");
+        private readonly string actionUpdateContent = "(//span[text()='Update']/parent::div/parent::div/following-sibling::div/div)[{0}]";
         private readonly By actionCreateDate = By.XPath("//span[text()='Create']/parent::div/following-sibling::div//strong[text()='Date : ']/following-sibling::span");
         private readonly By actionUpdateDate = By.XPath("//span[text()='Update']/parent::div/following-sibling::div//strong[text()='Date : ']/following-sibling::span");
 
@@ -58,12 +59,36 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly string destinationOption = "//select[@id='destinationSite.id']/option[text()='{0}']";
         private readonly string stateOption = "//select[@id='state']/option[text()='{0}']";
         private readonly string siteProductOption = "//select[@id='siteProduct.id']/option[text()='{0}']";
+        private readonly string resolutionCodeOption = "//select[@id='resolution-code']/option[text()='{0}']";
 
         [AllureStep]
         public DetailTaskLinePage WaitForTaskLineDetailDisplayed()
         {
             WaitUtil.WaitForElementVisible(titleTask);
             WaitUtil.WaitForElementVisible(titleTaskDetail);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskLinePage ClickOnDetailTab()
+        {
+            ClickOnElement(detailTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskLinePage ChangeState(string stateValue)
+        {
+            ClickOnElement(this.state);
+            ClickOnElement(stateOption, stateValue);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskLinePage VerifyCurrentTaskState(string currentTaskStateValue)
+        {
+            Assert.AreEqual(currentTaskStateValue, GetFirstSelectedItemInDropdown(this.state));
             return this;
         }
 
@@ -137,6 +162,15 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         [AllureStep]
+        public DetailTaskLinePage SelectResolutionCode(string resolutionCodeValue)
+        {
+            //Resolution Code
+            ClickOnElement(resolutionCodeDd);
+            ClickOnElement(resolutionCodeOption, resolutionCodeValue);
+            return this;
+        }
+
+        [AllureStep]
         public DetailTaskLinePage VerifyTaskLineInfo(TaskLineModel taskLineModel, TaskLineDBModel taskLineDBModel)
         {
             Assert.AreEqual(taskLineDBModel.scheduledassetquantity.ToString(), taskLineModel.scheduledAssetQty);
@@ -190,13 +224,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         [AllureStep]
-        public DetailTaskLinePage VerifyActionUpdateWithUserDisplay(string timeUpdated, string[] historyTitle, string[] valueExp, string userName)
+        public DetailTaskLinePage VerifyActionUpdateWithUserDisplay(string timeUpdated, string[] historyTitle, string[] valueExp, string userName, int row)
         {
             Assert.IsTrue(IsControlDisplayed(actionUpdateTitle));
             Assert.AreEqual(userName, GetElementText(actionUpdateUser));
             Assert.AreEqual(timeUpdated, GetElementText(actionUpdateDate));
             //Content
-            string[] allContent = GetElementText(actionUpdateContent).Split(Environment.NewLine);
+            string[] allContent = GetElementText(string.Format(actionUpdateContent, row)).Split(Environment.NewLine);
             for (int i = 0; i < allContent.Length; i++)
             {
                 Assert.AreEqual(historyTitle[i] + ": " + valueExp[i] + ".", allContent[i]);

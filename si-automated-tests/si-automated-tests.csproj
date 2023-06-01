@@ -122,6 +122,7 @@
     <None Remove="Source\Main\Pages\CostRules\" />
     <None Remove="Source\Main\Pages\CostAgreements\" />
     <None Remove="Source\Main\Pages\Paties\Contacts\" />
+    <None Remove="Source\Main\DBModels\GetTaskHistory\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
@@ -170,6 +171,7 @@
     <Folder Include="Source\Main\Pages\CostRules\" />
     <Folder Include="Source\Main\Pages\CostAgreements\" />
     <Folder Include="Source\Main\Pages\Paties\Contacts\" />
+    <Folder Include="Source\Main\DBModels\GetTaskHistory\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">

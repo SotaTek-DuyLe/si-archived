@@ -307,6 +307,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             a.ClickAndHold(row).Perform();
             a.MoveToElement(cell).Perform();
             a.Release().Perform();
+            WaitForLoadingIconToDisappear();
+            WaitForLoadingIconToDisappear();
             return this;
         }
         [AllureStep]

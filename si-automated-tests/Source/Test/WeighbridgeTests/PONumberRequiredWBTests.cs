@@ -430,6 +430,7 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .ClickWBSettingTab()
                 .ClickOnUseStorePoNumberCheckbox()
                 .ClickOnAllowManualPoNumberCheckbox()
+                .WaitForLoadingIconToDisappear()
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()

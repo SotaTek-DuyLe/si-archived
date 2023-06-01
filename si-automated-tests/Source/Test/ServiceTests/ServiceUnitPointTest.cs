@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
+using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Common;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
@@ -109,7 +110,8 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
             var pointAddressListPage = PageFactoryManager.Get<PointAddressListingPage>();
-            pointAddressListPage.DoubleClickPointAddress("2")
+            string pointAddressId = "4";
+            pointAddressListPage.DoubleClickPointAddress(pointAddressId)
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
@@ -150,13 +152,13 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPage.SendKeys(serviceUnitPage.ClientRefInput, "1478");
             serviceUnitPage.ClickOnElement(serviceUnitPage.SearchButton);
             serviceUnitPage.WaitForLoadingIconToDisappear();
-            serviceUnitPage.VerifySearchResult("2")
-                .CheckSearchResult("2");
+            serviceUnitPage.VerifySearchResult(pointAddressId)
+                .CheckSearchResult(pointAddressId);
             serviceUnitPage.ClickOnElement(serviceUnitPage.AddServiceUnitButton);
             serviceUnitPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             serviceUnitPage.WaitForLoadingIconToDisappear();
-            serviceUnitPage.VerifyPointIdOnServiceUnitPointList("2");
+            serviceUnitPage.VerifyPointIdOnServiceUnitPointList(pointAddressId);
         }
 
         [Category("ServiceUnitPoint")]
@@ -589,6 +591,46 @@ namespace si_automated_tests.Source.Test.ServiceTests
             pointNodeDetailPage.ClickOnElement(pointNodeDetailPage.ServiceTab);
             pointNodeDetailPage.WaitForLoadingIconToDisappear();
             pointNodeDetailPage.VerifyElementVisibility(pointNodeDetailPage.AssetTypeColumn, true);
+        }
+
+        [Category("ServiceUnitPoint")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_316_Service_Unit_Point_validation_in_UI()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser40.UserName, AutoUser40.Password)
+                .IsOnHomePage(AutoUser40);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.Commercial)
+                .ExpandOption("Collections")
+                .ExpandOption("Commercial Collections")
+                .OpenOption("Active Service Units");
+            ServiceUnitPage serviceUnit = PageFactoryManager.Get<ServiceUnitPage>();
+            serviceUnit.SwitchToFrame(serviceUnit.UnitIframe);
+            serviceUnit.WaitForLoadingIconToDisappear();
+            serviceUnit.DoubleClickServiceUnit()
+                .SwitchToChildWindow(2);
+
+            ServiceUnitDetailPage serviceUnitDetail = PageFactoryManager.Get<ServiceUnitDetailPage>();
+            serviceUnitDetail.WaitForLoadingIconToDisappear(false);
+            serviceUnitDetail.ClickOnAssetTab();
+            string serviceUnitId = serviceUnitDetail.GetCurrentUrl().Split('/').LastOrDefault();
+            serviceUnitDetail.ClickOnAddNewItemBtn()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            AssetDetailItemPage assetDetailItemPage = PageFactoryManager.Get<AssetDetailItemPage>();
+            assetDetailItemPage.IsOnPage()
+                .ClickOnElement(assetDetailItemPage.AssetTypeSelect);
+            CommonFinder commonFinder = new CommonFinder(DbContext);
+            var assetTypes = commonFinder.GetServiceAssetTypes(serviceUnitId).Select(x => x.assettype).ToList();
+            assetDetailItemPage.AssetTypeDisplayCorrectly(assetTypes);
         }
     }
 }

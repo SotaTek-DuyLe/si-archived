@@ -1,6 +1,7 @@
 ﻿using NUnit.Allure.Attributes;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.DBModels.GetTaskHistory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -473,6 +474,33 @@ namespace si_automated_tests.Source.Main.Finders
         {
             string query = "SELECT * FROM tasks t1 join tasktypes t2 on t1.tasktypeID = t2.tasktypeID WHERE  t1.taskID = " + taskId + ";";
             return FindList<TaskAndTaskTypeByTaskIdDBModel>(query);
+        }
+
+        [AllureStep]
+        public List<ServiceAssetTypeDBModel> GetServiceAssetTypes(string serviceUnitID)
+        {
+            string query = @"select serviceunitID,assettype
+                            from serviceassettypes SAT
+                            inner
+                            join assettypes ATT on ATT.assettypeID = SAT.assettypeID
+                            inner
+                            join serviceunits SU on SU.serviceID = SAT.serviceID
+                            where serviceunitID = " + serviceUnitID + "; ";
+            return FindList<ServiceAssetTypeDBModel>(query);
+        }
+
+        [AllureStep]
+        public List<TaskLineDBModel> GetTaskLineByTaskLineId(int tasklineid)
+        {
+            string query = "select * from tasklines where tasklineid= " + tasklineid + ";";
+            return FindList<TaskLineDBModel>(query);
+        }
+
+        [AllureStep]
+        public List<TaskHistoryDBModel> GetTaskHistoryByTaskId(string taskId)
+        {
+            string query = "GetTaskHistory @taskID = " + taskId + ";";
+            return FindList<TaskHistoryDBModel>(query);
         }
     }
 }

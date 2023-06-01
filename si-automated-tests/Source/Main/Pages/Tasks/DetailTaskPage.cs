@@ -7,6 +7,7 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.DBModels.GetTaskHistory;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Services.ServiceUnit;
@@ -84,6 +85,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private const string fieldInHeaderWithHyperlink = "//div[text()='{0}']/following-sibling::a";
         private const string taskStateOption = "//select[@id='taskState.id']/option[text()='{0}']";
         private const string taskStateOptionAndOrder = "//select[@id='taskState.id']/option[{0}]";
+        private readonly string piorityOption = "//select[@id='priority.id']/option[text()='{0}']";
 
         public readonly By IndicatorTab = By.XPath("//a[@aria-controls='objectIndicators-tab']");
         #region IndicatorTab
@@ -248,6 +250,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
         public DetailTaskPage VerifyTaskWithDB(TaskDBModel taskDBModel, ServiceUnitDBModel serviceUnitDBModel)
         {
             //Task
@@ -257,42 +260,49 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
         public ServiceUnitDetailPage ClickOnHyperlinkInADesciption()
         {
             ClickOnElement(locationName);
             return PageFactoryManager.Get<ServiceUnitDetailPage>();
         }
 
+        [AllureStep]
         public DetailTaskPage VerifyFieldInHeaderReadOnly(string fieldName)
         {
             Assert.IsTrue(IsControlDisplayed(fieldInHeaderReadOnly, fieldName));
             return this;
         }
 
+        [AllureStep]
         public DetailTaskPage VerifyFieldInHeaderWithLink(string fieldName)
         {
             Assert.IsTrue(IsControlDisplayed(fieldInHeaderWithHyperlink, fieldName));
             return this;
         }
 
+        [AllureStep]
         public DetailPartyPage ClickPartyHyperLink()
         {
             ClickOnElement(fieldInHeaderWithHyperlink, "Party");
             return PageFactoryManager.Get<DetailPartyPage>();
         }
 
+        [AllureStep]
         public DetailSitePage ClickSiteHyperLink()
         {
             ClickOnElement(fieldInHeaderWithHyperlink, "Site");
             return PageFactoryManager.Get<DetailSitePage>();
         }
 
+        [AllureStep]
         public DetailSitePage ClickRoundHyperLink()
         {
             ClickOnElement(fieldInHeaderWithHyperlink, "Round");
             return PageFactoryManager.Get<DetailSitePage>();
         }
 
+        [AllureStep]
         private DetailTaskPage CheckDisplayOfInputIfNullValueDB(string fieldInDb, By locatorOfField)
         {
             if(fieldInDb == null)
@@ -305,6 +315,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
         private DetailTaskPage CheckDisplayOfInputIfNullValueDB(DateTime fieldInDb, string formatDate, By locatorOfField)
         {
             if (fieldInDb == null)
@@ -334,6 +345,29 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
+        public DetailTaskPage InputTaskRef(string taskRefValue)
+        {
+            SendKeys(taskReferenceInput, taskRefValue);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage SelectPriority(string value)
+        {
+            ClickOnElement(priorityDd);
+            ClickOnElement(piorityOption, value);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage InputTaskNote(string taskNoteValue)
+        {
+            SendKeys(taskNoteInput, taskNoteValue);
+            return this;
+        }
+
+        [AllureStep]
         public DetailTaskPage VerifyDetailTabWithDataInDB(TaskDBModel taskDBModel)
         {
             CheckDisplayOfInputIfNullValueDB(taskDBModel.taskreference, taskReferenceInput);
@@ -374,18 +408,21 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
         public DetailTaskPage ClickDataTab()
         {
             ClickOnElement(dataTab);
             return this;
         }
 
+        [AllureStep]
         public DetailTaskPage ClickSourceDataTab()
         {
             ClickOnElement(sourceDataTab);
             return this;
         }
 
+        [AllureStep]
         public DetailTaskPage ClickTasklinesTab()
         {
             ClickOnElement(taskLineTab);
@@ -414,14 +451,23 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private const string taskLineTypeAtAnyRows = "//tr[{0}]//select[@id='taskLineType.id']";
         private const string productGeneralRecyclingAtAnyRows = "//tr[{0}]/td[8]//select//option[text()='General Recycling']";
         private const string productDdAtAnyRows = "//tr[{0}]/td[8]//select";
+        private const string productActualAtAnyRows = "//tr[{0}]//input[@id='actualProductQuantity.id']";
+        private const string productScheduledAtAnyRows = "//tr[{0}]//input[@id='scheduledProductQuantity.id']";
+        private const string productUnitAtAnyRows = "//tr[{0}]//echo-select[contains(@params, 'name: unitOfMeasure')]//select";
+        private const string disposalSiteDestinationAtAnyRows = "//tr[{0}]//select[@id='destinationSite.id']";
+        private const string disposalSiteProductAtAnyRows = "//tr[{0}]//select[@id='siteProduct.id']";
         private const string scheduledProductQuantityAnyRow = "//tr[{0}]//input[@id='scheduledProductQuantity.id']";
         private const string optionServiceTaskLineTypeAtAnyRows = "//tr[{0}]//select[@id='taskLineType.id']/option[text()='Service']";
+        private const string typeAtAnyRows = "//tr[{0}]//select[@id='taskLineType.id']";
         private const string assetTypeAtAnyRows = "//tr[{0}]//echo-select[contains(@params, 'name: assetType')]//select";
+        private const string assetActualAtAnyRows = "//tr[{0}]//input[@id='actualAssetQuantity.id']";
+        private const string assetScheduledAtAnyRows = "//tr[{0}]//input[@id='scheduledAssetQuantity.id']";
         private const string option1100LAssetTypeAtAnyRows = "//tr[{0}]//select//option[text()='1100L']";
         private const string scheduleAssetQtyAtAnyRows = "//tr[{0}]//input[@id='scheduledAssetQuantity.id']";
         private const string anyRowTaskLine = "//div[@id='taskLines-tab']//tbody//tr[{0}]";
 
 
+        [AllureStep]
         public List<TaskLineModel> GetAllTaskLineInTaskLineTab()
         {
             List<TaskLineModel> taskLineModels = new List<TaskLineModel>();
@@ -445,6 +491,14 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return taskLineModels;
         }
 
+        [AllureStep]
+        public DetailTaskPage VerifyNumberOfRowTaskLine(int numberOfRow)
+        {
+            Assert.AreEqual(numberOfRow, GetAllElements(taskLineRows).Count);
+            return this;
+        }
+
+        [AllureStep]
         public DetailTaskPage VerifyDataInTaskLinesTab(TaskLineDBModel taskLineDBModel, TaskLineModel taskLineModelDisplayed, TaskLineTypeDBModel taskLineTypeDBModel, AssetTypeDBModel assetTypeDBModel, ProductDBModel productDBModel)
         {
             Assert.AreEqual("0", taskLineModelDisplayed.order);
@@ -471,12 +525,14 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
         public DetailTaskPage ClickAddNewItemTaskLineBtn()
         {
             ClickOnElement(addNewTaskLinesBtn);
             return this;
         }
 
+        [AllureStep]
         public DetailTaskPage SelectGeneralRecyclingProductAtAnyRow(int row)
         {
             ClickOnElement(productDdAtAnyRows, row.ToString());
@@ -484,12 +540,14 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
         public DetailTaskPage InputSheduledProductQuantiAtAnyRow(int row, string value)
         {
             SendKeys(string.Format(scheduledProductQuantityAnyRow, row.ToString()), value);
             return this;
         }
 
+        [AllureStep]
         public DetailTaskPage SelectType(int row)
         {
             ClickOnElement(taskLineTypeAtAnyRows, row.ToString());
@@ -497,6 +555,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
         public DetailTaskPage SelectAssetType(int row)
         {
             ClickOnElement(assetTypeAtAnyRows, row.ToString());
@@ -504,12 +563,76 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
         public DetailTaskPage InputScheduledAssetQty(int row, string value)
         {
             SendKeys(string.Format(scheduleAssetQtyAtAnyRows, row.ToString()), value);
             return this;
         }
 
+        [AllureStep]
+        public DetailTaskPage SelectAnyState(int row, string state)
+        {
+            ClickOnElement(stateDdAtAnyRow, row.ToString());
+            ClickOnElement(string.Format(stateOptionAtAnyRow, row.ToString(), state));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage SelectAnyResolutionCode(int row, string resolutionCode)
+        {
+            ClickOnElement(resolutionCodeAtAnyRow, row.ToString());
+            ClickOnElement(string.Format(resolutionCodeOptionAtAnyRow, row.ToString(), resolutionCode));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyStateAtAnyRow(int row, string state)
+        {
+            Assert.AreEqual(state, GetFirstSelectedItemInDropdown(string.Format(stateDdAtAnyRow, row.ToString())));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyAnyRowsInTaskLineAreReadonly(int row)
+        {
+            //Order
+            Assert.AreEqual("true", GetAttributeValue(string.Format(orderAtAnyRow, row.ToString()), "disabled"), "[Order] at row number " + row + " is not read only");
+            //Type
+            Assert.AreEqual("true", GetAttributeValue(string.Format(typeAtAnyRows, row.ToString()), "disabled"), "[Type] at row number " + row + " is not read only");
+            //Asset > Type
+            Assert.AreEqual("true", GetAttributeValue(string.Format(assetTypeAtAnyRows, row.ToString()), "disabled"), "[Type] at row number " + row + " is not read only");
+            //Asset > Actual
+            Assert.AreEqual("true", GetAttributeValue(string.Format(assetActualAtAnyRows, row.ToString()), "disabled"), "[Asset Actual] at row number " + row + " is not read only");
+            //Asset > Scheduled
+            Assert.AreEqual("true", GetAttributeValue(string.Format(assetScheduledAtAnyRows, row.ToString()), "disabled"), "[Asset Scheduled] at row number " + row + " is not read only");
+            //Product > Product
+            Assert.AreEqual("true", GetAttributeValue(string.Format(productDdAtAnyRows, row.ToString()), "disabled"), "[Product] at row number " + row + " is not read only");
+            //Product > Actual
+            Assert.AreEqual("true", GetAttributeValue(string.Format(productActualAtAnyRows, row.ToString()), "disabled"), "[Product Actual] at row number " + row + " is not read only");
+            //Product > Scheduled
+            Assert.AreEqual("true", GetAttributeValue(string.Format(productScheduledAtAnyRows, row.ToString()), "disabled"), "[Product Scheduled] at row number " + row + " is not read only");
+            //Product > Unit
+            Assert.AreEqual("true", GetAttributeValue(string.Format(productUnitAtAnyRows, row.ToString()), "disabled"), "[Product Unit] at row number " + row + " is not read only");
+            //Disposal Site > Destination
+            Assert.AreEqual("true", GetAttributeValue(string.Format(disposalSiteDestinationAtAnyRows, row.ToString()), "disabled"), "[Disposal Site Destination] at row number " + row + " is not read only");
+            //Disposal Site > Product
+            Assert.AreEqual("true", GetAttributeValue(string.Format(disposalSiteProductAtAnyRows, row.ToString()), "disabled"), "[Disposal Site Product] at row number " + row + " is not read only");
+            //State
+            Assert.AreEqual("true", GetAttributeValue(string.Format(stateDdAtAnyRow, row.ToString()), "disabled"), "[State] at row number " + row + " is not read only");
+            //Resolution Code
+            Assert.AreEqual("true", GetAttributeValue(string.Format(resolutionCodeAtAnyRow, row.ToString()), "disabled"), "[Resolution Code] at row number " + row + " is not read only");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyResolutionCodeAtAnyRow(int row, string resolutionCode)
+        {
+            Assert.AreEqual(resolutionCode, GetFirstSelectedItemInDropdown(string.Format(resolutionCodeAtAnyRow, row.ToString())));
+            return this;
+        }
+
+        [AllureStep]
         public DetailTaskPage VerifyTaskLineCreated(TaskLineModel taskLineModel, string typeInput, string assetType, string scheduledAssetQty)
         {
             Assert.AreEqual(taskLineModel.type, typeInput, "Wrong type input");
@@ -519,6 +642,50 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
+        public DetailTaskPage VerifyWhenHoverElementAtAnyRow(string resolutionCode, string state, string destination, string productDisposalSite, string product, string assetType, int row)
+        {
+            //Resolution Code
+            Assert.AreEqual(resolutionCode, GetAttributeValue(string.Format(resolutionCodeWithTileAtAnyRow, row), "title"));
+            //State
+            Assert.AreEqual(state, GetAttributeValue(string.Format(stateWithTileAtAnyRow, row), "title"));
+            //Disposal Site - Destination
+            Assert.AreEqual(destination, GetAttributeValue(string.Format(destinationWithTitleAtAnyRow, row), "title"));
+            Assert.AreEqual(productDisposalSite, GetAttributeValue(string.Format(productDisposalSiteWithTitleAtAnyRow, row), "title"));
+            //Product
+            Assert.AreEqual(product, GetAttributeValue(string.Format(productWithTitleAtAnyRow, row), "title"));
+            //Asset Type
+            Assert.AreEqual(assetType, GetAttributeValue(string.Format(assetTypeWithTitleAtAnyRow, row), "title"));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyWhenHoverElementAtAnyRow(string state, int row)
+        {
+            //State
+            Assert.AreEqual(state, GetAttributeValue(string.Format(stateWithTileAtAnyRow, row), "title"));
+            return this;
+        }
+
+            [AllureStep]
+        public DetailTaskPage InputOderAtAnyRow(int row, string orderValue)
+        {
+            SendKeys(string.Format(orderAtAnyRow, row.ToString()), orderValue);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyTaskLineCreated(TaskLineModel taskLineModel, string typeInput, string assetType, string scheduledAssetQty, string state)
+        {
+            Assert.AreEqual(taskLineModel.type, typeInput, "Wrong type input");
+            Assert.AreEqual(taskLineModel.assetType, assetType, "Wrong asset type");
+            Assert.AreEqual(taskLineModel.assetType, assetType, "Wrong asset type");
+            Assert.AreEqual(taskLineModel.scheduledAssetQty, scheduledAssetQty, "Wrong schedule asset quantity");
+            Assert.AreEqual(taskLineModel.state, state, "Wrong state");
+            return this;
+        }
+
+        [AllureStep]
         public DetailTaskPage VerifyTaskLineCreated(TaskLineModel taskLineModel, string typeInput, string product, int scheduledProductQty)
         {
             Assert.AreEqual(taskLineModel.type, typeInput, "Wrong type input");
@@ -686,6 +853,17 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             DoubleClickOnElement(firstInspectionRow);
             return PageFactoryManager.Get<DetailInspectionPage>();
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyDisplayColumnInInspectionTab(string[] columnExp)
+        {
+            Assert.IsTrue(IsControlDisplayed(addNewItemInSpectionBtn));
+            foreach (string column in columnExp)
+            {
+                Assert.IsTrue(IsControlDisplayed(subcriptionColumn, column));
+            }
+            return this;
         }
 
         //DETAIL TAB
@@ -934,6 +1112,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //VERDICT TAB
+        private readonly By numberOfTaskLineVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr");
         private readonly By taskInformationVerdictTab = By.CssSelector("a[aria-controls='verdictInformation-tab']");
         private readonly By completionDateVerdictInput = By.XPath("//label[text()='Completion Date']/following-sibling::textarea");
         private readonly By confirmationMethodVerdictInput = By.XPath("//label[text()='Confirmation Method']/following-sibling::textarea");
@@ -943,11 +1122,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By dateTimeFirstLineVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(1)");
         private readonly By tasklineStateFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(8)");
         private readonly By confirmationMethodFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(10)");
+        private readonly By tasklineIdFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(2)");
         private readonly By productFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(4)");
         private readonly By assetTypeFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(3)");
         private readonly By scheduledAssetQtyFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(5)");
         private readonly By actualAssetQtyFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(6)");
         private readonly By actualProductQtyFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(7)");
+        private readonly By resolutionCodeFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(9)");
 
         private readonly By dateTimeSecondLineVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(2)>td:nth-child(1)");
         private readonly By tasklineStateSecondVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(2)>td:nth-child(8)");
@@ -958,12 +1139,35 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By actualAssetQtySecondVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(2)>td:nth-child(6)");
         private readonly By actualProductQtySecondVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(2)>td:nth-child(7)");
         private readonly By confirmationMethodSecondVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(2)>td:nth-child(10)");
+        //THIRD
+        private readonly By dateTimeThirdLineVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(3)>td:nth-child(1)");
+        private readonly By tasklineStateThirdVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(3)>td:nth-child(8)");
+        private readonly By assetTypeThirdVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(3)>td:nth-child(3)");
+        private readonly By tasklineIdThirdVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(3)>td:nth-child(2)");
+        private readonly By productThirdVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(3)>td:nth-child(4)");
+        private readonly By scheduledAssetQtyThirdVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(3)>td:nth-child(5)");
+        private readonly By actualAssetQtyThirdVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(3)>td:nth-child(6)");
+        private readonly By actualProductQtyThirdVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(3)>td:nth-child(7)");
+        private readonly By confirmationMethodThirdVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(3)>td:nth-child(10)");
+        private readonly By resolutionCodeThirdVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(3)>td:nth-child(9)");
+        private readonly string columnVerdictTab = "//div[@id='verdictTabs']//a[@aria-controls='{0}']";
 
         [AllureStep]
         public DetailTaskPage ClickOnVerdictTab()
         {
             ClickOnElement(verdictTab);
             WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyDisplayTabInVerdictTab()
+        {
+            string[] columnExp = { "verdictInformation-tab", "verdictTasklines-tab", "verdictDebriefTests-tab" };
+            foreach (string column in columnExp)
+            {
+                Assert.IsTrue(IsControlDisplayed(columnVerdictTab, column));
+            }
             return this;
         }
 
@@ -1022,6 +1226,19 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
         [AllureStep]
+        public DetailTaskPage VerifySecondTaskLineStateVerdictTab(string stateExp, string assetType, string productExp, string scheduledAssetQty, string actualAssetQty, string actualProductQty)
+        {
+            Assert.AreEqual(stateExp, GetElementText(tasklineStateSecondVerdictTab));
+            Assert.AreEqual(assetType, GetElementText(tasklineStateSecondVerdictTab));
+            Assert.AreEqual(productExp, GetElementText(productSecondVerdictTab));
+            Assert.AreEqual(scheduledAssetQty, GetElementText(scheduledAssetQtySecondVerdictTab));
+            Assert.AreEqual(actualAssetQty, GetElementText(actualAssetQtySecondVerdictTab));
+            Assert.AreEqual(actualProductQty, GetElementText(actualProductQtySecondVerdictTab));
+           // Assert.AreEqual(taskLineId, GetElementText(tasklineIdSecondVerdictTab));
+            return this;
+        }
+
+        [AllureStep]
         public DetailTaskPage VerifySecondTaskLineStateVerdictTab(string stateExp, string assetType, string productExp, string scheduledAssetQty, string actualAssetQty, string actualProductQty, string taskLineId)
         {
             Assert.AreEqual(stateExp, GetElementText(tasklineStateSecondVerdictTab));
@@ -1031,6 +1248,20 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(actualAssetQty, GetElementText(actualAssetQtySecondVerdictTab));
             Assert.AreEqual(actualProductQty, GetElementText(actualProductQtySecondVerdictTab));
             Assert.AreEqual(taskLineId, GetElementText(tasklineIdSecondVerdictTab));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyThirdTaskLineStateVerdictTab(string stateExp, string assetType, string productExp, string scheduledAssetQty, string actualAssetQty, string actualProductQty, string resolutionCode, string confirmationMethod)
+        {
+            Assert.AreEqual(stateExp, GetElementText(tasklineStateThirdVerdictTab));
+            Assert.AreEqual(assetType, GetElementText(tasklineStateThirdVerdictTab));
+            Assert.AreEqual(productExp, GetElementText(productThirdVerdictTab));
+            Assert.AreEqual(scheduledAssetQty, GetElementText(scheduledAssetQtyThirdVerdictTab));
+            Assert.AreEqual(actualAssetQty, GetElementText(actualAssetQtyThirdVerdictTab));
+            Assert.AreEqual(actualProductQty, GetElementText(actualProductQtyThirdVerdictTab));
+            Assert.AreEqual(resolutionCode, GetElementText(resolutionCodeThirdVerdictTab));
+            Assert.AreEqual(confirmationMethod, GetElementText(confirmationMethodThirdVerdictTab));
             return this;
         }
         [AllureStep]
@@ -1056,6 +1287,34 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(actualProductQty, GetElementText(actualProductQtyFirstVerdictTab));
             Assert.AreEqual(assetType, GetElementText(assetTypeFirstVerdictTab));
             Assert.AreEqual(actualAssetQty, GetElementText(actualAssetQtyFirstVerdictTab));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyFirstResolutionCode(string resolutionCodeValue)
+        {
+            Assert.AreEqual(resolutionCodeValue, GetElementText(resolutionCodeFirstVerdictTab));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyFirstTaskLineId(string firstTaskLineIdExp)
+        {
+            Assert.AreEqual(firstTaskLineIdExp, GetElementText(tasklineIdFirstVerdictTab));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifySecondTaskLineId(string secondTaskLineIdExp)
+        {
+            Assert.AreEqual(secondTaskLineIdExp, GetElementText(tasklineIdSecondVerdictTab));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyNumberOfTaskLine(int numberOfTaskLine)
+        {
+            Assert.AreEqual(numberOfTaskLine, GetAllElements(numberOfTaskLineVerdictTab).Count);
             return this;
         }
 
@@ -1103,6 +1362,19 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly string ResolutionCodeCell = "./td//select[@id='resCode.id']";
         private readonly string typeOptionInSecondTaskLineRow = "//tr[2]//select[@id='taskLineType.id']/option[text()='{0}']";
         private readonly string assetTypeOptionInSecondTaskLineRow = "//tbody/tr[2]//echo-select[contains(@params, 'name: assetType')]/select//option[text()='{0}']";
+        private readonly string stateDdAtAnyRow = "//div[@id='taskLines-tab']//tr[{0}]//select[@id='itemState.id']";
+        private readonly string stateOptionAtAnyRow = "//div[@id='taskLines-tab']//tr[{0}]//select[@id='itemState.id']/option[text()='{1}']";
+        private readonly string orderAtAnyRow = "//div[@id='taskLines-tab']//tr[{0}]//input[@id='order.id']";
+        private readonly string resolutionCodeAtAnyRow = "//div[@id='taskLines-tab']//tr[{0}]//select[@id='resCode.id']";
+        private readonly string resolutionCodeOptionAtAnyRow = "//div[@id='taskLines-tab']//tr[{0}]//select[@id='resCode.id']/option[text()='{1}']";
+        private readonly string resolutionCodeWithTileAtAnyRow = "(//div[@id='taskLines-tab']//select[@id='resCode.id']//ancestor::td)[{0}]";
+        private readonly string stateWithTileAtAnyRow = "(//div[@id='taskLines-tab']//select[@id='itemState.id']//ancestor::td)[{0}]";
+        private readonly string productDisposalSiteWithTitleAtAnyRow = "(//div[@id='taskLines-tab']//select[@id='siteProduct.id']//ancestor::td)[{0}]";
+        private readonly string destinationWithTitleAtAnyRow = "(//div[@id='taskLines-tab']//select[@id='destinationSite.id']//ancestor::td)[{0}]";
+        private readonly string productWithTitleAtAnyRow = "//tr[{0}]/td[8]";
+        private readonly string assetTypeWithTitleAtAnyRow = "//tr[{0}]//echo-select[contains(@params, 'name: assetType')]/parent::td";
+        private readonly string removeBtnAtAnyRow = "//tr[{0}]//button[contains(string(), 'Remove')]";
+
         //private readonly string productOptionInSecondTaskLineRow = "//tbody/tr[2]//echo-select[contains(@params, 'name: assetType')]/select//option[text()='{0}']";
 
         public TableElement TaskLineTableEle
@@ -1286,6 +1558,198 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
                 secondResult.Add(GetElementText(webElement));
             }
             Assert.AreEqual(firstResult, secondResult, "Product in two task is not matching");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage ClickRemoveBtnAtAnyRowOfTaskLinesTab(int row)
+        {
+            ClickOnElement(removeBtnAtAnyRow, row.ToString());
+            return this;
+        }
+
+        //HISTORY
+        private readonly By numberOfHistoryRow = By.XPath("//div[@id='history-tab']//div[contains(@class, 'panel-default')]");
+        private readonly By actionTitle = By.XPath("//div[@id='history-tab']//strong[@data-bind='text: $data.action']");
+        private readonly By createdByUser = By.XPath("//div[@id='history-tab']//strong[@data-bind='text: $data.createdByUser']");
+        private readonly By createdDate = By.XPath("//div[@id='history-tab']//strong[@data-bind='text: $data.createdDate']");
+        private readonly By contentChange = By.XPath("//div[@id='history-tab']//div[@data-bind='foreach: changes']");
+
+        [AllureStep]
+        public DetailTaskPage VerifyHistoryWithDB(List<TaskHistoryDBModel> taskHistoryDBModels)
+        {
+            Assert.AreEqual(taskHistoryDBModels.Count, GetAllElements(numberOfHistoryRow).Count);
+
+            List<IWebElement> allActions = GetAllElements(actionTitle);
+            List<IWebElement> allCreatedByUser = GetAllElements(createdByUser);
+            List<IWebElement> allCreatedDate = GetAllElements(createdDate);
+            List<IWebElement> allContent = GetAllElements(contentChange);
+
+            //Title
+            for (int i = 0; i < taskHistoryDBModels.Count; i++)
+            {
+                Assert.AreEqual(taskHistoryDBModels[i].action, GetElementText(allActions[i]));
+                Assert.AreEqual(taskHistoryDBModels[i].createdbyuser, GetElementText(allCreatedByUser[i]));
+                Assert.AreEqual(taskHistoryDBModels[i].createddate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT), GetElementText(allCreatedDate[i]));
+                Assert.AreEqual(taskHistoryDBModels[i].changes, GetElementText(allContent[i]));
+            }
+            return this;
+        }
+
+        //SUBSCRIPTION TAB
+        private readonly By subscriptionTab = By.XPath("//a[@aria-controls='subscriptions-tab']");
+        private readonly By addNewItemInSubscriptionTab = By.XPath("//button[@data-bind='click: createSubscription']");
+        private readonly By subscriptionIframe = By.XPath("//div[@id='subscriptions-tab']/iframe");
+
+        //DYNAMIC
+        private readonly string subcriptionColumn = "//span[text()='{0}']";
+
+        [AllureStep]
+        public DetailTaskPage ClickOnSubscriptionTab()
+        {
+            ClickOnElement(subscriptionTab);
+            SwitchToFrame(subscriptionIframe);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyDisplayColumnInSubscriptionTab(string[] columnExp)
+        {
+            Assert.IsTrue(IsControlDisplayed(addNewItemInSubscriptionTab));
+            foreach(string column in columnExp)
+            {
+                Assert.IsTrue(IsControlDisplayed(subcriptionColumn, column));
+            }
+            return this;
+        }
+
+        //NOTIFICATION TAB
+        private readonly By notificationTab = By.XPath("//a[@aria-controls='notifications-tab']");
+        private readonly By notificationIframe = By.XPath("//div[@id='notifications-tab']/iframe");
+
+        [AllureStep]
+        public DetailTaskPage ClickOnNotificationTab()
+        {
+            ClickOnElement(notificationTab);
+            SwitchToFrame(notificationIframe);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyDisplayColumnInNotificationTab(string[] columnExp)
+        {
+            foreach (string column in columnExp)
+            {
+                Assert.IsTrue(IsControlDisplayed(subcriptionColumn, column));
+            }
+            return this;
+        }
+
+        //BILLING TAB
+        private readonly By billingTab = By.XPath("//a[@aria-controls='priceLines-tab']");
+        //DYNAMIC
+        private readonly string billingColumn = "//div[@id='priceLines-tab']//span[text()='{0}']";
+
+        [AllureStep]
+        public DetailTaskPage ClickOnBillingTab()
+        {
+            ClickOnElement(billingTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyDisplayColumnInBillingTab(string[] columnExp)
+        {
+            foreach (string column in columnExp)
+            {
+                Assert.IsTrue(IsControlDisplayed(billingColumn, column));
+            }
+            return this;
+        }
+
+        //INDICATOR TAB
+        private readonly By indicatorTab = By.XPath("//a[@aria-controls='objectIndicators-tab']");
+        private readonly By indicatorIframe = By.XPath("//div[@id='subscriptions-tab']/iframe");
+        //DYNAMIC
+        private readonly string indicatorColumn = "//div[@id='object-indicators-grid']//span[text()='{0}']";
+
+
+        [AllureStep]
+        public DetailTaskPage ClickOnIndicatorsTab()
+        {
+            ClickOnElement(indicatorTab);
+            SwitchToFrame(indicatorIframe);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyDisplayColumnInIndicatorTab(string[] columnExp)
+        {
+            foreach (string column in columnExp)
+            {
+                Assert.IsTrue(IsControlDisplayed(indicatorColumn, column));
+            }
+            return this;
+        }
+
+        //ACCOUNT STATEMENT TAB
+        private readonly By accountStatementTab = By.XPath("//a[@aria-controls='map-tab']");
+        //DYNAMIC
+        private readonly string accountStatementColumn = "//div[@id='accountStatements-tab']//span[text()='{0}']";
+
+        [AllureStep]
+        public DetailTaskPage ClickOnAccountStatementTab()
+        {
+            ClickOnElement(accountStatementTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyDisplayColumnInAccountStatementTab(string[] columnExp)
+        {
+            foreach (string column in columnExp)
+            {
+                Assert.IsTrue(IsControlDisplayed(accountStatementColumn, column));
+            }
+            return this;
+        }
+
+        //MAP TAB
+        private readonly By mapTab = By.XPath("//a[@aria-controls='map-tab']");
+        private readonly By addressLegend = By.XPath("//div[@id='map-tab']//img[@src='../content/images/maps/service-unit/point-address-pin.png']/following-sibling::div/div[text()='Addresses']");
+        private readonly By serviceLocationLegend = By.XPath("//div[@id='map-tab']//img[@src='../content/images/maps/service-unit/service-unit-pin.png']/following-sibling::div/div[text()='Service Location']");
+        private readonly By accessLocationLegend = By.XPath("//div[@id='map-tab']//img[@src='../content/images/maps/service-unit/access-pin.png']/following-sibling::div/div[text()='Access Location']");
+        private readonly By assetLocationLegend = By.XPath("//div[@id='map-tab']//img[@src='../content/images/maps/service-unit/on-site-pin.png']/following-sibling::div/div[text()='Asset Location']");
+        private readonly By autoConfirmationEventLegend = By.XPath("//div[@id='map-tab']//img[@src='../content/images/maps/service-unit/auto-confirmation-event-circle.png']/following-sibling::div/div[text()='Auto Confirmation Event(s)']");
+        private readonly By autoConfirmationEventMLegend = By.XPath("//div[@id='map-tab']//div[text()='25m']/following-sibling::div/div[text()='Auto Confirmation Event(s)']");
+        private readonly By resetMapBtn = By.XPath("//div[@id='map-tab']//div[text()='Reset Map']");
+        private readonly By saveMapBtn = By.XPath("//div[@id='map-tab']//div[text()='Save Map']");
+
+        [AllureStep]
+        public DetailTaskPage ClickOnMapTab()
+        {
+            ClickOnElement(mapTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyTheDisplayOfLegendInMapTab()
+        {
+            Assert.IsTrue(IsControlDisplayed(addressLegend), "[Addresses] is not displayed");
+            Assert.IsTrue(IsControlDisplayed(serviceLocationLegend), "[Service Location] is not displayed");
+            Assert.IsTrue(IsControlDisplayed(accessLocationLegend), "[Access Location] is not displayed");
+            Assert.IsTrue(IsControlDisplayed(assetLocationLegend), "[Asset Location] is not displayed");
+            Assert.IsTrue(IsControlDisplayed(autoConfirmationEventLegend), "[Auto Confirmation Event(s)] is not displayed");
+            Assert.IsTrue(IsControlDisplayed(autoConfirmationEventMLegend), "[Auto Confirmation Event(s) (M)] is not displayed");
+            Assert.IsTrue(IsControlDisplayed(autoConfirmationEventMLegend), "[Auto Confirmation Event(s) (M)] is not displayed");
+            Assert.IsTrue(IsControlEnabled(resetMapBtn), "[Reset Map] btn is not displayed");
+            Assert.IsTrue(IsControlEnabled(saveMapBtn), "[Save Map] btn is not displayed");
             return this;
         }
 

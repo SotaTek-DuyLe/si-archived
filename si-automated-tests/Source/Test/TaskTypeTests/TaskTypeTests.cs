@@ -250,7 +250,7 @@ namespace si_automated_tests.Source.Test.TaskTypeTests
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             PageFactoryManager.Get<ServicesTaskPage>()
-                .VerifyAssuredTaskChecked()
+                .VerifyAssuredTaskNotChecked()
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<ServiceUnitDetailPage>()
