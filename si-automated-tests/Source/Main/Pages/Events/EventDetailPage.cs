@@ -5,6 +5,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
 using si_automated_tests.Source.Main.DBModels.GetPointHistory;
@@ -15,6 +16,18 @@ namespace si_automated_tests.Source.Main.Pages.Events
 {
     public class EventDetailPage : BasePage
     {
+        public EventDetailPage()
+        {
+            pointhistoryTableEle = new TableElement(PointHistoryTable, PointHistoryRow, new List<string>()
+            {
+                PHDescriptionCell, PHIDCell, PHTypeCell, PHServiceCell, PHAddressCell, PHDateCell, PHDueDateCell, PHStateCell, PHResolutionCodeCell
+            });
+            pointhistoryTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+        }
+
         private readonly By eventTitle = By.XPath("//span[text()='Event']");
         private readonly By inspectionBtn = By.XPath("//button[@title='Inspect']");
         private readonly By locationName = By.CssSelector("a.typeUrl");
@@ -89,6 +102,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By closeBtn = By.XPath("//h4[text()='Create ']/parent::div/following-sibling::div/button[@aria-label='Close']");
         private readonly By refreshBtn = By.XPath("//button[@title='Refresh' and @data-placement='bottom']");
 
+        #region Point History
         //Point History tab
         private readonly By pointHistoryBtn = By.CssSelector("a[aria-controls='pointHistory-tab']");
         private readonly By allRowInPointHistoryTabel = By.XPath("//div[@id='pointHistory-tab']//div[@class='grid-canvas']/div");
@@ -97,6 +111,25 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By descriptionColumn = By.XPath("//div[@id='pointHistory-tab']//span[text()='Description']");
         private readonly By filterInputById = By.XPath("//div[@id='pointHistory-tab']//div[contains(@class, 'l2 r2')]/descendant::input");
         private readonly By allDueDate = By.XPath("//div[@class='slick-cell l7 r7']");
+
+        private string PointHistoryTable = "//div[@id='pointHistory-tab']//div[@class='grid-canvas']";
+        private string PointHistoryRow = "./div[contains(@class, 'slick-row')]";
+        private string PHDescriptionCell = "./div[@class='slick-cell l1 r1']";
+        private string PHIDCell = "./div[@class='slick-cell l2 r2']";
+        private string PHTypeCell = "./div[@class='slick-cell l3 r3']";
+        private string PHServiceCell = "./div[@class='slick-cell l4 r4']";
+        private string PHAddressCell = "./div[@class='slick-cell l5 r5']";
+        private string PHDateCell = "./div[@class='slick-cell l6 r6']";
+        private string PHDueDateCell = "./div[@class='slick-cell l7 r7']";
+        private string PHStateCell = "./div[@class='slick-cell l8 r8']";
+        private string PHResolutionCodeCell = "./div[@class='slick-cell l9 r9']";
+
+        private TableElement pointhistoryTableEle;
+        public TableElement PointHistoryTableEle
+        {
+            get => pointhistoryTableEle;
+        }
+        #endregion
 
         //HISTORY TAB
         private const string titleHistoryTab = "//strong[text()='{0}']";
@@ -1039,25 +1072,40 @@ namespace si_automated_tests.Source.Main.Pages.Events
         {
             WaitUtil.WaitForElementVisible(descriptionColumn);
             List<PointHistoryModel> allModel = new List<PointHistoryModel>();
-            if(IsControlDisplayedNotThrowEx(allRowInPointHistoryTabel))
+            var tableHeight = PointHistoryTableEle.GetTable().GetCssValue("height").Replace("px", "").AsInteger();
+            int rowHeight = 25;
+            int maxRow = tableHeight / rowHeight;
+            int rowCount = 0;
+            while (allModel.Count < maxRow)
             {
-                List<IWebElement> allRow = GetAllElements(allRowInPointHistoryTabel);
-
-                for (int i = 0; i < allRow.Count; i++)
+                rowCount = PointHistoryTableEle.GetRows().Count;
+                for (int i = 0; i < rowCount; i++)
                 {
-                    string desc = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[0])[i]);
-                    string ID = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[1])[i]);
-                    string type = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[2])[i]);
-                    string service = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[3])[i]);
-                    string address = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[4])[i]);
-                    string date = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[5])[i]);
-                    string dueDate = GetElementText(GetAllElements(allDueDate)[i]);
-                    string state = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[7])[i]);
-                    string resolution = GetElementText(GetAllElements(columnInRowPointHistoryTab, CommonConstants.PointHistoryTabColumn[8])[i]);
-                    allModel.Add(new PointHistoryModel(desc, ID, type, service, address, date, dueDate, state, resolution));
+                    List<object> rowValues = PointHistoryTableEle.GetRowValue(i);
+                    string desc = rowValues[PointHistoryTableEle.GetCellIndex(PHDescriptionCell)].AsString();
+                    string ID = rowValues[PointHistoryTableEle.GetCellIndex(PHIDCell)].AsString();
+                    string type = rowValues[PointHistoryTableEle.GetCellIndex(PHTypeCell)].AsString();
+                    string service = rowValues[PointHistoryTableEle.GetCellIndex(PHServiceCell)].AsString();
+                    string address = rowValues[PointHistoryTableEle.GetCellIndex(PHAddressCell)].AsString();
+                    string date = rowValues[PointHistoryTableEle.GetCellIndex(PHDateCell)].AsString();
+                    string dueDate = rowValues[PointHistoryTableEle.GetCellIndex(PHDueDateCell)].AsString();
+                    string state = rowValues[PointHistoryTableEle.GetCellIndex(PHStateCell)].AsString();
+                    string resolution = rowValues[PointHistoryTableEle.GetCellIndex(PHResolutionCodeCell)].AsString();
+                    if (!allModel.Any(x => x.ID == ID))
+                    {
+                        allModel.Add(new PointHistoryModel(desc, ID, type, service, address, date, dueDate, state, resolution));
+                    }
+                }
+                if (allModel.Count < maxRow)
+                {
+                    var lastRow = PointHistoryTableEle.GetRows().LastOrDefault();
+                    ScrollDownToElement(lastRow);
+                    WaitForLoadingIconToDisappear();
+                    WaitForLoadingIconToDisappear();
+                    tableHeight = PointHistoryTableEle.GetTable().GetCssValue("height").Replace("px", "").AsInteger();
+                    maxRow = tableHeight / rowHeight;
                 }
             }
-            
             return allModel;
         }
         [AllureStep]
