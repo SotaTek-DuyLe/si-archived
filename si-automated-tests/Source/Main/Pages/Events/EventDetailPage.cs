@@ -1076,8 +1076,10 @@ namespace si_automated_tests.Source.Main.Pages.Events
             int rowHeight = 25;
             int maxRow = tableHeight / rowHeight;
             int rowCount = 0;
-            while (allModel.Count < maxRow)
+            int retryCount = 0;
+            while (allModel.Count < maxRow && retryCount < 5)
             {
+                retryCount++;
                 rowCount = PointHistoryTableEle.GetRows().Count;
                 for (int i = 0; i < rowCount; i++)
                 {
