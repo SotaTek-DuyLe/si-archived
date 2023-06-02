@@ -3711,7 +3711,6 @@ namespace si_automated_tests.Source.Test
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClickTabDropDown()
                 .ClickTasksTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskTab>()
