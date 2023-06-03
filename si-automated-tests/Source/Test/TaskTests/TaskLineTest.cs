@@ -31,8 +31,8 @@ namespace si_automated_tests.Source.Test.TaskTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser56.UserName, AutoUser56.Password)
-                .IsOnHomePage(AutoUser56);
+                .Login(AutoUser72.UserName, AutoUser72.Password)
+                .IsOnHomePage(AutoUser72);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.Commercial)
@@ -100,7 +100,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             //Login
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser56.UserName, AutoUser56.Password);
+                .Login(AutoUser72.UserName, AutoUser72.Password);
             var taskTypePage = PageFactoryManager.Get<TaskTypeEchoExtraPage>();
             taskTypePage.WaitForLoadingIconToDisappear();
             taskTypePage.SelectByDisplayValueOnUlElement(taskTypePage.TabPage, "States");
@@ -155,8 +155,8 @@ namespace si_automated_tests.Source.Test.TaskTests
                  .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser56.UserName, AutoUser56.Password)
-                .IsOnHomePage(AutoUser56);
+                .Login(AutoUser72.UserName, AutoUser72.Password)
+                .IsOnHomePage(AutoUser72);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.Commercial)
@@ -473,8 +473,8 @@ namespace si_automated_tests.Source.Test.TaskTests
                  .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser56.UserName, AutoUser56.Password)
-                .IsOnHomePage(AutoUser56);
+                .Login(AutoUser72.UserName, AutoUser72.Password)
+                .IsOnHomePage(AutoUser72);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.Commercial)
@@ -510,8 +510,8 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser56.UserName, AutoUser56.Password)
-                .IsOnHomePage(AutoUser56);
+                .Login(AutoUser72.UserName, AutoUser72.Password)
+                .IsOnHomePage(AutoUser72);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.Commercial)
@@ -541,8 +541,8 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser56.UserName, AutoUser56.Password)
-                .IsOnHomePage(AutoUser56);
+                .Login(AutoUser72.UserName, AutoUser72.Password)
+                .IsOnHomePage(AutoUser72);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Tasks)
                 .OpenOption(Contract.Commercial)
@@ -622,8 +622,8 @@ namespace si_automated_tests.Source.Test.TaskTests
                    .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser56.UserName, AutoUser56.Password)
-                .IsOnHomePage(AutoUser56);
+                .Login(AutoUser72.UserName, AutoUser72.Password)
+                .IsOnHomePage(AutoUser72);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
                 .OpenOption("Task Allocation")
@@ -702,7 +702,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                    .GoToURL(WebUrl.MainPageUrl + "web/tasks/41612");
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
-                .Login(AutoUser56.UserName, AutoUser56.Password);
+                .Login(AutoUser72.UserName, AutoUser72.Password);
             DetailTaskPage taskDetailTab = PageFactoryManager.Get<DetailTaskPage>();
             taskDetailTab.WaitForLoadingIconToDisappear();
             bool isChecked = taskDetailTab.GetCheckboxValue(taskDetailTab.ProximityAlertCheckbox);
