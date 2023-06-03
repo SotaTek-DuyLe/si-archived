@@ -222,7 +222,11 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskConfirmationPage.ExpandRoundNode("Municipal")
                 .ExpandRoundNode(service)
                 .SelectRoundNode(subService);
-            string filterDate = "";
+            DateTime start = DateTime.Now;
+            DayOfWeek day = DayOfWeek.Monday;
+            int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
+            //input next monday
+            string filterDate = start.AddDays(daysToAdd).ToString(CommonConstants.DATE_DD_MM_YYYY_FORMAT);
             taskConfirmationPage
                 .SendDateInScheduledDate(filterDate)
                 .ClickGoBtn()
@@ -237,6 +241,10 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskConfirmationPage.SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
 
+            taskConfirmationPage.InputNextMondayOnReallocatedGrid();
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.SelectAllRoundLeg()
                 .DragDropRoundLegToRoundInstance("WCREC2", roundGroupName);
             taskConfirmationPage.WaitForLoadingIconToDisappear();

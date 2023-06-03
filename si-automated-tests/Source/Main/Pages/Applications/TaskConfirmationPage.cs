@@ -768,7 +768,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             {
                 if (IsControlDisplayedNotThrowEx(confirmationNeededTitle))
                 {
-                    ClickOnElement("//button[text()='Confirm' and @data-bb-handler='Confirm']");
+                    ClickOnElement("//button[text()='Allocate All' and @data-bb-handler='AllocateAll']");
                     break;
                 }
                 i++;
