@@ -150,6 +150,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             masterRoundManagementPage.WaitForLoadingIconToDisappear();
             masterRoundManagementPage.VerifyFirstAndSecondConfirmedTask("No Service");
             //Navigate to task confirmation screen->Filter the same contract, service and round
+
             TaskConfirmationPage taskConfirmationPage = PageFactoryManager.Get<TaskConfirmationPage>();
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
@@ -165,12 +166,12 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .SelectRoundNode("Monday");
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ScheduleDateInput);
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
-            DateTime firstMondayInNextMonth = CommonUtil.GetFirstMondayInMonth(DateTime.Now.AddMonths(1));
-            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.ScheduleDateInput, firstMondayInNextMonth.ToString("dd/MM/yyyy"));
+            taskConfirmationPage.InputNextMonday();
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
-            taskConfirmationPage.WaitForLoadingIconToDisappear(false);
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ExpandRoundsGo);
             taskConfirmationPage.SleepTimeInMiliseconds(2000);
             //Select the 2 service tasks you updated earlier and click reallocate
@@ -185,7 +186,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
 
             //Select the 2 service tasks in the grid -> Update the from filter -> Go 
             List<string> descriptions = taskConfirmationPage.SelectServiceTaskAllocation();
-            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.FromInput, firstMondayInNextMonth.ToString("dd/MM/yyyy"));
+            taskConfirmationPage.InputNextMondayOnReallocatedGrid();
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear();
@@ -221,7 +222,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskConfirmationPage.ExpandRoundNode("Municipal")
                 .ExpandRoundNode(service)
                 .SelectRoundNode(subService);
-            string filterDate = CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT);
+            string filterDate = "";
             taskConfirmationPage
                 .SendDateInScheduledDate(filterDate)
                 .ClickGoBtn()
