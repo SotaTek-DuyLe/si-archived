@@ -970,6 +970,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
         [Category("EditAgreement")]
         [Category("Huong")]
+        [Ignore("move to manual")]
         [Test]
         public void TC_026_A_edit_agreement_increase_asset_qty_on_approved_agreement()
         {
@@ -1144,6 +1145,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
 
         [Category("EditAgreement")]
         [Category("Huong")]
+        [Ignore("move to manual")]
         [Test]
         public void TC_026_BC_edit_agreement_increase_asset_qty_on_approved_agreement()
         {
