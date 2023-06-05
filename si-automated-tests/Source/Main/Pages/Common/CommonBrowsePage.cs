@@ -95,6 +95,17 @@ namespace si_automated_tests.Source.Main.Pages
             }
             return this;
         }
+
+        [AllureStep]
+        public CommonBrowsePage FilterItemWithoutClickApply(int id)
+        {
+            WaitForLoadingIconToDisappear();
+            SendKeys(filterInputById, id.ToString());
+            WaitForLoadingIconToDisappear();
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
         [AllureStep]
         public CommonBrowsePage ClickButton(string _buttonName)
         {
