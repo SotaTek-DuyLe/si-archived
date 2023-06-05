@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Allure.Attributes;
@@ -273,6 +274,16 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             DragAndDrop(cell, grid);
             return this;
         }
+
+        [AllureStep]
+        public TaskConfirmationPage InputNextMondayOnReallocatedGrid()
+        {
+            DateTime start = DateTime.Now;
+            DayOfWeek day = DayOfWeek.Monday;
+            int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
+            InputCalendarDate(FromInput, start.AddDays(daysToAdd + 7).ToString("dd/MM/yyyy"));
+            return this;
+        }
         #endregion
 
         #region Round Leg
@@ -398,6 +409,16 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
         #endregion
+
+        [AllureStep]
+        public TaskConfirmationPage InputNextMonday()
+        {
+            DateTime start = DateTime.Now;
+            DayOfWeek day = DayOfWeek.Monday;
+            int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
+            InputCalendarDate(ScheduleDateInput, start.AddDays(daysToAdd + 7).ToString("dd/MM/yyyy"));
+            return this;
+        }
 
         [AllureStep]
         public TaskConfirmationPage IsTaskConfirmationPage()
@@ -747,7 +768,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             {
                 if (IsControlDisplayedNotThrowEx(confirmationNeededTitle))
                 {
-                    ClickOnElement("//button[text()='Confirm' and @data-bb-handler='Confirm']");
+                    ClickOnElement("//button[text()='Allocate All' and @data-bb-handler='AllocateAll']");
                     break;
                 }
                 i++;

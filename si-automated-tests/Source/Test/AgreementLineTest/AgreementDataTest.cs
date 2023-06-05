@@ -250,16 +250,21 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .SwitchToChildWindow(2);
             partyCommonPage.ClickAccountTab();
             partyCommonPage.WaitForLoadingIconToDisappear();
-            partyCommonPage.ClickOnElement(partyCommonPage.OffStopButton);
-            partyCommonPage.VerifyElementVisibility(partyCommonPage.OffStopTitle, true);
-            partyCommonPage.ClickOnElement(partyCommonPage.CancelButton);
-            partyCommonPage.VerifyElementText(partyCommonPage.PartyStatus, "On Stop");
-
             //Click 'No' 
-            partyCommonPage.WaitForLoadingIconToDisappear();
             partyCommonPage.ClickOnElement(partyCommonPage.OffStopButton);
             partyCommonPage.VerifyElementVisibility(partyCommonPage.OffStopTitle, true);
             partyCommonPage.ClickOnElement(partyCommonPage.NoButton);
+            partyCommonPage.WaitForLoadingIconToDisappear();
+            partyCommonPage.VerifyElementText(partyCommonPage.PartyStatus, "Active");
+
+            //Click  Cancel
+            partyCommonPage.WaitForLoadingIconToDisappear();
+            partyCommonPage.ClickOnElement(partyCommonPage.OnStopButton);
+            partyCommonPage.WaitForLoadingIconToDisappear();
+            partyCommonPage.ClickOnElement(partyCommonPage.OffStopButton);
+            partyCommonPage.VerifyElementVisibility(partyCommonPage.OffStopTitle, true);
+            partyCommonPage.ClickOnElement(partyCommonPage.CancelButton);
+            partyCommonPage.WaitForLoadingIconToDisappear();
             partyCommonPage.VerifyElementText(partyCommonPage.PartyStatus, "On Stop");
 
             //Click 'Yes'
@@ -267,6 +272,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
             partyCommonPage.ClickOnElement(partyCommonPage.OffStopButton);
             partyCommonPage.VerifyElementVisibility(partyCommonPage.OffStopTitle, true);
             partyCommonPage.ClickOnElement(partyCommonPage.YesButton);
+            partyCommonPage.WaitForLoadingIconToDisappear();
             partyCommonPage.VerifyElementText(partyCommonPage.PartyStatus, "Active");
         }
     }
