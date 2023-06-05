@@ -595,5 +595,64 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyCustomSchedule(tomorrow.AddDays(2), false)
                 .VerifyCustomSchedule(tomorrow.AddDays(3), false);
         }
+
+
+        [Category("Resource")]
+        [Category("Trang")]
+        [Test()]
+        public void TC_246_Qualification_Constraints_to_Sites()
+        {
+            //Verify whether user able to view Qualification Tab in resources form
+            PageFactoryManager.Get<LoginPage>()
+                 .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser23.UserName, AutoUser23.Password)
+                .IsOnHomePage(AutoUser23);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption(Contract.SYD)
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemWithoutClickApply(135)
+                .OpenFirstResult()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            ResoureDetailPage resoureDetailPage = PageFactoryManager.Get<ResoureDetailPage>();
+            resoureDetailPage.ClickOnElement(resoureDetailPage.QualificatoinTab);
+            resoureDetailPage.WaitForLoadingIconToDisappear();
+            resoureDetailPage.VerifyElementVisibility(resoureDetailPage.AddQualificationButton, true)
+                .VerifyElementVisibility(resoureDetailPage.QualificationTable, true);
+
+            //Verify whether user be able to add qualification by clicking Add New Item Button 
+            resoureDetailPage.ClickOnElement(resoureDetailPage.AddQualificationButton);
+            resoureDetailPage.SleepTimeInMiliseconds(500);
+            resoureDetailPage.VerifyElementVisibility(resoureDetailPage.SelectQualification, true)
+                .VerifyElementVisibility(resoureDetailPage.EffectiveDateInput, true)
+                .VerifyElementVisibility(resoureDetailPage.ExpiredDateInput, true)
+                .VerifyElementVisibility(resoureDetailPage.ConfirmAddQualificationButton, true)
+                .VerifyElementVisibility(resoureDetailPage.CancelAddQualificationButton, true);
+
+            //Verify whether Add new Resource Qualifications grid (following ECHO Web UI standards)
+            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            string effectiveDate = londonCurrentDate.AddDays(1).ToString("dd/MM/yyyy");
+            string expiredDate = londonCurrentDate.AddDays(7).ToString("dd/MM/yyyy");
+            resoureDetailPage.SelectTextFromDropDown(resoureDetailPage.SelectQualification, "Annual MOT");
+            resoureDetailPage.InputCalendarDate(resoureDetailPage.EffectiveDateInput, effectiveDate);
+            resoureDetailPage.InputCalendarDate(resoureDetailPage.ExpiredDateInput, expiredDate);
+            resoureDetailPage.ClickOnElement(resoureDetailPage.ConfirmAddQualificationButton);
+            resoureDetailPage.WaitForLoadingIconToDisappear();
+            resoureDetailPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            resoureDetailPage.VerifyNewQualification("Annual MOT", effectiveDate, expiredDate);
+            //Verify Retire Button
+            //If Expired Date > today’s date -> set Expiry Date to next date 00:00
+            resoureDetailPage.ClickRetireQualification(0);
+            resoureDetailPage.WaitForLoadingIconToDisappear();
+            resoureDetailPage.SleepTimeInMiliseconds(2000);
+            resoureDetailPage.WaitForLoadingIconToDisappear();
+            expiredDate = londonCurrentDate.AddDays(1).ToString("dd/MM/yyyy");
+            resoureDetailPage.VerifyNewQualification("Annual MOT", effectiveDate, expiredDate);
+        }
     }
 }
