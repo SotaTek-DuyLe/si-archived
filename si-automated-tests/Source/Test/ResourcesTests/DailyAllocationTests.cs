@@ -1109,8 +1109,36 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             var substitutionName = "Samuel Morse";
             var leaveType = "Holiday";
             var leaveReason = "Paid";
-            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 6);
-            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
+            string startDate;
+            string endDate;
+            DateTime today = DateTime.Today;
+            if (today.DayOfWeek == DayOfWeek.Monday)
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 4);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
+
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 5);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
+            }
+            else if(today.DayOfWeek == DayOfWeek.Friday)
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 5);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 7);
+
+            }
+            else if(today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 4);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 6);
+            }
+            else
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 6);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
+            }
             var details = CommonUtil.GetRandomString(5);
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
