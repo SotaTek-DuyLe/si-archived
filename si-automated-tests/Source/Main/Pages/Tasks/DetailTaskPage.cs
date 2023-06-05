@@ -533,6 +533,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         [AllureStep]
+        public DetailTaskPage VerifyAddNewItemEnabled()
+        {
+            Assert.IsTrue(IsControlEnabled(addNewTaskLinesBtn));
+            return this;
+        }
+
+        [AllureStep]
         public DetailTaskPage SelectGeneralRecyclingProductAtAnyRow(int row)
         {
             ClickOnElement(productDdAtAnyRows, row.ToString());
@@ -622,6 +629,40 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual("true", GetAttributeValue(string.Format(stateDdAtAnyRow, row.ToString()), "disabled"), "[State] at row number " + row + " is not read only");
             //Resolution Code
             Assert.AreEqual("true", GetAttributeValue(string.Format(resolutionCodeAtAnyRow, row.ToString()), "disabled"), "[Resolution Code] at row number " + row + " is not read only");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyAnyRowsInTaskLineAreEditable(int row)
+        {
+            //Order
+            Assert.IsTrue(IsControlEnabled(string.Format(orderAtAnyRow, row.ToString())), "[Order] at row number " + row + " is not editabled");
+            //Type
+            Assert.IsTrue(IsControlEnabled(string.Format(typeAtAnyRows, row.ToString())), "[Type] at row number " + row + " is not editabled");
+            //Asset > Type
+            Assert.IsTrue(IsControlEnabled(string.Format(assetTypeAtAnyRows, row.ToString())), "[Type] at row number " + row + " is not editabled");
+            //Asset > Actual
+            Assert.IsTrue(IsControlEnabled(string.Format(assetActualAtAnyRows, row.ToString())), "[Asset Actual] at row number " + row + " is not editabled");
+            //Asset > Scheduled
+            Assert.IsTrue(IsControlEnabled(string.Format(assetScheduledAtAnyRows, row.ToString())), "[Asset Scheduled] at row number " + row + " is not editabled");
+            //Product > Product
+            Assert.IsTrue(IsControlEnabled(string.Format(productDdAtAnyRows, row.ToString())), "[Product] at row number " + row + " is not editabled");
+            //Product > Actual
+            Assert.IsTrue(IsControlEnabled(string.Format(productActualAtAnyRows, row.ToString())), "[Product Actual] at row number " + row + " is not editabled");
+            //Product > Scheduled
+            Assert.IsTrue(IsControlEnabled(string.Format(productScheduledAtAnyRows, row.ToString())), "[Product Scheduled] at row number " + row + " is not editabled");
+            //Product > Unit
+            Assert.IsTrue(IsControlEnabled(string.Format(productUnitAtAnyRows, row.ToString())), "[Product Unit] at row number " + row + " is not editabled");
+            //Disposal Site > Destination
+            Assert.IsTrue(IsControlEnabled(string.Format(disposalSiteDestinationAtAnyRows, row.ToString())), "[Disposal Site Destination] at row number " + row + " is not editabled");
+            //Disposal Site > Product
+            Assert.IsTrue(IsControlEnabled(string.Format(disposalSiteProductAtAnyRows, row.ToString())), "[Disposal Site Product] at row number " + row + " is not editabled");
+            //State
+            Assert.IsTrue(IsControlEnabled(string.Format(stateDdAtAnyRow, row.ToString())), "[State] at row number " + row + " is not editabled");
+            //Resolution Code
+            Assert.IsTrue(IsControlEnabled(string.Format(resolutionCodeAtAnyRow, row.ToString())), "[Resolution Code] at row number " + row + " is not editabled");
+            //Remove btn
+            Assert.IsTrue(IsControlEnabled(string.Format(removeBtnAtAnyRow, row.ToString())), "[Remove] at row number " + row + " is not editabled");
             return this;
         }
 
@@ -970,6 +1011,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //HISTORY TAB
+        private readonly By contentFirstTaskUpdate = By.XPath("(//strong[text()='Update'])[1]/following-sibling::div");
         private readonly By titleTaskLineFirstServiceUpdate = By.XPath("(//strong[text()='Update'])[1]");
         private readonly By titleTaskLineSecondServiceUpdate = By.XPath("//strong[contains(text(), 'Service Update')]");
         private readonly By userFirstServiceUpdate = By.XPath("(//strong[contains(text(), 'Service Update')])[1]/parent::div/following-sibling::div/strong[1]");
@@ -998,6 +1040,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         //DYNAMIC
         private readonly string createdValue = "//strong[contains(text(), 'Service Create')]/following-sibling::div//span[text()='{0}']/following-sibling::span[1]";
         private readonly string updatedValue = "//strong[contains(text(), 'Service Update')]/following-sibling::div//span[text()='{0}']/following-sibling::span[1]";
+        private readonly string tasklineHistoryTitleWithId = "(//strong[text()='Task Line ({0}) Service Update'])[1]";
 
         [AllureStep]
         public DetailTaskPage ClickOnHistoryTab()
@@ -1043,6 +1086,19 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             }
             return this;
         }
+
+        [AllureStep]
+        public DetailTaskPage VerifyHistoryTabFirstUpdateTask(string userUpdated, string[] fieldInServiceUpdate, string[] valueExp)
+        {
+            Assert.AreEqual(userUpdated, GetElementText(userFirstServiceUpdate));
+            string[] allInfoDisplayed = GetElementText(contentFirstTaskUpdate).Split(Environment.NewLine);
+            for (int i = 0; i < allInfoDisplayed.Length; i++)
+            {
+                Assert.AreEqual(fieldInServiceUpdate[i] + ": " + valueExp[i] + ".", allInfoDisplayed[i]);
+            }
+            return this;
+        }
+
         [AllureStep]
         public DetailTaskPage VerifyHistoryTabSecondAfterBulkUpdating(string userUpdatedExp, string timeUpdatedExp, string[] fieldInServiceUpdate, string[] valueExpected)
         {
@@ -1078,6 +1134,15 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
         [AllureStep]
+        public DetailTaskPage VerifyHistoryTabUpdate(string userUpdatedExp, string timeUpdatedExp, string completedDateExp, string stateExp)
+        {
+            Assert.AreEqual(userUpdatedExp, GetElementText(userUpdate));
+            Assert.AreEqual(timeUpdatedExp, GetElementText(timeUpdate));
+            Assert.AreEqual(completedDateExp + ".", GetElementText(completedDateUpdate));
+            Assert.AreEqual(stateExp + ".", GetElementText(stateUpdate));
+            return this;
+        }
+        [AllureStep]
         public DetailTaskPage VerifyHistoryTabFirstAfterChangingStatus(string userUpdatedExp, string timeUpdatedExp, string actualAssetExp, string actualProductExp, string stateExp, string resolutionCodeExp, string completedDateExp, string autoConfirmedExp)
         {
             Assert.AreEqual(userUpdatedExp, GetElementText(userFirstServiceUpdate));
@@ -1086,6 +1151,21 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(actualProductExp + ".", GetElementText(actualProductQtyTaskLineUpdate));
             Assert.AreEqual(stateExp + ".", GetElementText(stateTaskLineUpdate));
             //Assert.AreEqual(resolutionCodeExp + ".", GetElementText(resolutionCodeTaskLineUpdate));
+            Assert.IsTrue(completedDateExp.Contains(GetElementText(completedDateTaskLineUpdate).Replace(".", "").Trim()), "Expected: " + completedDateExp + " but found: " + GetElementText(completedDateTaskLineUpdate));
+            Assert.AreEqual(autoConfirmedExp + ".", GetElementText(autoConfirmedTaskLineUpdate));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyHistoryTabOfTaskLineAfterChangingTaskStatus(string userUpdatedExp, string timeUpdatedExp, string actualAssetExp, string actualProductExp, string stateExp, string resolutionCodeExp, string completedDateExp, string autoConfirmedExp, string tasklineId)
+        {
+            Assert.IsTrue(IsControlDisplayed(tasklineHistoryTitleWithId, tasklineId));
+            Assert.AreEqual(userUpdatedExp, GetElementText(userFirstServiceUpdate));
+            Assert.IsTrue(timeUpdatedExp.Contains(GetElementText(timeFirstServiceUpdate)));
+            Assert.AreEqual(actualAssetExp + ".", GetElementText(actualAssetQtyTaskLineUpdate));
+            Assert.AreEqual(actualProductExp + ".", GetElementText(actualProductQtyTaskLineUpdate));
+            Assert.AreEqual(stateExp + ".", GetElementText(stateTaskLineUpdate));
+            Assert.AreEqual(resolutionCodeExp + ".", GetElementText(resolutionCodeTaskLineUpdate));
             Assert.IsTrue(completedDateExp.Contains(GetElementText(completedDateTaskLineUpdate).Replace(".", "").Trim()), "Expected: " + completedDateExp + " but found: " + GetElementText(completedDateTaskLineUpdate));
             Assert.AreEqual(autoConfirmedExp + ".", GetElementText(autoConfirmedTaskLineUpdate));
             return this;
@@ -1186,6 +1266,16 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(taskStateExp, GetAttributeValue(taskStateVerdictInput, "value"), "Task State is not correct");
             Assert.AreEqual(resolutionCodeExp, GetAttributeValue(resolutionCodeVerdictInput, "value"), "Resolution Code is not correct");
             //Assert.AreEqual(confirmationMethodExp, GetAttributeValue(confirmationMethodVerdictInput, "value"), "Confirmation method is not correct");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyTaskInformationAfterBulkUpdating2(string completionDateExp, string taskStateExp, string resolutionCodeExp, string confirmationMethodExp)
+        {
+            Assert.AreEqual(completionDateExp, GetAttributeValue(completionDateVerdictInput, "value"), "Completion Date is not correct");
+            Assert.AreEqual(taskStateExp, GetAttributeValue(taskStateVerdictInput, "value"), "Task State is not correct");
+            Assert.AreEqual(resolutionCodeExp, GetAttributeValue(resolutionCodeVerdictInput, "value"), "Resolution Code is not correct");
+            Assert.AreEqual(confirmationMethodExp, GetAttributeValue(confirmationMethodVerdictInput, "value"), "Confirmation method is not correct");
             return this;
         }
 
