@@ -927,5 +927,55 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             roundGroupPage.VerifyRoundGroup(roundGroup.Trim());
         }
+
+        [Category("Round Group")]
+        [Category("Huong")]
+        [Test]
+        public void TC_247_Qualification_Constraints_to_Rounds()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser37.UserName, AutoUser37.Password)
+                .IsOnHomePage(AutoUser37);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.Commercial)
+                .ExpandOption("Collections")
+                .ExpandOption("Commercial Collections")
+                .ExpandOption("Round Groups")
+                .ExpandOption("REC1-AM")
+                .OpenLastOption("Monday")
+                .SwitchNewIFrame();
+            var roundGroupPage = PageFactoryManager.Get<RoundGroupPage>();
+            roundGroupPage.TryWaitForLoadingIconToDisappear();
+            roundGroupPage.ClickRequiredQualificationsTab()
+                .TryWaitForLoadingIconToDisappear();
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.VerifyQualificationTabDisplay();
+            //Verify whether user able to click Add New Item Button
+            roundGroupPage.ClickOnElement(roundGroupPage.AddNewRequiredQualificationButton);
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.VerifyAddQUalificationPopupDisplay();
+
+            //Verify user able to select single or multiple QC from the popup Window
+            string qc = roundGroupPage.SelectQC(0);
+            roundGroupPage.ClickOnElement(roundGroupPage.ConfirmAddQualificationButton);
+
+            //Verify when new constraint is added and is visible in the main panel
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.VerifyNewQualification(qc);
+
+            //Verify whether user able to Retire QC
+            roundGroupPage.ClickRetireQC(0);
+            roundGroupPage.VerifyToastMessage("Successfully retired Required Qualification");
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.WaitForLoadingIconToDisappear();
+            roundGroupPage.VerifyRetireQualification();
+        }
     }
 }
