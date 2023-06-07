@@ -586,6 +586,8 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskConfirmationPage.ExpandRoundNode(Contract.Municipal)
                 .SelectRoundNode("Recycling");
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
+            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.FromInput, "07/06/2023");
+            taskConfirmationPage.InputCalendarDate(taskConfirmationPage.ToInput, "14/06/2023");
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
             taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
