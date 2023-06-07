@@ -43,7 +43,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By allRowInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div");
 
         //calendar
-        private readonly string futreDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@style,'z-index:')]//td[contains(@class,'day') and not(contains(@class,'disable')) and text()='{0}'])[last()]";
+        private readonly string futreDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@style,'z-index:')]//td[contains(@class,'day') and not(contains(@class,'disable')) and not(contains(@class,'new')) and text()='{0}'])[last()]";
 
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
         private readonly By firstRowAfterFiltering = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]/parent::div");

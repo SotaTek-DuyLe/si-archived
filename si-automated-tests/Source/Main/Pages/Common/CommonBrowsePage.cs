@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By addNewItemLoading = By.XPath("//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
         private readonly string customBtn = "//button[text()='{0}']";
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
+        private readonly string filterInput = "//div[contains(@class,'ui-state-default slick-headerrow-column')][{0}]/input";
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
         private readonly By firstResult = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')]");
         private readonly By results = By.XPath("//div[contains(@class,'ui-widget-content slick-row')]");
@@ -25,6 +26,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By firstResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row even') and not(contains(@class,'slick-group'))][1]/div");
         private readonly By secondResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row odd') and not(contains(@class,'slick-group'))][1]/div");
         private readonly By activeResultFields = By.XPath("//div[contains(@class,'ui-widget-content slick-row')]/div[contains(@class,'selected')]"); //fields from row that is selected
+        private readonly By checkboxFromActiveField = By.XPath("//div[contains(@class,'ui-widget-content slick-row')]/div[contains(@class,'selected')]/input"); //fields from row that is selected
         private readonly By firstResultFieldsInTabSection = By.XPath("//div[contains(@class,'tab-pane') and contains(@class,'active')]//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
         private readonly By availableRows = By.XPath("//div[contains(@class,'ui-widget-content slick-row')]");
         private readonly String resultFields = "//div[contains(@class,'ui-widget-content slick-row')][{0}]/div";
@@ -41,6 +43,26 @@ namespace si_automated_tests.Source.Main.Pages
             if(clickApply) ClickOnElement(applyBtn);
             return this;
         }
+
+        [AllureStep]
+        public CommonBrowsePage FilterItemByField(string field, string value, bool clickApply = true)
+        {
+            WaitForLoadingIconToDisappear();
+            IList<IWebElement> hds = WaitUtil.WaitForAllElementsPresent(headers);
+            for (int i = 0; i < hds.Count; i++) //i=3
+            {
+                if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
+                {
+                    Console.WriteLine(i);
+                    var tmp = WaitUtil.WaitForElementVisible(By.XPath(String.Format(filterInput, i+1)));
+                    SendKeys(tmp, value);
+                    break;
+                }
+            }
+            if (clickApply) ClickOnElement(applyBtn);
+            return this;
+        }
+
 
         [AllureStep]
         public CommonBrowsePage OpenFirstResult()
@@ -118,7 +140,7 @@ namespace si_automated_tests.Source.Main.Pages
                         Assert.AreEqual(expectedDate.Month, actualDate.Month);
                         Assert.AreEqual(expectedDate.Day, actualDate.Day);
                         Assert.AreEqual(expectedDate.Hour, actualDate.Hour);
-                        Assert.IsTrue(expectedDate.Minute - actualDate.Minute == 0 | expectedDate.Minute - actualDate.Minute == 1, "Expected " + expectedDate.Minute + " but found " + actualDate.Minute);
+                        Assert.IsTrue(expectedDate.Minute - actualDate.Minute == 0 | actualDate.Minute - expectedDate.Minute == 1, "Expected " + expectedDate.Minute + " but found " + actualDate.Minute);
                     }
                 }
             }
@@ -246,5 +268,11 @@ namespace si_automated_tests.Source.Main.Pages
             return this;
         }
 
+        [AllureStep]
+        public CommonBrowsePage DeselectActiveItem()
+        {
+            ClickOnElement(checkboxFromActiveField);
+            return this;
+        }
     }
 }
