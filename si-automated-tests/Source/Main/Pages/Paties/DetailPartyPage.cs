@@ -37,7 +37,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By title = By.XPath("//h4[text()='Party']");
         private readonly By wBtab = By.XPath("//a[text()='Weighbridge Settings']");
         private readonly By wBTicketTab = By.XPath("//a[text()='Weighbridge Tickets']");
-        private readonly By taskTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='tasks-tab']");
+        private readonly By taskTab = By.XPath("//ul[contains(@class,'nav-tabs')]/li[contains(@style,'visible')]/a[@aria-controls='tasks-tab']");
+        private readonly By taskTabAlt = By.XPath("//span[text()='Tasks']/parent::a");
         private readonly By suspensionTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='suspensions-tab']");
         public readonly By pricesTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='prices-tab']");
         private readonly By adhocTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='adhoc-tab']");
@@ -156,6 +157,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public readonly By OnStopButton = By.XPath("//div[@id='account-tab']//button[text()='ON STOP']");
         public readonly By OffStopButton = By.XPath("//div[@id='account-tab']//button[text()='OFF STOP']");
         public readonly By PartyStatus = By.XPath("//div[@title='Party Status']//span");
+        #region OffStop Dialog
+        public readonly By OffStopTitle = By.XPath("//div[@class='text-info' and text()='Are you sure you want to take all linked Agreements \"Off Stop\"?']");
+        public readonly By CancelButton = By.XPath("//div[@class='bootbox modal fade in']//button[text()='Cancel']");
+        public readonly By YesButton = By.XPath("//div[@class='bootbox modal fade in']//button[text()='Yes']");
+        public readonly By NoButton = By.XPath("//div[@class='bootbox modal fade in']//button[text()='No']");
+        #endregion
 
         //HISTORY TAB
         private readonly string historyItem = "(//span[text()='{0}']/following-sibling::span[1])[1]";
@@ -171,6 +178,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By creditLimitInput = By.CssSelector("input[id='party-credit-limit']");
         private readonly By wipBalanceInput = By.CssSelector("input[id='wip-balance']");
         private readonly By accountBalanceInput = By.CssSelector("input[id='account-balance']");
+        public readonly By OnStopBtnInAccountTab = By.XPath("//div[@id='account-tab']//button[text()='ON STOP']");
 
         [AllureStep]
         public DetailPartyPage InputCreditLimt(string creditLimitValue)
@@ -244,9 +252,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public TaskTab ClickTasksTab()
         {
-            ClickOnElement(taskTab);
+            if (!IsControlDisplayedNotThrowEx(taskTab))
+            {
+                ClickTabDropDown();
+                ClickOnElement(taskTabAlt);
+            }
+            else
+            {
+                ClickOnElement(taskTab);
+            }
+
             return new TaskTab();
         }
+
+
         [AllureStep]
         public DetailPartyPage ClickSuspensionTab()
         {
@@ -1109,7 +1128,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         {
             ClickOnElement(downloadBtn);
             SwitchToLastWindow();
-            WaitUtil.WaitForElementVisible("//h2[text()='Tell us whether you accept cookies']");
+            WaitUtil.WaitForElementVisible("//h1[contains(text(), 'Search across all the registers')]");
             Assert.AreEqual("https://environment.data.gov.uk/public-register/view/search-all", GetCurrentUrl());
             Assert.AreEqual("Search all public registers", GetCurrentTitle());
             CloseCurrentWindow();
@@ -1437,6 +1456,10 @@ namespace si_automated_tests.Source.Main.Pages.Paties
 
         #endregion
 
+        #region
+        private readonly By addNewItemCostAgreementTab = By.XPath("//div[@id='costAgreements-tab']//button[text()='Add New Item']");
+        private readonly By addNewItemLoadingCostAgreementTab = By.XPath("//div[@id='costAgreements-tab']//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
+
         [AllureStep]
         public DetailPartyPage ClickOnCostAgreementsTab()
         {
@@ -1451,5 +1474,15 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return this;
         }
+
+        [AllureStep]
+        public DetailPartyPage ClickOnAddNewItemCostAgreementTab()
+        {
+            WaitUtil.WaitForElementInvisible(addNewItemLoadingCostAgreementTab);
+            ClickOnElement(addNewItemCostAgreementTab);
+            return this;
+        }
+
+        #endregion
     }
 }

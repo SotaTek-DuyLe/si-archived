@@ -35,6 +35,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public readonly By ResourceStateSelect = By.XPath("//div[@class='modal-dialog' and @data-bind='with: selectedResourceShiftInstance']//select[@id='state']");
         public readonly By ResourceShiftInstanceButton = By.XPath("//div[@class='modal-dialog' and @data-bind='with: selectedResourceShiftInstance']//button[text()='Save']");
 
+        public readonly By ResourceHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l0 r0']//input");
         public readonly By ResourceTypeHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l2 r2']//input");
         public readonly By ThirdPartyHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l5 r5']//select");
         private string AllResourceTable = "//div[@id='all-resources']//div[@class='grid-canvas']";
@@ -95,11 +96,11 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By roundContainer = By.XPath("//tr[@class='round-group-dropdown-item']/td[@class='round-container round']");
         private readonly string blankResourceTypeInRoundGroup = "//tr[@class='round-group-dropdown']//span[@class='sub-description resource-type current-type' and text()='{0}']/preceding-sibling::span[@class='main-description resource-name' and text()='']";
         private readonly string blankResourceTypeInRound = "//tr[@class='round-group-dropdown-item']//span[@class='sub-description resource-type current-type' and text()='{0}']/preceding-sibling::span[@class='main-description resource-name' and text()='']";
-        private readonly string expandOptions = "(//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')])[{0}]//div[@id='toggle-actions']";
+        private readonly string expandOptions = "(//div[contains(@class,'layout-pane-west')]//tbody/tr[contains(@data-bind,'attr')])//div[@id='toggle-actions']";
         private readonly string secondColumnResource = "(//div[@id='rounds-scrollable']//tr[@class='round-group-dropdown'])[{0}]//span[text()='{1}']";
         private readonly string roundName = "//span[@class='main-description round-name' and text()='{0}']";
         private readonly By roundInstances = By.XPath("//span[@class='main-description round-name']");
-        private readonly By serviceNames = By.XPath("//span[@class='sub-description' and contains(@data-bind,'name: service')]");
+        private readonly By serviceNames = By.XPath("//span[@class='sub-description' and contains(@data-bind,'service')]");
         private readonly By viewRoundBtn = By.XPath("//button[text()='VIEW ROUND']");
         private readonly By dateInput = By.XPath("//input[contains(@data-bind,'dateControl')]");
         private readonly By calendarIcon = By.XPath("//div[@class='date-control container' and contains(@style,'display: block;')]//span[@class='input-group-addon']");
@@ -609,7 +610,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         [AllureStep]
         public ResourceAllocationPage ExpandRoundGroup(int whichRow)
         {
-            ClickOnElement(expandOptions, whichRow.ToString());
+            var list = WaitUtil.WaitForAllElementsPresent(By.XPath(expandOptions));
+            ClickOnElement(list[whichRow - 1]);
             SleepTimeInMiliseconds(200);
             return this;
         }

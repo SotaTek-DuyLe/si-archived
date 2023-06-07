@@ -3,6 +3,7 @@ using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.Resources
@@ -44,6 +45,56 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public readonly By ShiftScheduleTab = By.XPath("//a[@aria-controls='shiftSchedules-tab']");
         public readonly By AddNewShiftScheduleButton = By.XPath("//div[@id='shiftSchedules-tab']//button[text()='Add New Item']");
         #endregion
+
+        #region Required Qualification
+        public readonly By QualificatoinTab = By.XPath("//a[@aria-controls='resourceQualifications-tab']");
+        public readonly By AddQualificationButton = By.XPath("//div[@id='resourceQualifications-tab']//button[@title='Add New Item']");
+        public readonly By QualificationTable = By.XPath("//div[@id='resourceQualifications-tab']//div[@class='grid-canvas']");
+        public readonly By SelectQualification = By.XPath("//div[@id='qualification-modal']//select[@id='qualifications.id']");
+        public readonly By ConfirmAddQualificationButton = By.XPath("//div[@id='qualification-modal']//button[@title='Confirm']");
+        public readonly By CancelAddQualificationButton = By.XPath("//div[@id='qualification-modal']//button[@title='Cancel']");
+        public readonly By EffectiveDateInput = By.Id("effectiveDate.id");
+        public readonly By ExpiredDateInput = By.Id("expiryDate.id");
+
+        private string qualificationTable = "//div[@id='resourceQualifications-tab']//div[@class='grid-canvas']";
+        private string qualificationRow = "./div[contains(@class, 'slick-row')]";
+        private string idQCell = "./div[contains(@class, 'slick-cell l0 r0')]";
+        private string constraintCell = "./div[contains(@class, 'slick-cell l1 r1')]";
+        private string startDateCell = "./div[contains(@class, 'slick-cell l2 r2')]";
+        private string endDateCell = "./div[contains(@class, 'slick-cell l3 r3')]";
+        private string photoCell = "./div[contains(@class, 'slick-cell l4 r4')]";
+        private string retireButtonCell = "./div[contains(@class, 'slick-cell l5 r5')]";
+
+        public TableElement QualificationTableEle
+        {
+            get => new TableElement(qualificationTable, qualificationRow, new System.Collections.Generic.List<string>() { idQCell, constraintCell, startDateCell, endDateCell, photoCell, retireButtonCell });
+        }
+
+        [AllureStep]
+        public ResoureDetailPage VerifyNewQualification(string constraint, string startDate, string endDate)
+        {
+            VerifyCellValue(QualificationTableEle, 0, QualificationTableEle.GetCellIndex(constraintCell), constraint);
+            VerifyCellValue(QualificationTableEle, 0, QualificationTableEle.GetCellIndex(startDateCell), startDate);
+            VerifyCellValue(QualificationTableEle, 0, QualificationTableEle.GetCellIndex(endDateCell), endDate);
+            return this;
+        }
+
+        [AllureStep]
+        public ResoureDetailPage VerifyRetiredQualification(string id)
+        {
+            Assert.IsNull(QualificationTableEle.GetCellByValue(QualificationTableEle.GetCellIndex(idQCell), id));
+            return this;
+        }
+
+        [AllureStep]
+        public string ClickRetireQualification(int rowIdx)
+        {
+            string id = QualificationTableEle.GetCellValue(rowIdx, QualificationTableEle.GetCellIndex(idQCell)).ToString();
+            QualificationTableEle.ClickCell(rowIdx, QualificationTableEle.GetCellIndex(retireButtonCell));
+            return id;
+        }
+        #endregion
+
 
         [AllureStep]
         public ResoureDetailPage IsRetiredPopup()

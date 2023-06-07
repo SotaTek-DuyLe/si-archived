@@ -72,6 +72,11 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         private readonly By roundInRightHand = By.XPath("//div[@title='Rounds']/ancestor::li[@id='Rounds']");
         private readonly By roundNameInLeftHand = By.XPath("//span[@class='map-object-name']/ancestor::li");
         private readonly By firstRoundNameInLeftHand = By.XPath("(//span[@class='map-object-name']/ancestor::li)[1]");
+        private readonly By firstShowRoundInstanceBtn = By.XPath("(//button[text()='Show Round Instance']/parent::div)[1]");
+        private readonly By firstRoundRecord = By.XPath("//div[@id='rounds-tab']//div[@class='grid-canvas']/div[1]");
+
+        //DYNAMIC
+        private readonly string roundNameInLeftHandByResource = "(//span[@class='map-object-name' and text()='{0}']/ancestor::li)[1]";
 
         [AllureStep]
         public MapListingPage ClickOnRoundTab()
@@ -88,9 +93,16 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         }
 
         [AllureStep]
-        public MapListingPage ClickOnFirstRoundInRightHand()
+        public MapListingPage ClickOnFirstRoundInLeftHand()
         {
             ClickOnElement(firstRoundNameInLeftHand);
+            return this;
+        }
+
+        [AllureStep]
+        public MapListingPage ClickOnFirstRoundInLeftHand(string resourceName)
+        {
+            ClickOnElement(roundNameInLeftHandByResource, resourceName);
             return this;
         }
 
@@ -118,6 +130,20 @@ namespace si_automated_tests.Source.Main.Pages.Maps
         public MapListingPage ClickOnFirstShowRoundInstanceBtnRoundTab()
         {
             ClickOnElement(firstShowRoundInstanceBtnRoundTab);
+            return this;
+        }
+
+        [AllureStep]
+        public MapListingPage WaitForRoundsTabLoaded()
+        {
+            WaitUtil.WaitForElementVisible(firstRoundRecord);
+            return this;
+        }
+
+        [AllureStep]
+        public MapListingPage ClickOnFirstShowRoundInstanceBtn()
+        {
+            ClickOnElement(firstShowRoundInstanceBtn);
             return this;
         }
 
@@ -269,6 +295,37 @@ namespace si_automated_tests.Source.Main.Pages.Maps
             {
                 Assert.AreEqual(taskStateValues[i], GetElementText(statusOptionInBulkUpdate, (i + 2).ToString()), "Task state at " + i + "is incorrect");
             }
+            return this;
+        }
+
+        #endregion
+
+        #region
+        private readonly By routeTab = By.CssSelector("div[id='south-data'] a[aria-controls='route-tab']");
+        private readonly By firstRoute = By.CssSelector("div[id='route-tab'] div[class='grid-canvas']");
+        private readonly By firstGenerateGuidedRoute = By.XPath("(//div[@id='route-tab']//button[text()='Generate Guided Route'])[1]");
+
+        //DYNAMIC
+        private readonly string generateGuidedRouteBtnByResource = "//div[@id='route-tab']//div[text()='{0}']//following-sibling::div/button[text()='Generate Guided Route']";
+
+        [AllureStep]
+        public MapListingPage ClickOnRouteTab()
+        {
+            ClickOnElement(routeTab);
+            return this;
+        }
+
+        [AllureStep]
+        public MapListingPage WaitForRouteTabLoaded()
+        {
+            WaitUtil.WaitForAllElementsVisible(firstRoute);
+            return this;
+        }
+
+        [AllureStep]
+        public MapListingPage ClickOnGenerateGuidedRouteBtnByResourceName(string resourceName)
+        {
+            ClickOnElement(generateGuidedRouteBtnByResource, resourceName);
             return this;
         }
 

@@ -113,6 +113,11 @@
     <None Remove="Source\Main\Pages\RoundLeg\" />
     <None Remove="Source\Test\FormTests\" />
     <None Remove="Source\Main\Pages\Contract\" />
+    <None Remove="Source\Test\CostAgreementTests\" />
+    <None Remove="Source\Test\BusinessFormTests\" />
+    <None Remove="Source\Main\Pages\CostRules\" />
+    <None Remove="Source\Main\Pages\CostAgreements\" />
+    <None Remove="Source\Main\Pages\Paties\Contacts\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
@@ -152,6 +157,11 @@
     <Folder Include="Source\Main\Pages\RoundLeg\" />
     <Folder Include="Source\Test\FormTests\" />
     <Folder Include="Source\Main\Pages\Contract\" />
+    <Folder Include="Source\Test\CostAgreementTests\" />
+    <Folder Include="Source\Test\BusinessFormTests\" />
+    <Folder Include="Source\Main\Pages\CostRules\" />
+    <Folder Include="Source\Main\Pages\CostAgreements\" />
+    <Folder Include="Source\Main\Pages\Paties\Contacts\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">

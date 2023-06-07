@@ -432,5 +432,39 @@ namespace si_automated_tests.Source.Main.Finders
             string query = $"select proximityalert from tasks where taskID={taskId};";
             return FindList<TaskDBModel>(query).FirstOrDefault();
         }
+
+        [AllureStep]
+        public List<BusinessUnitGroupDBModel> GetBusinessUnitGroupByContractId(int contractId)
+        {
+            string query = "select * from businessunitgroups WHERE contractID = " + contractId + ";";
+            return FindList<BusinessUnitGroupDBModel>(query);
+        }
+
+        [AllureStep]
+        public List<COSTAGREEMENTSDBModel> GetCostAgreementByPartyId(string partyId, string costAgreementId)
+        {
+            string query = "select approveddatetime, approveduserID,* FROM COSTAGREEMENTS where partyid=" + partyId + "and costagreementID = " + costAgreementId + ";";
+            return FindList<COSTAGREEMENTSDBModel>(query);
+        }
+
+        [AllureStep]
+        public List<ServiceAssetTypeDBModel> GetServiceAssetTypes(string serviceUnitID)
+        {
+            string query = @"select serviceunitID,assettype
+                            from serviceassettypes SAT
+                            inner
+                            join assettypes ATT on ATT.assettypeID = SAT.assettypeID
+                            inner
+                            join serviceunits SU on SU.serviceID = SAT.serviceID
+                            where serviceunitID = " + serviceUnitID + "; ";
+            return FindList<ServiceAssetTypeDBModel>(query);
+        }
+
+        [AllureStep]
+        public List<CostLineDBModel> GetCostLineDBModels(string taskID)
+        {
+            string query = "select * from costlines WHERE echotypeid=177 and echoID=" + taskID + ";";
+            return FindList<CostLineDBModel>(query);
+        }
     }
 }

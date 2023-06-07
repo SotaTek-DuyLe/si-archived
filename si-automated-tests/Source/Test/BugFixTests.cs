@@ -12,11 +12,15 @@ using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Accounts;
 using si_automated_tests.Source.Main.Pages.Agrrements;
+using si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs;
+using si_automated_tests.Source.Main.Pages.Applications;
+using si_automated_tests.Source.Main.Pages.Applications.ServiceStatus;
 using si_automated_tests.Source.Main.Pages.Events;
 using si_automated_tests.Source.Main.Pages.IE_Configuration;
 using si_automated_tests.Source.Main.Pages.Inspections;
 using si_automated_tests.Source.Main.Pages.Maps;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
+using si_automated_tests.Source.Main.Pages.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyAccountStatement;
 using si_automated_tests.Source.Main.Pages.Paties.Parties.PartyContactPage;
@@ -1723,7 +1727,7 @@ namespace si_automated_tests.Source.Test
                 .ClickOnGoBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<MapListingPage>()
-                .ClickOnFirstRoundInRightHand()
+                .ClickOnFirstRoundInLeftHand()
                 .ClickOnOptionsTab()
                 .VerifyOptionIsNotDisplay("Show Road Trail For Selected Resource");
         }
@@ -2534,7 +2538,7 @@ namespace si_automated_tests.Source.Test
             string vat = "20";
 
             PageFactoryManager.Get<LoginPage>()
-                   .GoToURL(WebUrl.MainPageUrl);
+                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
                 .IsOnLoginPage()
                 .Login(AutoUser46.UserName, AutoUser46.Password)
@@ -3541,6 +3545,525 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<StreetDetailPage>()
                 .IsRisksActive()
                 .VerifyToastMessagesIsUnDisplayed();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Generation of Guided Route - Round instance with no servicetaskschedules that have some GPS trail data (bug fix) ")]
+        public void TC_206_Generation_of_Guided_route_round_instance_with_no_service_tasks_schedules_that_have_some_GPS_trail_data()
+        {
+            string resourceVehicleName = "SKP1 NST";
+
+            //Step line 8: Round instance with no servicetaskschedules that have some GPS trail data
+            PageFactoryManager.Get<LoginPage>()
+                   .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Maps)
+                .OpenOption(Contract.Municipal)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MapListingPage>()
+                .WaitForMapsTabDisplayed()
+                .SendKeyInFromDate("13/10/2022 00:00")
+                .ClickOnGoBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MapListingPage>()
+                .ClickOnFirstRoundInLeftHand()
+                .ClickOnRoundTab()
+                .WaitForRoundsTabLoaded()
+                .ClickOnFirstShowRoundInstanceBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MapListingPage>()
+                .ClickOnRouteTab()
+                .WaitForRouteTabLoaded()
+                .ClickOnGenerateGuidedRouteBtnByResourceName(resourceVehicleName)
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.ErrorRetrievingTasksForRouteMessage)
+                .VerifyRedToasMessage(MessageRequiredFieldConstants.ErrorRetrievingTasksForRouteMessage);
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "Generation of Guided Route - Any round instance with no GPS trail data record (bug fix) ")]
+        public void TC_206_Generation_of_Guided_route_any_round_instance_with_no_GPS_trail_data_record()
+        {
+            string resourceName = "CM1 NST";
+            
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Maps)
+                .OpenOption(Contract.Municipal)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MapListingPage>()
+                .WaitForMapsTabDisplayed();
+            PageFactoryManager.Get<MapListingPage>()
+                .ClickOnFirstRoundInLeftHand(resourceName)
+                .ClickOnRoundTab()
+                .WaitForRoundsTabLoaded()
+                .ClickOnFirstShowRoundInstanceBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<MapListingPage>()
+                .ClickOnRouteTab()
+                .WaitForRouteTabLoaded()
+                .ClickOnGenerateGuidedRouteBtnByResourceName(resourceName)
+                .VerifyDisplayToastMessage(MessageRequiredFieldConstants.NoGPSTrailAvailableMessage);
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "2 scrollbars displayed in various grids - Applications (bug fix) ")]
+        public void TC_213_2_scrollbars_displayed_in_various_grids_applications()
+        {
+            //Step line 7: Applications
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .ExpandOption(MainOption.ServiceStatus)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            //Step line 8: North star commercial
+            PageFactoryManager.Get<ServiceStatusPage>()
+                .IsServiceStatusLoaded()
+                .VerifyDisplayVerticalScrollBarServiceStatusPage();
+            //Step line 9: Rounds > Tasks tab
+            PageFactoryManager.Get<NavigationBase>()
+                .GoToURL(WebUrl.MainPageUrl + "/web/round-instances/12050");
+            PageFactoryManager.Get<RoundInstanceForm>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundInstanceForm>()
+                .IsRoundInstanceForm()
+                .ClickOnTasksTab()
+                .IsTasksTabLoaded()
+                .VerifyDisplayVerticalScrollBarTasksTab();
+            //Step line 10: Rounds > Worksheet tab
+            PageFactoryManager.Get<RoundInstanceForm>()
+                .ClickOnWorksheetTab()
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<RoundInstanceForm>()
+                .VerifyDisplayVerticalScrollBarWorksheetTab();
+            //Step line 10: Subcontracted tasks
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(MainOption.SubcontractedTasks)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SubcontractedTasksListPage>()
+                .IsSubcontractedTasksLoaded()
+                .VerifyDisplayVerticalScrollBarSubcontractedTasksPage();
+            //Step line 11: Subcontracted Schedules
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(MainOption.SubcontractedSchedules)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SubcontractedSchedulesListPage>()
+                .IsSubcontractedSchedulesLoaded()
+                .VerifyDisplayVerticalScrollBarSubcontractedSchedulesPage();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "2 scrollbars displayed in various grids - Main panel Parties (bug fix) ")]
+        public void TC_213_2_scrollbars_displayed_in_various_grids_main_panel_parties()
+        {
+            string partyName = "Cafe Torelli";
+
+            //Step line 13: Parties list page
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PartyCommonPage>()
+                .IsPartyPageLoaded()
+                .VerifyDisplayVerticalScrollBarPartiesPage();
+            //Step line 14: Party/tasks tab
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl + "web/parties/1231");
+
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<DetailPartyPage>()
+                .WaitForDetailPartyPageLoadedSuccessfully(partyName)
+                .ClickTasksTab()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskTab>()
+                .IsTaskTabLoaded()
+                .VerifyDisplayVerticalScrollBarTasksTab();
+            //Step line 15: Agreements
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.Agreements)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<AgreementListPage>()
+                .IsAgreementListPageLoaded()
+                .VerifyDisplayVerticalScrollBarAgreementListPage();
+            //Step line 15: Sites
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption(MainOption.Sites)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SiteListPage>()
+                .IsSiteListPageLoaded()
+                .VerifyDisplayVerticalScrollBarSiteListPage();
+            //Step line 16: Contacts
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption(MainOption.SiteServices)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SiteServicesCommonPage>()
+                .IsSiteServiceLoaded()
+                .VerifyDisplayVerticalScrollBarSiteServicePage();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "2 scrollbars displayed in various grids - Main panel Account (bug fix) ")]
+        public void TC_213_2_scrollbars_displayed_in_various_grids_main_panel_account()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Accounts)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption(MainOption.SalesInvoice)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<SaleInvoicesListPage>()
+                .IsSaleInvoicesListPageLoaded()
+                .VerifyDisplayVerticalScrollBarSaleInvoicesListPage();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "2 scrollbars displayed in various grids - Main panel Services (bug fix) ")]
+        public void TC_213_2_scrollbars_displayed_in_various_grids_main_panel_services()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption("Regions")
+                .ExpandOption(Region.UK)
+                .ExpandOption(Contract.Commercial)
+                .ExpandOption("Collections")
+                .ExpandOptionLast("Commercial Collections")
+                .OpenOption("Active Service Units")
+                .SwitchNewIFrame();
+            //Active Service Units
+            PageFactoryManager.Get<ServiceUnitPage>()
+                .IsServiceUnitListPageLoaded()
+                .VerifyDisplayVerticalScrollBarServiceUnitPage();
+            //Expired Service Units
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .OpenOption("Expired Service Units")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ServiceUnitPage>()
+                .IsServiceUnitListPageLoaded()
+                .VerifyDisplayVerticalScrollBarServiceUnitPage();
+            //Active Service Tasks
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .OpenOption("Active Service Tasks")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ServiceTaskListPage>()
+                .IsServiceTaskListPageLoaded()
+                .VerifyDisplayVerticalScrollBarServiceTaskPage();
+            //Service Units
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .OpenOption("Service Units")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<ServiceUnitPage>()
+                .IsServiceUnitListPageLoaded()
+                .VerifyDisplayVerticalScrollBarServiceUnitPage();
+            //Point address
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .ExpandOption(Contract.Commercial)
+                .ExpandOption(Contract.Municipal)
+                .ExpandOption("Richmond")
+                .OpenOption("Point Addresses")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAddressListingPage>()
+                .WaitForPointAddressPageDisplayed()
+                .VerifyDisplayVerticalScrollBarPointAddressPage();
+            //Point segments
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .OpenOption("Point Segments")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointSegmentListingPage>()
+                .WaitForPointSegmentsPageDisplayed()
+                .VerifyDisplayVerticalScrollBarPointSegmentPage();
+            //Point Nodes
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .OpenOption("Point Nodes")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointNodeListingPage>()
+                .WaitForPointNodeListingPageDisplayed();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                 .VerifyDisplayVerticalScrollBarInListingPage();
+            //Point Areas
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Services)
+                .OpenOption("Point Areas")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<PointAreaListingPage>()
+                .WaitForPointAreaListingPageDisplayed();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                 .VerifyDisplayVerticalScrollBarInListingPage();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "2 scrollbars displayed in various grids - Main panel Events and Tasks and Inspections(bug fix) ")]
+        public void TC_213_2_scrollbars_displayed_in_various_grids_main_panel_events_tasks_inspections()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Events
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.Municipal)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .IsListPageLoaded()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+            //Tasks
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TasksListingPage>()
+                .WaitForTaskListinPageDisplayed();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                 .VerifyDisplayVerticalScrollBarInListingPage();
+            //Inspections
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Inspections)
+                .OpenOption("All Inspections")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .IsListPageLoaded()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+            //Inspections Schemes
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Inspections)
+                .OpenOption("Inspection Schemes")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .IsListPageLoaded()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+            //Resources
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .IsListPageLoaded()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+            //Map - Sector groups
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Maps)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Sector Groups")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+            //WB - Tickets
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Tickets")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .IsListPageLoaded()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+            //WB - Ticket Lines
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .OpenOption("Ticket Lines")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .IsListPageLoaded()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+            //WB - Grey Lists
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Weighbridge)
+                .OpenOption("Grey Lists")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .IsListPageLoaded()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+        }
+
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "2 scrollbars displayed in various grids - Change the resolution (bug fix) ")]
+        public void TC_213_2_scrollbars_displayed_in_various_grids_main_panel_Change_the_resolution_zoom_out()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+            //Change the resolution = 200
+            PageFactoryManager.Get<HomePage>()
+                .SetZoomLevel(200)
+                .SleepTimeInSeconds(5)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<HomePage>()
+                .Refresh();
+            PageFactoryManager.Get<HomePage>()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<HomePage>()
+                .IsOnHomePage(AutoUser46);
+            //Party
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .IsListPageLoaded()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+            //Events
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.Municipal)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .IsListPageLoaded()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+            //Tasks
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.Municipal)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .IsListPageLoaded()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+
+        }
+        [Category("BugFix")]
+        [Category("Chang")]
+        [Test(Description = "2 scrollbars displayed in various grids - Change the resolution (bug fix) ")]
+        public void TC_213_2_scrollbars_displayed_in_various_grids_main_panel_Change_the_resolution_zoom_in()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser46.UserName, AutoUser46.Password)
+                .IsOnHomePage(AutoUser46);
+
+            //Party
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Parties)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            //Change the resolution = 80
+            PageFactoryManager.Get<HomePage>()
+                .SetZoomLevel(80)
+                .SleepTimeInSeconds(5);
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .IsListPageLoaded()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+            //Events
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Events)
+                .OpenOption(Contract.Municipal)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<HomePage>()
+                 .SetZoomLevel(80)
+                 .SleepTimeInSeconds(5);
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .IsListPageLoaded()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+            //Tasks
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.Municipal)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<HomePage>()
+                 .SetZoomLevel(80)
+                 .SleepTimeInSeconds(5);
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .IsListPageLoaded()
+                .VerifyDisplayVerticalScrollBarInListingPage();
+
         }
     }
 }

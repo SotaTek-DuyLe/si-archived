@@ -21,6 +21,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly By firstServiceUnitRow = By.XPath("//div[@class='grid-canvas']/div[1]");
         private readonly By addNewItemBtn = By.XPath("//button[text()='Add New Item']");
         private readonly By allServiceUnitRows = By.XPath("//div[@class='grid-canvas']/div");
+        private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
 
         public TableElement ServiceUnitTableEle
         {
@@ -103,6 +104,24 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceUnitPage ClickOnXBtn()
         {
             ClickOnElement(closeBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitPage IsServiceUnitListPageLoaded()
+        {
+            WaitUtil.WaitForAllElementsVisible(allServiceUnitRows);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceUnitPage VerifyDisplayVerticalScrollBarServiceUnitPage()
+        {
+            List<IWebElement> webElements = GetAllElements(allServiceUnitRows);
+            if(webElements.Count >= 25)
+            {
+                VerifyDisplayVerticalScrollBar(containerPage);
+            }
             return this;
         }
 

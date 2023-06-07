@@ -15,6 +15,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By addNewItemLoading = By.XPath("//button[text()='Add New Item' and contains(@class, 'echo-disabled')]");
         private readonly string customBtn = "//button[text()='{0}']";
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
+        private readonly By inputs = By.XPath("//div[contains(@class,'ui-state-default slick-headerrow-column')]/descendant::input");
         private readonly string filterInput = "//div[contains(@class,'ui-state-default slick-headerrow-column')][{0}]/input";
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
         private readonly By firstResult = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')]");
@@ -30,6 +31,8 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By firstResultFieldsInTabSection = By.XPath("//div[contains(@class,'tab-pane') and contains(@class,'active')]//div[contains(@class,'ui-widget-content slick-row even')][1]/div");
         private readonly By availableRows = By.XPath("//div[contains(@class,'ui-widget-content slick-row')]");
         private readonly String resultFields = "//div[contains(@class,'ui-widget-content slick-row')][{0}]/div";
+        private readonly By allRowInTabel = By.XPath("//div[@class='grid-canvas']/div");
+        private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
 
         public CommonBrowsePage()
         {
@@ -174,6 +177,17 @@ namespace si_automated_tests.Source.Main.Pages
             }
             return this;
         }
+
+        [AllureStep]
+        public CommonBrowsePage FilterItemWithoutClickApply(int id)
+        {
+            WaitForLoadingIconToDisappear();
+            SendKeys(filterInputById, id.ToString());
+            WaitForLoadingIconToDisappear();
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
         [AllureStep]
         public CommonBrowsePage ClickButton(string _buttonName)
         {
@@ -249,6 +263,23 @@ namespace si_automated_tests.Source.Main.Pages
             }
             return result;
         }
+        [AllureStep]
+        public CommonBrowsePage FilterItemBy(string field, string value) {
+
+            IList<IWebElement> hds = WaitUtil.WaitForAllElementsVisible(headers);
+            IList<IWebElement> filterInputs = WaitUtil.WaitForAllElementsVisible(inputs);
+            for (int i = 0; i < hds.Count; i++)
+            {
+                if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
+                {
+                    SendKeys(filterInputs[i - 1], value);
+                    break;
+                }
+            }
+            ClickOnElement(applyBtn);
+
+            return this;
+        }
         //For task grid only
         [AllureStep]
         public CommonBrowsePage OpenFirstServiceTaskLink()
@@ -267,6 +298,21 @@ namespace si_automated_tests.Source.Main.Pages
             }
             return this;
         }
+
+        [AllureStep]
+        public CommonBrowsePage IsListPageLoaded()
+        {
+            WaitUtil.WaitForAllElementsVisible(allRowInTabel);
+            return this;
+        }
+
+        [AllureStep]
+        public CommonBrowsePage VerifyDisplayVerticalScrollBarInListingPage()
+        {
+            VerifyDisplayVerticalScrollBar(containerPage);
+            return this;
+        }
+
 
         [AllureStep]
         public CommonBrowsePage DeselectActiveItem()

@@ -20,6 +20,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
 
         private readonly By taskType = By.XPath("//div[@class='slick-cell l11 r11']");
         private readonly By taskDueDate = By.XPath("//div[@class='slick-cell l13 r13']");
+        private readonly By containerTasksTab = By.XPath("//div[@id='tasks-tab']//div[@class='slick-viewport']");
 
         private readonly By taskTabBtn = By.XPath("//a[@aria-controls='tasks-tab']");
         private readonly By refreshBtn = By.XPath("//button[@title='Refresh']");
@@ -79,6 +80,21 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         }
 
         [AllureStep]
+        public TaskTab VerifyOnStopTaskState()
+        {
+            int count = TaskTableEle.GetRows().Count;
+            for (int i = 0; i < count; i++)
+            {
+                string taskImageUrl = TaskTableEle.GetCell(i, TaskTableEle.GetCellIndex(TaskStateImgCell)).GetAttribute("background-image");
+                if (taskImageUrl.Contains("task-onhold.png"))
+                {
+                    return this;
+                }
+            }
+            return this;
+        }
+
+        [AllureStep]
         public TaskTab VerifyFirstTaskType(string expected)
         {
             IList<IWebElement> listTaskType = WaitUtil.WaitForAllElementsVisible(taskType);
@@ -89,7 +105,7 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         public TaskTab VerifyFirstTaskDueDate(string expected)
         {
             IList<IWebElement> listTaskDueDate = WaitUtil.WaitForAllElementsVisible(taskDueDate);
-            Assert.IsTrue(GetElementText(listTaskDueDate[0]).Contains(expected));
+            Assert.IsTrue(GetElementText(listTaskDueDate[0]).Contains(expected), "Incorrect due date. Expected " + listTaskDueDate[0].Text + " to contain " + expected);
             return this;
         }
         [AllureStep]
@@ -572,6 +588,21 @@ namespace si_automated_tests.Source.Main.Pages.Agrrements.AgreementTabs
         {
             int firstId = int.Parse(GetElementText(fourthTaskId));
             return firstId;
+        }
+
+        [AllureStep]
+        public TaskTab IsTaskTabLoaded()
+        {
+            WaitUtil.WaitForAllElementsVisible("//div[@id='tasks-tab']//div[@class='grid-canvas']/div");
+            return this;
+        }
+
+
+        [AllureStep]
+        public TaskTab VerifyDisplayVerticalScrollBarTasksTab()
+        {
+            VerifyDisplayVerticalScrollBar(containerTasksTab);
+            return this;
         }
     }
 

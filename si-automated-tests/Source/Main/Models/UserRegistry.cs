@@ -71,6 +71,7 @@ namespace si_automated_tests.Source.Main.Models
         public static User AutoUser68;
         public static User AutoUser69;
         public static User AutoUser71;
+        public static User AutoUser72;
         public static User AutoUser80;
         public static User AutoUser82;
         public static User AutoUser83;
@@ -80,6 +81,8 @@ namespace si_automated_tests.Source.Main.Models
         public static User AutoUser87;
         public static User AutoUser88;
         public static User AutoUser89;
+        public static User AutoUser90;
+        public static User AutoUser91;
 
         public static User TestAutoUser;
 
@@ -162,6 +165,7 @@ namespace si_automated_tests.Source.Main.Models
             AutoUser68 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_68"].ToString());
             AutoUser69 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_69"].ToString());
             AutoUser71 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_71"].ToString());
+            AutoUser72 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_72"].ToString());
             AutoUser80 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_80"].ToString());
             AutoUser82 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_82"].ToString());
             AutoUser83 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_83"].ToString());
@@ -171,6 +175,8 @@ namespace si_automated_tests.Source.Main.Models
             AutoUser87 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_87"].ToString());
             AutoUser88 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_88"].ToString());
             AutoUser89 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_89"].ToString());
+            AutoUser90 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_90"].ToString());
+            AutoUser91 = JsonConvert.DeserializeObject<User>(jsonObject["auto_user_91"].ToString());
             TestAutoUser = JsonConvert.DeserializeObject<User>(jsonObject["testauto"].ToString());
         } 
     }

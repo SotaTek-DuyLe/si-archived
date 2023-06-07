@@ -24,6 +24,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By DropDownStatusButton = By.XPath("//button[@data-id='status']");
         public readonly By DropDownSelect = By.XPath("//ul[@class='dropdown-menu inner']");
         public readonly By WorksheetTab = By.XPath("//a[@aria-controls='worksheet-tab']");
+        private readonly By containerWorksheetTab = By.XPath("//*[@id='grid']//div[@class='slick-viewport']");
         public readonly By EventsTab = By.XPath("//a[@aria-controls='roundInstanceEvents-tab']");
         public readonly By WorkSheetIframe = By.XPath("//iframe[@id='worksheet-tab']");
         private readonly By title = By.XPath("//h4[text()='Round Instance']");
@@ -134,12 +135,28 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
+        public RoundInstanceForm IsRoundInstanceForm()
+        {
+            WaitUtil.WaitForElementVisible(title);
+            WaitUtil.WaitForElementVisible(detailTab);
+            return this;
+        }
+
+        [AllureStep]
         public RoundInstanceForm ClickOnWorksheetTab()
         {
             ClickOnElement(WorksheetTab);
             WaitForLoadingIconToDisappear();
             return this;
         }
+
+        [AllureStep]
+        public RoundInstanceForm VerifyDisplayVerticalScrollBarWorksheetTab()
+        {
+            VerifyDisplayVerticalScrollBar(containerWorksheetTab);
+            return this;
+        }
+
         [AllureStep]
         public RoundInstanceForm ClickOnExpandRoundBtn()
         {
@@ -279,6 +296,34 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public RoundInstanceForm ClickOnAddNewItemBtn()
         {
             ClickOnElement(addNewItemBtn);
+            return this;
+        }
+
+        //TASKS TAB
+        private readonly By tasksTab = By.CssSelector("a[aria-controls='tasks-tab']");
+        private readonly By allTasks = By.XPath("//div[@id='tasks-tab']//div[@class='grid-canvas']/div");
+        private readonly By containerTasksTab = By.XPath("//div[@id='tasks-tab']//div[@class='slick-viewport']");
+
+        [AllureStep]
+        public RoundInstanceForm ClickOnTasksTab()
+        {
+            ClickOnElement(tasksTab);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceForm IsTasksTabLoaded()
+        {
+            WaitForLoadingIconToDisappear();
+            WaitUtil.WaitForAllElementsPresent(allTasks);
+            return this;
+        }
+
+
+        [AllureStep]
+        public RoundInstanceForm VerifyDisplayVerticalScrollBarTasksTab()
+        {
+            VerifyDisplayVerticalScrollBar(containerTasksTab);
             return this;
         }
 

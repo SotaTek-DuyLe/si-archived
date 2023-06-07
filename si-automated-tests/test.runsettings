@@ -2,7 +2,7 @@
 <!-- File name extension must be .runsettings -->
 <RunSettings>
 	<RunConfiguration>
-		<MaxCpuCount>2</MaxCpuCount>
+		<MaxCpuCount>0</MaxCpuCount>
 		<!-- Path relative to directory that contains .runsettings file-->
 		<!--<ResultsDirectory>.\TestResults</ResultsDirectory>-->
 

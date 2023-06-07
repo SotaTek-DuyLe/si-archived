@@ -36,6 +36,18 @@ namespace si_automated_tests.Source.Core
         }
 
         [AllureStep]
+        public List<string> GetTextFromDd(By by)
+        {
+            List<string> allText = new List<string>();
+            List<IWebElement> webElements = GetAllElements(by);
+            foreach(IWebElement webElement in webElements)
+            {
+                allText.Add(GetElementText(webElement));
+            }
+            return allText;
+        }
+
+        [AllureStep]
         public BasePage ClickOnRetiredBtn()
         {
             ClickOnElement(retiredBtn);
@@ -128,6 +140,22 @@ namespace si_automated_tests.Source.Core
             SendKeysWithoutClear(by, Keys.Delete);
             SendKeysWithoutClear(by, value);
             SendKeysWithoutClear(by, Keys.Enter);
+        }
+
+        [AllureStep]
+        public void InputCalendarDate(IWebElement webElement, string value)
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                webElement.SendKeys(Keys.Command + "a");
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                webElement.SendKeys(Keys.Control + "a");
+            }
+            webElement.SendKeys(Keys.Delete);
+            webElement.SendKeys(value);
+            webElement.SendKeys(Keys.Enter);
         }
 
         //SEND KEYS
@@ -241,6 +269,7 @@ namespace si_automated_tests.Source.Core
         public void ClickToElementByAction(string xpath)
         {
             IWebElement element = this.driver.FindElement(By.XPath(xpath));
+            this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
             this.javascriptExecutor.ExecuteScript("arguments[0].scrollIntoViewIfNeeded(true);", new Object[] { element });
             Actions actions = new Actions(driver);
             WaitUtil.WaitForElementVisible(xpath);
@@ -482,18 +511,20 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public BasePage AcceptAlertIfAny()
         {
-            try
+            
+            for (int i = 0; i < 2; i++)
             {
-                for (int i = 0; i < 2; i++)
+                SleepTimeInMiliseconds(1000);
+                try
                 {
-                    SleepTimeInMiliseconds(1000);
                     this.driver.SwitchTo().Alert().Accept();
                 }
+                catch (NoAlertPresentException)
+                {
+                    continue;
+                }
             }
-            catch (NoAlertPresentException)
-            {
-                return this;
-            }
+            
             return this;
         }
 
@@ -950,6 +981,14 @@ namespace si_automated_tests.Source.Core
             Assert.IsTrue(IsControlDisplayed("//*[contains(text(),'{0}')]", message));
             return this;
         }
+
+        [AllureStep]
+        public BasePage VerifyRedToasMessage(string message)
+        {
+            Assert.IsTrue(IsControlDisplayed("//div[text()='{0}']/parent::div[contains(@class, 'notifyjs-echo-error')]", message));
+            return this;
+        }
+
         [AllureStep]
         public BasePage VerifyDisplayToastMessageDoubleQuote(string message)
         {
@@ -1042,6 +1081,8 @@ namespace si_automated_tests.Source.Core
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='ui-widget-overlay shield' and contains(@data-bind,'shield: $root.isLoading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='ui-widget-overlay shield' and contains(@data-bind,'shield: loading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//img[@src='images/ajax-loader.gif']");
+                WaitUtil.WaitForAllElementsInvisible60("//div[@id='resources-loading-shield']");
+                WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'shield: gridIsLoading')]");
                 WaitUtil.WaitForPageLoaded();
             }
             catch (WebDriverTimeoutException)
@@ -1080,10 +1121,13 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         [AllureStep]
-        public BasePage ClickSaveBtn()
+        public BasePage ClickSaveBtn(bool waitForLoadingIconDisappear = true)
         {
             ClickOnElement(saveBtn);
-            WaitForLoadingIconToDisappear();
+            if (waitForLoadingIconDisappear)
+            {
+                WaitForLoadingIconToDisappear();
+            }
             return this;
         }
 
@@ -1374,6 +1418,37 @@ namespace si_automated_tests.Source.Core
         public BasePage ClickConfirmActionButton()
         {
             ClickOnElement(confirmActionButton);
+            return this;
+        }
+
+        //Scroll bar - Vertical
+        [AllureStep]
+        public BasePage VerifyDisplayVerticalScrollBar(By container)
+        {
+            IWebElement webElement = (IWebElement)driver.FindElement(container);
+
+            Assert.IsTrue(GetAttributeValue(webElement, "style").Contains("overflow: auto;"));
+            Assert.IsTrue(GetAttributeValue(webElement, "style").Contains("height"));
+            return this;
+        }
+
+        //Scroll bar - Horizontal
+        [AllureStep]
+        public BasePage VerifyDisplayHorizontalScrollBar()
+        {
+            String execScript = "return arguments[0].scrollHeight > arguments[0].offsetHeight;";
+            this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
+            Boolean test = (Boolean)(this.javascriptExecutor.ExecuteScript(execScript));
+            Assert.IsTrue(test);
+            return this;
+        }
+
+        //Zoom
+        [AllureStep]
+        public BasePage SetZoomLevel(int zoomRate)
+        {
+            this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
+            javascriptExecutor.ExecuteScript(string.Format("document.body.style.zoom='{0}%'", zoomRate));
             return this;
         }
 

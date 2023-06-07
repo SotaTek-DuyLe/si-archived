@@ -78,7 +78,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForPointAddressPageDisplayed()
                 .FilterPointAddressWithId(pointAddressId)
                 .DoubleClickFirstPointAddressRow()
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             //Get all point history in point history tab
             PointAddressDetailPage pointAddressDetailPage = PageFactoryManager.Get<PointAddressDetailPage>();
@@ -112,7 +112,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickFirstEventInFirstServiceRow()
                 .VerifyEventTypeWhenClickEventBtn(FilterCommonServiceForPointWithServiceId)
                 .ClickAnyEventOption(eventOption)
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
             EventDetailPage eventDetailPage = PageFactoryManager.Get<EventDetailPage>();
             eventDetailPage
@@ -240,7 +240,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForPointAddressPageDisplayed()
                 .FilterPointAddressWithId(pointAddressId)
                 .DoubleClickFirstPointAddressRow()
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             //Get all point history in point history tab
             PageFactoryManager.Get<PointAddressDetailPage>()
@@ -274,7 +274,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetAllEventTypeInDd();
             PageFactoryManager.Get<PointAddressDetailPage>()
                 .ClickAnyEventOption(allEventTypes[0])
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
 
             //Event detail
@@ -368,6 +368,7 @@ namespace si_automated_tests.Source.Test.EventTests
             string idSegmentWithServiceUnit = "32839";
             string eventOption = "Standard - Complaint";
             string eventType = "Complaint";
+            string segmentWithServiceUnitName = "Selkirk Road 1 To 3 Near Gloucester Road";
 
             List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
             List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
@@ -404,6 +405,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickOnSearchBtn()
                 .IsSearchModel()
                 .ClickAnySearchForOption(searchForSegments)
+                .InputSegmentName(segmentWithServiceUnitName)
                 .ClickAndSelectRichmondSectorValue()
                 .ClickOnSearchBtnInPopup()
                 .WaitForLoadingIconToDisappear()
@@ -480,7 +482,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickPointHistorySubTab()
                 .WaitForLoadingIconToDisappear();
             List<PointHistoryModel> pointHistoryModelsInPointHistorySubTab = eventDetailPage
-                .GetAllPointHistory();
+                .GetAllPointHistoryWithScrollDown();
             eventDetailPage
                 .VerifyPointHistoryInSubTab(pointHistoryModelsInDetail, pointHistoryModelsInPointHistorySubTab);
             //Line 15
@@ -541,6 +543,7 @@ namespace si_automated_tests.Source.Test.EventTests
             string idSegmentWithoutServiceUnit = "32844";
             string eventOption = "Standard - Clear Flytip";
             string eventType = "Clear Flytip";
+            string segmentNameWithoutServiceUnit = "Mallard Place 1 To 97 Near Strawberry Vale";
 
             List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
             List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
@@ -578,6 +581,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .IsSearchModel()
                 .ClickAnySearchForOption(searchForSegments)
                 .ClickAndSelectRichmondSectorValue()
+                .InputSegmentName(segmentNameWithoutServiceUnit)
                 .ClickOnSearchBtnInPopup()
                 .WaitForLoadingIconToDisappear()
                 .SwitchNewIFrame();
@@ -974,7 +978,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickPointHistorySubTab()
                 .WaitForLoadingIconToDisappear();
             List<PointHistoryModel> pointHistoryModelsInPointHistorySubTab = eventDetailPage
-                .GetAllPointHistory();
+                .GetAllPointHistoryWithScrollDown();
             eventDetailPage
                 .VerifyPointHistoryInSubTab(pointHistoryModelsInDetail, pointHistoryModelsInPointHistorySubTab);
             //Line 15

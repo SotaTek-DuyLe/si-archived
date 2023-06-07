@@ -289,9 +289,12 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnShiftDetailPage()
                 .SelectState("Training")
                 .SelectResolutionCode("Paid")
-                .SaveDetail()
-                .AcceptAlert()
-                .WaitForLoadingIconToDisappear();
+                .SaveDetail();
+            if(PageFactoryManager.Get<BasePage>().GetAlertText().Equals("Ensure course and location are noted"))
+            {
+                PageFactoryManager.Get<BasePage>().AcceptAlertIfAny();
+            }
+            PageFactoryManager.Get<BasePage>().WaitForLoadingIconToDisappear();
             //PageFactoryManager.Get<ResourceAllocationPage>()
             //    .VerifyStateAbbreviation(resourceName2, "T")
             //    .VerifyBackgroundColor(resourceName2, "red2")
@@ -867,6 +870,57 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickMainOption(MainOption.Resources)
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
+
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string resourceType = "Driver";
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            //Create driver
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            var resourceDetailTab = PageFactoryManager.Get<ResourceDetailTab>();
+            resourceDetailTab
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .SelectBusinessUnit("Collections - Recycling")
+                .TickContractRoam();
+
+            PageFactoryManager.Get<ResourceDetailTab>()
+               .ClickSaveBtn()
+               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+
+            resourceDetailTab.ClickOnElement(resourceDetailTab.ShiftScheduleTab);
+            resourceDetailTab.WaitForLoadingIconToDisappear();
+            resourceDetailTab.WaitForLoadingIconToDisappear();
+            resourceDetailTab.ClickOnElement(resourceDetailTab.AddNewShiftScheduleButton);
+            resourceDetailTab.SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+
+            ShiftSchedulePage shiftSchedulePage = PageFactoryManager.Get<ShiftSchedulePage>();
+            shiftSchedulePage.ClickOnElement(shiftSchedulePage.ShiftDropdown);
+            shiftSchedulePage.SelectByDisplayValueOnUlElement(shiftSchedulePage.ShiftMenu, "06.00 - 14.30 AM");
+            //Click 'Save' on Shift Schedule form
+            shiftSchedulePage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            shiftSchedulePage.ClickCloseBtn()
+                .SwitchToChildWindow(2);
+
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+
             var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
             resourceAllocationPage.SelectContract(Contract.Commercial);
             resourceAllocationPage.SelectShift("AM");
@@ -879,6 +933,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
             resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceHeaderInput, resourceName);
             resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             resourceAllocationPage.SelectTextFromDropDown(resourceAllocationPage.ThirdPartyHeaderInput, "false");
@@ -896,6 +951,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SleepTimeInMiliseconds(2000);
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
             resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceHeaderInput, resourceName);
             resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             resourceAllocationPage.SelectTextFromDropDown(resourceAllocationPage.ThirdPartyHeaderInput, "false");
@@ -910,6 +966,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.ResourceShiftInstanceButton);
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             resourceAllocationPage.SleepTimeInMiliseconds(2000);
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceHeaderInput, resourceName);
             resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             resourceAllocationPage.VerifyResourceRowHasWhiteBackground(rowIdx);
@@ -931,6 +988,57 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickMainOption(MainOption.Resources)
                 .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
+
+            string resourceName = "Neil Armstrong " + CommonUtil.GetRandomNumber(5);
+            string resourceType = "Driver";
+
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+            //Create driver
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .ClickCreateResource()
+                .SwitchToLastWindow();
+            var resourceDetailTab = PageFactoryManager.Get<ResourceDetailTab>();
+            resourceDetailTab
+                .IsOnDetailTab()
+                .InputResourceName(resourceName)
+                .SelectResourceType(resourceType)
+                .SelectBusinessUnit("Collections - Recycling")
+                .TickContractRoam();
+
+            PageFactoryManager.Get<ResourceDetailTab>()
+               .ClickSaveBtn()
+               .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+               .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+
+            resourceDetailTab.ClickOnElement(resourceDetailTab.ShiftScheduleTab);
+            resourceDetailTab.WaitForLoadingIconToDisappear();
+            resourceDetailTab.WaitForLoadingIconToDisappear();
+            resourceDetailTab.ClickOnElement(resourceDetailTab.AddNewShiftScheduleButton);
+            resourceDetailTab.SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+
+            ShiftSchedulePage shiftSchedulePage = PageFactoryManager.Get<ShiftSchedulePage>();
+            shiftSchedulePage.ClickOnElement(shiftSchedulePage.ShiftDropdown);
+            shiftSchedulePage.SelectByDisplayValueOnUlElement(shiftSchedulePage.ShiftMenu, "06.00 - 14.30 AM");
+            //Click 'Save' on Shift Schedule form
+            shiftSchedulePage.ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
+                .WaitForLoadingIconToDisappear();
+            shiftSchedulePage.ClickCloseBtn()
+                .SwitchToChildWindow(2);
+
+            PageFactoryManager.Get<ResourceDetailTab>()
+                .ClickCloseBtn()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+
             var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
             resourceAllocationPage.SelectContract(Contract.Commercial);
             resourceAllocationPage.SelectShift("AM");
@@ -943,6 +1051,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
 
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
             resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceHeaderInput, resourceName);
             resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             int rowIdx = 0;
@@ -958,6 +1067,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .SleepTimeInMiliseconds(2000);
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
             resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceHeaderInput, resourceName);
             resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             //Verify
@@ -970,6 +1080,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.ResourceShiftInstanceButton);
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             resourceAllocationPage.SleepTimeInMiliseconds(2000);
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceHeaderInput, resourceName);
             resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
             resourceAllocationPage.WaitForLoadingIconToDisappear();
             string resource = resourceAllocationPage.GetResourceName(rowIdx);
@@ -1106,8 +1217,36 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             var substitutionName = "Samuel Morse";
             var leaveType = "Holiday";
             var leaveReason = "Paid";
-            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 6);
-            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
+            string startDate;
+            string endDate;
+            DateTime today = DateTime.Today;
+            if (today.DayOfWeek == DayOfWeek.Monday)
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 4);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
+
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 5);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
+            }
+            else if(today.DayOfWeek == DayOfWeek.Friday)
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 5);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 7);
+
+            }
+            else if(today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 4);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 6);
+            }
+            else
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 6);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
+            }
             var details = CommonUtil.GetRandomString(5);
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -1421,6 +1560,8 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             PageFactoryManager.Get<ResourceAllocationPage>()
                 .FilterResource("Resource", substitutionName)
                 .DragAndDropFirstResultToResourceInRound(resourceName)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
                 .VerifyAllocatedResourceName(substitutionName);
         }
 

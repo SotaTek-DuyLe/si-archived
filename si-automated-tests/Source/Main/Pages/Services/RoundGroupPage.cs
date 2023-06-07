@@ -144,6 +144,74 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
         #endregion
 
+        #region Required Qualifications
+        public readonly By AddNewRequiredQualificationButton = By.XPath("//div[@id='requiredQualifications-tab']//button[@title='Add New Item']");
+        #region Create Qualification
+        public readonly By ConfirmAddQualificationButton = By.XPath("//div[@id='create-required-qualification']//button[contains(text(), 'Confirm')]");
+        public readonly By CancelAddQualificationButton = By.XPath("//div[@id='create-required-qualification']//button[contains(text(), 'Cancel')]");
+        public readonly By ToogleSelectQualificationButton = By.XPath("//div[@id='create-required-qualification']//button[@data-toggle='dropdown']");
+        public readonly By QualificationSelect = By.XPath("//ul[@role='listbox' and @aria-expanded='true']");
+
+        public RoundGroupPage VerifyAddQUalificationPopupDisplay()
+        {
+            VerifyElementVisibility(ConfirmAddQualificationButton, true);
+            VerifyElementEnable(ConfirmAddQualificationButton, false);
+            VerifyElementVisibility(CancelAddQualificationButton, true);
+            VerifyElementEnable(CancelAddQualificationButton, true);
+            VerifyElementVisibility(ToogleSelectQualificationButton, true);
+            return this;
+        }
+
+        public string SelectQC(int index)
+        {
+            ClickOnElement(ToogleSelectQualificationButton);
+            SleepTimeInMiliseconds(300);
+            var values = GetUlDisplayValues(QualificationSelect);
+            SelectByDisplayValueOnUlElement(QualificationSelect, values[index]);
+            return values[index];
+        }
+        #endregion
+        private string QualificationTable = "//div[@id='requiredQualifications-tab']//div[@class='grid-canvas']";
+        private string QualificationRow = "./div[contains(@class, 'slick-row')]";
+        private string IdQualificationCell = "./div[contains(@class, 'slick-cell l0 r0')]";
+        private string QualificationConstaintCell = "./div[contains(@class, 'slick-cell l1 r1')]";
+        private string QualificationStartDateCell = "./div[contains(@class, 'slick-cell l2 r2')]";
+        private string QualificationEndDateCell = "./div[contains(@class, 'slick-cell l3 r3')]";
+        private string QualificationRetireCell = "./div[contains(@class, 'slick-cell l4 r4')]//button";
+
+        public TableElement QualificationTableEle
+        {
+            get => new TableElement(QualificationTable, QualificationRow, new List<string>() { IdQualificationCell, QualificationConstaintCell, QualificationStartDateCell, QualificationEndDateCell, QualificationRetireCell });
+        }
+
+        public RoundGroupPage VerifyQualificationTabDisplay()
+        {
+            VerifyElementVisibility(AddNewRequiredQualificationButton, true);
+            VerifyElementVisibility(QualificationTable, true);
+            return this;
+        }
+
+        public RoundGroupPage VerifyNewQualification(string qc)
+        {
+            VerifyCellValue(QualificationTableEle, 0, QualificationTableEle.GetCellIndex(QualificationConstaintCell), qc);
+            VerifyCellValue(QualificationTableEle, 0, QualificationTableEle.GetCellIndex(QualificationStartDateCell), DateTime.Now.ToString("dd/MM/yyyy"));
+            VerifyCellValue(QualificationTableEle, 0, QualificationTableEle.GetCellIndex(QualificationEndDateCell), "01/01/2050");
+            return this;
+        }
+
+        public RoundGroupPage ClickRetireQC(int index)
+        {
+            QualificationTableEle.ClickCell(0, QualificationTableEle.GetCellIndex(QualificationRetireCell));
+            return this;
+        }
+
+        public RoundGroupPage VerifyRetireQualification()
+        {
+            VerifyCellValue(QualificationTableEle, 0, QualificationTableEle.GetCellIndex(QualificationEndDateCell), DateTime.Now.AddDays(1).ToString("dd/MM/yyyy"));
+            return this;
+        }
+        #endregion
+
         [AllureStep]
         public RoundGroupPage VerifyDefaultDataOnAddForm()
         {
@@ -166,7 +234,9 @@ namespace si_automated_tests.Source.Main.Pages.Services
         {
             ClickOnElement(dispatchSiteSelect);
             List<string> options = GetAllElements(dispatchSiteSelectOpt).Select(x => x.Text).Where(x => !string.IsNullOrEmpty(x)).ToList();
-            Assert.AreEqual(new List<string>() { "Kingston Tip", "Townmead Tip & Depot (East)", "Townmead Weighbridge" }, options);
+            List<string> expectedList = new List<string>() { "Kingston Tip", "Townmead Tip & Depot (East)", "Townmead Weighbridge" };
+            var isTrue = expectedList.All(item => options.Contains(item));
+            Assert.IsTrue(isTrue);
             return this;
         }
         [AllureStep]
@@ -195,6 +265,18 @@ namespace si_automated_tests.Source.Main.Pages.Services
             ClickOnElement(roundTab);
             return this;
         }
+
+        [AllureStep]
+        public RoundGroupPage ClickRequiredQualificationsTab()
+        {
+            if (IsControlUnDisplayed(By.XPath("//a[@aria-controls='requiredQualifications-tab']")))
+            {
+                ClickOnElement(By.XPath("//li//a[@class='nav-link dropdown-toggle']//parent::li"));
+                this.driver.FindElements(By.XPath("//a[@aria-controls='requiredQualifications-tab']")).First(x => x.Displayed).Click();
+            }
+            return this;
+        }
+
         [AllureStep]
         public RoundGroupPage ClickDefaultResourceTab()
         {

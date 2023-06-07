@@ -25,6 +25,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private string TaskTable = "//div[@class='grid-canvas']";
         private string TaskRow = "./div[contains(@class, 'slick-row')]";
         private string TaskPriorityCell = "./div[contains(@class, 'slick-cell l23 r23')]";
+        private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
 
         private TableElement taskTableEle;
         public TableElement TaskTableEle
@@ -48,6 +49,18 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             SelectByDisplayValueOnUlElement(By.XPath("//ul[@aria-expanded='true']"), mode);
             SleepTimeInMiliseconds(100);
             SendKeys(By.XPath("//div[contains(@class, 'l23 r23')]/descendant::input"), value);
+            ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public TasksListingPage FilterTaskState(string mode, string value)
+        {
+            ClickOnElement(By.XPath("//div[contains(@class, 'l6 r6')]/descendant::button"));
+            SelectByDisplayValueOnUlElement(By.XPath("//ul[@aria-expanded='true']"), mode);
+            SleepTimeInMiliseconds(100);
+            SendKeys(By.XPath("//div[contains(@class, 'l6 r6')]/descendant::input"), value);
             ClickOnElement(applyBtn);
             WaitForLoadingIconToDisappear();
             return this;

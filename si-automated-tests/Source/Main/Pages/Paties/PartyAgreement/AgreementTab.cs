@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
+using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Pages.PartyAgreement;
 using si_automated_tests.Source.Main.Pages.Paties.PartyAgreement;
 using System;
@@ -11,7 +12,7 @@ using System.Text;
 namespace si_automated_tests.Source.Main.Pages.Paties
 {
     //Agreement tab inside Party Detail Page
-    public class AgreementTab : BasePage
+    public class AgreementTab : BasePageCommonActions
     {
         private const string agreementTabId = "//div[@id='agreements-tab']";
         private readonly By addNewItemBtn = By.XPath(agreementTabId + "//button[text()='Add New Item']");
@@ -24,6 +25,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By firstAgreementStatus = By.XPath(agreementTabId + "//div[@class='slick-cell l15 r15']");
         private readonly By firstAgreementRow = By.XPath(agreementTabId + "//div[@class='grid-canvas']/div[1]");
 
+        private readonly string AgreementTables = "//div[@id='agreements-tab']//div[@class='grid-canvas']";
+        private readonly string AgreementRow = "./div[contains(@class, 'slick-row')]";
+        private readonly string StatusCell = "./div[@class='slick-cell l15 r15']";
+        public TableElement AgreementTableEle
+        {
+            get => new TableElement(AgreementTables, AgreementRow, new List<string>() { StatusCell });
+        } 
+
+        [AllureStep]
+        public AgreementTab VerifyStatus(int rowIdx, string status)
+        {
+            VerifyCellValue(AgreementTableEle, rowIdx, AgreementTableEle.GetCellIndex(StatusCell), status);
+            return this;
+        }
 
         [AllureStep]
         public PartyAgreementPage ClickAddNewItem()

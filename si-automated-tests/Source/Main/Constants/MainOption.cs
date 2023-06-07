@@ -15,10 +15,19 @@
         //ACCOUNT
         public static readonly string Accounts = "Accounts";
         public static readonly string SalesInvoiceBatches = "Sales Invoice Batches";
+        public static readonly string SalesInvoice = "Sales Invoices";
         public static readonly string ServiceStatus = "Service Status";
 
         //PARTIES
         public static readonly string Parties = "Parties";
+        public static readonly string Agreements = "Agreements";
         public static readonly string SiteServices = "Agreement Lines";
+        public static readonly string Sites = "Sites";
+        public static readonly string Contacts = "Contacts";
+
+        //APPLICATIONS
+        public static readonly string Rounds = "Rounds";
+        public static readonly string SubcontractedTasks = "Subcontracted Tasks";
+        public static readonly string SubcontractedSchedules = "Subcontracted Schedules";
     }
 }

@@ -17,6 +17,8 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
         private readonly By firstResult = By.XPath("//div[@class='grid-canvas']/div[1]");
+        private readonly By allPartyRows = By.XPath("//div[@class='grid-canvas']/div");
+        private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
 
 
         [AllureStep]
@@ -85,6 +87,20 @@ namespace si_automated_tests.Source.Main.Pages
         {
             DoubleClickOnElement(firstResult);
             return PageFactoryManager.Get<DetailPartyPage>();
+        }
+
+        [AllureStep]
+        public PartyCommonPage IsPartyPageLoaded()
+        {
+            WaitUtil.WaitForAllElementsVisible(allPartyRows);
+            return this;
+        }
+
+        [AllureStep]
+        public PartyCommonPage VerifyDisplayVerticalScrollBarPartiesPage()
+        {
+            VerifyDisplayVerticalScrollBar(containerPage);
+            return this;
         }
     }
 }
