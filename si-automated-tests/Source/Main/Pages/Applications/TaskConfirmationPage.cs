@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -13,23 +14,36 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 {
     public class TaskConfirmationPage : BasePageCommonActions
     {
+        private readonly By mainGrid = By.XPath("//div[@id='grid']//div[@class='slick-viewport']");
         private readonly By contractTitle = By.XPath("//label[text()='Contract']");
         private readonly By serviceTitle = By.XPath("//label[text()='Services']");
         private readonly By scheduleTitle = By.XPath("//label[text()='Scheduled Date']");
         private readonly By goBtn = By.CssSelector("button[id='button-go']");
         private readonly By contractDd = By.XPath("//label[text()='Contract']/following-sibling::span/select");
         private readonly By serviceInput = By.XPath("//label[text()='Services']/following-sibling::input");
+        private readonly string serviceOption = "//a[contains(@class,'jstree-anchor') and text()='{0}']";
         private readonly By scheduledDateInput = By.XPath("//label[text()='Scheduled Date']/following-sibling::input");
         private readonly By fromDateInput = By.XPath("//label[text()='From']/following-sibling::input");
         private readonly By expandRoundsBtn = By.XPath("//span[text()='Expand Rounds']/parent::button");
+        private readonly By outstandingTaskBtn = By.XPath("//span[text()='Show Outstanding Tasks']/parent::button");
         private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
         private readonly By descAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
         private readonly By statusOfTaskNotOnHoldAtFirstColumn = By.XPath("(//img[@src='/web/content/images/coretaskstate/s2.svg']/parent::div/parent::div/following-sibling::div[contains(@class, 'l19')])[1]");
         private readonly By statusOfTaskOnHoldAtFirstColumn = By.XPath("(//img[@src='/web/content/style/images/task-onhold.png']/parent::div/parent::div/following-sibling::div[contains(@class, 'l19')])[1]");
+        private readonly By firstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]");
+        private readonly By completedDateAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l23') and contains(@class,'selected')])[1]");
+        private readonly By completedDateAtBulkUpdate = By.XPath("//div[@class='bulk-confirmation']//label[text()='Completed Date']/following-sibling::input");
+        private readonly By statusAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[1]");
+        private readonly By statusAtSecondColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[2]");
+        private readonly By resocodeAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[1]");
+
         private readonly By scheduledDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l17')]");
         private readonly By dueDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l18')]");
         private readonly By allRowInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div");
+
+        //calendar
+        private readonly string futreDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@style,'z-index:')]//td[contains(@class,'day') and not(contains(@class,'disable')) and not(contains(@class,'new')) and text()='{0}'])[last()]";
 
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
         private readonly By firstRowAfterFiltering = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]/parent::div");
@@ -61,11 +75,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By firstRoundInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[1]");
         public readonly By BulkUpdateButton = By.XPath("//button[@title='Bulk Update']");
         private readonly By statusDd = By.XPath("//label[text()='Status']/following-sibling::select[1]");
+        private readonly By resolutionDd = By.XPath("//label[text()='Resolution Code']/following-sibling::select[1]");
         private readonly By closeBtnBulkUpdate = By.XPath("//button[@type='button' and text()='×']");
         private readonly By breakdownOptionReasonNeeded = By.XPath("//label[contains(string(), 'Please select the reason below and confirm.')]/following-sibling::select/option[text()='Breakdown']");
         private readonly By reasonNeededDd = By.XPath("//label[contains(string(), 'Please select the reason below and confirm.')]/following-sibling::select");
         private readonly By reasonNeededTitle = By.XPath("//label[contains(string(), 'Please select the reason below and confirm.')]");
         private readonly By confirmationNeededTitle = By.XPath("//h4[contains(string(), 'Confirmation Needed')]");
+
+        private readonly By optionSelect = By.XPath("//div[contains(@class,'selected editable')]/select"); //applicable for multiple select in page
+
         //DYNAMIC
         private readonly string anyContractOption = "//label[text()='Contract']/following-sibling::span/select/option[text()='{0}']";
         private readonly string anyServicesByServiceGroup = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/preceding-sibling::i";
@@ -467,6 +485,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             ClickOnElement(chirldOfTree, roundName);
             return this;
         }
+        [AllureStep]
+        public TaskConfirmationPage ClickServicesAndSelectServiceInTree(string service)
+        {
+            ClickOnElement(serviceInput);
+            ClickOnElement(serviceOption, service);
+            return this;
+        }
 
         [AllureStep]
         public TaskConfirmationPage SendDateInScheduledDate(string dateValue)
@@ -688,6 +713,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             SleepTimeInMiliseconds(3000);
             return this;
         }
+        [AllureStep]
+        public TaskConfirmationPage ClicKCompletedDateAtFirstColumn()
+        {
+            ClickOnElement(completedDateAtFirstColumn);
+            return this;
+        }
 
         [AllureStep]
         public TaskConfirmationPage ClickOnStatusAtFirstColumnAndVerifyTheOrderStatus(string[] taskStateValues, string[] taskStateOnHolds)
@@ -709,6 +740,66 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
+        [AllureStep]
+        public TaskConfirmationPage InsertDayInFutre(string dayOfMonth)
+        {
+            if (dayOfMonth.StartsWith("0"))
+            {
+                dayOfMonth = dayOfMonth.Substring(1);
+            }
+            ClickOnElement(futreDayNumberInCalendar, dayOfMonth);
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage ClickOnStatusAtFirstColumn()
+        {
+            ClickOnElement(statusAtFirstColumn);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage ClickOnStatusAtSecondColumn()
+        {
+            ClickOnElement(statusAtSecondColumn);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage ClickOnFirstColumn()
+        {
+            ClickOnElement(firstColumn);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage SelectStatus(string status)
+        {
+            SelectTextFromDropDown(optionSelect, status);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage SelectResolutionCode(string reso)
+        {
+            if (reso.Equals("random", StringComparison.OrdinalIgnoreCase))
+            {
+                var numberOfOptions = GetNumberOfOptionInSelect(optionSelect);
+                var random = CommonUtil.GetRandomNumberBetweenRange(1, numberOfOptions - 1);
+                SelectIndexFromDropDown(optionSelect, random);
+            }
+            else
+            {
+                SelectTextFromDropDown(optionSelect, reso);
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public TaskConfirmationPage VerifyTheDisplayOfTheOrderStatus(string[] taskStateValues)
+        {
+            for (int i = 0; i < taskStateValues.Length; i++)
+            {
+                Assert.AreEqual(taskStateValues[i], GetElementText(optionInStatusFirstRow, (i + 2).ToString()), "Task state at " + i + "is incorrect");
+            }
+            return this;
+        }
 
         [AllureStep]
         public TaskConfirmationPage ClickOnBulkUpdateBtn()
@@ -721,6 +812,27 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TaskConfirmationPage ClickOnStatusDdInBulkUpdatePopup()
         {
             ClickOnElement(statusDd);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage SelectStatusInBulkUpdatePopup(string status)
+        {
+            SelectTextFromDropDown(statusDd, status);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage SelectResolutionCodeInBulkUpdatePopup(string reso)
+        {
+            if (reso.Equals("random", StringComparison.OrdinalIgnoreCase))
+            {
+                var numberOfOptions = GetNumberOfOptionInSelect(resolutionDd);
+                var random = CommonUtil.GetRandomNumberBetweenRange(0, numberOfOptions - 1);
+                SelectIndexFromDropDown(resolutionDd, random);
+            }
+            else
+            {
+                SelectTextFromDropDown(resolutionDd, reso);
+            }
             return this;
         }
 
@@ -776,5 +888,30 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }
             return this;
         }
+        [AllureStep]
+        public TaskConfirmationPage ScrollMaxToTheLeftOfGrid()
+        {
+            ScrollMaxToTheLeft(mainGrid);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage ScrollMaxToTheRightOfGrid()
+        {
+            ScrollMaxToTheRight(mainGrid);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage ClickCompletedDateAtBulkUpdate()
+        {
+            ClickOnElement(completedDateAtBulkUpdate);
+            return this;
+        }
+        [AllureStep]
+        public TaskConfirmationPage ClickShowOutstandingTasks()
+        {
+            ClickOnElement(outstandingTaskBtn);
+            return this;
+        }
+
     }
 }

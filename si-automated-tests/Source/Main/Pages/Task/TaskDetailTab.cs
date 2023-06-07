@@ -30,6 +30,9 @@ namespace si_automated_tests.Source.Main.Pages
 
         private string purchaseOrderValue = "//div[text()='Purchase Order #']/following-sibling::div[text()='{0}']";
 
+        //Calendar
+        private readonly string futreDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@class,'open') and contains(@style,'z-index:')]//td[contains(@class,'day') and not(contains(@class,'disable')) and text()='{0}'])[last()]";
+        private readonly string calendarIcon = "//label[contains(text(),'{0}')]/following-sibling::div//img";
         [AllureStep]
         public TaskDetailTab IsOnTaskDetailTab()
         {
@@ -77,13 +80,15 @@ namespace si_automated_tests.Source.Main.Pages
         [AllureStep]
         public TaskDetailTab VerifyCompletionDate(string date)
         {
-            Assert.IsTrue(GetAttributeValue(completionDate,"value").Contains(date));
+            var actual = GetAttributeValue(completionDate, "value");
+            Assert.IsTrue(actual.Contains(date), "Expected " + date + " but found " + actual);
             return this;
         }
         [AllureStep]
         public TaskDetailTab VerifyEndDate(string date)
         {
-            Assert.IsTrue(GetAttributeValue(endDate, "value").Contains(date));
+            var actual = GetAttributeValue(endDate, "value");
+            Assert.IsTrue(GetAttributeValue(endDate, "value").Contains(date), "Expected " + date + " but found " + actual);
             return this;
         }
         [AllureStep]
@@ -152,6 +157,13 @@ namespace si_automated_tests.Source.Main.Pages
 
             WaitUtil.WaitForElementInvisible(purchaseOrderValue, po);
             Assert.IsTrue(IsControlUnDisplayed(purchaseOrderValue, po));
+            return this;
+        }
+        [AllureStep]
+        public TaskDetailTab SelectDateFromCalendar(string field, string date)
+        {
+            ClickOnElement(calendarIcon, field);
+            ClickOnElement(futreDayNumberInCalendar, date);
             return this;
         }
     }
