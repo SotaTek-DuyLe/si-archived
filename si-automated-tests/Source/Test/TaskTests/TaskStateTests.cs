@@ -702,16 +702,20 @@ namespace si_automated_tests.Source.Test.TaskTests
         [Test]
         public void TC_176_verify_task_state_date_change_in_task_confirmation_completed_1()
         {
-            string saveToast = "Task Saved";
-            string taskLineName = "Collections";
-            string taskId = "14337";
-            string[] orderNumber = { "1", "1", "2", "1", "2" };
-            string[] orderStatus = { "Pending", "Not Completed", "Completed", "Cancelled" };
-            string dateNowInSchedule = CommonUtil.GetLocalTimeNow("dd");
-            string dateInFutreInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", 7);
             string dateInPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -2);
+            string dateToValidate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -2);
+            DateTime temp = DateTime.ParseExact(dateToValidate, "dd/MM/yyyy", null);
+            if(temp.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dateInPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -4);
+            }
             string dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -5);
-            string dateInFurthestPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -10);
+            dateToValidate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -5);
+            temp = DateTime.ParseExact(dateToValidate, "dd/MM/yyyy", null);
+            if (temp.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -7);
+            }
             string description = "Tesco Superstore, 20-28 BROAD STREET, TEDDINGTON, TW11 8RF";
 
 
@@ -804,17 +808,21 @@ namespace si_automated_tests.Source.Test.TaskTests
         public void TC_176_verify_task_state_date_change_in_task_confirmation_completed_2()
         {
             string saveToast = "Task Saved";
-            string taskLineName = "Collections";
-            string taskId = "14337";
-            string[] orderNumber = { "1", "1", "2", "1", "2" };
-            string[] orderStatus = { "Pending", "Not Completed", "Completed", "Cancelled" };
             string dateNowInSchedule = CommonUtil.GetLocalTimeNow("dd");
+            string dateToValidate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 0);
+            DateTime temp = DateTime.ParseExact(dateToValidate, "dd/MM/yyyy", null);
+            if (temp.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dateNowInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -2);
+            }
+
             string dateInFutreInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", 7);
-            string dateInPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -2);
-            string dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -5);
-            string dateInFurthestPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -10);
-            string description = "Tesco Superstore, 20-28 BROAD STREET, TEDDINGTON, TW11 8RF";
-            string tempDescription = "Teddington Station, TEDDINGTON RAILWAY STATION, VICTORIA ROAD, TEDDINGTON, TW11 0BB";
+            dateToValidate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 0);
+            temp = DateTime.ParseExact(dateToValidate, "dd/MM/yyyy", null);
+            if (temp.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dateInFutreInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", 8);
+            }
 
 
             PageFactoryManager.Get<LoginPage>()
@@ -889,16 +897,6 @@ namespace si_automated_tests.Source.Test.TaskTests
         [Test]
         public void TC_176_verify_task_state_date_change_in_service_status_completed_1()
         {
-            string saveToast = "Task Saved";
-            string taskLineName = "Collections";
-            string taskId = "14337";
-            string[] orderNumber = { "1", "1", "2", "1", "2" };
-            string[] orderStatus = { "Pending", "Not Completed", "Completed", "Cancelled" };
-            string dateNowInSchedule = CommonUtil.GetLocalTimeNow("dd");
-            string dateInFutreInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", 7);
-            string dateInPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -2);
-            string dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -5);
-            string dateInFurthestPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -10);
             string description = "Tesco Superstore, 20-28 BROAD STREET, TEDDINGTON, TW11 8RF";
             string tempDescription = "Teddington Station, TEDDINGTON RAILWAY STATION, VICTORIA ROAD, TEDDINGTON, TW11 0BB";
 
@@ -1001,16 +999,6 @@ namespace si_automated_tests.Source.Test.TaskTests
         public void TC_176_verify_task_state_date_change_in_service_status_completed_2()
         {
             string saveToast = "Task Saved";
-            string taskLineName = "Collections";
-            string taskId = "14337";
-            string[] orderNumber = { "1", "1", "2", "1", "2" };
-            string[] orderStatus = { "Pending", "Not Completed", "Completed", "Cancelled" };
-            string dateNowInSchedule = CommonUtil.GetLocalTimeNow("dd");
-            string dateInFutreInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", 7);
-            string dateInPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -2);
-            string dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -5);
-            string dateInFurthestPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -10);
-            string description = "Tesco Superstore, 20-28 BROAD STREET, TEDDINGTON, TW11 8RF";
 
 
 
@@ -1088,152 +1076,207 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .VerifyDateValueInActiveRow(3, "End Date", expectedDate)
                 .VerifyDateValueInActiveRow(3, "Completed Date", expectedDate);
         }
-        //[Category("Task State")]
-        //[Category("Dee")]
-        //[Test]
-        //public void TC_176_verify_task_state_date_change_in_task_confirmation_not_completed()
-        //{
-        //    string saveToast = "Task Saved";
-        //    string taskLineName = "Collections";
-        //    string taskId = "14337";
-        //    string[] orderNumber = { "1", "1", "2", "1", "2" };
-        //    string[] orderStatus = { "Pending", "Not Completed", "Completed", "Cancelled" };
-        //    string dateNowInSchedule = CommonUtil.GetLocalTimeNow("dd");
-        //    string dateInFutreInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", 7);
-        //    string dateInPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -2);
-        //    string dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -5);
-        //    string dateInFurthestPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -10);
+        [Category("Task State")]
+        [Category("Dee")]
+        [Test]
+        public void TC_176_verify_task_state_date_change_in_task_confirmation_not_completed_1()
+        {
+            string dateInPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -2);
+            string dateToValidate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -2);
+            DateTime temp = DateTime.ParseExact(dateToValidate, "dd/MM/yyyy", null);
+            if (temp.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dateInPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -4);
+            }
 
-        //    PageFactoryManager.Get<LoginPage>()
-        //        .GoToURL(WebUrl.MainPageUrl);
-        //    PageFactoryManager.Get<LoginPage>()
-        //        .IsOnLoginPage()
-        //        .Login(AutoUser44.UserName, AutoUser44.Password)
-        //        .IsOnHomePage(AutoUser44);
-        //    //
-        //    PageFactoryManager.Get<NavigationBase>()
-        //        .ClickMainOption(MainOption.Applications)
-        //        .OpenOption(SubOption.TaskConfirmation)
-        //        .SwitchNewIFrame()
-        //        .WaitForLoadingIconToDisappear();
+            string dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -5);
+            dateToValidate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -5);
+            temp = DateTime.ParseExact(dateToValidate, "dd/MM/yyyy", null);
+            if (temp.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -7);
+            }
+            string description = "Tesco Superstore, 20-28 BROAD STREET, TEDDINGTON, TW11 8RF";
 
-        //    //Step 9
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .IsTaskConfirmationPage()
-        //        .SelectContract(Contract.Commercial)
-        //        .ClickServicesAndSelectServiceInTree(Contract.Commercial)
-        //        .SendDateInScheduledDate(dateInPastInSchedule)
-        //        .ClickGoBtn()
-        //        .IsConfirmationNeededPopup()
-        //        .ClickOnConfirmBtn()
-        //        .WaitForLoadingIconToDisappear();
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ClickOnExpandRoundsBtn();
-        //    var id = PageFactoryManager.Get<CommonBrowsePage>()
-        //        .GetSecondResultValueOfField("ID");
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ClickOnStatusAtFirstColumn()
-        //        .SelectStatus("Not Completed")
-        //        .SelectResolutionCode("random")
-        //        .ClickOnStatusAtSecondColumn();
-        //    var expectedDate = CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm");
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ScrollMaxToTheLeftOfGrid();
-        //    PageFactoryManager.Get<CommonBrowsePage>()
-        //        .SelectItemWithField("ID", id);
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ScrollMaxToTheRightOfGrid();
-        //    PageFactoryManager.Get<CommonBrowsePage>()
-        //        .VerifyDateValueInActiveRow(1, "End Date", expectedDate)
-        //        .VerifyDateValueInActiveRow(1, "Completed Date", expectedDate);
 
-        //    //Step 10
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .SelectContract(Contract.Commercial)
-        //        .SendDateInScheduledDate(dateInFurtherPastInSchedule)
-        //        .ClickGoBtn()
-        //        .IsConfirmationNeededPopup()
-        //        .ClickOnConfirmBtn()
-        //        .WaitForLoadingIconToDisappear();
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ClickOnExpandRoundsBtn()
-        //        .ScrollMaxToTheLeftOfGrid();
-        //    id = PageFactoryManager.Get<CommonBrowsePage>()
-        //        .GetSecondResultValueOfField("ID");
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ClickOnStatusAtFirstColumn()
-        //        .SelectStatus("Not Completed")
-        //        .SelectResolutionCode("random")
-        //        .ScrollMaxToTheRightOfGrid();
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ClicKCompletedDateAtFirstColumn()
-        //        .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2))
-        //        .ClickOnStatusAtSecondColumn();
-        //    expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ScrollMaxToTheLeftOfGrid();
-        //    PageFactoryManager.Get<CommonBrowsePage>()
-        //        .SelectItemWithField("ID", id);
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ScrollMaxToTheRightOfGrid();
-        //    PageFactoryManager.Get<CommonBrowsePage>()
-        //        .VerifyDateValueInActiveRow(1, "End Date", expectedDate)
-        //        .VerifyDateValueInActiveRow(1, "Completed Date", expectedDate);
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser44.UserName, AutoUser44.Password)
+                .IsOnHomePage(AutoUser44);
+            //
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.TaskConfirmation)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
 
-        //    //Step 13
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .SelectContract(Contract.Commercial)
-        //        .SendDateInScheduledDate(dateInFutreInSchedule)
-        //        .ClickGoBtn()
-        //        .IsConfirmationNeededPopup()
-        //        .ClickOnConfirmBtn()
-        //        .WaitForLoadingIconToDisappear();
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ClickOnExpandRoundsBtn()
-        //        .ScrollMaxToTheLeftOfGrid();
-        //    PageFactoryManager.Get<CommonBrowsePage>()
-        //        .SelectFirstNumberOfItem(3);
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ClickOnBulkUpdateBtn()
-        //        .SelectStatusInBulkUpdatePopup("Not Completed")
-        //        .SelectResolutionCodeInBulkUpdatePopup("random")
-        //        .ClickOnConfirmBtn()
-        //        .VerifyToastMessages(new List<string> { saveToast, saveToast, saveToast });
-        //    expectedDate = CommonUtil.GetLocalTimeNow("dd/MM/yyyy HH:mm");
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ScrollMaxToTheRightOfGrid();
-        //    PageFactoryManager.Get<CommonBrowsePage>()
-        //        .VerifyDateValueInActiveRow(3, "End Date", expectedDate)
-        //        .VerifyDateValueInActiveRow(3, "Completed Date", expectedDate);
+            //Step 9
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .IsTaskConfirmationPage()
+                .SelectContract(Contract.Commercial)
+                .ClickServicesAndSelectServiceInTree(Contract.Commercial)
+                .SendDateInScheduledDate(dateInPastInSchedule)
+                .ClickGoBtn()
+                .IsConfirmationNeededPopup()
+                .ClickOnConfirmBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnExpandRoundsBtn();
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .FilterItemByField("Description", description, false);
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnStatusAtFirstColumn()
+                .SelectStatus("Not Completed")
+                .SelectResolutionCode("random");
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ScrollMaxToTheLeftOfGrid();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .DeselectActiveItem();
+            var expectedDate = CommonUtil.GetUtcTimeNowMinusHour(1, "dd/MM/yyyy HH:mm");
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .SleepTimeInSeconds(2);
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnStatusAtFirstColumn();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ScrollMaxToTheRightOfGrid();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyDateValueInActiveRow(1, "End Date", expectedDate)
+                .VerifyDateValueInActiveRow(1, "Completed Date", expectedDate);
 
-        //    //Step 14
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .SelectContract(Contract.Commercial)
-        //        .SendDateInScheduledDate(dateNowInSchedule)
-        //        .ClickGoBtn()
-        //        .IsConfirmationNeededPopup()
-        //        .ClickOnConfirmBtn()
-        //        .WaitForLoadingIconToDisappear();
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ClickOnExpandRoundsBtn()
-        //        .ScrollMaxToTheLeftOfGrid();
-        //    PageFactoryManager.Get<CommonBrowsePage>()
-        //        .SelectFirstNumberOfItem(3);
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ClickOnBulkUpdateBtn()
-        //        .SelectStatusInBulkUpdatePopup("Not Completed")
-        //        .SelectResolutionCodeInBulkUpdatePopup("random")
-        //        .ClickCompletedDateAtBulkUpdate()
-        //        .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2))
-        //        .ClickOnConfirmBtn()
-        //        .VerifyToastMessages(new List<string> { saveToast, saveToast, saveToast });
-        //    expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
-        //    PageFactoryManager.Get<TaskConfirmationPage>()
-        //        .ScrollMaxToTheRightOfGrid();
-        //    PageFactoryManager.Get<CommonBrowsePage>()
-        //        .VerifyDateValueInActiveRow(3, "End Date", expectedDate)
-        //        .VerifyDateValueInActiveRow(3, "Completed Date", expectedDate);
-        //}
+            //Step 10
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .SelectContract(Contract.Commercial)
+                .SendDateInScheduledDate(dateInFurtherPastInSchedule)
+                .ClickGoBtn()
+                .IsConfirmationNeededPopup()
+                .ClickOnConfirmBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnExpandRoundsBtn()
+                .ScrollMaxToTheLeftOfGrid();
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .FilterItemByField("Description", description, false);
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnStatusAtFirstColumn()
+                .SelectStatus("Not Completed")
+                .SelectResolutionCode("random"); PageFactoryManager.Get<CommonBrowsePage>()
+               .FilterItemByField("Description", description, false);
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnStatusAtFirstColumn()
+                .SelectStatus("Not Completed")
+                .SelectResolutionCode("random")
+                .ScrollMaxToTheRightOfGrid();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClicKCompletedDateAtFirstColumn()
+                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2));
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ScrollMaxToTheLeftOfGrid();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .DeselectActiveItem();
+            expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .SleepTimeInSeconds(2);
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnStatusAtFirstColumn();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ScrollMaxToTheRightOfGrid();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyDateValueInActiveRow(1, "End Date", expectedDate)
+                .VerifyDateValueInActiveRow(1, "Completed Date", expectedDate);
+        }
+        [Category("Task State")]
+        [Category("Dee")]
+        [Test]
+        public void TC_176_verify_task_state_date_change_in_task_confirmation_not_completed_2()
+        {
+            string saveToast = "Task Saved";
+            string dateNowInSchedule = CommonUtil.GetLocalTimeNow("dd");
+            string dateToValidate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 0);
+            DateTime temp = DateTime.ParseExact(dateToValidate, "dd/MM/yyyy", null);
+            if (temp.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dateNowInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", 1);
+            }
+
+            string dateInFutreInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", 7);
+            dateToValidate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 7);
+            temp = DateTime.ParseExact(dateToValidate, "dd/MM/yyyy", null);
+            if (temp.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dateInFutreInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", 8);
+            }
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser44.UserName, AutoUser44.Password)
+                .IsOnHomePage(AutoUser44);
+            //
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption(SubOption.TaskConfirmation)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+
+            //Step 13
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .SelectContract(Contract.Commercial)
+                .ClickServicesAndSelectServiceInTree(Contract.Commercial)
+                .SendDateInScheduledDate(dateInFutreInSchedule)
+                .ClickGoBtn()
+                .IsConfirmationNeededPopup()
+                .ClickOnConfirmBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnExpandRoundsBtn()
+                .ScrollMaxToTheLeftOfGrid();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .SelectFirstNumberOfItem(3);
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnBulkUpdateBtn()
+                .SelectStatusInBulkUpdatePopup("Not Completed")
+                .SelectResolutionCodeInBulkUpdatePopup("random")
+                .ClickOnConfirmBtn()
+                .VerifyToastMessages(new List<string> { saveToast, saveToast, saveToast });
+            var expectedDate = CommonUtil.GetUtcTimeNowMinusHour(1, "dd/MM/yyyy HH:mm");
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ScrollMaxToTheRightOfGrid();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyDateValueInActiveRow(3, "End Date", expectedDate)
+                .VerifyDateValueInActiveRow(3, "Completed Date", expectedDate);
+
+            //Step 14
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .SelectContract(Contract.Commercial)
+                .SendDateInScheduledDate(dateNowInSchedule)
+                .ClickGoBtn()
+                .IsConfirmationNeededPopup()
+                .ClickOnConfirmBtn()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnExpandRoundsBtn()
+                .ScrollMaxToTheLeftOfGrid();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .SelectFirstNumberOfItem(3);
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ClickOnBulkUpdateBtn()
+                .SelectStatusInBulkUpdatePopup("Not Completed")
+                .SelectResolutionCodeInBulkUpdatePopup("random")
+                .ClickEndDateAtBulkUpdate()
+                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2))
+                .ClickOnConfirmBtn()
+                .VerifyToastMessages(new List<string> { saveToast, saveToast, saveToast });
+            expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
+            var expectedCompletedDate = CommonUtil.GetUtcTimeNowMinusHour(1, "dd/MM/yyyy HH:mm");
+            PageFactoryManager.Get<TaskConfirmationPage>()
+                .ScrollMaxToTheRightOfGrid();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .VerifyDateValueInActiveRow(3, "End Date", expectedDate)
+                .VerifyDateValueInActiveRow(3, "Completed Date", expectedCompletedDate);
+        }
         //[Category("Task State")]
         //[Category("Dee")]
         //[Test]
