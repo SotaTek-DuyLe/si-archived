@@ -95,6 +95,9 @@
     <None Remove="Source\Test\ServiceTests\" />
     <None Remove="Source\Main\DBModels\GetServiceInfoForPoint\" />
     <None Remove="Source\Main\DBModels\GetPointHistory\" />
+    <None Remove="Source\Test\TaskTests\" />
+    <None Remove="Source\Main\Pages\Services\ServiceTask\" />
+    <None Remove="Source\Main\Pages\Services\ServiceUnit\" />
     <None Remove="Source\Main\DBModels\GetAllServicesForPoint2\" />
     <None Remove="Source\Test\TaskTests\" />
     <None Remove="Source\Test\RiskTests\" />
@@ -118,6 +121,8 @@
     <None Remove="Source\Main\Pages\CostRules\" />
     <None Remove="Source\Main\Pages\CostAgreements\" />
     <None Remove="Source\Main\Pages\Paties\Contacts\" />
+    <None Remove="Source\Main\DBModels\GetTaskHistory\" />
+    <None Remove="Source\Main\DBModels\GetTaskDebrief\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Main\Pages\Paties\PartyAgreement\" />
@@ -142,6 +147,9 @@
     <Folder Include="Source\Main\Pages\Search\PointNodes\" />
     <Folder Include="Source\Main\DBModels\GetServiceInfoForPoint\" />
     <Folder Include="Source\Main\DBModels\GetPointHistory\" />
+    <Folder Include="Source\Test\TaskTests\" />
+    <Folder Include="Source\Main\Pages\Services\ServiceTask\" />
+    <Folder Include="Source\Main\Pages\Services\ServiceUnit\" />
     <Folder Include="Source\Main\DBModels\GetAllServicesForPoint2\" />
     <Folder Include="Source\Test\RiskTests\" />
     <Folder Include="Source\Main\Pages\Streets\" />
@@ -162,6 +170,8 @@
     <Folder Include="Source\Main\Pages\CostRules\" />
     <Folder Include="Source\Main\Pages\CostAgreements\" />
     <Folder Include="Source\Main\Pages\Paties\Contacts\" />
+    <Folder Include="Source\Main\DBModels\GetTaskHistory\" />
+    <Folder Include="Source\Main\DBModels\GetTaskDebrief\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Source\Main\Data\UserData.json">

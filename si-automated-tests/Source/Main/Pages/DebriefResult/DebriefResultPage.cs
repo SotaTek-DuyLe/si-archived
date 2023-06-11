@@ -1,13 +1,8 @@
 ﻿using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using si_automated_tests.Source.Core;
-using si_automated_tests.Source.Core.WebElements;
-using si_automated_tests.Source.Main.Models.ServiceStatus;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using si_automated_tests.Source.Main.Constants;
 
 namespace si_automated_tests.Source.Main.Pages.DebriefResult
 {
@@ -23,7 +18,11 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
         public readonly By MatchButton = By.XPath("//td[@class='actions-list']//button[contains(text(), 'Match')]");
         public readonly By UnknownButton = By.XPath("//td[@class='actions-list']//button[contains(text(), 'Unknown')]");
         public readonly By FirstTaskRatio = By.XPath("(//div[@id='unmatched-tasks']//div[@data-bind='text: taskRatio'])[1]");
+        private readonly By roundBtn = By.XPath("//span[text()='ROUND']/parent::label");
+        private readonly By activityBtn = By.XPath("//span[text()='ACTIVITY']/parent::label");
+        private readonly By worksheetBtn = By.XPath("//span[text()='WORKSHEET']/parent::label");
 
+        [AllureStep]
         public DebriefResultPage WaitForDebriefLoaded()
         {
             try
@@ -38,6 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
             return this;
         }
 
+        [AllureStep]
         public DebriefResultPage DragSecondBinLiftToTaskLine()
         {
             SleepTimeInMiliseconds(2000);
@@ -47,6 +47,7 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
             return this;
         }
 
+        [AllureStep]
         public DebriefResultPage DragFirstBinLiftToTaskLine()
         {
             SleepTimeInMiliseconds(2000);
@@ -56,6 +57,7 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
             return this;
         }
 
+        [AllureStep]
         public DebriefResultPage VerifyTaskLineStateIsCompleted()
         {
             IWebElement img = GetElement(By.XPath("(//td[@id='taskLines']//img[contains(@data-bind, 'taskStateIcon')])[1]"));
@@ -64,6 +66,7 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
             return this;
         }
 
+        [AllureStep]
         public DebriefResultPage VerifyBinLiftStateIsNotCompleted()
         {
             IWebElement img = GetElement(By.XPath("(//div[@class='gps-event-block'])[1]//img"));
@@ -72,6 +75,7 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
             return this;
         }
 
+        [AllureStep]
         public DebriefResultPage VerifyBinLiftStateIsCompleted()
         {
             IWebElement img = GetElement(By.XPath("(//div[@class='gps-event-block'])[1]//img"));
@@ -80,9 +84,41 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
             return this;
         }
 
+        [AllureStep]
         public DebriefResultPage VerifyFirstTaskRatio()
         {
             VerifyElementText(FirstTaskRatio, "0 / 1");
+            return this;
+        }
+
+        [AllureStep]
+        public DebriefResultPage VerifyCurrentUrlOfDebriefDetailPage(string id)
+        {
+            Assert.AreEqual(WebUrl.MainPageUrl + "web/debrief-results/" + id, GetCurrentUrl());
+            return this;
+        }
+
+        [AllureStep]
+        public DebriefResultPage ClickOnRoundBtnAndNoErrorMessageDisplayed()
+        {
+            ClickOnElement(roundBtn);
+            VerifyNotDisplayErrorMessage();
+            return this;
+        }
+
+        [AllureStep]
+        public DebriefResultPage ClickOnActivityBtnAndNoErrorMessageDisplayed()
+        {
+            ClickOnElement(activityBtn);
+            VerifyNotDisplayErrorMessage();
+            return this;
+        }
+
+        [AllureStep]
+        public DebriefResultPage ClickOnWorksheetBtnAndNoErrorMessageDisplayed()
+        {
+            ClickOnElement(worksheetBtn);
+            VerifyNotDisplayErrorMessage();
             return this;
         }
     }

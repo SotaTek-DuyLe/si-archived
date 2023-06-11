@@ -1,7 +1,8 @@
 ﻿using NUnit.Allure.Attributes;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.DBModels;
-using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.DBModels.GetTaskDebrief;
+using si_automated_tests.Source.Main.DBModels.GetTaskHistory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,48 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from pointaddresses where pointaddressID="+id+";";
             return FindList<PointAddressModel>(query);
         }
+
+        public List<TaskDBModel> GetTask(int taskId)
+        {
+            string query = "select * from tasks where tasks.taskID = " + taskId + ";";
+            return FindList<TaskDBModel>(query);
+        }
+
+        public List<ServiceUnitDBModel> GetServiceUnit(int serviceunitID)
+        {
+            string query = "select * from serviceunits s2 where s2.serviceunitID = " + serviceunitID + ";";
+            return FindList<ServiceUnitDBModel>(query);
+        }
+
+        public List<PiorityDBModel> GetPriority(int priorityID)
+        {
+            string query = "SELECT * FROM priorities p WHERE p.priorityID = " + priorityID + ";";
+            return FindList<PiorityDBModel>(query);
+        }
+
+        public List<TaskLineDBModel> GetTaskLine(int taskId)
+        {
+            string query = "SELECT * FROM tasklines WHERE taskid = " + taskId + ";";
+            return FindList<TaskLineDBModel>(query);
+        }
+
+        public List<TaskLineTypeDBModel> GetTaskLineType(int tasklinetypeId)
+        {
+            string query = "SELECT * from tasklinetypes where tasklinetypeId = " + tasklinetypeId + ";";
+            return FindList<TaskLineTypeDBModel>(query);
+        }
+
+        public List<AssetTypeDBModel> GetAssetType(int assettypeId)
+        {
+            string query = "SELECT * from assettypes a where a.assettypeID =" + assettypeId + ";";
+            return FindList<AssetTypeDBModel>(query);
+        }
+
+        public List<ProductDBModel> GetProduct(int productId)
+        {
+            string query = "SELECT * FROM products p  WHERE p.productID  =" + productId + ";";
+            return FindList<ProductDBModel>(query);
+        }
         [AllureStep]
         public List<ServiceUnitPointDBModel> GetServiceUnitPoint(int serviceunitpointid)
         {
@@ -56,12 +99,6 @@ namespace si_automated_tests.Source.Main.Finders
         {
             string query = "SELECT * FROM pointtypes p WHERE p.pointtypeID =" + pointtypeId + ";";
             return FindList<PointTypeDBModel>(query);
-        }
-        [AllureStep]
-        public List<ServiceUnitDBModel> GetServiceUnit(int serviceunitid)
-        {
-            string query = "select * from serviceunits where serviceunitid=" + serviceunitid + ";";
-            return FindList<ServiceUnitDBModel>(query);
         }
         [AllureStep]
         public List<ServiceUnitTypeDBModel> GetServiceUnitType(int serviceunittypeID)
@@ -120,12 +157,6 @@ namespace si_automated_tests.Source.Main.Finders
         public List<TaskDBModel> GetMultipleTask(int firstTaskId, int secondTaskId)
         {
             string query = "select * from tasks where taskID in (" + firstTaskId + "," + secondTaskId + ");";
-            return FindList<TaskDBModel>(query);
-        }
-        [AllureStep]
-        public List<TaskDBModel> GetTask(int taskId)
-        {
-            string query = "select * from tasks where taskID = " + taskId + ";";
             return FindList<TaskDBModel>(query);
         }
         [AllureStep]
@@ -448,6 +479,13 @@ namespace si_automated_tests.Source.Main.Finders
         }
 
         [AllureStep]
+        public List<TaskAndTaskTypeByTaskIdDBModel> GetTaskAndTaskTypeByTaskId(string taskId)
+        {
+            string query = "SELECT * FROM tasks t1 join tasktypes t2 on t1.tasktypeID = t2.tasktypeID WHERE  t1.taskID = " + taskId + ";";
+            return FindList<TaskAndTaskTypeByTaskIdDBModel>(query);
+        }
+
+        [AllureStep]
         public List<ServiceAssetTypeDBModel> GetServiceAssetTypes(string serviceUnitID)
         {
             string query = @"select serviceunitID,assettype
@@ -458,6 +496,41 @@ namespace si_automated_tests.Source.Main.Finders
                             join serviceunits SU on SU.serviceID = SAT.serviceID
                             where serviceunitID = " + serviceUnitID + "; ";
             return FindList<ServiceAssetTypeDBModel>(query);
+        }
+
+        [AllureStep]
+        public List<TaskLineDBModel> GetTaskLineByTaskLineId(int tasklineid)
+        {
+            string query = "select * from tasklines where tasklineid= " + tasklineid + ";";
+            return FindList<TaskLineDBModel>(query);
+        }
+
+        [AllureStep]
+        public List<TaskHistoryDBModel> GetTaskHistoryByTaskId(string taskId)
+        {
+            string query = "GetTaskHistory @taskID = " + taskId + ";";
+            return FindList<TaskHistoryDBModel>(query);
+        }
+
+        [AllureStep]
+        public List<TaskDBModel> GetTaskByTaskId(string taskId)
+        {
+            string query = "select * from tasks where taskid=" + taskId + ";";
+            return FindList<TaskDBModel>(query);
+        }
+
+        [AllureStep]
+        public TaskStateDBModel GetTaskStateByTaskStateId(string taskStateId)
+        {
+            string query = "SELECT * FROM SotatekTesting.dbo.taskstates WHERE taskstateID = " + taskStateId + ";";
+            return FindList<TaskStateDBModel>(query).FirstOrDefault();
+        }
+
+        [AllureStep]
+        public GetTaskDebriefDBModel GetTaskDebriefDBModelByTaskId(string taskId)
+        {
+            string query = "GetTaskDebriefTests @taskID = " + taskId + ";";
+            return FindList<GetTaskDebriefDBModel>(query).FirstOrDefault();
         }
 
         [AllureStep]

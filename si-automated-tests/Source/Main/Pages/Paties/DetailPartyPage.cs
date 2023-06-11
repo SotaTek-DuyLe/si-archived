@@ -209,6 +209,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return this;
         }
 
+        [AllureStep]
+        public DetailPartyPage VerifyCurrentUrlPartyDetailPage(string partyId)
+        {
+            Assert.AreEqual(WebUrl.MainPageUrl + "web/parties/" + partyId, GetCurrentUrl());
+            return this;
+        }
 
         [AllureStep]
         public DetailPartyPage InputPartyNameInput(string partyName)
@@ -241,6 +247,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickTabDropDown()
         {
             ClickOnElement(dropdown);
+            WaitUtil.WaitForAllElementsPresent(By.XPath("//li[@class='dropdown']//ul/a"));
+
             return this;
         }
         [AllureStep]

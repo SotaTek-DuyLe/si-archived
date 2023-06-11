@@ -1114,6 +1114,13 @@ namespace si_automated_tests.Source.Core
             Assert.IsTrue(IsControlUnDisplayed(String.Format(xpath, message)));
             return this;
         }
+
+        public BasePage VerifyToastMessageNotAppear()
+        {
+            string xpath = "//div[@data-notify-html='title']";
+            Assert.IsTrue(IsControlUnDisplayed(xpath));
+            return this;
+        }
         [AllureStep]
         public BasePage ClickCloseBtn()
         {

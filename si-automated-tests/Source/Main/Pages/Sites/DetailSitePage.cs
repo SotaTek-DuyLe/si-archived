@@ -7,12 +7,14 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
+using si_automated_tests.Source.Main.Constants;
 using CanlendarServiceTask = si_automated_tests.Source.Main.Models.Suspension.ServiceTaskModel;
 
 namespace si_automated_tests.Source.Main.Pages.Sites
 {
     public class DetailSitePage : BasePage
     {
+        private readonly By servicedSiteTitle = By.XPath("//span[text()='Serviced Site']");
         private readonly By title = By.XPath("//span[text()='Serviced Site']");
         private readonly By notesTab = By.CssSelector("a[aria-controls='notes-tab']");
         private readonly By nextCalendarBtn = By.XPath("//div[@class='fc-left']//button[contains(@class,'fc-next-button')]");
@@ -20,7 +22,18 @@ namespace si_automated_tests.Source.Main.Pages.Sites
         private readonly By rowsCalendarTableInMonth = By.XPath("//div[@class='fc-content-skeleton']//table//tbody//tr");
         private readonly By titleInNotesTab = By.XPath("//label[text()='Title']/following-sibling::input");
         private readonly By noteInNotesTab = By.XPath("//label[text()='Note']/following-sibling::textarea");
-
+        [AllureStep]
+        public DetailSitePage WaitForSiteDetailPageDisplayed()
+        {
+            WaitUtil.WaitForElementVisible(servicedSiteTitle);
+            return this;
+        }
+        [AllureStep]
+        public DetailSitePage VerifyCurrentUrlSitePage(string siteId)
+        {
+            Assert.AreEqual(WebUrl.MainPageUrl + "web/sites/" + siteId, GetCurrentUrl());
+            return this;
+        }
         public CalendarElement SiteCalendar
         {
             get => new CalendarElement("//div[contains(@class, 'fc-month-view')]", "./div[contains(@class, 'fc-bg')]//table//tbody//tr//td", "//div[contains(@class, 'fc-week')]", "./div[contains(@class, 'fc-content-skeleton')]//table//tbody//tr//td");
