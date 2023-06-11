@@ -221,6 +221,7 @@ namespace si_automated_tests.Source.Main.Pages.WB.Tickets
         public CreateNewTicketPage InputVehicleRegInputAndClickOK(string vehicleValue)
         {
             SendKeys(vehicleReg, vehicleValue);
+            WaitUtil.WaitForElementVisible(string.Format(anyOption, vehicleReg));
             ClickOnElement(anyOption, vehicleValue);
             WaitForLoadingIconToDisappear();
             IsGreylistCodeModel(vehicleValue);

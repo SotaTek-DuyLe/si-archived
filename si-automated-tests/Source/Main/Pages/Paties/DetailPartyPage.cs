@@ -37,7 +37,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private readonly By title = By.XPath("//h4[text()='Party']");
         private readonly By wBtab = By.XPath("//a[text()='Weighbridge Settings']");
         private readonly By wBTicketTab = By.XPath("//a[text()='Weighbridge Tickets']");
-        private readonly By taskTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='tasks-tab']");
+        private readonly By taskTab = By.XPath("//ul[contains(@class,'nav-tabs')]/li[contains(@style,'visible')]/a[@aria-controls='tasks-tab']");
+        private readonly By taskTabAlt = By.XPath("//span[text()='Tasks']/parent::a");
         private readonly By suspensionTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='suspensions-tab']");
         public readonly By pricesTab = By.XPath("//ul[@class='dropdown-menu']//a[@aria-controls='prices-tab']");
         private readonly By adhocTab = By.XPath("//ul[contains(@class,'nav-tabs')]//a[@aria-controls='adhoc-tab']");
@@ -259,9 +260,20 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public TaskTab ClickTasksTab()
         {
-            ClickOnElement(taskTab);
+            if (!IsControlDisplayedNotThrowEx(taskTab))
+            {
+                ClickTabDropDown();
+                ClickOnElement(taskTabAlt);
+            }
+            else
+            {
+                ClickOnElement(taskTab);
+            }
+
             return new TaskTab();
         }
+
+
         [AllureStep]
         public DetailPartyPage ClickSuspensionTab()
         {

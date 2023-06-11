@@ -3590,8 +3590,8 @@ namespace si_automated_tests.Source.Test
         [Test(Description = "Generation of Guided Route - Any round instance with no GPS trail data record (bug fix) ")]
         public void TC_206_Generation_of_Guided_route_any_round_instance_with_no_GPS_trail_data_record()
         {
-            string resourceName = "SI14 NST";
-
+            string resourceName = "CM1 NST";
+            
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -3605,9 +3605,6 @@ namespace si_automated_tests.Source.Test
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<MapListingPage>()
                 .WaitForMapsTabDisplayed();
-            //.SendKeyInFromDate("11/05/2023 00:00")
-            //.ClickOnGoBtn()
-            //.WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<MapListingPage>()
                 .ClickOnFirstRoundInLeftHand(resourceName)
                 .ClickOnRoundTab()
@@ -3714,7 +3711,6 @@ namespace si_automated_tests.Source.Test
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClickTabDropDown()
                 .ClickTasksTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskTab>()

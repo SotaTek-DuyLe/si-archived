@@ -269,6 +269,7 @@ namespace si_automated_tests.Source.Core
         public void ClickToElementByAction(string xpath)
         {
             IWebElement element = this.driver.FindElement(By.XPath(xpath));
+            this.javascriptExecutor = (IJavaScriptExecutor)this.driver;
             this.javascriptExecutor.ExecuteScript("arguments[0].scrollIntoViewIfNeeded(true);", new Object[] { element });
             Actions actions = new Actions(driver);
             WaitUtil.WaitForElementVisible(xpath);
@@ -717,6 +718,26 @@ namespace si_automated_tests.Source.Core
 
             return this;
         }
+        [AllureStep]
+        public BasePage ScrollMaxToTheLeft(By by)
+        {
+            WaitUtil.WaitForPageLoaded();
+            IWebElement e = GetElement(by);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollLeft -= arguments[0].scrollWidth", e);
+
+            return this;
+        }
+        [AllureStep]
+        public BasePage ScrollMaxToTheRight(By by)
+        {
+            WaitUtil.WaitForPageLoaded();
+            IWebElement e = GetElement(by);
+            IJavaScriptExecutor js = (IJavaScriptExecutor)IWebDriverManager.GetDriver();
+            js.ExecuteScript("arguments[0].scrollLeft += arguments[0].scrollWidth", e);
+
+            return this;
+        }
 
         [AllureStep]
         public BasePage ScrollLeft(By by)
@@ -1060,6 +1081,8 @@ namespace si_automated_tests.Source.Core
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='ui-widget-overlay shield' and contains(@data-bind,'shield: $root.isLoading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//div[@class='ui-widget-overlay shield' and contains(@data-bind,'shield: loading')]");
                 WaitUtil.WaitForAllElementsInvisible60("//img[@src='images/ajax-loader.gif']");
+                WaitUtil.WaitForAllElementsInvisible60("//div[@id='resources-loading-shield']");
+                WaitUtil.WaitForAllElementsInvisible60("//div[contains(@data-bind,'shield: gridIsLoading')]");
                 WaitUtil.WaitForPageLoaded();
             }
             catch (WebDriverTimeoutException)
@@ -1105,10 +1128,13 @@ namespace si_automated_tests.Source.Core
             return this;
         }
         [AllureStep]
-        public BasePage ClickSaveBtn()
+        public BasePage ClickSaveBtn(bool waitForLoadingIconDisappear = true)
         {
             ClickOnElement(saveBtn);
-            WaitForLoadingIconToDisappear();
+            if (waitForLoadingIconDisappear)
+            {
+                WaitForLoadingIconToDisappear();
+            }
             return this;
         }
 

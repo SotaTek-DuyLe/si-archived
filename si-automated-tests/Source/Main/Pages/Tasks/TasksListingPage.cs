@@ -55,6 +55,18 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         [AllureStep]
+        public TasksListingPage FilterTaskState(string mode, string value)
+        {
+            ClickOnElement(By.XPath("//div[contains(@class, 'l6 r6')]/descendant::button"));
+            SelectByDisplayValueOnUlElement(By.XPath("//ul[@aria-expanded='true']"), mode);
+            SleepTimeInMiliseconds(100);
+            SendKeys(By.XPath("//div[contains(@class, 'l6 r6')]/descendant::input"), value);
+            ClickOnElement(applyBtn);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
         public TasksListingPage VerifyPriority(string value)
         {
             VerifyCellValue(TaskTableEle, 0, TaskTableEle.GetCellIndex(TaskPriorityCell), value);
@@ -117,7 +129,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         [AllureStep]
         public TasksBulkUpdatePage ClickOnBulkUpdateBtn()
         {
-            WaitUtil.WaitForElementVisible(bulkUpdateBtn);
             ClickOnElement(bulkUpdateBtn);
             return PageFactoryManager.Get<TasksBulkUpdatePage>();
         }

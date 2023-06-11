@@ -482,7 +482,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickPointHistorySubTab()
                 .WaitForLoadingIconToDisappear();
             List<PointHistoryModel> pointHistoryModelsInPointHistorySubTab = eventDetailPage
-                .GetAllPointHistory();
+                .GetAllPointHistoryWithScrollDown();
             eventDetailPage
                 .VerifyPointHistoryInSubTab(pointHistoryModelsInDetail, pointHistoryModelsInPointHistorySubTab);
             //Line 15
@@ -978,7 +978,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickPointHistorySubTab()
                 .WaitForLoadingIconToDisappear();
             List<PointHistoryModel> pointHistoryModelsInPointHistorySubTab = eventDetailPage
-                .GetAllPointHistory();
+                .GetAllPointHistoryWithScrollDown();
             eventDetailPage
                 .VerifyPointHistoryInSubTab(pointHistoryModelsInDetail, pointHistoryModelsInPointHistorySubTab);
             //Line 15

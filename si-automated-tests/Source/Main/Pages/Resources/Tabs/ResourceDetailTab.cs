@@ -32,6 +32,11 @@ namespace si_automated_tests.Source.Main.Pages.Resources.Tabs
         //Resource type options
         private readonly string resourceOptions = "//span[text()='{0}']";
 
+        #region shiftSchedules-tab
+        public readonly By ShiftScheduleTab = By.XPath("//a[@aria-controls='shiftSchedules-tab']");
+        public readonly By AddNewShiftScheduleButton = By.XPath("//div[@id='shiftSchedules-tab']//button[text()='Add New Item']");
+        #endregion
+
         [AllureStep]
         public ResourceDetailTab IsOnDetailTab()
         {

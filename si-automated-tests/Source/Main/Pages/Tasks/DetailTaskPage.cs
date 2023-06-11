@@ -80,6 +80,10 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public readonly By resolutionCode = By.CssSelector("select[id='resolutionCode.id']");
         public readonly By PrioritySelect = By.CssSelector("select[id='priority.id']");
         public readonly By ProximityAlertCheckbox = By.XPath("//input[contains(@data-bind, 'proximityAlert')]");
+        public readonly string SubContractCheckbox = "//label[contains(string(), 'Subcontract')]/following-sibling::input";
+        public readonly By SubContractReasonSelect = By.XPath("//select[@id='subcontractReason.id']");
+        public readonly By SubContractorButton = By.XPath("//button[@data-id='subcontractor']");
+        public readonly By SubContractorUl = By.XPath("//ul[@aria-expanded='true']");
         //DYNAMIC LOCATOR
         private const string sourceName = "//select[@id='source']/option[text()='{0}']";
         private const string inspectionTypeOption = "//select[@id='inspection-type']/option[text()='{0}']";
@@ -160,6 +164,37 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             {
                 Assert.IsTrue(columnNames.Contains(item.Text));
             }
+            return this;
+        }
+        #endregion
+
+        #region CostTab
+        public readonly By CostTab = By.XPath("//a[@aria-controls='costLines-tab']");
+
+        [AllureStep]
+        public DetailTaskPage VerifyCostLineColumnsDisplayCorrectly()
+        {
+            string column = "//div[@id='costLines-tab']//div[contains(@class,'slick-header')]//span[@class='slick-column-name' and text()='{0}']";
+            Assert.IsTrue(IsControlDisplayed(By.XPath(string.Format(column, "ID"))));
+            Assert.IsTrue(IsControlDisplayed(By.XPath(string.Format(column, "Description"))));
+            Assert.IsTrue(IsControlDisplayed(By.XPath(string.Format(column, "Narrative"))));
+            Assert.IsTrue(IsControlDisplayed(By.XPath(string.Format(column, "Cost Party"))));
+            Assert.IsTrue(IsControlDisplayed(By.XPath(string.Format(column, "Party"))));
+            Assert.IsTrue(IsControlDisplayed(By.XPath(string.Format(column, "Target"))));
+            Assert.IsTrue(IsControlDisplayed(By.XPath(string.Format(column, "Target Type"))));
+            Assert.IsTrue(IsControlDisplayed(By.XPath(string.Format(column, "Cost"))));
+            Assert.IsTrue(IsControlDisplayed(By.XPath(string.Format(column, "Quantity"))));
+            Assert.IsTrue(IsControlDisplayed(By.XPath(string.Format(column, "Net"))));
+            Assert.IsTrue(IsControlDisplayed(By.XPath(string.Format(column, "Target"))));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyCostLinesExist()
+        {
+            ClickOnElement(By.XPath("//div[@id='costLines-tab']//button[@title='Refresh']"));
+            WaitForLoadingIconToDisappear();
+            Assert.IsTrue(IsControlDisplayed(By.XPath("//div[@id='costLines-tab']//div[@class='slick-cell l0 r0']")));
             return this;
         }
         #endregion
