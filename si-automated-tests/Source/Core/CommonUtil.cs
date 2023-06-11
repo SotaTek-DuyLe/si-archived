@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace si_automated_tests.Source.Core
 {
@@ -425,6 +426,12 @@ namespace si_automated_tests.Source.Core
             if (olsonWindowsTimes.ContainsValue(timeInfo))
                 timeInfoKey = olsonWindowsTimes.FirstOrDefault(x => x.Value == timeInfo).Key;
             return timeInfoKey;
+        }
+
+        private static readonly Regex sWhitespace = new Regex(@"\s+");
+        public static string ReplaceWhitespace(string input, string replacement)
+        {
+            return sWhitespace.Replace(input, replacement);
         }
     }
 }

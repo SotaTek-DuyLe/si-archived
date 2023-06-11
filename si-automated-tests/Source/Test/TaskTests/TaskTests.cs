@@ -4,13 +4,15 @@ using NUnit.Framework;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.DBModels.GetTaskDebrief;
 using si_automated_tests.Source.Main.DBModels.GetTaskHistory;
 using si_automated_tests.Source.Main.Finders;
 using si_automated_tests.Source.Main.Models;
 using si_automated_tests.Source.Main.Pages;
+using si_automated_tests.Source.Main.Pages.Applications;
+using si_automated_tests.Source.Main.Pages.DebriefResult;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
 using si_automated_tests.Source.Main.Pages.Paties;
-using si_automated_tests.Source.Main.Pages.Round.RoundInstance;
 using si_automated_tests.Source.Main.Pages.Services.ServiceTask;
 using si_automated_tests.Source.Main.Pages.Services.ServiceUnit;
 using si_automated_tests.Source.Main.Pages.Sites;
@@ -19,22 +21,27 @@ using static si_automated_tests.Source.Main.Models.UserRegistry;
 
 namespace si_automated_tests.Source.Test.TaskTests
 {
+    [Parallelizable(scope: ParallelScope.Fixtures)]
+    [TestFixture]
     public class TaskTests : BaseTest
     {
         private CommonFinder finder;
 
         //Task from Contract = Commercial
         private string firstTaskLineId;
+        private string secondTaskLineId;
         private string taskIDWithSourceServiceTask = "3964";
         //Update task from In Progrees -> Completed
         private string completedState = "Completed";
         private string notCompletedState = "Not Completed";
         private string cancelledState = "Cancelled";
         private string inprogressState = "Inprogress";
+        private string pendingState = "Pending";
         private string manualConfirmedOnWeb = "Manually Confirmed on Web";
-        private string destinationSite = "Kingston Tip, 20 Chapel Mill Road, Kingston upon Thames, KT1 3GZ";
-        private TaskLineModel taskLineModelNew = new TaskLineModel("1", "660L", "1", "3", "1", "100", "Kingston Tip, 20 Chapel Mill Road, Kingston upon Thames, KT1 3GZ", "5", "2", "6", "3", "Client Ref", "Completed", "GW1", "General Recycling", "Kilograms", "Relift");
+        private TaskLineModel taskLineModelNew = new TaskLineModel("1", "660L", "1", "3", "1", "100", "Kingston Tip, 20 Chapel Mill Road, Kingston upon Thames, KT1 3GZ", "5", "2", "6", "3", "Completed", "GW1", "Client Ref",  "General Recycling", "Kilograms", "Relift");
         private string destinationSiteName = "Kingston Tip";
+        private string destinationSiteNameFull = "Kingston Tip, 20 Chapel Mill Road, Kingston upon Thames, KT1 3GZ";
+        private List<TaskLineDBModel> taskLineDBModelsAfterRemoved;
 
         public override void Setup()
         {
@@ -54,7 +61,9 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnHomePage(AutoUser92);
         }
 
+        //DONE
         [Category("Tasks/tasklines")]
+        [Category("Chang")]
         [Test(Description = "Tasks/tasklines - Detail Tasks - Source - sevice task"), Order(1)]
         public void TC_125_Detail_tasks_Update_and_create()
         {
@@ -135,7 +144,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickRoundHyperLink()
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
-            RoundInstancesDetailPage roundInstancesDetailPage = PageFactoryManager.Get<RoundInstancesDetailPage>();
+            RoundInstanceDetailPage roundInstancesDetailPage = PageFactoryManager.Get<RoundInstanceDetailPage>();
             roundInstancesDetailPage
                 .WaitForRoundInstanceDetailPageDisplayed()
                 .VerifyCurrentUrlRoundPage(taskInfoById[0].roundinstanceID.ToString())
@@ -143,6 +152,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchToChildWindow(1);
             //Line 17 - Details tab
             detailTaskPage
+                .ClickOnDetailTab()
                 .VerifyDetailTabWithDataInDB(taskInfoById[0])
                 //Line 19 - Click Data tab and verify no error displayed
                 .ClickDataTab()
@@ -182,7 +192,10 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .InputScheduledAssetQty(2, "1")
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
-            string timeCreatedSecondTaskLine = "";
+
+            DateTime londonCurrentDateSecondTaskLine = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            string timeCreatedSecondTaskLine = CommonUtil.ParseDateTimeToFormat(londonCurrentDateSecondTaskLine, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+
             detailTaskPage
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             List<TaskLineModel> allTaskLinesAfter = detailTaskPage
@@ -216,9 +229,15 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskLinePage
                 .VerifyTaskLineInfo(allTaskLines[0]);
             //Line 30: Run query to get taskline detail and verify
-            List<TaskLineDBModel> taskLineDBModelsDetail = finder.GetTaskLine(int.Parse(firstTaskLineId));
+            List<TaskLineDBModel> taskLineDBModelsDetail = finder.GetTaskLineByTaskLineId(int.Parse(firstTaskLineId));
+            TaskLineDBModel taskLineDBModel = taskLineDBModelsDetail[0];
+            //Get product by productid
+            int productId = taskLineDBModel.productID;
+            ProductDBModel productDBModel = finder.GetProduct(productId)[0];
+            string productNameDB = productDBModel.product;
+
             detailTaskLinePage
-                .VerifyTaskLineInfo(allTaskLines[0], taskLineDBModelsDetail[0]);
+                .VerifyTaskLineInfo(allTaskLines[0], taskLineDBModelsDetail[0], productNameDB);
             //Step line 31: Click on the task line hyperlink in the header
             detailTaskLinePage
                 .ClickOnHyperlinkOnHeader()
@@ -238,36 +257,44 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskLinePage
                 .ClickOnDataTab()
                 .VerifyNotDisplayErrorMessage();
-            string[] expValueHistoryTab = { "0", "1100L", "0", "2", "105", "", "General Refuse", "Kilograms", "Pending", "Unticked", "0" };
+            string[] expValueHistoryTab = { "0", "1100L", "0", "2", "105", "", "General Refuse", "Kilograms", pendingState, "Unticked", "0" };
             //Step line 34: Click on [History tab]
             detailTaskLinePage
                 .ClickOnHistoryTab()
                 .VerifyNotDisplayErrorMessage();
-            
+
             detailTaskLinePage
                 .VerifyActionCreateWithUserDisplay("09/06/2022 02:07", CommonConstants.ActionCreateInHistoryTaskLineDetail, expValueHistoryTab, "")
                 //Step line 35: Detail tab and Update all fields that are not read only and set state to completed
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            detailTaskLinePage
                 .InputAllFieldInDetailTab(taskLineModelNew)
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
 
-            string timeUpdated1 = "";
+            DateTime londonCurrentDate1 = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            string timeUpdated1 = CommonUtil.ParseDateTimeToFormat(londonCurrentDate1, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+
             detailTaskLinePage
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             detailTaskLinePage
                 .SelectResolutionCode(taskLineModelNew.resolutionCode)
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
-            string timeUpdated2 = "";
+            DateTime londonCurrentDate2 = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            string timeUpdated2 = CommonUtil.ParseDateTimeToFormat(londonCurrentDate2, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+            taskLineModelNew.type = "Service";
+
             detailTaskLinePage
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             detailTaskLinePage
                 .VerifyTaskLineInfo(taskLineModelNew)
-                .VeriryConfirmationAndCompletedDate(timeUpdated2, manualConfirmedOnWeb)
+                .VeriryConfirmationAndCompletedDate(timeUpdated1, manualConfirmedOnWeb)
                 //Step line 36: Click on History tab and verify all updated
                 .ClickOnHistoryTab()
                 .WaitForLoadingIconToDisappear();
-            string[] expValueHistoryAfterUpdate = { taskLineModelNew.actualAssetQuantity, taskLineModelNew.assetType, taskLineModelNew.actualProductQuantity, taskLineModelNew.scheduledAssetQty, taskLineModelNew.scheduledProductQuantity, taskLineModelNew.state, taskLineModelNew.order, CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), taskLineModelNew.clientRef, destinationSiteName, taskLineModelNew.siteProduct, taskLineModelNew.minAssetQty, taskLineModelNew.maxAssetQty, taskLineModelNew.minProductQty, taskLineModelNew.maxProductQty, manualConfirmedOnWeb };
+            string[] expValueHistoryAfterUpdate = { taskLineModelNew.actualAssetQuantity, taskLineModelNew.assetType, taskLineModelNew.actualProductQuantity, taskLineModelNew.scheduledAssetQty, taskLineModelNew.scheduledProductQuantity, taskLineModelNew.product, taskLineModelNew.state, taskLineModelNew.order, CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT), taskLineModelNew.clientRef, destinationSiteName, taskLineModelNew.siteProduct, taskLineModelNew.minAssetQty, taskLineModelNew.maxAssetQty, taskLineModelNew.minProductQty, taskLineModelNew.maxProductQty, manualConfirmedOnWeb };
             string[] resolutionCodeAfterUpdate = { taskLineModelNew.resolutionCode };
 
             detailTaskLinePage
@@ -275,6 +302,11 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .VerifyActionUpdateWithUserDisplay(timeUpdated2, CommonConstants.ActionUpdateResolutionCodeInHistoryTaskLineDetail, resolutionCodeAfterUpdate, AutoUser92.DisplayName, 1)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(1);
+            detailTaskPage
+                .ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+            detailTaskPage
+                .IsDetailTaskPage();
             //Step line 37: Tasks > Verdict tab
             detailTaskPage
                 .ClickOnVerdictTab()
@@ -282,11 +314,13 @@ namespace si_automated_tests.Source.Test.TaskTests
                 //First tasks
                 .VerifyFirstTaskLineStateVerdictTab(timeUpdated1, taskLineModelNew.state, manualConfirmedOnWeb, taskLineModelNew.product, taskLineModelNew.actualProductQuantity + "kg", taskLineModelNew.assetType, taskLineModelNew.actualAssetQuantity)
                 .VerifyFirstResolutionCode(taskLineModelNew.resolutionCode)
-                ////Step line 44: Tasks > Verdict tab -> Task lines tab: Second tasks
-                .VerifySecondTaskLineStateVerdictTab("Pending", "1100L", "", "1", "0", "0");
+                //Step line 44: Tasks > Verdict tab -> Task lines tab: Second tasks
+                .VerifySecondTaskLineStateVerdictTab(pendingState, "1100L", "", "1", "0", "0");
             //Step line 39: Double click on the taskline you have created
             detailTaskPage
                 .ClickOnTaskLineTab()
+                .WaitForLoadingIconToDisappear();
+            detailTaskPage
                 .DoubleClickAnyTaskLine("2")
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
@@ -294,11 +328,22 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForTaskLineDetailDisplayed()
                 .GetTaskLineId();
             detailTaskLinePage
+                .ClickOnDetailTab()
+                .WaitForLoadingIconToDisappear();
+            detailTaskLinePage
                 .VerifyTaskLineInfo(allTaskLinesAfter[1]);
             //Line 41: Run query to get new taskline detail and verify
-            List<TaskLineDBModel> taskLineDBModelsDetailNew = finder.GetTaskLine(taskLineIdNew);
+            List<TaskLineDBModel> taskLineDBModelsDetailNew = finder.GetTaskLineByTaskLineId(taskLineIdNew);
+            //Get product by productid
+            int productIdNew = taskLineDBModelsDetailNew[0].productID;
+            string productNameDBNew = "";
+            if (productIdNew != 0)
+            {
+                ProductDBModel productDBModelNew = finder.GetProduct(productIdNew)[0];
+                productNameDBNew = productDBModelNew.product;
+            }
             detailTaskLinePage
-                .VerifyTaskLineInfo(allTaskLinesAfter[1], taskLineDBModelsDetailNew[0]);
+                .VerifyTaskLineInfo(allTaskLinesAfter[1], taskLineDBModelsDetailNew[0], productNameDBNew);
             //Step line 42: Click on data tab
             detailTaskLinePage
                 .ClickOnDataTab()
@@ -307,19 +352,19 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskLinePage
                 .ClickOnHistoryTab()
                 .VerifyNotDisplayErrorMessage();
-            string[] expValueSecondTaskLineHistotyTab = { "0", "1100L", "0", "1", "0", "", "Pending", "Unticked", "2", "", "0", "0", "0", "0", "0", "Not Certified", "0" };
+            string[] expValueSecondTaskLineHistotyTab = { "0", "1100L", "0", "1", "0", "", pendingState, "Unticked", "2", "", "0", "0", "0", "0", "0", "Not Certified", "0" };
             detailTaskLinePage
                 .VerifyActionCreateWithUserDisplay(timeCreatedSecondTaskLine, CommonConstants.ActionCreateSecondTaskLineInHistoryTaskLineDetail, expValueSecondTaskLineHistotyTab, AutoUser92.DisplayName);
             //Step line 45: Click back on details tab and change the state to Cancelled
             detailTaskLinePage
                 .ClickOnDetailTab()
-                .ChangeState("Cancelled")
+                .ChangeState(cancelledState)
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             detailTaskLinePage
-                .VerifyCurrentTaskState("Cancelled");
-            string secondTaskLineId = detailTaskLinePage
+                .VerifyCurrentTaskState(cancelledState);
+            secondTaskLineId = detailTaskLinePage
                 .GetTaskLineId().ToString();
             detailTaskLinePage
                 .ClickCloseBtn()
@@ -332,7 +377,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsDetailTaskPage()
                 .ClickOnVerdictTab()
                 .ClickOnTaskLineVerdictTab()
-                .VerifySecondTaskLineStateVerdictTab("Cancelled", "660L", "", "1", "0", "0", secondTaskLineId);
+                .VerifySecondTaskLineStateVerdictTab(cancelledState, "1100L", "", "1", "0", "0", secondTaskLineId);
             //Step line 48: Verify task lines
             detailTaskPage
                 .ClickTasklinesTab()
@@ -341,21 +386,24 @@ namespace si_automated_tests.Source.Test.TaskTests
             List<TaskLineModel> allTaskLines1After = detailTaskPage
                 .GetAllTaskLineInTaskLineTab();
             detailTaskPage
-                .VerifyTaskLineCreated(allTaskLines1After[1], "Service", "1100L", "1", "Cancelled");
+                .VerifyTaskLineCreated(allTaskLines1After[1], "Service", "1100L", "1", cancelledState);
             //Step line 49: Update the state to [Not Completed] and select one resolution code for last task line created (third task line)
             detailTaskPage
-                .SelectAnyState(3, "Not Completed")
+                .SelectAnyState(3, notCompletedState)
                 .SelectAnyResolutionCode(3, "No key")
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            DateTime londonCurrentDate3 = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            string timeUpdatedTaskLineNumber3 = CommonUtil.ParseDateTimeToFormat(londonCurrentDate3, CommonConstants.DATE_DD_MM_YYYY_FORMAT);
+
             detailTaskPage
-                .VerifyStateAtAnyRow(3, "Not Completed")
+                .VerifyStateAtAnyRow(3, notCompletedState)
                 .VerifyResolutionCodeAtAnyRow(3, "No key");
             //Step line 50: Check hover for row with state = Completed and Not Completed
             detailTaskPage
-                .VerifyWhenHoverElementAtAnyRow(taskLineModelNew.resolutionCode, "Completed", taskLineModelNew.siteProduct, taskLineModelNew.destinationSite, taskLineModelNew.product, taskLineModelNew.assetType, 1)
-                .VerifyWhenHoverElementAtAnyRow("No key", "Not Completed", "", "", "General Recycling", "", 3);
+                .VerifyWhenHoverElementAtAnyRow(taskLineModelNew.resolutionCode, manualConfirmedOnWeb, taskLineModelNew.destinationSite, taskLineModelNew.siteProduct, taskLineModelNew.product, taskLineModelNew.assetType, 1)
+                .VerifyWhenHoverElementAtAnyRow("No key", manualConfirmedOnWeb, "", "", "General Recycling", "", 3);
             List<TaskLineModel> allTaskLinesAfter1 = detailTaskPage
                 .GetAllTaskLineInTaskLineTab();
 
@@ -366,7 +414,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage
                 .ClickOnVerdictTab()
                 .ClickOnTaskLineVerdictTab()
-                .VerifyThirdTaskLineStateVerdictTab("Not Completed", "", "General Recycling", "1", "0", "0", "No key", manualConfirmedOnWeb)
+                .VerifyThirdTaskLineStateVerdictTab(notCompletedState, "", "General Recycling", "1", "0", "0kg", "No key", manualConfirmedOnWeb)
                 .ClickOnTaskLineTab()
                 .WaitForLoadingIconToDisappear();
             //Step line 53: Double click on the taskline you updated above
@@ -380,7 +428,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .GetTaskLineId();
             detailTaskLinePage
                 .VerifyTaskLineInfo(allTaskLinesAfter1[2])
-                .VeriryConfirmationAndCompletedDate("", manualConfirmedOnWeb);
+                .VeriryConfirmationAndCompletedDate(timeUpdatedTaskLineNumber3, manualConfirmedOnWeb);
             //Step line 54: Click on History and verify
             detailTaskLinePage
                 .ClickOnHistoryTab();
@@ -398,10 +446,10 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage
                 .VerifyNumberOfRowTaskLine(2);
             //Step line 58: Run query to check
-            List<TaskLineDBModel> taskLineDBModelsAfterRemoved = finder.GetTaskLine(int.Parse(taskIDWithSourceServiceTask));
+            taskLineDBModelsAfterRemoved = finder.GetTaskLine(int.Parse(taskIDWithSourceServiceTask));
             Assert.AreEqual(2, taskLineDBModelsAfterRemoved.Count);
-            Assert.AreEqual(firstTaskLineId, taskLineDBModelsAfterRemoved[0].tasklineID);
-            Assert.AreEqual(secondTaskLineId, taskLineDBModelsAfterRemoved[1].tasklineID);
+            Assert.AreEqual(firstTaskLineId, taskLineDBModelsAfterRemoved[0].tasklineID.ToString());
+            Assert.AreEqual(secondTaskLineId, taskLineDBModelsAfterRemoved[1].tasklineID.ToString());
             //Step line 59: Task -> Verdict tab -> Task lines tab
             detailTaskPage
                 .ClickOnVerdictTab()
@@ -412,16 +460,17 @@ namespace si_automated_tests.Source.Test.TaskTests
             //Step line 60: Change the state to pending in any taskline
             detailTaskPage
                 .ClickTasklinesTab()
-                .SelectAnyState(1, "Pending")
+                .SelectAnyState(1, pendingState)
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
-            string timeUpdatedToPending = "";
+            DateTime londonCurrentDateToPending = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            string timeUpdatedToPending = CommonUtil.ParseDateTimeToFormat(londonCurrentDateToPending, CommonConstants.DATE_DD_MM_YYYY_FORMAT);
             detailTaskPage
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             detailTaskPage
-                .VerifyStateAtAnyRow(1, "Pending")
+                .VerifyStateAtAnyRow(1, pendingState)
                 .VerifyResolutionCodeAtAnyRow(1, "")
-                .VerifyWhenHoverElementAtAnyRow("", "", "", "", "", "", 1);
+                .VerifyWhenHoverElementAtAnyRow("", "", destinationSiteNameFull, "GW1", "General Recycling", "660L", 1);
             //Step line 61: Double click on the taskline -> details tab
             detailTaskPage
                 .DoubleClickAnyTaskLine("1")
@@ -429,22 +478,23 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear();
             detailTaskLinePage
                 .WaitForTaskLineDetailDisplayed()
-                .VerifyCurrentTaskState("Pending")
+                .ClickOnDetailTab()
+                .VerifyCurrentTaskState(pendingState)
                 .VeriryConfirmationAndCompletedDate("", "");
             //Step line 62: Click on [History] tab
             detailTaskLinePage
                 .ClickOnHistoryTab()
                 .VerifyNotDisplayErrorMessage();
-            string[] stateAfterUpdate = { "Pending" };
+            string[] stateAfterUpdate = { pendingState };
             string[] ActionUpdateStateInHistoryTaskLineDetail = { "State" };
 
             detailTaskLinePage
                 .VerifyActionUpdateWithUserDisplay(timeUpdatedToPending, ActionUpdateStateInHistoryTaskLineDetail, stateAfterUpdate, AutoUser92.DisplayName, 1);
 
             //Step line 63: DB: Query
-            List<TaskLineDBModel> taskLineDBModelsAfterUpdatedState = finder.GetTaskLineByTaskLineId(taskLineId);
+            List<TaskLineDBModel> taskLineDBModelsAfterUpdatedState = finder.GetTaskLineByTaskLineId(int.Parse(taskIDWithSourceServiceTask));
             Assert.AreEqual(0, taskLineDBModelsAfterUpdatedState[0].autoconfirmed);
-            Assert.AreEqual(null, taskLineDBModelsAfterUpdatedState[0].completeddate.ToString());
+            Assert.AreEqual("01/01/0001 00:00:00", taskLineDBModelsAfterUpdatedState[0].completeddate.ToString());
             //Step line 64: Task -> Verdict tab -> Task lines tab
             detailTaskLinePage
                 .ClickCloseBtn()
@@ -452,12 +502,13 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage
                 .ClickOnVerdictTab()
                 //First tasks
-                .VerifyFirstTaskLineStateVerdictTab(timeUpdated1, "Pending", "", taskLineModelNew.product, taskLineModelNew.actualProductQuantity + "kg", taskLineModelNew.assetType, taskLineModelNew.actualAssetQuantity)
+                .VerifyFirstTaskLineStateVerdictTab(timeUpdated1, pendingState, "", taskLineModelNew.product, taskLineModelNew.actualProductQuantity + "kg", taskLineModelNew.assetType, taskLineModelNew.actualAssetQuantity)
                 .VerifyResoluctionCodeFirstRowInTaskLineTab("");
             //Step line 65: History tab
             detailTaskPage
                 .ClickOnHistoryTab()
                 .WaitForLoadingIconToDisappear();
+
             //Step line 66: Run query
             List<TaskHistoryDBModel> taskHistoryDBModels = finder.GetTaskHistoryByTaskId(taskIDWithSourceServiceTask);
 
@@ -474,21 +525,23 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .InputTaskNote(taskNote)
                 .ClickSaveBtn()
                 .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
-            string updatedTimeTask = "";
+            DateTime londonCurrentDateUpdatedTask = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+            string updatedTimeTask = CommonUtil.ParseDateTimeToFormat(londonCurrentDateUpdatedTask, CommonConstants.DATE_DD_MM_YYYY_FORMAT);
             detailTaskPage
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             //Step line 68: History and verify
             detailTaskPage
                 .ClickOnHistoryTab()
                 .WaitForLoadingIconToDisappear();
-            string[] titleUpdate = { "Task Reference", "Task notes", "Priority" };
-            string[] expectedUpdate = { taskRef, taskNote, "Hight" };
+            string[] titleUpdate = { "Task notes", "Task reference", "Priority" };
+            string[] expectedUpdate = { taskNote, taskRef, "High" };
             detailTaskPage
                 .VerifyHistoryTabUpdate(AutoUser92.DisplayName, updatedTimeTask, titleUpdate, expectedUpdate);
-
         }
 
+        //DONE
         [Category("Tasks/tasklines")]
+        [Category("Chang")]
         [Test(Description = "Tasks/tasklines - Detail Tasks - Source - sevice task"), Order(2)]
         public void TC_125_Detail_tasks_verify_other_tabs()
         {
@@ -508,7 +561,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear();
             detailTaskPage
                 .IsDetailTaskPage();
-                //Step line 69: Subscriptions tab
+            //Step line 69: Subscriptions tab
             detailTaskPage
                 .ClickOnSubscriptionTab()
                 .WaitForLoadingIconToDisappear();
@@ -556,8 +609,9 @@ namespace si_automated_tests.Source.Test.TaskTests
             //Step line 123: Account statement
             detailTaskPage
                 .ClickOnAccountStatementTab()
-                .VerifyDisplayColumnInAccountStatementTab(accountStatementColumn)
-                //Step line 125: Map tab
+                .VerifyDisplayColumnInAccountStatementTab(accountStatementColumn);
+            //Step line 125: Map tab
+            detailTaskPage
                 .ClickOnMapTab()
                 .VerifyNotDisplayErrorMessage();
             detailTaskPage
@@ -567,10 +621,284 @@ namespace si_automated_tests.Source.Test.TaskTests
 
         }
 
+        //[Category("Tasks/tasklines")]
+        //[Category("Chang")]
+        //[Test(Description = "Tasks/tasklines - Detail Tasks - Source - sevice task"), Order(3)]
+        //public void TC_125_Detail_tasks_update_state()
+        //{
+        //    //Login ECHO and check the detail of the task
+        //    PageFactoryManager.Get<NavigationBase>()
+        //        .GoToURL(WebUrl.MainPageUrl + "web/tasks/" + taskIDWithSourceServiceTask);
+
+        //    DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
+        //    detailTaskPage
+        //        .WaitForLoadingIconToDisappear();
+        //    detailTaskPage
+        //        .ClickOnDetailTab()
+        //        .IsDetailTaskPage();
+        //    //Step line 76: Change state to COmpleted
+        //    detailTaskPage
+        //        .ClickOnTaskStateDd()
+        //        .SelectAnyTaskStateInDd(completedState)
+        //        .ClickSaveBtn()
+        //        .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+
+        //    DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+        //    string timeCompleted = CommonUtil.ParseDateTimeToFormat(londonCurrentDate, CommonConstants.DATE_DD_MM_YYYY_FORMAT);
+
+        //    detailTaskPage
+        //        .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+        //    detailTaskPage
+        //        .VerifyCompletedDateAtDetailTab(timeCompleted)
+        //        .VerifyCurrentTaskState(completedState)
+        //        .ClickRefreshBtn()
+        //        .WaitForLoadingIconToDisappear();
+        //    //Step line 77: Click on Task Lines and verify
+        //    detailTaskPage
+        //        .IsDetailTaskPage()
+        //        .ClickOnTaskLineTab()
+        //        .WaitForLoadingIconToDisappear();
+
+        //    detailTaskPage
+        //        .VerifyStateAtAnyRow(1, completedState)
+        //        .VerifyStateAtAnyRow(2, "Cancelled")
+        //        .VerifyAnyRowsInTaskLineAreReadonly(1)
+        //        .VerifyAnyRowsInTaskLineAreReadonly(2)
+        //        .VerifyWhenHoverElementAtAnyRow(manualConfirmedOnWeb, 1)
+        //        //Step line 78: History tab - Record for task
+        //        .ClickOnHistoryTab()
+        //        .WaitForLoadingIconToDisappear();
+        //    detailTaskPage
+        //        .VerifyTitleTaskLineFirstServiceUpdate()
+        //        .VerifyHistoryTabUpdate(AutoUser92.DisplayName, timeCompleted, timeCompleted, completedState, timeCompleted)
+        //        //Step line 78: History tab - Record for task line
+        //        .VerifyHistoryTabOfTaskLineAfterChangingTaskStatus(AutoUser92.DisplayName, timeCompleted, taskLineModelNew.actualAssetQuantity, taskLineModelNew.actualProductQuantity, completedState, taskLineModelNew.resolutionCode, timeCompleted, manualConfirmedOnWeb, firstTaskLineId.ToString())
+        //        //Step line 79: Verdict tab - verify [Task Information]
+        //        .ClickOnVerdictTab()
+        //        .ClickOnTaskInformation()
+        //        .VerifyTaskInformationAfterBulkUpdating2(timeCompleted, completedState, taskLineModelNew.resolutionCode, manualConfirmedOnWeb)
+        //        //Step line 81: Verdict tab - verify [Task lines]
+        //        .ClickOnTaskLineVerdictTab()
+        //        //First task
+        //        .VerifyFirstTaskLineStateVerdictTab(timeCompleted, completedState, manualConfirmedOnWeb, taskLineModelNew.product, taskLineModelNew.actualProductQuantity + "kg", taskLineModelNew.assetType, taskLineModelNew.actualAssetQuantity)
+        //        .VerifyFirstResolutionCode(taskLineModelNew.resolutionCode)
+        //        //Second task
+        //        .VerifySecondTaskLineStateVerdictTab("Cancelled", "1100L", "", "1", "0", "0");
+        //    //Step line 82: Query to check
+        //    List<TaskLineDBModel> tasklineByTaskAfterCompletedTask = finder.GetTaskLineByTaskId(int.Parse(taskIDWithSourceServiceTask));
+
+        //    //Step line 83: Change to [Not Completed]
+        //    detailTaskPage
+        //        .ClickOnDetailTab()
+        //        .IsDetailTaskPage()
+        //        .ClickOnTaskStateDd()
+        //        .SelectAnyTaskStateInDd(notCompletedState)
+        //        .ClickSaveBtn()
+        //        .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+        //    DateTime londonCurrentDateNotCompleted = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+        //    string timeNotCompleted = CommonUtil.ParseDateTimeToFormat(londonCurrentDateNotCompleted, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+        //    detailTaskPage
+        //        .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+        //    detailTaskPage
+        //        .VerifyTaskCompleteDate(timeCompleted)
+        //        .VerifyCurrentTaskState(notCompletedState)
+        //        .ClickRefreshBtn()
+        //        .WaitForLoadingIconToDisappear();
+        //    //Step line 84: Verify in [Task lines] tab
+        //    detailTaskPage
+        //        .IsDetailTaskPage()
+        //        .ClickOnTaskLineTab()
+        //        .WaitForLoadingIconToDisappear();
+
+        //    detailTaskPage
+        //        .VerifyStateAtAnyRow(1, completedState)
+        //        .VerifyStateAtAnyRow(2, cancelledState)
+        //        .VerifyAnyRowsInTaskLineAreReadonly(1)
+        //        .VerifyAnyRowsInTaskLineAreReadonly(2)
+        //        .VerifyWhenHoverElementAtAnyRow(manualConfirmedOnWeb, 1)
+        //        //Step line 85: History tab - Record for task
+        //        .ClickOnHistoryTab()
+        //        .WaitForLoadingIconToDisappear();
+        //    detailTaskPage
+        //       .VerifyTitleTaskLineFirstServiceUpdate()
+        //       .VerifyHistoryTabUpdate(AutoUser92.DisplayName, timeNotCompleted, timeCompleted, notCompletedState, timeCompleted)
+        //       //Step line 86: Verdict tab/task information
+        //       .ClickOnVerdictTab()
+        //       .ClickOnTaskInformation()
+        //       .VerifyTaskInformationAfterBulkUpdating2(timeCompleted, notCompletedState, taskLineModelNew.resolutionCode, manualConfirmedOnWeb)
+        //       //Step line 87: Verdict tab/Task lines
+        //       .ClickOnTaskLineVerdictTab()
+        //       .VerifyFirstTaskLineStateVerdictTab(timeCompleted, completedState, manualConfirmedOnWeb, taskLineModelNew.product, taskLineModelNew.actualProductQuantity + "kg", taskLineModelNew.assetType, taskLineModelNew.actualAssetQuantity)
+        //        .VerifyFirstResolutionCode(taskLineModelNew.resolutionCode)
+        //        //Second task
+        //        .VerifySecondTaskLineStateVerdictTab(cancelledState, "1100L", "", "1", "0", "0");
+        //    //Step line 82: Query to check
+        //    List<TaskLineDBModel> tasklineByTaskAfterNotCompletedTask = finder.GetTaskLineByTaskId(int.Parse(taskIDWithSourceServiceTask));
+
+        //    //Step line 90: Change task state to Cancelled
+        //    detailTaskPage
+        //        .ClickOnDetailTab()
+        //        .IsDetailTaskPage()
+        //        .ClickOnTaskStateDd()
+        //        .SelectAnyTaskStateInDd(notCompletedState)
+        //        .ClickSaveBtn()
+        //        .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+        //    DateTime londonCurrentDateCancelled = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+        //    string timeCancelled = CommonUtil.ParseDateTimeToFormat(londonCurrentDateCancelled, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+        //    detailTaskPage
+        //        .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+        //    detailTaskPage
+        //        .VerifyCompletedDateAtDetailTab("")
+        //        .VerifyCurrentTaskState(notCompletedState)
+        //        .ClickRefreshBtn()
+        //        .WaitForLoadingIconToDisappear();
+        //    //Step line 91: Verify in [Task lines] tab
+        //    detailTaskPage
+        //        .IsDetailTaskPage()
+        //        .ClickOnTaskLineTab()
+        //        .WaitForLoadingIconToDisappear();
+
+        //    detailTaskPage
+        //        .VerifyStateAtAnyRow(1, completedState)
+        //        .VerifyStateAtAnyRow(2, cancelledState)
+        //        .VerifyAnyRowsInTaskLineAreReadonly(1)
+        //        .VerifyAnyRowsInTaskLineAreReadonly(2)
+        //        .VerifyWhenHoverElementAtAnyRow("", 1)
+        //        //Step line 92: History tab - Record for task
+        //        .ClickOnHistoryTab()
+        //        .WaitForLoadingIconToDisappear();
+        //    detailTaskPage
+        //       .VerifyTitleTaskLineFirstServiceUpdate()
+        //       .VerifyHistoryTabUpdate(AutoUser92.DisplayName, timeCancelled, "", notCompletedState)
+        //       //Step line 93: Verdict tab/task information
+        //       .ClickOnVerdictTab()
+        //       .ClickOnTaskInformation()
+        //       .VerifyTaskInformationAfterBulkUpdating2("", cancelledState, taskLineModelNew.resolutionCode, "")
+        //       //Step line 95: Verdict tab/Task lines
+        //       .ClickOnTaskLineVerdictTab()
+        //       .VerifyFirstTaskLineStateVerdictTab(timeCompleted, completedState, manualConfirmedOnWeb, taskLineModelNew.product, taskLineModelNew.actualProductQuantity + "kg", taskLineModelNew.assetType, taskLineModelNew.actualAssetQuantity)
+        //        .VerifyFirstResolutionCode(taskLineModelNew.resolutionCode)
+        //        //Second task
+        //        .VerifySecondTaskLineStateVerdictTab(cancelledState, "1100L", "", "1", "0", "0");
+        //    //Step line 96: Query to check
+        //    List<TaskLineDBModel> tasklineByTaskAfterCancelledTask = finder.GetTaskLineByTaskId(int.Parse(taskIDWithSourceServiceTask));
+
+        //    //Step line 97: Update task to Inprogress
+        //    detailTaskPage
+        //        .ClickOnDetailTab()
+        //        .IsDetailTaskPage()
+        //        .ClickOnTaskStateDd()
+        //        .SelectAnyTaskStateInDd(inprogressState)
+        //        .ClickSaveBtn()
+        //        .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+        //    DateTime londonCurrentDateInprogress = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+        //    string timeInprogress = CommonUtil.ParseDateTimeToFormat(londonCurrentDateInprogress, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+
+        //    //Step line 98: Task lines tab
+        //    detailTaskPage
+        //        .IsDetailTaskPage()
+        //        .ClickOnTaskLineTab()
+        //        .WaitForLoadingIconToDisappear();
+
+        //    detailTaskPage
+        //        .VerifyStateAtAnyRow(1, completedState)
+        //        .VerifyStateAtAnyRow(2, cancelledState)
+        //        .VerifyAnyRowsInTaskLineAreEditable(1)
+        //        .VerifyAnyRowsInTaskLineAreEditable(2)
+        //        .VerifyAddNewItemEnabled()
+        //        .VerifyWhenHoverElementAtAnyRow("", 1)
+        //        .VerifyWhenHoverElementAtAnyRow("", 2)
+        //        //Step line 99: History tab
+        //        .ClickOnHistoryTab()
+        //        .WaitForLoadingIconToDisappear();
+        //    detailTaskPage
+        //       .VerifyTitleTaskLineFirstServiceUpdate()
+        //       .VerifyHistoryTabUpdateWithEndDate(AutoUser92.DisplayName, timeInprogress, "", inprogressState)
+        //       //Step line 100: Verdict tab/task information
+        //       .ClickOnVerdictTab()
+        //       .ClickOnTaskInformation()
+        //       .VerifyTaskInformationAfterBulkUpdating2("", inprogressState, taskLineModelNew.resolutionCode, "");
+        //    //Step line 101: Run query to check
+        //    List<TaskDBModel> taskAfterChangingToInprogress = finder.GetTaskByTaskId(taskIDWithSourceServiceTask);
+        //    List<TaskStateDBModel> taskStateDBModels = finder.GetTaskStateByTaskId(taskIDWithSourceServiceTask);
+        //    string currentTaskState = taskStateDBModels[0].taskstate;
+        //    Assert.AreEqual(inprogressState, currentTaskState);
+
+        //    //Step line 102: Verdict tab/Task lines
+        //    detailTaskPage
+        //        .ClickOnTaskLineVerdictTab()
+        //        .VerifyFirstTaskLineStateVerdictTab(timeCompleted, completedState, manualConfirmedOnWeb, taskLineModelNew.product, taskLineModelNew.actualProductQuantity + "kg", taskLineModelNew.assetType, taskLineModelNew.actualAssetQuantity)
+        //        .VerifyFirstResolutionCode(taskLineModelNew.resolutionCode)
+        //        //Second task
+        //        .VerifySecondTaskLineStateVerdictTab(cancelledState, "1100L", "", "1", "0", "0");
+        //    //Step line 103: Query to check
+        //    List<TaskLineDBModel> tasklineByTaskAfterInprogressTask = finder.GetTaskLineByTaskId(int.Parse(taskIDWithSourceServiceTask));
+        //    TaskStateDBModel taskStateDBModelFirst = finder.GetTaskStateByTaskStateId(tasklineByTaskAfterInprogressTask[0].tasklinestateID.ToString());
+        //    string firstStateTaskline = taskStateDBModelFirst.taskstate;
+        //    TaskStateDBModel taskStateDBModelSecond = finder.GetTaskStateByTaskStateId(tasklineByTaskAfterInprogressTask[1].tasklinestateID.ToString());
+        //    string secondStateTaskline = taskStateDBModelSecond.taskstate;
+
+        //    detailTaskPage
+        //        .VerifyFirstTaskLineWithDB(tasklineByTaskAfterInprogressTask[0], firstStateTaskline)
+        //        .VerifySecondTaskLineWithDB(tasklineByTaskAfterInprogressTask[1], secondStateTaskline);
+        //    //Step line 104: Fields related to tasklines (verify in [Verdict] tab)
+        //    int scheduleAssetQtyTotal = taskLineDBModelsAfterRemoved[0].scheduledassetquantity + taskLineDBModelsAfterRemoved[1].scheduledassetquantity;
+        //    double scheduleProductQtyTotal = taskLineDBModelsAfterRemoved[0].scheduledproductquantity + taskLineDBModelsAfterRemoved[1].scheduledproductquantity;
+        //    detailTaskPage
+        //        .ClickOnTaskInformation()
+        //        .VerifyScheduledAssetQtyInTaskInformation(scheduleAssetQtyTotal.ToString())
+        //        .VerifyScheduledProductQtyInTaskInformation(scheduleProductQtyTotal.ToString());
+        //    //Step line 105: Update asset scheduled qty and product qty at tasklines tab
+        //    int firstScheduleAssetQtyUpdate = 5;
+        //    int firstScheduleProductQtyUpdate = 100;
+        //    int secondScheduleAssetQtyUpdate = 10;
+        //    int secondScheduleProductQtyUpdate = 50;
+        //    detailTaskPage
+        //        .ClickTasklinesTab()
+        //        //=> First task line
+        //        .InputScheduledAssetQty(1, firstScheduleAssetQtyUpdate.ToString())
+        //        .InputSheduledProductQuantiAtAnyRow(1, firstScheduleProductQtyUpdate.ToString())
+        //        //=> Second task line
+        //        .InputScheduledAssetQty(2, secondScheduleAssetQtyUpdate.ToString())
+        //        .InputSheduledProductQuantiAtAnyRow(2, secondScheduleProductQtyUpdate.ToString())
+        //        .ClickSaveBtn()
+        //        .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
+        //    DateTime londonCurrentDateUpdateSchedule = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
+        //    string timeUpdateSchedule = CommonUtil.ParseDateTimeToFormat(londonCurrentDateCancelled, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
+        //    detailTaskPage
+        //        .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+        //    //Step line 106: History tab
+        //    detailTaskPage
+        //        .ClickOnHistoryTab()
+        //        .VerifyHistoryTabAfterUpdatingSchedule(firstScheduleAssetQtyUpdate.ToString(), firstScheduleProductQtyUpdate.ToString(), firstTaskLineId, secondScheduleAssetQtyUpdate.ToString(), secondScheduleProductQtyUpdate.ToString(), secondTaskLineId);
+        //    int allScheduleAssetQty = firstScheduleAssetQtyUpdate + secondScheduleAssetQtyUpdate;
+        //    int allScheduleProductQty = firstScheduleProductQtyUpdate + secondScheduleProductQtyUpdate;
+        //    //Step line 107: Verdict tab/Task information
+        //    detailTaskPage
+        //        .ClickOnVerdictTab()
+        //        .ClickOnTaskInformation()
+        //        .VerifyScheduledAssetQtyInTaskInformation(allScheduleAssetQty.ToString())
+        //        .VerifyScheduledProductQtyInTaskInformation(allScheduleProductQty.ToString());
+        //    //Step line 108: Verdict tab/Task lines
+        //    detailTaskPage
+        //        .ClickOnTaskLineVerdictTab()
+        //        //First task
+        //        .VerifyScheduleAssetQtyFirstTaskLineVerdictTab(firstScheduleAssetQtyUpdate.ToString())
+        //        //Second task
+        //        .VerifyScheduleAssetQtySecondTaskLineVerdictTab(secondScheduleAssetQtyUpdate.ToString());
+        //}
+
+        //DONE
+
+        [Category("Chang")]
         [Category("Tasks/tasklines")]
-        [Test(Description = "Tasks/tasklines - Detail Tasks - Source - sevice task"), Order(3)]
-        public void TC_125_Detail_tasks_update_state_to_completed()
+        [Test(Description = "Tasks/tasklines - Fields related to round instance: round state,human resource(s), vehicle resource(s)"), Order(4)]
+        public void TC_125_Task_tasklines_fields_related_to_round_instance_round_state_human_resource_vehicle_resource()
         {
+            string statusNotDone = "Not Done";
+            string statusComplete = "Complete";
+            string statusReason = "Bad Weather";
+            string[] debriefTestColumn = { "Test Name ", "Resolution Code", "Notes", "Debrief Result" };
 
             //Login ECHO and check the detail of the task
             PageFactoryManager.Get<NavigationBase>()
@@ -582,184 +910,98 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage
                 .ClickOnDetailTab()
                 .IsDetailTaskPage();
-            //Step line 76: Change state to COmpleted
+            //Step line 111: Click on Round in the header
             detailTaskPage
-                .ClickOnTaskStateDd()
-                .SelectAnyTaskStateInDd(completedState)
+                .ClickOnRoundLink()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            RoundInstanceDetailPage roundInstanceDetailPage = PageFactoryManager.Get<RoundInstanceDetailPage>();
+            roundInstanceDetailPage
+                .WaitForRoundInstanceDetailPageDisplayed()
+                .ClickOnDetailTab()
+                //Step line 112: Change Status to [Not done] and select [Status Reason]
+                .SelectStatusInDetailTab(statusNotDone)
+                .SelectStatusReasonInDetailTab(statusReason)
                 .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
-
-            DateTime londonCurrentDate = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
-            string timeCompleted = CommonUtil.ParseDateTimeToFormat(londonCurrentDate, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
-
-            detailTaskPage
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                 .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            roundInstanceDetailPage
+                .VerifyStatusInDetailTab(statusNotDone)
+                .VerifyStatusReasonInDetailTab(statusReason);
+            //Step line 113: Back to [Detail Task] > [Verdict] tab and verify
+            roundInstanceDetailPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
             detailTaskPage
-                .VerifyTaskCompleteDate(timeCompleted)
-                .VerifyCurrentTaskState(completedState)
                 .ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear();
-            //Step line 77: Click on Task Lines and verify
             detailTaskPage
                 .IsDetailTaskPage()
-                .ClickOnTaskLineTab()
+                .ClickOnVerdictTab()
                 .WaitForLoadingIconToDisappear();
+            detailTaskPage
+                .ClickOnTaskInformation()
+                .VerifyRoundStateAndHover(statusNotDone + ", " + statusReason);
+            //Step line 114: [Verdict] tab and [Debrief test(s)] tab
+            detailTaskPage
+                .ClickOnDebriefTestTab()
+                .VerifyDisplayColumnInDebriefTestTab(debriefTestColumn)
+                .VerifyTableDebriefTestBlank();
+            //Step line 115: Back to [Round Instance] and change state to [Complete]
+            detailTaskPage
+                .ClickRoundHyperLink()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            roundInstanceDetailPage
+                .WaitForRoundInstanceDetailPageDisplayed()
+                .ClickOnDetailTab()
+                .SelectStatusInDetailTab(statusComplete)
+                .ClickSaveBtn()
+                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            string roundInstance = roundInstanceDetailPage
+                .GetRoundInstanceId();
+            roundInstanceDetailPage
+                .VerifyStatusInDetailTab(statusComplete)
+                .VerifyStatusReasonInDetailTab("Select...");
+            //Step line 116: Click on [Debrief] btn
+            roundInstanceDetailPage
+                .VerifyDisplayDebriefBtn()
+                .ClickOnDebriefBtn()
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            DebriefResultPage debriefResultPage = PageFactoryManager.Get<DebriefResultPage>();
+            debriefResultPage
+                .WaitForDebriefLoaded()
+                .VerifyCurrentUrlOfDebriefDetailPage(roundInstance)
+                .ClickOnRoundBtnAndNoErrorMessageDisplayed()
+                .ClickOnActivityBtnAndNoErrorMessageDisplayed()
+                .ClickOnWorksheetBtnAndNoErrorMessageDisplayed()
+                .CloseCurrentWindow()
+                .SwitchToChildWindow(2);
+            roundInstanceDetailPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
 
+            //Step line 119: Back to the Task detail form > Verdict tab > task information
             detailTaskPage
-                .VerifyStateAtAnyRow(1, completedState)
-                .VerifyStateAtAnyRow(2, "Cancelled")
-                .VerifyAnyRowsInTaskLineAreReadonly(1)
-                .VerifyAnyRowsInTaskLineAreReadonly(2)
-                .VerifyWhenHoverElementAtAnyRow(manualConfirmedOnWeb, 1)
-                //Step line 78: History tab - Record for task
-                .ClickOnHistoryTab()
+                .Refresh()
                 .WaitForLoadingIconToDisappear();
             detailTaskPage
-                .VerifyTitleTaskLineFirstServiceUpdate()
-                .VerifyHistoryTabUpdate(AutoUser92.DisplayName, timeCompleted, timeCompleted, completedState, timeCompleted)
-                //Step line 78: History tab - Record for task line
-                .VerifyHistoryTabOfTaskLineAfterChangingTaskStatus(AutoUser92.DisplayName, timeCompleted, taskLineModelNew.actualAssetQuantity, taskLineModelNew.actualProductQuantity, completedState, taskLineModelNew.resolutionCode, timeCompleted, manualConfirmedOnWeb, firstTaskLineId.ToString())
-                //Step line 79: Verdict tab - verify [Task Information]
+                .IsDetailTaskPage()
                 .ClickOnVerdictTab()
                 .ClickOnTaskInformation()
-                .VerifyTaskInformationAfterBulkUpdating2(timeCompleted, completedState, taskLineModelNew.resolutionCode, manualConfirmedOnWeb)
-                //Step line 81: Verdict tab - verify [Task lines]
-                .ClickOnTaskLineVerdictTab()
-                //First task
-                .VerifyFirstTaskLineStateVerdictTab(timeCompleted, completedState, manualConfirmedOnWeb, taskLineModelNew.product, taskLineModelNew.actualProductQuantity + "kg", taskLineModelNew.assetType, taskLineModelNew.actualAssetQuantity)
-                .VerifyFirstResolutionCode(taskLineModelNew.resolutionCode)
-                //Second task
-                .VerifySecondTaskLineStateVerdictTab("Cancelled", "1100L", "", "1", "0", "0");
-            //Step line 82: Query to check
-            List<TaskLineDBModel> tasklineByTaskAfterCompletedTask = finder.GetTaskLineByTaskId(int.Parse(taskIDWithSourceServiceTask));
-
-            //Step line 83: Change to [Not Completed]
+                .VerifyRoundStateAndHover("Complete");
+            //Step line 120: Debrief test tab
             detailTaskPage
-                .ClickOnDetailTab()
-                .IsDetailTaskPage()
-                .ClickOnTaskStateDd()
-                .SelectAnyTaskStateInDd(notCompletedState)
-                .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
-            DateTime londonCurrentDateNotCompleted = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
-            string timeNotCompleted = CommonUtil.ParseDateTimeToFormat(londonCurrentDateNotCompleted, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
-            detailTaskPage
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-            detailTaskPage
-                .VerifyTaskCompleteDate(timeCompleted)
-                .VerifyCurrentTaskState(notCompletedState)
-                .ClickRefreshBtn()
+                .ClickOnDebriefTestTab()
                 .WaitForLoadingIconToDisappear();
-            //Step line 84: Verify in [Task lines] tab
+            //Step line 122: Run query to check
+            GetTaskDebriefDBModel getTaskDebriefDBModel = finder.GetTaskDebriefDBModelByTaskId(taskIDWithSourceServiceTask);
             detailTaskPage
-                .IsDetailTaskPage()
-                .ClickOnTaskLineTab()
-                .WaitForLoadingIconToDisappear();
-
-            detailTaskPage
-                .VerifyStateAtAnyRow(1, completedState)
-                .VerifyStateAtAnyRow(2, cancelledState)
-                .VerifyAnyRowsInTaskLineAreReadonly(1)
-                .VerifyAnyRowsInTaskLineAreReadonly(2)
-                .VerifyWhenHoverElementAtAnyRow(manualConfirmedOnWeb, 1)
-                //Step line 85: History tab - Record for task
-                .ClickOnHistoryTab()
-                .WaitForLoadingIconToDisappear();
-            detailTaskPage
-               .VerifyTitleTaskLineFirstServiceUpdate()
-               .VerifyHistoryTabUpdate(AutoUser92.DisplayName, timeNotCompleted, timeCompleted, notCompletedState, timeCompleted)
-               //Step line 86: Verdict tab/task information
-               .ClickOnVerdictTab()
-               .ClickOnTaskInformation()
-               .VerifyTaskInformationAfterBulkUpdating2(timeCompleted, notCompletedState, taskLineModelNew.resolutionCode, manualConfirmedOnWeb)
-               //Step line 87: Verdict tab/Task lines
-               .ClickOnTaskLineVerdictTab()
-               .VerifyFirstTaskLineStateVerdictTab(timeCompleted, completedState, manualConfirmedOnWeb, taskLineModelNew.product, taskLineModelNew.actualProductQuantity + "kg", taskLineModelNew.assetType, taskLineModelNew.actualAssetQuantity)
-                .VerifyFirstResolutionCode(taskLineModelNew.resolutionCode)
-                //Second task
-                .VerifySecondTaskLineStateVerdictTab(cancelledState, "1100L", "", "1", "0", "0");
-            //Step line 82: Query to check
-            List<TaskLineDBModel> tasklineByTaskAfterNotCompletedTask = finder.GetTaskLineByTaskId(int.Parse(taskIDWithSourceServiceTask));
-
-            //Step line 90: Change task state to Cancelled
-            detailTaskPage
-                .ClickOnDetailTab()
-                .IsDetailTaskPage()
-                .ClickOnTaskStateDd()
-                .SelectAnyTaskStateInDd(notCompletedState)
-                .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
-            DateTime londonCurrentDateCancelled = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
-            string timeCancelled = CommonUtil.ParseDateTimeToFormat(londonCurrentDateCancelled, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
-            detailTaskPage
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-            detailTaskPage
-                .VerifyTaskCompleteDate("")
-                .VerifyCurrentTaskState(notCompletedState)
-                .ClickRefreshBtn()
-                .WaitForLoadingIconToDisappear();
-            //Step line 91: Verify in [Task lines] tab
-            detailTaskPage
-                .IsDetailTaskPage()
-                .ClickOnTaskLineTab()
-                .WaitForLoadingIconToDisappear();
-
-            detailTaskPage
-                .VerifyStateAtAnyRow(1, completedState)
-                .VerifyStateAtAnyRow(2, cancelledState)
-                .VerifyAnyRowsInTaskLineAreReadonly(1)
-                .VerifyAnyRowsInTaskLineAreReadonly(2)
-                .VerifyWhenHoverElementAtAnyRow("", 1)
-                //Step line 92: History tab - Record for task
-                .ClickOnHistoryTab()
-                .WaitForLoadingIconToDisappear();
-            detailTaskPage
-               .VerifyTitleTaskLineFirstServiceUpdate()
-               .VerifyHistoryTabUpdate(AutoUser92.DisplayName, timeCancelled, "", notCompletedState)
-               //Step line 93: Verdict tab/task information
-               .ClickOnVerdictTab()
-               .ClickOnTaskInformation()
-               .VerifyTaskInformationAfterBulkUpdating2("", cancelledState, taskLineModelNew.resolutionCode, "")
-               //Step line 95: Verdict tab/Task lines
-               .ClickOnTaskLineVerdictTab()
-               .VerifyFirstTaskLineStateVerdictTab(timeCompleted, completedState, manualConfirmedOnWeb, taskLineModelNew.product, taskLineModelNew.actualProductQuantity + "kg", taskLineModelNew.assetType, taskLineModelNew.actualAssetQuantity)
-                .VerifyFirstResolutionCode(taskLineModelNew.resolutionCode)
-                //Second task
-                .VerifySecondTaskLineStateVerdictTab(cancelledState, "1100L", "", "1", "0", "0");
-            //Step line 96: Query to check
-            List<TaskLineDBModel> tasklineByTaskAfterCancelledTask = finder.GetTaskLineByTaskId(int.Parse(taskIDWithSourceServiceTask));
-
-            //Step line 97: Update task to Inprogress
-            detailTaskPage
-                .ClickOnDetailTab()
-                .IsDetailTaskPage()
-                .ClickOnTaskStateDd()
-                .SelectAnyTaskStateInDd(inprogressState)
-                .ClickSaveBtn()
-                .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage);
-            DateTime londonCurrentDateInprogress = CommonUtil.ConvertLocalTimeZoneToTargetTimeZone(DateTime.Now, "GMT Standard Time");
-            string timeInprogress = CommonUtil.ParseDateTimeToFormat(londonCurrentDateInprogress, CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT);
-
-            //Step line 98: Task lines tab
-            detailTaskPage
-                .IsDetailTaskPage()
-                .ClickOnTaskLineTab()
-                .WaitForLoadingIconToDisappear();
-
-            detailTaskPage
-                .VerifyStateAtAnyRow(1, completedState)
-                .VerifyStateAtAnyRow(2, cancelledState)
-                .VerifyAnyRowsInTaskLineAreEditable(1)
-                .VerifyAnyRowsInTaskLineAreEditable(2)
-                .VerifyAddNewItemEnabled()
-                .VerifyWhenHoverElementAtAnyRow("", 1)
-                .VerifyWhenHoverElementAtAnyRow("", 2)
-                //Step line 99: History tab
-                .ClickOnHistoryTab()
-                .WaitForLoadingIconToDisappear();
-            detailTaskPage
-               .VerifyTitleTaskLineFirstServiceUpdate()
-               .VerifyHistoryTabUpdate(AutoUser92.DisplayName, timeInprogress, "", inprogressState);
+                .VerifyValueColumnDebriefTestTab(getTaskDebriefDBModel);
         }
+
     }
 }
+ 

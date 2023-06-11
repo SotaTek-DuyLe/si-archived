@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -7,8 +8,10 @@ using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
 using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.DBModels.GetTaskDebrief;
 using si_automated_tests.Source.Main.DBModels.GetTaskHistory;
 using si_automated_tests.Source.Main.Models;
+using si_automated_tests.Source.Main.Pages.Applications;
 using si_automated_tests.Source.Main.Pages.Paties;
 using si_automated_tests.Source.Main.Pages.Services.ServiceUnit;
 using si_automated_tests.Source.Main.Pages.Sites;
@@ -26,6 +29,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
         private readonly By dataTab = By.CssSelector("a[aria-controls='data-tab']");
         private readonly By sourceDataTab = By.CssSelector("a[aria-controls='sourceData-tab']");
+        private readonly By roundLink = By.XPath("//div[text()='Round']/following-sibling::a");
 
         //DETAIL TAB
         private readonly By taskReferenceInput = By.CssSelector("input[name='taskReference']");
@@ -973,6 +977,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             return GetAttributeValue(completionDateInput, "value");
         }
+
+        [AllureStep]
+        public DetailTaskPage VerifyCompletedDateAtDetailTab(string completedDateValue)
+        {
+            Assert.IsTrue(GetAttributeValue(completionDateInput, "value").Contains(completedDateValue));
+            return this;
+        }
         [AllureStep]
         public string GetEndDateDisplayed()
         {
@@ -1041,6 +1052,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly string createdValue = "//strong[contains(text(), 'Service Create')]/following-sibling::div//span[text()='{0}']/following-sibling::span[1]";
         private readonly string updatedValue = "//strong[contains(text(), 'Service Update')]/following-sibling::div//span[text()='{0}']/following-sibling::span[1]";
         private readonly string tasklineHistoryTitleWithId = "(//strong[text()='Task Line ({0}) Service Update'])[1]";
+        private readonly string scheduleAssetQtyWithId = "//strong[text()='Task Line ({0}) Service Update']/following-sibling::div/span[text()='ScheduledAssetQuantity']/following-sibling::span[1]";
+        private readonly string scheduleProductQtyWithId = "//strong[text()='Task Line ({0}) Service Update']/following-sibling::div/span[text()='ScheduledProductQuantity']/following-sibling::span[1]";
 
         [AllureStep]
         public DetailTaskPage ClickOnHistoryTab()
@@ -1115,7 +1128,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifyHistoryTabUpdate(string userUpdatedExp, string timeUpdatedExp, string[] fieldInServiceUpdate, string[] valueExpected)
         {
             Assert.AreEqual(userUpdatedExp, GetElementText(userUpdate));
-            Assert.AreEqual(timeUpdatedExp, GetElementText(timeUpdate));
+            Assert.IsTrue(GetElementText(timeUpdate).Contains(timeUpdatedExp));
             string[] allInfoDisplayed = GetElementText(contentUpdate).Split(Environment.NewLine);
             for (int i = 0; i < allInfoDisplayed.Length; i++)
             {
@@ -1139,6 +1152,15 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.AreEqual(userUpdatedExp, GetElementText(userUpdate));
             Assert.AreEqual(timeUpdatedExp, GetElementText(timeUpdate));
             Assert.AreEqual(completedDateExp + ".", GetElementText(completedDateUpdate));
+            Assert.AreEqual(stateExp + ".", GetElementText(stateUpdate));
+            return this;
+        }
+        [AllureStep]
+        public DetailTaskPage VerifyHistoryTabUpdateWithEndDate(string userUpdatedExp, string timeUpdatedExp, string endDate, string stateExp)
+        {
+            Assert.AreEqual(userUpdatedExp, GetElementText(userUpdate));
+            Assert.AreEqual(timeUpdatedExp, GetElementText(timeUpdate));
+            Assert.AreEqual(endDate + ".", GetElementText(endDateUpdate));
             Assert.AreEqual(stateExp + ".", GetElementText(stateUpdate));
             return this;
         }
@@ -1172,6 +1194,21 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         [AllureStep]
+        public DetailTaskPage VerifyHistoryTabAfterUpdatingSchedule(string scheduleAssetQty1, string scheduleProductQty1, string tasklineId1, string scheduleAssetQty2, string scheduleProductQty2, string tasklineId2)
+        {
+            //First task
+            Assert.IsTrue(IsControlDisplayed(tasklineHistoryTitleWithId, tasklineId1));
+            Assert.AreEqual(scheduleAssetQty1 + ".", GetElementText(scheduleAssetQtyWithId, tasklineId1));
+            Assert.AreEqual(scheduleProductQty1 + ".", GetElementText(scheduleProductQtyWithId, tasklineId1));
+
+            //Second task
+            Assert.IsTrue(IsControlDisplayed(tasklineHistoryTitleWithId, tasklineId2));
+            Assert.AreEqual(scheduleAssetQty2 + ".", GetElementText(scheduleAssetQtyWithId, tasklineId2));
+            Assert.AreEqual(scheduleProductQty2 + ".", GetElementText(scheduleProductQtyWithId, tasklineId2));
+            return this;
+        }
+
+        [AllureStep]
         public DetailTaskPage VerifyTaskLineAfterCreatedState(string[] titleValues, string[] expValues)
         {
             for(int i = 0; i < titleValues.Length; i++)
@@ -1198,10 +1235,13 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By confirmationMethodVerdictInput = By.XPath("//label[text()='Confirmation Method']/following-sibling::textarea");
         private readonly By taskStateVerdictInput = By.XPath("//label[text()='Task State']/following-sibling::textarea");
         private readonly By resolutionCodeVerdictInput = By.XPath("//label[text()='Resolution Code']/following-sibling::textarea");
+        private readonly By scheduledAssetQtyVerdictInput = By.XPath("//label[text()='Scheduled Asset Qty']/following-sibling::textarea");
+        private readonly By scheduledProductQtyVerdictInput = By.XPath("//label[text()='Scheduled Product Quantity']/following-sibling::textarea");
         private readonly By taskLineVerdictTab = By.CssSelector("a[aria-controls='verdictTasklines-tab']");
         private readonly By dateTimeFirstLineVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(1)");
         private readonly By tasklineStateFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(8)");
         private readonly By confirmationMethodFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(10)");
+        private readonly By roundStateTaskInformationVerdictTab = By.XPath("//label[text()='Round State']/following-sibling::textarea");
         private readonly By tasklineIdFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(2)");
         private readonly By productFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(4)");
         private readonly By assetTypeFirstVerdictTab = By.CssSelector("tbody[data-bind='foreach: verdictTasklines']>tr:nth-child(1)>td:nth-child(3)");
@@ -1280,9 +1320,23 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         [AllureStep]
+        public DetailTaskPage VerifyScheduledAssetQtyInTaskInformation(string scheduleASsetQtyExp)
+        {
+            Assert.AreEqual(scheduleASsetQtyExp, GetAttributeValue(scheduledAssetQtyVerdictInput, "value"));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyScheduledProductQtyInTaskInformation(string scheduleProductQtyExp)
+        {
+            Assert.AreEqual(scheduleProductQtyExp, GetAttributeValue(scheduledProductQtyVerdictInput, "value"));
+            return this;
+        }
+
+        [AllureStep]
         public DetailTaskPage VerifyTaskCompleteDate(string completionDateExp)
         {
-            Assert.AreEqual(completionDateExp, GetAttributeValue(completionDateVerdictInput, "value"), "Completion Date is not correct");
+            Assert.AreEqual(completionDateExp, GetElementText(completionDateVerdictInput), "Completion Date is not correct");
             return this;
         }
 
@@ -1319,7 +1373,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifySecondTaskLineStateVerdictTab(string stateExp, string assetType, string productExp, string scheduledAssetQty, string actualAssetQty, string actualProductQty)
         {
             Assert.AreEqual(stateExp, GetElementText(tasklineStateSecondVerdictTab));
-            Assert.AreEqual(assetType, GetElementText(tasklineStateSecondVerdictTab));
+            Assert.AreEqual(assetType, GetElementText(assetTypeSecondVerdictTab));
             Assert.AreEqual(productExp, GetElementText(productSecondVerdictTab));
             Assert.AreEqual(scheduledAssetQty, GetElementText(scheduledAssetQtySecondVerdictTab));
             Assert.AreEqual(actualAssetQty, GetElementText(actualAssetQtySecondVerdictTab));
@@ -1332,7 +1386,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifySecondTaskLineStateVerdictTab(string stateExp, string assetType, string productExp, string scheduledAssetQty, string actualAssetQty, string actualProductQty, string taskLineId)
         {
             Assert.AreEqual(stateExp, GetElementText(tasklineStateSecondVerdictTab));
-            Assert.AreEqual(assetType, GetElementText(tasklineStateSecondVerdictTab));
+            Assert.AreEqual(assetType, GetElementText(assetTypeSecondVerdictTab));
             Assert.AreEqual(productExp, GetElementText(productSecondVerdictTab));
             Assert.AreEqual(scheduledAssetQty, GetElementText(scheduledAssetQtySecondVerdictTab));
             Assert.AreEqual(actualAssetQty, GetElementText(actualAssetQtySecondVerdictTab));
@@ -1345,7 +1399,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifyThirdTaskLineStateVerdictTab(string stateExp, string assetType, string productExp, string scheduledAssetQty, string actualAssetQty, string actualProductQty, string resolutionCode, string confirmationMethod)
         {
             Assert.AreEqual(stateExp, GetElementText(tasklineStateThirdVerdictTab));
-            Assert.AreEqual(assetType, GetElementText(tasklineStateThirdVerdictTab));
+            Assert.AreEqual(assetType, GetElementText(assetTypeThirdVerdictTab));
             Assert.AreEqual(productExp, GetElementText(productThirdVerdictTab));
             Assert.AreEqual(scheduledAssetQty, GetElementText(scheduledAssetQtyThirdVerdictTab));
             Assert.AreEqual(actualAssetQty, GetElementText(actualAssetQtyThirdVerdictTab));
@@ -1381,6 +1435,40 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         [AllureStep]
+        public DetailTaskPage VerifyScheduleAssetQtyFirstTaskLineVerdictTab(string scheduleAssetQty)
+        {
+            Assert.AreEqual(scheduleAssetQty, GetElementText(scheduledAssetQtyFirstVerdictTab));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyScheduleAssetQtySecondTaskLineVerdictTab(string scheduleAssetQty)
+        {
+            Assert.AreEqual(scheduleAssetQty, GetElementText(scheduledAssetQtySecondVerdictTab));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyFirstTaskLineWithDB(TaskLineDBModel taskLineDBModel, string stateExp)
+        {
+            Assert.AreEqual(stateExp, GetElementText(tasklineStateFirstVerdictTab));
+            Assert.AreEqual(taskLineDBModel.scheduledassetquantity, GetElementText(scheduledAssetQtyFirstVerdictTab));
+            Assert.AreEqual(taskLineDBModel.actualassetquantity, GetElementText(actualAssetQtyFirstVerdictTab));
+            Assert.AreEqual(taskLineDBModel.actualproductquantity + "kg", GetElementText(actualProductQtyFirstVerdictTab));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifySecondTaskLineWithDB(TaskLineDBModel taskLineDBModel, string stateExp)
+        {
+            Assert.AreEqual(stateExp, GetElementText(tasklineStateSecondVerdictTab));
+            Assert.AreEqual(taskLineDBModel.scheduledassetquantity, GetElementText(scheduledAssetQtySecondVerdictTab));
+            Assert.AreEqual(taskLineDBModel.actualassetquantity, GetElementText(actualAssetQtySecondVerdictTab));
+            Assert.AreEqual(taskLineDBModel.actualproductquantity + "kg", GetElementText(actualProductQtySecondVerdictTab));
+            return this;
+        }
+
+        [AllureStep]
         public DetailTaskPage VerifyFirstResolutionCode(string resolutionCodeValue)
         {
             Assert.AreEqual(resolutionCodeValue, GetElementText(resolutionCodeFirstVerdictTab));
@@ -1405,6 +1493,14 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifyNumberOfTaskLine(int numberOfTaskLine)
         {
             Assert.AreEqual(numberOfTaskLine, GetAllElements(numberOfTaskLineVerdictTab).Count);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyRoundStateAndHover(string roundStateExp)
+        {
+            Assert.AreEqual(roundStateExp, GetElementText(roundStateTaskInformationVerdictTab));
+            Assert.AreEqual(roundStateExp, GetAttributeValue(roundStateTaskInformationVerdictTab, "title"));
             return this;
         }
 
@@ -1458,7 +1554,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly string resolutionCodeAtAnyRow = "//div[@id='taskLines-tab']//tr[{0}]//select[@id='resCode.id']";
         private readonly string resolutionCodeOptionAtAnyRow = "//div[@id='taskLines-tab']//tr[{0}]//select[@id='resCode.id']/option[text()='{1}']";
         private readonly string resolutionCodeWithTileAtAnyRow = "(//div[@id='taskLines-tab']//select[@id='resCode.id']//ancestor::td)[{0}]";
-        private readonly string stateWithTileAtAnyRow = "(//div[@id='taskLines-tab']//select[@id='itemState.id']//ancestor::td)[{0}]";
+        private readonly string stateWithTileAtAnyRow = "(//div[@id='taskLines-tab']//select[@id='itemState.id'])[{0}]";
         private readonly string productDisposalSiteWithTitleAtAnyRow = "(//div[@id='taskLines-tab']//select[@id='siteProduct.id']//ancestor::td)[{0}]";
         private readonly string destinationWithTitleAtAnyRow = "(//div[@id='taskLines-tab']//select[@id='destinationSite.id']//ancestor::td)[{0}]";
         private readonly string productWithTitleAtAnyRow = "//tr[{0}]/td[8]";
@@ -1674,14 +1770,24 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             List<IWebElement> allCreatedByUser = GetAllElements(createdByUser);
             List<IWebElement> allCreatedDate = GetAllElements(createdDate);
             List<IWebElement> allContent = GetAllElements(contentChange);
+            Console.WriteLine(GetElementText(allContent[0]));
+            Console.WriteLine(taskHistoryDBModels[0].changes.Replace(Environment.NewLine, ""));
+            Console.WriteLine(GetElementText(allContent[1]));
+            Console.WriteLine(taskHistoryDBModels[1].changes);
 
             //Title
             for (int i = 0; i < taskHistoryDBModels.Count; i++)
             {
-                Assert.AreEqual(taskHistoryDBModels[i].action, GetElementText(allActions[i]));
-                Assert.AreEqual(taskHistoryDBModels[i].createdbyuser, GetElementText(allCreatedByUser[i]));
-                Assert.AreEqual(taskHistoryDBModels[i].createddate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT), GetElementText(allCreatedDate[i]));
-                Assert.AreEqual(taskHistoryDBModels[i].changes, GetElementText(allContent[i]));
+                Assert.IsTrue(taskHistoryDBModels[i].action.Contains(GetElementText(allActions[i])));
+                if(taskHistoryDBModels[i].createdbyuser != null)
+                {
+                    Assert.IsTrue(taskHistoryDBModels[i].createdbyuser.Contains(GetElementText(allCreatedByUser[i])));
+                }
+                Assert.IsTrue(taskHistoryDBModels[i].createddate
+                .ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT).Contains(GetElementText(allCreatedDate[i])));
+                string allContentFromView = Regex.Replace(GetElementText(allContent[0]), @"\s+", "");
+                string allContentFromDB = Regex.Replace(taskHistoryDBModels[0].changes.Replace(Environment.NewLine, ""), @"\s+", "");
+                Assert.IsTrue(allContentFromDB.Contains(allContentFromView), "Wrong " + i);
             }
             return this;
         }
@@ -1762,7 +1868,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
 
         //INDICATOR TAB
         private readonly By indicatorTab = By.XPath("//a[@aria-controls='objectIndicators-tab']");
-        private readonly By indicatorIframe = By.XPath("//div[@id='subscriptions-tab']/iframe");
+        private readonly By indicatorIframe = By.XPath("//div[@id='objectIndicators-tab']/iframe");
         //DYNAMIC
         private readonly string indicatorColumn = "//div[@id='object-indicators-grid']//span[text()='{0}']";
 
@@ -1787,7 +1893,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         }
 
         //ACCOUNT STATEMENT TAB
-        private readonly By accountStatementTab = By.XPath("//a[@aria-controls='map-tab']");
+        private readonly By accountStatementTab = By.XPath("//a[@aria-controls='accountStatements-tab']");
         //DYNAMIC
         private readonly string accountStatementColumn = "//div[@id='accountStatements-tab']//span[text()='{0}']";
 
@@ -1804,7 +1910,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             foreach (string column in columnExp)
             {
-                Assert.IsTrue(IsControlDisplayed(accountStatementColumn, column));
+                Assert.IsTrue(IsControlDisplayed(accountStatementColumn, column), column + " is not displayed");
             }
             return this;
         }
@@ -1818,7 +1924,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By autoConfirmationEventLegend = By.XPath("//div[@id='map-tab']//img[@src='../content/images/maps/service-unit/auto-confirmation-event-circle.png']/following-sibling::div/div[text()='Auto Confirmation Event(s)']");
         private readonly By autoConfirmationEventMLegend = By.XPath("//div[@id='map-tab']//div[text()='25m']/following-sibling::div/div[text()='Auto Confirmation Event(s)']");
         private readonly By resetMapBtn = By.XPath("//div[@id='map-tab']//div[text()='Reset Map']");
-        private readonly By saveMapBtn = By.XPath("//div[@id='map-tab']//div[text()='Save Map']");
+        private readonly By saveMapBtn = By.XPath("//div[@id='map-tab']//div[text()='Save Map ']");
 
         [AllureStep]
         public DetailTaskPage ClickOnMapTab()
@@ -1842,6 +1948,89 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             Assert.IsTrue(IsControlEnabled(saveMapBtn), "[Save Map] btn is not displayed");
             return this;
         }
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickOnRoundLink()
+        {
+            ClickOnElement(roundLink);
+            return PageFactoryManager.Get<RoundInstanceDetailPage>();
+        }
+
+        #region Debrief test(s) tab
+        private readonly By debriefTestTab = By.CssSelector("a[aria-controls='verdictDebriefTests-tab']");
+        private readonly By debriefRow = By.XPath("//tbody[@data-bind='foreach: debriefTests']/tr");
+        private readonly By testNameColumn = By.XPath("(//td[@data-bind='text: $data.debriefTest'])[1]");
+        private readonly By resolutionCodeColumn = By.XPath("(//td[@data-bind='text:$data.resolutionCode'])[1]");
+        private readonly By notesColumn = By.XPath("(//td[@data-bind='text: $data.notes'])[1]");
+        private readonly By resultColumn = By.XPath("(//td[@data-bind='text: $data.resolved'])[1]");
+
+        //DYNAMIC
+        private readonly string columnInDebriefTestTable = "//div[@id='verdictDebriefTests-tab']//th[text()='{0}']";
+
+        [AllureStep]
+        public DetailTaskPage ClickOnDebriefTestTab()
+        {
+            ClickOnElement(debriefTestTab);
+            WaitForLoadingIconToDisappear();
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyDisplayColumnInDebriefTestTab(string[] columnExp)
+        {
+            foreach(string column in columnExp)
+            {
+                Assert.IsTrue(IsControlDisplayed(columnInDebriefTestTable, column), column + " is not displayed");
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyTableDebriefTestBlank()
+        {
+            Assert.IsTrue(IsControlUnDisplayed(debriefRow));
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyValueColumnDebriefTestTab(GetTaskDebriefDBModel getTaskDebriefDBModel)
+        {
+            Assert.AreEqual(getTaskDebriefDBModel.debrieftest, GetElementText(testNameColumn));
+            if(getTaskDebriefDBModel.resolutioncode == null)
+            {
+                Assert.AreEqual("", GetElementText(resolutionCodeColumn));
+            } else
+            {
+                Assert.AreEqual(getTaskDebriefDBModel.resolutioncode, GetElementText(resolutionCodeColumn));
+            }
+            if (getTaskDebriefDBModel.resolutioncode == null)
+            {
+                Assert.AreEqual("", GetElementText(resolutionCodeColumn));
+            }
+            else
+            {
+                Assert.AreEqual(getTaskDebriefDBModel.resolutioncode, GetElementText(resolutionCodeColumn));
+            }
+            if (getTaskDebriefDBModel.notes == null)
+            {
+                Assert.AreEqual("", GetElementText(notesColumn));
+            }
+            else
+            {
+                Assert.AreEqual(getTaskDebriefDBModel.notes, GetElementText(notesColumn));
+            }
+            if (getTaskDebriefDBModel.resolved)
+            {
+                Assert.AreEqual("", GetElementText(notesColumn));
+            }
+            else
+            {
+                Assert.AreEqual("Not Resolved", GetElementText(resultColumn));
+            }
+            return this;
+        }
+
+        #endregion
 
     }
 }

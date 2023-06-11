@@ -3,6 +3,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
+using si_automated_tests.Source.Main.Constants;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +55,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By TaskStateSelect = By.XPath("//div[@id='details-tab']//select[@id='taskState.id']");
         public readonly By BulkUpdateButton = By.XPath("//button[@title='Bulk Update']");
         private readonly string statusOptionInFirstRowBulkUpdate = "//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l19')]/select/option[{0}]";
+        private readonly By roundInstanceTitle = By.XPath("//h4[text()='Round Instance']");
+
+        public RoundInstanceDetailPage WaitForRoundInstanceDetailPageDisplayed()
+        {
+            WaitUtil.WaitForElementVisible(roundInstanceTitle);
+            return this;
+        }
+
+        public RoundInstanceDetailPage VerifyCurrentUrlRoundPage(string roundInstanceId)
+        {
+            Assert.AreEqual(WebUrl.MainPageUrl + "web/round-instances/" + roundInstanceId, GetCurrentUrl());
+            return this;
+        }
 
         #region Bulk update
         public readonly By BulkUpdateStateSelect = By.XPath("//div[@class='bulk-confirmation']//select[1]");
@@ -344,5 +358,75 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.AreEqual(slotCountValue, GetAttributeValue(slotCountInput, "value"));
             return this;
         }
+
+        #region DETAIL TABS
+        private readonly By statusInDetailTab = By.XPath("//label[text()='Status']/following-sibling::div//button");
+        private readonly By statusInDetailTabDd = By.Id("status");
+        private readonly By statusReasonInDetailTab = By.XPath("//label[text()='Status Reason']/following-sibling::div//button");
+        private readonly By statusReasonInDetailTabDd = By.Id("status-reason");
+        private readonly By debriefBtn = By.CssSelector("button[title='Debrief']");
+
+        //DYNAMIC
+        private readonly string statusInDetailOption = "//select[@id='status']/option[text()='{0}']";
+        private readonly string statusReasonInDetailOption = "//select[@id='status-reason']/option[text()='{0}']";
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickOnDetailTab()
+        {
+            ClickOnElement(DetailTab);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage SelectStatusInDetailTab(string statusValue)
+        {
+            ClickOnElement(statusInDetailTab);
+            ClickOnElement(statusInDetailOption, statusValue);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage SelectStatusReasonInDetailTab(string statusReasonValue)
+        {
+            ClickOnElement(statusReasonInDetailTab);
+            ClickOnElement(statusReasonInDetailOption, statusReasonValue);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyStatusInDetailTab(string statusValue)
+        {
+            Assert.AreEqual(statusValue, GetFirstSelectedItemInDropdown(statusInDetailTabDd));
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyStatusReasonInDetailTab(string statusReasonValue)
+        {
+            Assert.AreEqual(statusReasonValue, GetFirstSelectedItemInDropdown(statusReasonInDetailTabDd));
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyDisplayDebriefBtn()
+        {
+            Assert.IsTrue(IsControlDisplayed(debriefBtn), "Debrief button is not displayed");
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickOnDebriefBtn()
+        {
+            ClickOnElement(debriefBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public string GetRoundInstanceId()
+        {
+            return GetCurrentUrl().Replace(WebUrl.MainPageUrl + "web/round-instances/", "");
+        }
+
+        #endregion
     }
 }

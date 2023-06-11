@@ -1,6 +1,7 @@
 ﻿using NUnit.Allure.Attributes;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.DBModels;
+using si_automated_tests.Source.Main.DBModels.GetTaskDebrief;
 using si_automated_tests.Source.Main.DBModels.GetTaskHistory;
 using System;
 using System.Collections.Generic;
@@ -502,5 +503,27 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "GetTaskHistory @taskID = " + taskId + ";";
             return FindList<TaskHistoryDBModel>(query);
         }
+
+        [AllureStep]
+        public List<TaskDBModel> GetTaskByTaskId(string taskId)
+        {
+            string query = "select * from tasks where taskid=" + taskId + ";";
+            return FindList<TaskDBModel>(query);
+        }
+
+        [AllureStep]
+        public TaskStateDBModel GetTaskStateByTaskStateId(string taskStateId)
+        {
+            string query = "SELECT * FROM SotatekTesting.dbo.taskstates WHERE taskstateID = " + taskStateId + ";";
+            return FindList<TaskStateDBModel>(query).FirstOrDefault();
+        }
+
+        [AllureStep]
+        public GetTaskDebriefDBModel GetTaskDebriefDBModelByTaskId(string taskId)
+        {
+            string query = "GetTaskDebriefTests @taskID = " + taskId + ";";
+            return FindList<GetTaskDebriefDBModel>(query).FirstOrDefault();
+        }
+
     }
 }
