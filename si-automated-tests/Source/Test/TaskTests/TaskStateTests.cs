@@ -1194,6 +1194,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             string saveToast = "Task Saved";
             string dateNowInSchedule = CommonUtil.GetLocalTimeNow("dd");
             string dateToValidate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 0);
+            string description = "Express";
             DateTime temp = DateTime.ParseExact(dateToValidate, "dd/MM/yyyy", null);
             if (temp.DayOfWeek == DayOfWeek.Sunday)
             {
@@ -1259,6 +1260,10 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ClickOnExpandRoundsBtn()
                 .ScrollMaxToTheLeftOfGrid();
+
+            PageFactoryManager.Get<CommonBrowsePage>()
+              .FilterItemByField("Description", description, false);
+
             PageFactoryManager.Get<CommonBrowsePage>()
                 .SelectFirstNumberOfItem(3);
             PageFactoryManager.Get<TaskConfirmationPage>()
