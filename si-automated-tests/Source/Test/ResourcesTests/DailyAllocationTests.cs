@@ -1570,46 +1570,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
         [Test]
         public void TC_328_Adding_default_resource_and_original_type_columns_in_default_resource_grid()
         {
-            //PageFactoryManager.Get<LoginPage>()
-            //   .GoToURL(WebUrl.MainPageUrl);
-            //PageFactoryManager.Get<LoginPage>()
-            //    .IsOnLoginPage()
-            //    .Login(AutoUser22.UserName, AutoUser22.Password)
-            //    .IsOnHomePage(AutoUser22);
-            //PageFactoryManager.Get<NavigationBase>()
-            //    .ClickMainOption(MainOption.Resources)
-            //    .OpenOption("Daily Allocation")
-            //    .SwitchNewIFrame();
-            //PageFactoryManager.Get<ResourceAllocationPage>()
-            //    .SelectContract(Contract.Municipal)
-            //    .SelectBusinessUnit(Contract.Municipal)
-            //    .SelectShift("AM")
-            //    .InsertDate("07/06/2023")
-            //    .ClickGo()
-            //    .WaitForLoadingIconToDisappear()
-            //    .SleepTimeInMiliseconds(2000);
-
-            //var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
-            //resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
-            //resourceAllocationPage.WaitForLoadingIconToDisappear();
-            //resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Loader");
-            //resourceAllocationPage.WaitForLoadingIconToDisappear();
-            //int rowIdx = resourceAllocationPage.DragResourceToDriverCell();
-            //resourceAllocationPage.WaitForLoadingIconToDisappear();
-            //resourceAllocationPage.ClickViewRoundInstanceOnDroppedCell(rowIdx)
-            //    .SwitchToChildWindow(2)
-            //    .WaitForLoadingIconToDisappear();
-            //RoundInstanceDetailPage roundInstanceDetailPage = PageFactoryManager.Get<RoundInstanceDetailPage>();
-            //roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.AllocatedResourceTab);
-            //roundInstanceDetailPage.WaitForLoadingIconToDisappear();
-            var resourceName = "Thomas Edison";
-            var clientReference = " (E0456)";
-            var substitutionName = "Samuel Morse";
-            var leaveType = "Holiday";
-            var leaveReason = "Paid";
-            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 35);
-            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 37);
-            var details = CommonUtil.GetRandomString(5);
+            //Verify that a column ‘Default' is added after ‘Resource’ column which displays the name of default resource which the resource has got swapped for
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
             PageFactoryManager.Get<LoginPage>()
@@ -1618,44 +1579,53 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .IsOnHomePage(AutoUser22);
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Resources)
-                .ExpandOption(Contract.Commercial)
-                .OpenOption("Leave Entry")
+                .OpenOption("Daily Allocation")
                 .SwitchNewIFrame();
-            PageFactoryManager.Get<CommonBrowsePage>()
-               .ClickButton("Create Leave Entry Record")
-               .SwitchToLastWindow()
-               .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<LeaveEntryPage>()
-                .IsOnLeaveEntryPage()
-                .SelectLeaveResource(resourceName + clientReference)
-                .SelectLeaveType(leaveType)
-                .SelectLeaveReason(leaveReason)
-                .EnterDates(startDate)
-                .EnterEndDate(endDate + Keys.Tab)
-                .EnterDetails(details)
-                .SaveLeaveEntry()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .CloseCurrentWindow()
-                .SwitchToLastWindow();
-            PageFactoryManager.Get<NavigationBase>()
-               .ClickMainOption(MainOption.Resources)
-               .OpenOption("Daily Allocation")
-               .SwitchNewIFrame();
             PageFactoryManager.Get<ResourceAllocationPage>()
-                .SelectContract(Contract.Commercial)
-                .SelectBusinessUnit(Contract.Commercial)
+                .SelectContract(Contract.Municipal)
+                .SelectBusinessUnit(Contract.Municipal)
                 .SelectShift("AM")
-                .InsertDate(endDate)
+                .InsertDate("07/06/2023")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
-                .SleepTimeInMiliseconds(2000)
-                .SwitchToTab("All Resources");
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .FilterResource("Resource", substitutionName)
-                .DragAndDropFirstResultToResourceInRound(resourceName)
+                .SleepTimeInMiliseconds(2000);
+
+            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Loader");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            int rowIdx = resourceAllocationPage.DragResourceToDriverCell();
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.ClickViewRoundInstanceOnDroppedCell(rowIdx)
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<ResourceAllocationPage>()
-                .VerifyAllocatedResourceName(substitutionName);
+            RoundInstanceDetailPage roundInstanceDetailPage = PageFactoryManager.Get<RoundInstanceDetailPage>();
+            roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.AllocatedResourceTab);
+            roundInstanceDetailPage.WaitForLoadingIconToDisappear();
+            //Verify a column ‘Original Type' is added after ‘Type’ column which displays the type of the resource which has been swapped for the default resource
+            roundInstanceDetailPage.VerifyAllocatedRoundInstance("Driver", "Loader");
+
+            //Verify if the default resource on round is working on round instance then display '-' in Default column
+            roundInstanceDetailPage.VerifyDefaultResourceIsWorkingOnRI();
+
+            ResoureDetailPage resoureDetailPage = PageFactoryManager.Get<ResoureDetailPage>();
+            //Verify the resource name should be hyperlinked to the resource form
+            roundInstanceDetailPage.ClickDefaultResource("Driver", "Loader")
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            resoureDetailPage.IsResourceDetailPage()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
+
+            //Verify if the allocated resource can be opened by clicking on name itself anyway
+            roundInstanceDetailPage.ClickResource("Driver", "Loader")
+                .SwitchToChildWindow(3)
+                .WaitForLoadingIconToDisappear();
+            resoureDetailPage.IsResourceDetailPage()
+                .ClickCloseBtn()
+                .SwitchToChildWindow(2);
         }
     }
 }

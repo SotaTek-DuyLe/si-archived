@@ -85,6 +85,44 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private string AllocatedResourceRow = "./tr";
         private string ResourceTypeCell = "./td[@data-bind='text: $data.resourceType']";
         private string OriginalResourceTypeCell = "./td[contains(@data-bind, 'originalResourceType')]";
+        private string DefaultResourceCell = "./td[contains(@data-bind, 'defaultResource')]";
+        private string ResourceCell = "./td[contains(@data-bind, 'data.resource') and @class='btn-link']";
+
+        public TableElement AllocatedResourceTableEle
+        {
+            get => new TableElement(AllocatedResourceTable, AllocatedResourceRow, new List<string>() { ResourceTypeCell, OriginalResourceTypeCell, DefaultResourceCell, ResourceCell });
+        }
+
+        private int ResourceTypeIndex => AllocatedResourceTableEle.GetCellIndex(ResourceTypeCell);
+        private int OriginalResourceTypeCellIndex => AllocatedResourceTableEle.GetCellIndex(OriginalResourceTypeCell);
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyAllocatedRoundInstance(string type, string originalResourceType)
+        {
+            Assert.IsTrue(AllocatedResourceTableEle.GetCellByCellValues(0, new Dictionary<int, object> { { ResourceTypeIndex, type }, { OriginalResourceTypeCellIndex, originalResourceType } }) != null);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickDefaultResource(string type, string originalResourceType)
+        {
+            AllocatedResourceTableEle.GetCellByCellValues(AllocatedResourceTableEle.GetCellIndex(DefaultResourceCell), new Dictionary<int, object> { { ResourceTypeIndex, type }, { OriginalResourceTypeCellIndex, originalResourceType } }).Click();
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage ClickResource(string type, string originalResourceType)
+        {
+            AllocatedResourceTableEle.GetCellByCellValues(AllocatedResourceTableEle.GetCellIndex(ResourceCell), new Dictionary<int, object> { { ResourceTypeIndex, type }, { OriginalResourceTypeCellIndex, originalResourceType } }).Click();
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyDefaultResourceIsWorkingOnRI()
+        {
+            Assert.IsTrue(AllocatedResourceTableEle.GetCellByValue(AllocatedResourceTableEle.GetCellIndex(DefaultResourceCell), "-") != null);
+            return this;
+        }
         #endregion
 
         private TableElement slickRoundTableEle;
