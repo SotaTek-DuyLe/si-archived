@@ -1565,5 +1565,97 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyAllocatedResourceName(substitutionName);
         }
 
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_328_Adding_default_resource_and_original_type_columns_in_default_resource_grid()
+        {
+            //PageFactoryManager.Get<LoginPage>()
+            //   .GoToURL(WebUrl.MainPageUrl);
+            //PageFactoryManager.Get<LoginPage>()
+            //    .IsOnLoginPage()
+            //    .Login(AutoUser22.UserName, AutoUser22.Password)
+            //    .IsOnHomePage(AutoUser22);
+            //PageFactoryManager.Get<NavigationBase>()
+            //    .ClickMainOption(MainOption.Resources)
+            //    .OpenOption("Daily Allocation")
+            //    .SwitchNewIFrame();
+            //PageFactoryManager.Get<ResourceAllocationPage>()
+            //    .SelectContract(Contract.Municipal)
+            //    .SelectBusinessUnit(Contract.Municipal)
+            //    .SelectShift("AM")
+            //    .InsertDate("07/06/2023")
+            //    .ClickGo()
+            //    .WaitForLoadingIconToDisappear()
+            //    .SleepTimeInMiliseconds(2000);
+
+            //var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
+            //resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
+            //resourceAllocationPage.WaitForLoadingIconToDisappear();
+            //resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Loader");
+            //resourceAllocationPage.WaitForLoadingIconToDisappear();
+            //int rowIdx = resourceAllocationPage.DragResourceToDriverCell();
+            //resourceAllocationPage.WaitForLoadingIconToDisappear();
+            //resourceAllocationPage.ClickViewRoundInstanceOnDroppedCell(rowIdx)
+            //    .SwitchToChildWindow(2)
+            //    .WaitForLoadingIconToDisappear();
+            //RoundInstanceDetailPage roundInstanceDetailPage = PageFactoryManager.Get<RoundInstanceDetailPage>();
+            //roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.AllocatedResourceTab);
+            //roundInstanceDetailPage.WaitForLoadingIconToDisappear();
+            var resourceName = "Thomas Edison";
+            var clientReference = " (E0456)";
+            var substitutionName = "Samuel Morse";
+            var leaveType = "Holiday";
+            var leaveReason = "Paid";
+            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 35);
+            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 37);
+            var details = CommonUtil.GetRandomString(5);
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .ExpandOption(Contract.Commercial)
+                .OpenOption("Leave Entry")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClickButton("Create Leave Entry Record")
+               .SwitchToLastWindow()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<LeaveEntryPage>()
+                .IsOnLeaveEntryPage()
+                .SelectLeaveResource(resourceName + clientReference)
+                .SelectLeaveType(leaveType)
+                .SelectLeaveReason(leaveReason)
+                .EnterDates(startDate)
+                .EnterEndDate(endDate + Keys.Tab)
+                .EnterDetails(details)
+                .SaveLeaveEntry()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .CloseCurrentWindow()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<NavigationBase>()
+               .ClickMainOption(MainOption.Resources)
+               .OpenOption("Daily Allocation")
+               .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
+                .SelectShift("AM")
+                .InsertDate(endDate)
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000)
+                .SwitchToTab("All Resources");
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .FilterResource("Resource", substitutionName)
+                .DragAndDropFirstResultToResourceInRound(resourceName)
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .VerifyAllocatedResourceName(substitutionName);
+        }
     }
 }

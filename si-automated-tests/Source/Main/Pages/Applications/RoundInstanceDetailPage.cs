@@ -30,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By WorkSheetTab = By.XPath("//a[@aria-controls='worksheet-tab']");
         public readonly By DetailTab = By.XPath("//a[@aria-controls='details-tab']");
         public readonly By TaskLinesTab = By.XPath("//a[@aria-controls='taskLines-tab']");
+        public readonly By AllocatedResourceTab = By.XPath("//a[@aria-controls='allocated-resources-tab']");
         public readonly By ExpandRoundsGo = By.XPath("//button[@id='t-toggle-rounds']");
         private readonly By showAllTaskTab = By.CssSelector("button[id='t-all-tasks']");
         public readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
@@ -77,6 +78,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 
         //DYNAMIC
         private readonly string statusOptionInBulkUpdate = "//label[text()='Status']/following-sibling::select[1]/option[{0}]";
+        #endregion
+
+        #region Allocated Resource
+        private string AllocatedResourceTable = "//div[@id='allocated-resources-tab']//table/tbody";
+        private string AllocatedResourceRow = "./tr";
+        private string ResourceTypeCell = "./td[@data-bind='text: $data.resourceType']";
+        private string OriginalResourceTypeCell = "./td[contains(@data-bind, 'originalResourceType')]";
         #endregion
 
         private TableElement slickRoundTableEle;

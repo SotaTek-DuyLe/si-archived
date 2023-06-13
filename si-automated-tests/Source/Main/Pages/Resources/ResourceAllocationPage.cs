@@ -229,6 +229,36 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         }
 
         [AllureStep]
+        public int DragResourceToDriverCell()
+        {
+            var typeCell = AllResourceTableEle.GetCellByValue(AllResourceTableEle.GetCellIndex(ResourceTypeCell), "Loader");
+            var resourceRows = GetAllElements("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[not(@class)]");
+            IWebElement driverCellEle = null;
+            int driverIndex = 0;
+            for (int i = 0; i < resourceRows.Count; i++)
+            {
+                var roundInstances = resourceRows[i].FindElements(By.XPath("./td[@class='resource-container resource' and contains(@title, 'DRIVER')]"));
+                if (roundInstances.Count > 0)
+                {
+                    driverCellEle = roundInstances.First();
+                    driverIndex = i;
+                    break;
+                }
+            }
+            DragAndDrop(typeCell, driverCellEle);
+            return driverIndex;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ClickViewRoundInstanceOnDroppedCell(int rowIdx)
+        {
+            var roundInstanceReportRows = GetAllElements("//div[@id='rounds-scrollable']//table//tbody[@data-bind]//tr[not(@class)]");
+            ClickOnElement(roundInstanceReportRows[rowIdx]);
+            ClickOnElement(By.XPath("//button[text()='VIEW ROUND INSTANCE']"));
+            return this;
+        }
+
+        [AllureStep]
         public ResourceAllocationPage VerifyResourceTranslation(string str, string culture)
         {
             switch (culture)
