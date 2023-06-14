@@ -87,19 +87,28 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private string OriginalResourceTypeCell = "./td[contains(@data-bind, 'originalResourceType')]";
         private string DefaultResourceCell = "./td[contains(@data-bind, 'defaultResource')]";
         private string ResourceCell = "./td[contains(@data-bind, 'data.resource') and @class='btn-link']";
-
+        private string ExperienceCell = "./td[contains(@data-bind, 'getStarRating')]";
         public TableElement AllocatedResourceTableEle
         {
-            get => new TableElement(AllocatedResourceTable, AllocatedResourceRow, new List<string>() { ResourceTypeCell, OriginalResourceTypeCell, DefaultResourceCell, ResourceCell });
+            get => new TableElement(AllocatedResourceTable, AllocatedResourceRow, new List<string>() { ResourceTypeCell, OriginalResourceTypeCell, DefaultResourceCell, ResourceCell, ExperienceCell });
         }
 
         private int ResourceTypeIndex => AllocatedResourceTableEle.GetCellIndex(ResourceTypeCell);
         private int OriginalResourceTypeCellIndex => AllocatedResourceTableEle.GetCellIndex(OriginalResourceTypeCell);
+        private int ResourceCellIndex => AllocatedResourceTableEle.GetCellIndex(ResourceCell);
 
         [AllureStep]
         public RoundInstanceDetailPage VerifyAllocatedRoundInstance(string type, string originalResourceType)
         {
             Assert.IsTrue(AllocatedResourceTableEle.GetCellByCellValues(0, new Dictionary<int, object> { { ResourceTypeIndex, type }, { OriginalResourceTypeCellIndex, originalResourceType } }) != null);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceDetailPage VerifyAllocatedRoundInstance(string type, string resourceType, string experience)
+        {
+            IWebElement experienceCellEle = AllocatedResourceTableEle.GetCellByCellValues(AllocatedResourceTableEle.GetCellIndex(ExperienceCell), new Dictionary<int, object> { { ResourceTypeIndex, type }, { ResourceCellIndex, resourceType } });
+            Assert.IsTrue(experienceCellEle.Text.Contains(experience));
             return this;
         }
 

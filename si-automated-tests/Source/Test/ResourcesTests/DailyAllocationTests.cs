@@ -1627,5 +1627,50 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
         }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_329_Experience_for_resources_in_the_allocated_resources_grid_of_round_instance_form()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser22.UserName, AutoUser22.Password)
+                .IsOnHomePage(AutoUser22);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Daily Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Municipal)
+                .SelectBusinessUnit(Contract.Municipal)
+                .SelectShift("AM")
+                .InsertDate("07/06/2023")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+
+            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceHeaderInput, "James Cook");
+            resourceAllocationPage.SendKeys(resourceAllocationPage.ResourceTypeHeaderInput, "Driver");
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            int rowIdx = resourceAllocationPage.DragResourceDriverToDriverCell();
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            resourceAllocationPage.ClickViewRoundInstanceOnDroppedCell(rowIdx)
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            RoundInstanceDetailPage roundInstanceDetailPage = PageFactoryManager.Get<RoundInstanceDetailPage>();
+            roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.AllocatedResourceTab);
+            roundInstanceDetailPage.WaitForLoadingIconToDisappear();
+            //Verify whether the experience should be only displayed for the resource class= HUMAN
+            roundInstanceDetailPage.VerifyAllocatedRoundInstance("Driver", "James Cook", "★");
+            //Verify the number of times that resource has worked on
+            //that round should be calculated based on the number of shift instances for that resource for that roundinstance’s round in last 6 months
+        }
     }
 }
