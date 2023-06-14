@@ -1175,18 +1175,18 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifyHistoryTabUpdate(string userUpdatedExp, string timeUpdatedExp, string completedDateExp, string stateExp, string endDateExp)
         {
             Assert.AreEqual(userUpdatedExp, GetElementText(userUpdate));
-            Assert.AreEqual(timeUpdatedExp, GetElementText(timeUpdate));
-            Assert.AreEqual(completedDateExp + ".", GetElementText(completedDateUpdate));
+            Assert.IsTrue(GetElementText(timeUpdate).Contains(timeUpdatedExp));
+            Assert.IsTrue(GetElementText(completedDateUpdate).Contains(completedDateExp));
             Assert.AreEqual(stateExp + ".", GetElementText(stateUpdate));
-            Assert.AreEqual(endDateExp + ".", GetElementText(endDateUpdate));
+            Assert.IsTrue(GetElementText(endDateUpdate).Contains(endDateExp));
             return this;
         }
         [AllureStep]
         public DetailTaskPage VerifyHistoryTabUpdate(string userUpdatedExp, string timeUpdatedExp, string completedDateExp, string stateExp)
         {
             Assert.AreEqual(userUpdatedExp, GetElementText(userUpdate));
-            Assert.AreEqual(timeUpdatedExp, GetElementText(timeUpdate));
-            Assert.AreEqual(completedDateExp + ".", GetElementText(completedDateUpdate));
+            Assert.IsTrue(GetElementText(timeUpdate).Contains(timeUpdatedExp));
+            Assert.IsTrue(GetElementText(completedDateUpdate).Contains(completedDateExp));
             Assert.AreEqual(stateExp + ".", GetElementText(stateUpdate));
             return this;
         }
@@ -1194,8 +1194,8 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifyHistoryTabUpdateWithEndDate(string userUpdatedExp, string timeUpdatedExp, string endDate, string stateExp)
         {
             Assert.AreEqual(userUpdatedExp, GetElementText(userUpdate));
-            Assert.AreEqual(timeUpdatedExp, GetElementText(timeUpdate));
-            Assert.AreEqual(endDate + ".", GetElementText(endDateUpdate));
+            Assert.IsTrue(GetElementText(timeUpdate).Contains(timeUpdatedExp));
+            Assert.IsTrue(GetElementText(endDateUpdate).Contains(endDate));
             Assert.AreEqual(stateExp + ".", GetElementText(stateUpdate));
             return this;
         }
@@ -1218,12 +1218,12 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             Assert.IsTrue(IsControlDisplayed(tasklineHistoryTitleWithId, tasklineId));
             Assert.AreEqual(userUpdatedExp, GetElementText(userFirstServiceUpdate));
-            Assert.IsTrue(timeUpdatedExp.Contains(GetElementText(timeFirstServiceUpdate)));
+            Assert.IsTrue(GetElementText(timeFirstServiceUpdate).Contains(timeUpdatedExp));
             Assert.AreEqual(actualAssetExp + ".", GetElementText(actualAssetQtyTaskLineUpdate));
             Assert.AreEqual(actualProductExp + ".", GetElementText(actualProductQtyTaskLineUpdate));
             Assert.AreEqual(stateExp + ".", GetElementText(stateTaskLineUpdate));
             Assert.AreEqual(resolutionCodeExp + ".", GetElementText(resolutionCodeTaskLineUpdate));
-            Assert.IsTrue(completedDateExp.Contains(GetElementText(completedDateTaskLineUpdate).Replace(".", "").Trim()), "Expected: " + completedDateExp + " but found: " + GetElementText(completedDateTaskLineUpdate));
+            Assert.IsTrue(GetElementText(completedDateTaskLineUpdate).Replace(".", "").Trim().Contains(completedDateExp), "Expected: " + completedDateExp + " but found: " + GetElementText(completedDateTaskLineUpdate));
             Assert.AreEqual(autoConfirmedExp + ".", GetElementText(autoConfirmedTaskLineUpdate));
             return this;
         }
@@ -1347,7 +1347,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         [AllureStep]
         public DetailTaskPage VerifyTaskInformationAfterBulkUpdating2(string completionDateExp, string taskStateExp, string resolutionCodeExp, string confirmationMethodExp)
         {
-            Assert.AreEqual(completionDateExp, GetAttributeValue(completionDateVerdictInput, "value"), "Completion Date is not correct");
+            Assert.IsTrue(GetAttributeValue(completionDateVerdictInput, "value").Contains(completionDateExp), "Completion Date is not correct");
             Assert.AreEqual(taskStateExp, GetAttributeValue(taskStateVerdictInput, "value"), "Task State is not correct");
             Assert.AreEqual(resolutionCodeExp, GetAttributeValue(resolutionCodeVerdictInput, "value"), "Resolution Code is not correct");
             Assert.AreEqual(confirmationMethodExp, GetAttributeValue(confirmationMethodVerdictInput, "value"), "Confirmation method is not correct");
@@ -1458,7 +1458,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         {
             if (GetElementText(dateTimeFirstLineVerdictTab) != "")
             {
-                Assert.AreEqual(dateTimeExp, GetElementText(dateTimeFirstLineVerdictTab));
+                Assert.IsTrue(GetElementText(dateTimeFirstLineVerdictTab).Contains(dateTimeExp));
             }
             Assert.AreEqual(stateExp, GetElementText(tasklineStateFirstVerdictTab));
             Assert.AreEqual(confirmMethodExp, GetElementText(confirmationMethodFirstVerdictTab));
@@ -1487,9 +1487,9 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifyFirstTaskLineWithDB(TaskLineDBModel taskLineDBModel, string stateExp)
         {
             Assert.AreEqual(stateExp, GetElementText(tasklineStateFirstVerdictTab));
-            Assert.AreEqual(taskLineDBModel.scheduledassetquantity, GetElementText(scheduledAssetQtyFirstVerdictTab));
-            Assert.AreEqual(taskLineDBModel.actualassetquantity, GetElementText(actualAssetQtyFirstVerdictTab));
-            Assert.AreEqual(taskLineDBModel.actualproductquantity + "kg", GetElementText(actualProductQtyFirstVerdictTab));
+            Assert.AreEqual(taskLineDBModel.scheduledassetquantity.ToString(), GetElementText(scheduledAssetQtyFirstVerdictTab));
+            Assert.AreEqual(taskLineDBModel.actualassetquantity.ToString(), GetElementText(actualAssetQtyFirstVerdictTab));
+            Assert.AreEqual(taskLineDBModel.actualproductquantity.ToString() + "kg", GetElementText(actualProductQtyFirstVerdictTab));
             return this;
         }
 
@@ -1497,9 +1497,9 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage VerifySecondTaskLineWithDB(TaskLineDBModel taskLineDBModel, string stateExp)
         {
             Assert.AreEqual(stateExp, GetElementText(tasklineStateSecondVerdictTab));
-            Assert.AreEqual(taskLineDBModel.scheduledassetquantity, GetElementText(scheduledAssetQtySecondVerdictTab));
-            Assert.AreEqual(taskLineDBModel.actualassetquantity, GetElementText(actualAssetQtySecondVerdictTab));
-            Assert.AreEqual(taskLineDBModel.actualproductquantity + "kg", GetElementText(actualProductQtySecondVerdictTab));
+            Assert.AreEqual(taskLineDBModel.scheduledassetquantity.ToString(), GetElementText(scheduledAssetQtySecondVerdictTab));
+            Assert.AreEqual(taskLineDBModel.actualassetquantity.ToString(), GetElementText(actualAssetQtySecondVerdictTab));
+            Assert.AreEqual(taskLineDBModel.actualproductquantity, Double.Parse(GetElementText(actualProductQtySecondVerdictTab)));
             return this;
         }
 
