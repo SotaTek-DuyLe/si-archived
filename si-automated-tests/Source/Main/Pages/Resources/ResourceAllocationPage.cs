@@ -30,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         private readonly By rememberOtionBtn = By.XPath("//div[contains(@id,'popover')]//input[@id='remember-selection']");
         private readonly By clearOptionBtn = By.XPath("//div[contains(@id,'popover')]//button[@title='Clear All' and not(@style='display: none;')]");
         public readonly By AllResourceTab = By.XPath("//a[text()='All Resources']");
+        public readonly By ResourceTypeTab = By.XPath("//a[text()='Resource Types']");
         public readonly By LeftMenuReasonSelect = By.XPath("//div[@id='echo-reason-needed']//select");
         public readonly By LeftMenuConfirmReasonButton = By.XPath("//div[@id='echo-reason-needed']//button[text()='Confirm']");
         public readonly By ResourceStateSelect = By.XPath("//div[@class='modal-dialog' and @data-bind='with: selectedResourceShiftInstance']//select[@id='state']");
@@ -49,6 +50,20 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         {
             get => allResourceTableEle; 
         }
+
+        #region Resource Type Tab
+        private string resourceTypeTable = "//div[@id='all-resource-types']//div[@class='grid-canvas']";
+        private string resourceTypeRow = "./div[contains(@class, 'slick-row')]";
+        private string classCell = "./div[contains(@class, 'slick-cell l0 r0')]";
+        private string resourceTypeCell = "./div[contains(@class, 'slick-cell l1 r1')]";
+
+        private TableElement resourceTypeTableEle;
+        public TableElement ResourceTypeTableEle
+        {
+            get => resourceTypeTableEle;
+        }
+
+        #endregion
 
         //Left panel Daily Allocation
         private readonly By firstRoundRow = By.XPath("//tbody[contains(@data-bind,'roundMenu')]/tr");
@@ -146,6 +161,12 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         {
             allResourceTableEle = new TableElement(AllResourceTable, AllResourceRow, new List<string>() { ResourceNameCell, ResourceTypeCell });
             allResourceTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
+            {
+                return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
+            };
+
+            resourceTypeTableEle = new TableElement(resourceTypeTable, resourceTypeRow, new List<string>() { classCell, resourceTypeCell });
+            resourceTypeTableEle.GetDataView = (IEnumerable<IWebElement> rows) =>
             {
                 return rows.OrderBy(row => row.GetCssValue("top").Replace("px", "").AsInteger()).ToList();
             };
@@ -269,6 +290,153 @@ namespace si_automated_tests.Source.Main.Pages.Resources
             }
             DragAndDrop(typeCell, driverCellEle);
             return driverIndex;
+        }
+
+        [AllureStep]
+        public int DragResourceTypeCageToDefaultSetCell()
+        {
+            var typeCell = ResourceTypeTableEle.GetCellByValue(ResourceTypeTableEle.GetCellIndex(resourceTypeCell), "Cage");
+            var resourceRows = this.driver.FindElements(By.XPath("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown']"));
+            IWebElement driverCellEle = null;
+            int driverIndex = 0;
+            for (int i = 0; i < resourceRows.Count; i++)
+            {
+                var roundInstances = resourceRows[i].FindElements(By.XPath("./td[@class='resource-container text-center']"));
+                if (roundInstances.Count > 0)
+                {
+                    driverCellEle = roundInstances.First();
+                    driverIndex = i;
+                    break;
+                }
+            }
+            DragAndDrop(typeCell, driverCellEle);
+            return driverIndex;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage DragResourceSideliftToSetCell(int roundIdx, string resourceName)
+        {
+            var typeCell = ResourceTypeTableEle.GetCellByValue(ResourceTypeTableEle.GetCellIndex(resourceTypeCell), "Sidelift");
+            var resourceRows = this.driver.FindElements(By.XPath("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown']"));
+            IWebElement driverCellEle = null;
+            var roundInstances = resourceRows[roundIdx].FindElements(By.XPath($"./td[@class='resource-container resource' and contains(@title, '{resourceName}')]"));
+            if (roundInstances.Count > 0)
+            {
+                driverCellEle = roundInstances.First();
+            }
+            DragAndDrop(typeCell, driverCellEle);
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ExpandRI(int roundIdx)
+        {
+            var roundInstances = GetAllElements("//div[contains(@data-bind, 'roundInstanceReports')]//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown']//div[@id='toggle-actions']");
+            ClickOnElement(roundInstances[roundIdx]);
+            return this;
+        }
+
+        [AllureStep]
+        public int DragResourceCageToSetCellOnRound()
+        {
+            var typeCell = ResourceTypeTableEle.GetCellByValue(ResourceTypeTableEle.GetCellIndex(resourceTypeCell), "Cage");
+            var resourceRows = this.driver.FindElements(By.XPath("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown-item']"));
+            IWebElement driverCellEle = null;
+            int roundIdx = 0;
+            for (int i = 0; i < resourceRows.Count; i++)
+            {
+                var roundInstances = resourceRows[i].FindElements(By.XPath("./td[@class='resource-container text-center']"));
+                if (roundInstances.Count > 0)
+                {
+                    driverCellEle = roundInstances.First();
+                    roundIdx = i;
+                    break;
+                }
+            }
+            DragAndDrop(typeCell, driverCellEle);
+            return roundIdx;
+        }
+
+        [AllureStep]
+        public int DragResourceSideliftToSetCellOnRound(string type)
+        {
+            var typeCell = ResourceTypeTableEle.GetCellByValue(ResourceTypeTableEle.GetCellIndex(resourceTypeCell), "Sidelift");
+            var resourceRows = this.driver.FindElements(By.XPath("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown-item']"));
+            IWebElement driverCellEle = null;
+            int roundIdx = 0;
+            for (int i = 0; i < resourceRows.Count; i++)
+            {
+                var roundInstances = resourceRows[i].FindElements(By.XPath($"./td[@class='resource-container resource' and contains(@title, '{type}')]"));
+                if (roundInstances.Count > 0)
+                {
+                    driverCellEle = roundInstances.First();
+                    roundIdx = i;
+                    break;
+                }
+            }
+            DragAndDrop(typeCell, driverCellEle);
+            return roundIdx;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage DragResourceCageToDefaultSetCellOnRound()
+        {
+            var typeCell = ResourceTypeTableEle.GetCellByValue(ResourceTypeTableEle.GetCellIndex(resourceTypeCell), "Cage");
+            var resourceRows = this.driver.FindElements(By.XPath("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown-item']"));
+            IWebElement driverCellEle = null;
+            for (int i = 0; i < resourceRows.Count; i++)
+            {
+                var roundInstances = resourceRows[i].FindElements(By.XPath($"./td[@class='resource-container text-center']"));
+                if (roundInstances.Count > 0)
+                {
+                    driverCellEle = roundInstances.First();
+                    break;
+                }
+            }
+            DragAndDrop(typeCell, driverCellEle);
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage VerifyResourceInRoundGroup(int roundIdx, string resourceName)
+        {
+            var resourceRows = GetAllElements("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown']");
+            var roundInstances = resourceRows[roundIdx].FindElements(By.XPath($"./td[@class='resource-container resource' and contains(@title, '{resourceName}')]"));
+            Assert.IsTrue(roundInstances.Count > 0);
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage VerifyResourceInRound(int roundIdx, string resourceName)
+        {
+            var resourceRows = GetAllElements("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown-item']");
+            var roundInstances = resourceRows[roundIdx].FindElements(By.XPath($"./td[@class='resource-container resource' and contains(@title, '{resourceName}')]"));
+            Assert.IsTrue(roundInstances.Count > 0);
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage VerifyResourceInRoundAreCorrectOrder(int roundIdx, string type1, string type2)
+        {
+            var resourceRows = GetAllElements("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown-item']");
+            var roundInstances = resourceRows[roundIdx].FindElements(By.XPath($"./td[@class='resource-container resource']"));
+            int indexType1 = 0;
+            int indexType2 = 0;
+            for (int i = 0; i < roundInstances.Count; i++)
+            {
+                string title = roundInstances[i].GetAttribute("title").Trim();
+                Console.WriteLine(title);
+                if (title == type1)
+                {
+                    indexType1 = i;
+                }
+                else if (title == type2)
+                {
+                    indexType2 = i;
+                }
+            }
+            Assert.IsTrue(indexType1 < indexType2);
+            return this;
         }
 
         [AllureStep]

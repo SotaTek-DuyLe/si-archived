@@ -667,5 +667,62 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .VerifyAllocatingToast(rscTypeClear);
 
         }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_324_Default_Allocation()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser20.UserName, AutoUser20.Password)
+                .IsOnHomePage(AutoUser20);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Default Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+
+            //Drag a resource type (Cage) to a round group without any defaults set
+            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.ResourceTypeTab);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            int roundGroupidx = resourceAllocationPage.DragResourceTypeCageToDefaultSetCell();
+            resourceAllocationPage.VerifyToastMessage("Default resource-type set")
+                .WaitUntilToastMessageInvisible("Default resource-type set");
+            resourceAllocationPage.VerifyResourceInRoundGroup(roundGroupidx, "CAGE");
+
+            //Drag another resource type (Sidelift) and drop it on top of the existing resource type
+            resourceAllocationPage.DragResourceSideliftToSetCell(roundGroupidx, "CAGE");
+            resourceAllocationPage.VerifyToastMessage("Default resource-type set")
+               .WaitUntilToastMessageInvisible("Default resource-type set");
+            resourceAllocationPage.VerifyResourceInRoundGroup(roundGroupidx, "SIDELIFT");
+
+            //Drag a resource type (Cage) to a round without any defaults set
+            resourceAllocationPage.ExpandRI(roundGroupidx + 1);
+            int roundidx = resourceAllocationPage.DragResourceCageToSetCellOnRound();
+            resourceAllocationPage.VerifyToastMessage("Default resource-type set")
+               .WaitUntilToastMessageInvisible("Default resource-type set");
+            resourceAllocationPage.VerifyResourceInRound(roundidx, "CAGE");
+            //Drag another resource type(Sidelift) and drop it on top of the existing resource type
+            resourceAllocationPage.DragResourceSideliftToSetCellOnRound("CAGE");
+            resourceAllocationPage.VerifyToastMessage("Default resource-type set")
+               .WaitUntilToastMessageInvisible("Default resource-type set");
+            resourceAllocationPage.VerifyResourceInRound(roundidx, "SIDELIFT");
+
+            //Check sort order of resource type
+            resourceAllocationPage.DragResourceCageToDefaultSetCellOnRound();
+            resourceAllocationPage.VerifyToastMessage("Default resource-type set")
+               .WaitUntilToastMessageInvisible("Default resource-type set");
+            resourceAllocationPage.VerifyResourceInRoundAreCorrectOrder(roundidx, "SIDELIFT", "CAGE");
+        }
     }
 }
