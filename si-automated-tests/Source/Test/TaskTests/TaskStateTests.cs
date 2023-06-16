@@ -916,6 +916,12 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear()
                 .ClickRefreshBtn();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemByField("Service", Contract.Commercial, false)
+                .FilterItemByField("Round", "Monday", false)
+                .FilterItemByField("Round Group", "REF1-AM", false)
+                .SleepTimeInSeconds(2)
+                .WaitForLoadingIconToDisappear();
 
             PageFactoryManager.Get<CommonBrowsePage>()
                 .OpenResultNumber(1)
@@ -958,6 +964,12 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame()
                 .ClickRefreshBtn();
 
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .FilterItemByField("Service", Contract.Commercial, false)
+               .FilterItemByField("Round", "Wednesday", false)
+               .FilterItemByField("Round Group", "REF1-AM", false)
+               .SleepTimeInSeconds(2)
+               .WaitForLoadingIconToDisappear();
 
 
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -1018,6 +1030,13 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickRefreshBtn();
 
             //Step 13
+
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemByField("Service", Contract.Commercial, false)
+                .FilterItemByField("Round", "Monday", false)
+                .FilterItemByField("Round Group", "REF1-AM", false)
+                .SleepTimeInSeconds(2)
+                .WaitForLoadingIconToDisappear();
 
             PageFactoryManager.Get<CommonBrowsePage>()
                 .OpenResultNumber(7)
