@@ -16,7 +16,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly string customBtn = "//button[text()='{0}']";
         private readonly By filterInputById = By.XPath("//div[@class='ui-state-default slick-headerrow-column l1 r1']/descendant::input");
         private readonly By inputs = By.XPath("//div[contains(@class,'ui-state-default slick-headerrow-column')]/descendant::input");
-        private readonly string filterInput = "//div[contains(@class,'ui-state-default slick-headerrow-column')][{0}]/input";
+        private readonly string filterInput = "//div[contains(@class,'ui-state-default slick-headerrow-column')][{0}]//input";
         private readonly By applyBtn = By.XPath("//button[@type='button' and @title='Apply Filters']");
         private readonly By firstResult = By.XPath("//div[contains(@class,'ui-widget-content slick-row even')]");
         private readonly By results = By.XPath("//div[contains(@class,'ui-widget-content slick-row')]");
