@@ -120,7 +120,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                     .VerifyServicePanelPresent()
                     .VerifyAgreementLineFormHasGreenBorder()
                     .ClickSaveBtn()
-                    .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, false)
+                    .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, true)
                     .WaitForLoadingIconToDisappear();
                 partyAgreementPage
                     .VerifyServiceStartDate(DateTime.Now.ToString(CommonConstants.DATE_DD_MM_YYYY_FORMAT).Replace("-", "/"))
@@ -164,8 +164,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClosePartyAgreementPage()
                 .SwitchToChildWindow(2);
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickTabDropDown()
-                .ClickTasksTab()
+                .ClickNewVerTaskTab()
                 .WaitForLoadingIconToDisappear();
             var taskTab = PageFactoryManager.Get<TaskTab>();
             taskTab.SendKeys(taskTab.TaskTypeSearch, "Deliver Commercial Bin");
