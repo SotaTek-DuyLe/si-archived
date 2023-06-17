@@ -278,5 +278,145 @@ namespace si_automated_tests.Source.Test.AccountTests
             creditNoteListPage.WaitForLoadingIconToDisappear();
             creditNoteListPage.VerifyCreditNoteStatus("2", new System.Collections.Generic.List<string>() { "NEW", "APPROVED" });
         }
+
+        [Category("Account")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_323_1_Update_validations_and_errors_in_the_Sales_Invoice_and_Credit_Line_Forms()
+        {
+            //Verify whether user able to view new form to add Credit Note Line
+            string partyName = "Greggs";
+            PageFactoryManager.Get<NavigationBase>()
+                .OpenOption("Credit Notes")
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+            //Create credit note 1
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+            PageFactoryManager.Get<CreditNotePage>()
+                .IsOnCreditNotePage()
+                .SearchForParty(partyName)
+                .WaitForLoadingIconToDisappear()
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<CreditNotePage>()
+                .VerifyNewTabsArePresent()
+                .SwitchToTab("Lines");
+            PageFactoryManager.Get<LinesTab>()
+                .IsOnLinesTab()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+
+            //Check if all values 0, or Net is 0 and (Price or Quantity is 0)
+            string lineType = "Commercial Line Type";
+            string site = "Greggs - 35 THE QUADRANT, RICHMOND, TW9 1DN";
+            string product = "General Refuse";
+            string priceElement = "Revenue";
+            string description = "test description no." + CommonUtil.GetRandomNumber(5);
+            string quantity = "0";
+            string price = "0";
+            string vat = "0";
+            PageFactoryManager.Get<CreditNoteLinePage>()
+               .IsOnCreditNoteLinePage()
+               .SelectDepot(Contract.Commercial)
+               .InputInfo(lineType, site, product, priceElement, description, quantity, price)
+               .ClickSaveBtn()
+               .VerifyToastMessage("Net is required");
+
+            //Check if user enter negative number or number with more than 2 decimals to Net field
+            quantity = "10";
+            string net = "12.345";
+            PageFactoryManager.Get<CreditNoteLinePage>()
+              .InputInfo(lineType, site, product, priceElement, description, quantity, price, net)
+              .ClickSaveBtn()
+              .VerifyToastMessage("Price or Net must be a positive number up to 2 decimal points.");
+
+            //Check if user enter negative number or number with more than 2 decimals to Price field
+            quantity = "10";
+            net = "12.35";
+            price = "12.345";
+            PageFactoryManager.Get<CreditNoteLinePage>()
+              .InputInfo(lineType, site, product, priceElement, description, quantity, price, net)
+              .ClickSaveBtn()
+              .VerifyToastMessage("Price or Net must be a positive number up to 2 decimal points.");
+
+            //Check if user enter an invalid value to Quantity field (like 78789.78.78)
+            quantity = "78789.78.78";
+            price = "12.35";
+            PageFactoryManager.Get<CreditNoteLinePage>()
+              .InputInfo(lineType, site, product, priceElement, description, quantity, price, net)
+              .ClickSaveBtn()
+              .VerifyToastMessage("Invalid quantity");
+        }
+
+        [Category("Account")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_323_2_Update_validations_and_errors_in_the_Sales_Invoice_and_Credit_Line_Forms()
+        {
+            //Verify whether user able to view new form to add SalesInvoice Line
+            string partyName = "Greggs";
+            PageFactoryManager.Get<NavigationBase>()
+               .OpenOption("Sales Invoices")
+               .SwitchNewIFrame()
+               .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClickButton("Create");
+            PageFactoryManager.Get<CreateInvoicePage>()
+                .IsOnCreateInvoicePage()
+                .SearchForParty(partyName)
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            PageFactoryManager.Get<CreateInvoicePage>()
+                .VerifyNewTabsArePresent()
+                .SwitchToTab("Lines");
+            PageFactoryManager.Get<LinesTab>()
+                .IsOnLinesTab()
+                .ClickAddNewItem()
+                .SwitchToLastWindow();
+
+            string lineType = "Commercial Line Type";
+            string site = "Greggs - 35 THE QUADRANT, RICHMOND, TW9 1DN";
+            string product = "General Refuse";
+            string priceElement = "Revenue";
+            string quantity = "12.111";
+            string price = "100.00";
+            PageFactoryManager.Get<SaleInvoiceLinePage>()
+                .IsOnSaleInvoiceLinePage()
+                .SelectDepot(Contract.Commercial)
+                .InputInfo(lineType, site, product, priceElement, quantity, price)
+                .ClickSaveBtn()
+                .VerifyToastMessage("Invalid quantity");
+
+            //Check if user enter negative number or number with more than 2 decimals to Price field
+            price = "100.123";
+            PageFactoryManager.Get<SaleInvoiceLinePage>()
+             .InputInfo(lineType, site, product, priceElement, quantity, price)
+             .ClickSaveBtn()
+             .VerifyToastMessage("Price or Net must be a positive number up to 2 decimal points.");
+
+            //Check if user enter negative number or number with more than 2 decimals to Net field
+            price = "10";
+            string net = "12.345";
+            PageFactoryManager.Get<SaleInvoiceLinePage>()
+             .InputInfo(lineType, site, product, priceElement, quantity, price, net)
+             .ClickSaveBtn()
+             .VerifyToastMessage("Price or Net must be a positive number up to 2 decimal points.");
+
+            //Check if user enter an invalid value to Quantity field (like 78789.78.78)
+            quantity = "78789.78.78";
+            net = "12.35";
+            PageFactoryManager.Get<SaleInvoiceLinePage>()
+              .InputInfo(lineType, site, product, priceElement, quantity, price, net)
+              .ClickSaveBtn()
+              .VerifyToastMessage("Invalid quantity");
+
+            //Check if all values 0, or Net is 0 and (Price or Quantity is 0)
+            PageFactoryManager.Get<SaleInvoiceLinePage>()
+              .InputInfo(lineType, site, product, priceElement, "0", "0", "0")
+              .ClickSaveBtn()
+              .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+        }
     }
 }
