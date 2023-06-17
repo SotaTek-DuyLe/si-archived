@@ -274,6 +274,10 @@ namespace si_automated_tests.Source.Main.Pages.Services
                 ClickOnElement(By.XPath("//li//a[@class='nav-link dropdown-toggle']//parent::li"));
                 this.driver.FindElements(By.XPath("//a[@aria-controls='requiredQualifications-tab']")).First(x => x.Displayed).Click();
             }
+            else
+            {
+                ClickOnElement(By.XPath("//a[@aria-controls='requiredQualifications-tab']"));
+            }
             return this;
         }
 
