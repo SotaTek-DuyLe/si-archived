@@ -1312,6 +1312,21 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         }
 
         [AllureStep]
+        public DetailPartyPage ClickOnNotesTabOnPartyList()
+        {
+            if (!this.driver.FindElements(By.XPath("//a[@aria-controls='notes-tab']")).Any(x => x.Displayed))
+            {
+                ClickOnElement(dropdown);
+                this.driver.FindElements(By.XPath("//a[@aria-controls='notes-tab']")).First(x => x.Displayed).Click();
+            }
+            else
+            {
+                this.driver.FindElements(By.XPath("//a[@aria-controls='notes-tab']")).First(x => x.Displayed).Click();
+            }
+            return this;
+        }
+
+        [AllureStep]
         public DetailPartyPage VerifyInfoInHistoryTab(string[] historyTitle, string[] valueExp, string userUpdatedValue)
         {
             Assert.AreEqual(userUpdatedValue, GetElementText(firstUpdatedUser));
