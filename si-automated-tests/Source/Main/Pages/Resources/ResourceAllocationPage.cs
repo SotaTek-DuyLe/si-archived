@@ -37,6 +37,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
 
         public readonly By ResourceHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l0 r0']//input");
         public readonly By ResourceTypeHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l2 r2']//input");
+        public readonly By StatusHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l3 r3']//input");
         public readonly By ThirdPartyHeaderInput = By.XPath("//div[@id='all-resources']//div[@class='ui-state-default slick-headerrow-column l5 r5']//select");
         private string AllResourceTable = "//div[@id='all-resources']//div[@class='grid-canvas']";
         private string AllResourceRow = "./div[contains(@class, 'slick-row')]";
@@ -225,6 +226,57 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         {
             AllResourceTableEle.ClickCell(rowIdx, AllResourceTableEle.GetCellIndex(ResourceTypeCell));
             SleepTimeInMiliseconds(200);
+            return this;
+        }
+
+        [AllureStep]
+        public int DragResourceToDriverCell()
+        {
+            var typeCell = AllResourceTableEle.GetCellByValue(AllResourceTableEle.GetCellIndex(ResourceTypeCell), "Loader");
+            var resourceRows = GetAllElements("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[not(@class)]");
+            IWebElement driverCellEle = null;
+            int driverIndex = 0;
+            for (int i = 0; i < resourceRows.Count; i++)
+            {
+                var roundInstances = resourceRows[i].FindElements(By.XPath("./td[@class='resource-container resource' and contains(@title, 'DRIVER')]"));
+                if (roundInstances.Count > 0)
+                {
+                    driverCellEle = roundInstances.First();
+                    driverIndex = i;
+                    break;
+                }
+            }
+            DragAndDrop(typeCell, driverCellEle);
+            return driverIndex;
+        }
+
+        [AllureStep]
+        public int DragResourceDriverToDriverCell()
+        {
+            var typeCell = AllResourceTableEle.GetCellByValue(AllResourceTableEle.GetCellIndex(ResourceTypeCell), "Driver");
+            var resourceRows = GetAllElements("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[not(@class)]");
+            IWebElement driverCellEle = null;
+            int driverIndex = 0;
+            for (int i = 0; i < resourceRows.Count; i++)
+            {
+                var roundInstances = resourceRows[i].FindElements(By.XPath("./td[@class='resource-container resource' and contains(@title, 'DRIVER')]"));
+                if (roundInstances.Count > 0)
+                {
+                    driverCellEle = roundInstances.First();
+                    driverIndex = i;
+                    break;
+                }
+            }
+            DragAndDrop(typeCell, driverCellEle);
+            return driverIndex;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ClickViewRoundInstanceOnDroppedCell(int rowIdx)
+        {
+            var roundInstanceReportRows = GetAllElements("//div[@id='rounds-scrollable']//table//tbody[@data-bind]//tr[not(@class)]");
+            ClickOnElement(roundInstanceReportRows[rowIdx]);
+            ClickOnElement(By.XPath("//button[text()='VIEW ROUND INSTANCE']"));
             return this;
         }
 
