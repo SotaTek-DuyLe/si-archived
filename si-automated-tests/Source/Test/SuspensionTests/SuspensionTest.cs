@@ -261,8 +261,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClickTabDropDown()
-                .ClickSuspensionTab()
+                .ClickNewVerTaskTab()
                 .WaitForLoadingIconToDisappear();
             //Add New Suspension
             PageFactoryManager.Get<PartySuspensionPage>().ClickAddNewSuspension();
@@ -312,8 +311,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
             var serviceTasks = PageFactoryManager.Get<PartyCalendarPage>().GetAllDataInMonth(fromDateTime, toDateTime).Where(x => x.ImagePath.AsString().Contains("service-suspension.svg")).ToList();
             Assert.IsTrue(serviceTasks.Where(x => fromDateTime <= x.DateTime && x.DateTime <= toDateTime).Count() != 0);
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickTabDropDown()
-                .ClickSuspensionTab()
+                .ClickNewVerSuspensionTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<AddNewSuspensionPage>().ClickDeleteNewSuspension()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)

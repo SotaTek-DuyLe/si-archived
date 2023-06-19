@@ -294,6 +294,21 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             ClickOnElement(suspensionTab);
             return this;
         }
+        
+        [AllureStep]
+        public DetailPartyPage ClickNewVerSuspensionTab()
+        {
+            if (!this.driver.FindElements(By.XPath("//a[@aria-controls='suspensions-tab']")).Any(x => x.Displayed))
+            {
+                ClickOnElement(By.XPath("//li//a[@class='nav-link dropdown-toggle']//parent::li"));
+                this.driver.FindElements(By.XPath("//a[@aria-controls='suspensions-tab']")).First(x => x.Displayed).Click();
+            }
+            else
+            {
+                this.driver.FindElements(By.XPath("//a[@aria-controls='suspensions-tab']")).First(x => x.Displayed).Click();
+            }
+            return this;
+        }
         [AllureStep]
         public DetailPartyPage ClickAdHocTab()
         {
