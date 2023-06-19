@@ -68,8 +68,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClickTabDropDown()
-                .ClickSuspensionTab()
+                .ClickNewVerTaskTab()
                 .WaitForLoadingIconToDisappear();
             //Add New Suspension
             PageFactoryManager.Get<PartySuspensionPage>().ClickAddNewSuspension();
