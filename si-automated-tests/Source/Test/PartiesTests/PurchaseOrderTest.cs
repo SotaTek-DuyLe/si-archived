@@ -356,8 +356,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName);
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickTabDropDown()
-                .ClickTasksTab()
+                .ClickNewVerTaskTab()
                 .WaitForLoadingIconToDisappear();
             var taskTab = PageFactoryManager.Get<TaskTab>();
             taskTab.SendKeys(taskTab.TaskTypeSearch, "Remove Commercial Bin");
