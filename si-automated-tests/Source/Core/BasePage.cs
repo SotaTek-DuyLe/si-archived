@@ -978,6 +978,7 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public BasePage VerifyDisplayToastMessage(string message)
         {
+            WaitUtil.WaitForAllElementsVisible(By.XPath(string.Format("//*[contains(text(),'{0}')]", message)));
             Assert.IsTrue(IsControlDisplayed("//*[contains(text(),'{0}')]", message));
             return this;
         }
@@ -1025,6 +1026,12 @@ namespace si_automated_tests.Source.Core
         public BasePage WaitUntilToastMessageInvisible(string toastMessage)
         {
             WaitUtil.WaitForElementInvisibleWithText("//div[@data-notify-html='title']", toastMessage);
+            return this;
+        }
+        [AllureStep]
+        public BasePage WaitUntilAllToastMessageInvisible()
+        {
+            WaitUtil.WaitForAllElementsInvisible60("//div[@data-notify-html='title']");
             return this;
         }
         [AllureStep]

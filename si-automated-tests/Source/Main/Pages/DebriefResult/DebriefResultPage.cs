@@ -21,6 +21,17 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
         private readonly By roundBtn = By.XPath("//span[text()='ROUND']/parent::label");
         private readonly By activityBtn = By.XPath("//span[text()='ACTIVITY']/parent::label");
         private readonly By worksheetBtn = By.XPath("//span[text()='WORKSHEET']/parent::label");
+        private readonly By activityTab = By.XPath("//span[text()='ACTIVITY']/parent::label");
+        private readonly By eventTab = By.XPath("//span[text()='EVENTS']/parent::h4");
+        private readonly By roundInstanceEventImg = By.XPath("//img[contains(@src, '../content/images/round-instance-event.svg')]/parent::td");
+        private readonly By inspectionTab = By.XPath("//span[contains(string(), 'INSPECTIONS')]/parent::h4");
+        private readonly By selectResolutionCodes = By.CssSelector("select[id='resolutionCode.id']");
+        private readonly By reasonTakenLabel = By.XPath("//label[contains(string(), 'REASON/ACTION TAKEN')]");
+        private readonly By postBtn = By.CssSelector("button[title='Post']");
+        private readonly By unPostBtn = By.CssSelector("button[title='Unpost']");
+
+        //DYNAMIC
+        private readonly string resolutionCodeOption = "//select[@id='resolutionCode.id']/option[text()='{0}']";
 
         [AllureStep]
         public DebriefResultPage WaitForDebriefLoaded()
@@ -119,6 +130,58 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
         {
             ClickOnElement(worksheetBtn);
             VerifyNotDisplayErrorMessage();
+            return this;
+        }
+
+        [AllureStep]
+        public DebriefResultPage ClickOnActivityTab()
+        {
+            ClickOnElement(activityTab);
+            return this;
+        }
+
+        [AllureStep]
+        public DebriefResultPage ClickOnEventsTab()
+        {
+            ClickOnElement(eventTab);
+            return this;
+        }
+
+        [AllureStep]
+        public DebriefResultPage ClickOnImgInEventTab()
+        {
+            ClickOnElement(roundInstanceEventImg);
+            return this;
+        }
+
+        [AllureStep]
+        public DebriefResultPage ClickOnInspectionsTab()
+        {
+            ClickOnElement(inspectionTab);
+            return this;
+        }
+
+        [AllureStep]
+        public DebriefResultPage SelectReasonTaken(string reasonName)
+        {
+            WaitUtil.WaitForElementVisible(reasonTakenLabel);
+            ClickOnElement(selectResolutionCodes);
+            ClickOnElement(resolutionCodeOption, reasonName);
+            SleepTimeInSeconds(1);
+            return this;
+        }
+
+        [AllureStep]
+        public DebriefResultPage CLickOnPostBtn()
+        {
+            ClickOnElement(postBtn);
+            return this;
+        }
+
+        [AllureStep]
+        public DebriefResultPage CLickOnUnPostBtn()
+        {
+            ClickOnElement(unPostBtn);
             return this;
         }
     }
