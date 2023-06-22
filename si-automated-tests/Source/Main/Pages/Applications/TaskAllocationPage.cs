@@ -190,6 +190,24 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             return By.XPath($"//div[text()='Allocating {count} Task(s) onto Round Instance for a different day!']");
         }
+
+        [AllureStep]
+        public TaskAllocationPage IsTaskAllocationPage()
+        {
+            Assert.IsTrue(IsControlDisplayed(ContractSelect));
+            Assert.IsTrue(IsControlDisplayed(ButtonGo));
+            Assert.IsTrue(IsControlDisplayed(ServiceInput));
+            return this;
+        }
+
+        [AllureStep]
+        public TaskAllocationPage IsSelectionCorrect(string contract)
+        {
+            VerifySelectedValue(ContractSelect, contract);
+            Assert.IsTrue(IsControlDisplayed(By.XPath("//a[@class='jstree-anchor jstree-clicked' and text()='Recycling']")));
+            return this;
+        }
+
         [AllureStep]
         public TaskAllocationPage DoubleClickFromCellOnRound(string round)
         {
