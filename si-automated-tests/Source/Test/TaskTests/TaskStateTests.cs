@@ -1954,72 +1954,68 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .VerifyEndDate(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", date))
                 .VerifyCompletionDate("");
         }
-        //[Category("Task State")]
-        //[Category("Dee")]
-        //[Test]
-        //public void TC_176_verify_task_state_date_change_in_task_()
-        //{
-        //    string stateName = "Completed";
-        //    int numberOfTasks = 3;
-        //    CommonFinder commonFinder = new CommonFinder(DbContext);
-        //    var taskId = commonFinder.GetRandomTaskId();
-        //    string saveToast = "Task Saved";
-        //    string taskLineName = "Collections";
-        //    string[] orderNumber = { "1", "1", "2", "1", "2" };
-        //    string[] orderStatus = { "Pending", "Not Completed", "Completed", "Cancelled" };
-        //    string dateNowInSchedule = CommonUtil.GetLocalTimeNow("dd");
-        //    string dateInFutreInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", 7);
-        //    string dateInPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -2);
-        //    string dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -5);
-        //    string dateInFurthestPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -10);
+        [Category("Task State")]
+        [Category("Dee")]
+        [TestCase(new object[] { "Completed" })]
+        [TestCase(new object[] { "Not Completed" })]
+        [Test]
+        public void TC_176_verify_task_state_date_change_in_task_bulk_update_completed(string stateName)
+        {
+            int numberOfTasks = 3;
 
-        //    PageFactoryManager.Get<LoginPage>()
-        //        .GoToURL(WebUrl.MainPageUrl);
-        //    PageFactoryManager.Get<LoginPage>()
-        //        .IsOnLoginPage()
-        //        .Login(AutoUser44.UserName, AutoUser44.Password)
-        //        .IsOnHomePage(AutoUser44);
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser44.UserName, AutoUser44.Password)
+                .IsOnHomePage(AutoUser44);
 
-        //    PageFactoryManager.Get<NavigationBase>()
-        //        .ClickMainOption(MainOption.Tasks)
-        //        .OpenOption(Contract.Commercial)
-        //        .SwitchNewIFrame()
-        //        .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
 
-        //    PageFactoryManager.Get<CommonTaskPage>()
-        //        .SelectFirstNumberOfItem(numberOfTasks)
-        //        .ClickBulkUpdateBtn()
-        //        .SwitchToLastWindow()
-        //        .WaitForLoadingIconToDisappear();
-        //    PageFactoryManager.Get<TasksBulkUpdatePage>()
-        //        .IsTaskBulkUpdatePage("Commercial Collection", numberOfTasks.ToString())
-        //        .ClickFirstToggleArrow()
-        //        .SelectTaskState(stateName, "1")
-        //        .ClickSaveBtn()
-        //        .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-        //        .CloseCurrentWindow()
-        //        .SwitchToLastWindow()
-        //        .SwitchNewIFrame();
-        //    var count = 0;
-        //    while(count < 3)
-        //    {
-        //        try
-        //        {
-        //            PageFactoryManager.Get<BasePage>()
-        //                .ClickRefreshBtn()
-        //                .WaitForLoadingIconToDisappear();
-        //            PageFactoryManager.Get<CommonBrowsePage>()
-        //                .SelectFirstNumberOfItem(3)
-        //                .VerifyDateValueInActiveRow(3, "Completed Date", CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm"));
-        //            break;
-        //        }
-        //        catch (FormatException)
-        //        {
-        //            count++;
-        //        }
-        //    }
-        //    if (count == 3) Assert.Fail("fail");
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemByField("Task State", "In Progress")
+                .WaitForLoadingIconToDisappear();
 
-        //}
+            PageFactoryManager.Get<CommonTaskPage>()
+                .SelectFirstNumberOfItem(numberOfTasks)
+                .ClickBulkUpdateBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TasksBulkUpdatePage>()
+                .ClickFirstToggleArrow()
+                .SelectTaskState(stateName, "1")
+                .SelectResolutionCode("last", "1")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+
+            var ids = PageFactoryManager.Get<BasePage>()
+                .GetCurrentUrl().Replace("https://test.echoweb.co.uk/web/task-bulk-updates?ids=", "");
+            var listOfIds = ids.Split(",").ToList();
+            PageFactoryManager.Get<BasePage>()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClearFilters()
+                .SleepTimeInSeconds(10);
+            //var count = 0;
+
+            for (int i = 0; i < listOfIds.Count; i++)
+            {
+                PageFactoryManager.Get<BasePage>()
+                       .ClickRefreshBtn()
+                       .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<CommonBrowsePage>()
+                    .FilterItemByField("ID", listOfIds[i])
+                    .SelectFirstNumberOfItem(1)
+                    .VerifyDateValueInActiveRow(1, "Completed Date", CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm"))
+                    .VerifyDateValueInActiveRow(1, "End Date", CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm"));
+            }
+
+        }
     }
 }
