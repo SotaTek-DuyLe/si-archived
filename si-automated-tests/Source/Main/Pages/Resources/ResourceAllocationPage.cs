@@ -314,6 +314,28 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         }
 
         [AllureStep]
+        public (int roundGroupIdx, string resourceName) DragResourceDriverToDefaultSetCell()
+        {
+            var typeCell = AllResourceTableEle.GetCellByValue(AllResourceTableEle.GetCellIndex(ResourceTypeCell), "Driver");
+            var driverCell = AllResourceTableEle.GetCellByValue(AllResourceTableEle.GetCellIndex(ResourceNameCell), "Driver");
+            var resourceRows = this.driver.FindElements(By.XPath("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown']"));
+            IWebElement driverCellEle = null;
+            int driverIndex = 0;
+            for (int i = 0; i < resourceRows.Count; i++)
+            {
+                var roundInstances = resourceRows[i].FindElements(By.XPath("./td[@class='resource-container text-center']"));
+                if (roundInstances.Count > 0)
+                {
+                    driverCellEle = roundInstances.First();
+                    driverIndex = i;
+                    break;
+                }
+            }
+            DragAndDrop(typeCell, driverCellEle);
+            return (driverIndex, driverCell.Text.Trim());
+        }
+
+        [AllureStep]
         public ResourceAllocationPage DragResourceSideliftToSetCell(int roundIdx, string resourceName)
         {
             var typeCell = ResourceTypeTableEle.GetCellByValue(ResourceTypeTableEle.GetCellIndex(resourceTypeCell), "Sidelift");
@@ -394,6 +416,38 @@ namespace si_automated_tests.Source.Main.Pages.Resources
                 }
             }
             DragAndDrop(typeCell, driverCellEle);
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ClickResourceInRoundGroup(int roundIdx, string resourceName)
+        {
+            var resourceRows = GetAllElements("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown']");
+            var roundInstances = resourceRows[roundIdx].FindElements(By.XPath($"./td[@class='resource-container resource' and contains(@title, '{resourceName}')]"));
+            ClickOnElement(roundInstances.First());
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ClickClockInRoundGroup(int roundIdx, string resourceName)
+        {
+            var resourceRows = GetAllElements("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown']");
+            var roundInstances = resourceRows[roundIdx].FindElements(By.XPath($"./td[@class='resource-container resource' and contains(@title, '{resourceName}')]"));
+            ClickOnElement(roundInstances.First().FindElement(By.XPath("./img[@class='pull-right scheduled-resource-indicator']")));
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ClickSetSchedule()
+        {
+            ClickOnElement("//button[text()='SET SCHEDULE']");
+            return this;
+        }
+
+        [AllureStep]
+        public ResourceAllocationPage ClickSaveChangesResourceSchedule()
+        {
+            ClickOnElement("//button[@data-bind='click: saveRoundResourceAllocationSchedule']");
             return this;
         }
 
