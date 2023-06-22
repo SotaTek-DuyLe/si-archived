@@ -247,7 +247,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickTabDropDown()
         {
             ClickOnElement(dropdown);
-            WaitUtil.WaitForAllElementsPresent(By.XPath("//li[@class='dropdown']//ul/a"));
+            WaitUtil.WaitForAllElementsPresent(By.XPath("//ul[@class='dropdown-menu']"));
 
             return this;
         }
@@ -273,6 +273,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return new TaskTab();
         }
 
+<<<<<<< HEAD
+        public TaskTab ClickTasksTabAtDropDown()
+        {
+            ClickOnElement(taskTabAlt);
+            return new TaskTab();
+        }
+
+=======
         [AllureStep]
         public TaskTab ClickNewVerTaskTab()
         {
@@ -287,6 +295,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return new TaskTab();
         }
+>>>>>>> fae46f560a8029a7b6b58e6e4d77fbcff81ec2cb
 
         [AllureStep]
         public DetailPartyPage ClickSuspensionTab()

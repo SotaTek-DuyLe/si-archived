@@ -631,7 +631,6 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyAccountTypeChecked("PO Number Required");
             //Verify "Purchase Order # is required"
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickTabDropDown()
                 .ClickTasksTab()
                 .WaitForLoadingIconToDisappear();
             int taskId = PageFactoryManager.Get<TaskTab>()
@@ -719,7 +718,6 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyAccountTypeUnchecked("PO Number Required");
             //Verify "Purchase Order # is not required"
             PageFactoryManager.Get<DetailPartyPage>()
-                .ClickTabDropDown()
                 .ClickTasksTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskTab>()
