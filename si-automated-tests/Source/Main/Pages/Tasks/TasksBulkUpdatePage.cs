@@ -159,7 +159,23 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         [AllureStep]
         public TasksBulkUpdatePage SelectResolutionCode(string code, string numberOfToogle)
         {
-            SelectTextFromDropDown(By.XPath(string.Format(anyResolutionCodeSelect, numberOfToogle)), code);
+            By xpath = By.XPath(string.Format(anyResolutionCodeSelect, numberOfToogle));
+            if (code.Equals("random", StringComparison.OrdinalIgnoreCase))
+            {
+                var numberOfOptions = GetNumberOfOptionInSelect(By.XPath(string.Format(anyResolutionCodeSelect, numberOfToogle)));
+                var random = CommonUtil.GetRandomNumberBetweenRange(1, numberOfOptions - 1);
+                SelectIndexFromDropDown(xpath, random);
+            }
+            else if (code.Equals("last", StringComparison.OrdinalIgnoreCase))
+            {
+                SelectIndexFromDropDown(xpath, GetNumberOfOptionInSelect(xpath) - 1);
+            }
+            else
+            {
+                SelectTextFromDropDown(xpath, code);
+            }
+
+            //SelectTextFromDropDown(By.XPath(string.Format(anyResolutionCodeSelect, numberOfToogle)), code);
             return this;
         }
 

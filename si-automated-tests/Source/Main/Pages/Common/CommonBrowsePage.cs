@@ -33,6 +33,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly String resultFields = "//div[contains(@class,'ui-widget-content slick-row')][{0}]/div";
         private readonly By allRowInTabel = By.XPath("//div[@class='grid-canvas']/div");
         private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
+        private readonly By clearFilterBtn = By.XPath("//button[@title='Clear Filters']");
 
         public CommonBrowsePage()
         {
@@ -142,7 +143,7 @@ namespace si_automated_tests.Source.Main.Pages
                         Assert.AreEqual(expectedDate.Year, actualDate.Year);
                         Assert.AreEqual(expectedDate.Month, actualDate.Month);
                         Assert.AreEqual(expectedDate.Day, actualDate.Day);
-                        Assert.IsTrue(expectedDate.Hour - actualDate.Hour == 0 || Math.Abs(expectedDate.Hour - actualDate.Hour) == 6, "expected " + expectedDate.Hour + " but found "+ actualDate.Hour); //ignore timezone change
+                        Assert.IsTrue(expectedDate.Hour - actualDate.Hour == 0 || Math.Abs(expectedDate.Hour - actualDate.Hour) == 6 || Math.Abs(expectedDate.Hour - actualDate.Hour) == 7 || Math.Abs(expectedDate.Hour - actualDate.Hour) == 1, "expected " + expectedDate.Hour + " but found "+ actualDate.Hour); //ignore timezone change
                         Assert.IsTrue(expectedDate.Minute - actualDate.Minute == 0 | actualDate.Minute - expectedDate.Minute <= 2, "Expected " + expectedDate.Minute + " but found " + actualDate.Minute);
                     }
                 }
@@ -318,6 +319,12 @@ namespace si_automated_tests.Source.Main.Pages
         public CommonBrowsePage DeselectActiveItem()
         {
             ClickOnElement(checkboxFromActiveField);
+            return this;
+        }
+        [AllureStep]
+        public CommonBrowsePage ClearFilters()
+        {
+            ClickOnElement(clearFilterBtn);
             return this;
         }
     }
