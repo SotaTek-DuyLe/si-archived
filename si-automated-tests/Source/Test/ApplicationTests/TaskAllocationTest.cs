@@ -335,5 +335,73 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .VerifyToastMessages(new List<string>() { "Task(s) Allocated" });
             taskAllocationPage.VerifyTaskAllocated("EDREC1", "Wednesday");
         }
+
+        [Category("TaskAllocationTests")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_244_Task_Confirmation()
+        {
+            //Verify whether the order of buttons in Task Confirmation page is changed to Popup, Save,Refresh, Help
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser39.UserName, AutoUser39.Password)
+                .IsOnHomePage(AutoUser39);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption("Task Allocation")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+            TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
+            string from = "06/09/2022";
+            string to = "06/09/2022";
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.Municipal);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
+            taskAllocationPage.ExpandRoundNode(Contract.Municipal)
+                .SelectRoundNode("Recycling");
+            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
+            taskAllocationPage.SleepTimeInMiliseconds(1000);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Control + "a");
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Delete);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
+            taskAllocationPage.SleepTimeInMiliseconds(3000);
+            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ContractSelect);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
+            taskAllocationPage.WaitForLoadingIconToDisappear();
+            taskAllocationPage.ClickPopoutButton()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            taskAllocationPage.IsTaskAllocationPage();
+            taskAllocationPage.CloseCurrentWindow()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+
+            taskAllocationPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+
+            taskAllocationPage.ClickHelp()
+                .WaitForLoadingIconToDisappear()
+                .IsInformationModalDisplay()
+                .ClickCloseInformationModal()
+                .WaitForLoadingIconToDisappear();
+
+            //Verify whether new functionality for Save button is added so that user can save screen parameter selection and Hover over message Save Selection
+            taskAllocationPage.ClickSaveSelectionButton()
+                .VerifyToastMessage("Saved")
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption("Task Allocation")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+            taskAllocationPage.IsSelectionCorrect(Contract.Municipal);
+        }
     }
 }
