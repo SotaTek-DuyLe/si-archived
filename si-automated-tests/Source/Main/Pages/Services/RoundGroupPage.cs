@@ -269,9 +269,13 @@ namespace si_automated_tests.Source.Main.Pages.Services
         [AllureStep]
         public RoundGroupPage ClickRequiredQualificationsTab()
         {
-            if (IsControlUnDisplayed(By.XPath("//a[@aria-controls='requiredQualifications-tab']")))
+            if (!this.driver.FindElements(By.XPath("//a[@aria-controls='requiredQualifications-tab']")).Any(x => x.Displayed))
             {
                 ClickOnElement(By.XPath("//li//a[@class='nav-link dropdown-toggle']//parent::li"));
+                this.driver.FindElements(By.XPath("//a[@aria-controls='requiredQualifications-tab']")).First(x => x.Displayed).Click();
+            }
+            else
+            {
                 this.driver.FindElements(By.XPath("//a[@aria-controls='requiredQualifications-tab']")).First(x => x.Displayed).Click();
             }
             return this;

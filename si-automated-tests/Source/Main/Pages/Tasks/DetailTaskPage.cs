@@ -1056,6 +1056,96 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             return this;
         }
 
+        [AllureStep]
+        public DetailTaskPage VerifyAllDataInDetailsTabAreLocked()
+        {
+            //Task Ref
+            Assert.AreEqual("true", GetAttributeValue(taskReferenceInput, "disabled"), "[Task Reference] is not locked");
+            //Resolution Code
+            Assert.AreEqual("true", GetAttributeValue(resolutionCode, "disabled"), "[Resolution Code] is not locked");
+            //Due Date
+            Assert.AreEqual("true", GetAttributeValue(dueDateInput, "disabled"), "[Due Date] is not locked");
+            //Booked Date
+            Assert.AreEqual("true", GetAttributeValue(bookedDateInput, "disabled"), "[Booked Date] is not locked");
+            //End Date
+            Assert.AreEqual("true", GetAttributeValue(endDateInput, "disabled"), "[End Date] is not locked");
+            //Priority 
+            Assert.AreEqual("true", GetAttributeValue(priorityDd, "disabled"), "[Priority] is not locked");
+            //Time Band 
+            Assert.AreEqual("true", GetAttributeValue(timeBandDd, "disabled"), "[Time Band] is not locked");
+            //Purchase Order 
+            Assert.AreEqual("true", GetAttributeValue(purchaseOrderNumberInput, "disabled"), "[Purchase Order] is not locked");
+            //Task Notes 
+            Assert.AreEqual("true", GetAttributeValue(taskNotesInput, "disabled"), "[Task Notes] is not locked");
+            //Task State 
+            Assert.AreEqual("true", GetAttributeValue(taskStateDd, "disabled"), "[Task Notes] is not locked");
+            //Created Date
+            Assert.AreEqual("true", GetAttributeValue(createdDateInput, "disabled"), "[Created Date] is not locked");
+
+            //Scheduled Date
+            Assert.AreEqual("true", GetAttributeValue(scheduledDateInput, "disabled"), "[Scheduled Date] is not locked");
+
+            //Completion Date
+            Assert.AreEqual("true", GetAttributeValue(completionDateInput, "disabled"), "[Completion Date] is not locked");
+            //Proximity Alert
+            Assert.AreEqual("true", GetAttributeValue(ProximityAlertCheckbox, "disabled"), "[Proximity Alert] is not locked");
+            //Task Indicator Date
+            Assert.AreEqual("true", GetAttributeValue(taskIndicatorDd, "disabled"), "[Task Indicator] is not locked");
+            //Slot Count
+            Assert.AreEqual("true", GetAttributeValue(slotCountInput, "disabled"), "[Slot Count] is not locked");
+
+            //Created Date
+            Assert.AreEqual("true", GetAttributeValue(createdDateInput, "disabled"), "[Created Date] is not locked");
+
+            //Subcontract
+            Assert.AreEqual("true", GetAttributeValue(SubContractCheckbox, "disabled"), "[Subcontract] is not locked");
+            //Subcontractor
+            Assert.AreEqual("true", GetAttributeValue(SubContractorButton, "disabled"), "[Subcontractor] is not locked");
+            //Subcontract REason
+            Assert.AreEqual("true", GetAttributeValue(SubContractReasonSelect, "disabled"), "[Subcontract Reason] is not locked");
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage VerifyAllDataInDetailsTabAreEditabled()
+        {
+            //Task Ref
+            Assert.IsTrue(IsControlEnabled(taskReferenceInput), "[Task Reference] is not editabled");
+            //Resolution Code
+            Assert.IsTrue(IsControlEnabled(resolutionCode), "[Resolution Code] is not editabled");
+            //Due Date
+            Assert.IsTrue(IsControlEnabled(dueDateInput), "[Due Date] is not editabled");
+            //End Date
+            Assert.IsTrue(IsControlEnabled(endDateInput), "[End Date] is not editabled");
+            //Priority 
+            Assert.IsTrue(IsControlEnabled(priorityDd), "[Priority] is not editabled");
+            //Time Band 
+            Assert.IsTrue(IsControlEnabled(timeBandDd), "[Time Band] is not editabled");
+            //Purchase Order 
+            Assert.IsTrue(IsControlEnabled(purchaseOrderNumberInput), "[Purchase Order] is not editabled");
+            //Task Notes 
+            Assert.IsTrue(IsControlEnabled(taskNotesInput), "[Task Notes] is not editabled");
+            //Task State 
+            Assert.IsTrue(IsControlEnabled(taskStateDd), "[Task Notes] is not editabled");
+            
+            //Completion Date
+            Assert.IsTrue(IsControlEnabled(completionDateInput), "[Completion Date] is not editabled");
+            //Proximity Alert
+            Assert.IsTrue(IsControlEnabled(ProximityAlertCheckbox), "[Proximity Alert] is not editabled");
+            //Task Indicator Date
+            Assert.IsTrue(IsControlEnabled(taskIndicatorDd), "[Task Indicator] is not editabled");
+            //Slot Count
+            Assert.IsTrue(IsControlEnabled(slotCountInput), "[Slot Count] is not editabled");
+
+            //Created Date
+            Assert.IsTrue(IsControlEnabled(createdDateInput), "[Created Date] is not editabled");
+
+            //Subcontract
+            Assert.IsTrue(IsControlEnabled(SubContractCheckbox), "[Subcontract] is not editabled");
+            
+            return this;
+        }
+
         //HISTORY TAB
         private readonly By contentFirstTaskUpdate = By.XPath("(//strong[text()='Update'])[1]/following-sibling::div");
         private readonly By titleTaskLineFirstServiceUpdate = By.XPath("(//strong[text()='Update'])[1]");

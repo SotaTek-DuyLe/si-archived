@@ -273,17 +273,49 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return new TaskTab();
         }
 
+<<<<<<< HEAD
         public TaskTab ClickTasksTabAtDropDown()
         {
             ClickOnElement(taskTabAlt);
             return new TaskTab();
         }
 
+=======
+        [AllureStep]
+        public TaskTab ClickNewVerTaskTab()
+        {
+            if (!this.driver.FindElements(By.XPath("//a[@aria-controls='tasks-tab']")).Any(x => x.Displayed))
+            {
+                ClickOnElement(By.XPath("//li//a[@class='nav-link dropdown-toggle']//parent::li"));
+                this.driver.FindElements(By.XPath("//a[@aria-controls='tasks-tab']")).First(x => x.Displayed).Click();
+            }
+            else
+            {
+                this.driver.FindElements(By.XPath("//a[@aria-controls='tasks-tab']")).First(x => x.Displayed).Click();
+            }
+            return new TaskTab();
+        }
+>>>>>>> fae46f560a8029a7b6b58e6e4d77fbcff81ec2cb
 
         [AllureStep]
         public DetailPartyPage ClickSuspensionTab()
         {
             ClickOnElement(suspensionTab);
+            return this;
+        }
+        
+        [AllureStep]
+        public DetailPartyPage ClickNewVerSuspensionTab()
+        {
+            if (!this.driver.FindElements(By.XPath("//a[@aria-controls='suspensions-tab']")).Any(x => x.Displayed))
+            {
+                ClickOnElement(By.XPath("//li//a[@class='nav-link dropdown-toggle']//parent::li"));
+                this.driver.FindElements(By.XPath("//a[@aria-controls='suspensions-tab']")).First(x => x.Displayed).Click();
+            }
+            else
+            {
+                this.driver.FindElements(By.XPath("//a[@aria-controls='suspensions-tab']")).First(x => x.Displayed).Click();
+            }
             return this;
         }
         [AllureStep]
@@ -1313,6 +1345,21 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             else
             {
                 ClickOnElement(notesTab);
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public DetailPartyPage ClickOnNotesTabOnPartyList()
+        {
+            if (!this.driver.FindElements(By.XPath("//a[@aria-controls='notes-tab']")).Any(x => x.Displayed))
+            {
+                ClickOnElement(dropdown);
+                this.driver.FindElements(By.XPath("//a[@aria-controls='notes-tab']")).First(x => x.Displayed).Click();
+            }
+            else
+            {
+                this.driver.FindElements(By.XPath("//a[@aria-controls='notes-tab']")).First(x => x.Displayed).Click();
             }
             return this;
         }

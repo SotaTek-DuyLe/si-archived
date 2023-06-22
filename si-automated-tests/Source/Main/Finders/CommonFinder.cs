@@ -539,5 +539,12 @@ namespace si_automated_tests.Source.Main.Finders
             string query = "select * from costlines WHERE echotypeid=177 and echoID=" + taskID + ";";
             return FindList<CostLineDBModel>(query);
         }
+
+        [AllureStep]
+        public List<SaleInvoicePriceLinesDBModel> GetSaleInvoicePriceLineByPriceEchoTypeAndPriceEcho(string price_echotypeID, string price_echoID)
+        {
+            string query = "select * from salesinvoicepricelines where price_echotypeID = " + price_echotypeID + "and price_echoID = " + price_echoID + ";";
+            return FindList<SaleInvoicePriceLinesDBModel>(query);
+        }
     }
 }

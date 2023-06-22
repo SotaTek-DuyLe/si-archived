@@ -785,6 +785,10 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 var random = CommonUtil.GetRandomNumberBetweenRange(1, numberOfOptions - 1);
                 SelectIndexFromDropDown(optionSelect, random);
             }
+            else if(reso.Equals("last", StringComparison.OrdinalIgnoreCase))
+            {
+                SelectIndexFromDropDown(optionSelect, GetNumberOfOptionInSelect(optionSelect) - 1);
+            }
             else
             {
                 SelectTextFromDropDown(optionSelect, reso);

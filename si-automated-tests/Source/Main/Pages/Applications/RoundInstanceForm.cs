@@ -31,11 +31,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By idService = By.CssSelector("h4[title='Id']");
         private readonly By taskName = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-group') and not(contains(@style, 'display: none;'))]");
 
+
         #region WorkSheetTab
         public readonly By WorkSheetIFrame = By.XPath("//iframe[@id='worksheet-tab']");
         public readonly By ToggleRoundButton = By.XPath("//button[@id='t-toggle-rounds']");
         public readonly By ReallocateButton = By.XPath("//button[@id='t-bulk-reallocate']");
         private readonly By expandRoundBtn = By.XPath("//span[text()='Expand Rounds']/parent::button");
+        private readonly By bulkUpdateBtn = By.XPath("//button[@id='t-bulk-confirm']");
+        private readonly By firstCheckedBox = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured')]/div[contains(@class, 'selected')]/input)[1]");
+        private readonly By selectAndUnSelectInput = By.XPath("//div[@title='Select/Deselect All']//input");
 
         private readonly string RLITable = "//div[@id='grid']//div[@class='grid-canvas']";
         private readonly string RLIRow = "./div[contains(@class, 'slick-row') and not(contains(@class,'slick-group'))]";
@@ -44,6 +48,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string RLIDescriptionCell = "./div[contains(@class, 'l4')]";
         private readonly string RLIServiceCell = "./div[contains(@class, 'l5')]";
         private readonly By allTaskRows = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured') and not(contains(@style, 'display: none;'))]");
+        private readonly By firstTaskRow = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured') and not(contains(@style, 'display: none;'))])[1]");
         private readonly string allIdRows = "//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured') and not(contains(@style, 'display: none;'))][{0}]/div[contains(@class, 'l3 r3')]";
         private readonly string desciptionRows = "//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured') and not(contains(@style, 'display: none;'))][{0}]/div[contains(@class, 'l4 r4')]";
         private readonly string serviceRows = "//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured') and not(contains(@style, 'display: none;'))][{0}]/div[contains(@class, 'l5 r5')]";
@@ -54,8 +59,11 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string postcodeRows = "//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured') and not(contains(@style, 'display: none;'))][{0}]/div[contains(@class, 'l10 r10')]";
         private readonly By idSearch = By.XPath("//div[contains(@id, 'grid')]//div[contains(@class, 'ui-state-default')]//div[contains(@class, 'l3')]//input[contains(@class, 'value')]");
         private readonly By AllFilteredHeaderInput = By.XPath("//div[@class='slick-headerrow-columns']//input");
+        private readonly By statusFilterInputWSTab = By.XPath("//div[@id='grid']//div[contains(@class, 'l19')]/input");
         //DYNAMIC
         private readonly string checkboxRow = "//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured')][{0}]/div[contains(@class, 'l0 r0')]/input";
+        private readonly string anyCheckedBox = "(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured')]/div[contains(@class, 'selected')]/input)[{0}]";
+
 
         public TableElement RLITableEle
         {
@@ -164,6 +172,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             WaitUtil.WaitForPageLoaded();
             return this;
         }
+
+        [AllureStep]
+        public RoundInstanceForm WaitForAllTasksVisibled()
+        {
+            WaitUtil.WaitForAllElementsVisible(allTaskRows);
+            return this;
+        }
         [AllureStep]
         public List<TaskInWorksheetModel> GetAllTaskInWorksheetTab(int numberOfTasks)
         {
@@ -192,11 +207,61 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
         [AllureStep]
+        public RoundInstanceForm SelectOneTaskInGrid(string firstTask)
+        {
+            ClickOnElement(firstTask);
+            return this;
+        }
+        [AllureStep]
+        public RoundInstanceForm DoubleClickOneTaskInGrid(string firstTask)
+        {
+            DoubleClickOnElement(firstTask);
+            return this;
+        }
+        [AllureStep]
+        public RoundInstanceForm DoubleClickOnFirstTaskInGrid()
+        {
+            DoubleClickOnElement(firstTaskRow);
+            return this;
+        }
+        [AllureStep]
+        public RoundInstanceForm SrollLeftToCheckboxTask()
+        {
+            ScrollMaxToTheLeft(By.XPath("//div[@class='slick-viewport']"));
+            return this;
+        }
+        [AllureStep]
+        public RoundInstanceForm UncheckedFirstTask()
+        {
+            ClickOnElement(firstCheckedBox);
+            return this;
+        }
+        [AllureStep]
+        public RoundInstanceForm UncheckedAnyTask(string index)
+        {
+            ClickOnElement(anyCheckedBox, index);
+            WaitUtil.WaitForPageLoaded();
+            return this;
+        }
+        [AllureStep]
+        public RoundInstanceForm ClickOnSelectAllBtn()
+        {
+            ClickOnElement(selectAndUnSelectInput);
+            return this;
+        }
+        [AllureStep]
         public RoundInstanceForm ClickReallocateBtn()
         {
             ClickOnElement(ReallocateButton);
             return this;
         }
+        [AllureStep]
+        public RoundInstanceForm ClickOnBulkUpdateBtn()
+        {
+            ClickOnElement(bulkUpdateBtn);
+            return this;
+        }
+
         [AllureStep]
         public string GetTaskName()
         {
@@ -216,10 +281,20 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
 
+        [AllureStep]
+        public RoundInstanceForm FilterTaskByStatusInWorksheetTab(string statusValue)
+        {
+            ScrollRightOffset(By.XPath("//div[@class='slick-viewport']"));
+
+            SendKeys(statusFilterInputWSTab, statusValue);
+            return this;
+        }
+
         //DETAIL TAB
         private readonly By detailTab = By.CssSelector("a[aria-controls='details-tab']");
         private readonly By noteInput = By.CssSelector("textarea[id='notes']");
         private readonly By statusDd = By.XPath("//label[text()='Status']/following-sibling::div//button");
+        private readonly By statusValue = By.XPath("//label[text()='Status']/following-sibling::div//button/span[1]");
         private readonly string anyStatusOption = "//span[text()='{0}']/ancestor::li";
         public readonly By DebriefButton = By.XPath("//button[@title='Debrief']");
 
@@ -241,6 +316,21 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             ClickOnElement(statusDd);
             ClickOnElement(anyStatusOption, statusValue);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceForm VerifyStatusDetailTab(string statusValueExp)
+        {
+            Assert.AreEqual(statusValueExp, GetElementText(statusValue));
+            return this;
+        }
+
+
+        [AllureStep]
+        public RoundInstanceForm ClickOnDebriefBtn()
+        {
+            ClickOnElement(DebriefButton);
             return this;
         }
 
@@ -326,6 +416,34 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             VerifyDisplayVerticalScrollBar(containerTasksTab);
             return this;
         }
+
+
+        #region
+        private readonly By bulkUpdateTitle = By.XPath("//h4[text()='Bulk Update : Page 1 of 1']");
+        private readonly By statusBulkUpdateDd = By.XPath("//label[text()='Status']/following-sibling::select[1]");
+        private readonly By resolutionCodeOption = By.XPath("//label[text()='Resolution Code']/following-sibling::select[1]");
+        private readonly By confirmBulkUpdateBtn = By.XPath("//button[text()='Confirm']");
+
+        //DYNAMIC
+        private readonly string statusBulkUpdateOption = "//label[text()='Status']/following-sibling::select[1]/option[text()='{0}']";
+
+        [AllureStep]
+        public RoundInstanceForm SelectStatusInBulkUpdateForm(string status)
+        {
+            WaitUtil.WaitForElementVisible(bulkUpdateTitle);
+            ClickOnElement(statusBulkUpdateDd);
+            ClickOnElement(statusBulkUpdateOption, status);
+            return this;
+        }
+
+        [AllureStep]
+        public RoundInstanceForm ClickOnConfirmBtnBulkUpdateForm()
+        {
+            ClickOnElement(confirmBulkUpdateBtn);
+            return this;
+        }
+
+        #endregion
 
     }
 }
