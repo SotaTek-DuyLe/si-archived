@@ -645,11 +645,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             get => serviceTaskTableEle;
         }
 
-        private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-1')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]", "./i[contains(@class, 'jstree-ocl')][1]");
+        private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-2')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]", "./i[contains(@class, 'jstree-ocl')][1]");
         private TreeViewElement ServicesTreeView
         {
             get => _treeViewElement;
         }
+
         [AllureStep]
         public TaskConfirmationPage SelectRoundNode(string nodeName)
         {

@@ -190,6 +190,12 @@ namespace si_automated_tests.Source.Main.Pages.Services
         }
 
         [AllureStep]
+        public string GetTaskType()
+        {
+            return GetElementText(By.XPath("//span[contains(@data-bind, 'taskTypeName')]")).Replace("-", "").Trim();
+        }
+
+        [AllureStep]
         public ServicesTaskPage ClickOnTaskLineTab()
         {
             ClickOnElement(taskLineTab);
