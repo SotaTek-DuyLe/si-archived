@@ -1959,7 +1959,7 @@ namespace si_automated_tests.Source.Test.TaskTests
         [TestCase(new object[] { "Completed" })]
         [TestCase(new object[] { "Not Completed" })]
         [Test]
-        public void TC_176_verify_task_state_date_change_in_task_bulk_update_completed(string stateName)
+        public void TC_176_verify_task_state_date_change_in_task_bulk_update_completed_notcompleted(string stateName)
         {
             int numberOfTasks = 3;
 
@@ -1976,6 +1976,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
 
+            //Step 13
             PageFactoryManager.Get<CommonBrowsePage>()
                 .FilterItemByField("Task State", "In Progress")
                 .WaitForLoadingIconToDisappear();
@@ -2001,8 +2002,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClearFilters()
-                .SleepTimeInSeconds(10);
-            //var count = 0;
+                .SleepTimeInSeconds(12);
 
             for (int i = 0; i < listOfIds.Count; i++)
             {
@@ -2015,6 +2015,295 @@ namespace si_automated_tests.Source.Test.TaskTests
                     .VerifyDateValueInActiveRow(1, "Completed Date", CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm"))
                     .VerifyDateValueInActiveRow(1, "End Date", CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm"));
             }
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClearFilters();
+
+
+            //Step 14
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemByField("Task State", "In Progress")
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<CommonTaskPage>()
+                .SelectFirstNumberOfItem(numberOfTasks)
+                .ClickBulkUpdateBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TasksBulkUpdatePage>()
+                .ClickFirstToggleArrow()
+                .SelectTaskState(stateName, "1")
+                .SelectResolutionCode("last", "1")
+                .ChangeCompletedDateBottomPage(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2), "1")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            var expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
+
+            ids = PageFactoryManager.Get<BasePage>()
+                .GetCurrentUrl().Replace("https://test.echoweb.co.uk/web/task-bulk-updates?ids=", "");
+            listOfIds = ids.Split(",").ToList();
+            PageFactoryManager.Get<BasePage>()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClearFilters()
+                .SleepTimeInSeconds(12);
+
+            for (int i = 0; i < listOfIds.Count; i++)
+            {
+                PageFactoryManager.Get<BasePage>()
+                       .ClickRefreshBtn()
+                       .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<CommonBrowsePage>()
+                    .FilterItemByField("ID", listOfIds[i])
+                    .SelectFirstNumberOfItem(1)
+                    .VerifyDateValueInActiveRow(1, "Completed Date", expectedDate)
+                    .VerifyDateValueInActiveRow(1, "End Date", expectedDate);
+            }
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClearFilters();
+
+            //Step 15
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemByField("Task State", "In Progress")
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<CommonTaskPage>()
+                .SelectFirstNumberOfItem(numberOfTasks)
+                .ClickBulkUpdateBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TasksBulkUpdatePage>()
+                .ClickFirstToggleArrow()
+                .SelectTaskState(stateName, "1")
+                .SelectResolutionCode("last", "1")
+                .ChangeCompletedDateBottomPage(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2), "1")
+                .ChangeEndDateBottomPage(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2), "1")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
+
+            ids = PageFactoryManager.Get<BasePage>()
+                .GetCurrentUrl().Replace("https://test.echoweb.co.uk/web/task-bulk-updates?ids=", "");
+            listOfIds = ids.Split(",").ToList();
+            PageFactoryManager.Get<BasePage>()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClearFilters()
+                .SleepTimeInSeconds(12);
+
+            for (int i = 0; i < listOfIds.Count; i++)
+            {
+                PageFactoryManager.Get<BasePage>()
+                       .ClickRefreshBtn()
+                       .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<CommonBrowsePage>()
+                    .FilterItemByField("ID", listOfIds[i])
+                    .SelectFirstNumberOfItem(1)
+                    .VerifyDateValueInActiveRow(1, "Completed Date", expectedDate)
+                    .VerifyDateValueInActiveRow(1, "End Date", expectedDate);
+            }
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClearFilters();
+
+            //Step 16
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemByField("Task State", "In Progress")
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<CommonTaskPage>()
+                .SelectFirstNumberOfItem(numberOfTasks)
+                .ClickBulkUpdateBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TasksBulkUpdatePage>()
+                .ClickFirstToggleArrow()
+                .SelectTaskState(stateName, "1")
+                .SelectResolutionCode("last", "1")
+                .ChangeEndDateBottomPage(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2), "1")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
+            var expectedCompletedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 0);
+
+            ids = PageFactoryManager.Get<BasePage>()
+                .GetCurrentUrl().Replace("https://test.echoweb.co.uk/web/task-bulk-updates?ids=", "");
+            listOfIds = ids.Split(",").ToList();
+            PageFactoryManager.Get<BasePage>()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClearFilters()
+                .SleepTimeInSeconds(12);
+
+            for (int i = 0; i < listOfIds.Count; i++)
+            {
+                PageFactoryManager.Get<BasePage>()
+                       .ClickRefreshBtn()
+                       .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<CommonBrowsePage>()
+                    .FilterItemByField("ID", listOfIds[i])
+                    .SelectFirstNumberOfItem(1)
+                    .VerifyDateValueInActiveRow(1, "Completed Date", expectedCompletedDate)
+                    .VerifyDateValueInActiveRow(1, "End Date", expectedDate);
+            }
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClearFilters();
+
+        }
+        [Category("Task State")]
+        [Category("Dee")]
+        [TestCase(new object[] { "Cancelled" })]
+        [Test]
+        public void TC_176_verify_task_state_date_change_in_task_bulk_update_cancelled(string stateName)
+        {
+            int numberOfTasks = 3;
+
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser44.UserName, AutoUser44.Password)
+                .IsOnHomePage(AutoUser44);
+
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Tasks)
+                .OpenOption(Contract.Commercial)
+                .SwitchNewIFrame()
+                .WaitForLoadingIconToDisappear();
+
+            //Step 13
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemByField("Task State", "In Progress")
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<CommonTaskPage>()
+                .SelectFirstNumberOfItem(numberOfTasks)
+                .ClickBulkUpdateBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TasksBulkUpdatePage>()
+                .ClickFirstToggleArrow()
+                .SelectTaskState(stateName, "1")
+                .SelectResolutionCode("last", "1")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+
+            var ids = PageFactoryManager.Get<BasePage>()
+                .GetCurrentUrl().Replace("https://test.echoweb.co.uk/web/task-bulk-updates?ids=", "");
+            var listOfIds = ids.Split(",").ToList();
+            PageFactoryManager.Get<BasePage>()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClearFilters()
+                .SleepTimeInSeconds(12);
+
+            for (int i = 0; i < listOfIds.Count; i++)
+            {
+                PageFactoryManager.Get<BasePage>()
+                       .ClickRefreshBtn()
+                       .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<CommonBrowsePage>()
+                    .FilterItemByField("ID", listOfIds[i])
+                    .SelectFirstNumberOfItem(1)
+                    .VerifyDateValueInActiveRow(1, "End Date", CommonUtil.GetUtcTimeNow("dd/MM/yyyy HH:mm"));
+            }
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClearFilters();
+
+
+            //Step 15
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemByField("Task State", "In Progress")
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<CommonTaskPage>()
+                .SelectFirstNumberOfItem(numberOfTasks)
+                .ClickBulkUpdateBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TasksBulkUpdatePage>()
+                .ClickFirstToggleArrow()
+                .SelectTaskState(stateName, "1")
+                .SelectResolutionCode("last", "1")
+                .ChangeCompletedDateBottomPage(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2), "1")
+                .ChangeEndDateBottomPage(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2), "1")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            var expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
+
+            ids = PageFactoryManager.Get<BasePage>()
+                .GetCurrentUrl().Replace("https://test.echoweb.co.uk/web/task-bulk-updates?ids=", "");
+            listOfIds = ids.Split(",").ToList();
+            PageFactoryManager.Get<BasePage>()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClearFilters()
+                .SleepTimeInSeconds(12);
+
+            for (int i = 0; i < listOfIds.Count; i++)
+            {
+                PageFactoryManager.Get<BasePage>()
+                       .ClickRefreshBtn()
+                       .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<CommonBrowsePage>()
+                    .FilterItemByField("ID", listOfIds[i])
+                    .SelectFirstNumberOfItem(1)
+                    .VerifyDateValueInActiveRow(1, "End Date", expectedDate);
+            }
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClearFilters();
+
+            //Step 16
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .FilterItemByField("Task State", "In Progress")
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<CommonTaskPage>()
+                .SelectFirstNumberOfItem(numberOfTasks)
+                .ClickBulkUpdateBtn()
+                .SwitchToLastWindow()
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<TasksBulkUpdatePage>()
+                .ClickFirstToggleArrow()
+                .SelectTaskState(stateName, "1")
+                .SelectResolutionCode("last", "1")
+                .ChangeEndDateBottomPage(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2), "1")
+                .ClickSaveBtn()
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
+            expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
+            var expectedCompletedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 0);
+
+            ids = PageFactoryManager.Get<BasePage>()
+                .GetCurrentUrl().Replace("https://test.echoweb.co.uk/web/task-bulk-updates?ids=", "");
+            listOfIds = ids.Split(",").ToList();
+            PageFactoryManager.Get<BasePage>()
+                .CloseCurrentWindow()
+                .SwitchToLastWindow()
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .ClearFilters()
+                .SleepTimeInSeconds(12);
+
+            for (int i = 0; i < listOfIds.Count; i++)
+            {
+                PageFactoryManager.Get<BasePage>()
+                       .ClickRefreshBtn()
+                       .WaitForLoadingIconToDisappear();
+                PageFactoryManager.Get<CommonBrowsePage>()
+                    .FilterItemByField("ID", listOfIds[i])
+                    .SelectFirstNumberOfItem(1)
+                    .VerifyDateValueInActiveRow(1, "End Date", expectedDate);
+            }
+            PageFactoryManager.Get<CommonBrowsePage>()
+               .ClearFilters();
 
         }
     }
