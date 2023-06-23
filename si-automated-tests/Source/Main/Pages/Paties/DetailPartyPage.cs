@@ -273,14 +273,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             return new TaskTab();
         }
 
-<<<<<<< HEAD
         public TaskTab ClickTasksTabAtDropDown()
         {
             ClickOnElement(taskTabAlt);
             return new TaskTab();
         }
 
-=======
         [AllureStep]
         public TaskTab ClickNewVerTaskTab()
         {
@@ -295,7 +293,6 @@ namespace si_automated_tests.Source.Main.Pages.Paties
             }
             return new TaskTab();
         }
->>>>>>> fae46f560a8029a7b6b58e6e4d77fbcff81ec2cb
 
         [AllureStep]
         public DetailPartyPage ClickSuspensionTab()
