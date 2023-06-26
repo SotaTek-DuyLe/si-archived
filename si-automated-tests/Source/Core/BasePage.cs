@@ -48,6 +48,41 @@ namespace si_automated_tests.Source.Core
         }
 
         [AllureStep]
+        public BasePage ClickPopoutButton()
+        {
+            ClickOnElement("//button[@id='t-popout']");
+            return this;
+        }
+
+        [AllureStep]
+        public BasePage ClickHelp()
+        {
+            ClickOnElement("//button[@id='t-info']");
+            return this;
+        }
+        
+        [AllureStep]
+        public BasePage ClickCloseInformationModal()
+        {
+            ClickOnElement("//div[@class='bootbox modal fade in']//button[@class='bootbox-close-button close']");
+            return this;
+        }
+
+        [AllureStep]
+        public BasePage ClickSaveSelectionButton()
+        {
+            ClickOnElement("//button[@id='t-save']");
+            return this;
+        }
+
+        [AllureStep]
+        public BasePage IsInformationModalDisplay()
+        {
+            IsControlDisplayed(By.XPath("//h4[text()='Shortcuts']"));
+            return this;
+        }
+
+        [AllureStep]
         public BasePage ClickOnRetiredBtn()
         {
             ClickOnElement(retiredBtn);
@@ -978,6 +1013,7 @@ namespace si_automated_tests.Source.Core
         [AllureStep]
         public BasePage VerifyDisplayToastMessage(string message)
         {
+            WaitUtil.WaitForAllElementsVisible(By.XPath(string.Format("//*[contains(text(),'{0}')]", message)));
             Assert.IsTrue(IsControlDisplayed("//*[contains(text(),'{0}')]", message));
             return this;
         }
@@ -1025,6 +1061,12 @@ namespace si_automated_tests.Source.Core
         public BasePage WaitUntilToastMessageInvisible(string toastMessage)
         {
             WaitUtil.WaitForElementInvisibleWithText("//div[@data-notify-html='title']", toastMessage);
+            return this;
+        }
+        [AllureStep]
+        public BasePage WaitUntilAllToastMessageInvisible()
+        {
+            WaitUtil.WaitForAllElementsInvisible60("//div[@data-notify-html='title']");
             return this;
         }
         [AllureStep]

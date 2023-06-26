@@ -26,6 +26,9 @@ namespace si_automated_tests.Source.Main.Constants
         public static readonly string SaveRoundInstanceEventSuccessMessage = "Successfully saved Round Instance Event";
         public static readonly string SaveTaskLine = "Success"; //Successfully saved Task Line
         public static readonly string SavePurchaseOrder = "Success"; //Successfully saved Purchase Order
+        public static readonly string TaskSavedSuccessMessage = "Task Saved"; //Successfully saved event.
+        public static readonly string PostedSuccessMessage = "Posted";
+        public static readonly string UnPostedSuccessMessage = "Unposted";
 
     }
 }

@@ -724,5 +724,57 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                .WaitUntilToastMessageInvisible("Default resource-type set");
             resourceAllocationPage.VerifyResourceInRoundAreCorrectOrder(roundidx, "SIDELIFT", "CAGE");
         }
+
+        [Category("Resources")]
+        [Category("Huong")]
+        [Test]
+        public void TC_288_DefaultResource_Schedule()
+        {
+            PageFactoryManager.Get<LoginPage>()
+                .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser20.UserName, AutoUser20.Password)
+                .IsOnHomePage(AutoUser20);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Resources)
+                .OpenOption("Default Allocation")
+                .SwitchNewIFrame();
+            PageFactoryManager.Get<ResourceAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectBusinessUnit(Contract.Commercial)
+                .SelectShift("AM")
+                .ClickGo()
+                .WaitForLoadingIconToDisappear()
+                .SleepTimeInMiliseconds(2000);
+
+            //Verify whether User able to view 'Default Resource Type set' message
+            var resourceAllocationPage = PageFactoryManager.Get<ResourceAllocationPage>();
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.ResourceTypeTab);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            int roundGroupidx = resourceAllocationPage.DragResourceTypeCageToDefaultSetCell();
+            resourceAllocationPage.VerifyToastMessage("Default resource-type set")
+                .WaitUntilToastMessageInvisible("Default resource-type set");
+            resourceAllocationPage.VerifyResourceInRoundGroup(roundGroupidx, "CAGE");
+
+            //Verify whether User able to view 'Default Resource set' message
+            resourceAllocationPage.ClickOnElement(resourceAllocationPage.AllResourceTab);
+            resourceAllocationPage.WaitForLoadingIconToDisappear();
+            (int roundGroupIdx, string resourceName) result = resourceAllocationPage.DragResourceDriverToDefaultSetCell();
+            resourceAllocationPage.VerifyToastMessage("Default Resource Set")
+                .WaitUntilToastMessageInvisible("Default Resource Set");
+            resourceAllocationPage.VerifyResourceInRoundGroup(result.roundGroupIdx, result.resourceName);
+
+            //Verify whether user view' Default Resource Schedule Set’ message displays in grid with tick
+            resourceAllocationPage.ClickResourceInRoundGroup(result.roundGroupIdx, result.resourceName);
+            resourceAllocationPage.ClickSetSchedule()
+                .WaitForLoadingIconToDisappear();
+            resourceAllocationPage.ClickSaveChangesResourceSchedule();
+            resourceAllocationPage.VerifyToastMessage("Default Resource Schedule set")
+                .WaitUntilToastMessageInvisible("Default Resource Schedule set");
+
+            //Verify whether Clock icon displays against the resource to denote there is a schedule for the allocation
+            resourceAllocationPage.ClickClockInRoundGroup(result.roundGroupIdx, result.resourceName);
+        }
     }
 }

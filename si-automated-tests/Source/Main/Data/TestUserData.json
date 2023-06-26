@@ -355,6 +355,11 @@
     "password": "n9L/4X:.rs",
     "displayname": "auto62 display"
   },
+  "auto_user_63": {
+    "username": "auto63",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto63 display"
+  },
   "auto_user_66": {
     "username": "auto66",
     "password": "n9L/4X:.rs",
@@ -444,5 +449,10 @@
     "username": "auto92",
     "password": "n9L/4X:.rs",
     "displayname": "auto92 display"
+  },
+  "auto_user_93": {
+    "username": "auto93",
+    "password": "n9L/4X:.rs",
+    "displayname": "auto93 display"
   }
 }

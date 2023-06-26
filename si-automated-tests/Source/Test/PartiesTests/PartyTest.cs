@@ -1047,7 +1047,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
         [Category("Sale invoice")]
         [Category("Dee")]
         [Test]
-        public void TC_136()
+        public void TC_136_oprhan_sale_invoices()
         {
             string lineType = "Commercial Line Type";
             string product = "General Refuse";
@@ -1077,7 +1077,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             PageFactoryManager.Get<SaleInvoiceLinePage>()
                 .IsOnSaleInvoiceLinePage()
                 .SelectDepot(Contract.Commercial)
-                .InputInfo(lineType, site, product, priceElement, quantity, price)
+                .InputInfo(lineType, site, product, priceElement, quantity, price, price)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .CloseCurrentWindow()

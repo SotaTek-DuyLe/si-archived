@@ -247,7 +247,7 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         public DetailPartyPage ClickTabDropDown()
         {
             ClickOnElement(dropdown);
-            WaitUtil.WaitForAllElementsPresent(By.XPath("//li[@class='dropdown']//ul/a"));
+            WaitUtil.WaitForAllElementsPresent(By.XPath("//ul[@class='dropdown-menu']"));
 
             return this;
         }
@@ -270,6 +270,12 @@ namespace si_automated_tests.Source.Main.Pages.Paties
                 ClickOnElement(taskTab);
             }
 
+            return new TaskTab();
+        }
+
+        public TaskTab ClickTasksTabAtDropDown()
+        {
+            ClickOnElement(taskTabAlt);
             return new TaskTab();
         }
 

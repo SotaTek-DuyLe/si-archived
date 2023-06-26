@@ -59,6 +59,8 @@ namespace si_automated_tests.Source.Core.WebElements
                         if (textElement != null && textElement.Text.Trim() == nodeName)
                         {
                             SelectedNode = item;
+                            bool isSelected = item.GetAttribute("aria-selected").AsBool();
+                            if (isSelected) return;
                             SelectedNode.Click();
                             return;
                         }
@@ -85,6 +87,8 @@ namespace si_automated_tests.Source.Core.WebElements
                         if (textElement != null && textElement.Text.Trim() == nodeName)
                         {
                             SelectedNode = item;
+                            bool isSelected = item.GetAttribute("aria-selected").AsBool();
+                            if (isSelected) return;
                             SelectedNode.Click();
                             return;
                         }

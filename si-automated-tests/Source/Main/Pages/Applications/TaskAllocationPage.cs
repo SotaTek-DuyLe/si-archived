@@ -207,6 +207,23 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
+        public TaskAllocationPage IsTaskAllocationPage()
+        {
+            Assert.IsTrue(IsControlDisplayed(ContractSelect));
+            Assert.IsTrue(IsControlDisplayed(ButtonGo));
+            Assert.IsTrue(IsControlDisplayed(ServiceInput));
+            return this;
+        }
+
+        [AllureStep]
+        public TaskAllocationPage IsSelectionCorrect(string contract)
+        {
+            VerifySelectedValue(ContractSelect, contract);
+            Assert.IsTrue(IsControlDisplayed(By.XPath("//a[@class='jstree-anchor jstree-clicked' and text()='Recycling']")));
+            return this;
+        }
+
+        [AllureStep]
         public TaskAllocationPage DoubleClickFromCellOnRound(string round)
         {
             RoundInstanceTableEle.DoubleClickCellOnCellValue(4, 2, round);

@@ -449,6 +449,17 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
+        public TaskConfirmationPage IsSelectionCorrect(string contract)
+        {
+            VerifySelectedValue(ContractSelect, contract);
+            ClickOnElement(ServiceInput);
+            SleepTimeInMiliseconds(1000);
+            Assert.IsTrue(IsControlDisplayed(By.XPath("//a[@class='jstree-anchor  jstree-clicked' and text()='Monday']")));
+            return this;
+        }
+
+
+        [AllureStep]
         public TaskConfirmationPage SelectContract(string contractName)
         {
             ClickOnElement(contractDd);
@@ -785,6 +796,10 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 var numberOfOptions = GetNumberOfOptionInSelect(optionSelect);
                 var random = CommonUtil.GetRandomNumberBetweenRange(1, numberOfOptions - 1);
                 SelectIndexFromDropDown(optionSelect, random);
+            }
+            else if(reso.Equals("last", StringComparison.OrdinalIgnoreCase))
+            {
+                SelectIndexFromDropDown(optionSelect, GetNumberOfOptionInSelect(optionSelect) - 1);
             }
             else
             {
