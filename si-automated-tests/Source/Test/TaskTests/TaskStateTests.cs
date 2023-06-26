@@ -1523,7 +1523,15 @@ namespace si_automated_tests.Source.Test.TaskTests
             {
                 dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -7);
             }
-            string description = "Tesco Superstore, 20-28 BROAD STREET, TEDDINGTON, TW11 8RF";
+            string description = "";
+            if (temp.DayOfWeek == DayOfWeek.Tuesday)
+            {
+                description = "Starbucks Sainsburys, STARBUCKS AT, 361 LOWER RICHMOND ROAD, RICHMOND, TW9 4LT";
+            }
+            else
+            {
+                description = "Sainsburys Richmond, SAINSBURYS, 361 LOWER RICHMOND ROAD, RICHMOND, TW9 4LT";
+            }
 
 
             PageFactoryManager.Get<LoginPage>()
