@@ -403,5 +403,28 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .SwitchNewIFrame();
             taskAllocationPage.IsSelectionCorrect(Contract.Municipal);
         }
+
+        [Category("TaskAllocationTests")]
+        [Category("Huong")]
+        [Test(Description = "Task allocation screen throws an error when filter today + 3 days is used")]
+        public void TC_282_Task_Allocation_screen_throws_an_error_when_filter_today_plus_3_days_is_used()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser39.UserName, AutoUser39.Password)
+                .IsOnHomePage(AutoUser39);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption("Task Allocation")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+            TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
+            //Add Indicators for tasks
+            taskAllocationPage
+
+        }
     }
 }
