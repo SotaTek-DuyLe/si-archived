@@ -339,7 +339,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         [Category("TaskAllocationTests")]
         [Category("Huong")]
         [Test(Description = "")]
-        public void TC_244_Task_Confirmation()
+        public void TC_243_Task_Allocation()
         {
             //Verify whether the order of buttons in Task Confirmation page is changed to Popup, Save,Refresh, Help
             PageFactoryManager.Get<LoginPage>()
@@ -402,6 +402,83 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             PageFactoryManager.Get<NavigationBase>()
                 .SwitchNewIFrame();
             taskAllocationPage.IsSelectionCorrect(Contract.Municipal);
+        }
+
+        [Category("TaskAllocationTests")]
+        [Category("Huong")]
+        [Test(Description = "")]
+        public void TC_244_Task_Confirmation()
+        {
+            string contract = Contract.Commercial;
+            string service = "Collections";
+            string subService = "Commercial Collections";
+            //Verify whether the order of buttons in Task Confirmation page is changed to Popup, Save,Refresh, Help
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser39.UserName, AutoUser39.Password)
+                .IsOnHomePage(AutoUser39);
+            TaskConfirmationPage taskConfirmationPage = PageFactoryManager.Get<TaskConfirmationPage>();
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption("Task Confirmation")
+                .SwitchToFrame(taskConfirmationPage.TaskConfirmationIframe);
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            //wait for the selection changed
+            taskConfirmationPage.SleepTimeInMiliseconds(5000);
+            taskConfirmationPage.SelectTextFromDropDown(taskConfirmationPage.ContractSelect, contract);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ServiceInput);
+            taskConfirmationPage.SleepTimeInMiliseconds(1000);
+            taskConfirmationPage.ExpandRoundNode("Commercial")
+                .ExpandRoundNode(service)
+                .ExpandRoundNode(subService)
+                .ExpandRoundNode("REF1-AM")
+                .SelectRoundNode("Monday");
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ScheduleDateInput);
+            taskConfirmationPage.SleepTimeInMiliseconds(1000);
+            taskConfirmationPage.InputNextMonday();
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
+            taskConfirmationPage.ClickOnElementIfItVisible(taskConfirmationPage.ButtonConfirm);
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            taskConfirmationPage.ClickOnElement(taskConfirmationPage.ExpandRoundsGo);
+            taskConfirmationPage.SleepTimeInMiliseconds(2000);
+            taskConfirmationPage.ClickPopoutButton()
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            taskConfirmationPage.IsTaskConfirmationPage();
+            taskConfirmationPage.CloseCurrentWindow()
+                .SwitchToFirstWindow()
+                .SwitchNewIFrame();
+
+            taskConfirmationPage.ClickRefreshBtn()
+                .WaitForLoadingIconToDisappear();
+
+            taskConfirmationPage.ClickHelp()
+                .WaitForLoadingIconToDisappear()
+                .IsInformationModalDisplay()
+                .ClickCloseInformationModal()
+                .WaitForLoadingIconToDisappear();
+
+            //Verify whether new functionality for Save button is added so that user can save screen parameter selection and Hover over message Save Selection
+            taskConfirmationPage.ClickSaveSelectionButton()
+                .VerifyToastMessage("Saved")
+                .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption("Task Confirmation")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
+            //wait for the selection changed
+            taskConfirmationPage.SleepTimeInMiliseconds(5000);
+            taskConfirmationPage.IsSelectionCorrect(contract);
         }
     }
 }
