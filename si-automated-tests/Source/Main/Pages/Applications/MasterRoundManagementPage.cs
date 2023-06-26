@@ -169,6 +169,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             WaitUtil.WaitForPageLoaded();
             return this;
         }
+
+        [AllureStep]
+        public MasterRoundManagementPage IsSelectionCorrect(string contract)
+        {
+            VerifySelectedValue(contractSelect, contract);
+            Assert.IsTrue(IsControlDisplayed(By.XPath("//a[@class='jstree-anchor jstree-clicked' and text()='Domestic Refuse']")));
+            return this;
+        }
+
         [AllureStep]
         public MasterRoundManagementPage ClickFirstUnallocatedTask()
         {
