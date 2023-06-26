@@ -449,6 +449,17 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         }
 
         [AllureStep]
+        public TaskConfirmationPage IsSelectionCorrect(string contract)
+        {
+            VerifySelectedValue(ContractSelect, contract);
+            ClickOnElement(ServiceInput);
+            SleepTimeInMiliseconds(1000);
+            Assert.IsTrue(IsControlDisplayed(By.XPath("//a[@class='jstree-anchor  jstree-clicked' and text()='Monday']")));
+            return this;
+        }
+
+
+        [AllureStep]
         public TaskConfirmationPage SelectContract(string contractName)
         {
             ClickOnElement(contractDd);
