@@ -419,47 +419,47 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .ExpandServiceNode(Contract.Municipal)
                 .ExpandServiceNode("Ancillary")
                 .SelectServiceNode("Clinical Waste");
-            serviceDataManagementPage.InputDescription("17 LONSDALE ROAD, BARNES, LONDON, SW13 9ED");
+            serviceDataManagementPage.InputDescription(descriptionTask1);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInWarningFilterPopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
             serviceDataManagementPage.SelectRow(0);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.NextButton);
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), false);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType1.ToLower(), false);
             //Change the effective date to after start date for 1 -> Click OK 
             serviceDataManagementPage.InputCalendarDate(serviceDataManagementPage.EffectiveDateInput, startDateTask1.AddDays(2).ToString("dd/MM/yyyy"));
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), true);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType1.ToLower(), true);
 
             //Verify task 3
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.PreviousButton);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInLeavePopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
 
-            serviceDataManagementPage.InputDescription("9 THAMESGATE CLOSE, HAM, RICHMOND, TW10 7YS");
+            serviceDataManagementPage.InputDescription(descriptionTask3);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInWarningFilterPopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
             serviceDataManagementPage.SelectRow(0);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.NextButton);
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), true);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType3.ToLower(), true);
             //Change the effective date to after start date for 1 -> Click OK 
             serviceDataManagementPage.InputCalendarDate(serviceDataManagementPage.EffectiveDateInput, startDateTask1.AddDays(2).ToString("dd/MM/yyyy"));
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), true);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType3.ToLower(), true);
 
             //go back and verify task 2
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.PreviousButton);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInLeavePopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
 
-            serviceDataManagementPage.InputDescription("13 THAMESGATE CLOSE, HAM, RICHMOND, TW10 7YS");
+            serviceDataManagementPage.InputDescription(descriptionTask2);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInWarningFilterPopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
@@ -471,21 +471,21 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), false);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType2.ToLower(), false);
             //Change the effective date to before end date for 2 -> Click OK
             serviceDataManagementPage.InputCalendarDate(serviceDataManagementPage.EffectiveDateInput, endDateTask2.AddDays(-2).ToString("dd/MM/yyyy"));
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), true);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType2.ToLower(), true);
 
             //go back and verify taks 3
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.PreviousButton);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInLeavePopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
 
-            serviceDataManagementPage.InputDescription("9 THAMESGATE CLOSE, HAM, RICHMOND, TW10 7YS");
+            serviceDataManagementPage.InputDescription(descriptionTask3);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInWarningFilterPopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
@@ -497,21 +497,21 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), true);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType3.ToLower(), true);
             //Change the effective date to before end date for 2 -> Click OK
             serviceDataManagementPage.InputCalendarDate(serviceDataManagementPage.EffectiveDateInput, endDateTask2.AddDays(-2).ToString("dd/MM/yyyy"));
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), true);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType3.ToLower(), true);
 
             //go back and verify task 4
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.PreviousButton);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInLeavePopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
 
-            serviceDataManagementPage.InputDescription("46 TANGIER ROAD, RICHMOND, TW10 5DW");
+            serviceDataManagementPage.InputDescription(descriptionTask4);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInWarningFilterPopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
@@ -523,7 +523,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), false);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType4.ToLower(), false);
 
             //Change the effective date to between start and end date for 4 -> Click OK
             serviceDataManagementPage.InputCalendarDate(serviceDataManagementPage.EffectiveDateInput, startDateTask4.AddDays(2).ToString("dd/MM/yyyy"));
@@ -531,7 +531,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), true);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType4.ToLower(), true);
 
             //Change the effective date to after end date for 4 -> Click OK
             serviceDataManagementPage.InputCalendarDate(serviceDataManagementPage.EffectiveDateInput, endDateTask4.AddDays(2).ToString("dd/MM/yyyy"));
@@ -539,14 +539,14 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), false);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType4.ToLower(), false);
 
             //go back and verify task 3
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.PreviousButton);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInLeavePopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
 
-            serviceDataManagementPage.InputDescription("9 THAMESGATE CLOSE, HAM, RICHMOND, TW10 7YS");
+            serviceDataManagementPage.InputDescription(descriptionTask3);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInWarningFilterPopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
@@ -558,7 +558,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), true);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType3.ToLower(), true);
 
             //Change the effective date to between start and end date for 4 -> Click OK
             serviceDataManagementPage.InputCalendarDate(serviceDataManagementPage.EffectiveDateInput, startDateTask4.AddDays(2).ToString("dd/MM/yyyy"));
@@ -566,7 +566,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), true);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType3.ToLower(), true);
 
             //Change the effective date to after end date for 4 -> Click OK
             serviceDataManagementPage.InputCalendarDate(serviceDataManagementPage.EffectiveDateInput, endDateTask4.AddDays(2).ToString("dd/MM/yyyy"));
@@ -574,14 +574,14 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), true);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType3.ToLower(), true);
 
             //go back and verify task 5
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.PreviousButton);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInLeavePopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
 
-            serviceDataManagementPage.InputDescription("38 TANGIER ROAD, RICHMOND, TW10 5DW");
+            serviceDataManagementPage.InputDescription(descriptionTask5);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.ApplyFilterBtn);
             serviceDataManagementPage.ClickOnElement(serviceDataManagementPage.okBtnInWarningFilterPopup);
             serviceDataManagementPage.WaitForLoadingIconToDisappear();
@@ -593,7 +593,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), false);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType5.ToLower(), false);
 
             //Change the effective date to between start and end date for 5 -> Click OK
             serviceDataManagementPage.InputCalendarDate(serviceDataManagementPage.EffectiveDateInput, startDateTask5.AddDays(2).ToString("dd/MM/yyyy"));
@@ -601,7 +601,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             serviceDataManagementPage.ClickTextServiceDataManagement()
                 .AcceptAlert()
                 .WaitForLoadingIconToDisappear();
-            serviceDataManagementPage.VerifyAssuredTaskDisplay("COLLECT CLINICAL WASTE".ToLower(), false);
+            serviceDataManagementPage.VerifyAssuredTaskDisplay(taskType5.ToLower(), false);
 
             //Navigate to task allocation -> Filter the round for service task 5 and set effective date between start and end date of data set -> Go 
             PageFactoryManager.Get<NavigationBase>()
@@ -627,7 +627,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskAllocationPage.WaitForLoadingIconToDisappear();
             taskAllocationPage.DragRoundInstanceToUnlocattedGrid("CLINICAL1", "Friday");
             taskAllocationPage.WaitForLoadingIconToDisappear();
-            taskAllocationPage.SendKeys(taskAllocationPage.DescriptionFilterInput, "38 TANGIER ROAD, RICHMOND, TW10 5DW");
+            taskAllocationPage.SendKeys(taskAllocationPage.DescriptionFilterInput, descriptionTask5);
             taskAllocationPage.WaitForLoadingIconToDisappear();
             taskAllocationPage.UnallocatedHorizontalScrollToElement(taskAllocationPage.ServiceUnitGroupFilterInput, true);
             taskAllocationPage.UnallocatedHorizontalScrollToElement(taskAllocationPage.OriginalRoundFilterInput, true);
