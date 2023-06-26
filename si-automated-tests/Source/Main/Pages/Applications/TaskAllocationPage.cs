@@ -192,6 +192,20 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             return By.XPath($"//div[text()='Allocating {count} Task(s) onto Round Instance for a different day!']");
         }
+
+        [AllureStep]
+        public TaskAllocationPage InputFriday(DateTime startDate, DateTime endDate)
+        {
+            var startFriday = startDate.AddDays(-(int)startDate.DayOfWeek).AddDays(5);
+            var endFriday = endDate.AddDays(-(int)endDate.DayOfWeek).AddDays(5);
+            ClickOnElement(FromInput);
+            SleepTimeInMiliseconds(1000);
+            InputCalendarDate(FromInput, startFriday.ToString("dd/MM/yyyy"));
+            SleepTimeInMiliseconds(3000);
+            InputCalendarDate(ToInput, endFriday.ToString("dd/MM/yyyy"));
+            return this;
+        }
+
         [AllureStep]
         public TaskAllocationPage DoubleClickFromCellOnRound(string round)
         {

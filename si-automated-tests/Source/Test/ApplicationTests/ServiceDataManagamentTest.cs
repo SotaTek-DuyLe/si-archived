@@ -617,11 +617,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskAllocationPage.ExpandRoundNode(Contract.Municipal)
                 .ExpandRoundNode("Ancillary")
                 .SelectRoundNode("Clinical Waste");
-            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
-            taskAllocationPage.SleepTimeInMiliseconds(1000);
-            taskAllocationPage.InputCalendarDate(taskAllocationPage.FromInput, startDateTask5.AddDays(-1).ToString("dd/MM/yyyy"));
-            taskAllocationPage.SleepTimeInMiliseconds(3000);
-            taskAllocationPage.InputCalendarDate(taskAllocationPage.ToInput, endDateTask5.ToString("dd/MM/yyyy"));
+            taskAllocationPage.InputFriday(startDateTask5, endDateTask5);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ContractSelect);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
             taskAllocationPage.WaitForLoadingIconToDisappear();
