@@ -1528,6 +1528,10 @@ namespace si_automated_tests.Source.Test.TaskTests
             {
                 description = "Starbucks Sainsburys, STARBUCKS AT, 361 LOWER RICHMOND ROAD, RICHMOND, TW9 4LT";
             }
+            else if (temp.DayOfWeek == DayOfWeek.Friday)
+            {
+                description = "Sainsburys Local Barnes, GROUND FLOOR, 9-11 WHITE HART LANE, BARNES, LONDON, SW13 0PX";
+            }
             else
             {
                 description = "Sainsburys Richmond, SAINSBURYS, 361 LOWER RICHMOND ROAD, RICHMOND, TW9 4LT";
