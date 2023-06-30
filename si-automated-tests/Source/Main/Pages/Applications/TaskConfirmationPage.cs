@@ -44,7 +44,9 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By allRowInGrid = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div");
 
         //calendar
-        private readonly string futreDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@style,'z-index:')]//td[contains(@class,'day') and not(contains(@class,'disable')) and not(contains(@class,'new')) and text()='{0}'])[last()]";
+        private readonly string oldDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@style,'z-index:')]//td[contains(@class,'day') and not(contains(@class,'disable')) and contains(@class,'old') and text()='{0}'])[last()]";
+        private readonly string currentDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@style,'z-index:')]//td[contains(@class,'day') and not(contains(@class,'disable')) and not(contains(@class,'new')) and not(contains(@class,'old')) and text()='{0}'])[last()]";
+        private readonly string futureDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@style,'z-index:')]//td[contains(@class,'day') and not(contains(@class,'disable')) and contains(@class,'new') and text()='{0}'])[last()]";
 
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
         private readonly By firstRowAfterFiltering = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]/parent::div");
@@ -756,11 +758,30 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public TaskConfirmationPage InsertDayInFutre(string dayOfMonth)
         {
-            if (dayOfMonth.StartsWith("0"))
+            var temp = DateTime.ParseExact(dayOfMonth, "dd/MM/yyyy", null);
+            var now = DateTime.ParseExact(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 0), "dd/MM/yyyy", null);
+
+            if(temp.Month < now.Month)
             {
-                dayOfMonth = dayOfMonth.Substring(1);
+                ClickOnElement(oldDayNumberInCalendar, temp.Day.ToString());
+
             }
-            ClickOnElement(futreDayNumberInCalendar, dayOfMonth);
+            else if(temp.Month == now.Month)
+            {
+                ClickOnElement(currentDayNumberInCalendar, temp.Day.ToString());
+
+            }
+            else
+            {
+                ClickOnElement(futureDayNumberInCalendar, temp.Day.ToString());
+
+            }
+
+            //if (dayOfMonth.StartsWith("0"))
+            //{
+            //    dayOfMonth = dayOfMonth.Substring(1);
+            //}
+            //ClickOnElement(futureDayNumberInCalendar, dayOfMonth);
             return this;
         }
 
