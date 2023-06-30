@@ -1322,6 +1322,32 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 14);
             string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 16);
             string middleDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 15);
+
+            DateTime temp = DateTime.ParseExact(startDate, "dd/MM/yyyy", null);
+            if (temp.DayOfWeek == DayOfWeek.Sunday)
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 15);
+                middleDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 16);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 17);
+            }
+            else if (temp.DayOfWeek == DayOfWeek.Saturday)
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 17);
+                middleDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 18);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 19);
+            }
+            else if (temp.DayOfWeek == DayOfWeek.Friday)
+            {
+                middleDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 19);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 20);
+            }
+            else if (temp.DayOfWeek == DayOfWeek.Thursday)
+            {
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 21);
+            }
+
+
+
             var details = CommonUtil.GetRandomString(5);
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
@@ -1414,9 +1440,42 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             var leaveType = "Holiday";
             var leaveReason = "Paid";
             string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 21);
+            DateTime temp = DateTime.ParseExact(startDate, "dd/MM/yyyy", null);
+            if (temp.DayOfWeek == DayOfWeek.Sunday)
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 22);
+            }
+            else if (temp.DayOfWeek == DayOfWeek.Saturday)
+            {
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 23);
+            }
+
             string middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 22);
             string middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 23);
+
+            temp = DateTime.ParseExact(middleDate1, "dd/MM/yyyy", null);
+            if (temp.DayOfWeek == DayOfWeek.Sunday)
+            {
+                middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 23);
+                middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 24);
+            }
+            else if (temp.DayOfWeek == DayOfWeek.Saturday)
+            {
+                middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 24);
+                middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 25);
+            }
+
+
             string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 28);
+            temp = DateTime.ParseExact(endDate, "dd/MM/yyyy", null);
+            if (temp.DayOfWeek == DayOfWeek.Sunday)
+            {
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 29);
+            }
+            else if (temp.DayOfWeek == DayOfWeek.Saturday)
+            {
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 30);
+            }
 
             var details = CommonUtil.GetRandomString(5);
             PageFactoryManager.Get<LoginPage>()
@@ -1516,6 +1575,17 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             var leaveReason = "Paid";
             string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 35);
             string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 37);
+            DateTime temp = DateTime.ParseExact(endDate, "dd/MM/yyyy", null);
+            if (temp.DayOfWeek == DayOfWeek.Sunday)
+            {
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 38);
+            }
+            else if (temp.DayOfWeek == DayOfWeek.Saturday)
+            {
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 39);
+            }
+
+
             var details = CommonUtil.GetRandomString(5);
             PageFactoryManager.Get<LoginPage>()
                .GoToURL(WebUrl.MainPageUrl);
