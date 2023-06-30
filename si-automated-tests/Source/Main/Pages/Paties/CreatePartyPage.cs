@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
+using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
 
@@ -23,6 +25,8 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         private const string PartyTypeValue = "//label[text()='All Party Types']/following-sibling::div/div[{0}]//span";
         private const string AnyDay = "//td[contains(@class, 'day') and text()='{0}']";
         private const string AnyMessage = "//div[text()='{0}']";
+
+        public By selectContract = By.Id("party-contract");
 
         [AllureStep]
         public CreatePartyPage IsCreatePartiesPopup(string contractDefault)
@@ -51,9 +55,14 @@ namespace si_automated_tests.Source.Main.Pages.Paties
         [AllureStep]
         public CreatePartyPage VerifyContractDropdownVlues()
         {
-            Assert.AreEqual(GetElementText(String.Format(ContractOption, 1)), "Select...");
-            Assert.AreEqual(GetElementText(String.Format(ContractOption, 2)), "Commercial");
-            Assert.AreEqual(GetElementText(String.Format(ContractOption, 3)), "Municipal");
+            IList<IWebElement> optionList = GetSelectElement(selectContract).Options;
+            List<string> optionListText = new List<string>();
+            foreach(IWebElement option in optionList)
+            {
+                optionListText.Add(option.Text);
+            }
+            List<string> contracts = new List<string> { "Select...", Constants.Contract.Commercial, Constants.Contract.Municipal, Constants.Contract.Gold, Constants.Contract.Brist };
+            CollectionAssert.IsSubsetOf(contracts, optionListText);
             return this;
         }
         [AllureStep]
