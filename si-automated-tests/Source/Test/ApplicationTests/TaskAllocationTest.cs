@@ -424,13 +424,10 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             PageFactoryManager.Get<NavigationBase>()
                 .SwitchNewIFrame();
             TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
-            
-            taskAllocationPage
-                .SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.Commercial);
-            taskAllocationPage
-                .ClickOnElement(taskAllocationPage.ServiceInput);
             string toDate = CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
-
+            string fromDate = CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 0);
+            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.Commercial);
+            taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
             taskAllocationPage.ExpandRoundNode(Contract.Commercial)
                 .ExpandRoundNode("Collections")
                 .SelectRoundNode("Commercial Collections");
@@ -438,10 +435,12 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             taskAllocationPage.SleepTimeInMiliseconds(1000);
             taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Control + "a");
             taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Delete);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, fromDate);
             taskAllocationPage.SleepTimeInMiliseconds(3000);
             taskAllocationPage.SendKeys(taskAllocationPage.ToInput, toDate);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ContractSelect);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
+            taskAllocationPage.WaitForLoadingIconToDisappear(false);
             ////Click on first [Unallocate] task
             //taskAllocationPage
             //    .DoubleClickOnAnyTaskInGrid("1")
@@ -467,9 +466,10 @@ namespace si_automated_tests.Source.Test.ApplicationTests
 
             //Drag the round and drop in the grid
             taskAllocationPage
-                .DragAndDropUnAllocatedRoundToGridTask()
-                .DoubleClickOnAnyTaskInGrid("1")
-                .SwitchToChildWindow(1)
+                .DragEmtyRoundInstanceToUnlocattedGrid(3)
+                .WaitForLoadingIconToDisappear();
+            taskAllocationPage.DoubleClickOnAnyTaskInGrid("1")
+                .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             //Go to [Indicators] tab and Add 20 Indicators for tasks
             detailTaskPage

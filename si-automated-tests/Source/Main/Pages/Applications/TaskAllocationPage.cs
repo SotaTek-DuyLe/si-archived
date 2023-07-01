@@ -91,8 +91,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string roundWithRoundNameAndRoundGroup = "//div[@id='round-grid-container']//div[text()='{0}']/preceding-sibling::div[text()='{1}']/following-sibling::div/div";
         private readonly string firstTaskWithAssuredByRoundName = "//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']/div[contains(string(), '{0}')]";
         private readonly string firstCheckboxTask = "//div[contains(@id, 'round-tab')]//div[contains(string(), '{0}')]/preceding-sibling::div[contains(@class, 'l1')]";
-        private readonly string anyCheckboxTask = "//div[contains(@id, 'tabs-container')]//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'l0')]";
-        private readonly string anyTaskRow = "//div[contains(@id, 'tabs-container')]//div[@class='grid-canvas']/div[{0}]";
+        private readonly string anyCheckboxTask = "//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'l1')]//input";
+        private readonly string anyTaskRow = "//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']/div[{0}]";
 
         private TableElement unallocatedTableEle;
         public TableElement UnallocatedTableEle
