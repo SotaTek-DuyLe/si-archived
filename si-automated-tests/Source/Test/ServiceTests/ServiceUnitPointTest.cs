@@ -462,6 +462,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .WaitForLoadingIconToDisappear();
 
             EventComplaintPage eventComplaintPage = PageFactoryManager.Get<EventComplaintPage>();
+            eventComplaintPage.WaitForLoadingIconToDisappear();
             eventComplaintPage.ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             eventComplaintPage.WaitForLoadingIconToDisappear();
