@@ -219,7 +219,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TaskAllocationPage IsSelectionCorrect(string contract)
         {
             VerifySelectedValue(ContractSelect, contract);
-            Assert.IsTrue(IsControlDisplayed(By.XPath("//a[@class='jstree-anchor jstree-clicked' and text()='Recycling']")));
+            ClickOnElement(ServiceInput);
+            Assert.IsTrue(IsControlDisplayed(By.XPath("//a[contains(@class, 'jstree-clicked') and text()='Recycling']")));
             return this;
         }
 
