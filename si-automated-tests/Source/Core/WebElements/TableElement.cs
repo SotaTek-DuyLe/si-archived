@@ -63,7 +63,10 @@ namespace si_automated_tests.Source.Core.WebElements
 
         public IWebElement GetCell(int rowIdx, int cellIdx)
         {
-            return GetCells(rowIdx)[cellIdx];
+            WaitForRowLoaded(rowIdx);
+            var rows = GetRows();
+            var row = rows[rowIdx];
+            return row.FindElement(By.XPath(CellXpaths[cellIdx]));
         }
 
         public IWebElement GetCellByValue(int cellIdx, object value)
@@ -73,7 +76,7 @@ namespace si_automated_tests.Source.Core.WebElements
             var rowCount = GetRows().Count;
             while (rowIdx < rowCount)
             {
-                if (GetRowValue(rowIdx)[cellIdx].AsString().Trim() == value.AsString().Trim())
+                if (GetRowValue(rowIdx, cellIdx)[0].AsString().Trim() == value.AsString().Trim())
                 {
                     webElement = GetCell(rowIdx, cellIdx);
                     break;
@@ -121,7 +124,7 @@ namespace si_automated_tests.Source.Core.WebElements
                 bool isMatch = false;
                 foreach (var filterCell in filterCells)
                 {
-                    if (GetRowValue(rowIdx)[filterCell.Key].AsString().Trim() != filterCell.Value.AsString().Trim())
+                    if (GetRowValue(rowIdx, filterCell.Key)[0].AsString().Trim() != filterCell.Value.AsString().Trim())
                     {
                         isMatch = false;
                         break;
@@ -148,7 +151,7 @@ namespace si_automated_tests.Source.Core.WebElements
 
         public object GetCellValue(int rowIdx, int cellIdx)
         {
-            return GetRowValue(rowIdx)[cellIdx];
+            return GetRowValue(rowIdx, cellIdx)[0];
         }
 
         public object GetCellValue(IWebElement row, int cellIdx)
@@ -175,7 +178,7 @@ namespace si_automated_tests.Source.Core.WebElements
             }
         }
 
-        public List<object> GetRowValue(int rowIdx)
+        public List<object> GetRowValue(int rowIdx, int cellIdx = -1)
         {
             WaitForRowLoaded(rowIdx);
             var rows = GetRows();
@@ -183,6 +186,7 @@ namespace si_automated_tests.Source.Core.WebElements
             List<object> values = new List<object>();
             foreach (var cellXpath in CellXpaths)
             {
+                if (cellIdx != -1 && CellXpaths.IndexOf(cellXpath) != cellIdx) continue;
                 IWebElement webElement = row.FindElement(By.XPath(cellXpath));
                 string elementType = webElement.TagName;
                 switch (elementType)

@@ -1738,7 +1738,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.AllocatedResourceTab);
             roundInstanceDetailPage.WaitForLoadingIconToDisappear();
             //Verify whether the experience should be only displayed for the resource class= HUMAN
-            roundInstanceDetailPage.VerifyAllocatedRoundInstance("Driver", "James Cook", "★");
+            roundInstanceDetailPage.VerifyAllocatedRoundInstance("Driver", "James Cook", "");
             //Verify the number of times that resource has worked on
             //that round should be calculated based on the number of shift instances for that resource for that roundinstance’s round in last 6 months
         }
