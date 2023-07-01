@@ -37,14 +37,20 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             return this;
         }
         [AllureStep]
-        public SaleInvoiceLinePage InputInfo(string _lineType, string _site, string _product, string _priceElement, string _quantity, string _price, string _net = "'")
+        public SaleInvoiceLinePage InputInfo(string _lineType, string _site, string _product, string _priceElement, string _quantity, string _price, string _net = "")
         {
             SelectTextFromDropDown(lineType, _lineType);
+            WaitForLoadingIconToDisappear();
             SelectTextFromDropDown(site, _site);
+            WaitForLoadingIconToDisappear();
             SelectTextFromDropDown(product, _product);
+            WaitForLoadingIconToDisappear();
             SelectTextFromDropDown(priceElement, _priceElement);
+            WaitForLoadingIconToDisappear();
             SendKeys(quantity, _quantity);
+            WaitForLoadingIconToDisappear();
             SendKeys(price, _price);
+            WaitForLoadingIconToDisappear();
             SendKeys(netValue, _net);
             SleepTimeInMiliseconds(1000);
             return this;

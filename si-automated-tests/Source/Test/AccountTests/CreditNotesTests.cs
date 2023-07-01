@@ -391,6 +391,7 @@ namespace si_automated_tests.Source.Test.AccountTests
 
             //Check if user enter negative number or number with more than 2 decimals to Price field
             price = "100.123";
+            quantity = "12";
             PageFactoryManager.Get<SaleInvoiceLinePage>()
              .InputInfo(lineType, site, product, priceElement, quantity, price)
              .ClickSaveBtn()
