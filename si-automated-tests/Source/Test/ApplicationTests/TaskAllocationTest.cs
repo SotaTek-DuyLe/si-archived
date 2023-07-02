@@ -406,7 +406,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         }
 
         [Category("TaskAllocationTests")]
-        [Category("Huong")]
+        [Category("Chang")]
         [Test(Description = "Task allocation screen throws an error when filter today + 3 days is used")]
         public void TC_282_Task_Allocation_screen_throws_an_error_when_filter_today_plus_3_days_is_used()
         {
@@ -426,56 +426,54 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
             string toDate = CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
             string fromDate = CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 0);
-            taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.ContractSelect, Contract.Commercial);
-            taskAllocationPage.ClickOnElement(taskAllocationPage.ServiceInput);
-            taskAllocationPage.ExpandRoundNode(Contract.Commercial)
-                .ExpandRoundNode("Collections")
-                .SelectRoundNode("Commercial Collections");
-            taskAllocationPage.ClickOnElement(taskAllocationPage.FromInput);
-            taskAllocationPage.SleepTimeInMiliseconds(1000);
-            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Control + "a");
-            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Delete);
-            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, fromDate);
-            taskAllocationPage.SleepTimeInMiliseconds(3000);
-            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, toDate);
-            taskAllocationPage.ClickOnElement(taskAllocationPage.ContractSelect);
-            taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
-            taskAllocationPage.WaitForLoadingIconToDisappear(false);
-            ////Click on first [Unallocate] task
-            //taskAllocationPage
-            //    .DoubleClickOnAnyTaskInGrid("1")
-            //    .SwitchToChildWindow(1)
-            //    .WaitForLoadingIconToDisappear();
+
+            PageFactoryManager.Get<TaskAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectServices("Collections", "Commercial Collections")
+                .SendKeyInFrom(fromDate)
+                .SendKeyInTo(toDate)
+                .ClickOnGoBtn()
+                .WaitForLoadingIconToDisappear();
+            //Click on first [Unallocate] task
+            taskAllocationPage
+                .DoubleClickOnAnyTaskInGrid("1")
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
 
             ////Go to [Indicators] tab and Add 20 Indicators for tasks
             DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
-            //detailTaskPage
-            //    .IsDetailTaskPage()
-            //    .ClickOnIndicatorsTab();
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    detailTaskPage.ClickOnAddNewItemIndicatorsTab()
-            //        .IsAddIndicatorPopup()
-            //        .SelectAllIndicatorAndClickConfirm()
-            //        .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
-            //        .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
-            //}
-            //detailTaskPage
-            //    .ClickCloseBtn()
-            //    .SwitchToChildWindow(1);
+            detailTaskPage
+                .IsDetailTaskPage()
+                .ClickOnIndicatorsTab();
+            for (int i = 0; i < 5; i++)
+            {
+                detailTaskPage.ClickOnAddNewItemIndicatorsTab()
+                    .IsAddIndicatorPopup()
+                    .SelectAllIndicatorAndClickConfirm()
+                    .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            }
+            detailTaskPage
+                .SwitchToDefaultContent();
+            detailTaskPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
 
             //Drag the round and drop in the grid
             taskAllocationPage
+                .SwitchNewIFrame();
+            taskAllocationPage
                 .DragEmtyRoundInstanceToUnlocattedGrid(3)
                 .WaitForLoadingIconToDisappear();
-            taskAllocationPage.DoubleClickOnAnyTaskInGrid("1")
+            taskAllocationPage
+                .DoubleClickOnAnyTaskInGridAtRound("1")
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             //Go to [Indicators] tab and Add 20 Indicators for tasks
             detailTaskPage
                 .IsDetailTaskPage()
                 .ClickOnIndicatorsTab();
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 5; i++)
             {
                 detailTaskPage.ClickOnAddNewItemIndicatorsTab()
                     .IsAddIndicatorPopup()

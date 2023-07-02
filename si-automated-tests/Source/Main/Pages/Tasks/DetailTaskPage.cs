@@ -1996,6 +1996,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By indicatorIframe = By.XPath("//div[@id='objectIndicators-tab']/iframe");
         private readonly By addItemIndicatorTab = By.XPath("//div[@id='grid-container']//button[@title='Add']");
         private readonly By indicatorTitle = By.XPath("//div[@id='create-object-indicator']//span[text()='Indicator(s)']");
+        private readonly By indicatorButton = By.XPath("//div[@id='create-object-indicator']//button[@data-id='indicators']");
         private readonly By selectIndicatorDd = By.XPath("//div[@id='create-object-indicator']//select[@id='indicators']");
         private readonly By confirmBtnAtIndicatorPopup = By.XPath("//div[@id='create-object-indicator']//button[text()='Confirm']");
         private readonly By selectAllBtnIndicatorPopup = By.XPath("//span[text()='Assisted']/ancestor::ul/preceding-sibling::div//button[text()='Select All']");
@@ -2047,7 +2048,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         [AllureStep]
         public DetailTaskPage SelectAllIndicatorAndClickConfirm()
         {
-            ClickOnElement(selectIndicatorDd);
+            ClickOnElement(indicatorButton);
             ClickOnElement(selectAllBtnIndicatorPopup);
             ClickOnElement(confirmBtnAtIndicatorPopup);
             return this;
