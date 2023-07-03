@@ -1228,7 +1228,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             }
             else if (today.DayOfWeek == DayOfWeek.Sunday)
             {
-                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 5);
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 4);
                 endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
             }
             else if(today.DayOfWeek == DayOfWeek.Friday)
@@ -1300,6 +1300,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             List<ResourceAllocationModel> list = finder.GetResourceAllocation(116);
             var convertedStartDate = CommonUtil.StringToDateTime(startDate, "dd/MM/yyyy");
             var convertedEndDate = CommonUtil.StringToDateTime(endDate, "dd/MM/yyyy");
+
             Assert.AreEqual(convertedEndDate.Day, list[0].startdate.Day);
             Assert.AreEqual(convertedEndDate.Month, list[0].startdate.Month);
             Assert.AreEqual(convertedEndDate.Year, list[0].startdate.Year);
