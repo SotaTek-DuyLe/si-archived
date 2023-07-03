@@ -1440,42 +1440,42 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             var substitutionName = "Samuel Morse";
             var leaveType = "Holiday";
             var leaveReason = "Paid";
-            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 21);
+            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 25);
             DateTime temp = DateTime.ParseExact(startDate, "dd/MM/yyyy", null);
             if (temp.DayOfWeek == DayOfWeek.Sunday)
             {
-                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 22);
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 26);
             }
             else if (temp.DayOfWeek == DayOfWeek.Saturday)
             {
-                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 23);
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 27);
             }
 
-            string middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 22);
-            string middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 23);
+            string middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 26);
+            string middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 27);
 
             temp = DateTime.ParseExact(middleDate1, "dd/MM/yyyy", null);
             if (temp.DayOfWeek == DayOfWeek.Sunday)
             {
-                middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 23);
-                middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 24);
+                middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 27);
+                middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 28);
             }
             else if (temp.DayOfWeek == DayOfWeek.Saturday)
             {
-                middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 24);
-                middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 25);
+                middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 28);
+                middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 29);
             }
 
 
-            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 28);
+            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 32);
             temp = DateTime.ParseExact(endDate, "dd/MM/yyyy", null);
             if (temp.DayOfWeek == DayOfWeek.Sunday)
             {
-                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 29);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 33);
             }
             else if (temp.DayOfWeek == DayOfWeek.Saturday)
             {
-                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 30);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 34);
             }
 
             var details = CommonUtil.GetRandomString(5);
