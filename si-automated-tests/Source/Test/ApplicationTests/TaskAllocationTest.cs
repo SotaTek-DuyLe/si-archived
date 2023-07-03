@@ -9,6 +9,7 @@ using si_automated_tests.Source.Main.Models.Applications;
 using si_automated_tests.Source.Main.Pages;
 using si_automated_tests.Source.Main.Pages.Applications;
 using si_automated_tests.Source.Main.Pages.NavigationPanel;
+using si_automated_tests.Source.Main.Pages.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -405,6 +406,88 @@ namespace si_automated_tests.Source.Test.ApplicationTests
         }
 
         [Category("TaskAllocationTests")]
+        [Category("Chang")]
+        [Test(Description = "Task allocation screen throws an error when filter today + 3 days is used")]
+        public void TC_282_Task_Allocation_screen_throws_an_error_when_filter_today_plus_3_days_is_used()
+        {
+            PageFactoryManager.Get<LoginPage>()
+               .GoToURL(WebUrl.MainPageUrl);
+            PageFactoryManager.Get<LoginPage>()
+                .IsOnLoginPage()
+                .Login(AutoUser39.UserName, AutoUser39.Password)
+                .IsOnHomePage(AutoUser39);
+            PageFactoryManager.Get<NavigationBase>()
+                .ClickMainOption(MainOption.Applications)
+                .OpenOption("Task Allocation")
+                .WaitForLoadingIconToDisappear();
+            PageFactoryManager.Get<NavigationBase>()
+                .SwitchNewIFrame();
+            TaskAllocationPage taskAllocationPage = PageFactoryManager.Get<TaskAllocationPage>();
+            string toDate = CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 1);
+            string fromDate = CommonUtil.GetUtcTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 0);
+
+            PageFactoryManager.Get<TaskAllocationPage>()
+                .SelectContract(Contract.Commercial)
+                .SelectServices("Collections", "Commercial Collections")
+                .SendKeyInFrom(fromDate)
+                .SendKeyInTo(toDate)
+                .ClickOnGoBtn()
+                .WaitForLoadingIconToDisappear();
+            //Click on first [Unallocate] task
+            taskAllocationPage
+                .DoubleClickOnAnyTaskInGrid("1")
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+
+            ////Go to [Indicators] tab and Add 20 Indicators for tasks
+            DetailTaskPage detailTaskPage = PageFactoryManager.Get<DetailTaskPage>();
+            detailTaskPage
+                .IsDetailTaskPage()
+                .ClickOnIndicatorsTab();
+            for (int i = 0; i < 5; i++)
+            {
+                detailTaskPage
+                    .ClickOnAddNewItemIndicatorsTab()
+                    .IsAddIndicatorPopup()
+                    .SelectAllIndicatorAndClickConfirm()
+                    .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+                detailTaskPage
+                    .WaitForLoadingIconToDisappear();
+            }
+            detailTaskPage
+                .SwitchToDefaultContent();
+            detailTaskPage
+                .ClickCloseBtn()
+                .SwitchToChildWindow(1);
+
+            //Drag the round and drop in the grid
+            taskAllocationPage
+                .SwitchNewIFrame();
+            taskAllocationPage
+                .DragEmtyRoundInstanceToUnlocattedGrid(3)
+                .WaitForLoadingIconToDisappear();
+            taskAllocationPage
+                .DoubleClickOnAnyTaskInGridAtRound("1")
+                .SwitchToChildWindow(2)
+                .WaitForLoadingIconToDisappear();
+            //Go to [Indicators] tab and Add 20 Indicators for tasks
+            detailTaskPage
+                .IsDetailTaskPage()
+                .ClickOnIndicatorsTab();
+            for (int i = 0; i < 5; i++)
+            {
+                detailTaskPage.ClickOnAddNewItemIndicatorsTab()
+                    .IsAddIndicatorPopup()
+                    .SelectAllIndicatorAndClickConfirm()
+                    .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
+                    .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+            }
+            detailTaskPage
+                .VerifyToastMessagesIsUnDisplayed();
+
+        }
+
         [Category("Huong")]
         [Test(Description = "")]
         public void TC_244_Task_Confirmation()

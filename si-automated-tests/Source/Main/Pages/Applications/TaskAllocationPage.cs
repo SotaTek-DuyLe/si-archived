@@ -93,6 +93,10 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string roundWithRoundNameAndRoundGroup = "//div[@id='round-grid-container']//div[text()='{0}']/preceding-sibling::div[text()='{1}']/following-sibling::div/div";
         private readonly string firstTaskWithAssuredByRoundName = "//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']/div[contains(string(), '{0}')]";
         private readonly string firstCheckboxTask = "//div[contains(@id, 'round-tab')]//div[contains(string(), '{0}')]/preceding-sibling::div[contains(@class, 'l1')]";
+        private readonly string anyCheckboxTask = "//div[@id='unallocated']//div[@class='grid-canvas']/div[{0}]//div[contains(@class, 'l0')]//input";
+        private readonly string anyTaskRow = "//div[contains(@id, 'unallocated')]//div[@class='grid-canvas']/div[{0}]";
+        private readonly string anyCheckboxTaskWithRound = "//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']/div[1]//div[contains(@class, 'l1')]/input";
+        private readonly string anyTaskRowWithRound = "//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']/div[{0}]";
 
         private TableElement unallocatedTableEle;
         public TableElement UnallocatedTableEle
@@ -1020,6 +1024,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             return this;
         }
         [AllureStep]
+        public TaskAllocationPage SendKeyInTo(string toDate)
+        {
+            InputCalendarDate(toDateInput, toDate);
+            return this;
+        }
+        [AllureStep]
         public TaskAllocationPage ClickOnGoBtn()
         {
             ClickOnElement(goBtn);
@@ -1062,6 +1072,22 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             a.Release().Perform();
             WaitForLoadingIconToDisappear();
             return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage DoubleClickOnAnyTaskInGrid(string row)
+        {
+            ClickOnElement(anyCheckboxTask, row);
+            DoubleClickOnElement(anyTaskRow, row);
+            return PageFactoryManager.Get<DetailTaskPage>();
+        }
+
+        [AllureStep]
+        public DetailTaskPage DoubleClickOnAnyTaskInGridAtRound(string row)
+        {
+            ClickOnElement(anyCheckboxTaskWithRound, row);
+            DoubleClickOnElement(anyTaskRowWithRound, row);
+            return PageFactoryManager.Get<DetailTaskPage>();
         }
 
         [AllureStep]
