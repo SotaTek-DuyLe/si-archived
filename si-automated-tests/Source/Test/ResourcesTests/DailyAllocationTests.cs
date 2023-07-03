@@ -1451,7 +1451,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 27);
             }
 
-            string middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 24);
+            string middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 26);
             string middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 27);
 
             temp = DateTime.ParseExact(middleDate1, "dd/MM/yyyy", null);
