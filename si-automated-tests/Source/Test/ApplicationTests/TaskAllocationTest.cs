@@ -402,6 +402,8 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<NavigationBase>()
                 .SwitchNewIFrame();
+            //wait for the selection changed
+            taskAllocationPage.SleepTimeInMiliseconds(5000);
             taskAllocationPage.IsSelectionCorrect(Contract.Municipal);
         }
 

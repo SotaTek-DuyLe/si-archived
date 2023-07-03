@@ -152,8 +152,17 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             SelectTextFromDropDown(contractSelect, contract);
             ClickOnElement(servicesInput);
-            ClickOnElement(serviceExpandIcon, service);
-            ClickOnElement(serviceOption, subService);
+            SleepTimeInMiliseconds(1000);
+            if (IsControlUnDisplayed(By.XPath(string.Format("//a[contains(@class,'jstree-anchor') and text()='{0}']//parent::li[@aria-expanded='true']", service))))
+            {
+                ClickOnElement(serviceExpandIcon, service);
+            }
+            
+            if (IsControlUnDisplayed(By.XPath(string.Format("//a[contains(@class,'jstree-clicked') and text()='{0}']", subService))))
+            {
+                ClickOnElement(serviceOption, subService);
+            }
+            
             if(!string.IsNullOrEmpty(date)) SendKeys(dateInput, date);
             ClickOnElement(goBtn);
             WaitForLoadingIconToDisappear();
@@ -174,7 +183,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public MasterRoundManagementPage IsSelectionCorrect(string contract)
         {
             VerifySelectedValue(contractSelect, contract);
-            Assert.IsTrue(IsControlDisplayed(By.XPath("//a[@class='jstree-anchor jstree-clicked' and text()='Domestic Refuse']")));
+            ClickOnElement(servicesInput);
+            Assert.IsTrue(IsControlDisplayed(By.XPath("//a[contains(@class, 'jstree-clicked') and text()='Domestic Refuse']")));
             return this;
         }
 

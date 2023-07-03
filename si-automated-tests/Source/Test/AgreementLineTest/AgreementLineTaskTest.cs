@@ -800,7 +800,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                .IsOnPartyAgreementPage()
                .SelectAgreementType("Commercial Collections")
                .ClickSaveBtn()
-               .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, false);
+               .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, true);
             PageFactoryManager.Get<PartyAgreementPage>().ClickAddService();
             PageFactoryManager.Get<AddServicePage>()
                 .IsOnAddServicePage();
@@ -852,7 +852,7 @@ namespace si_automated_tests.Source.Test.AggrementLineTest
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartyAgreementPage>()
                .ClickSaveBtn()
-               .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, false)
+               .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, true)
                .WaitForLoadingIconToDisappear();
 
             var partyAgreementPage = PageFactoryManager.Get<PartyAgreementPage>();

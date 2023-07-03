@@ -304,7 +304,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickFinish();
             partyAgreementPage
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, true)
                 .WaitForLoadingIconToDisappear();
             partyAgreementPage
                 .ClosePartyAgreementPage()
@@ -320,7 +320,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             partyAgreementPage
                 .ClickRemoveAgreementBtn()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, true)
                 .WaitForLoadingIconToDisappear();
             partyAgreementPage.WaitForLoadingIconToDisappear();
             partyAgreementPage.VerifyServicePanelUnDisplayAfterClickRemove(count);

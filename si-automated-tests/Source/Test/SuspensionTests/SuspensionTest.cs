@@ -68,7 +68,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClickNewVerTaskTab()
+                .ClickNewVerSuspensionTab()
                 .WaitForLoadingIconToDisappear();
             //Add New Suspension
             PageFactoryManager.Get<PartySuspensionPage>().ClickAddNewSuspension();
@@ -177,7 +177,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClickNewVerTaskTab()
+                .ClickNewVerSuspensionTab()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<PartySuspensionPage>().ClickRefreshBtn()
                 .WaitForLoadingIconToDisappear()
@@ -261,7 +261,7 @@ namespace si_automated_tests.Source.Test.SuspensionTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
-                .ClickNewVerTaskTab()
+                .ClickNewVerSuspensionTab()
                 .WaitForLoadingIconToDisappear();
             //Add New Suspension
             PageFactoryManager.Get<PartySuspensionPage>().ClickAddNewSuspension();

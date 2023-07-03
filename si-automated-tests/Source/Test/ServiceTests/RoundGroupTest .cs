@@ -972,7 +972,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
 
             //Verify whether user able to Retire QC
             roundGroupPage.ClickRetireQC(0);
-            roundGroupPage.VerifyToastMessage("Successfully retired Required Qualification");
+            roundGroupPage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
             roundGroupPage.WaitForLoadingIconToDisappear();
             roundGroupPage.WaitForLoadingIconToDisappear();
             roundGroupPage.VerifyRetireQualification();
