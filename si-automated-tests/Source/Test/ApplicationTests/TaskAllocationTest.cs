@@ -447,11 +447,14 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .ClickOnIndicatorsTab();
             for (int i = 0; i < 5; i++)
             {
-                detailTaskPage.ClickOnAddNewItemIndicatorsTab()
+                detailTaskPage
+                    .ClickOnAddNewItemIndicatorsTab()
                     .IsAddIndicatorPopup()
                     .SelectAllIndicatorAndClickConfirm()
                     .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)
                     .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
+                detailTaskPage
+                    .WaitForLoadingIconToDisappear();
             }
             detailTaskPage
                 .SwitchToDefaultContent();
