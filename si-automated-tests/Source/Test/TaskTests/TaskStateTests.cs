@@ -786,7 +786,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ScrollMaxToTheRightOfGrid();
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ClicKCompletedDateAtFirstColumn()
-                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2));
+                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 2));
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -882,7 +882,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnBulkUpdateBtn()
                 .SelectStatusInBulkUpdatePopup("Completed")
                 .ClickCompletedDateAtBulkUpdate()
-                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2))
+                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 2))
                 .ClickOnConfirmBtn()
                 .VerifyToastMessages(new List<string> { saveToast, saveToast, saveToast });
             expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
@@ -990,7 +990,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ScrollMaxToTheRightOfGrid();
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ClicKCompletedDateAtFirstColumn()
-                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2));
+                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 2));
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -1085,7 +1085,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnBulkUpdateBtn()
                 .SelectStatusInBulkUpdatePopup("Completed")
                 .ClickCompletedDateAtBulkUpdate()
-                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2))
+                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 2))
                 .ClickOnConfirmBtn()
                 .VerifyToastMessages(new List<string> { saveToast, saveToast, saveToast });
             expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
@@ -1189,7 +1189,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ScrollMaxToTheRightOfGrid();
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ClicKCompletedDateAtFirstColumn()
-                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2));
+                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 2));
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
             PageFactoryManager.Get<CommonBrowsePage>()
@@ -1290,7 +1290,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SelectStatusInBulkUpdatePopup("Not Completed")
                 .SelectResolutionCodeInBulkUpdatePopup("random")
                 .ClickEndDateAtBulkUpdate()
-                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2))
+                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 2))
                 .ClickOnConfirmBtn()
                 .VerifyToastMessages(new List<string> { saveToast, saveToast, saveToast });
             expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
@@ -1492,7 +1492,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnBulkUpdateBtn()
                 .SelectStatusInBulkUpdatePopup("Not Completed")
                 .ClickEndDateAtBulkUpdate()
-                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2))
+                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 2))
                 .ClickOnConfirmBtn()
                 .VerifyToastMessages(new List<string> { saveToast, saveToast, saveToast });
             expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
@@ -1523,7 +1523,19 @@ namespace si_automated_tests.Source.Test.TaskTests
             {
                 dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -7);
             }
-            string description = "Tesco Superstore, 20-28 BROAD STREET, TEDDINGTON, TW11 8RF";
+            string description = "";
+            if (temp.DayOfWeek == DayOfWeek.Tuesday)
+            {
+                description = "Starbucks Sainsburys, STARBUCKS AT, 361 LOWER RICHMOND ROAD, RICHMOND, TW9 4LT";
+            }
+            else if (temp.DayOfWeek == DayOfWeek.Friday)
+            {
+                description = "Sainsburys Local Barnes, GROUND FLOOR, 9-11 WHITE HART LANE, BARNES, LONDON, SW13 0PX";
+            }
+            else
+            {
+                description = "Sainsburys Richmond, SAINSBURYS, 361 LOWER RICHMOND ROAD, RICHMOND, TW9 4LT";
+            }
 
 
             PageFactoryManager.Get<LoginPage>()
@@ -1651,7 +1663,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnBulkUpdateBtn()
                 .SelectStatusInBulkUpdatePopup("Cancelled")
                 .ClickEndDateAtBulkUpdate()
-                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2))
+                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 2))
                 .ClickOnConfirmBtn()
                 .VerifyToastMessages(new List<string> { saveToast, saveToast, saveToast });
             expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
@@ -1802,7 +1814,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickOnBulkUpdateBtn()
                 .SelectStatusInBulkUpdatePopup("Cancelled")
                 .ClickEndDateAtBulkUpdate()
-                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd", 2))
+                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 2))
                 .ClickOnConfirmBtn()
                 .VerifyToastMessages(new List<string> { saveToast, saveToast, saveToast });
             expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);

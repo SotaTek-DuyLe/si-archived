@@ -3,6 +3,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Core.WebElements;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +12,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
 {
     public class ServiceDataManagementPage : BasePageCommonActions
     {
+        public readonly By EffectiveDateInput = By.Id("effective-date");
         public readonly By ServiceLocationTypeSelect = By.XPath("//div[@id='screen1']//select[@id='type']");
         public readonly By NextButton = By.XPath("//div[@id='screen1']//button[@id='next-button']");
         public readonly By PreviousButton = By.XPath("//div[@id='screen2']//button[contains(string(), 'Previous')]");
@@ -25,6 +27,12 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By ClearFilterBtn = By.XPath("//div[@id='screen1']//button[@id='clear-filters-button']");
 
         public readonly By SelectAndDeselectAllCheckbox = By.XPath("//div[@id='point-grid']//div[@title='Select/Deselect All']//input");
+
+        private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-2')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]", "./i[contains(@class, 'jstree-ocl')][1]");
+        private TreeViewElement ServicesTreeView
+        {
+            get => _treeViewElement;
+        }
 
         /// <summary>
         /// SDM: Service Data Management
@@ -71,6 +79,80 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 }
                 return serviceDataManagementTableElement;
             }
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage ClickInputService()
+        {
+            ClickOnElement("(//input[@class='form-control hasTreeSelect'])[2]");
+            return this;
+        }
+        
+        [AllureStep]
+        public ServiceDataManagementPage ClickTextServiceDataManagement()
+        {
+            ClickOnElement("//div[@id='screen2']//b[text()='Service Data Management']");
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage SelectServiceNode(string nodeName)
+        {
+            ServicesTreeView.ClickItem(nodeName);
+            return this;
+        }
+        
+        [AllureStep]
+        public ServiceDataManagementPage ExpandServiceNode(string nodeName)
+        {
+            ServicesTreeView.ExpandNode(nodeName);
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage VerifyAssuredTaskDisplay(string taskType, bool isDisplay)
+        {
+            var taskTypes = GetAllElements(By.XPath("//table[@id='master-table']//thead//tr[@class='service-task-row']//td[@class='add-column']"));
+            int taskTypeIndex = -1;
+            for (int i = 0; i < taskTypes.Count; i++)
+            {
+                string title = taskTypes[i].GetAttribute("title").ToLower().Trim();
+                if (title == taskType)
+                {
+                    taskTypeIndex = i;
+                    break;
+                }
+            }
+            if(!isDisplay && taskTypeIndex == -1)
+            {
+                return this;
+            }
+            var serviceTaskSchedules = GetAllElements("//table[@id='master-table']//tbody//span[contains(@data-bind, 'serviceTaskSchedule')]");
+            var serviceTaskSchedule = serviceTaskSchedules[taskTypeIndex];
+            var imgs = serviceTaskSchedule.FindElements(By.XPath("./img[@data-bind='visible: serviceTask.isAssured']"));
+            if (isDisplay)
+            {
+                Assert.IsTrue(imgs.Count != 0 && imgs[0].Displayed);
+            }
+            else
+            {
+                Assert.IsFalse(imgs.Count != 0 && imgs[0].Displayed);
+            }
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage SelectRow(int rowIdx)
+        {
+            ServiceDataManagementTableElement.ClickCell(rowIdx, ServiceDataManagementTableElement.GetCellIndex(SDMCheckboxXPath));
+            return this;
+        }
+
+        [AllureStep]
+        public ServiceDataManagementPage InputDescription(string description)
+        {
+            SetInputValue(By.XPath("//div[@class='ui-state-default slick-headerrow-column l3 r3']//input"), description);
+            return this;
         }
 
         [AllureStep]

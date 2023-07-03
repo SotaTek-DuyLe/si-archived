@@ -46,6 +46,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By ServiceInput = By.XPath("//input[@id='services']");
         public readonly By UnallocatedTable = By.XPath("//div[@id='unallocated']//div[@class='grid-canvas']");
         public readonly By LockFilterInput = By.XPath("//div[contains(@id, 'round-tab')]//div[contains(@class, 'l27')]//input");
+        public readonly By ServiceUnitGroupFilterInput = By.XPath("//div[contains(@id, 'round-tab')]//div[contains(@class, 'slick-headerrow-column l16 r16')]//input");
+        public readonly By OriginalRoundFilterInput = By.XPath("//div[contains(@id, 'round-tab')]//div[contains(@class, 'slick-headerrow-column l23 r23')]//input");
         public readonly By IdFilterInput = By.XPath("//div[contains(@id, 'round-tab')]//div[contains(@class, 'l3')]//input");
         public readonly By DescriptionFilterInput = By.XPath("//div[contains(@id, 'round-tab') and contains(@class, 'active')]//div[contains(@class, 'l4')]//input");
         public readonly By ToggleRoundLegsButton = By.XPath("//button[@id='t-toggle-roundlegs']");
@@ -193,6 +195,19 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public By GetAllocatingConfirmMsg(int count) 
         {
             return By.XPath($"//div[text()='Allocating {count} Task(s) onto Round Instance for a different day!']");
+        }
+
+        [AllureStep]
+        public TaskAllocationPage InputFriday(DateTime startDate, DateTime endDate)
+        {
+            var startFriday = startDate.AddDays(-(int)startDate.DayOfWeek).AddDays(5);
+            var endFriday = endDate.AddDays(-(int)endDate.DayOfWeek).AddDays(5);
+            ClickOnElement(FromInput);
+            SleepTimeInMiliseconds(1000);
+            InputCalendarDate(FromInput, startFriday.ToString("dd/MM/yyyy"));
+            SleepTimeInMiliseconds(3000);
+            InputCalendarDate(ToInput, endFriday.ToString("dd/MM/yyyy"));
+            return this;
         }
 
         [AllureStep]
@@ -346,6 +361,16 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             Assert.IsTrue(borderLeft.Contains("rgba(0, 128, 0, 1)"));
             return this;
         }
+
+        [AllureStep]
+        public TaskAllocationPage VerifyTaskAssured(bool isAssured)
+        {
+            string assured = isAssured ? "✓" : "✗";
+            IWebElement assuredCell = GetElement("(//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']//div[contains(@class, 'slick-cell l27 r27')])[2]");
+            Assert.IsTrue(assuredCell.Text == assured);
+            return this;
+        }
+
         [AllureStep]
         public TaskAllocationPage UnallocatedHorizontalScrollToElement(By element, bool isScrollRight = true)
         {

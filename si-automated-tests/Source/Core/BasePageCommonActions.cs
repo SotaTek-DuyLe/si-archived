@@ -84,6 +84,26 @@ namespace si_automated_tests.Source.Core
         }
 
         [AllureStep]
+        public BasePageCommonActions SetCheckboxValue(string xpath, bool isChecked)
+        {
+            return SetCheckboxValue(By.XPath(xpath), isChecked);
+        }
+
+        [AllureStep]
+        public BasePageCommonActions SetCheckboxValue(By xpath, bool isChecked)
+        {
+            if (GetCheckboxValue(xpath))
+            {
+                if (!isChecked) ClickOnElement(xpath);
+            }
+            else
+            {
+                if (isChecked) ClickOnElement(xpath);
+            }
+            return this;
+        }
+
+        [AllureStep]
         public BasePageCommonActions VerifyCheckboxIsSelected(string xpath, bool isSelected)
         {
             Assert.IsTrue(isSelected ? GetCheckboxValue(xpath) : !GetCheckboxValue(xpath));
