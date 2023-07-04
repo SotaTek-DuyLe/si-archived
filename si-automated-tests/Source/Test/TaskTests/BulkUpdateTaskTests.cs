@@ -683,7 +683,6 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<DetailPartyPage>()
                 .WaitForDetailPartyPageLoadedSuccessfully(partyName)
                 //Click [Task] tab
-                .ClickTabDropDown()
                 .ClickTasksTab()
                 .WaitForLoadingIconToDisappear();
             string taskId = "26";

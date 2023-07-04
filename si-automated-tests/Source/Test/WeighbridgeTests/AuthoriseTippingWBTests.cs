@@ -99,10 +99,6 @@ namespace si_automated_tests.Source.Test.WeighbridgeTests
                 .VerifyDisplayGreenBoderInLicenceNumberExField()
                 .InputLienceNumberExField(CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2))
                 .InputLicenceNumber(CommonUtil.GetRandomNumber(5))
-                .ClickSaveBtn()
-                .WaitForLoadingIconToDisappear();
-            detailPartyPage
-                .VerifyDisplayMesInCorresspondenAddressField()
                 .ClickAddCorrespondenceAddress()
                 .SwitchToLastWindow();
             PartySiteAddressPage partySiteAddressPage = PageFactoryManager.Get<PartySiteAddressPage>();
