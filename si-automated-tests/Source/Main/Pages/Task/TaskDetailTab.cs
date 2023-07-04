@@ -31,7 +31,10 @@ namespace si_automated_tests.Source.Main.Pages
         private string purchaseOrderValue = "//div[text()='Purchase Order #']/following-sibling::div[text()='{0}']";
 
         //Calendar
-        private readonly string futreDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@class,'open') and contains(@style,'z-index:')]//td[contains(@class,'day') and not(contains(@class,'disable')) and text()='{0}'])[last()]";
+        private readonly string oldDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@class,'open') and contains(@style,'z-index:')]//td[contains(@class,'day') and not(contains(@class,'disable')) and contains(@class,'old') and text()='{0}'])[last()]";
+        private readonly string currentDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@class,'open') and contains(@style,'z-index:')]//td[contains(@class,'day') and not(contains(@class,'disable')) and not(contains(@class,'new')) and not(contains(@class,'old')) and text()='{0}'])[last()]";
+        private readonly string futureDayNumberInCalendar = "(//div[contains(@class,'bootstrap-datetimepicker-widget') and contains(@class,'open') and contains(@style,'z-index:')]//td[contains(@class,'day') and not(contains(@class,'disable')) and contains(@class,'new') and text()='{0}'])[last()]";
+
         private readonly string calendarIcon = "//label[contains(text(),'{0}')]/following-sibling::div//img";
         [AllureStep]
         public TaskDetailTab IsOnTaskDetailTab()
@@ -163,7 +166,26 @@ namespace si_automated_tests.Source.Main.Pages
         public TaskDetailTab SelectDateFromCalendar(string field, string date)
         {
             ClickOnElement(calendarIcon, field);
-            ClickOnElement(futreDayNumberInCalendar, date);
+            var temp = DateTime.ParseExact(date, "dd/MM/yyyy", null);
+            var now = DateTime.ParseExact(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 0), "dd/MM/yyyy", null);
+
+            if (temp.Month < now.Month)
+            {
+                ClickOnElement(oldDayNumberInCalendar, temp.Day.ToString());
+
+            }
+            else if (temp.Month == now.Month)
+            {
+                ClickOnElement(currentDayNumberInCalendar, temp.Day.ToString());
+
+            }
+            else
+            {
+                ClickOnElement(futureDayNumberInCalendar, temp.Day.ToString());
+
+            }
+
+
             return this;
         }
     }

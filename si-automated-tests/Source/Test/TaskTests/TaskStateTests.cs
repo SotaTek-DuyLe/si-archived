@@ -1862,7 +1862,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnTaskDetailTab()
                 .ClickStateDetais()
                 .ChooseTaskState(stateName)
-                .SelectDateFromCalendar("Completion Date", CommonUtil.GetCustomUtcDay(2, "d")) //future day
+                .SelectDateFromCalendar("Completion Date", CommonUtil.GetUtcTimeMinusDay("dd/MM/yyyy", 2)) //future day
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskDetailTab>()
@@ -1879,8 +1879,8 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnTaskDetailTab()
                 .ClickStateDetais()
                 .ChooseTaskState(stateName)
-                .SelectDateFromCalendar("Completion Date", CommonUtil.GetCustomUtcDay(2, "d")) //future day
-                .SelectDateFromCalendar("End Date", CommonUtil.GetCustomUtcDay(0, "d")) //past day
+                .SelectDateFromCalendar("Completion Date", CommonUtil.GetUtcTimeMinusDay("dd/MM/yyyy", 2)) //future day
+                .SelectDateFromCalendar("End Date", CommonUtil.GetUtcTimeMinusDay("dd/MM/yyyy", 0)) //past day
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskDetailTab>()
@@ -1897,7 +1897,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnTaskDetailTab()
                 .ClickStateDetais()
                 .ChooseTaskState(stateName)
-                .SelectDateFromCalendar("End Date", CommonUtil.GetCustomUtcDay(3, "d")) //future day
+                .SelectDateFromCalendar("End Date", CommonUtil.GetUtcTimeMinusDay("dd/MM/yyyy", 3)) //future day
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskDetailTab>()
@@ -1935,13 +1935,14 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskId = commonFinder.GetRandomTaskId();
             url = WebUrl.MainPageUrl + "web/tasks/" + taskId;
             var date = CommonUtil.GetRandomNumberBetweenRange(1, 5);
+            Console.WriteLine(date);
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(url);
             PageFactoryManager.Get<TaskDetailTab>()
                 .IsOnTaskDetailTab()
                 .ClickStateDetais()
                 .ChooseTaskState(stateName)
-                .SelectDateFromCalendar("End Date", CommonUtil.GetCustomUtcDay(date, "d")) //any day
+                .SelectDateFromCalendar("End Date", CommonUtil.GetUtcTimeMinusDay("dd/MM/yyyy", date)) //any day
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskDetailTab>()
@@ -1958,8 +1959,8 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .IsOnTaskDetailTab()
                 .ClickStateDetais()
                 .ChooseTaskState(stateName)
-                .SelectDateFromCalendar("Completion Date", CommonUtil.GetCustomUtcDay(CommonUtil.GetRandomNumberBetweenRange(-3, 3), "d")) //any day
-                .SelectDateFromCalendar("End Date", CommonUtil.GetCustomUtcDay(date, "d")) //any day
+                .SelectDateFromCalendar("Completion Date", CommonUtil.GetUtcTimeMinusDay("dd/MM/yyyy", CommonUtil.GetRandomNumberBetweenRange(-3, 3))) //any day
+                .SelectDateFromCalendar("End Date", CommonUtil.GetUtcTimeMinusDay("dd/MM/yyyy", date)) //any day
                 .ClickSaveBtn()
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<TaskDetailTab>()

@@ -776,12 +776,6 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 ClickOnElement(futureDayNumberInCalendar, temp.Day.ToString());
 
             }
-
-            //if (dayOfMonth.StartsWith("0"))
-            //{
-            //    dayOfMonth = dayOfMonth.Substring(1);
-            //}
-            //ClickOnElement(futureDayNumberInCalendar, dayOfMonth);
             return this;
         }
 
