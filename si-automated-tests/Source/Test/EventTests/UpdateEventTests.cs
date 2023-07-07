@@ -69,12 +69,26 @@ namespace si_automated_tests.Source.Test.EventTests
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             string timeNow = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT);
+            DateTime today = DateTime.Today;
+            string dueDate;
+            if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
+            }
+            else
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
+            }
             //Check [History] tab
             eventDetailPage
                 .ClickHistoryTab()
                 .WaitForLoadingIconToDisappear();
             List<string> allAllocatedUnitEventForm = eventDetailPage
-                .VerifyHistoryData(timeNow, timeNow, nameInDataTab, noteInDataTab, "New", AutoUser60.DisplayName)
+                .VerifyHistoryData(timeNow, dueDate, nameInDataTab, noteInDataTab, "New", AutoUser60.DisplayName)
                 //Get All value in [Allocated Unit]
                 .ExpandDetailToggle()
                 .ClickOnAllocatedUnit()

@@ -77,6 +77,11 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By next = By.CssSelector("div.parent-row span[data-bind='text: ew.formatDateForUser($data.nextDate)']");
         private readonly By assetType = By.CssSelector("div.parent-row div[data-bind='foreach: $data.asset']");
         private readonly By allocation = By.XPath("//div[@class='parent-row']//span[contains(@data-bind, 'text: $parents[0].getParentAllocationText($data)')]");
+        private readonly By addNewCWActionBinTasklinesBtn = By.XPath("//label[text()='CW Action/Bin/Task Lines']/following-sibling::div/button");
+        private readonly By firstActionCWAction = By.XPath("//label[text()='Action']/following-sibling::select");
+        private readonly By firstBinCWAction = By.XPath("//label[text()='Bin']/following-sibling::select");
+        private readonly string firstActionCWActionOption = "//label[text()='Action']/following-sibling::select/option[text()='{0}']";
+        private readonly string firstBinCWActionOption = "//label[text()='Bin']/following-sibling::select/option[text()='{0}']";
 
         //CHRILD
         private readonly By scheduleChildRow = By.XPath("//div[@class='services-grid--root']/div[@class='services-grid--row']//div[@class='child-row' and not(contains(@style, 'display: none'))]//div[@data-bind='text: $data']");
@@ -136,7 +141,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         private readonly By stateInHistoryTab = By.XPath("//span[text()='State']/following-sibling::span[@data-bind='text: $data.value'][1]");
         private readonly By stateOfEventInHistoryTab = By.XPath("//strong[text()='Create Event - Event']/following-sibling::div/span[text()='State']/following-sibling::span[@data-bind='text: $data.value'][1]");
         private readonly By eventDateInHistoryTab = By.XPath("//span[text()='Event date']/following-sibling::span[@data-bind='text: $data.value'][1]");
-        private readonly By dueDateInHistoryTab = By.XPath("//span[text()='Due date']/following-sibling::span[@data-bind='text: $data.value'][1]");
+        private readonly By dueDateInHistoryTab = By.XPath("(//span[text()='Due date']/following-sibling::span[@data-bind='text: $data.value'][1])[1]");
         private readonly By createdByUserInHistoryTab = By.XPath("//strong[text()='Create Event - Event']/parent::div/following-sibling::div//strong[@data-bind='text: $data.createdByUser']");
         private readonly By createdDateInHistoryTab = By.XPath("//strong[@data-bind='text: $data.createdDate']");
         private readonly By nameInHistoryTab = By.XPath("//span[text()='Name']/following-sibling::span[1]");
@@ -444,8 +449,24 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(sourceExp, GetAttributeValue(sourceInput, "value"));
             Assert.AreEqual(statusExp, GetFirstSelectedItemInDropdown(statusDd));
             string eventDate = GetAttributeValue(eventDateInput, "value");
-            Assert.IsTrue(eventDate.Contains(CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT)));
+            Assert.IsTrue(eventDate.Contains(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT)), "Expected: " + CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT) + " but was " + eventDate);
             Assert.AreEqual("", GetFirstSelectedItemInDropdown(allocatedUnitDetailDd));
+            Assert.AreEqual("", GetFirstSelectedItemInDropdown(resolutionCodeDd));
+            Assert.AreEqual("", GetFirstSelectedItemInDropdown(assignedUserDetailDd));
+            Assert.AreEqual("", GetAttributeValue(resolvedDateInput, "value"));
+            Assert.AreEqual("", GetAttributeValue(endDateInput, "value"));
+            Assert.AreEqual("", GetAttributeValue(clientRefInput, "value"));
+            return this;
+        }
+
+        [AllureStep]
+        public EventDetailPage VerifyValueInSubDetailInformation(string sourceExp, string statusExp, string allocatedUnitValue)
+        {
+            Assert.AreEqual(sourceExp, GetAttributeValue(sourceInput, "value"));
+            Assert.AreEqual(statusExp, GetFirstSelectedItemInDropdown(statusDd));
+            string eventDate = GetAttributeValue(eventDateInput, "value");
+            Assert.IsTrue(eventDate.Contains(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT)));
+            Assert.AreEqual(allocatedUnitValue, GetFirstSelectedItemInDropdown(allocatedUnitDetailDd));
             Assert.AreEqual("", GetFirstSelectedItemInDropdown(resolutionCodeDd));
             Assert.AreEqual("", GetFirstSelectedItemInDropdown(assignedUserDetailDd));
             Assert.AreEqual("", GetAttributeValue(resolvedDateInput, "value"));
@@ -522,7 +543,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             return this;
         }
         [AllureStep]
-        public EventDetailPage VerifyHistoryWithDB(EventDBModel eventDBModel, string displayUserLogin, int userId, string lastUpdated, int lastUpdatedUserId)
+        public EventDetailPage VerifyHistoryWithDB(EventDBModel eventDBModel, string displayUserLogin, int userId)
         {
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.CreateEventEventTitle));
             Assert.AreEqual(GetElementText(stateInHistoryTab), eventDBModel.basestatedesc + ".");
@@ -530,6 +551,11 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.AreEqual(GetElementText(dueDateInHistoryTab), eventDBModel.eventduedate.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT) + ".");
             Assert.AreEqual(displayUserLogin, GetElementText(createdByUserInHistoryTab));
             Assert.AreEqual(eventDBModel.eventcreatedbyuserID, userId);
+            return this;
+        }
+        [AllureStep]
+        public EventDetailPage VerifyHistoryWithDBAfter(EventDBModel eventDBModel, string lastUpdated, int lastUpdatedUserId)
+        {
             Assert.AreEqual(eventDBModel.lastupdated.ToString(CommonConstants.DATE_DD_MM_YYYY_HH_MM_FORMAT), lastUpdated);
             Assert.AreEqual(eventDBModel.lastupdateduserID, lastUpdatedUserId);
             return this;
@@ -618,6 +644,18 @@ namespace si_automated_tests.Source.Main.Pages.Events
         public EventDetailPage ClickDataSubTab()
         {
             ClickOnElement(anyTab, "data-tab");
+            return this;
+        }
+        [AllureStep]
+        public EventDetailPage ClickOnAddNewCWActionBinTasklinesAndAddNewOne(string actionValue, string binValue)
+        {
+            ClickOnElement(addNewCWActionBinTasklinesBtn);
+            //Action
+            ClickOnElement(firstActionCWAction);
+            ClickOnElement(firstActionCWActionOption, actionValue);
+            //Bin
+            ClickOnElement(firstBinCWAction);
+            ClickOnElement(firstBinCWActionOption, binValue);
             return this;
         }
         [AllureStep]

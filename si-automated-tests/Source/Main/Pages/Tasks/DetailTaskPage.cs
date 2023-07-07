@@ -2034,7 +2034,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage IsAddIndicatorPopup()
         {
             WaitUtil.WaitForElementVisible(indicatorTitle);
-            WaitUtil.WaitForElementVisible(selectIndicatorDd);
             WaitUtil.WaitForElementVisible(confirmBtnAtIndicatorPopup);
             return this;
         }
