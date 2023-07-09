@@ -675,7 +675,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<HistoryTab>()
                 .VerifyUpdateTaskTimeAndValue(refUpdateValue, updatedUTCTime)
-                .VerifyCreatedTaskTimeAndValue(PONumberCreatedValue, savedUTCTime)
+                .VerifyCreatedTaskTimeAndValue(PONumberCreatedValue, updatedUTCTime)
                 .CloseCurrentWindow()
                 .SwitchToChildWindow(2);
             //Back to Party and Verify Purchase order 
