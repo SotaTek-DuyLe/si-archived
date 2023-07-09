@@ -450,6 +450,8 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             {
                 detailTaskPage
                     .ClickOnAddNewItemIndicatorsTab()
+                    .WaitForLoadingIconToDisappear();
+                detailTaskPage
                     .IsAddIndicatorPopup()
                     .SelectAllIndicatorAndClickConfirm()
                     .VerifyDisplayToastMessage(MessageSuccessConstants.SuccessMessage)

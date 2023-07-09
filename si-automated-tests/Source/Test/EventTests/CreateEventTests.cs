@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using NUnit.Framework;
@@ -175,10 +176,23 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetEventId();
             string serviceUnit = eventDetailPage
                 .GetLocationName();
+            DateTime today = DateTime.Today;
+            string dueDate;
+            if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+            } else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
+            } else
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
+            }
+
             eventDetailPage
                 .ExpandDetailToggle()
-                .VerifyValueInSubDetailInformation(locationValue, "New")
-                .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
+                .VerifyValueInSubDetailInformation(locationValue, "New", "East Recycling")
+                .VerifyDueDate(dueDate)
                 .VerifyDisplayTabsAfterSaveEvent();
             string query_1 = "select * from events where eventid=" + eventId + "; ";
             SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Connection);
@@ -313,6 +327,10 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetAllPointHistory();
             eventDetailPage
                 .VerifyPointHistoryInSubTab(pointHistoryModelsInDetail, pointHistoryModelsInPointHistorySubTab);
+            //Add new [CW Action/Bin/Task Lines]
+            eventDetailPage
+                .ClickDataSubTab()
+                .ClickOnAddNewCWActionBinTasklinesAndAddNewOne("Add", "1L");
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
@@ -327,10 +345,25 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetEventId();
             string serviceUnit = eventDetailPage
                 .GetLocationName();
+            DateTime today = DateTime.Today;
+            string dueDate;
+            if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 6);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 5);
+            }
+            else
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 7);
+            }
+
             eventDetailPage
                 .ExpandDetailToggle()
-                .VerifyValueInSubDetailInformation(locationValue, "New")
-                .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
+                .VerifyValueInSubDetailInformation(locationValue, "New", "East Waste")
+                .VerifyDueDate(dueDate)
                 .VerifyDisplayTabsAfterSaveEvent();
             string query_1 = "select * from events where eventid=" + eventId + "; ";
             SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Connection);
@@ -498,10 +531,24 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetEventId();
             string serviceUnit = eventDetailPage
                 .GetLocationName();
+            DateTime today = DateTime.Today;
+            string dueDate;
+            if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
+            }
+            else
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
+            }
             eventDetailPage
                 .ExpandDetailToggle()
-                .VerifyValueInSubDetailInformation(locationValue, "New")
-                .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
+                .VerifyValueInSubDetailInformation(locationValue, "New", "West Streets & GM")
+                .VerifyDueDate(dueDate)
                 .VerifyDisplayTabsAfterSaveEvent();
             //DB - Get Event
             List<EventDBModel> eventModels = finder.GetEvent(int.Parse(eventId));
@@ -541,8 +588,8 @@ namespace si_automated_tests.Source.Test.EventTests
             CommonFinder finder = new CommonFinder(DbContext);
             string searchForSegments = "Segments";
             string idSegmentWithoutServiceUnit = "32844";
-            string eventOption = "Standard - Clear Flytip";
-            string eventType = "Clear Flytip";
+            string eventOption = "Standard - Complaint";
+            string eventType = "Complaint";
             string segmentNameWithoutServiceUnit = "Mallard Place 1 To 97 Near Strawberry Vale";
 
             List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
@@ -648,6 +695,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 //Verify Point History - sub tab display without error
                 .ClickPointHistorySubTab()
                 .WaitForLoadingIconToDisappear();
+
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
@@ -662,10 +710,24 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetEventId();
             string serviceUnit = eventDetailPage
                 .GetLocationName();
+            DateTime today = DateTime.Today;
+            string dueDate;
+            if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
+            }
+            else
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
+            }
             eventDetailPage
                 .ExpandDetailToggle()
-                .VerifyValueInSubDetailInformation(locationValue, "New")
-                .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
+                .VerifyValueInSubDetailInformation(locationValue, "New", "West Streets & GM")
+                .VerifyDueDate(dueDate)
                 .VerifyDisplayTabsAfterSaveEvent();
             //DB - Get Event
             List<EventDBModel> eventModels = finder.GetEvent(int.Parse(eventId));
@@ -824,10 +886,24 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetEventId();
             string serviceUnit = eventDetailPage
                 .GetLocationName();
+            DateTime today = DateTime.Today;
+            string dueDate;
+            if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
+            }
+            else
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 4);
+            }
             eventDetailPage
                 .ExpandDetailToggle()
-                .VerifyValueInSubDetailInformation(pointNodeName, "New")
-                .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
+                .VerifyValueInSubDetailInformation(pointNodeName, "New", "West Waste")
+                .VerifyDueDate(dueDate)
                 .VerifyDisplayTabsAfterSaveEvent();
             //DB get event info
             List<EventDBModel> eventModels = finder.GetEvent(int.Parse(eventId));
@@ -994,10 +1070,24 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetEventId();
             string serviceUnit = eventDetailPage
                 .GetLocationName();
+            DateTime today = DateTime.Today;
+            string dueDate;
+            if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
+            }
+            else
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
+            }
             eventDetailPage
                 .ExpandDetailToggle()
-                .VerifyValueInSubDetailInformation(pointAreaName, "New")
-                .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
+                .VerifyValueInSubDetailInformation(pointAreaName, "New", "West Streets & GM")
+                .VerifyDueDate(dueDate)
                 .VerifyDisplayTabsAfterSaveEvent();
             //DB get event info
             List<EventDBModel> eventModels = finder.GetEvent(int.Parse(eventId));
@@ -1170,10 +1260,24 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetEventId();
             string serviceUnit = eventDetailPage
                 .GetLocationName();
+            DateTime today = DateTime.Today;
+            string dueDate;
+            if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 3);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 2);
+            }
+            else
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 4);
+            }
             eventDetailPage
                 .ExpandDetailToggle()
-                .VerifyValueInSubDetailInformation(locationName, "New")
-                .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
+                .VerifyValueInSubDetailInformation(locationName, "New", "East Waste")
+                .VerifyDueDate(dueDate)
                 .VerifyDisplayTabsAfterSaveEvent();
             //DB get event info
             List<EventDBModel> eventModels = finder.GetEvent(int.Parse(eventId));
@@ -1282,13 +1386,13 @@ namespace si_automated_tests.Source.Test.EventTests
                 .VerifyEventTypeWhenClickEventBtn(FilterCommonServiceForPointWithServiceId)
                 .GetAllEventTypeInDd();
             PageFactoryManager.Get<PointAddressDetailPage>()
-                .ClickAnyEventOption(allEventTypes[0])
+                .ClickAnyEventOption(allEventTypes[1])
                 .SwitchToLastWindow()
                 .WaitForLoadingIconToDisappear();
             //Event detail
             eventDetailPage
                 .WaitForEventDetailDisplayed()
-                .VerifyEventType(allEventTypes[0])
+                .VerifyEventType(allEventTypes[1])
                 .ExpandDetailToggle()
                 .VerifyValueInSubDetailInformation(locationName, "New")
                 .VerifyDueDateEmpty()
@@ -1334,6 +1438,11 @@ namespace si_automated_tests.Source.Test.EventTests
 
             eventDetailPage
                 .VerifyPointHistoryInSubTab(pointHistoryDBModels, pointHistoryModelsInPointHistorySubTab);
+            ////Add new [CW Action/Bin/Task Lines]
+            //eventDetailPage
+            //    .ClickDataSubTab()
+            //    .ClickOnAddNewCWActionBinTasklinesAndAddNewOne("Add", "1L");
+
             //Line 15
             eventDetailPage
                 .ClickSaveBtn()
@@ -1348,10 +1457,24 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetEventId();
             string serviceUnit = eventDetailPage
                 .GetLocationName();
+            DateTime today = DateTime.Today;
+            string dueDate;
+            if (today.DayOfWeek == DayOfWeek.Saturday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
+            }
+            else
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
+            }
             eventDetailPage
                 .ExpandDetailToggle()
-                .VerifyValueInSubDetailInformation(locationName, "New")
-                .VerifyDueDate(CommonUtil.GetLocalTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT))
+                .VerifyValueInSubDetailInformation(locationName, "New", "Bulky & Containers")
+                .VerifyDueDate(dueDate)
                 .VerifyDisplayTabsAfterSaveEvent();
             string query_1 = "select * from events where eventid=" + eventId + "; ";
             SqlCommand commandInspection = new SqlCommand(query_1, DbContext.Connection);

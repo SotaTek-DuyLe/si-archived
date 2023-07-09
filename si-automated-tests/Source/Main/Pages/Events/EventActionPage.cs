@@ -24,7 +24,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         [AllureStep]
         public EventActionPage IsEventActionPage()
         {
-            WaitUtil.WaitForElementVisible(allocatedUnitDd);
+            WaitUtil.WaitForElementVisible(dataTab);
             Assert.IsTrue(IsControlDisplayed(dataTab));
             Assert.IsTrue(IsControlDisplayed(allocatedUnitDd));
             Assert.IsTrue(IsControlDisplayed(allocatedUserDd));

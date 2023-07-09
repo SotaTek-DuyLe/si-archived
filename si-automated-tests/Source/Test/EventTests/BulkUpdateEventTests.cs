@@ -51,6 +51,10 @@ namespace si_automated_tests.Source.Test.EventTests
             string[] eventTypes = { "Complaint", "Complaint" };
             string[] eventServices = { "Bulky Collections", "Clinical Waste" };
             string[] eventAddress = { "6 RALEIGH ROAD, RICHMOND, TW9 2DX", "4A RALEIGH ROAD, RICHMOND, TW9 2DX" };
+
+            //Get DB
+            List<EventDBModel> firstEventModelsBefore = finder.GetEvent(int.Parse(firstEventId));
+            List<EventDBModel> secondEventModelsBefore = finder.GetEvent(int.Parse(secondEventId));
             List<EventInBulkUpdateEventModel> eventInBulkUpdateEventModels = eventBulkUpdatePage
                 .IsEventBulkUpdatePage()
                 .GetAllEventInPage();
@@ -93,7 +97,8 @@ namespace si_automated_tests.Source.Test.EventTests
             List<EventDBModel> secondEventModels = finder.GetEvent(int.Parse(secondEventId));
             //First event
             eventDetailPage
-                .VerifyHistoryWithDB(firstEventModels[0], "josie", 2, updatedTime, 1099)
+                .VerifyHistoryWithDB(firstEventModelsBefore[0], "josie", 2)
+                .VerifyHistoryWithDBAfter(firstEventModels[0], updatedTime, 1099)
                 .VerifyRecordInHistoryTabAfterAddNote(AutoUser53.DisplayName)
                 .VerifyNotesAfterAddNote(notesValue)
                 .ClickCloseBtn()
@@ -113,7 +118,8 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickHistoryTab()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
-                .VerifyHistoryWithDB(secondEventModels[0], "A User", 3, updatedTime, 1099)
+                .VerifyHistoryWithDB(secondEventModelsBefore[0], "A User", 3)
+                .VerifyHistoryWithDBAfter(secondEventModels[0], updatedTime, 1099)
                 .VerifyRecordInHistoryTabAfterAddNote(AutoUser53.DisplayName)
                 .VerifyNotesAfterAddNote(notesValue);
 
