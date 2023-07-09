@@ -579,7 +579,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Commercial Collections")
                 .ExpandOption("Round Groups")
                 .ExpandOption("REF1-AM")
-                .OpenOption("Monday ")
+                .OpenOption("Monday")
                 .SwitchToFrame(By.XPath("//iframe[@name='main']"));
 
             PageFactoryManager.Get<RoundGroupPage>()
@@ -772,7 +772,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Commercial Collections")
                 .ExpandOption("Round Groups")
                 .ExpandOption("REF1-AM")
-                .OpenLastOption("Monday ")
+                .OpenLastOption("Monday")
                 .SwitchNewIFrame();
             DateTime startDate = DateTime.Now;
             DateTime endDate = DateTime.Now.AddYears(1);

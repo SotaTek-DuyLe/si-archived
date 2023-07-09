@@ -654,7 +654,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
 
             string savedUTCTime = PageFactoryManager.Get<TaskDetailTab>()
                 .ClickSaveBtnGetUTCTime();
-            string updatedUTCTime = CommonUtil.GetTimeMinusHour(savedUTCTime, "dd/MM/yyyy hh:mm", 1);
+            string updatedUTCTime = CommonUtil.GetTimeMinusHour(savedUTCTime, "dd/MM/yyyy HH:mm", 1);
 
             PageFactoryManager.Get<BasePage>()
                 .VerifyToastMessage("Success")
@@ -675,7 +675,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .WaitForLoadingIconToDisappear();
             PageFactoryManager.Get<HistoryTab>()
                 .VerifyUpdateTaskTimeAndValue(refUpdateValue, updatedUTCTime)
-                .VerifyCreatedTaskTimeAndValue(PONumberCreatedValue, savedUTCTime)
+                .VerifyCreatedTaskTimeAndValue(PONumberCreatedValue, updatedUTCTime)
                 .CloseCurrentWindow()
                 .SwitchToChildWindow(2);
             //Back to Party and Verify Purchase order 
