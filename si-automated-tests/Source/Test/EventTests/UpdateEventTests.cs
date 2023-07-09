@@ -109,7 +109,7 @@ namespace si_automated_tests.Source.Test.EventTests
             //Allocate event
             eventDetailPage
                 .ClickAllocateEventInEventActionsPanel()
-                .SwitchToLastWindow()
+                .SwitchToChildWindow(4)
                 .WaitForLoadingIconToDisappear();
 
             //EVENT ACTION

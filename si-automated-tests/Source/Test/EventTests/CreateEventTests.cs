@@ -1318,7 +1318,6 @@ namespace si_automated_tests.Source.Test.EventTests
             string eventIdWithServiceUnit = "2";
             List<EventDBModel> eventDBModels = finder.GetEvent(int.Parse(eventIdWithServiceUnit));
             int pointID = eventDBModels[0].eventpointID;
-            string eventType = "Complaint";
 
             List<ServiceForPointDBModel> serviceForPoint = new List<ServiceForPointDBModel>();
             List<ServiceTaskForPointDBModel> serviceTaskForPoint = new List<ServiceTaskForPointDBModel>();
@@ -1474,7 +1473,7 @@ namespace si_automated_tests.Source.Test.EventTests
             }
             eventDetailPage
                 .ExpandDetailToggle()
-                .VerifyValueInSubDetailInformation(locationName, "New")
+                .VerifyValueInSubDetailInformation(locationName, "New", "Bulky & Containers")
                 .VerifyDueDate(dueDate)
                 .VerifyDisplayTabsAfterSaveEvent();
             string query_1 = "select * from events where eventid=" + eventId + "; ";
