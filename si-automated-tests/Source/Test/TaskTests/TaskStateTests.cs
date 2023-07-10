@@ -1935,7 +1935,6 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskId = commonFinder.GetRandomTaskId();
             url = WebUrl.MainPageUrl + "web/tasks/" + taskId;
             var date = CommonUtil.GetRandomNumberBetweenRange(1, 5);
-            Console.WriteLine(date);
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(url);
             PageFactoryManager.Get<TaskDetailTab>()

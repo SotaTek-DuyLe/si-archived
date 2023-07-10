@@ -35,9 +35,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By completedDateAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l23') and contains(@class,'selected')])[1]");
         private readonly By completedDateAtBulkUpdate = By.XPath("//div[@class='bulk-confirmation']//label[text()='Completed Date']/following-sibling::input");
         private readonly By endDateAtBulkUpdate = By.XPath("//div[@class='bulk-confirmation']//label[text()='End Date']/following-sibling::input");
-        private readonly By statusAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[1]");
-        private readonly By statusAtSecondColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[2]");
-        private readonly By resocodeAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[1]");
+        private readonly By statusAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l20')])[1]");
+        private readonly By statusAtSecondColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l20')])[2]");
 
         private readonly By scheduledDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l17')]");
         private readonly By dueDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l18')]");
