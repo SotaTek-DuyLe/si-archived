@@ -52,7 +52,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         private readonly string serviceTypeOption = "//select[@id='type']/option[text()='{0}']";
         private readonly string actionOption = "//div[@class='action-container']/button[text()='{0}']";
         private readonly string anyServicesGroupByContract = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/i[1]";
-        private readonly string expandServiceGroup = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/preceding-sibling::i";
+        private readonly string expandServiceGroup = "//li[contains(@class, 'serviceGroups')]//a[text()='{0}']/following-sibling::ul//a[text()='{1}']/preceding-sibling::i";
         private readonly string firstLocatorWithDescRedRow = "(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]/td[contains(@data-bind, 'retiredPoint')]/span/parent::td)[1]";
         private readonly string roundDate = "//table[@id='master-table']//tr[contains(@class, 'round-row')]/td[count(//tbody/tr[count(//td[text()='{0}']/parent::tr/preceding-sibling::tr) + 1]//span/parent::td[contains(@data-bind, 'retiredPoint')]/preceding-sibling::td) + 1]";
         private readonly string columnRoundByRoundName = "//tbody[contains(@class, 'ui-droppable')]/tr[1]/td[count(//td[contains(@title, '{0}')]/preceding-sibling::td) + 1]";
@@ -159,7 +159,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceDataManagementPage ClickOnServicesAndSelectGroupInTree(string contract, string serviceGroupName, string childServiceGroup)
         {
             ClickOnElement(inputServicesTree);
-            ClickOnElement(expandServiceGroup, serviceGroupName);
+            ClickOnElement(string.Format(expandServiceGroup, contract, serviceGroupName));
             ClickOnElement(anyServicesGroupByContract, childServiceGroup);
             return this;
         }

@@ -42,7 +42,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
         private readonly By idInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l3')]/input");
         private readonly By noteAtFirstRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l21')]");
-        private readonly By statusAtFirstRow = By.XPath("//div[@class='grid-canvas']//div[contains(@class, 'l19')]");
+        private readonly By statusAtFirstRow = By.XPath("//div[@class='grid-canvas']//div[contains(@class, 'l20')]");
         private readonly By descAtFirstRow = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
         private readonly By firstRowAfterFiltering = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]/parent::div");
         private readonly By selectAndDeselectBtn = By.CssSelector("div[title='Select/Deselect All']");
@@ -55,7 +55,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By rescheduleDateTitle = By.XPath("//label[text()='Reschedule Date']");
         public readonly By TaskStateSelect = By.XPath("//div[@id='details-tab']//select[@id='taskState.id']");
         public readonly By BulkUpdateButton = By.XPath("//button[@title='Bulk Update']");
-        private readonly string statusOptionInFirstRowBulkUpdate = "//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l19')]/select/option[{0}]";
+        private readonly string statusOptionInFirstRowBulkUpdate = "//div[@class='grid-canvas']//div[contains(@class, 'l20')]/select/option[{0}]";
         private readonly By roundInstanceTitle = By.XPath("//h4[text()='Round Instance']");
 
         public RoundInstanceDetailPage WaitForRoundInstanceDetailPageDisplayed()
@@ -282,7 +282,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             List<IWebElement> taskRows = UnallocatedTableEle.GetRows().ToList();
             foreach (var row in taskRows)
             {
-                if (row.FindElement(By.XPath("./div[@class='slick-cell l19 r19']//span")).Text.Trim() != "Completed")
+                if (row.FindElement(By.XPath("./div[@class='slick-cell l20 r20']//span")).Text.Trim() != "Completed")
                 {
                     emptyRowIdx = taskRows.IndexOf(row);
                     DoubleClickOnElement(row);
@@ -299,7 +299,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             List<IWebElement> taskRows = UnallocatedTableEle.GetRows().ToList();
             foreach (var row in taskRows)
             {
-                if (row.FindElement(By.XPath("./div[@class='slick-cell l19 r19']//span")).Text.Trim() != "Completed" && row.FindElement(By.XPath("./div[@class='slick-cell l19 r19']//span")).Text.Trim() != "Not Completed")
+                if (row.FindElement(By.XPath("./div[@class='slick-cell l20 r20']//span")).Text.Trim() != "Completed" && row.FindElement(By.XPath("./div[@class='slick-cell l20 r20']//span")).Text.Trim() != "Not Completed")
                 {
                     emptyRowIdx = taskRows.IndexOf(row);
                     ClickOnElement(row);
