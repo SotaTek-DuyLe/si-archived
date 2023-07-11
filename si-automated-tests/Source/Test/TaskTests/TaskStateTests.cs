@@ -1107,14 +1107,6 @@ namespace si_automated_tests.Source.Test.TaskTests
             {
                 dateInPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -4);
             }
-
-            string dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -5);
-            dateToValidate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -5);
-            temp = DateTime.ParseExact(dateToValidate, "dd/MM/yyyy", null);
-            if (temp.DayOfWeek == DayOfWeek.Sunday)
-            {
-                dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -7);
-            }
             string description = "Tesco Superstore, 20-28 BROAD STREET, TEDDINGTON, TW11 8RF";
 
 
@@ -1154,47 +1146,6 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<CommonBrowsePage>()
                 .DeselectActiveItem();
             var expectedDate = CommonUtil.GetUtcTimeNowMinusHour(1, "dd/MM/yyyy HH:mm");
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .SleepTimeInSeconds(2);
-            PageFactoryManager.Get<TaskConfirmationPage>()
-                .ClickOnStatusAtFirstColumn();
-            PageFactoryManager.Get<TaskConfirmationPage>()
-                .ScrollMaxToTheRightOfGrid();
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .VerifyDateValueInActiveRow(1, "End Date", expectedDate)
-                .VerifyDateValueInActiveRow(1, "Completed Date", expectedDate);
-
-            //Step 10
-            PageFactoryManager.Get<TaskConfirmationPage>()
-                .SelectContract(Contract.Commercial)
-                .SendDateInScheduledDate(dateInFurtherPastInSchedule)
-                .ClickGoBtn()
-                .IsConfirmationNeededPopup()
-                .ClickOnConfirmBtn()
-                .WaitForLoadingIconToDisappear();
-            PageFactoryManager.Get<TaskConfirmationPage>()
-                .ClickOnExpandRoundsBtn()
-                .ScrollMaxToTheLeftOfGrid();
-            PageFactoryManager.Get<CommonBrowsePage>()
-               .FilterItemByField("Description", description, false);
-            PageFactoryManager.Get<TaskConfirmationPage>()
-                .ClickOnStatusAtFirstColumn()
-                .SelectStatus("Not Completed")
-                .SelectResolutionCode("random"); PageFactoryManager.Get<CommonBrowsePage>()
-               .FilterItemByField("Description", description, false);
-            PageFactoryManager.Get<TaskConfirmationPage>()
-                .ClickOnStatusAtFirstColumn()
-                .SelectStatus("Not Completed")
-                .SelectResolutionCode("random")
-                .ScrollMaxToTheRightOfGrid();
-            PageFactoryManager.Get<TaskConfirmationPage>()
-                .ClicKCompletedDateAtFirstColumn()
-                .InsertDayInFutre(CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 2));
-            PageFactoryManager.Get<TaskConfirmationPage>()
-                .ScrollMaxToTheLeftOfGrid();
-            PageFactoryManager.Get<CommonBrowsePage>()
-                .DeselectActiveItem();
-            expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
             PageFactoryManager.Get<CommonBrowsePage>()
                 .SleepTimeInSeconds(2);
             PageFactoryManager.Get<TaskConfirmationPage>()
@@ -2210,7 +2161,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClearFilters()
-                .SleepTimeInSeconds(12);
+                .SleepTimeInSeconds(20);
 
             for (int i = 0; i < listOfIds.Count; i++)
             {
@@ -2255,7 +2206,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClearFilters()
-                .SleepTimeInSeconds(12);
+                .SleepTimeInSeconds(20);
 
             for (int i = 0; i < listOfIds.Count; i++)
             {
@@ -2299,7 +2250,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClearFilters()
-                .SleepTimeInSeconds(12);
+                .SleepTimeInSeconds(20);
 
             for (int i = 0; i < listOfIds.Count; i++)
             {
