@@ -1962,7 +1962,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClearFilters()
-                .SleepTimeInSeconds(12);
+                .SleepTimeInSeconds(20);
 
             for (int i = 0; i < listOfIds.Count; i++)
             {
@@ -2007,7 +2007,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClearFilters()
-                .SleepTimeInSeconds(12);
+                .SleepTimeInSeconds(20);
 
             for (int i = 0; i < listOfIds.Count; i++)
             {
@@ -2052,7 +2052,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClearFilters()
-                .SleepTimeInSeconds(12);
+                .SleepTimeInSeconds(20);
 
             for (int i = 0; i < listOfIds.Count; i++)
             {
@@ -2097,7 +2097,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<CommonBrowsePage>()
                 .ClearFilters()
-                .SleepTimeInSeconds(12);
+                .SleepTimeInSeconds(20);
 
             for (int i = 0; i < listOfIds.Count; i++)
             {
