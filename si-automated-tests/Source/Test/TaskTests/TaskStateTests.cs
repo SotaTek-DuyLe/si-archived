@@ -1509,20 +1509,17 @@ namespace si_automated_tests.Source.Test.TaskTests
         public void TC_176_verify_task_state_date_change_in_task_confirmation_cancelled_1()
         {
             string dateInPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -2);
-
             string dateToValidate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -2);
             DateTime temp = DateTime.ParseExact(dateToValidate, "dd/MM/yyyy", null);
             if (temp.DayOfWeek == DayOfWeek.Sunday)
             {
                 dateInPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -4);
+                dateToValidate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -4);
+
             }
-            string dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -5);
-            dateToValidate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", -5);
+
             temp = DateTime.ParseExact(dateToValidate, "dd/MM/yyyy", null);
-            if (temp.DayOfWeek == DayOfWeek.Sunday)
-            {
-                dateInFurtherPastInSchedule = CommonUtil.GetLocalTimeMinusDay("dd", -7);
-            }
+            
             string description = "";
             if (temp.DayOfWeek == DayOfWeek.Tuesday)
             {
