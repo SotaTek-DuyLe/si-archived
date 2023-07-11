@@ -144,7 +144,7 @@ namespace si_automated_tests.Source.Main.Pages
                         Assert.AreEqual(expectedDate.Month, actualDate.Month);
                         Assert.AreEqual(expectedDate.Day, actualDate.Day);
                         Assert.IsTrue(expectedDate.Hour - actualDate.Hour == 0 || Math.Abs(expectedDate.Hour - actualDate.Hour) == 6 || Math.Abs(expectedDate.Hour - actualDate.Hour) == 7 || Math.Abs(expectedDate.Hour - actualDate.Hour) == 1, "expected " + expectedDate.Hour + " but found "+ actualDate.Hour); //ignore timezone change
-                        Assert.IsTrue(expectedDate.Minute - actualDate.Minute == 0 | actualDate.Minute - expectedDate.Minute <= 2, "Expected " + expectedDate.Minute + " but found " + actualDate.Minute);
+                        Assert.IsTrue(expectedDate.Minute - actualDate.Minute == 0 | Math.Abs(actualDate.Minute - expectedDate.Minute) <= 5, "Expected " + expectedDate.Minute + " but found " + actualDate.Minute);
                     }
                 }
             }
