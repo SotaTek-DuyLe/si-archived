@@ -994,7 +994,8 @@ namespace si_automated_tests.Source.Test.TaskTests
             PageFactoryManager.Get<TaskConfirmationPage>()
                 .ScrollMaxToTheLeftOfGrid();
             PageFactoryManager.Get<CommonBrowsePage>()
-                .DeselectActiveItem();
+                .DeselectActiveItem()
+                .SleepTimeInSeconds(2);
             expectedDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy HH:mm", 2);
 
             PageFactoryManager.Get<TaskConfirmationPage>()
