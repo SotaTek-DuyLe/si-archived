@@ -57,7 +57,6 @@ namespace si_automated_tests.Source.Main.Pages
             {
                 if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
                 {
-                    Console.WriteLine(i);
                     var tmp = WaitUtil.WaitForElementVisible(By.XPath(String.Format(filterInput, i+1)));
                     SendKeys(tmp, value);
                     break;
