@@ -57,7 +57,6 @@ namespace si_automated_tests.Source.Main.Pages
             {
                 if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
                 {
-                    Console.WriteLine(i);
                     var tmp = WaitUtil.WaitForElementVisible(By.XPath(String.Format(filterInput, i+1)));
                     SendKeys(tmp, value);
                     break;
@@ -128,18 +127,19 @@ namespace si_automated_tests.Source.Main.Pages
         [AllureStep]
         public CommonBrowsePage VerifyDateValueInActiveRow(int numberOfResultToBeVerify, string field, string expected)
         {
+            Console.WriteLine("Verifying " + field);
             IList<IWebElement> hds = WaitUtil.WaitForAllElementsPresent(headers);
             for (int i = 0; i < hds.Count; i++)
             {
                 if (hds[i].Text.Equals(field, StringComparison.OrdinalIgnoreCase))
                 {
-                    IList<IWebElement> _firstResultFields = WaitUtil.WaitForAllElementsVisible(activeResultFields);
-                    var countPerLine = _firstResultFields.Count / numberOfResultToBeVerify;
-                    for(int j = 0; j < numberOfResultToBeVerify; j++)
+                    string locator = String.Format("//div[@class='slick-cell l{0} r{0} selected']", i, i);
+                    var list = GetAllElements(locator);
+
+                    for (int j = 0; j < numberOfResultToBeVerify; j++)
                     {
                         DateTime expectedDate = DateTime.ParseExact(expected, "dd/MM/yyyy HH:mm", null);
-                        Console.WriteLine(i+j * countPerLine);
-                        DateTime actualDate = DateTime.ParseExact(_firstResultFields[i + j * countPerLine].Text, "dd/MM/yyyy HH:mm", null);
+                        DateTime actualDate = DateTime.ParseExact(list[j].Text, "dd/MM/yyyy HH:mm", null);
                         Assert.AreEqual(expectedDate.Year, actualDate.Year);
                         Assert.AreEqual(expectedDate.Month, actualDate.Month);
                         Assert.AreEqual(expectedDate.Day, actualDate.Day);

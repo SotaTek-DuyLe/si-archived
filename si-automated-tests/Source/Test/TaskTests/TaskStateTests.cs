@@ -1373,6 +1373,7 @@ namespace si_automated_tests.Source.Test.TaskTests
         public void TC_176_verify_task_state_date_change_in_service_status_not_completed_2()
         {
             string saveToast = "Task Saved";
+            int number = CommonUtil.GetRandomNumberBetweenRange(1, 15);
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -1399,7 +1400,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear();
 
             PageFactoryManager.Get<CommonBrowsePage>()
-                .OpenResultNumber(CommonUtil.GetRandomNumberBetweenRange(1, 20))
+                .OpenResultNumber(number)
                 .SwitchToLastWindow<RoundInstanceDetailPage>()
                 .IsRoundInstancePage()
                 .SwitchToTab("Worksheet")
@@ -1429,7 +1430,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickRefreshBtn();
 
             PageFactoryManager.Get<CommonBrowsePage>()
-                .OpenResultNumber(CommonUtil.GetRandomNumberBetweenRange(1, 20))
+                .OpenResultNumber(number + 2)
                 .SwitchToLastWindow<RoundInstanceDetailPage>()
                 .IsRoundInstancePage()
                 .SwitchToTab("Worksheet")
@@ -1480,6 +1481,10 @@ namespace si_automated_tests.Source.Test.TaskTests
             else if (temp.DayOfWeek == DayOfWeek.Friday)
             {
                 description = "Sainsburys Local Barnes, GROUND FLOOR, 9-11 WHITE HART LANE, BARNES, LONDON, SW13 0PX";
+            }
+            else if (temp.DayOfWeek == DayOfWeek.Monday)
+            {
+                description = "Sainsburys Local Whitton, 51 HIGH STREET, WHITTON, TWICKENHAM, TW2 7LB";
             }
             else
             {
@@ -1693,6 +1698,7 @@ namespace si_automated_tests.Source.Test.TaskTests
         {
 
             string saveToast = "Task Saved";
+            int number = CommonUtil.GetRandomNumberBetweenRange(1, 15);
 
             PageFactoryManager.Get<LoginPage>()
                 .GoToURL(WebUrl.MainPageUrl);
@@ -1719,7 +1725,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .WaitForLoadingIconToDisappear();
 
             PageFactoryManager.Get<CommonBrowsePage>()
-                .OpenResultNumber(CommonUtil.GetRandomNumberBetweenRange(1, 20))
+                .OpenResultNumber(number)
                 .SwitchToLastWindow<RoundInstanceDetailPage>()
                 .IsRoundInstancePage()
                 .SwitchToTab("Worksheet")
@@ -1748,7 +1754,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .ClickRefreshBtn();
 
             PageFactoryManager.Get<CommonBrowsePage>()
-                .OpenResultNumber(CommonUtil.GetRandomNumberBetweenRange(1, 20))
+                .OpenResultNumber(number + 2)
                 .SwitchToLastWindow<RoundInstanceDetailPage>()
                 .IsRoundInstancePage()
                 .SwitchToTab("Worksheet")
