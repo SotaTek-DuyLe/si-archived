@@ -1481,6 +1481,10 @@ namespace si_automated_tests.Source.Test.TaskTests
             {
                 description = "Sainsburys Local Barnes, GROUND FLOOR, 9-11 WHITE HART LANE, BARNES, LONDON, SW13 0PX";
             }
+            else if (temp.DayOfWeek == DayOfWeek.Monday)
+            {
+                description = "Sainsburys Local Whitton, 51 HIGH STREET, WHITTON, TWICKENHAM, TW2 7LB";
+            }
             else
             {
                 description = "Sainsburys Richmond, SAINSBURYS, 361 LOWER RICHMOND ROAD, RICHMOND, TW9 4LT";
