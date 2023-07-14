@@ -61,7 +61,7 @@ namespace si_automated_tests.Source.Test.MapTests
             //Enter values in mandatory fields
             sectorGroupDetailPage.SendKeys(sectorGroupDetailPage.SectorGroupInput, "Week 1");
             sectorGroupDetailPage.SelectTextFromDropDown(sectorGroupDetailPage.SectorGroupTypeSelect, "Allocations");
-            sectorGroupDetailPage.SelectTextFromDropDown(sectorGroupDetailPage.SectorSelect, "Commercial");
+            sectorGroupDetailPage.SelectTextFromDropDown(sectorGroupDetailPage.SectorSelect, Contract.Commercial);
             sectorGroupDetailPage.VerifyElementIsMandatory(sectorGroupDetailPage.SectorGroupInput, false)
                 .VerifyElementIsMandatory(sectorGroupDetailPage.SectorGroupTypeSelect, false)
                 .VerifyElementIsMandatory(sectorGroupDetailPage.SectorSelect, false);
@@ -82,7 +82,7 @@ namespace si_automated_tests.Source.Test.MapTests
             sectorGroupDetailPage.ClickOnElement(sectorGroupDetailPage.PreviousButton);
             sectorGroupDetailPage.WaitForLoadingIconToDisappear();
             //In Step 2, in left column, under Richmond Commercial expand Collections and select a service click 'Add'
-            sectorGroupDetailPage.ExpandNode("Commercial")
+            sectorGroupDetailPage.ExpandNode(Contract.Commercial)
                 .ExpandNode("Collections")
                 .SelectNode("Commercial Collections")
                 .ClickOnElement(sectorGroupDetailPage.AddServiceButton);
@@ -109,7 +109,7 @@ namespace si_automated_tests.Source.Test.MapTests
             sectorGroupLayerTypePage.WaitForLoadingIconToDisappear();
             sectorGroupLayerTypePage.VerifyInputValue(sectorGroupLayerTypePage.SectorGroupNameInput, "Week 1")
                 .VerifySelectedValue(sectorGroupLayerTypePage.SectorGroupTypeSelect, "Allocations")
-                .VerifyInputValue(sectorGroupLayerTypePage.SectorInput, "Commercial");
+                .VerifyInputValue(sectorGroupLayerTypePage.SectorInput, Contract.Commercial);
         }
 
         [Category("Sectors")]
