@@ -148,7 +148,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPage.WaitForLoadingIconToDisappear();
             serviceUnitPage.ClickOnElement(serviceUnitPage.AddPointButton);
             serviceUnitPage.ClickOnElement(serviceUnitPage.NodeRadio);
-            serviceUnitPage.SelectTextFromDropDown(serviceUnitPage.SectorSelect, "Richmond Commercial");
+            serviceUnitPage.SelectTextFromDropDown(serviceUnitPage.SectorSelect, "Commercial");
             serviceUnitPage.SendKeys(serviceUnitPage.ClientRefInput, "1478");
             serviceUnitPage.ClickOnElement(serviceUnitPage.SearchButton);
             serviceUnitPage.WaitForLoadingIconToDisappear();
@@ -244,7 +244,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
             serviceUnitPage.SendKeys(serviceUnitPage.StreetInput, "Church Terrace");
             serviceUnitPage.WaitForLoadingIconToDisappear();
             serviceUnitPage.SelectByDisplayValueOnUlElement(serviceUnitPage.StreetAutoCompleteTextBox, "CHURCH TERRACE,TW10,RICHMOND");
-            serviceUnitPage.SelectTextFromDropDown(serviceUnitPage.SectorSelect, "Richmond Commercial");
+            serviceUnitPage.SelectTextFromDropDown(serviceUnitPage.SectorSelect, "Commercial");
             serviceUnitPage.VerifyInputValue(serviceUnitPage.StreetInput, "CHURCH TERRACE,TW10,RICHMOND");
             serviceUnitPage.WaitForLoadingIconToDisappear();
             //After switch back to sector from step 1 - Richmond
