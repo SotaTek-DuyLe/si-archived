@@ -24,7 +24,7 @@ namespace si_automated_tests.Source.Test.SDMActionTests
     {
         [Category("SDM Actions")]
         [Category("Chang")]
-        [Test(Description = "Verify that a menu of Actions is displayed by clicking the right mouse button - Richmond Commercial - point address")]
+        [Test(Description = "Verify that a menu of Actions is displayed by clicking the right mouse button - Commercial - point address")]
         public void TC_132_Test_1_RMC_Verify_that_a_menu_of_actions_is_displayed_by_clicking_the_right_mouse_button_point_address()
         {
             PageFactoryManager.Get<LoginPage>()

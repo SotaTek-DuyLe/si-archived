@@ -47,7 +47,7 @@ namespace si_automated_tests.Source.Main.Pages
         private readonly By searchInPopupBtn = By.XPath("//button[text()='Search']");
         private readonly By cancelInPopupBtn = By.XPath("//button[text()='Search']/preceding-sibling::button[text()='Cancel']");
         private readonly By closeInPopupBtn = By.XPath("//h4[text()='Search for...']/parent::div/following-sibling::div//button[@aria-label='Close']");
-        private const string richomndCommercialOption = "//optgroup/option[text()='Richmond Commercial']";
+        private const string richomndCommercialOption = "//optgroup/option[text()='Commercial']";
         private const string richomndOption = "//optgroup/option[text()='Richmond']";
         private const string searchForOption = "//input[@value='{0}']";
 
