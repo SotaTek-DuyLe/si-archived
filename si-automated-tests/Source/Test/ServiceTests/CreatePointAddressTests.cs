@@ -34,7 +34,7 @@ namespace si_automated_tests.Source.Test.ServiceTests
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.Commercial)
-                .ExpandOption(Contract.Commercial)
+                .ExpandOptionLast(Contract.Commercial)
                 .OpenOption("Point Addresses")
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
