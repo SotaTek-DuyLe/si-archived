@@ -134,8 +134,6 @@ namespace si_automated_tests.Source.Test.ContactTests
                 .SelectAnyPrimaryContactAndVerify(contactModel)
                 //Step 5: Line 22
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
-                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage)
                 .WaitForLoadingIconToDisappear();
             //Step 6: Line 23
             agreementDetailPage

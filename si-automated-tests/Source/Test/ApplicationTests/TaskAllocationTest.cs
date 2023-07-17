@@ -484,6 +484,14 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                     .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
             }
             detailTaskPage
+                .SleepTimeInSeconds(1);
+            detailTaskPage
+                .SwitchToDefaultContent();
+            detailTaskPage
+                .ClickOnDetailTab()
+                .VerifyToastMessagesIsUnDisplayed();
+            detailTaskPage
+                .ClickOnIndicatorsTab()
                 .VerifyToastMessagesIsUnDisplayed();
 
         }

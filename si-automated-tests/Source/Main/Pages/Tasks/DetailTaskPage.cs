@@ -1997,8 +1997,10 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By addItemIndicatorTab = By.XPath("//div[@id='grid-container']//button[@title='Add']");
         private readonly By indicatorTitle = By.XPath("//div[@id='create-object-indicator']//span[text()='Indicator(s)']");
         private readonly By indicatorButton = By.XPath("//div[@id='create-object-indicator']//button[@data-id='indicators']");
+        private readonly By dropdownIndicatorOpened = By.XPath("//label[text()='Select Indicator']/following-sibling::div[contains(@class, 'open')]");
         private readonly By selectIndicatorDd = By.XPath("//div[@id='create-object-indicator']//select[@id='indicators']");
         private readonly By confirmBtnAtIndicatorPopup = By.XPath("//div[@id='create-object-indicator']//button[text()='Confirm']");
+        private readonly By cancelBtnIndicatorPopup = By.XPath("//button[text()='Cancel']");
         private readonly By selectAllBtnIndicatorPopup = By.XPath("//span[text()='Assisted']/ancestor::ul/preceding-sibling::div//button[text()='Select All']");
         //DYNAMIC
         private readonly string indicatorColumn = "//div[@id='object-indicators-grid']//span[text()='{0}']";
@@ -2034,8 +2036,9 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage IsAddIndicatorPopup()
         {
             WaitUtil.WaitForElementVisible(indicatorTitle);
-            WaitUtil.WaitForElementVisible(selectIndicatorDd);
+            WaitUtil.WaitForElementVisible(indicatorButton);
             WaitUtil.WaitForElementVisible(confirmBtnAtIndicatorPopup);
+            WaitUtil.WaitForElementVisible(cancelBtnIndicatorPopup);
             return this;
         }
 
@@ -2051,6 +2054,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         public DetailTaskPage SelectAllIndicatorAndClickConfirm()
         {
             ClickOnElement(indicatorButton);
+            WaitUtil.WaitForElementVisible(dropdownIndicatorOpened);
             ClickOnElement(selectAllBtnIndicatorPopup);
             ClickOnElement(confirmBtnAtIndicatorPopup);
             return this;

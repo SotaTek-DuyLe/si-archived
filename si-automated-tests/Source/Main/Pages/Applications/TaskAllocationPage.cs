@@ -366,7 +366,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public TaskAllocationPage VerifyTaskAssured(bool isAssured)
         {
             string assured = isAssured ? "✓" : "✗";
-            IWebElement assuredCell = GetElement("(//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']//div[contains(@class, 'slick-cell l27 r27')])[2]");
+            IWebElement assuredCell = GetElement("(//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']//div[contains(@class, 'slick-cell l28')])[2]");
             Assert.IsTrue(assuredCell.Text == assured);
             return this;
         }
