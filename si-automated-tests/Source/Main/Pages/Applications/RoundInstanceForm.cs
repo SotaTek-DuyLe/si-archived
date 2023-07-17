@@ -59,7 +59,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string postcodeRows = "//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured') and not(contains(@style, 'display: none;'))][{0}]/div[contains(@class, 'l10 r10')]";
         private readonly By idSearch = By.XPath("//div[contains(@id, 'grid')]//div[contains(@class, 'ui-state-default')]//div[contains(@class, 'l3')]//input[contains(@class, 'value')]");
         private readonly By AllFilteredHeaderInput = By.XPath("//div[@class='slick-headerrow-columns']//input");
-        private readonly By statusFilterInputWSTab = By.XPath("//div[@id='grid']//div[contains(@class, 'l19')]/input");
+        private readonly By statusFilterInputWSTab = By.XPath("//div[@id='grid']//div[contains(@class, 'l20')]/input");
         //DYNAMIC
         private readonly string checkboxRow = "//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured')][{0}]/div[contains(@class, 'l0 r0')]/input";
         private readonly string anyCheckedBox = "(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'assured')]/div[contains(@class, 'selected')]/input)[{0}]";

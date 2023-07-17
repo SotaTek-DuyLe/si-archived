@@ -88,8 +88,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string contractOption = "//label[text()='Contract']/following-sibling::span/select/option[text()='{0}']";
         private readonly string serviceOption = "//a[text()='{0}']/preceding-sibling::i";
         private readonly string childServiceOption = "//a[text()='{0}']";
-        private readonly string assuredChecked = "//div[contains(@id, 'round-tab-r')]//div[contains(string(), '{0}')]/following-sibling::div[contains(@class, 'l27')]/div[text()='✓']";
-        private readonly string assuredNotChecked = "//div[contains(@id, 'round-tab-r')]//div[contains(string(), '{0}')]/following-sibling::div[contains(@class, 'l27')]/div[text()='✗']";
+        private readonly string assuredChecked = "//div[contains(@id, 'round-tab-r')]//div[contains(string(), '{0}')]/following-sibling::div[contains(@class, 'l28')]/div[text()='✓']";
+        private readonly string assuredNotChecked = "//div[contains(@id, 'round-tab-r')]//div[contains(string(), '{0}')]/following-sibling::div[contains(@class, 'l28')]/div[text()='✗']";
         private readonly string roundWithRoundNameAndRoundGroup = "//div[@id='round-grid-container']//div[text()='{0}']/preceding-sibling::div[text()='{1}']/following-sibling::div/div";
         private readonly string firstTaskWithAssuredByRoundName = "//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']/div[contains(string(), '{0}')]";
         private readonly string firstCheckboxTask = "//div[contains(@id, 'round-tab')]//div[contains(string(), '{0}')]/preceding-sibling::div[contains(@class, 'l1')]";

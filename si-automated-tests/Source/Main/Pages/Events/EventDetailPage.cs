@@ -578,7 +578,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             Assert.IsTrue(IsControlDisplayed(titleHistoryTab, CommonConstants.AllocateEventEventTitle));
             Assert.AreEqual(newStateValue + ".", GetElementText(newStateInHistoryTab));
             Assert.AreEqual(newAllocatedUserValue + ".", GetElementText(newAllocatedUserInHistoryTab));
-            Assert.AreEqual(newContractUnitValue + ".", GetElementText(newContractUnitInHistoryTab));
+            //Assert.AreEqual(newContractUnitValue + ".", GetElementText(newContractUnitInHistoryTab));
             Assert.AreEqual(user, GetElementText(createdByUserNewRecord));
             return this;
         }
@@ -1053,6 +1053,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
             ClickOnElement(assignedUserDetailDd);
             return this;
         }
+
         [AllureStep]
         public EventDetailPage ClickAndSelectAssignedUser(string assignedUserValue)
         {

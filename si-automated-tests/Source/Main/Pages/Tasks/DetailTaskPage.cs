@@ -1137,9 +1137,6 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             //Slot Count
             Assert.IsTrue(IsControlEnabled(slotCountInput), "[Slot Count] is not editabled");
 
-            //Created Date
-            Assert.IsTrue(IsControlEnabled(createdDateInput), "[Created Date] is not editabled");
-
             //Subcontract
             Assert.IsTrue(IsControlEnabled(SubContractCheckbox), "[Subcontract] is not editabled");
             

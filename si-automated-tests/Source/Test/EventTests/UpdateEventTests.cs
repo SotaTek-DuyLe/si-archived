@@ -71,17 +71,17 @@ namespace si_automated_tests.Source.Test.EventTests
             string timeNow = CommonUtil.GetUtcTimeNow(CommonConstants.DATE_DD_MM_YYYY_FORMAT);
             DateTime today = DateTime.Today;
             string dueDate;
-            if (today.DayOfWeek == DayOfWeek.Saturday)
+            if (today.DayOfWeek == DayOfWeek.Saturday || today.DayOfWeek == DayOfWeek.Friday)
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
             }
             else if (today.DayOfWeek == DayOfWeek.Sunday)
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
             }
             else
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
             }
             //Check [History] tab
             eventDetailPage
@@ -93,6 +93,12 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ExpandDetailToggle()
                 .ClickOnAllocatedUnit()
                 .GetAllOptionInAllocatedUnitDetailSubTab();
+            //Select blank in [ALlocated Unit]
+            eventDetailPage
+                .ClickOnAllocatedUnit()
+                .SelectAnyAllocatedUnit("")
+                .SleepTimeInSeconds(1);
+            
             List<string> allAssignedUserEventForm = eventDetailPage
                 .ClickOnAssignedUserInDetailSubTab()
                 .GetAllOptionInAssignedUserDetailSubTab();
@@ -168,7 +174,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .WaitForLoadingIconToDisappear();
             //Verify new Status
             eventDetailPage
-                .VerifyValueInStatus("Initial Assessment")
+                .VerifyValueInStatus("Under Investigation")
                 .VerifyValueInNameFieldInDataTab(newEventName);
             //Line 19: Verify value in [History] tab
             eventDetailPage

@@ -178,15 +178,17 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetLocationName();
             DateTime today = DateTime.Today;
             string dueDate;
-            if (today.DayOfWeek == DayOfWeek.Saturday)
-            {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
-            } else if (today.DayOfWeek == DayOfWeek.Sunday)
-            {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
-            } else
+            if (today.DayOfWeek == DayOfWeek.Saturday || today.DayOfWeek == DayOfWeek.Friday)
             {
                 dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
+            }
+            else if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+            }
+            else
+            {
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
             }
 
             eventDetailPage
@@ -533,17 +535,17 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetLocationName();
             DateTime today = DateTime.Today;
             string dueDate;
-            if (today.DayOfWeek == DayOfWeek.Saturday)
+            if (today.DayOfWeek == DayOfWeek.Saturday || today.DayOfWeek == DayOfWeek.Friday)
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
             }
             else if (today.DayOfWeek == DayOfWeek.Sunday)
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
             }
             else
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
             }
             eventDetailPage
                 .ExpandDetailToggle()
@@ -712,17 +714,17 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetLocationName();
             DateTime today = DateTime.Today;
             string dueDate;
-            if (today.DayOfWeek == DayOfWeek.Saturday)
+            if (today.DayOfWeek == DayOfWeek.Saturday || today.DayOfWeek == DayOfWeek.Friday)
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
             }
             else if (today.DayOfWeek == DayOfWeek.Sunday)
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
             }
             else
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
             }
             eventDetailPage
                 .ExpandDetailToggle()
@@ -1072,17 +1074,17 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetLocationName();
             DateTime today = DateTime.Today;
             string dueDate;
-            if (today.DayOfWeek == DayOfWeek.Saturday)
+            if (today.DayOfWeek == DayOfWeek.Saturday || today.DayOfWeek == DayOfWeek.Friday)
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
             }
             else if (today.DayOfWeek == DayOfWeek.Sunday)
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
             }
             else
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
             }
             eventDetailPage
                 .ExpandDetailToggle()
@@ -1459,17 +1461,29 @@ namespace si_automated_tests.Source.Test.EventTests
                 .GetLocationName();
             DateTime today = DateTime.Today;
             string dueDate;
-            if (today.DayOfWeek == DayOfWeek.Saturday)
+            //if (today.DayOfWeek == DayOfWeek.Saturday)
+            //{
+            //    dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+            //}
+            //else if (today.DayOfWeek == DayOfWeek.Sunday)
+            //{
+            //    dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
+            //}
+            //else
+            //{
+            //    dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
+            //}
+            if (today.DayOfWeek == DayOfWeek.Saturday || today.DayOfWeek == DayOfWeek.Friday)
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
             }
             else if (today.DayOfWeek == DayOfWeek.Sunday)
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 10);
             }
             else
             {
-                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 11);
+                dueDate = CommonUtil.GetLocalTimeMinusDay(CommonConstants.DATE_DD_MM_YYYY_FORMAT, 9);
             }
             eventDetailPage
                 .ExpandDetailToggle()
@@ -1491,7 +1505,7 @@ namespace si_automated_tests.Source.Test.EventTests
                 .ClickMapTab()
                 .WaitForLoadingIconToDisappear();
             eventDetailPage
-                .VerifyDataInMapTab("event", allEventTypes[0], serviceUnit)
+                .VerifyDataInMapTab("event", allEventTypes[1], serviceUnit)
                 //Check service unit link show popup
                 .ClickOnLocationShowPopup()
                 .VeriryDisplayPopupLinkEventToServiceUnit("Richmond")
