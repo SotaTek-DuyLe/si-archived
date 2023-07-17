@@ -1005,7 +1005,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .VerifyServicePanelPresent()
                 .VerifyAgreementLineFormHasGreenBorder()
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .VerifyToastMessageOnParty(MessageSuccessConstants.SuccessMessage, true)
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(5000);
             partyAgreementPage.ExpandAgreementLine()

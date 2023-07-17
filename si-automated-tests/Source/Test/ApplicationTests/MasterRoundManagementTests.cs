@@ -35,6 +35,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             //Verify whether the order of buttons in Master Round Management page is changed to Popup, Save,Refresh, Help
             MasterRoundManagementPage masterRoundManagementPage = PageFactoryManager.Get<MasterRoundManagementPage>();
             masterRoundManagementPage.WaitForLoadingIconToDisappear();
+            masterRoundManagementPage.SleepTimeInMiliseconds(3000);
             string contract = Contract.Municipal;
             string service = "Waste";
             string subService = "Domestic Refuse";
@@ -70,6 +71,7 @@ namespace si_automated_tests.Source.Test.ApplicationTests
                 .SwitchNewIFrame();
             PageFactoryManager.Get<NavigationBase>()
                 .SwitchNewIFrame();
+            masterRoundManagementPage.SleepTimeInMiliseconds(3000);
             masterRoundManagementPage.IsSelectionCorrect(Contract.Municipal);
         }
     }

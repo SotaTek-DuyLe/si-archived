@@ -317,7 +317,8 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         public (int roundGroupIdx, string resourceName) DragResourceDriverToDefaultSetCell()
         {
             var typeCell = AllResourceTableEle.GetCellByValue(AllResourceTableEle.GetCellIndex(ResourceTypeCell), "Driver");
-            var driverCell = AllResourceTableEle.GetCellByValue(AllResourceTableEle.GetCellIndex(ResourceNameCell), "Driver");
+            var resourceCell = AllResourceTableEle.GetCellByCellValues(AllResourceTableEle.GetCellIndex(ResourceNameCell), new Dictionary<int, object>() { { AllResourceTableEle.GetCellIndex(ResourceTypeCell), "Driver" } });
+            string resourceName = resourceCell.Text.Trim();
             var resourceRows = this.driver.FindElements(By.XPath("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown']"));
             IWebElement driverCellEle = null;
             int driverIndex = 0;
@@ -332,7 +333,7 @@ namespace si_automated_tests.Source.Main.Pages.Resources
                 }
             }
             DragAndDrop(typeCell, driverCellEle);
-            return (driverIndex, driverCell.Text.Trim());
+            return (driverIndex, resourceName);
         }
 
         [AllureStep]
@@ -429,11 +430,11 @@ namespace si_automated_tests.Source.Main.Pages.Resources
         }
 
         [AllureStep]
-        public ResourceAllocationPage ClickClockInRoundGroup(int roundIdx, string resourceName)
+        public ResourceAllocationPage ClockDisplayInRoundGroup(int roundIdx, string resourceName)
         {
             var resourceRows = GetAllElements("//div[@id='rounds-scrollable']//table//tbody[not(@data-bind)]//tr[@class='round-group-dropdown']");
             var roundInstances = resourceRows[roundIdx].FindElements(By.XPath($"./td[@class='resource-container resource' and contains(@title, '{resourceName}')]"));
-            ClickOnElement(roundInstances.First().FindElement(By.XPath("./img[@class='pull-right scheduled-resource-indicator']")));
+            VerifyElementVisibility(roundInstances.First().FindElement(By.XPath("./img[@class='pull-right scheduled-resource-indicator']")), true);
             return this;
         }
 

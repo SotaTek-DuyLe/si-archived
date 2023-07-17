@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -29,15 +28,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly By expandRoundLegsBtn = By.XPath("//span[text()='Expand Round Legs']/parent::button");
         private readonly By descInput = By.XPath("//div[@id='grid']//div[contains(@class, 'l4')]/input");
         private readonly By descAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l4')]");
-        private readonly By statusOfTaskNotOnHoldAtFirstColumn = By.XPath("(//img[@src='/web/content/images/coretaskstate/s2.svg']/parent::div/parent::div/following-sibling::div[contains(@class, 'l19')])[1]");
-        private readonly By statusOfTaskOnHoldAtFirstColumn = By.XPath("(//img[@src='/web/content/style/images/task-onhold.png']/parent::div/parent::div/following-sibling::div[contains(@class, 'l19')])[1]");
+        private readonly By statusOfTaskNotOnHoldAtFirstColumn = By.XPath("(//img[@src='/web/content/images/coretaskstate/s2.svg']/parent::div/parent::div/following-sibling::div[contains(@class, 'l20')])[1]");
+        private readonly By statusOfTaskOnHoldAtFirstColumn = By.XPath("(//img[@src='/web/content/style/images/task-onhold.png']/parent::div/parent::div/following-sibling::div[contains(@class, 'l20')])[1]");
         private readonly By firstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]");
-        private readonly By completedDateAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l23') and contains(@class,'selected')])[1]");
+        private readonly By completedDateAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l24') and contains(@class,'selected')])[1]");
         private readonly By completedDateAtBulkUpdate = By.XPath("//div[@class='bulk-confirmation']//label[text()='Completed Date']/following-sibling::input");
         private readonly By endDateAtBulkUpdate = By.XPath("//div[@class='bulk-confirmation']//label[text()='End Date']/following-sibling::input");
-        private readonly By statusAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[1]");
-        private readonly By statusAtSecondColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[2]");
-        private readonly By resocodeAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l19')])[1]");
+        private readonly By statusAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l20')])[1]");
+        private readonly By statusAtSecondColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l20')])[2]");
+        private readonly By resocodeAtFirstColumn = By.XPath("(//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l20')])[1]");
 
         private readonly By scheduledDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l17')]");
         private readonly By dueDateAtFirstColumn = By.XPath("//div[@id='grid']//div[@class='grid-canvas']/div[contains(@class, 'slick-row')]/div[contains(@class, 'l18')]");
@@ -93,7 +92,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string anyChildOfTree = "//a[text()='{0}']/parent::li/i";
         private readonly string chirldOfTree = "//a[text()='{0}']";
         private readonly string firstRoundByRoundNameInGrid = "//span[contains(string(), '{0}')]/parent::div/parent::div";
-        private readonly string optionInStatusFirstRow = "(//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l19')])/select/option[{0}]";
+        private readonly string optionInStatusFirstRow = "(//div[@id='grid']//div[@class='grid-canvas']//div[contains(@class, 'l20')])/select/option[{0}]";
         private readonly string statusOptionInBulkUpdate = "//label[text()='Status']/following-sibling::select[1]/option[{0}]";
 
         public readonly By TaskConfirmationIframe = By.XPath("//div[@id='iframe-container']//iframe");
@@ -658,7 +657,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             get => serviceTaskTableEle;
         }
 
-        private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-2')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]", "./i[contains(@class, 'jstree-ocl')][1]");
+        private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-1')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]", "./i[contains(@class, 'jstree-ocl')][1]");
         private TreeViewElement ServicesTreeView
         {
             get => _treeViewElement;
@@ -776,12 +775,6 @@ namespace si_automated_tests.Source.Main.Pages.Applications
                 ClickOnElement(futureDayNumberInCalendar, temp.Day.ToString());
 
             }
-
-            //if (dayOfMonth.StartsWith("0"))
-            //{
-            //    dayOfMonth = dayOfMonth.Substring(1);
-            //}
-            //ClickOnElement(futureDayNumberInCalendar, dayOfMonth);
             return this;
         }
 

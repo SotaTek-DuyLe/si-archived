@@ -88,10 +88,6 @@ namespace si_automated_tests.Source.Core
         {
             return DateTime.UtcNow.ToString(format).Replace('-', '/');
         }
-        public static string GetCustomUtcDay(int dayToAdd, string format)
-        {
-            return DateTime.UtcNow.AddDays(dayToAdd).Day.ToString(format).Replace('-', '/');
-        }
 
         public static string GetUtcTimeNowMinusHour(int hour, string format)
         {

@@ -764,7 +764,6 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             resourceAllocationPage.VerifyToastMessage("Default Resource Set")
                 .WaitUntilToastMessageInvisible("Default Resource Set");
             resourceAllocationPage.VerifyResourceInRoundGroup(result.roundGroupIdx, result.resourceName);
-
             //Verify whether user view' Default Resource Schedule Set’ message displays in grid with tick
             resourceAllocationPage.ClickResourceInRoundGroup(result.roundGroupIdx, result.resourceName);
             resourceAllocationPage.ClickSetSchedule()
@@ -774,7 +773,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
                 .WaitUntilToastMessageInvisible("Default Resource Schedule set");
 
             //Verify whether Clock icon displays against the resource to denote there is a schedule for the allocation
-            resourceAllocationPage.ClickClockInRoundGroup(result.roundGroupIdx, result.resourceName);
+            resourceAllocationPage.ClockDisplayInRoundGroup(result.roundGroupIdx, result.resourceName);
         }
     }
 }

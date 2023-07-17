@@ -453,7 +453,7 @@ namespace si_automated_tests.Source.Main.Finders
         [AllureStep]
         public List<ResourceAllocationModel> GetResourceAllocation(int id)
         {
-            string query = "select * from resourceallocations where resourceID=" + id.ToString() +" order by enddate desc";
+            string query = "select * from resourceallocations where resourceID=" + id.ToString() + " order by enddate desc";
             return FindList<ResourceAllocationModel>(query);
         }
 

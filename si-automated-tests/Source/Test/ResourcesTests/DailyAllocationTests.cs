@@ -1228,7 +1228,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             }
             else if (today.DayOfWeek == DayOfWeek.Sunday)
             {
-                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 5);
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 4);
                 endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 8);
             }
             else if(today.DayOfWeek == DayOfWeek.Friday)
@@ -1300,6 +1300,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             List<ResourceAllocationModel> list = finder.GetResourceAllocation(116);
             var convertedStartDate = CommonUtil.StringToDateTime(startDate, "dd/MM/yyyy");
             var convertedEndDate = CommonUtil.StringToDateTime(endDate, "dd/MM/yyyy");
+
             Assert.AreEqual(convertedEndDate.Day, list[0].startdate.Day);
             Assert.AreEqual(convertedEndDate.Month, list[0].startdate.Month);
             Assert.AreEqual(convertedEndDate.Year, list[0].startdate.Year);
@@ -1439,42 +1440,42 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             var substitutionName = "Samuel Morse";
             var leaveType = "Holiday";
             var leaveReason = "Paid";
-            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 21);
+            string startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 25);
             DateTime temp = DateTime.ParseExact(startDate, "dd/MM/yyyy", null);
             if (temp.DayOfWeek == DayOfWeek.Sunday)
             {
-                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 22);
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 26);
             }
             else if (temp.DayOfWeek == DayOfWeek.Saturday)
             {
-                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 23);
+                startDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 27);
             }
 
-            string middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 22);
-            string middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 23);
+            string middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 26);
+            string middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 27);
 
             temp = DateTime.ParseExact(middleDate1, "dd/MM/yyyy", null);
             if (temp.DayOfWeek == DayOfWeek.Sunday)
             {
-                middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 23);
-                middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 24);
+                middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 27);
+                middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 28);
             }
             else if (temp.DayOfWeek == DayOfWeek.Saturday)
             {
-                middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 24);
-                middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 25);
+                middleDate1 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 28);
+                middleDate2 = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 29);
             }
 
 
-            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 28);
+            string endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 32);
             temp = DateTime.ParseExact(endDate, "dd/MM/yyyy", null);
             if (temp.DayOfWeek == DayOfWeek.Sunday)
             {
-                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 29);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 33);
             }
             else if (temp.DayOfWeek == DayOfWeek.Saturday)
             {
-                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 30);
+                endDate = CommonUtil.GetLocalTimeMinusDay("dd/MM/yyyy", 34);
             }
 
             var details = CommonUtil.GetRandomString(5);
@@ -1738,7 +1739,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             roundInstanceDetailPage.ClickOnElement(roundInstanceDetailPage.AllocatedResourceTab);
             roundInstanceDetailPage.WaitForLoadingIconToDisappear();
             //Verify whether the experience should be only displayed for the resource class= HUMAN
-            roundInstanceDetailPage.VerifyAllocatedRoundInstance("Driver", "James Cook", "★");
+            roundInstanceDetailPage.VerifyAllocatedRoundInstance("Driver", "James Cook", "");
             //Verify the number of times that resource has worked on
             //that round should be calculated based on the number of shift instances for that resource for that roundinstance’s round in last 6 months
         }

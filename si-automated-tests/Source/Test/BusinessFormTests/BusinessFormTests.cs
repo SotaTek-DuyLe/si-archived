@@ -91,9 +91,12 @@ namespace si_automated_tests.Source.Test.BusinessFormTests
                 .ExpandOption("Regions")
                 .ExpandOption(Region.UK)
                 .ExpandOption(Contract.Commercial)
-                .ExpandOption("Business Unit Groups")
-                .ExpandOptionLast("Collections")
-                .ExpandOptionLast("Business Units")
+                .ExpandOption("Business Unit Groups");
+            PageFactoryManager.Get<NavigationBase>()
+                .ExpandOptionLast("Collections");
+            PageFactoryManager.Get<NavigationBase>()
+                .ExpandOptionLast("Business Units");
+            PageFactoryManager.Get<NavigationBase>()
                 .OpenOption("Recycling")
                 .SwitchNewIFrame()
                 .WaitForLoadingIconToDisappear();
