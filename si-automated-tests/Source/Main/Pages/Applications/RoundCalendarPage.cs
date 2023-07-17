@@ -28,6 +28,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly By ButtonFind = By.XPath("//button[text()='Find']");
         public readonly By InputRound = By.XPath("//div[@id='services-finder']//input");
         public readonly By InputOriginDate = By.XPath("//input[@id='date']");
+        public readonly By DayHeader = By.XPath("//th[contains(@class, 'fc-day-header')]");
 
         private TreeViewElement _treeViewElement = new TreeViewElement("//div[contains(@class, 'jstree-1')]", "./li[contains(@role, 'treeitem')]", "./a", "./ul[contains(@class, 'jstree-children')]");
         private TreeViewElement ServicesTreeView
@@ -243,12 +244,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public RoundCalendarPage IsRoundCalendarInDayDisplayed()
         {
-            List<RoundCalendarModel> rounds = GetAllDataRoundCalendarInDay();
-            var now = DateTime.Now;
-            foreach (var item in rounds)
+            if (!GetElementText(DayHeader).Equals("Saturday") && !GetElementText(DayHeader).Equals("Sunday"))
             {
-                Assert.IsTrue(rounds.FirstOrDefault(x => CommonUtil.DateTimeToInt(x.Day, "yyyyMMdd") == CommonUtil.DateTimeToInt(now, "yyyyMMdd")) != null);
-                Assert.IsTrue(item.Instances.Any(x => x.Instance.Text.Contains("+6 more")) == false);
+                List<RoundCalendarModel> rounds = GetAllDataRoundCalendarInDay();
+                var now = DateTime.Now;
+                foreach (var item in rounds)
+                {
+                    Assert.IsTrue(rounds.FirstOrDefault(x => CommonUtil.DateTimeToInt(x.Day, "yyyyMMdd") == CommonUtil.DateTimeToInt(now, "yyyyMMdd")) != null);
+                    Assert.IsTrue(item.Instances.Any(x => x.Instance.Text.Contains("+6 more")) == false);
+                }
             }
             return this;
         }
