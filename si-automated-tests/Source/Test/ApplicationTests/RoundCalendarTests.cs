@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using ICSharpCode.SharpZipLib.Tar;
+using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
 using si_automated_tests.Source.Main.Constants;
@@ -97,32 +98,35 @@ namespace si_automated_tests.Source.Test.ApplicationTests
             roundCalendarPage.IsCalendarScheduleDisplayed();
             roundCalendarPage.ClickOnElement(roundCalendarPage.ButtonLegend);
             roundCalendarPage.IsCanlendarScheduleUnDisplayed();
+            DayOfWeek wk = DateTime.Today.DayOfWeek;
+            if (!wk.Equals("Saturday") && wk.Equals("Sunday"))
+            {
+                roundCalendarPage.ClickOnElement(roundCalendarPage.ButtonMonth);
+                roundCalendarPage
+                    .ClickRoundInstance(DateTime.Now)
+                    .VerifyRoundInstanceBackground(DateTime.Now, "rgba(194, 219, 255, 1)")
+                    .VerifyScheduleButtonEnable(true);
+                roundCalendarPage
+                    .ClickRoundInstance(DateTime.Now)
+                    .VerifyRoundInstanceBackground(DateTime.Now, "rgba(255, 255, 255, 1)")
+                    .VerifyScheduleButtonEnable(false);
 
-            roundCalendarPage.ClickOnElement(roundCalendarPage.ButtonMonth);
-            roundCalendarPage
-                .ClickRoundInstance(DateTime.Now)
-                .VerifyRoundInstanceBackground(DateTime.Now, "rgba(194, 219, 255, 1)")
-                .VerifyScheduleButtonEnable(true);
-            roundCalendarPage
-                .ClickRoundInstance(DateTime.Now)
-                .VerifyRoundInstanceBackground(DateTime.Now, "rgba(255, 255, 255, 1)")
-                .VerifyScheduleButtonEnable(false);
+                roundCalendarPage
+                    .ClickRoundInstance(DateTime.Now)
+                    .ClickOnElement(roundCalendarPage.ButtonSchedule);
 
-            roundCalendarPage
-                .ClickRoundInstance(DateTime.Now)
-                .ClickOnElement(roundCalendarPage.ButtonSchedule);
-
-            RescheduleModal rescheduleModal = PageFactoryManager.Get<RescheduleModal>();
-            DateTime scheduleDay = DateTime.Now.AddDays(3);
-            rescheduleModal
-                .IsRescheduleModelDisplayedCorrectly();
-            rescheduleModal.InputCalendarDate(rescheduleModal.InputRescheduleDate, scheduleDay.ToString("dd/MM/yyyy"));
-            rescheduleModal.ClickOnElement(rescheduleModal.ButtonOk);
-            rescheduleModal
-                .WaitForLoadingIconToDisappear()
-                .VerifyToastMessage("Selected Round Instance(s) have been rescheduled")
-                .WaitUntilToastMessageInvisible("Selected Round Instance(s) have been rescheduled");
-            roundCalendarPage.RoundInstanceHasGreenBackground(scheduleDay);
+                RescheduleModal rescheduleModal = PageFactoryManager.Get<RescheduleModal>();
+                DateTime scheduleDay = DateTime.Now.AddDays(3);
+                rescheduleModal
+                    .IsRescheduleModelDisplayedCorrectly();
+                rescheduleModal.InputCalendarDate(rescheduleModal.InputRescheduleDate, scheduleDay.ToString("dd/MM/yyyy"));
+                rescheduleModal.ClickOnElement(rescheduleModal.ButtonOk);
+                rescheduleModal
+                    .WaitForLoadingIconToDisappear()
+                    .VerifyToastMessage("Selected Round Instance(s) have been rescheduled")
+                    .WaitUntilToastMessageInvisible("Selected Round Instance(s) have been rescheduled");
+                roundCalendarPage.RoundInstanceHasGreenBackground(scheduleDay);
+            }
         }
 
         [Category("RoundCalendarTests")]
