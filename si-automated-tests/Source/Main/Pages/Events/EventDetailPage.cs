@@ -490,7 +490,7 @@ namespace si_automated_tests.Source.Main.Pages.Events
         [AllureStep]
         public EventDetailPage VerifyDueDate(string dueDateValue)
         {
-            Assert.IsTrue(GetAttributeValue(dueDateInput, "value").Contains(dueDateValue));
+            Assert.IsTrue(GetAttributeValue(dueDateInput, "value").Contains(dueDateValue), "Expected " + GetAttributeValue(dueDateInput, "value") + " to contain " + dueDateValue);
             return this;
         }
         [AllureStep]
