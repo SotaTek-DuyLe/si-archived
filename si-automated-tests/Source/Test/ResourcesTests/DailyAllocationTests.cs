@@ -490,6 +490,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             resourceAllocationPage.ClickOnElement(resourceAllocationPage.BusinessUnitInput);
             resourceAllocationPage.ExpandRoundNode(Contract.Commercial)
                 .SelectRoundNode("Collections")
+                .InsertDate("21/07/2023")
                 .ClickGo()
                 .WaitForLoadingIconToDisappear()
                 .SleepTimeInMiliseconds(2000);
