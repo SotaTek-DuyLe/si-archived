@@ -273,7 +273,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             roundInstanceForm.ClickOnElement(roundInstanceForm.DropDownStatusButton);
             roundInstanceForm.SelectStatus("In Progress")
                 .ClickSaveBtn()
-                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
