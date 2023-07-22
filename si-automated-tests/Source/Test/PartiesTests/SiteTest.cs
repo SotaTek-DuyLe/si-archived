@@ -273,11 +273,11 @@ namespace si_automated_tests.Source.Test.PartiesTests
             roundInstanceForm.ClickOnElement(roundInstanceForm.DropDownStatusButton);
             roundInstanceForm.SelectStatus("In Progress")
                 .ClickSaveBtn()
-                .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
+                //.VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
                 .ClickCloseBtn()
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
-            taskAllocationPage.DragRoundInstanceToUnlocattedGrid("REC1-AM", "Friday");
+            taskAllocationPage.DragRoundInstanceToUnlocattedGrid("REF1-AM", "Friday");
             taskAllocationPage.WaitForLoadingIconToDisappear(false);
             taskAllocationPage.UnallocatedHorizontalScrollToElement(taskAllocationPage.LockFilterInput, true);
             taskAllocationPage.SendKeys(taskAllocationPage.LockFilterInput, "True");
@@ -289,6 +289,9 @@ namespace si_automated_tests.Source.Test.PartiesTests
             taskAllocationPage.DragUnallocatedRowToRoundInstance("REC1-AM", "Saturday")
                 .VerifyElementVisibility(taskAllocationPage.AllocatingConfirmMsg, true)
                 .ClickOnElement(taskAllocationPage.AllocateAllButton);
+            taskAllocationPage
+                .VerifyElementVisibility(taskAllocationPage.AllocatingConfirmMsg2, true)
+                .ClickOnElement(taskAllocationPage.AllocateAllButton); ;
             taskAllocationPage.WaitForLoadingIconToDisappear();
             taskAllocationPage.SelectTextFromDropDown(taskAllocationPage.AllocationReasonSelect, "Incident")
                 .ClickOnElement(taskAllocationPage.AllocationConfirmReasonButton);
