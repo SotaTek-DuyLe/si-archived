@@ -62,7 +62,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly string UnallocatedDescription = "./div[contains(@class, 'slick-cell l4 r4')]";
         public readonly string UnallocatedService = "./div[contains(@class, 'slick-cell l5 r5')]";
         public readonly string UnallocatedID = "./div[contains(@class, 'slick-cell l3 r3')]";
-        public readonly string UnallocatedPriorityCell = "./div[contains(@class, 'slick-cell l13 r13')]";
+        public readonly string UnallocatedPriorityCell = "./div[contains(@class, 'slick-cell l12 r12')]";
         public readonly string UnallocatedResolutionCodeCell = "./div[contains(@class, 'slick-cell l12 r12')]";
         private readonly string statusCell = "./div[@class='slick-cell l11 r11']//span";
         private readonly string priorityCell = "./div[@class='slick-cell l13 r13']";
