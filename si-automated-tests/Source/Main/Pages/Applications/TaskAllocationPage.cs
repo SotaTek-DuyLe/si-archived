@@ -63,7 +63,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly string UnallocatedService = "./div[contains(@class, 'slick-cell l5 r5')]";
         public readonly string UnallocatedID = "./div[contains(@class, 'slick-cell l3 r3')]";
         public readonly string UnallocatedPriorityCell = "./div[contains(@class, 'slick-cell l12 r12')]";
-        public readonly string UnallocatedResolutionCodeCell = "./div[contains(@class, 'slick-cell l11 r11')]";
+        public readonly string UnallocatedResolutionCodeCell = "./div[contains(@class, 'slick-cell l12 r12')]";
         private readonly By taskName = By.XPath("//div[@id='tabs-container']//li[@role='presentation'][2]");
         private readonly By thirdTaskName = By.XPath("//div[@id='tabs-container']//li[@role='presentation'][3]");
         private readonly By contractTitle = By.XPath("//label[text()='Contract']");
@@ -625,7 +625,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             int emptyRowIdx = 0;
             foreach (var row in rows)
             {
-                if (string.IsNullOrEmpty(row.FindElement(By.XPath("./div[@class='slick-cell l10 r10']//span")).Text))
+                if (string.IsNullOrEmpty(row.FindElement(By.XPath("./div[@class='slick-cell l10 r10']")).Text))
                 {
                     emptyRowIdx = rows.IndexOf(row);
                     DoubleClickOnElement(row);
@@ -697,7 +697,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }).ToList();
             foreach (var row in taskRows)
             {
-                if (row.FindElement(By.XPath("./div[@class='slick-cell l10 r10']//span")).Text.Trim() != "Not Completed")
+                if (row.FindElement(By.XPath("./div[@class='slick-cell l11 r11']")).Text.Trim() != "Not Completed")
                 {
                     emptyRowIdx = taskRows.IndexOf(row);
                     DoubleClickOnElement(row);

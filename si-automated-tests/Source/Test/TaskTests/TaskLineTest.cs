@@ -14,6 +14,7 @@ using si_automated_tests.Source.Main.Pages.Resources;
 using si_automated_tests.Source.Main.Pages.Task;
 using si_automated_tests.Source.Main.Pages.Tasks;
 using static si_automated_tests.Source.Main.Models.UserRegistry;
+using si_automated_tests.Source.Main.Pages.Applications;
 
 namespace si_automated_tests.Source.Test.TaskTests
 {
@@ -560,18 +561,21 @@ namespace si_automated_tests.Source.Test.TaskTests
             detailTaskPage.WaitForLoadingIconToDisappear();
             detailTaskPage.WaitForLoadingIconToDisappear();
             detailTaskPage.SelectTextFromDropDown(detailTaskPage.PrioritySelect, "High");
-            string taskId = detailTaskPage.GetCurrentUrl().Split('/').LastOrDefault();
+            int taskId = Int32.Parse( detailTaskPage.GetCurrentUrl().Split('/').LastOrDefault());
             detailTaskPage.ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
-            detailTaskPage.ClickCloseBtn()
+            detailTaskPage.WaitForLoadingIconToDisappear();
+
+            detailTaskPage.ClickAllocateBtn()
+                .SwitchToChildWindow(3);
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            detailTaskPage.WaitForLoadingIconToDisappear();
+            si_automated_tests.Source.Main.Pages.Applications.TaskAllocationPage taskAllocationsPage = PageFactoryManager.Get<si_automated_tests.Source.Main.Pages.Applications.TaskAllocationPage>();
+            taskAllocationsPage.SleepTimeInMiliseconds(300);
+            taskAllocationsPage.VerifyPriorityOnTaskRoundLegs(taskId, "High");
+            taskAllocationsPage
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
-            taskListingPage.ClickRefreshBtn()
-                .WaitForLoadingIconToDisappear();
-            taskListingPage.FilterByTaskId(taskId);
-            taskListingPage.FilterPriority("Equal to", "High");
-            taskListingPage.WaitForLoadingIconToDisappear();
-            taskListingPage.VerifyPriority("High");
 
             PageFactoryManager.Get<NavigationBase>()
                 .ClickMainOption(MainOption.Applications)
@@ -595,7 +599,7 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ToggleRoundLegsButton);
             taskConfirmationPage.SleepTimeInMiliseconds(300);
             int taskIdx = taskConfirmationPage.DoubleClickNotHighPriorityTaskRoundLegs();
-            taskConfirmationPage.SwitchToChildWindow(2)
+            taskConfirmationPage.SwitchToChildWindow(4)
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnDetailTab();
             detailTaskPage.WaitForLoadingIconToDisappear();
@@ -642,9 +646,9 @@ namespace si_automated_tests.Source.Test.TaskTests
             taskConfirmationPage.InputCalendarDate(taskConfirmationPage.FromInput, "07/06/2023");
             taskConfirmationPage.InputCalendarDate(taskConfirmationPage.ToInput, "14/06/2023");
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
-            taskConfirmationPage.WaitForLoadingIconToDisappear(false);
+            taskConfirmationPage.WaitForLoadingIconToDisappear();
             taskConfirmationPage.DragEmtyRoundInstanceToUnlocattedGrid(3)
-                .WaitForLoadingIconToDisappear(false);
+                .WaitForLoadingIconToDisappear();
             //Double click round instance
             int rowIdx = taskConfirmationPage.DoubleClickEmptyStatusRoundLeg();
             taskConfirmationPage.SwitchToChildWindow(2);

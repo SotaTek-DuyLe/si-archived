@@ -30,6 +30,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private readonly By dataTab = By.CssSelector("a[aria-controls='data-tab']");
         private readonly By sourceDataTab = By.CssSelector("a[aria-controls='sourceData-tab']");
         private readonly By roundLink = By.XPath("//div[text()='Round']/following-sibling::a");
+        private readonly By allocateBtn = By.XPath("//span[text()='Allocate']");
 
         //DETAIL TAB
         private readonly By taskReferenceInput = By.CssSelector("input[name='taskReference']");
@@ -205,6 +206,15 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
             WaitUtil.WaitForPageLoaded();
             WaitForLoadingIconToDisappear();
             WaitUtil.WaitForElementVisible(taskTitle);
+            return this;
+        }
+
+        [AllureStep]
+        public DetailTaskPage ClickAllocateBtn()
+        {
+            WaitUtil.WaitForPageLoaded();
+            WaitForLoadingIconToDisappear();
+            ClickOnElement(allocateBtn);
             return this;
         }
 
