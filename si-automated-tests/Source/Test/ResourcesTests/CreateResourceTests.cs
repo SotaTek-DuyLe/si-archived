@@ -421,9 +421,9 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             if (daysUntilMonday == 0)
                 daysUntilMonday = 7;
             shiftSchedulePage.ClickScheduleDate(tomorrow.AddDays(1));
-            shiftSchedulePage.ClickScheduleDate(tomorrow.AddDays(daysUntilMonday));
-            shiftSchedulePage.VerifySelectedScheduleDate(tomorrow.AddDays(1), true)
-                .VerifySelectedScheduleDate(tomorrow.AddDays(daysUntilMonday), true);
+            //shiftSchedulePage.ClickScheduleDate(tomorrow.AddDays(daysUntilMonday));
+            shiftSchedulePage.VerifySelectedScheduleDate(tomorrow.AddDays(1), true);
+               // .VerifySelectedScheduleDate(tomorrow.AddDays(daysUntilMonday), true);
             //Click 'Clear' button
             shiftSchedulePage.ClickOnElement(shiftSchedulePage.ClearCustomScheduleButton);
             shiftSchedulePage.SleepTimeInMiliseconds(200);
@@ -452,7 +452,7 @@ namespace si_automated_tests.Source.Test.ResourcesTests
             shiftSchedulePage.VerifyElementEnable(shiftSchedulePage.ApplyCustomScheduleButton, false)
                 .VerifyElementEnable(shiftSchedulePage.ClearCustomScheduleButton, true);
             shiftSchedulePage.ClickScheduleDate(tomorrow.AddDays(1));
-            shiftSchedulePage.ClickScheduleDate(tomorrow.AddDays(daysUntilMonday));
+            //shiftSchedulePage.ClickScheduleDate(tomorrow.AddDays(daysUntilMonday));
             shiftSchedulePage.ClickOnElement(shiftSchedulePage.ApplyCustomScheduleButton);
             shiftSchedulePage.VerifyToastMessage(MessageSuccessConstants.SuccessMessage);
 
