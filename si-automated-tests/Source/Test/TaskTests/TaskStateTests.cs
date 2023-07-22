@@ -691,7 +691,7 @@ namespace si_automated_tests.Source.Test.TaskTests
                .WaitUntilToastMessageInvisible(MessageSuccessConstants.SuccessMessage);
 
             CommonFinder commonFinder = new CommonFinder(DbContext);
-            Assert.IsTrue(commonFinder.GetCostLineDBModels(taskId).Count != 0);
+            Assert.AreNotEqual(commonFinder.GetCostLineDBModels(taskId).Count, 0);
 
             detailTaskPage.ClickOnElement(detailTaskPage.CostTab);
             detailTaskPage.WaitForLoadingIconToDisappear();

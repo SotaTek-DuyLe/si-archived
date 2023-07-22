@@ -24,7 +24,7 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         private string HeaderNameXPath = "//div[@class='echo-grid']//div[contains(@class, 'slick-header-column')]//span[@class='slick-column-name' and text()='{0}']";
         private string TaskTable = "//div[@class='grid-canvas']";
         private string TaskRow = "./div[contains(@class, 'slick-row')]";
-        private string TaskPriorityCell = "./div[contains(@class, 'slick-cell l23 r23')]";
+        private string TaskPriorityCell = "./div[contains(@class, 'slick-cell l24 r24')]";
         private readonly By containerPage = By.XPath("//div[@class='slick-viewport']");
 
         private TableElement taskTableEle;
@@ -45,10 +45,10 @@ namespace si_automated_tests.Source.Main.Pages.Tasks
         [AllureStep]
         public TasksListingPage FilterPriority(string mode, string value)
         {
-            ClickOnElement(By.XPath("//div[contains(@class, 'l23 r23')]/descendant::button"));
+            ClickOnElement(By.XPath("//div[contains(@class, 'l24 r24')]/descendant::button"));
             SelectByDisplayValueOnUlElement(By.XPath("//ul[@aria-expanded='true']"), mode);
             SleepTimeInMiliseconds(100);
-            SendKeys(By.XPath("//div[contains(@class, 'l23 r23')]/descendant::input"), value);
+            SendKeys(By.XPath("//div[contains(@class, 'l24 r24')]/descendant::input"), value);
             ClickOnElement(applyBtn);
             WaitForLoadingIconToDisappear();
             return this;

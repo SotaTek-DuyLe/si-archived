@@ -62,8 +62,15 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         public readonly string UnallocatedDescription = "./div[contains(@class, 'slick-cell l4 r4')]";
         public readonly string UnallocatedService = "./div[contains(@class, 'slick-cell l5 r5')]";
         public readonly string UnallocatedID = "./div[contains(@class, 'slick-cell l3 r3')]";
+<<<<<<< HEAD
         public readonly string UnallocatedPriorityCell = "./div[contains(@class, 'slick-cell l12 r12')]";
         public readonly string UnallocatedResolutionCodeCell = "./div[contains(@class, 'slick-cell l12 r12')]";
+=======
+        public readonly string UnallocatedPriorityCell = "./div[contains(@class, 'slick-cell l13 r13')]";
+        public readonly string UnallocatedResolutionCodeCell = "./div[contains(@class, 'slick-cell l12 r12')]";
+        private readonly string statusCell = "./div[@class='slick-cell l11 r11']//span";
+        private readonly string priorityCell = "./div[@class='slick-cell l13 r13']";
+>>>>>>> 4c56b110fdef529077b6c6026f34c03cb37d8db6
         private readonly By taskName = By.XPath("//div[@id='tabs-container']//li[@role='presentation'][2]");
         private readonly By thirdTaskName = By.XPath("//div[@id='tabs-container']//li[@role='presentation'][3]");
         private readonly By contractTitle = By.XPath("//label[text()='Contract']");
@@ -625,7 +632,11 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             int emptyRowIdx = 0;
             foreach (var row in rows)
             {
+<<<<<<< HEAD
                 if (string.IsNullOrEmpty(row.FindElement(By.XPath("./div[@class='slick-cell l10 r10']")).Text))
+=======
+                if (string.IsNullOrEmpty(row.FindElement(By.XPath(statusCell)).Text))
+>>>>>>> 4c56b110fdef529077b6c6026f34c03cb37d8db6
                 {
                     emptyRowIdx = rows.IndexOf(row);
                     DoubleClickOnElement(row);
@@ -675,7 +686,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }).ToList();
             foreach (var row in taskRows)
             {
-                if (row.FindElement(By.XPath("./div[@class='slick-cell l12 r12']")).Text.Trim() != "High")
+                if (row.FindElement(By.XPath(priorityCell)).Text.Trim() != "High")
                 {
                     emptyRowIdx = taskRows.IndexOf(row);
                     DoubleClickOnElement(row);
@@ -697,7 +708,11 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             }).ToList();
             foreach (var row in taskRows)
             {
+<<<<<<< HEAD
                 if (row.FindElement(By.XPath("./div[@class='slick-cell l11 r11']")).Text.Trim() != "Not Completed")
+=======
+                if (row.FindElement(By.XPath(statusCell)).Text.Trim() != "Not Completed")
+>>>>>>> 4c56b110fdef529077b6c6026f34c03cb37d8db6
                 {
                     emptyRowIdx = taskRows.IndexOf(row);
                     DoubleClickOnElement(row);
@@ -753,7 +768,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         {
             var row = UnallocatedTableEle.GetRow(rowIdx);
             IWebElement cell = row.FindElement(By.XPath(UnallocatedResolutionCodeCell));
-            Assert.IsTrue(cell.Text == resolutionCode);
+            Assert.AreEqual(cell.Text,resolutionCode);
             return this;
         }
 

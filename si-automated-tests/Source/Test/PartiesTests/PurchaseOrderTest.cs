@@ -654,7 +654,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
 
             string savedUTCTime = PageFactoryManager.Get<TaskDetailTab>()
                 .ClickSaveBtnGetUTCTime();
-            string updatedUTCTime = CommonUtil.GetTimeMinusHour(savedUTCTime, "dd/MM/yyyy HH:mm", 1);
+            string updatedUTCTime = CommonUtil.GetUtcTimeNowMinusHour(1, "dd/MM/yyyy HH:mm");
 
             PageFactoryManager.Get<BasePage>()
                 .VerifyToastMessage("Success")

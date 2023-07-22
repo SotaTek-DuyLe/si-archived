@@ -73,7 +73,7 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
         {
             IWebElement img = GetElement(By.XPath("(//td[@id='taskLines']//img[contains(@data-bind, 'taskStateIcon')])[1]"));
             string src = img.GetAttribute("src");
-            Assert.IsTrue(src.Contains("coretaskstate/s3.svg"));
+            Assert.IsTrue(src.Contains("coretaskstate/s3.svg"), "Expected " + src + " to contain s3.svg");
             return this;
         }
 
