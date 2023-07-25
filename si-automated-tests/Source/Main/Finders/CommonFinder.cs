@@ -522,7 +522,7 @@ namespace si_automated_tests.Source.Main.Finders
         [AllureStep]
         public TaskStateDBModel GetTaskStateByTaskStateId(string taskStateId)
         {
-            string query = "SELECT * FROM SotatekTesting.dbo.taskstates WHERE taskstateID = " + taskStateId + ";";
+            string query = "SELECT * FROM taskstates WHERE taskstateID = " + taskStateId + ";";
             return FindList<TaskStateDBModel>(query).FirstOrDefault();
         }
 
