@@ -125,7 +125,7 @@ namespace si_automated_tests.Source.Main.Pages.Services
         public ServiceTaskLineTab verifyTaskLineEndDate(string date)
         {
             string enddate = GetElementText(endDate);
-            Assert.AreEqual(enddate, date);
+            Assert.AreEqual(date, enddate);
             return this;
         }
 
