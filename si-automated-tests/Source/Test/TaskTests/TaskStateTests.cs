@@ -650,8 +650,9 @@ namespace si_automated_tests.Source.Test.TaskTests
                 .SwitchToFirstWindow()
                 .SwitchNewIFrame();
             PageFactoryManager.Get<TasksListingPage>()
-                .FilterTaskState("contains any of", "In Progress")
-                .ClickOnFirstRecord()
+                .FilterTaskState("contains any of", "In Progress");
+            PageFactoryManager.Get<CommonBrowsePage>()
+                .OpenResultNumber(10)
                 .SwitchToChildWindow(2)
                 .WaitForLoadingIconToDisappear();
             detailTaskPage.ClickOnDetailTab();
