@@ -259,10 +259,10 @@ namespace si_automated_tests.Source.Main.Pages.Events
                 string serviceUnitValue = GetElementText(serviceUnitDynamic, (i + 1).ToString());
                 string serviceValue = GetElementText(serviceWithServiceUnitDynamic, (i+1).ToString());
                 string scheduleValue = GetElementText(GetAllElements(schedule)[i]);
-                string lastValue = GetElementText(GetAllElements(last)[i]);
-                string nextValue = GetElementText(GetAllElements(next)[i]);
+                string lastValue = GetElementText(GetAllElementsNotWait(last)[i]);
+                string nextValue = GetElementText(GetAllElementsNotWait(next)[i]);
                 string assetTypeValue = GetElementText(GetAllElements(assetType)[i]);
-                string allocationValue = GetElementText(GetAllElements(allocation)[i]);
+                string allocationValue = GetElementText(GetAllElementsNotWait(allocation)[i]);
                 //List<ChildSchedule> listSchedule = new List<ChildSchedule>();
                 //if (i == 1)
                 //{

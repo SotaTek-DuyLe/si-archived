@@ -141,6 +141,7 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
         private readonly By allActiveServiceParentRow = By.CssSelector("div.parent-row");
         private readonly By serviceUnitParent = By.XPath("//div[@class='parent-row']//div[@title='Open Service Unit']");
         private readonly By serviceParent = By.XPath("//div[@class='parent-row']//span[@title='Open Service Task']");
+        private readonly By serviceChild = By.XPath("//div[@class='parent-row']//span[contains(@data-bind,'Open Service Task')]");
         private readonly By scheduleParent = By.XPath("//div[@data-bind=\"template: { name: 'service-grid-schedule' }\"]");
         private readonly By lastParent = By.XPath("//div[@id='activeServices-tab']//div[@class='parent-row']//span[@data-bind='text: ew.formatDateForUser($data.lastDate)']");
         private readonly By nextPrent = By.XPath("//div[@id='activeServices-tab']//div[@class='parent-row']//span[@data-bind='text: ew.formatDateForUser($data.nextDate)']");
@@ -187,13 +188,22 @@ namespace si_automated_tests.Source.Main.Pages.Search.PointSegment
             List<IWebElement> allRow = GetAllElements(allActiveServiceParentRow);
             for (int i = 0; i < allRow.Count; i++)
             {
+                Console.WriteLine(i);
                 string serviceUnitValue = GetElementText(GetAllElements(serviceUnitParent)[i]);
-                string serviceValue = GetElementText(GetAllElements(serviceParent)[i]);
+                string serviceValue;
+                try
+                {
+                    serviceValue = GetElementText(GetAllElements(serviceParent)[i]);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    serviceValue = GetElementText(GetAllElements(serviceChild)[i]); ;
+                }
                 string scheduleValue = GetElementText(GetAllElements(scheduleParent)[i]);
-                string lastValue = GetElementText(GetAllElements(lastParent)[i]);
-                string nextValue = GetElementText(GetAllElements(nextPrent)[i]);
+                string lastValue = GetElementText(GetAllElementsNotWait(lastParent)[i]);
+                string nextValue = GetElementText(GetAllElementsNotWait(nextPrent)[i]);
                 string assetTypeValue = GetElementText(GetAllElements(assetTypeParent)[i]);
-                string allocationValue = GetElementText(GetAllElements(allocationParent)[i]);
+                string allocationValue = GetElementText(GetAllElementsNotWait(allocationParent)[i]);
                 //List<ChildSchedule> listSchedule = new List<ChildSchedule>();
                 //if (i == 1)
                 //{
