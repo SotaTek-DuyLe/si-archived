@@ -99,6 +99,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         private readonly string anyTaskRow = "//div[contains(@id, 'unallocated')]//div[@class='grid-canvas']/div[{0}]";
         private readonly string anyCheckboxTaskWithRound = "//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']/div[1]//div[contains(@class, 'l1')]/input";
         private readonly string anyTaskRowWithRound = "//div[contains(@id, 'round-tab')]//div[@class='grid-canvas']/div[{0}]";
+        private readonly string dayofTask = "//div[text()='{0}']/following-sibling::div[1]";
 
         private TableElement unallocatedTableEle;
         public TableElement UnallocatedTableEle
@@ -261,6 +262,13 @@ namespace si_automated_tests.Source.Main.Pages.Applications
             ServicesTreeView.ExpandNode(nodeName);
             return this;
         }
+
+        [AllureStep]
+        public String GetDayOfWeekRU(String roundGroup)
+        {
+            return GetElementText(dayofTask, roundGroup);
+        }
+
         [AllureStep]
         public TaskAllocationPage DragRoundInstanceToUnlocattedGrid(string roundGroup, string round, int dragcellIdx = 3)
         {
@@ -999,9 +1007,8 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public TaskAllocationPage VerifyRoundInstanceStatusCompleted()
         {
-            IWebElement cell = RoundTabTableEle.GetCell(0, 4);
-            IWebElement img = cell.FindElement(By.XPath("./div//img"));
-            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.svg"));
+            
+            Assert.IsTrue(IsControlDisplayed("//img[@title='Closed']"));
             return this;
         }
         [AllureStep]

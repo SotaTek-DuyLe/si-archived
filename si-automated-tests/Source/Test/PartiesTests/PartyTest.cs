@@ -751,6 +751,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             detailTaskPage.SelectTextFromDropDown(detailTaskPage.taskStateDd, "Completed");
             string scheduledate = detailTaskPage.GetAttributeValue(detailTaskPage.ScheduleDateInput, "value");
             detailTaskPage.SendKeys(detailTaskPage.completionDateInput, scheduledate);
+            string taskId = detailTaskPage.GetCurrentUrl().Split('/').LastOrDefault();
             detailTaskPage.ClickSaveBtn()
                 .VerifyToastMessage("Success")
                 .ClickCloseBtn()
@@ -800,7 +801,6 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickDayInstance(CommonUtil.StringToDateTime(wednesdaysInMonth[0], "yyyy-MM-dd"))
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
-            string taskId = detailTaskPage.GetCurrentUrl().Split('/').LastOrDefault();
             detailTaskPage.VerifyElementVisibility(detailTaskPage.OnHoldImg, false)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
@@ -834,12 +834,13 @@ namespace si_automated_tests.Source.Test.PartiesTests
             taskAllocationPage.SleepTimeInMiliseconds(1000);
             taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Control + "a");
             taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Delete);
-            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, from);
+            taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, scheduledate);
             taskAllocationPage.SleepTimeInMiliseconds(3000);
-            taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ContractSelect);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
             taskAllocationPage.WaitForLoadingIconToDisappear(false);
+            taskAllocationPage.SleepTimeInMiliseconds(3000);
+            String dayOfWeek = taskAllocationPage.GetDayOfWeekRU("REC1-AM");
             taskAllocationPage.DragRoundInstanceToUnlocattedGrid("REC1-AM", "Wednesday")
                 .WaitForLoadingIconToDisappear(false);
             taskAllocationPage.SendKeys(taskAllocationPage.IdFilterInput, taskId);
@@ -864,7 +865,7 @@ namespace si_automated_tests.Source.Test.PartiesTests
             taskConfirmationPage.SleepTimeInMiliseconds(1000);
             taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, Keys.Control + "a");
             taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, Keys.Delete);
-            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, from);
+            taskConfirmationPage.SendKeysWithoutClear(taskConfirmationPage.ScheduleDateInput, scheduledate);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ContractSelect);
             taskConfirmationPage.ClickOnElement(taskConfirmationPage.ButtonGo);
             taskConfirmationPage.WaitForLoadingIconToDisappear(false);
