@@ -184,9 +184,7 @@ namespace si_automated_tests.Source.Main.Pages.Applications
         [AllureStep]
         public RoundInstanceDetailPage VerifyRoundInstanceStatusCompleted()
         {
-            IWebElement cell = UnallocatedTableEle.GetCell(0, 1);
-            IWebElement img = cell.FindElement(By.XPath("./div//img"));
-            Assert.IsTrue(img.GetAttribute("src").Contains("coretaskstate/s3.svg"));
+            Assert.IsTrue(IsControlDisplayed("//img[@title='Closed']"));
             return this;
         }
 
