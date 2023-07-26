@@ -801,7 +801,6 @@ namespace si_automated_tests.Source.Test.PartiesTests
                 .ClickDayInstance(CommonUtil.StringToDateTime(wednesdaysInMonth[0], "yyyy-MM-dd"))
                 .SwitchToChildWindow(3)
                 .WaitForLoadingIconToDisappear();
-           // string taskId = detailTaskPage.GetCurrentUrl().Split('/').LastOrDefault();
             detailTaskPage.VerifyElementVisibility(detailTaskPage.OnHoldImg, false)
                 .ClickCloseBtn()
                 .SwitchToChildWindow(2);
@@ -837,7 +836,6 @@ namespace si_automated_tests.Source.Test.PartiesTests
             taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, Keys.Delete);
             taskAllocationPage.SendKeysWithoutClear(taskAllocationPage.FromInput, scheduledate);
             taskAllocationPage.SleepTimeInMiliseconds(3000);
-            //taskAllocationPage.SendKeys(taskAllocationPage.ToInput, to);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ContractSelect);
             taskAllocationPage.ClickOnElement(taskAllocationPage.ButtonGo);
             taskAllocationPage.WaitForLoadingIconToDisappear(false);
