@@ -1,4 +1,5 @@
-﻿using NUnit.Allure.Attributes;
+﻿using System;
+using NUnit.Allure.Attributes;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using si_automated_tests.Source.Core;
@@ -98,7 +99,7 @@ namespace si_automated_tests.Source.Main.Pages.DebriefResult
         [AllureStep]
         public DebriefResultPage VerifyFirstTaskRatio()
         {
-            VerifyElementText(FirstTaskRatio, "0 / 1");
+            Assert.AreEqual(GetElementText(FirstTaskRatio), "0 / 1");
             return this;
         }
 
