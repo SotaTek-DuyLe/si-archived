@@ -50,9 +50,9 @@ namespace si_automated_tests.Source.Main.Pages.Accounts
             browsePage.VerifyFirstResultValue("Product", _product);
             browsePage.VerifyFirstResultValue("Description", _description);
             browsePage.VerifyFirstResultValue("Quantity", _quantity);
-            browsePage.VerifyFirstResultValue("Price", "$$" + _price);
-            browsePage.VerifyFirstResultValue("VAT", "$$" + vatValue.ToString() + ".00");
-            browsePage.VerifyFirstResultValue("Total", "$$" + totalValue.ToString() + ".00");
+            browsePage.VerifyFirstResultValue("Price", "£" + _price);
+            browsePage.VerifyFirstResultValue("VAT", "£" + vatValue.ToString() + ".00");
+            browsePage.VerifyFirstResultValue("Total", "£" + totalValue.ToString() + ".00");
             browsePage.VerifyFirstResultValue("Posted Status", "NEW");
             return this;
         }
