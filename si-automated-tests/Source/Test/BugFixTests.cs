@@ -2569,7 +2569,7 @@ namespace si_automated_tests.Source.Test
             PageFactoryManager.Get<CreditNoteLinePage>()
                 .IsOnCreditNoteLinePage()
                 .SelectDepot(Contract.Commercial)
-                .InputInfo(lineType, site, product, priceElement, description, quantity, price)
+                .InputInfo(lineType, site, product, priceElement, description, quantity, price, "5")
                 .SelectVatRate(vat)
                 .ClickSaveBtn()
                 .VerifyToastMessage(MessageSuccessConstants.SuccessMessage)
